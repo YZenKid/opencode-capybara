@@ -106,6 +106,71 @@ Lalu reload:
 source ~/.zshrc
 ```
 
+## Setup OpenChamber
+
+Jika OpenCode dibuka lewat OpenChamber, `.env` OpenCode tidak otomatis terbaca saat OpenChamber dijalankan dari Dock/app launcher. Gunakan wrapper agar OpenChamber selalu menjalankan OpenCode dengan env yang benar.
+
+Buat wrapper:
+
+```bash
+mkdir -p ~/.config/opencode/bin
+cat > ~/.config/opencode/bin/opencode-with-env <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+
+ENV_FILE="${OPENCODE_ENV_FILE:-$HOME/.config/opencode/.env}"
+
+if [ -f "$ENV_FILE" ]; then
+  set -a
+  source "$ENV_FILE"
+  set +a
+fi
+
+exec opencode "$@"
+EOF
+chmod +x ~/.config/opencode/bin/opencode-with-env
+```
+
+Set OpenChamber agar memakai wrapper ini sebagai binary OpenCode:
+
+```bash
+launchctl setenv OPENCHAMBER_OPENCODE_PATH "$HOME/.config/opencode/bin/opencode-with-env"
+```
+
+Cek:
+
+```bash
+launchctl getenv OPENCHAMBER_OPENCODE_PATH
+```
+
+Expected:
+
+```text
+/Users/<username>/.config/opencode/bin/opencode-with-env
+```
+
+Setelah itu quit OpenChamber sepenuhnya lalu buka lagi.
+
+Jika menjalankan OpenChamber dari terminal, kamu juga bisa pakai:
+
+```bash
+export OPENCHAMBER_OPENCODE_PATH="$HOME/.config/opencode/bin/opencode-with-env"
+openchamber
+```
+
+Untuk membuat env OpenChamber permanen di shell:
+
+```bash
+cat >> ~/.zshrc <<'EOF'
+
+# OpenChamber should launch OpenCode through the env wrapper
+export OPENCHAMBER_OPENCODE_PATH="$HOME/.config/opencode/bin/opencode-with-env"
+EOF
+source ~/.zshrc
+```
+
+OpenChamber membaca `OPENCHAMBER_OPENCODE_PATH` dari environment prosesnya dan meneruskannya ke wrapper OpenCode. Wrapper ini akan source `~/.config/opencode/.env`, sehingga MCP seperti `brave-search`, `context7`, dan `github` mendapat token yang dibutuhkan.
+
 ## Cara Mendapatkan Token
 
 ### 1. CliProxyAPI / OpenAI-Compatible Provider
