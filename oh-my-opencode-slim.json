@@ -53,12 +53,15 @@
         ]
       },
       "designer": {
-        "model": "cliproxyapi/gpt-5.4-mini",
-        "variant": "medium",
+        "model": "cliproxyapi/gpt-5.5",
+        "variant": "high",
         "skills": [
           "agent-browser",
+          "figma",
           "frontend-design",
           "frontend-design-review",
+          "reference-ui-replication",
+          "visual-regression-testing",
           "web-design-guidelines",
           "ui-ux-pro-max"
         ],
