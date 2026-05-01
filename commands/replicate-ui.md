@@ -10,91 +10,22 @@ Replicate the target UI from the reference with measurable visual similarity whi
 $ARGUMENTS
 ```
 
-Interpret arguments as one or more of:
-- target URL, local route, or current app/page to change,
-- reference URL or screenshot path,
-- constraints such as "preserve content", "licensed assets available", or "inspired only".
-
-If the user did not explicitly say "inspired only", treat this as **visual parity**, not loose inspiration.
-
-## Required skills and delegation
-
-1. Load these skills before planning or coding:
-   - `agent-browser`
-   - `frontend-design`
-   - `ui-ux-pro-max`
-   - `web-design-guidelines`
-   - `reference-ui-replication`
-   - React/Next/shadcn/Flutter/Figma skills when the project stack requires them.
-2. Route visual planning, implementation, or review to `@designer` when available. Use `@explorer` for broad codebase discovery and `@fixer` only for bounded implementation/test edits.
+Use the standalone `opencode-orchestrator` workflow for routing. Route visual planning, implementation, or review to `@designer` using `opencode-designer` when available. Use `@explorer` for broad codebase discovery and `@fixer` only for bounded implementation/test edits.
 
 ## Required workflow
 
-1. **Capture reference evidence before editing**
-   - Desktop: `1440x1200` full-page and hero/above-the-fold screenshots.
-   - Tablet: `768x1024` full-page and hero screenshots.
-   - Mobile: `390x844` full-page and hero screenshots.
-   - Wait for initial animations to settle; note important motion.
-   - Capture console/network issues only when they affect rendering.
+1. Create or reuse SDD/TDD artifacts with stable task id `YYYYMMDD-HHMM-<slug>`:
+   - `.opencode/plans/<task-id>.md` as the only primary plan file.
+   - `.opencode/draft/<task-id>/visual-notes.md` when expanded visual notes are needed.
+   - `.opencode/draft/<task-id>/asset-manifest.md` when detailed image generation jobs are needed.
+   - `.opencode/evidence/<task-id>/discovery.md`, `reference-captures.md`, `current-captures.md`, `visual-comparison.md`, `verification.md`.
+2. Capture reference evidence before editing at desktop `1440x1200`, tablet `768x1024`, and mobile `390x844`; capture full page and hero/above-fold.
+3. Use wait → stabilize → scroll → settle → screenshot. Record paths and notes.
+4. Capture current target evidence at matching viewports when runnable.
+5. Extract visual spec and asset inventory into the primary plan; put expanded details under per-task draft folder when needed.
+6. Classify assets as project-owned/provided, licensed, or third-party requiring legal replacement. Do not copy restricted assets.
+7. Run an Animation System Gate: inspect existing animation libraries/APIs, then choose CSS/native primitives, existing dependency, `motion.dev`, `animejs`, `animate.css`, React Native Reanimated/Gesture Handler, Lottie, Flutter implicit/explicit animation, or Flutter Hero based on platform and reference motion. Do not use web-only libraries for native mobile screens unless target is web/webview.
+8. Implement section-by-section for parity while preserving real content.
+9. After implementation, run checks, capture final screenshots with the same workflow, compare section-by-section, and fix largest mismatches first. Include animation library/API choice and rationale in the summary.
 
-2. **Capture current target evidence**
-   - If the target is runnable or deployed, capture matching desktop/tablet/mobile screenshots before editing.
-   - If not runnable, state that limitation and inspect code/styles instead.
-
-3. **Extract the visual spec**
-   - Section order, section heights, and vertical rhythm.
-   - Hero composition: headline, role/subtitle, CTAs, visual/portrait placement, stats/badges.
-   - Container widths, grids, columns, alignment, spacing, card sizes.
-   - Typography: loaded fonts, heading/body families, type scale, weights, line heights, letter spacing.
-   - Colors/tokens: background, surfaces, cards, borders, text, muted text, accent, secondary accent, gradients.
-   - Components: nav, buttons, tabs, service cards, timeline rows, carousel/project cards, testimonial/pricing/blog/CTA/footer patterns.
-   - Background details: glows, radial gradients, line art, decorative shapes, texture/noise, overlays.
-   - Motion and interaction states.
-   - Responsive behavior: stack/hide/reorder/resize rules.
-
-4. **Extract asset inventory**
-   - List `<img>` URLs, CSS `background-image` URLs, SVGs, icon fonts, loaded font files, and important dimensions.
-   - Classify every important asset:
-     - project-owned/provided,
-     - licensed reference asset,
-     - third-party asset requiring replacement.
-   - Do not copy copyrighted reference assets unless licensed/provided. If not licensed, source or create style-equivalent replacements.
-   - Preserve colorful reference-like imagery and icons. Do not replace colorful assets with generic monochrome placeholders unless the reference does that.
-
-5. **Inspect the local project**
-   - Framework, routing, styling approach, design tokens, existing components, icons, images, animation libraries, test/build commands.
-   - Reuse existing conventions and dependencies before adding new ones.
-
-6. **Implement section-by-section for parity**
-   - Layout shell and global background.
-   - Navbar and hero.
-   - Main sections in reference order and density.
-   - Cards, tabs, timeline/project/testimonial/blog/CTA/footer treatments.
-   - Asset/icon/colorfulness pass.
-   - Responsive refinements.
-   - Motion and hover/focus states.
-
-7. **Validate and iterate**
-   - Run the relevant app/check/build commands.
-   - Capture result screenshots at the same desktop/tablet/mobile viewports.
-   - Compare reference vs result section-by-section:
-     - composition,
-     - spacing/density,
-     - typography,
-     - colors/contrast,
-     - image/icon style,
-     - background/decorative details,
-     - motion/interactions,
-     - responsive behavior.
-   - Fix the largest visible mismatches first.
-   - Repeat at least one visual review pass for high-fidelity requests.
-
-## Output requirements
-
-Summarize only after validation:
-- screenshots/captures used,
-- main visual changes made,
-- verification commands run,
-- remaining intentional differences or asset/legal limitations.
-
-Do not claim "mirip", "close", or visual parity without post-implementation screenshots, unless you explicitly state visual validation could not be run and why.
+Do not claim close visual parity without final screenshots and comparison notes.

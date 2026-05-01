@@ -88,11 +88,25 @@
               "reasoningSummary": "auto"
             }
           }
+        },
+        "gpt-image-2": {
+          "name": "GPT Image 2",
+          "attachment": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "image"
+            ]
+          }
         }
       }
     }
   },
   "model": "cliproxyapi/gpt-5.5",
+  "default_agent": "orchestrator",
   "mcp": {
     "time": {
       "type": "local",
@@ -146,6 +160,20 @@
       "enabled": true,
       "timeout": 30000
     },
+    "image-asset-generator": {
+      "type": "local",
+      "command": [
+        "node",
+        "{env:HOME}/.config/opencode/bin/image-asset-mcp.mjs"
+      ],
+      "environment": {
+        "IMAGE_ASSET_BASE_URL": "{env:CLIPROXYAPI_BASE_URL}",
+        "IMAGE_ASSET_API_KEY": "{env:CLIPROXYAPI_API_KEY}",
+        "IMAGE_ASSET_MODEL": "{env:IMAGE_ASSET_MODEL}"
+      },
+      "enabled": true,
+      "timeout": 300000
+    },
     "semgrep": {
       "type": "local",
       "command": [
@@ -159,24 +187,14 @@
       "timeout": 120000
     },
     "github": {
-      "type": "local",
-      "command": [
-        "docker",
-        "run",
-        "-i",
-        "--rm",
-        "-e",
-        "GITHUB_PERSONAL_ACCESS_TOKEN",
-        "-e",
-        "GITHUB_TOOLSETS",
-        "ghcr.io/github/github-mcp-server",
-        "stdio"
-      ],
-      "enabled": true,
-      "environment": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "{env:GITHUB_PERSONAL_ACCESS_TOKEN}",
-        "GITHUB_TOOLSETS": "{env:GITHUB_TOOLSETS}"
+      "type": "remote",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer {env:GITHUB_PERSONAL_ACCESS_TOKEN}",
+        "X-MCP-Toolsets": "{env:GITHUB_TOOLSETS}"
       },
+      "oauth": false,
+      "enabled": true,
       "timeout": 30000
     }
   },
@@ -184,6 +202,15 @@
     "oh-my-opencode-slim"
   ],
   "agent": {
+    "council": {
+      "mode": "subagent"
+    },
+    "build": {
+      "disable": true
+    },
+    "plan": {
+      "disable": true
+    },
     "explore": {
       "disable": true
     },

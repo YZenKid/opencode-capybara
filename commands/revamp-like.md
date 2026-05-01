@@ -10,39 +10,19 @@ Revamp the current UI to closely match this reference while preserving the proje
 $ARGUMENTS
 ```
 
-Use this workflow strictly:
+Use the standalone `opencode-orchestrator` workflow and delegate visual implementation/review to `@designer` using `opencode-designer` when appropriate.
 
-1. Load the `reference-ui-replication` skill.
-2. If the task is user-facing UI, delegate visual implementation/review to `@designer`.
-3. Use `agent-browser` or Playwright before editing code:
-   - capture reference full-page and hero screenshots at desktop `1440x1200`, tablet `768x1024`, and mobile `390x844`,
-   - capture the current implementation at matching viewports,
-   - note section order, section heights, vertical rhythm, visual tokens, background treatments, icon style, animation, and responsive behavior.
-4. Inspect existing project components, styles, assets, icons, animation libraries, and commands. Reuse before creating.
-5. Extract an asset inventory before implementation:
-   - list `<img>` URLs, CSS `background-image` URLs, SVG/icon-font usage, loaded fonts, and important dimensions,
-   - classify assets as project-owned/provided, licensed reference assets, or third-party assets requiring replacement,
-   - use colorful legal/style-equivalent replacements when direct reference assets are not licensed.
-6. Implement section-by-section for visual parity:
-   - layout shell/background,
-   - navbar and hero,
-   - content sections in reference rhythm,
-   - cards, icons, decorative layers,
-   - responsive behavior,
-   - motion and hover states.
-7. After implementation, run the app/checks and capture result screenshots at the same viewports.
-8. Compare against the reference section-by-section and fix the largest mismatches first, especially composition, density/spacing, typography, color, asset/icon style, and responsive behavior.
-9. Summarize:
-   - reference captures used,
-   - visual changes made,
-   - remaining intentional differences or asset limitations,
-   - verification performed.
+## Workflow
 
-Rules:
+1. Create or reuse `.opencode/plans/<task-id>.md` plus per-task `.opencode/draft/<task-id>/` and `.opencode/evidence/<task-id>/` artifacts.
+2. Capture reference and current screenshots before editing: desktop `1440x1200`, tablet `768x1024`, mobile `390x844`, full page and hero.
+3. Use wait → stabilize → scroll → settle → screenshot.
+4. Inspect existing project components, styles, assets, icons, animation libraries/APIs, and commands. Reuse before creating.
+5. Extract visual spec and asset inventory into the primary plan.
+6. Generate or source legal style-equivalent replacements when image assets are required and unavailable.
+7. Run an Animation System Gate: choose CSS/native primitives, existing dependency, `motion.dev`, `animejs`, `animate.css`, React Native Reanimated/Gesture Handler, Lottie, Flutter implicit/explicit animation, or Flutter Hero based on platform and reference motion. Do not use web-only libraries for native mobile screens unless target is web/webview.
+8. Implement section-by-section: layout shell/background, navbar/hero, content rhythm, cards/icons/decorations, responsive behavior, motion/hover states.
+9. Run checks, capture final screenshots at matching viewports, compare section-by-section, and fix largest mismatches first.
+10. Summarize artifact paths, captures, visual changes, animation library/API choice, generated assets, remaining limitations, and verification.
 
-- Do not implement from memory.
-- Do not claim close visual parity without post-implementation screenshots.
-- Preserve real content unless the user explicitly asks to clone reference text.
-- Do not copy copyrighted assets directly unless they are already available, licensed, or explicitly provided.
-- Do not replace colorful reference imagery/icons with generic monochrome placeholders unless the reference does that.
-- Ask only before decisions that materially affect branding, legality, architecture, content, or UX direction.
+Rules: do not implement from memory, do not copy restricted assets, and do not claim visual parity without final screenshots.

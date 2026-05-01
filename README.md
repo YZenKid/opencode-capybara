@@ -4,11 +4,39 @@ Preset konfigurasi OpenCode personal dengan plugin `oh-my-opencode-slim`, multi-
 
 ## Isi Preset
 
-- `opencode.json` — konfigurasi provider, model, MCP, plugin, dan agent bawaan yang dinonaktifkan.
-- `oh-my-opencode-slim.json` — mapping model, skill, MCP, dan council preset untuk agent `oh-my-opencode-slim`.
+- `opencode.json` — konfigurasi provider, model, MCP, plugin, agent bawaan yang dinonaktifkan, dan override eksplisit `council` sebagai subagent.
+- `oh-my-opencode-slim.json` — mapping model, skill, MCP, dan council preset untuk agent `oh-my-opencode-slim`, termasuk `disabled_agents` agar council bawaan plugin tidak digenerasi.
 - `.env.example` — template environment variable tanpa secret.
 - `.gitignore` — melindungi `.env` dan file lokal/generated.
 - `skills/` dan `.agents/skills/` — skill tambahan untuk OpenCode/agent.
+- `scripts/prompt-gate-regression.mjs` — regression check untuk prompt/agent gates, path portability, dan boundary planner.
+
+## Verifikasi Konfigurasi
+
+Jalankan regression check setelah mengubah `AGENTS.md`, `agents/`, `skills/`, `opencode.json`, atau script gate:
+
+```bash
+npm run test:prompt-gates
+```
+
+Script ini memvalidasi:
+
+- anti-AI-slop UI gates,
+- image-heavy/reference UI asset generation gates,
+- motion/icon/visual-density gates,
+- portability/path rules,
+- agent architecture rules: primary agents via `mode: primary`, subagents via `mode: subagent`, `disable: true`, dan `hidden: true` untuk autocomplete bila didukung,
+- current architecture summary: plugin `oh-my-opencode-slim` hardcodes council menjadi `mode: all` setelah override; fix-nya adalah mematikan council bawaan lewat `disabled_agents` dan memakai `agents/council.md` sebagai subagent lokal sehingga council tidak muncul di primary agent switcher; built-in `build` dan `plan` dimatikan/di-hide sejauh didukung,
+- MCP `image-asset-generator` tidak memakai path relatif rapuh,
+- `artifact-planner` dapat memanggil subagent informasi/read-only/research/dokumentasi yang diizinkan: `explorer`, `librarian`, `oracle`, `council`, `observer`, `document-specialist`,
+- `artifact-planner` tidak bisa memanggil subagent implementasi/source-edit/generation seperti `fixer`, `build`, `designer`, atau `visual-asset-generator`,
+- `artifact-planner` tetap bisa menulis artefak `.opencode/plans`, `.opencode/draft`, dan `.opencode/evidence`.
+
+Expected:
+
+```text
+Prompt gate regression passed.
+```
 
 ## Prasyarat
 
@@ -85,6 +113,27 @@ source ~/.config/opencode/.env
 set +a
 opencode
 ```
+
+## Portability dan Path Policy
+
+Preset ini tidak boleh bergantung pada path device-specific seperti `/home/<user>` atau `/Users/<user>` di active agent/config/script. Gunakan:
+
+- path relatif project/workspace untuk rencana dan dokumentasi,
+- `{env:HOME}` untuk config-level path di `opencode.json` atau permission rules,
+- absolute path yang diturunkan dari active workspace/project root hanya saat tool memang membutuhkannya.
+
+Bedakan dua root berikut:
+
+- **OpenCode config root**: lokasi preset ini, biasanya `$HOME/.config/opencode`.
+- **Target app/project root**: aplikasi yang sedang dikerjakan agent.
+
+Untuk image asset jobs:
+
+- `project_root` harus menunjuk ke target app/project root, bukan config root OpenCode.
+- `target_path` harus relatif terhadap `project_root`.
+- Jangan hardcode absolute output path di manifest asset.
+
+Regression check akan fail jika active prompt/config/script mengandung concrete `/home/ujang`, `/Users/ujang`, atau MCP image lama `./bin/image-asset-mcp.mjs`.
 
 Untuk membuat env otomatis tersedia di shell baru, tambahkan ke `~/.zshrc`:
 
@@ -377,9 +426,26 @@ Expected setelah semua token valid:
 
 Jika `github` gagal, biasanya `GITHUB_PERSONAL_ACCESS_TOKEN` belum diisi atau Docker belum berjalan.
 
-## Agent Mapping
+## Agent Mapping dan Boundary
 
-Preset `oh-my-opencode-slim` memakai agent berikut:
+Menurut dokumentasi OpenCode:
+
+- `mode: primary` membuat agent bisa dipilih langsung dengan Tab/switch-agent.
+- `mode: subagent` membuat agent hanya dipakai sebagai child/specialist agent.
+- `disable: true` menonaktifkan agent, termasuk built-in agent.
+- `hidden: true` menyembunyikan subagent dari `@` autocomplete, tetapi agent masih bisa dipanggil programmatically jika permission mengizinkan.
+- `default_agent` harus menunjuk ke primary agent.
+
+Arsitektur preset saat ini:
+
+- Primary/selectable agents hanya `orchestrator` dan `artifact-planner`.
+- `default_agent` adalah `orchestrator`.
+- Built-in `build` dan `plan` dinonaktifkan di `opencode.json`.
+- Built-in `general` dan `explore` juga dinonaktifkan.
+- `build` custom masih ada sebagai hidden subagent untuk bounded implementation jika benar-benar diroute oleh orchestrator.
+- `council` adalah subagent untuk multi-model consensus, bukan primary agent.
+
+Preset `oh-my-opencode-slim` memakai agent/subagent berikut:
 
 | Agent | Fungsi | Skill/MCP Penting |
 |---|---|---|
@@ -388,10 +454,145 @@ Preset `oh-my-opencode-slim` memakai agent berikut:
 | `librarian` | Dokumentasi dan library research | `context7`, `grep_app`, `github`, `brave-search`, `find-skills` |
 | `oracle` | Architecture/review/simplification | `simplify`, React best practices, design review, `semgrep`, `playwright` |
 | `designer` | UI/UX implementation/review | `frontend-design`, `frontend-design-review`, `web-design-guidelines`, `playwright`, `shadcn` |
+| `artifact-planner` | Artifact-writing SDD/TDD planner | Hanya plan/draft/evidence `.opencode`; tidak boleh spawn subagent atau edit source |
+| `visual-asset-generator` | Image-heavy UI asset generation | Chat-capable model + MCP `image-asset-generator`; no layout implementation |
 | `fixer` | Bounded implementation/testing | `playwright`, `semgrep`, `shadcn`, `github` |
 | `council` | Multi-model consensus | `github`, `grep_app` |
 
 Tujuannya bukan memberi semua tool ke semua agent, tapi memberi tool yang relevan agar output lebih grounded dan tidak AI slop.
+
+### Boundary `artifact-planner`
+
+`artifact-planner` adalah agent untuk membuat artefak rencana, bukan implementasi. Boundary saat ini:
+
+- `task` default deny (`"*": deny`) dengan allowlist subagent informasi/read-only/research/dokumentasi: `explorer`, `librarian`, `oracle`, `council`, `observer`, dan `document-specialist`.
+- Subagent implementasi/source-edit/generation seperti `fixer`, `build`, `designer`, dan `visual-asset-generator` tetap dilarang.
+- `bash: deny` — tidak boleh menjalankan command implementasi.
+- `apply_patch: deny` — tidak boleh patch source/config.
+- `edit` dan `write` hanya scoped ke:
+  - `.opencode/plans/`
+  - `.opencode/draft/`
+  - `.opencode/evidence/`
+
+Jadi planner tetap bisa membuat folder/file plan, draft, dan evidence di `.opencode/`, tetapi tidak bisa mengubah app source, package files, assets, tests, atau memulai implementasi lewat subagent.
+
+## Visual Asset Generation Pipeline
+
+Untuk pekerjaan UI yang image-heavy seperti portfolio, landing page, reference replication, hero portrait, icon badge set, project/product mockup, testimonial avatar, blog/news thumbnail, atau background texture, gunakan pipeline berikut:
+
+1. Untuk portfolio/reference/template work dengan hero art, portrait, project cards, thumbnail, testimonial/avatar cluster, blog cards, icon badges, atau rich background, anggap image-heavy sampai `designer` membuktikan sebaliknya.
+2. `planner`/`designer` harus membuat **Image Generation Decision** per section:
+   - `generate`
+   - `use-provided-assets`
+   - `licensed-existing-assets`
+   - `no-generation-needed`
+3. Jika reference punya imagery bermakna dan tidak ada asset user/licensed, default yang benar adalah **generate legal style-equivalent assets**, bukan CSS-only placeholder, generic gradient, blank frame, atau omit imagery.
+4. Jika image `required`, `designer` harus membuat **asset manifest** terlebih dulu, bukan langsung final dengan placeholder CSS/SVG. Manifest minimal berisi:
+   - `id`
+   - `type`
+   - `priority` (`required`/`optional`)
+   - `target_path`
+   - `dimensions` atau `aspect_ratio`
+   - `prompt`
+   - `negative_prompt` jika perlu
+   - `alt`
+   - image generation decision
+   - placement notes
+   - legal notes
+5. `orchestrator` melakukan capability gate:
+   - preset ini menyediakan custom subagent `visual-asset-generator` sebagai titik konfigurasi image generation,
+   - jika runtime/tool aktif mengekspos image generation, orchestrator menjalankan generation melalui `visual-asset-generator` atau workflow/tool image yang tersedia,
+   - jika `visual-asset-generator` belum muncul di active subagent/tool list setelah restart OpenCode, anggap unavailable meskipun sudah ada di config,
+   - jika runtime tidak mengekspos image generation, jangan panggil subagent image dan jangan klaim visual parity; tanyakan apakah user mau menyediakan asset, berhenti di manifest, atau lanjut dengan placeholder sementara.
+6. Setelah asset generated/provided tersedia, integrasi dilakukan oleh `designer` atau `fixer`:
+   - simpan di asset directory project,
+   - gunakan `<img>`/framework image component,
+   - set explicit `width`/`height`,
+   - gunakan `alt` bermakna untuk content image dan `alt=""`/`aria-hidden` untuk dekoratif,
+   - hero above-fold memakai loading priority yang sesuai; below-fold memakai lazy loading.
+7. Validasi wajib:
+    - run lint/build/checks,
+    - capture viewport yang sama dengan referensi,
+    - bandingkan image density, crop, colorfulness, shadow, placement, responsive behavior, dan legal limitations.
+
+#### Professional art direction gate
+
+Sebelum membuat asset manifest untuk image-heavy work, `designer` harus menyusun art direction brief atau style board agar hasil generasi tidak terlihat seperti generic AI slop. Brief tersebut harus menetapkan visual thesis, reference traits yang dijaga, composition notes, subject/props/environment, medium/style constraints, palette dan lighting, camera/crop/perspective, texture/material detail, negative style constraints, brand/domain specificity, serta acceptance/rejection criteria.
+
+Gate ini menolak prompt yang terlalu generik seperti "modern tech dashboard", "futuristic", "cyberpunk", atau "abstract UI" tanpa objek, komposisi, dan makna domain yang jelas. Ia juga menolak glossy cyberpunk dashboards, random neon blobs, floating UI cards tanpa domain meaning, cloned reference assets, fake logos/text, uncanny portraits/hands, inconsistent style sets, over-saturated stock-ish art, dan same-looking thumbnails.
+
+Rule penting: CSS/SVG placeholder boleh dipakai sebagai scaffolding sementara, tetapi bukan final untuk image-heavy visual parity kecuali user eksplisit menerima vector-only/placeholder output atau reference memang geometrik/vector. Jika asset generation unavailable dan user tidak menyetujui placeholder, status harus `blocked` atau `draft`.
+
+### Konfigurasi `visual-asset-generator`
+
+Subagent khusus image didefinisikan di:
+
+```text
+agents/visual-asset-generator.md
+```
+
+Model aktualnya dikonfigurasi terpusat di:
+
+```text
+oh-my-opencode-slim.json
+```
+
+Contoh entry:
+
+```json
+"visual-asset-generator": {
+  "model": "<provider/image-generation-model>",
+  "skills": [],
+  "mcps": []
+}
+```
+
+Jika provider/model image berubah, update hanya entry config tersebut. Prompt/rules tidak perlu menyebut nama model spesifik. Setelah mengubah agent config, restart OpenCode lalu verifikasi agent/subagent tersedia. Jika belum tersedia, gunakan fallback orchestrator image tool atau manifest-only flow.
+
+### MCP `image-asset-generator`
+
+Actual image generation untuk subagent dilakukan lewat MCP lokal:
+
+```text
+bin/image-asset-mcp.mjs
+```
+
+MCP ini terdaftar di `opencode.json` sebagai:
+
+```json
+"image-asset-generator": {
+  "type": "local",
+  "command": ["node", "{env:HOME}/.config/opencode/bin/image-asset-mcp.mjs"],
+  "environment": {
+    "IMAGE_ASSET_BASE_URL": "{env:CLIPROXYAPI_BASE_URL}",
+    "IMAGE_ASSET_API_KEY": "{env:CLIPROXYAPI_API_KEY}",
+    "IMAGE_ASSET_MODEL": "{env:IMAGE_ASSET_MODEL}"
+  }
+}
+```
+
+Gunakan path `{env:HOME}/.config/opencode/bin/image-asset-mcp.mjs`, bukan `./bin/image-asset-mcp.mjs`, agar MCP tetap bisa dibuka saat OpenCode dijalankan dari target project/folder lain.
+
+`visual-asset-generator` tetap memakai chat-capable model untuk planning, tetapi diberi MCP `image-asset-generator` agar bisa memanggil tool:
+
+```text
+generate_image_asset
+generate_image_assets_batch
+```
+
+Set `IMAGE_ASSET_MODEL` ke model image endpoint yang aktif di provider. Jika kosong, wrapper mencoba default `gpt-image-2`. Model image tidak boleh dijadikan model chat subagent; ia hanya dipakai oleh MCP wrapper untuk endpoint image generation.
+
+Untuk asset yang perlu alpha channel seperti portrait cutout, floating icon badge, decorative overlay, atau avatar mark, request:
+
+```json
+{
+  "format": "png",
+  "output_format": "png",
+  "background": "transparent"
+}
+```
+
+`background: "transparent"` hanya valid untuk format yang mendukung alpha seperti PNG/WebP. Jangan gunakan untuk JPEG/JPG.
 
 ## Verifikasi Agent
 
@@ -432,7 +633,21 @@ Cek token:
 test -n "$GITHUB_PERSONAL_ACCESS_TOKEN" && printf present || printf missing
 ```
 
-Cek Docker:
+Default config memakai **Remote GitHub MCP** sehingga tidak perlu Docker:
+
+```json
+"github": {
+  "type": "remote",
+  "url": "https://api.githubcopilot.com/mcp/",
+  "headers": {
+    "Authorization": "Bearer {env:GITHUB_PERSONAL_ACCESS_TOKEN}",
+    "X-MCP-Toolsets": "{env:GITHUB_TOOLSETS}"
+  },
+  "oauth": false
+}
+```
+
+Jika remote MCP tidak bisa dipakai oleh runtime, fallback ke Docker/local server dan cek Docker:
 
 ```bash
 docker --version

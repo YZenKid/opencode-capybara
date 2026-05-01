@@ -1,6 +1,6 @@
 ---
 description: Generate commit message from current git changes
-agent: plan
+agent: orchestrator
 model: cliproxyapi/gpt-5.5
 ---
 

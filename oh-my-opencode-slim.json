@@ -6,7 +6,7 @@
       "orchestrator": {
         "model": "cliproxyapi/gpt-5.5",
         "skills": [
-          "*"
+          "opencode-orchestrator"
         ],
         "mcps": [
           "*",
@@ -17,10 +17,7 @@
         "model": "cliproxyapi/gpt-5.5",
         "variant": "high",
         "skills": [
-          "simplify",
-          "vercel-react-best-practices",
-          "frontend-design-review",
-          "agents-md"
+          "opencode-oracle"
         ],
         "mcps": [
           "github",
@@ -34,7 +31,7 @@
         "model": "cliproxyapi/gpt-5.4-mini",
         "variant": "low",
         "skills": [
-          "find-skills"
+          "opencode-librarian"
         ],
         "mcps": [
           "context7",
@@ -46,7 +43,9 @@
       "explorer": {
         "model": "cliproxyapi/gpt-5.4-mini",
         "variant": "low",
-        "skills": [],
+        "skills": [
+          "opencode-explorer"
+        ],
         "mcps": [
           "semgrep",
           "grep_app"
@@ -56,14 +55,7 @@
         "model": "cliproxyapi/gpt-5.5",
         "variant": "high",
         "skills": [
-          "agent-browser",
-          "figma",
-          "frontend-design",
-          "frontend-design-review",
-          "reference-ui-replication",
-          "visual-regression-testing",
-          "web-design-guidelines",
-          "ui-ux-pro-max"
+          "opencode-designer"
         ],
         "mcps": [
           "playwright",
@@ -76,7 +68,7 @@
         "model": "cliproxyapi/gpt-5.4-mini",
         "variant": "low",
         "skills": [
-          "playwright"
+          "opencode-fixer"
         ],
         "mcps": [
           "playwright",
@@ -88,12 +80,44 @@
       "council": {
         "model": "cliproxyapi/gpt-5.5",
         "variant": "high",
-        "skills": [],
+        "skills": [
+          "opencode-council"
+        ],
         "mcps": [
           "github",
           "grep_app"
         ]
+      },
+      "visual-asset-generator": {
+        "model": "cliproxyapi/gpt-5.5",
+        "variant": "high",
+        "skills": [
+          "opencode-visual-asset-generator"
+        ],
+        "mcps": [
+          "image-asset-generator"
+        ]
+      },
+      "document-specialist": {
+        "model": "cliproxyapi/gpt-5.4-mini",
+        "variant": "low",
+        "skills": [
+          "opencode-document-specialist"
+        ],
+        "mcps": []
       }
+    }
+  },
+  "agents": {
+    "artifact-planner": {
+      "model": "cliproxyapi/gpt-5.5",
+      "prompt": "You are Artifact Planner. Use the original oh-my-opencode-slim plan flow to create SDD/TDD planning artifacts under .opencode/plans, .opencode/draft, and .opencode/evidence only. Never edit implementation files. Use interactive question gates and research gates before finalizing so plans are not assumption-heavy. For visual/reference/browser tasks, require Playwright/browser captures that wait for network/preloaders, settle animations, scroll through the page to trigger lazy/scroll-reveal content, then capture stable screenshots at matching viewports. Consolidate durable draft/evidence findings into the primary plan and clean stale draft/evidence when planning is finalized.",
+      "orchestratorPrompt": "@artifact-planner\n- Role: Interactive artifact-writing SDD/TDD planner using the original oh-my-opencode-slim plan flow without entering built-in read-only Plan Mode\n- Delegate when: user asks to create a plan, SDD plan, TDD plan, implementation plan, revamp plan, or reference UI replication plan that should write planning artifacts\n- Writes allowed only under .opencode/plans/, .opencode/draft/, and .opencode/evidence/ including nested markdown files/folders\n- Use one primary source-of-truth plan at .opencode/plans/<task-id>.md by default, with draft/evidence under per-task folders when useful\n- Ask targeted questions before finalizing when material requirements are unknown; record unanswered questions in draft/open-questions when artifacts have started\n- Use research gates: local discovery for non-trivial code plans, @librarian/context7 for version-sensitive library behavior, GitHub for upstream repos/issues/source/Actions, brave-search for current external/reference facts, browser/screenshots for visual parity when practical\n- For visual/reference/browser tasks, require Playwright/browser captures with wait → stabilize → scroll → settle → screenshot workflow; avoid one-shot immediate screenshots for animated/lazy/preloader pages\n- Finalize by consolidating durable draft/evidence into the plan's Final Planning Summary and deleting stale draft/evidence unless still useful or user asks to keep them\n- Do not delegate when: user wants implementation/source edits"
+    },
+    "document-specialist": {
+      "model": "cliproxyapi/gpt-5.4-mini",
+      "prompt": "You are Document Specialist. Use the standalone opencode-document-specialist workflow for PDF, spreadsheet, Office, presentation, and text document files. Preserve original documents by default; write generated/intermediate outputs as copies under .opencode/document-output/<task-id>/ or .opencode/evidence/<task-id>/documents/ when plan-bound. Ask before destructive edits, overwrites, lossy conversion, encryption/decryption, password removal, metadata stripping, tracked-change acceptance/rejection, or sensitive document transformation. Do not read .env/secrets unless explicitly allowed. Validate outputs with format-specific checks and return output paths plus validation status.",
+      "orchestratorPrompt": "@document-specialist\n- Role: Document processing specialist for PDF, spreadsheet, Office, presentation, and text document files\n- Delegate when: user provides or asks about PDF, XLS/XLSX/XLSM, CSV/TSV, DOC/DOCX, PPT/PPTX, ODS/ODT, RTF, Office Open XML, document extraction, form filling, validation, conversion, summarization, comparison, or document transformation\n- Preserves originals by default and writes outputs as copies under .opencode/document-output/<task-id>/ or .opencode/evidence/<task-id>/documents/ when plan-bound\n- Ask before destructive edits, overwrites, lossy conversion, encryption/decryption, password removal, metadata stripping, tracked-change acceptance/rejection, or sensitive document transformations\n- Do not delegate when: task is normal codebase search, library docs research, UI work, or implementation not centered on document files"
     }
   },
   "multiplexer": {
@@ -125,6 +149,9 @@
       }
     }
   },
+  "disabled_agents": [
+    "council"
+  ],
   "tmux": {
     "enabled": false
   }
