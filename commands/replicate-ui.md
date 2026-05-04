@@ -24,8 +24,9 @@ Use the standalone `opencode-orchestrator` workflow for routing. Route visual pl
 4. Capture current target evidence at matching viewports when runnable.
 5. Extract visual spec and asset inventory into the primary plan; put expanded details under per-task draft folder when needed.
 6. Classify assets as project-owned/provided, licensed, or third-party requiring legal replacement. Do not copy restricted assets.
-7. Run an Animation System Gate: inspect existing animation libraries/APIs, then choose CSS/native primitives, existing dependency, `motion.dev`, `animejs`, `animate.css`, React Native Reanimated/Gesture Handler, Lottie, Flutter implicit/explicit animation, or Flutter Hero based on platform and reference motion. Do not use web-only libraries for native mobile screens unless target is web/webview.
-8. Implement section-by-section for parity while preserving real content.
-9. After implementation, run checks, capture final screenshots with the same workflow, compare section-by-section, and fix largest mismatches first. Include animation library/API choice and rationale in the summary.
+7. Run a Google Stitch MCP Design System Gate through `@designer` when `stitch` is available: translate reference traits into a project-adapted design-system brief, component anatomy, responsive rules, states, and implementation handoff. Record `used`, `unavailable`, `skipped`, or `blocked` with the reason.
+8. Run an Animation System Gate: inspect existing animation libraries/APIs, then choose CSS/native primitives, existing dependency, `motion.dev`, `animejs`, `animate.css`, React Native Reanimated/Gesture Handler, Lottie, Flutter implicit/explicit animation, or Flutter Hero based on platform and reference motion. Do not use web-only libraries for native mobile screens unless target is web/webview.
+9. Implement section-by-section for parity while preserving real content.
+10. After implementation, run checks, capture final screenshots with the same workflow, compare section-by-section, and fix largest mismatches first. Include Stitch usage status plus animation library/API choice and rationale in the summary.
 
 Do not claim close visual parity without final screenshots and comparison notes.

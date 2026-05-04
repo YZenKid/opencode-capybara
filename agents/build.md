@@ -34,6 +34,11 @@ permission:
 - Do not reimplement logic already available in the project, KiloCode, configured skills, or established local patterns.
 - If no matching KiloCode/project utility or pattern exists, state that explicitly before creating new code.
 
+## Google Stitch MCP UI handoff
+- For substantial UI/UX, web, mobile, app screen, dashboard, landing page, reference replication, or design-system work, consume the @designer handoff and any Google Stitch MCP design-system brief before implementation.
+- Do not use Stitch output as copy-paste final UI. Adapt it to existing project components, tokens, content, routing, accessibility, responsive breakpoints, and animation policy.
+- If a substantial UI task lacks a designer/Stitch design-system brief, visual spec, motion notes, or asset decision, pause and route back for design direction instead of inventing generic gradients, placeholder imagery, fake controls, or arbitrary component systems.
+
 ## User Decision and Ambiguity
 - Pause implementation and ask targeted questions for ambiguity that affects behavior, architecture, API contracts, data model, security, permissions, irreversible actions, cost, or UX direction.
 - Present concise options with pros/cons when multiple valid approaches materially affect the result.

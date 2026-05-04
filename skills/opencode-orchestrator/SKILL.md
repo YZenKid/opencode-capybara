@@ -12,6 +12,7 @@ Use this as the orchestrator’s single operating manual.
 - Unknown codebase, broad search, symbol discovery, test/helper discovery → `@explorer`.
 - Current library/API/docs behavior → `@librarian`; prefer official docs/context first, then GitHub/web when needed.
 - User-facing UI, visual polish, responsive layout, reference matching → `@designer`.
+- Substantial UI/UX, web, mobile, app design, design-system generation, or revamp work → `@designer`; when the `stitch` MCP is available, require a Stitch-assisted design-system pass before implementation unless the designer records a reason to skip it.
 - Non-trivial website/mobile motion direction or animation library/API choice → `@designer`; bounded implementation after the spec is clear → `@fixer` or build agent.
 - Bounded implementation, tests, fixtures, mocks, small refactors → `@fixer`.
 - Architecture, senior review, simplification, security/scalability/data tradeoffs → `@oracle`.
@@ -40,6 +41,7 @@ Use this as the orchestrator’s single operating manual.
 ## UI/reference policy
 
 Treat reference URLs/screenshots/templates or “mirip/jadikan seperti ini/clone/match/revamp like” as visual parity unless user says inspiration only. Require reference/current/final screenshots, visual spec, asset inventory, legal replacement handling, image generation decision, motion storyboard, icon strategy, visual density checks, and section-by-section comparison.
+For substantial UI/UX, web, mobile, design-system, dashboard, landing page, or revamp tasks, route to `@designer` for a Google Stitch MCP Design System Gate when `stitch` is available. Stitch is used to generate or refine the design-system brief and screen/design variants; it does not replace local project inspection, accessibility review, legal asset handling, implementation, or screenshot validation.
 For substantial UI/reference/image-heavy work, final completion is blocked until designer signoff exists and evidence paths are available.
 For portfolio/reference/template work with hero art, portraits, project cards, thumbnails, testimonial/avatar clusters, blog cards, icon badges, or rich backgrounds, assume image-heavy and route to `@visual-asset-generator` unless the designer explicitly records `use-provided-assets`, `licensed-existing-assets`, or `no-generation-needed` with section-by-section reasons.
 

@@ -160,6 +160,16 @@
       "enabled": true,
       "timeout": 30000
     },
+    "stitch": {
+      "type": "remote",
+      "url": "https://stitch.googleapis.com/mcp",
+      "headers": {
+        "Accept": "application/json",
+        "X-Goog-Api-Key": "{env:STITCH_API_KEY}"
+      },
+      "enabled": true,
+      "timeout": 30000
+    },
     "image-asset-generator": {
       "type": "local",
       "command": [

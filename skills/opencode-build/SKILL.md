@@ -29,6 +29,7 @@ Use this for direct coding sessions.
 ## UI/browser
 
 For substantial UI/reference/image-heavy work, require production-like screenshots, visual comparison notes, and clear draft vs reference-ready status before closing the task.
+For substantial UI/UX, web, mobile, dashboard, landing page, reference, revamp, or design-system work, follow the `@designer` handoff and any Google Stitch MCP design-system brief before implementing. Stitch output is an input to adapt, not a final UI to copy; preserve project components/tokens, accessibility, responsive behavior, content, routing, and validation gates. If the design-system brief or visual spec is missing, pause instead of inventing generic UI.
 
 ## Animation System Gate
 

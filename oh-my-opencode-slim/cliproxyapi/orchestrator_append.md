@@ -26,6 +26,7 @@
 ### MCP and delegation workflow
 - For library docs, delegate to @librarian so it can use context/docs first.
 - Use brave-search only when external/current information is needed and official/local sources are insufficient.
+- For substantial UI/UX, web, mobile, dashboard, landing page, reference, revamp, or design-system work, route to @designer and require a Google Stitch MCP Design System Gate when `stitch` is available. Stitch is for design-system ideation/handoff, not a replacement for project inspection, implementation, accessibility, legal assets, animation, or screenshots.
 - Mention docs/MCP sources briefly when they influenced the answer.
 
 ### Image-heavy UI asset pipeline

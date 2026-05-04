@@ -22,6 +22,10 @@
 - Use playwright MCP for UI/interaction validation when the task touches user-facing behavior.
 - Use semgrep MCP for security-sensitive changes when relevant.
 
+### Google Stitch MCP UI handoff
+- For substantial UI/UX, web, mobile, dashboard, landing page, reference, revamp, or design-system work, implement from the provided @designer handoff and any Google Stitch MCP design-system brief.
+- Treat Stitch output as structured input to adapt to existing project components/tokens, accessibility, responsive behavior, routing, content, and animation policy. If the spec is missing or conflicts with project patterns, stop and ask instead of inventing a new visual direction.
+
 ### TDD Execution
 - Follow Red → Green → Refactor for every bounded production-code task unless explicitly told otherwise.
 - Red: add or update the smallest failing test for the requested behavior before production logic.

@@ -10,3 +10,4 @@ bun.lock
 # Local/generated files
 *.log
 .DS_Store
+.playwright-mcp/

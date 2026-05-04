@@ -315,7 +315,6 @@ Jangan paste token ke chat atau commit ke repo.
 Skill utama yang direkomendasikan untuk preset ini:
 
 ```bash
-npx -y skills add https://github.com/anthropics/skills --skill frontend-design -y
 npx -y skills add https://github.com/microsoft/agent-skills --skill frontend-design-review -y
 npx -y skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices -y
 npx -y skills add https://github.com/vercel-labs/agent-skills --skill web-design-guidelines -y
@@ -323,6 +322,8 @@ npx -y skills add https://github.com/vercel-labs/skills --skill find-skills -y
 npx -y skills add https://github.com/getsentry/skills --skill agents-md -y
 npx -y skills add https://github.com/devinschumacher/skills --skill playwright -y
 ```
+
+Catatan: skill `frontend-design` dari ekosistem lama sudah dianggap deprecated untuk desain baru. Gunakan `opencode-designer` sebagai workflow utama; `impeccable` dari `skills.sh` boleh dipakai sebagai referensi/checklist desain opsional jika sengaja dipasang.
 
 Cek skill:
 
@@ -399,6 +400,7 @@ MCP global di preset:
 - `grep_app` — search contoh kode nyata dari GitHub via Grep.app.
 - `playwright` — browser automation/validation.
 - `shadcn` — shadcn/ui registry dan component context.
+- `stitch` — Google Stitch remote MCP untuk design-system ideation/generation, screen/project workflows, dan handoff desain UI mobile/web. Konfigurasinya memakai `STITCH_API_KEY` dari environment, bukan secret hardcoded.
 - `semgrep` — static/security analysis.
 - `github` — repository, issues, PR, actions, dan code security context.
 
@@ -420,11 +422,12 @@ Expected setelah semua token valid:
 ✓ grep_app
 ✓ playwright
 ✓ shadcn
+✓ stitch
 ✓ semgrep
 ✓ github
 ```
 
-Jika `github` gagal, biasanya `GITHUB_PERSONAL_ACCESS_TOKEN` belum diisi atau Docker belum berjalan.
+Jika `stitch` gagal, biasanya `STITCH_API_KEY` belum diisi, API key sudah dicabut/expired, atau akun belum punya akses Stitch. Jika `github` gagal, biasanya `GITHUB_PERSONAL_ACCESS_TOKEN` belum diisi atau Docker belum berjalan.
 
 ## Agent Mapping dan Boundary
 
@@ -453,7 +456,7 @@ Preset `oh-my-opencode-slim` memakai agent/subagent berikut:
 | `explorer` | Search/read-only codebase exploration | `semgrep`, `grep_app` |
 | `librarian` | Dokumentasi dan library research | `context7`, `grep_app`, `github`, `brave-search`, `find-skills` |
 | `oracle` | Architecture/review/simplification | `simplify`, React best practices, design review, `semgrep`, `playwright` |
-| `designer` | UI/UX implementation/review | `frontend-design`, `frontend-design-review`, `web-design-guidelines`, `playwright`, `shadcn` |
+| `designer` | UI/UX implementation/review | `opencode-designer`, Google Stitch MCP design-system gate, `playwright`, `shadcn`; `impeccable` hanya referensi opsional, `frontend-design` deprecated |
 | `artifact-planner` | Artifact-writing SDD/TDD planner | Hanya plan/draft/evidence `.opencode`; tidak boleh spawn subagent atau edit source |
 | `visual-asset-generator` | Image-heavy UI asset generation | Chat-capable model + MCP `image-asset-generator`; no layout implementation |
 | `fixer` | Bounded implementation/testing | `playwright`, `semgrep`, `shadcn`, `github` |

@@ -25,6 +25,7 @@ Use this for scoped execution after requirements or a plan are clear.
 
 Use wait-stabilize-scroll-settle screenshots for visual/browser tasks. Check desktop/tablet/mobile when responsive behavior changes. Record console/network issues only when they affect rendering.
 For substantial UI/reference/image-heavy work, do not close on screenshots alone; require production-like evidence, icon audit, motion audit, and draft vs reference-ready status.
+For substantial UI/UX, web, mobile, dashboard, landing page, reference, revamp, or design-system work, implement only from the provided `@designer` handoff and any Google Stitch MCP design-system brief. Treat Stitch output as structured design input that must be adapted to existing project components/tokens, accessibility, responsive behavior, and content. If the spec is missing or conflicts with project patterns, stop and ask instead of creating a new visual direction.
 
 ## Animation implementation gate
 
