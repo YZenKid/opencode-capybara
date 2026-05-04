@@ -24,10 +24,9 @@ Each OpenCode agent should rely on its single standalone `opencode-*` skill inst
 
 ## Auto-commit policy
 
-Default auto-commit is OFF.
+Default auto-commit is ON for local commits only.
 
-- Auto-commit may run only when the user explicitly enables it for the current task or session.
-- Only use auto-commit after a plan-bound, non-trivial task is complete, validation has passed, and `@quality-gate` returns `PASS` or `PASS_WITH_RISKS` with no blocker.
+- Auto-commit may run after a plan-bound, non-trivial task is complete, validation has passed, and `@quality-gate` returns `PASS` or `PASS_WITH_RISKS` with no blocker.
 - Generate the commit message from the diff and recent repository style, stage only relevant files, then run a local `git commit`.
 - Never push automatically.
 - Never stage `.env`, secrets, tokens, credentials, unrelated untracked files, or generated/vendor files unless the plan or user explicitly approves them.

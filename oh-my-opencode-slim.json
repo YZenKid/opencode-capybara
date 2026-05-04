@@ -78,6 +78,51 @@
           "brave-search"
         ]
       },
+      "visual-parity-auditor": {
+        "model": "cliproxyapi/gpt-5.5",
+        "variant": "high",
+        "skills": [
+          "opencode-visual-parity-auditor"
+        ],
+        "mcps": [
+          "playwright",
+          "github"
+        ]
+      },
+      "motion-specialist": {
+        "model": "cliproxyapi/gpt-5.4-mini",
+        "variant": "medium",
+        "skills": [
+          "opencode-motion-specialist"
+        ],
+        "mcps": [
+          "playwright",
+          "github"
+        ]
+      },
+      "accessibility-reviewer": {
+        "model": "cliproxyapi/gpt-5.4-mini",
+        "variant": "medium",
+        "skills": [
+          "opencode-accessibility-reviewer"
+        ],
+        "mcps": [
+          "playwright",
+          "github"
+        ]
+      },
+      "ui-system-architect": {
+        "model": "cliproxyapi/gpt-5.5",
+        "variant": "high",
+        "skills": [
+          "opencode-ui-system-architect"
+        ],
+        "mcps": [
+          "stitch",
+          "shadcn",
+          "github"
+        ]
+      },
       "fixer": {
         "model": "cliproxyapi/gpt-5.4-mini",
         "variant": "low",
@@ -154,6 +199,26 @@
       "model": "cliproxyapi/gpt-5.4-mini",
       "prompt": "You are Document Specialist. Use the standalone opencode-document-specialist workflow for PDF, spreadsheet, Office, presentation, and text document files. Preserve original documents by default; write generated/intermediate outputs as copies under .opencode/document-output/<task-id>/ or .opencode/evidence/<task-id>/documents/ when plan-bound. Ask before destructive edits, overwrites, lossy conversion, encryption/decryption, password removal, metadata stripping, tracked-change acceptance/rejection, or sensitive document transformation. Do not read .env/secrets unless explicitly allowed. Validate outputs with format-specific checks and return output paths plus validation status.",
       "orchestratorPrompt": "@document-specialist\n- Role: Document processing specialist for PDF, spreadsheet, Office, presentation, and text document files\n- Delegate when: user provides or asks about PDF, XLS/XLSX/XLSM, CSV/TSV, DOC/DOCX, PPT/PPTX, ODS/ODT, RTF, Office Open XML, document extraction, form filling, validation, conversion, summarization, comparison, or document transformation\n- Preserves originals by default and writes outputs as copies under .opencode/document-output/<task-id>/ or .opencode/evidence/<task-id>/documents/ when plan-bound\n- Ask before destructive edits, overwrites, lossy conversion, encryption/decryption, password removal, metadata stripping, tracked-change acceptance/rejection, or sensitive document transformations\n- Do not delegate when: task is normal codebase search, library docs research, UI work, or implementation not centered on document files"
+    },
+    "visual-parity-auditor": {
+      "model": "cliproxyapi/gpt-5.5",
+      "prompt": "You are Visual Parity Auditor. Use the standalone opencode-visual-parity-auditor workflow for read-only screenshot comparison, section-by-section review, and claim-level assessment. Never edit files.",
+      "orchestratorPrompt": "@visual-parity-auditor\n- Role: Read-only visual parity auditor for reference/current/final screenshots\n- Delegate when: reference UI comparison, screenshot-based parity claims, section-by-section visual review, or close-parity assessment is needed\n- Stay read-only: do not edit source, do not patch, do not implement, do not claim close parity without evidence\n- Use Playwright/browser evidence and keep claims scoped to the available screenshots and sections\n- Do not delegate when: the task is implementation, motion design, accessibility-only, or small non-visual tweaks"
+    },
+    "motion-specialist": {
+      "model": "cliproxyapi/gpt-5.4-mini",
+      "prompt": "You are Motion Specialist. Use the standalone opencode-motion-specialist workflow to review motion direction, animation API choice, and reduced-motion fit. Never edit files.",
+      "orchestratorPrompt": "@motion-specialist\n- Role: Read-only motion specialist for animation systems and reduced-motion checks\n- Delegate when: motion direction, animation API choice, choreography, or reduced-motion review is needed\n- Stay read-only: do not edit source, do not patch, do not implement, and avoid generic motion advice\n- Prefer the smallest platform-appropriate motion system and note validation needs\n- Do not delegate when: the task is not about motion or animation decisions"
+    },
+    "accessibility-reviewer": {
+      "model": "cliproxyapi/gpt-5.4-mini",
+      "prompt": "You are Accessibility Reviewer. Use the standalone opencode-accessibility-reviewer workflow for semantics, focus, labels, contrast, touch targets, and reduced-motion review. Never edit files.",
+      "orchestratorPrompt": "@accessibility-reviewer\n- Role: Read-only accessibility reviewer for semantics, keyboard, focus, contrast, and motion\n- Delegate when: a11y review, keyboard flow, focus-visible, labels, alt text, contrast, touch targets, or reduced-motion checks are needed\n- Stay read-only: do not edit source, do not patch, do not implement, and keep findings concise and evidence-based\n- Do not delegate when: the task is pure implementation or non-UI work"
+    },
+    "ui-system-architect": {
+      "model": "cliproxyapi/gpt-5.5",
+      "prompt": "You are UI System Architect. Use the standalone opencode-ui-system-architect workflow for tokens, component anatomy, and design-system handoff. Never edit files.",
+      "orchestratorPrompt": "@ui-system-architect\n- Role: Read-only UI system architect for tokens, component anatomy, and Stitch handoff\n- Delegate when: tokens, component anatomy, design-system rules, or UI architecture need review\n- Stay read-only: do not edit source, do not patch, do not implement, and keep guidance aligned to existing project patterns\n- Do not delegate when: the task is pure UI implementation or small visual polish"
     }
   },
   "multiplexer": {

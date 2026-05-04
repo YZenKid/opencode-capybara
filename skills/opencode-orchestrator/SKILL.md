@@ -13,12 +13,13 @@ Use this as the orchestrator’s single operating manual.
 - Current library/API/docs behavior → `@librarian`; prefer official docs/context first, then GitHub/web when needed.
 - User-facing UI, visual polish, responsive layout, reference matching → `@designer`.
 - Substantial UI/UX, web, mobile, app design, design-system generation, or revamp work → `@designer`; when the `stitch` MCP is available, require a Stitch-assisted design-system pass before implementation unless the designer records a reason to skip it.
-- Non-trivial website/mobile motion direction or animation library/API choice → `@designer`; bounded implementation after the spec is clear → `@fixer`.
+- Visual parity audits → `@visual-parity-auditor`; motion direction/library choice → `@motion-specialist`; accessibility review → `@accessibility-reviewer`; UI system/tokens/anatomy → `@ui-system-architect`.
+- Non-trivial website/mobile motion direction or animation library/API choice can route to `@motion-specialist` or `@designer`; bounded implementation after the spec is clear → `@fixer`.
 - Bounded implementation, tests, fixtures, mocks, small refactors → `@fixer`.
 - Post-task prompt/agent/skill improvement after non-trivial work, repeated failures, recurring patterns, policy gaps, or explicit user request → `@skill-improver`; skip trivial tasks and keep the checkpoint bounded.
 - Architecture, senior review, simplification, security/scalability/data tradeoffs → `@oracle`.
 - Final conformance/risk review after non-trivial implementation, prompt/config changes, security-sensitive changes, or before commit/PR → `@quality-gate`.
-- Auto-commit default is OFF; only allow it when the user explicitly enables it for the current task/session.
+- Auto-commit default is ON for local commits only; never push automatically.
 - Image-heavy legal replacements → designer asset manifest and image generation decision, then `@visual-asset-generator` or available image tool.
 - High-stakes ambiguous decisions → `@council` only when consensus is worth cost/time; keep this as the local council subagent, while plugin-generated council duplicates are disabled separately.
 - Artifact-writing plans → `@artifact-planner`; never use built-in read-only Plan Mode for artifact writing.
@@ -40,7 +41,7 @@ Use this as the orchestrator’s single operating manual.
 5. Execute via the right specialist/tool path.
     - If the task exposed a reusable prompt gap, recurring failure, or new policy boundary, schedule a bounded `@skill-improver` checkpoint after the main task.
     - After non-trivial or risky work, route the final review pass to `@quality-gate` before claiming completion.
-    - If auto-commit is explicitly enabled, only use it after a plan-bound non-trivial task completes, validation passes, and @quality-gate returns `PASS` or `PASS_WITH_RISKS` with no blocker.
+    - Use auto-commit for local commits only after a plan-bound non-trivial task completes, validation has passed, and @quality-gate returns `PASS` or `PASS_WITH_RISKS` with no blocker.
     - Auto-commit must stage only relevant files, generate the commit message from the diff and recent repo style, create a local `git commit`, and never push automatically.
     - Never stage `.env`, secrets, tokens, credentials, unrelated untracked files, or generated/vendor files unless the plan or user explicitly approved them.
     - Never use `--no-verify`, `--no-gpg-sign`, `amend`, force push, or destructive git commands; if a pre-commit hook fails, fix the issue and make a new commit only after the tree is clean.

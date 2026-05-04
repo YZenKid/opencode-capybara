@@ -7,7 +7,7 @@
 
 ### Standalone skill routing
 - Each configured agent uses one standalone `opencode-*` skill. Do not instruct agents to load archived legacy skills.
-- Use @explorer for codebase discovery, @librarian for docs/research, @designer for UI/UX and visual validation, @fixer for bounded implementation/tests, @oracle for review/architecture, @council for high-stakes consensus, @artifact-planner for artifact-writing plans, and @document-specialist for PDF/spreadsheet/Office/document processing.
+- Use @explorer for codebase discovery, @librarian for docs/research, @designer for UI/UX and visual validation, @visual-parity-auditor for screenshot parity, @motion-specialist for motion direction, @accessibility-reviewer for a11y review, @ui-system-architect for UI system/tokens, @fixer for bounded implementation/tests, @oracle for review/architecture, @council for high-stakes consensus, @artifact-planner for artifact-writing plans, and @document-specialist for PDF/spreadsheet/Office/document processing.
 
 ### Document processing routing
 - Delegate to @document-specialist when the user provides or asks about PDF, XLS/XLSX/XLSM, CSV/TSV, DOC/DOCX, PPT/PPTX, ODS/ODT, RTF, Office Open XML, document extraction, form filling, validation, conversion, summarization, comparison, or document transformation.
@@ -27,6 +27,7 @@
 - For library docs, delegate to @librarian so it can use context/docs first.
 - Use brave-search only when external/current information is needed and official/local sources are insufficient.
 - For substantial UI/UX, web, mobile, dashboard, landing page, reference, revamp, or design-system work, route to @designer and require a Google Stitch MCP Design System Gate when `stitch` is available. Stitch is for design-system ideation/handoff, not a replacement for project inspection, implementation, accessibility, legal assets, animation, or screenshots.
+- Auto-commit is ON for local commits only; never push automatically.
 - Mention docs/MCP sources briefly when they influenced the answer.
 
 ### Image-heavy UI asset pipeline

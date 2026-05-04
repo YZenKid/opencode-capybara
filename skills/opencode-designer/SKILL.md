@@ -18,9 +18,10 @@ Use this as the designer’s self-contained UI/UX manual.
 
 1. Inspect framework, styling, tokens, assets, components, and tests.
 2. Define visual direction and interaction model.
-3. Implement/review section-by-section.
-4. Check accessibility: semantics, labels, focus-visible, alt text, touch targets, reduced motion.
-5. Validate with browser screenshots when runnable; for substantial UI/reference work, require reference/current/final captures and section-by-section comparison.
+3. For substantial work, consume specialist handoffs from `@visual-parity-auditor`, `@motion-specialist`, `@accessibility-reviewer`, and `@ui-system-architect` as needed.
+4. Implement/review section-by-section.
+5. Check accessibility: semantics, labels, focus-visible, alt text, touch targets, reduced motion.
+6. Validate with browser screenshots when runnable; for substantial UI/reference work, require reference/current/final captures and section-by-section comparison.
 
 ## Google Stitch MCP Design System Gate
 

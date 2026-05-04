@@ -16,11 +16,11 @@ Preset konfigurasi OpenCode personal dengan plugin `oh-my-opencode-slim`, multi-
 - `@orchestrator` — router/integrator utama untuk tugas umum, delegasi, dan validasi; bukan penulis serba bisa.
 - `@fixer` — implementasi bounded, test, fixture, dan refactor kecil.
 - `@quality-gate` — final conformance/risk gate untuk review read-only setelah implementasi non-trivial, risky, prompt/config changes, security-sensitive changes, atau sebelum final summary/commit/PR.
-- Auto-commit opt-in bersifat manual dan terpisah dari helper commit-message read-only; default auto-commit tetap ON.
+- Auto-commit default ON untuk local commits only; never push automatically.
 - `build` — retired.
 - `general` — retired/disabled mental model; jangan diaktifkan sebagai model invalid.
 - `@skill-improver` — checkpoint pasca-tugas non-trivial untuk memperbaiki prompt, routing, references, dan eval secara kecil dan evidence-based.
-- `@designer`, `@oracle`, `@explorer`, `@librarian`, `@document-specialist`, `@visual-asset-generator`, `@council` — tetap mengikuti boundary masing-masing.
+- `@designer`, `@oracle`, `@explorer`, `@librarian`, `@document-specialist`, `@visual-asset-generator`, `@council` — tetap mengikuti boundary masing-masing; visual parity, motion, accessibility, dan UI system architecture kini punya subagent specialist sendiri.
 - `@skill-improver` tidak wajib dipanggil setelah setiap tugas; gunakan hanya saat ada pola berulang, kegagalan berulang, gap kebijakan, atau permintaan eksplisit.
 - `@quality-gate` bukan agent implementasi; ia menilai plan/evidence/diff dan mengeluarkan status deterministik `PASS`, `PASS_WITH_RISKS`, `NEEDS_FIX`, atau `BLOCKED`.
 - Jangan beri akses `.env` atau secret ke agent/skill ini, dan jangan lakukan update eksternal tanpa approval eksplisit.
@@ -33,14 +33,12 @@ Use `@quality-gate` for final conformance/risk review after non-trivial or risky
 - Tidak untuk task trivial.
 - Tidak menggantikan `@oracle` untuk architecture/deep review, `@designer` untuk visual signoff, atau `@fixer` untuk implementasi/fix.
 
-## Auto-commit Opt-in
+## Auto-commit Policy
 
-Auto-commit di preset ini default-nya ON.
+Auto-commit default ON untuk local commits only; never push automatically.
 
-- Hanya aktif jika user eksplisit meng-enable untuk task/session.
-- Hanya jalan setelah task plan-bound non-trivial selesai, validation lulus, dan `@quality-gate` memberi status `PASS` atau `PASS_WITH_RISKS` tanpa blocker.
-- Stage hanya file relevan, lalu buat `git commit` lokal dengan message yang dihasilkan dari diff dan style commit terbaru.
-- Tidak pernah push otomatis.
+- Jalan hanya setelah task plan-bound non-trivial selesai, validation lulus, dan `@quality-gate` memberi status `PASS` atau `PASS_WITH_RISKS` tanpa blocker.
+- Review `git status`/`git diff`, lalu stage hanya file relevan.
 - Jangan stage `.env`, secrets, tokens, credentials, unrelated untracked files, atau generated/vendor files kecuali plan/user memang menyetujuinya.
 - Jangan gunakan `--no-verify`, `--no-gpg-sign`, `amend`, force push, atau destructive git commands.
 - Kalau pre-commit hook gagal, jangan amend; perbaiki isu lalu buat commit baru setelah tree bersih.
