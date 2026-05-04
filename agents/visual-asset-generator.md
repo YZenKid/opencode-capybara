@@ -5,6 +5,7 @@ skills:
   - opencode-visual-asset-generator
 permission:
   "*": allow
+  bash: ask
   doom_loop: ask
   question: deny
   plan_enter: deny

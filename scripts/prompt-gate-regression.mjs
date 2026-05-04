@@ -68,7 +68,7 @@ const checks = [
       "council: allow",
       "observer: allow",
       "document-specialist: allow",
-      "bash: deny",
+      "bash: ask",
       "apply_patch: deny",
       "write:",
       ".opencode/plans/",

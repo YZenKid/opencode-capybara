@@ -7,6 +7,7 @@ skills:
   - opencode-build
 permission:
   "*": allow
+  bash: ask
   doom_loop: ask
   external_directory:
     "*": ask

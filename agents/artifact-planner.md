@@ -14,7 +14,7 @@ permission:
     council: allow
     observer: allow
     document-specialist: allow
-  bash: deny
+  bash: ask
   apply_patch: deny
   doom_loop: ask
   external_directory:

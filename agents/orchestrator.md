@@ -9,7 +9,7 @@ permission:
   "*": allow
   doom_loop: ask
   external_directory:
-    "*": ask
+    "*": allow
     "{env:HOME}/.local/share/opencode/tool-output/*": allow
     "{env:HOME}/.config/opencode/skills/opencode-orchestrator/*": allow
   plan_enter: deny
@@ -25,6 +25,7 @@ permission:
   context7_*: deny
   websearch_*: deny
   grep_app_*: deny
+  bash: ask
 temperature: 0.5
 ---
 

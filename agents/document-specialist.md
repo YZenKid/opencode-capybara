@@ -7,6 +7,7 @@ skills:
   - opencode-document-specialist
 permission:
   "*": allow
+  bash: ask
   external_directory:
     "*": ask
   read:
