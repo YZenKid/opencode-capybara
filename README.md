@@ -1,139 +1,55 @@
 # opencode-capybara
 
-Standalone OpenCode multi-agent configuration with local Markdown agents, skills, prompt gates, and MCP support for documentation, code search, browser validation, UI registry, security scanning, and GitHub context.
+<p align="center">
+  <img src="assets/opencode-capybara-icon.png" alt="opencode-capybara capybara mascot icon" width="128" height="128" />
+</p>
 
-## Isi Preset
+Standalone OpenCode multi-agent configuration yang tenang, terarah, dan safety-gated untuk coding, dokumentasi, UI, browser validation, security scan, GitHub context, dan visual asset workflow.
 
-- `opencode.json` — konfigurasi provider, model, MCP, agent bawaan yang dinonaktifkan, dan override eksplisit `council` sebagai subagent.
-- `agents/*.md` — local Markdown agents untuk primary/subagent routing standalone.
-- `.env.example` — template environment variable tanpa secret.
-- `.gitignore` — melindungi `.env` dan file lokal/generated.
-- `skills/` dan `.agents/skills/` — skill tambahan untuk OpenCode/agent.
-- `scripts/prompt-gate-regression.mjs` — regression check untuk prompt/agent gates, path portability, dan boundary planner.
+`opencode-capybara` adalah konfigurasi OpenCode standalone berbasis local Markdown agents, standalone `opencode-*` skills, prompt gates, dan MCP. Fokusnya bukan membuat satu agent serba bisa, tetapi mengoordinasikan specialist agents dengan boundary yang jelas, evidence yang dapat diverifikasi, dan commit policy yang aman.
 
-## Agent Mapping dan Boundary
+## Kenapa capybara?
 
-- `@orchestrator` — router/integrator utama untuk tugas umum, delegasi, dan validasi; bukan penulis serba bisa.
-- `@fixer` — implementasi bounded, test, fixture, dan refactor kecil.
-- `@quality-gate` — final conformance/risk gate untuk review read-only setelah implementasi non-trivial, risky, prompt/config changes, security-sensitive changes, atau sebelum final summary/commit/PR.
-- Auto-commit default ON untuk local commits only; never push automatically.
-- `build` — retired.
-- `general` — retired/disabled mental model; jangan diaktifkan sebagai model invalid.
-- `@skill-improver` — checkpoint pasca-tugas non-trivial untuk memperbaiki prompt, routing, references, dan eval secara kecil dan evidence-based.
-- `@designer`, `@oracle`, `@explorer`, `@librarian`, `@document-specialist`, `@visual-asset-generator`, `@council` — tetap mengikuti boundary masing-masing; visual parity, motion, accessibility, dan UI system architecture kini punya subagent specialist sendiri.
-- `@skill-improver` tidak wajib dipanggil setelah setiap tugas; gunakan hanya saat ada pola berulang, kegagalan berulang, gap kebijakan, atau permintaan eksplisit.
-- `@quality-gate` bukan agent implementasi; ia menilai plan/evidence/diff dan mengeluarkan status deterministik `PASS`, `PASS_WITH_RISKS`, `NEEDS_FIX`, atau `BLOCKED`.
-- Jangan beri akses `.env` atau secret ke agent/skill ini, dan jangan lakukan update eksternal tanpa approval eksplisit.
+`opencode-capybara` memilih capybara sebagai simbol karena capybara adalah hewan yang tenang, sosial, adaptif, dan bisa berdampingan dengan banyak spesies. Itu menggambarkan tujuan project ini: menjadi lapisan orkestrasi OpenCode yang tidak agresif, tidak berisik, tetapi mampu mengoordinasikan banyak agent, skill, MCP, dan safety gate dengan stabil.
 
-## `@quality-gate`
+Filosofinya:
 
-Use `@quality-gate` for final conformance/risk review after non-trivial or risky implementation, prompt/config changes, security-sensitive changes, or before final summary/commit/PR. It is read-only and deterministic.
+- **Calm orchestration** — capybara tenang; `@orchestrator` juga harus meredam chaos multi-tool/multi-agent, bukan menambah noise.
+- **Coexistence** — capybara bisa hidup berdampingan dengan banyak hewan; project ini menyatukan agents, skills, MCP, docs, browser, security, GitHub, document tooling, dan image generation.
+- **Social coordination** — capybara hidup berkelompok; cocok untuk multi-agent collaboration dengan role yang spesifik.
+- **Low drama, high utility** — bukan mascot agresif; project ini mengutamakan safety gates, validation, prompt discipline, dan grounded execution.
+- **Adaptability** — capybara semi-aquatic; analoginya, agent di sini adaptif di code, docs, browser, design, security, dan documents.
 
-- Status akhir: `PASS`, `PASS_WITH_RISKS`, `NEEDS_FIX`, `BLOCKED`.
-- Tidak untuk task trivial.
-- Tidak menggantikan `@oracle` untuk architecture/deep review, `@designer` untuk visual signoff, atau `@fixer` untuk implementasi/fix.
+Capybara bukan simbol “cepat sendiri”; ia simbol “tenang bersama-sama sampai hasilnya benar”.
 
-## Auto-commit Policy
+## Apa yang ada di dalamnya?
 
-Auto-commit default ON untuk local commits only; never push automatically.
+| Area | Isi |
+|---|---|
+| Core config | `opencode.json`, `tui.json`, `AGENTS.md` |
+| Local agents | `agents/*.md` untuk primary/subagent routing standalone |
+| Standalone skills | `skills/opencode-*/SKILL.md` sebagai workflow contract per agent |
+| Slash commands | `commands/tdd.md`, `replicate-ui.md`, `revamp-like.md`, `commit-message.md` |
+| Prompt gates | `scripts/prompt-gate-regression.mjs` |
+| Local tooling package | `package.json` / `package-lock.json` untuk prompt gates dan MCP helpers |
+| Visual asset tooling | `bin/image-asset-mcp.mjs` + MCP `image-asset-generator` |
 
-- Jalan hanya setelah task plan-bound non-trivial selesai, validation lulus, dan `@quality-gate` memberi status `PASS` atau `PASS_WITH_RISKS` tanpa blocker.
-- Review `git status`/`git diff`, lalu stage hanya file relevan.
-- Commit message otomatis harus pakai subject singkat plus body bullet-point untuk perubahan penting.
-- Jangan stage `.env`, secrets, tokens, credentials, unrelated untracked files, atau generated/vendor files kecuali plan/user memang menyetujuinya.
-- Jangan gunakan `--no-verify`, `--no-gpg-sign`, `amend`, force push, atau destructive git commands.
-- Kalau pre-commit hook gagal, jangan amend; perbaiki isu lalu buat commit baru setelah tree bersih.
-- Kalau scope atau staging meragukan, berhenti dan tanya.
-
-## Verifikasi Konfigurasi
-
-Jalankan regression check setelah mengubah `AGENTS.md`, `agents/`, `skills/`, `opencode.json`, atau script gate:
-
-```bash
-npm run test:prompt-gates
-```
-
-Script ini memvalidasi:
-
-- anti-AI-slop UI gates,
-- image-heavy/reference UI asset generation gates,
-- motion/icon/visual-density gates,
-- portability/path rules,
-- agent architecture rules: primary agents via `mode: primary`, subagents via `mode: subagent`, `disable: true`, dan `hidden: true` untuk autocomplete bila didukung,
-- routing checkpoint untuk `@skill-improver` setelah tugas non-trivial / repeated failures / policy gaps / explicit request, tanpa menjadikannya wajib untuk tugas trivial,
-- safety gate `skill-improver`: no `.env`/secret access, no blind external updates, no broad rewrite tanpa approval, no prompt bloat, dan no instruction conflicts,
-- current architecture summary: standalone local Markdown agents dipakai sebagai source of truth; `agents/council.md` adalah subagent lokal sehingga council tidak muncul di primary agent switcher; `build` retired, `general` retired/disabled, dan orchestrator diposisikan sebagai router/integrator,
-- MCP `image-asset-generator` tidak memakai path relatif rapuh,
-- `artifact-planner` dapat memanggil subagent informasi/read-only/research/dokumentasi yang diizinkan: `explorer`, `librarian`, `oracle`, `council`, `observer`, `document-specialist`,
-- `artifact-planner` tidak bisa memanggil subagent implementasi/source-edit/generation seperti `fixer`, `build`, `designer`, atau `visual-asset-generator`,
-- `artifact-planner` tetap bisa menulis artefak `.opencode/plans`, `.opencode/draft`, dan `.opencode/evidence`.
-
-Expected:
-
-```text
-Prompt gate regression passed.
-```
-
-## Prasyarat
-
-Install tools berikut:
-
-- Node.js + npm
-- OpenCode CLI
-- Docker, untuk GitHub MCP official server
-- `uv`/`uvx`, untuk MCP berbasis Python seperti `semgrep` dan `time`
-
-Cek cepat:
-
-```bash
-node --version
-npm --version
-opencode --version
-docker --version
-uvx --version
-```
-
-## Clone / Pasang Preset
-
-Backup config lama lebih dulu jika ada:
-
-```bash
-mv ~/.config/opencode ~/.config/opencode.backup.$(date +%Y%m%d-%H%M%S)
-```
-
-Clone repo preset ini ke lokasi config OpenCode:
+## Quick start
 
 ```bash
 git clone <REPO_URL> ~/.config/opencode
 cd ~/.config/opencode
-```
-
-Install dependency lokal untuk prompt gates dan MCP helpers:
-
-```bash
 npm install
+npm run test:prompt-gates
 ```
 
-## Setup Environment Variable
-
-Buat `.env` dari contoh:
+Buat environment file dari contoh, lalu isi token yang dibutuhkan:
 
 ```bash
 cp .env.example .env
 ```
 
-Isi nilai berikut di `.env`:
-
-```bash
-CLIPROXYAPI_BASE_URL="https://your-openai-compatible-endpoint/v1"
-CLIPROXYAPI_API_KEY="your_cliproxyapi_api_key"
-BRAVE_API_KEY="your_brave_search_api_key"
-CONTEXT7_API_KEY="your_context7_api_key"
-GITHUB_PERSONAL_ACCESS_TOKEN="your_github_pat"
-GITHUB_TOOLSETS="context,repos,issues,pull_requests,actions,code_security"
-```
-
-Jangan commit `.env`. File ini sudah di-ignore.
+Jangan commit `.env`. File secrets sudah di-ignore.
 
 Load env sebelum menjalankan OpenCode:
 
@@ -144,52 +60,229 @@ set +a
 opencode
 ```
 
-## Portability dan Path Policy
+## Architecture overview
 
-Preset ini tidak boleh bergantung pada path device-specific seperti `/home/<user>` atau `/Users/<user>` di active agent/config/script. Gunakan:
+Project ini memakai pendekatan **standalone-first**:
 
-- path relatif project/workspace untuk rencana dan dokumentasi,
-- `{env:HOME}` untuk config-level path di `opencode.json` atau permission rules,
-- absolute path yang diturunkan dari active workspace/project root hanya saat tool memang membutuhkannya.
+1. OpenCode membaca config dan local Markdown agents dari repo ini.
+2. `@orchestrator` menjadi default primary agent dan router/integrator utama.
+3. Specialist subagents menangani discovery, docs, implementation, UI, architecture review, document processing, image assets, consensus, dan quality gate.
+4. Prompt gates menjaga invariants agar config, docs, dan prompt tidak drift.
+5. Quality gate menjadi review final untuk perubahan non-trivial, prompt/config changes, security-sensitive work, atau sebelum commit/PR.
 
-Bedakan dua root berikut:
+Primary/selectable agents:
 
-- **OpenCode config root**: lokasi preset ini, biasanya `$HOME/.config/opencode`.
-- **Target app/project root**: aplikasi yang sedang dikerjakan agent.
+- `orchestrator` — default router/integrator.
+- `artifact-planner` — pembuat artifact plan SDD/TDD; bukan implementer.
 
-Untuk image asset jobs:
+Retired/disabled:
 
-- `project_root` harus menunjuk ke target app/project root, bukan config root OpenCode.
-- `target_path` harus relatif terhadap `project_root`.
-- Jangan hardcode absolute output path di manifest asset.
+- `build` — retired; build retired berarti implementation/testing baru diarahkan ke `@fixer`.
+- `general` — retired/disabled; general retired berarti jangan diaktifkan tanpa use case dan model valid.
+- built-in `plan` dan `explore` — disabled agar workflow tetap lewat local agents.
 
-Regression check akan fail jika active prompt/config/script mengandung concrete `/home/ujang`, `/Users/ujang`, atau MCP image lama `./bin/image-asset-mcp.mjs`.
+## Agent matrix
 
-Untuk membuat env otomatis tersedia di shell baru, tambahkan ke `~/.zshrc`:
+| Agent | Mode | Fungsi | Skill utama |
+|---|---:|---|---|
+| `@orchestrator` | primary | Router/integrator, delegation, validation, final summary | `opencode-orchestrator` |
+| `@artifact-planner` | primary | Menulis plan/draft/evidence di `.opencode/` saja | `opencode-artifact-planner` |
+| `@explorer` | subagent | Local codebase discovery, search, symbol map, reuse candidates | `opencode-explorer` |
+| `@librarian` | subagent | Official docs/library/API research | `opencode-librarian` |
+| `@oracle` | subagent | Architecture review, simplification, maintainability/risk review | `opencode-oracle` |
+| `@fixer` | subagent | Bounded implementation, tests, fixtures, Red/Green/Refactor | `opencode-fixer` |
+| `@designer` | subagent | UI/UX implementation/review, visual polish, Stitch-aware design gate | `opencode-designer` |
+| `@visual-parity-auditor` | subagent | Read-only screenshot/section parity review | `opencode-visual-parity-auditor` |
+| `@motion-specialist` | subagent | Read-only animation/motion/reduced-motion review | `opencode-motion-specialist` |
+| `@accessibility-reviewer` | subagent | Read-only a11y review: keyboard, focus, labels, contrast, motion | `opencode-accessibility-reviewer` |
+| `@ui-system-architect` | subagent | Read-only tokens/component anatomy/design-system review | `opencode-ui-system-architect` |
+| `@visual-asset-generator` | subagent | Image-heavy asset manifest/generation jobs | `opencode-visual-asset-generator` |
+| `@document-specialist` | subagent | PDF/spreadsheet/Office/document processing | `opencode-document-specialist` |
+| `@council` | subagent | High-confidence consensus/advisory | `opencode-council` |
+| `@quality-gate` | subagent | Final read-only conformance/risk gate | `opencode-quality-gate` |
+| `@skill-improver` | subagent | Bounded post-task prompt/agent/skill refinement | `opencode-skill-improver` |
+
+## Skill improvement dan quality status
+
+`@skill-improver` dipakai untuk checkpoint kecil setelah pekerjaan non-trivial, repeated failures, policy gaps, atau explicit request. Ia tidak wajib untuk tugas trivial, tidak boleh membaca secret, tidak boleh melakukan no blind external updates, dan harus menghindari prompt bloat.
+
+`@quality-gate` mengeluarkan status final deterministik:
+
+- `PASS`
+- `PASS_WITH_RISKS`
+- `NEEDS_FIX`
+- `BLOCKED`
+
+Status `NEEDS_FIX` atau `BLOCKED` berarti commit/final claim harus ditahan sampai blocker selesai.
+
+## Workflow gates
+
+| Work type | Default route | Required validation |
+|---|---|---|
+| Unknown codebase discovery | `@explorer` | summarized file/symbol map |
+| Library/API behavior | `@librarian` | official/current docs where possible |
+| Implementation/tests | `@fixer` | Red → Green → Refactor evidence |
+| Architecture/risk review | `@oracle` | trade-off/risk summary |
+| UI/reference work | `@designer` + UI specialists | screenshots/evidence when runnable |
+| Image-heavy UI assets | `@designer` manifest → `@visual-asset-generator` | asset metadata + integration notes |
+| Prompt/config/security-sensitive changes | orchestrator + `@quality-gate` | prompt gates + final quality status |
+| Final non-trivial task signoff | `@quality-gate` | `PASS` or `PASS_WITH_RISKS` without blocker |
+
+## Validation
+
+Run prompt gates after changing `AGENTS.md`, `agents/`, `skills/`, `commands/`, `opencode.json`, README invariants, or gate scripts:
 
 ```bash
-cat >> ~/.zshrc <<'EOF'
-
-# OpenCode preset env
-if [ -f "$HOME/.config/opencode/.env" ]; then
-  set -a
-  source "$HOME/.config/opencode/.env"
-  set +a
-fi
-EOF
+npm run test:prompt-gates
 ```
 
-Lalu reload:
+Expected:
+
+```text
+Prompt gate regression passed.
+```
+
+Prompt gates currently check, among other things:
+
+- standalone project identity,
+- local agent availability and boundaries,
+- retired/disabled built-ins,
+- quality-gate routing,
+- auto-commit safety,
+- anti-AI-slop UI policies,
+- visual asset generation gates,
+- portability/path rules,
+- commit-message format.
+
+## Auto-commit policy
+
+Auto-commit default ON untuk local commits only; never push automatically.
+
+- Hanya setelah task plan-bound non-trivial selesai, validation lulus, dan `@quality-gate` memberi `PASS` atau `PASS_WITH_RISKS` tanpa blocker.
+- Review `git status`/`git diff`, lalu stage hanya file relevan.
+- Commit message otomatis memakai subject singkat plus body bullet-point.
+- Jangan stage `.env`, secrets, tokens, credentials, unrelated untracked files, atau generated/vendor files kecuali plan/user menyetujui.
+- Jangan gunakan `--no-verify`, `--no-gpg-sign`, `amend`, force push, atau destructive git commands.
+- Kalau scope atau staging meragukan, berhenti dan tanya.
+
+## Environment variables
+
+Isi `.env` dari `.env.example`:
 
 ```bash
-source ~/.zshrc
+CLIPROXYAPI_BASE_URL="https://your-openai-compatible-endpoint/v1"
+CLIPROXYAPI_API_KEY="your_cliproxyapi_api_key"
+BRAVE_API_KEY="your_brave_search_api_key"
+CONTEXT7_API_KEY="your_context7_api_key"
+GITHUB_PERSONAL_ACCESS_TOKEN="your_github_pat"
+GITHUB_TOOLSETS="context,repos,issues,pull_requests,actions,code_security"
+STITCH_API_KEY="your_stitch_api_key"
+IMAGE_ASSET_MODEL="gpt-image-2"
 ```
 
-## Setup OpenChamber
+Token guidance:
 
-Jika OpenCode dibuka lewat OpenChamber, `.env` OpenCode tidak otomatis terbaca saat OpenChamber dijalankan dari Dock/app launcher. Gunakan wrapper agar OpenChamber selalu menjalankan OpenCode dengan env yang benar.
+- Gunakan fine-grained GitHub token jika memungkinkan.
+- Beri GitHub write permission hanya jika agent memang perlu membuat/mengubah issue/PR.
+- Rotasi token secara berkala.
+- Jangan paste token ke chat atau commit ke repo.
 
-Buat wrapper:
+## MCP configuration
+
+MCP global di `opencode.json`:
+
+| MCP | Fungsi | Env penting |
+|---|---|---|
+| `time` | waktu/timezone utility | - |
+| `brave-search` | web search | `BRAVE_API_KEY` |
+| `context7` | docs/library context | `CONTEXT7_API_KEY` |
+| `grep_app` | code search examples | - |
+| `playwright` | browser automation/validation | - |
+| `shadcn` | shadcn/ui registry context | - |
+| `stitch` | Google Stitch design-system/screen workflows | `STITCH_API_KEY` |
+| `semgrep` | static/security analysis | - |
+| `github` | repo/issues/PR/actions/security context | `GITHUB_PERSONAL_ACCESS_TOKEN`, `GITHUB_TOOLSETS` |
+| `image-asset-generator` | local image asset generation wrapper | `CLIPROXYAPI_BASE_URL`, `CLIPROXYAPI_API_KEY`, `IMAGE_ASSET_MODEL` |
+
+Cek status MCP:
+
+```bash
+set -a
+source ~/.config/opencode/.env
+set +a
+opencode mcp list
+```
+
+Expected setelah token valid:
+
+```text
+✓ time
+✓ brave-search
+✓ context7
+✓ grep_app
+✓ playwright
+✓ shadcn
+✓ stitch
+✓ semgrep
+✓ github
+```
+
+## TDD workflow
+
+Untuk coding task yang mengubah behavior production code, gunakan Red → Green → Refactor.
+
+- **Red**: tulis failing test/regression evidence dulu.
+- **Green**: implementasi perubahan terkecil agar test pass.
+- **Refactor**: bersihkan struktur/readability setelah green.
+- **Verification**: jalankan test/check relevan dan laporkan hasilnya.
+
+TDD mandatory untuk production logic, bug fix, API behavior, service/use-case behavior, UI interaction behavior, validation logic, dan security-sensitive logic.
+
+TDD tidak wajib untuk docs-only, prompt-only, config-only, `.gitignore`, command documentation, atau pure formatting; namun validation/prompt gate tetap wajib jika relevan.
+
+Gunakan command:
+
+```text
+/tdd <task description>
+```
+
+## UI, reference, dan visual asset pipeline
+
+Untuk website/frontend/mobile/dashboard/form/reference work:
+
+1. Route ke `@designer` kecuali change tiny dan non-visual.
+2. Hindari generic UI: no bland centered cards, random emoji icons, blank image frames, numeric-only service icons, atau placeholder final.
+3. Untuk reference/replication, capture reference/current/final evidence dengan wait → stabilize → scroll → settle → screenshot.
+4. Untuk substantial UI/reference work, butuh motion storyboard, icon strategy, asset manifest, image generation decision, dan final designer pass/fail review.
+5. Untuk image-heavy UI, generate legal style-equivalent assets jika original/provided/licensed asset tidak tersedia.
+
+### Image asset generation
+
+Subagent image didefinisikan di:
+
+```text
+agents/visual-asset-generator.md
+```
+
+MCP lokal terdaftar sebagai:
+
+```json
+"image-asset-generator": {
+  "type": "local",
+  "command": ["node", "{env:HOME}/.config/opencode/bin/image-asset-mcp.mjs"],
+  "environment": {
+    "IMAGE_ASSET_BASE_URL": "{env:CLIPROXYAPI_BASE_URL}",
+    "IMAGE_ASSET_API_KEY": "{env:CLIPROXYAPI_API_KEY}",
+    "IMAGE_ASSET_MODEL": "{env:IMAGE_ASSET_MODEL}"
+  }
+}
+```
+
+Gunakan `{env:HOME}` untuk config-level MCP path. Untuk asset jobs, `project_root` harus menunjuk target app/project root dan `target_path` harus relatif terhadap root tersebut.
+
+## OpenChamber setup
+
+Jika OpenCode dibuka lewat OpenChamber dari Dock/app launcher, environment shell bisa tidak otomatis terbaca. Gunakan wrapper:
 
 ```bash
 mkdir -p ~/.config/opencode/bin
@@ -210,439 +303,35 @@ EOF
 chmod +x ~/.config/opencode/bin/opencode-with-env
 ```
 
-Set OpenChamber agar memakai wrapper ini sebagai binary OpenCode:
+Set OpenChamber agar memakai wrapper:
 
 ```bash
 launchctl setenv OPENCHAMBER_OPENCODE_PATH "$HOME/.config/opencode/bin/opencode-with-env"
 ```
 
-Cek:
-
-```bash
-launchctl getenv OPENCHAMBER_OPENCODE_PATH
-```
-
-Expected:
-
-```text
-/Users/<username>/.config/opencode/bin/opencode-with-env
-```
-
-Setelah itu quit OpenChamber sepenuhnya lalu buka lagi.
-
-Jika menjalankan OpenChamber dari terminal, kamu juga bisa pakai:
+Jika menjalankan dari terminal:
 
 ```bash
 export OPENCHAMBER_OPENCODE_PATH="$HOME/.config/opencode/bin/opencode-with-env"
 openchamber
 ```
 
-Untuk membuat env OpenChamber permanen di shell:
+## Portability policy
 
-```bash
-cat >> ~/.zshrc <<'EOF'
+- Jangan hardcode concrete path seperti `/home/<user>` atau `/Users/<user>` di active prompt/config/script.
+- Gunakan `$HOME` atau `{env:HOME}` untuk config-level examples.
+- Bedakan **OpenCode config root** dari **target app/project root**.
+- Untuk generated assets, simpan dengan `target_path` relatif terhadap `project_root`.
 
-# OpenChamber should launch OpenCode through the env wrapper
-export OPENCHAMBER_OPENCODE_PATH="$HOME/.config/opencode/bin/opencode-with-env"
-EOF
-source ~/.zshrc
-```
+## Verifikasi agent
 
-OpenChamber membaca `OPENCHAMBER_OPENCODE_PATH` dari environment prosesnya dan meneruskannya ke wrapper OpenCode. Wrapper ini akan source `~/.config/opencode/.env`, sehingga MCP seperti `brave-search`, `context7`, dan `github` mendapat token yang dibutuhkan.
-
-## Cara Mendapatkan Token
-
-### 1. CliProxyAPI / OpenAI-Compatible Provider
-
-Preset ini memakai provider custom `cliproxyapi` di `opencode.json`:
-
-```json
-"model": "cliproxyapi/gpt-5.5"
-```
-
-Kamu perlu endpoint dan API key OpenAI-compatible:
-
-- `CLIPROXYAPI_BASE_URL` — URL endpoint API, biasanya berakhir dengan `/v1`.
-- `CLIPROXYAPI_API_KEY` — API key provider tersebut.
-
-Masukkan keduanya ke `.env`.
-
-### 2. Brave Search API Key
-
-Dipakai oleh MCP `brave-search` untuk web search.
-
-Langkah:
-
-1. Buka `https://brave.com/search/api/`.
-2. Buat akun / login.
-3. Buat API key untuk Brave Search API.
-4. Isi ke `.env`:
-
-```bash
-BRAVE_API_KEY="your_brave_search_api_key"
-```
-
-### 3. Context7 API Key
-
-Dipakai oleh MCP `context7` untuk dokumentasi library yang up-to-date.
-
-Langkah:
-
-1. Buka `https://context7.com/`.
-2. Login / buat akun.
-3. Ambil API key dari dashboard/account settings.
-4. Isi ke `.env`:
-
-```bash
-CONTEXT7_API_KEY="your_context7_api_key"
-```
-
-### 4. GitHub Personal Access Token
-
-Dipakai oleh GitHub MCP official server untuk repo, issues, pull requests, actions, dan code security context.
-
-Buat token di:
-
-```text
-https://github.com/settings/personal-access-tokens/new
-```
-
-Rekomendasi: gunakan **Fine-grained personal access token**.
-
-Setelan aman:
-
-- Token name: `opencode-mcp`
-- Expiration: 30/60/90 hari
-- Repository access: pilih repository tertentu jika memungkinkan
-
-Permission minimum read-only:
-
-- Contents: `Read-only`
-- Issues: `Read-only`
-- Pull requests: `Read-only`
-- Actions: `Read-only`
-- Metadata: otomatis required
-
-Jika ingin agent bisa membuat/mengubah issue atau PR:
-
-- Issues: `Read and write`
-- Pull requests: `Read and write`
-
-Jika ingin code security context:
-
-- Code scanning alerts: `Read-only`, jika tersedia
-
-Isi ke `.env`:
-
-```bash
-GITHUB_PERSONAL_ACCESS_TOKEN="your_github_personal_access_token"
-```
-
-Jangan paste token ke chat atau commit ke repo.
-
-## Install / Update Skills
-
-Skill utama yang direkomendasikan untuk preset ini:
-
-```bash
-npx -y skills add https://github.com/microsoft/agent-skills --skill frontend-design-review -y
-npx -y skills add https://github.com/vercel-labs/agent-skills --skill vercel-react-best-practices -y
-npx -y skills add https://github.com/vercel-labs/agent-skills --skill web-design-guidelines -y
-npx -y skills add https://github.com/vercel-labs/skills --skill find-skills -y
-npx -y skills add https://github.com/getsentry/skills --skill agents-md -y
-npx -y skills add https://github.com/devinschumacher/skills --skill playwright -y
-```
-
-Catatan: skill `frontend-design` dari ekosistem lama sudah dianggap deprecated untuk desain baru. Gunakan `opencode-designer` sebagai workflow utama; `impeccable` dari `skills.sh` boleh dipakai sebagai referensi/checklist desain opsional jika sengaja dipasang.
-
-Cek skill:
-
-```bash
-npx -y skills list
-```
-
-Update skill yang punya metadata update:
-
-```bash
-npx -y skills update -p -y
-```
-
-Catatan: beberapa skill lokal mungkin tidak punya metadata update yang dikenali CLI. Untuk skill seperti `web-design-guidelines`, reinstall eksplisit dari sumber resmi jika perlu.
-
-## TDD Workflow
-
-Preset ini menerapkan Test-Driven Development untuk coding task yang mengubah behavior production code.
-
-Siklus wajib:
-
-- Red: tulis failing test dulu untuk behavior yang diinginkan.
-- Green: implementasi perubahan terkecil agar test pass.
-- Refactor: bersihkan struktur/readability setelah test green.
-- Ulangi dalam behavior slice kecil, bukan feature drop besar.
-
-TDD mandatory untuk:
-
-- production logic
-- bug fix
-- API behavior
-- service/use-case behavior
-- UI interaction behavior
-- validation logic
-- security-sensitive logic
-
-TDD tidak wajib untuk:
-
-- docs-only changes
-- prompt-only changes
-- config-only changes
-- `.gitignore`
-- command documentation
-- pure formatting
-
-Untuk bug fix, agent harus mulai dari regression test yang gagal dan mereproduksi bug. Jika test tidak bisa ditulis atau dijalankan karena tooling, environment, dependency, atau requirement belum jelas, agent harus berhenti dan menjelaskan blocker sebelum mengubah production logic.
-
-Gunakan command khusus untuk task TDD:
-
-```text
-/tdd <task description>
-```
-
-Contoh:
-
-```text
-/tdd fix validation so empty email is rejected
-```
-
-Ringkasan task coding harus memakai istilah:
-
-- Red: test yang ditambahkan/diubah
-- Green: production code yang diubah
-- Refactor: cleanup yang dilakukan
-- Verification: test/check yang dijalankan
-
-## MCP Yang Digunakan
-
-MCP global di preset:
-
-- `time` — waktu/timezone utility.
-- `brave-search` — web search.
-- `context7` — dokumentasi library/framework terbaru.
-- `grep_app` — search contoh kode nyata dari GitHub via Grep.app.
-- `playwright` — browser automation/validation.
-- `shadcn` — shadcn/ui registry dan component context.
-- `stitch` — Google Stitch remote MCP untuk design-system ideation/generation, screen/project workflows, dan handoff desain UI mobile/web. Konfigurasinya memakai `STITCH_API_KEY` dari environment, bukan secret hardcoded.
-- `semgrep` — static/security analysis.
-- `github` — repository, issues, PR, actions, dan code security context.
-
-Cek status MCP:
-
-```bash
-set -a
-source ~/.config/opencode/.env
-set +a
-opencode mcp list
-```
-
-Expected setelah semua token valid:
-
-```text
-✓ time
-✓ brave-search
-✓ context7
-✓ grep_app
-✓ playwright
-✓ shadcn
-✓ stitch
-✓ semgrep
-✓ github
-```
-
-Jika `stitch` gagal, biasanya `STITCH_API_KEY` belum diisi, API key sudah dicabut/expired, atau akun belum punya akses Stitch. Jika `github` gagal, biasanya `GITHUB_PERSONAL_ACCESS_TOKEN` belum diisi atau Docker belum berjalan.
-
-## Agent Mapping dan Boundary
-
-Menurut dokumentasi OpenCode:
-
-- `mode: primary` membuat agent bisa dipilih langsung dengan Tab/switch-agent.
-- `mode: subagent` membuat agent hanya dipakai sebagai child/specialist agent.
-- `disable: true` menonaktifkan agent, termasuk built-in agent.
-- `hidden: true` menyembunyikan subagent dari `@` autocomplete, tetapi agent masih bisa dipanggil programmatically jika permission mengizinkan.
-- `default_agent` harus menunjuk ke primary agent.
-
-Arsitektur preset saat ini:
-
-- Primary/selectable agents hanya `orchestrator` dan `artifact-planner`.
-- `default_agent` adalah `orchestrator`.
-- Built-in `build` dan `plan` dinonaktifkan di `opencode.json`.
-- Built-in `general` dan `explore` juga dinonaktifkan.
-- `build` custom dianggap retired; jangan route implementation baru ke agent ini.
-- `general` dianggap retired/disabled; jangan diaktifkan tanpa mengganti model ke provider valid dan mendefinisikan use case baru.
-- `council` adalah local subagent untuk multi-model consensus, bukan primary agent.
-
-`opencode-capybara` memakai agent/subagent berikut:
-
-| Agent | Fungsi | Skill/MCP Penting |
-|---|---|---|
-| `orchestrator` | Koordinasi, routing, verifikasi | Semua skill, semua MCP kecuali `context7` |
-| `explorer` | Search/read-only codebase exploration | `semgrep`, `grep_app` |
-| `librarian` | Dokumentasi dan library research | `context7`, `grep_app`, `github`, `brave-search`, `find-skills` |
-| `oracle` | Architecture/review/simplification | `simplify`, React best practices, design review, `semgrep`, `playwright` |
-| `designer` | UI/UX implementation/review | `opencode-designer`, Google Stitch MCP design-system gate, `playwright`, `shadcn`; `impeccable` hanya referensi opsional, `frontend-design` deprecated |
-| `artifact-planner` | Artifact-writing SDD/TDD planner | Hanya plan/draft/evidence `.opencode`; tidak boleh spawn subagent atau edit source |
-| `visual-asset-generator` | Image-heavy UI asset generation | Chat-capable model + MCP `image-asset-generator`; no layout implementation |
-| `fixer` | Bounded implementation/testing | `playwright`, `semgrep`, `shadcn`, `github` |
-| `council` | Multi-model consensus | `github`, `grep_app` |
-
-Tujuannya bukan memberi semua tool ke semua agent, tapi memberi tool yang relevan agar output lebih grounded dan tidak AI slop.
-
-### Boundary `artifact-planner`
-
-`artifact-planner` adalah agent untuk membuat artefak rencana, bukan implementasi. Boundary saat ini:
-
-- `task` default deny (`"*": deny`) dengan allowlist subagent informasi/read-only/research/dokumentasi: `explorer`, `librarian`, `oracle`, `council`, `observer`, dan `document-specialist`.
-- Subagent implementasi/source-edit/generation seperti `fixer`, `build`, `designer`, dan `visual-asset-generator` tetap dilarang.
-- `bash: deny` — tidak boleh menjalankan command implementasi.
-- `apply_patch: deny` — tidak boleh patch source/config.
-- `edit` dan `write` hanya scoped ke:
-  - `.opencode/plans/`
-  - `.opencode/draft/`
-  - `.opencode/evidence/`
-
-Jadi planner tetap bisa membuat folder/file plan, draft, dan evidence di `.opencode/`, tetapi tidak bisa mengubah app source, package files, assets, tests, atau memulai implementasi lewat subagent.
-
-## Visual Asset Generation Pipeline
-
-Untuk pekerjaan UI yang image-heavy seperti portfolio, landing page, reference replication, hero portrait, icon badge set, project/product mockup, testimonial avatar, blog/news thumbnail, atau background texture, gunakan pipeline berikut:
-
-1. Untuk portfolio/reference/template work dengan hero art, portrait, project cards, thumbnail, testimonial/avatar cluster, blog cards, icon badges, atau rich background, anggap image-heavy sampai `designer` membuktikan sebaliknya.
-2. `planner`/`designer` harus membuat **Image Generation Decision** per section:
-   - `generate`
-   - `use-provided-assets`
-   - `licensed-existing-assets`
-   - `no-generation-needed`
-3. Jika reference punya imagery bermakna dan tidak ada asset user/licensed, default yang benar adalah **generate legal style-equivalent assets**, bukan CSS-only placeholder, generic gradient, blank frame, atau omit imagery.
-4. Jika image `required`, `designer` harus membuat **asset manifest** terlebih dulu, bukan langsung final dengan placeholder CSS/SVG. Manifest minimal berisi:
-   - `id`
-   - `type`
-   - `priority` (`required`/`optional`)
-   - `target_path`
-   - `dimensions` atau `aspect_ratio`
-   - `prompt`
-   - `negative_prompt` jika perlu
-   - `alt`
-   - image generation decision
-   - placement notes
-   - legal notes
-5. `orchestrator` melakukan capability gate:
-   - preset ini menyediakan custom subagent `visual-asset-generator` sebagai titik konfigurasi image generation,
-   - jika runtime/tool aktif mengekspos image generation, orchestrator menjalankan generation melalui `visual-asset-generator` atau workflow/tool image yang tersedia,
-   - jika `visual-asset-generator` belum muncul di active subagent/tool list setelah restart OpenCode, anggap unavailable meskipun sudah ada di config,
-   - jika runtime tidak mengekspos image generation, jangan panggil subagent image dan jangan klaim visual parity; tanyakan apakah user mau menyediakan asset, berhenti di manifest, atau lanjut dengan placeholder sementara.
-6. Setelah asset generated/provided tersedia, integrasi dilakukan oleh `designer` atau `fixer`:
-   - simpan di asset directory project,
-   - gunakan `<img>`/framework image component,
-   - set explicit `width`/`height`,
-   - gunakan `alt` bermakna untuk content image dan `alt=""`/`aria-hidden` untuk dekoratif,
-   - hero above-fold memakai loading priority yang sesuai; below-fold memakai lazy loading.
-7. Validasi wajib:
-    - run lint/build/checks,
-    - capture viewport yang sama dengan referensi,
-    - bandingkan image density, crop, colorfulness, shadow, placement, responsive behavior, dan legal limitations.
-
-#### Professional art direction gate
-
-Sebelum membuat asset manifest untuk image-heavy work, `designer` harus menyusun art direction brief atau style board agar hasil generasi tidak terlihat seperti generic AI slop. Brief tersebut harus menetapkan visual thesis, reference traits yang dijaga, composition notes, subject/props/environment, medium/style constraints, palette dan lighting, camera/crop/perspective, texture/material detail, negative style constraints, brand/domain specificity, serta acceptance/rejection criteria.
-
-Gate ini menolak prompt yang terlalu generik seperti "modern tech dashboard", "futuristic", "cyberpunk", atau "abstract UI" tanpa objek, komposisi, dan makna domain yang jelas. Ia juga menolak glossy cyberpunk dashboards, random neon blobs, floating UI cards tanpa domain meaning, cloned reference assets, fake logos/text, uncanny portraits/hands, inconsistent style sets, over-saturated stock-ish art, dan same-looking thumbnails.
-
-Rule penting: CSS/SVG placeholder boleh dipakai sebagai scaffolding sementara, tetapi bukan final untuk image-heavy visual parity kecuali user eksplisit menerima vector-only/placeholder output atau reference memang geometrik/vector. Jika asset generation unavailable dan user tidak menyetujui placeholder, status harus `blocked` atau `draft`.
-
-### Konfigurasi `visual-asset-generator`
-
-Subagent khusus image didefinisikan di:
-
-```text
-agents/visual-asset-generator.md
-```
-
-Model chat subagent dikonfigurasi di agent Markdown, sedangkan model image endpoint dikonfigurasi lewat environment MCP:
-
-```text
-agents/visual-asset-generator.md
-IMAGE_ASSET_MODEL
-```
-
-Contoh environment:
-
-```bash
-IMAGE_ASSET_MODEL="<provider/image-generation-model>"
-```
-
-Jika provider/model image berubah, update environment tersebut. Prompt/rules tidak perlu menyebut nama model spesifik. Setelah mengubah agent config atau environment, restart OpenCode lalu verifikasi agent/subagent tersedia. Jika belum tersedia, gunakan fallback orchestrator image tool atau manifest-only flow.
-
-### MCP `image-asset-generator`
-
-Actual image generation untuk subagent dilakukan lewat MCP lokal:
-
-```text
-bin/image-asset-mcp.mjs
-```
-
-MCP ini terdaftar di `opencode.json` sebagai:
-
-```json
-"image-asset-generator": {
-  "type": "local",
-  "command": ["node", "{env:HOME}/.config/opencode/bin/image-asset-mcp.mjs"],
-  "environment": {
-    "IMAGE_ASSET_BASE_URL": "{env:CLIPROXYAPI_BASE_URL}",
-    "IMAGE_ASSET_API_KEY": "{env:CLIPROXYAPI_API_KEY}",
-    "IMAGE_ASSET_MODEL": "{env:IMAGE_ASSET_MODEL}"
-  }
-}
-```
-
-Gunakan path `{env:HOME}/.config/opencode/bin/image-asset-mcp.mjs`, bukan `./bin/image-asset-mcp.mjs`, agar MCP tetap bisa dibuka saat OpenCode dijalankan dari target project/folder lain.
-
-`visual-asset-generator` tetap memakai chat-capable model untuk planning, tetapi diberi MCP `image-asset-generator` agar bisa memanggil tool:
-
-```text
-generate_image_asset
-generate_image_assets_batch
-```
-
-Set `IMAGE_ASSET_MODEL` ke model image endpoint yang aktif di provider. Jika kosong, wrapper mencoba default `gpt-image-2`. Model image tidak boleh dijadikan model chat subagent; ia hanya dipakai oleh MCP wrapper untuk endpoint image generation.
-
-Untuk asset yang perlu alpha channel seperti portrait cutout, floating icon badge, decorative overlay, atau avatar mark, request:
-
-```json
-{
-  "format": "png",
-  "output_format": "png",
-  "background": "transparent"
-}
-```
-
-`background: "transparent"` hanya valid untuk format yang mendukung alpha seperti PNG/WebP. Jangan gunakan untuk JPEG/JPG.
-
-## Verifikasi Agent
-
-Jalankan OpenCode:
-
-```bash
-set -a
-source ~/.config/opencode/.env
-set +a
-opencode
-```
-
-Di OpenCode, jalankan:
+Setelah restart OpenCode, cek agent utama:
 
 ```text
 ping all agents
 ```
 
-Expected untuk agent utama:
+Expected minimal:
 
 ```text
 @explorer ✓
@@ -652,44 +341,25 @@ Expected untuk agent utama:
 @fixer ✓
 ```
 
-Jika konfigurasi baru belum terbaca, restart OpenCode.
+Jika agent baru belum terbaca, restart OpenCode lagi dan pastikan file `agents/*.md` valid.
 
 ## Troubleshooting
 
-### MCP GitHub gagal connect
+### GitHub MCP gagal connect
 
-Cek token:
+Pastikan token tersedia dan `.env` sudah diload:
 
 ```bash
 test -n "$GITHUB_PERSONAL_ACCESS_TOKEN" && printf present || printf missing
 ```
 
-Default config memakai **Remote GitHub MCP** sehingga tidak perlu Docker:
-
-```json
-"github": {
-  "type": "remote",
-  "url": "https://api.githubcopilot.com/mcp/",
-  "headers": {
-    "Authorization": "Bearer {env:GITHUB_PERSONAL_ACCESS_TOKEN}",
-    "X-MCP-Toolsets": "{env:GITHUB_TOOLSETS}"
-  },
-  "oauth": false
-}
-```
-
-Jika remote MCP tidak bisa dipakai oleh runtime, fallback ke Docker/local server dan cek Docker:
+Jika remote GitHub MCP tidak bisa dipakai oleh runtime, cek fallback local/Docker sesuai kebutuhan:
 
 ```bash
 docker --version
-docker run --rm ghcr.io/github/github-mcp-server --help
 ```
 
-Pastikan `.env` sudah diload sebelum `opencode mcp list` atau `opencode`.
-
 ### Context7 / Brave gagal
-
-Pastikan API key valid dan `.env` sudah diload:
 
 ```bash
 test -n "$CONTEXT7_API_KEY" && printf context7-present || printf context7-missing
@@ -702,22 +372,30 @@ test -n "$BRAVE_API_KEY" && printf brave-present || printf brave-missing
 
 ### OpenCode tidak otomatis membaca `.env`
 
-Gunakan wrapper manual:
+Gunakan wrapper OpenChamber di atas, atau load manual sebelum menjalankan `opencode`.
 
-```bash
-set -a
-source ~/.config/opencode/.env
-set +a
-opencode
-```
-
-Atau simpan auto-load di `~/.zshrc` seperti bagian setup environment.
-
-## Security Notes
+## Security notes
 
 - Jangan commit `.env`.
-- Rotasi token secara berkala.
-- Pakai fine-grained GitHub token dan batasi repository access.
-- Jangan memberi write permission GitHub jika hanya butuh read-only context.
-- Jika secret pernah ter-commit, anggap bocor dan revoke/regenerate token.
-- Ringkasan keputusan: build retired dan general retired; implementation/testing diarahkan ke `@fixer`, sementara `@orchestrator` menjadi router/integrator.
+- Jangan paste token ke chat.
+- Batasi GitHub token ke repository/permission yang dibutuhkan.
+- Revoke/regenerate token jika secret pernah ter-commit.
+- Jangan memberi write permission bila hanya butuh read-only context.
+
+## Maintenance checklist
+
+Sebelum menganggap perubahan non-trivial selesai:
+
+```bash
+git status --short
+npm run test:prompt-gates
+```
+
+Lalu pastikan:
+
+- plan/evidence ada untuk task non-trivial,
+- validation sudah dijalankan,
+- `@quality-gate` memberi `PASS` atau `PASS_WITH_RISKS` tanpa blocker,
+- commit lokal hanya men-stage file relevan,
+- tidak ada `.env`, secrets, `node_modules`, atau generated/vendor unrelated files yang ikut staged,
+- tidak push otomatis.

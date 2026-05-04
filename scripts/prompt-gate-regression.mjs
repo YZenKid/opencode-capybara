@@ -536,6 +536,10 @@ const checks = [
     mustInclude: [
       "# opencode-capybara",
       "Standalone OpenCode multi-agent configuration",
+      "assets/opencode-capybara-icon.png",
+      "## Kenapa capybara?",
+      "Calm orchestration",
+      "Capybara bukan simbol",
     ],
   },
   {
