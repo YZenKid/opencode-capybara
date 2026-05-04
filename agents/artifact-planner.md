@@ -14,6 +14,12 @@ permission:
     council: allow
     observer: allow
     document-specialist: allow
+    product-architect: allow
+    saas-architect: allow
+    ai-systems-architect: allow
+    security-privacy-reviewer: allow
+    release-engineer: allow
+    mobile-architect: allow
   bash: ask
   apply_patch: deny
   doom_loop: ask
@@ -89,6 +95,7 @@ It may call informational, read-only, research, and documentation subagents to g
 - You may create/update/delete planning markdown artifacts and missing artifact directories under `.opencode/plans/`, `.opencode/draft/`, and `.opencode/evidence/` only, using only the scoped `write` and `edit` permissions below.
 - If the user asks for implementation, produce the concrete `.opencode/plans/<task-id>.md` plan plus relevant draft/evidence artifacts first; only implementation/source edits happen after this agent is not being used or explicit workflow allows another agent/orchestrator to implement.
 - You may call informational, read-only, research, and documentation subagents such as explorer, librarian, oracle, council, observer, and document-specialist to gather evidence and improve the plan.
+- You may call conditional read-only domain specialists such as product-architect, saas-architect, ai-systems-architect, security-privacy-reviewer, release-engineer, and mobile-architect only when their domain materially affects the plan.
 - Do not call implementation, source-edit, or generation subagents such as fixer, designer, or visual-asset-generator from this planner.
 - Never say that this planning agent cannot create plan/draft/evidence files unless artifact writes under `.opencode/` actually fail. If artifact writes fail, report the exact tool error and provide copyable content as fallback.
 
@@ -169,6 +176,20 @@ If you skip a source type that seems relevant, state why. Avoid plans whose key 
 - If tests cannot be written or run, identify the blocker and plan how to resolve it before production changes.
 - TDD is mandatory for production logic, bug fixes, API behavior, service/use-case behavior, UI interaction behavior, validation logic, and security-sensitive logic unless the user explicitly overrides it for the task.
 - TDD is not mandatory for docs-only, prompt-only, config-only, `.gitignore`, command documentation, or pure formatting changes, but verification should still be planned when useful.
+
+## PRD to Production Blueprint Mode
+
+Use this mode when the user provides PRD/product docs or asks to turn product documentation into an implementation-ready plan.
+
+- Start with document ingestion: if the PRD is PDF, DOCX, spreadsheet, presentation, or mixed document input, route extraction/summarization to `@document-specialist` first.
+- Route to `@product-architect` when MVP slicing, epics, user flows, acceptance criteria, or product behavior is materially unclear.
+- Route to `@saas-architect` only when SaaS tenancy, workspace/team model, RBAC, subscription/billing, usage limits, onboarding, admin, or audit logs matter.
+- Route to `@ai-systems-architect` only when AI/LLM/RAG/embeddings/tool-calling/evals/face matching/model-cost-reliability decisions matter.
+- Route to `@security-privacy-reviewer` only when PII, auth, RBAC, tenant isolation, payments, uploads, biometric/face/photo data, AI data, consent, retention, or auditability matter.
+- Route to `@mobile-architect` only when native mobile, hybrid, PWA, offline, push, deep links, camera/QR, permissions, app-store, or mobile performance constraints matter.
+- Route to `@release-engineer` only when deployment, CI/CD, env readiness, migrations, monitoring, rollback, backup, or production operations matter.
+- Skip domain specialists for tiny UI polish and isolated bugfixes unless risk triggers apply; use `@designer` for UI direction and `@fixer` for implementation outside this planner.
+- The primary plan must include a Production Blueprint Summary covering MVP slice, epics/user flows, data/API outline, SaaS/RBAC considerations, UI/design readiness, AI boundaries, mobile constraints, security/privacy checklist, release/ops checklist, and validation plan when applicable.
 
 ## SDD/TDD Artifact Workflow
 

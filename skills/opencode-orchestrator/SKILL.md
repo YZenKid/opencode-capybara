@@ -24,6 +24,13 @@ Use this as the orchestrator’s single operating manual.
 - High-stakes ambiguous decisions → `@council` only when consensus is worth cost/time; keep this as the local council subagent, while plugin-generated council duplicates are disabled separately.
 - Artifact-writing plans → `@artifact-planner`; never use built-in read-only Plan Mode for artifact writing.
 - PDF, spreadsheet, Office, presentation, text-document extraction/transformation/validation → `@document-specialist`.
+- PRD/product docs needing MVP, epics, flows, acceptance criteria, or production blueprint inputs → `@product-architect` only when product ambiguity is material.
+- SaaS/multi-tenant/workspace/RBAC/billing/usage-limit architecture → `@saas-architect` only when those boundaries affect the work.
+- AI/LLM/RAG/embedding/tool-calling/evals/face-matching production behavior → `@ai-systems-architect`; use `@librarian` for version-sensitive SDK docs.
+- PII/auth/session/payments/webhooks/uploads/tenant isolation/biometric/privacy/AI data risk → `@security-privacy-reviewer`.
+- Deployment/CI/CD/env/migration/monitoring/rollback/production readiness → `@release-engineer`.
+- Native mobile/hybrid/PWA/offline/push/deep-link/camera/QR/app-store constraints → `@mobile-architect`.
+- Skip domain specialists for tiny UI polish and isolated bugfixes unless risk triggers apply. Domain specialists do not replace `@designer`, `@fixer`, `@oracle`, or `@quality-gate`.
 
 ## Portability rules
 

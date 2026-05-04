@@ -21,6 +21,13 @@ Each OpenCode agent should rely on its single standalone `opencode-*` skill inst
 - Visual asset generation → `@visual-asset-generator` using `opencode-visual-asset-generator`.
 - Document/PDF/spreadsheet/Office processing → `@document-specialist` using `opencode-document-specialist`.
 - final conformance/risk gate → `@quality-gate` using `opencode-quality-gate`; use after non-trivial/risky implementation, prompt/config changes, security-sensitive changes, or before final summary/commit/PR. Do not use for task trivial.
+- PRD/product blueprint work → conditionally use `@product-architect` using `opencode-product-architect` for MVP slicing, epics, user flows, acceptance criteria, and product risks.
+- SaaS architecture → conditionally use `@saas-architect` using `opencode-saas-architect` for tenancy, workspaces, RBAC, billing, usage limits, audit, and onboarding.
+- AI system design → conditionally use `@ai-systems-architect` using `opencode-ai-systems-architect` for LLM/RAG/evals/model-cost-safety boundaries.
+- Security/privacy review → conditionally use `@security-privacy-reviewer` using `opencode-security-privacy-reviewer` for PII, auth, tenant isolation, payments, uploads, biometric/photo/AI data, consent, and retention.
+- Release/ops readiness → conditionally use `@release-engineer` using `opencode-release-engineer` for CI/CD, env, deployment, migrations, monitoring, rollback, and production operations.
+- Mobile/hybrid architecture → conditionally use `@mobile-architect` using `opencode-mobile-architect` for native/hybrid/PWA, offline, push, deep links, camera/QR, permissions, and app-store constraints.
+- Skip domain specialists for tiny UI polish and isolated bugfixes unless risk triggers apply; keep UI with `@designer`, implementation with `@fixer`, deep tradeoffs with `@oracle`, and final review with `@quality-gate`.
 
 ## Auto-commit policy
 

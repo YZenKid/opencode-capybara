@@ -77,11 +77,19 @@ Jangan commit `.env`.
 | `@ui-system-architect` | subagent | Read-only tokens/component anatomy review |
 | `@visual-asset-generator` | subagent | Image-heavy asset manifest/generation jobs |
 | `@document-specialist` | subagent | PDF/spreadsheet/Office/document processing |
+| `@product-architect` | subagent | PRD → MVP, epics, user flows, acceptance criteria |
+| `@saas-architect` | subagent | Tenancy, workspace/RBAC, billing, usage limits, audit |
+| `@ai-systems-architect` | subagent | LLM/RAG/evals, AI safety, cost, reliability boundaries |
+| `@security-privacy-reviewer` | subagent | PII, auth, tenant isolation, uploads, payments, AI/biometric data |
+| `@release-engineer` | subagent | CI/CD, env, deploy, monitoring, rollback, production readiness |
+| `@mobile-architect` | subagent | Native/hybrid/PWA, offline, push, deep links, camera/QR, app-store constraints |
 | `@council` | subagent | High-confidence consensus/advisory |
 | `@quality-gate` | subagent | Final read-only conformance/risk gate |
 | `@skill-improver` | subagent | Bounded prompt/agent/skill refinement |
 
 `@skill-improver` hanya untuk non-trivial follow-up, repeated failures, policy gaps, atau explicit request; no blind external updates. `@quality-gate` status: `PASS`, `PASS_WITH_RISKS`, `NEEDS_FIX`, `BLOCKED`.
+
+Domain specialists bersifat conditional: gunakan untuk PRD/SaaS/AI/security/release/mobile decisions yang material, bukan untuk setiap task. Tiny UI polish tetap ke `@designer` atau direct edit; isolated bugfix tetap ke `@fixer` kecuali ada risk trigger seperti auth, PII, tenant isolation, payment, AI data leakage, atau release risk.
 
 ## Workflow singkat
 
@@ -93,6 +101,11 @@ Jangan commit `.env`.
 | Architecture/risk | `@oracle` | trade-off/risk summary |
 | UI/reference | `@designer` + UI specialists | screenshots/evidence when runnable |
 | Image-heavy assets | `@designer` manifest → `@visual-asset-generator` | asset metadata + legal notes |
+| PRD → production blueprint | `@artifact-planner` + conditional domain specialists | product/SaaS/AI/security/mobile/release readiness |
+| SaaS architecture | `@saas-architect` + `@security-privacy-reviewer` as needed | tenancy/RBAC/billing/audit checklist |
+| AI feature design | `@ai-systems-architect` + `@librarian`/`@security-privacy-reviewer` as needed | evals, safety, cost, fallback plan |
+| Mobile/hybrid architecture | `@mobile-architect` + `@designer`/`@release-engineer` as needed | platform/device validation matrix |
+| Production rollout | `@release-engineer` + `@quality-gate` | CI/CD, env, monitoring, rollback evidence |
 | Prompt/config/security-sensitive | orchestrator + `@quality-gate` | prompt gates + final quality status |
 
 ## Validation dan auto-commit
