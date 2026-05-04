@@ -1,11 +1,11 @@
-# OpenCode + oh-my-opencode-slim Preset
+# opencode-capybara
 
-Preset konfigurasi OpenCode personal dengan plugin `oh-my-opencode-slim`, multi-agent workflow, skill anti-AI-slop, dan MCP untuk grounding lewat dokumentasi, kode nyata, browser validation, UI registry, security scan, serta GitHub context.
+Standalone OpenCode multi-agent configuration with local Markdown agents, skills, prompt gates, and MCP support for documentation, code search, browser validation, UI registry, security scanning, and GitHub context.
 
 ## Isi Preset
 
-- `opencode.json` — konfigurasi provider, model, MCP, plugin, agent bawaan yang dinonaktifkan, dan override eksplisit `council` sebagai subagent.
-- `oh-my-opencode-slim.json` — mapping model, skill, MCP, dan council preset untuk agent `oh-my-opencode-slim`, termasuk `disabled_agents` agar council bawaan plugin tidak digenerasi; council lokal tetap aktif sebagai subagent.
+- `opencode.json` — konfigurasi provider, model, MCP, agent bawaan yang dinonaktifkan, dan override eksplisit `council` sebagai subagent.
+- `agents/*.md` — local Markdown agents untuk primary/subagent routing standalone.
 - `.env.example` — template environment variable tanpa secret.
 - `.gitignore` — melindungi `.env` dan file lokal/generated.
 - `skills/` dan `.agents/skills/` — skill tambahan untuk OpenCode/agent.
@@ -62,7 +62,7 @@ Script ini memvalidasi:
 - agent architecture rules: primary agents via `mode: primary`, subagents via `mode: subagent`, `disable: true`, dan `hidden: true` untuk autocomplete bila didukung,
 - routing checkpoint untuk `@skill-improver` setelah tugas non-trivial / repeated failures / policy gaps / explicit request, tanpa menjadikannya wajib untuk tugas trivial,
 - safety gate `skill-improver`: no `.env`/secret access, no blind external updates, no broad rewrite tanpa approval, no prompt bloat, dan no instruction conflicts,
-- current architecture summary: plugin `oh-my-opencode-slim` hardcodes council menjadi `mode: all` setelah override; fix-nya adalah mematikan council bawaan lewat `disabled_agents` dan memakai `agents/council.md` sebagai subagent lokal sehingga council tidak muncul di primary agent switcher; `build` retired, `general` retired/disabled, dan orchestrator diposisikan sebagai router/integrator,
+- current architecture summary: standalone local Markdown agents dipakai sebagai source of truth; `agents/council.md` adalah subagent lokal sehingga council tidak muncul di primary agent switcher; `build` retired, `general` retired/disabled, dan orchestrator diposisikan sebagai router/integrator,
 - MCP `image-asset-generator` tidak memakai path relatif rapuh,
 - `artifact-planner` dapat memanggil subagent informasi/read-only/research/dokumentasi yang diizinkan: `explorer`, `librarian`, `oracle`, `council`, `observer`, `document-specialist`,
 - `artifact-planner` tidak bisa memanggil subagent implementasi/source-edit/generation seperti `fixer`, `build`, `designer`, atau `visual-asset-generator`,
@@ -108,16 +108,10 @@ git clone <REPO_URL> ~/.config/opencode
 cd ~/.config/opencode
 ```
 
-Install dependency plugin:
+Install dependency lokal untuk prompt gates dan MCP helpers:
 
 ```bash
 npm install
-```
-
-Jika kamu tidak memakai npm install karena `package.json` sengaja tidak di-track, install paket minimal:
-
-```bash
-npm install @opencode-ai/plugin@1.4.10 oh-my-opencode-slim@^1.0.3
 ```
 
 ## Setup Environment Variable
@@ -483,9 +477,9 @@ Arsitektur preset saat ini:
 - Built-in `general` dan `explore` juga dinonaktifkan.
 - `build` custom dianggap retired; jangan route implementation baru ke agent ini.
 - `general` dianggap retired/disabled; jangan diaktifkan tanpa mengganti model ke provider valid dan mendefinisikan use case baru.
-- `council` adalah local subagent untuk multi-model consensus, bukan primary agent; `disabled_agents: ["council"]` hanya mematikan duplicate/plugin-generated council.
+- `council` adalah local subagent untuk multi-model consensus, bukan primary agent.
 
-Preset `oh-my-opencode-slim` memakai agent/subagent berikut:
+`opencode-capybara` memakai agent/subagent berikut:
 
 | Agent | Fungsi | Skill/MCP Penting |
 |---|---|---|
@@ -571,23 +565,20 @@ Subagent khusus image didefinisikan di:
 agents/visual-asset-generator.md
 ```
 
-Model aktualnya dikonfigurasi terpusat di:
+Model chat subagent dikonfigurasi di agent Markdown, sedangkan model image endpoint dikonfigurasi lewat environment MCP:
 
 ```text
-oh-my-opencode-slim.json
+agents/visual-asset-generator.md
+IMAGE_ASSET_MODEL
 ```
 
-Contoh entry:
+Contoh environment:
 
-```json
-"visual-asset-generator": {
-  "model": "<provider/image-generation-model>",
-  "skills": [],
-  "mcps": []
-}
+```bash
+IMAGE_ASSET_MODEL="<provider/image-generation-model>"
 ```
 
-Jika provider/model image berubah, update hanya entry config tersebut. Prompt/rules tidak perlu menyebut nama model spesifik. Setelah mengubah agent config, restart OpenCode lalu verifikasi agent/subagent tersedia. Jika belum tersedia, gunakan fallback orchestrator image tool atau manifest-only flow.
+Jika provider/model image berubah, update environment tersebut. Prompt/rules tidak perlu menyebut nama model spesifik. Setelah mengubah agent config atau environment, restart OpenCode lalu verifikasi agent/subagent tersedia. Jika belum tersedia, gunakan fallback orchestrator image tool atau manifest-only flow.
 
 ### MCP `image-asset-generator`
 

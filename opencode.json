@@ -208,9 +208,6 @@
       "timeout": 30000
     }
   },
-  "plugin": [
-    "oh-my-opencode-slim"
-  ],
   "agent": {
     "council": {
       "mode": "subagent"

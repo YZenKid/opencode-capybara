@@ -7,14 +7,6 @@ const root = resolve(import.meta.dirname, "..");
 
 const checks = [
   {
-    file: "oh-my-opencode-slim.json",
-    name: "council plugin disable gate",
-    mustInclude: [
-      '"disabled_agents": [',
-      '"council"',
-    ],
-  },
-  {
     file: "agents/council.md",
     name: "local council subagent gate",
     mustInclude: [
@@ -464,32 +456,143 @@ const checks = [
     ],
   },
   {
-    file: "oh-my-opencode-slim.json",
-    name: "quality gate preset gate",
+    file: "agents/explorer.md",
+    name: "explorer agent gate",
     mustInclude: [
-      "quality-gate",
-      "opencode-quality-gate",
-      "github",
-      "semgrep",
-      "playwright",
-      "grep_app",
+      "mode: subagent",
+      "description:",
+      "model: cliproxyapi/gpt-5.4-mini",
+      "opencode-explorer",
+      "apply_patch: deny",
+      "task: deny",
+      "*.env",
+      "deny",
     ],
   },
   {
-    file: "oh-my-opencode-slim.json",
-    name: "specialist agent registration gate",
+    file: "agents/librarian.md",
+    name: "librarian agent gate",
     mustInclude: [
-      "visual-parity-auditor",
-      "motion-specialist",
-      "accessibility-reviewer",
-      "ui-system-architect",
-      "opencode-visual-parity-auditor",
-      "opencode-motion-specialist",
-      "opencode-accessibility-reviewer",
-      "opencode-ui-system-architect",
-      "playwright",
-      "stitch",
-      "shadcn",
+      "mode: subagent",
+      "description:",
+      "model: cliproxyapi/gpt-5.4-mini",
+      "opencode-librarian",
+      "apply_patch: deny",
+      "task: deny",
+      "*.env",
+      "deny",
+    ],
+  },
+  {
+    file: "agents/oracle.md",
+    name: "oracle agent gate",
+    mustInclude: [
+      "mode: subagent",
+      "description:",
+      "model: cliproxyapi/gpt-5.5",
+      "opencode-oracle",
+      "apply_patch: deny",
+      "task: deny",
+      "*.env",
+      "deny",
+    ],
+  },
+  {
+    file: "agents/designer.md",
+    name: "designer agent gate",
+    mustInclude: [
+      "mode: subagent",
+      "description:",
+      "model: cliproxyapi/gpt-5.5",
+      "opencode-designer",
+      "Stitch",
+      "visual parity",
+      "apply_patch: allow",
+      "task: deny",
+      "*.env",
+      "deny",
+    ],
+  },
+  {
+    file: "agents/fixer.md",
+    name: "fixer agent gate",
+    mustInclude: [
+      "mode: subagent",
+      "description:",
+      "model: cliproxyapi/gpt-5.4-mini",
+      "opencode-fixer",
+      "apply_patch: allow",
+      "task: deny",
+      "*.env",
+      "deny",
+    ],
+  },
+  {
+    file: "README.md",
+    name: "standalone identity gate",
+    mustInclude: [
+      "# opencode-capybara",
+      "Standalone OpenCode multi-agent configuration",
+    ],
+  },
+  {
+    file: "package.json",
+    name: "package identity gate",
+    mustInclude: [
+      '"name": "opencode-capybara"',
+      '"private": true',
+    ],
+  },
+  {
+    file: "opencode.json",
+    name: "runtime plugin removal gate",
+    mustInclude: [],
+    mustNotInclude: [
+      "oh-my-opencode-slim",
+      "@opencode-ai/plugin",
+    ],
+  },
+  {
+    file: "tui.json",
+    name: "tui plugin removal gate",
+    mustInclude: [],
+    mustNotInclude: [
+      "oh-my-opencode-slim",
+    ],
+  },
+  {
+    file: "README.md",
+    name: "runtime plugin wording gate",
+    mustInclude: [],
+    mustNotInclude: [
+      "oh-my-opencode-slim",
+      "@opencode-ai/plugin",
+      "disabled_agents",
+      "Install dependency plugin",
+      "plugin-generated",
+      "plugin dependency",
+      "npm install @opencode-ai/plugin",
+      "oh-my-opencode-slim is required",
+      "required for core routing",
+      "oh-my-opencode-slim.json",
+    ],
+  },
+  {
+    file: "package.json",
+    name: "runtime dependency removal gate",
+    mustInclude: [],
+    mustNotInclude: [
+      "oh-my-opencode-slim",
+      "@opencode-ai/plugin",
+    ],
+  },
+  {
+    file: "package-lock.json",
+    name: "lockfile dependency removal gate",
+    mustInclude: [],
+    mustNotInclude: [
+      "oh-my-opencode-slim",
+      "@opencode-ai/plugin",
     ],
   },
   {
@@ -689,12 +792,17 @@ function checkRootFilesForPortability() {
 for (const check of checks) {
   const content = read(check.file);
   if (content === null) continue;
+  const mustInclude = check.mustInclude ?? [];
+  const mustNotInclude = check.mustNotInclude ?? [];
 
-  const missing = check.mustInclude.filter((needle) => !content.includes(needle));
-  if (missing.length > 0) {
+  const missing = mustInclude.filter((needle) => !content.includes(needle));
+  const forbiddenHits = mustNotInclude.filter((needle) => content.includes(needle));
+
+  if (missing.length > 0 || forbiddenHits.length > 0) {
     failures += 1;
-    console.error(`✗ ${check.file} (${check.name}) missing:`);
-    for (const item of missing) console.error(`  - ${item}`);
+    console.error(`✗ ${check.file} (${check.name}) ${missing.length > 0 ? "missing" : "forbidden"}:`);
+    for (const item of missing) console.error(`  - missing: ${item}`);
+    for (const item of forbiddenHits) console.error(`  - forbidden: ${item}`);
   } else {
     console.log(`✓ ${check.file} (${check.name})`);
   }

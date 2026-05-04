@@ -1,0 +1,24 @@
+{
+  "name": "opencode-capybara",
+  "private": true,
+  "scripts": {
+    "test:prompt-gates": "node scripts/prompt-gate-regression.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "openai": "^6.35.0",
+    "sharp": "^0.34.5",
+    "zod": "^4.4.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.4",
+    "@types/node": "^25.6.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.4",
+    "postcss": "^8.5.13",
+    "tailwindcss": "^4.2.4",
+    "typescript": "^6.0.3"
+  }
+}
