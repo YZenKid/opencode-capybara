@@ -17,6 +17,7 @@ Use this as the orchestrator’s single operating manual.
 - Bounded implementation, tests, fixtures, mocks, small refactors → `@fixer`.
 - Post-task prompt/agent/skill improvement after non-trivial work, repeated failures, recurring patterns, policy gaps, or explicit user request → `@skill-improver`; skip trivial tasks and keep the checkpoint bounded.
 - Architecture, senior review, simplification, security/scalability/data tradeoffs → `@oracle`.
+- Final conformance/risk review after non-trivial implementation, prompt/config changes, security-sensitive changes, or before commit/PR → `@quality-gate`.
 - Image-heavy legal replacements → designer asset manifest and image generation decision, then `@visual-asset-generator` or available image tool.
 - High-stakes ambiguous decisions → `@council` only when consensus is worth cost/time; keep this as the local council subagent, while plugin-generated council duplicates are disabled separately.
 - Artifact-writing plans → `@artifact-planner`; never use built-in read-only Plan Mode for artifact writing.
@@ -36,7 +37,8 @@ Use this as the orchestrator’s single operating manual.
 3. Use local discovery before external docs when codebase patterns matter.
 4. Ask targeted questions for material ambiguity.
 5. Execute via the right specialist/tool path.
-   - If the task exposed a reusable prompt gap, recurring failure, or new policy boundary, schedule a bounded `@skill-improver` checkpoint after the main task.
+    - If the task exposed a reusable prompt gap, recurring failure, or new policy boundary, schedule a bounded `@skill-improver` checkpoint after the main task.
+    - After non-trivial or risky work, route the final review pass to `@quality-gate` before claiming completion.
 6. Validate with tests/build/browser/security checks as appropriate.
 7. Summarize concisely in Indonesian.
 

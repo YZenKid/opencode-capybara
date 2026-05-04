@@ -20,6 +20,9 @@ Each OpenCode agent should rely on its single standalone `opencode-*` skill inst
 - Codebase search/map → `@explorer` using `opencode-explorer`.
 - Visual asset generation → `@visual-asset-generator` using `opencode-visual-asset-generator`.
 - Document/PDF/spreadsheet/Office processing → `@document-specialist` using `opencode-document-specialist`.
+- final conformance/risk gate → `@quality-gate` using `opencode-quality-gate`; use after non-trivial/risky implementation, prompt/config changes, security-sensitive changes, or before final summary/commit/PR. Do not use for task trivial.
+
+`@quality-gate` bukan pengganti `@oracle` untuk architecture/deep review, `@designer` untuk visual signoff, atau `@fixer` untuk implementasi/fix.
 
 ## Anti-AI-slop UI policy
 

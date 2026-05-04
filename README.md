@@ -15,12 +15,22 @@ Preset konfigurasi OpenCode personal dengan plugin `oh-my-opencode-slim`, multi-
 
 - `@orchestrator` — router/integrator utama untuk tugas umum, delegasi, dan validasi; bukan penulis serba bisa.
 - `@fixer` — implementasi bounded, test, fixture, dan refactor kecil.
+- `@quality-gate` — final conformance/risk gate untuk review read-only setelah implementasi non-trivial, risky, prompt/config changes, security-sensitive changes, atau sebelum final summary/commit/PR.
 - `build` — retired.
 - `general` — retired/disabled mental model; jangan diaktifkan sebagai model invalid.
 - `@skill-improver` — checkpoint pasca-tugas non-trivial untuk memperbaiki prompt, routing, references, dan eval secara kecil dan evidence-based.
 - `@designer`, `@oracle`, `@explorer`, `@librarian`, `@document-specialist`, `@visual-asset-generator`, `@council` — tetap mengikuti boundary masing-masing.
 - `@skill-improver` tidak wajib dipanggil setelah setiap tugas; gunakan hanya saat ada pola berulang, kegagalan berulang, gap kebijakan, atau permintaan eksplisit.
+- `@quality-gate` bukan agent implementasi; ia menilai plan/evidence/diff dan mengeluarkan status deterministik `PASS`, `PASS_WITH_RISKS`, `NEEDS_FIX`, atau `BLOCKED`.
 - Jangan beri akses `.env` atau secret ke agent/skill ini, dan jangan lakukan update eksternal tanpa approval eksplisit.
+
+## `@quality-gate`
+
+Use `@quality-gate` for final conformance/risk review after non-trivial or risky implementation, prompt/config changes, security-sensitive changes, or before final summary/commit/PR. It is read-only and deterministic.
+
+- Status akhir: `PASS`, `PASS_WITH_RISKS`, `NEEDS_FIX`, `BLOCKED`.
+- Tidak untuk task trivial.
+- Tidak menggantikan `@oracle` untuk architecture/deep review, `@designer` untuk visual signoff, atau `@fixer` untuk implementasi/fix.
 
 ## Verifikasi Konfigurasi
 
