@@ -13,7 +13,7 @@ RTK is configured separately for Claude Code and should not be used by OpenCode/
 Each OpenCode agent should rely on its single standalone `opencode-*` skill instead of loading many domain skills. Use agent routing rather than manually combining overlapping skill instructions.
 
 - UI/design/reference work → `@designer` using `opencode-designer`.
-- Implementation/testing → `@fixer` for bounded implementation, tests, fixtures, and small refactors; `build` is retired.
+- Implementation/testing → `@fixer` for bounded implementation, tests, fixtures, and small refactors.
 - Planning artifacts → `@artifact-planner` using `opencode-artifact-planner`.
 - Architecture/review/simplification → `@oracle` using `opencode-oracle`.
 - Docs/library research → `@librarian` using `opencode-librarian`.

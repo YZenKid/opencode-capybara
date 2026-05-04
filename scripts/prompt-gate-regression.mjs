@@ -162,12 +162,13 @@ const checks = [
   },
   {
     file: "agents/build.md",
-    name: "build subagent retired gate",
-    mustInclude: [
-      "mode: subagent",
-      "hidden: true",
-      "retired",
-    ],
+    name: "redundant build agent removed gate",
+    mustBeMissing: true,
+  },
+  {
+    file: "agents/general.md",
+    name: "redundant general agent removed gate",
+    mustBeMissing: true,
   },
   {
     file: "agents/skill-improver.md",
@@ -306,38 +307,14 @@ const checks = [
     ],
   },
   {
-    file: "agents/build.md",
-    name: "build agent UI pause gates",
-    mustInclude: [
-      "hover-only polish",
-      "production-like screenshots",
-      "section-by-section review",
-      "draft vs reference-ready status",
-      "motion storyboard",
-      "icon strategy",
-      "asset manifest",
-      "image generation decision",
-      "numeric-only icons",
-      "blank frames",
-      "fake controls",
-      "CSS-only placeholders",
-    ],
+    file: "skills/opencode-build/SKILL.md",
+    name: "redundant build skill removed gate",
+    mustBeMissing: true,
   },
   {
-    file: "skills/opencode-build/SKILL.md",
-    name: "build skill UI pause gates",
-    mustInclude: [
-      "production-like screenshots",
-      "visual comparison notes",
-      "draft vs reference-ready status",
-      "motion storyboard",
-      "icon strategy",
-      "asset manifest",
-      "image generation decision",
-      "generic gradients",
-      "blank frames",
-      "generic hover-only effects",
-    ],
+    file: "skills/opencode-general/SKILL.md",
+    name: "redundant general skill removed gate",
+    mustBeMissing: true,
   },
   {
     file: "skills/opencode-fixer/SKILL.md",
@@ -432,8 +409,7 @@ const checks = [
       "policy gaps",
       "explicit request",
       "no blind external updates",
-      "build retired",
-      "general retired",
+      "Redundant `build` and `general` local agents have been removed",
       "@quality-gate",
       "PASS_WITH_RISKS",
       "NEEDS_FIX",
@@ -604,6 +580,11 @@ const checks = [
     ],
   },
   {
+    file: "bun.lock",
+    name: "obsolete bun lockfile removed gate",
+    mustBeMissing: true,
+  },
+  {
     file: "commands/commit-message.md",
     name: "manual commit message format gate",
     mustInclude: [
@@ -721,13 +702,10 @@ const checks = [
 const portabilityChecks = [
   "AGENTS.md",
   "agents/orchestrator.md",
-  "agents/build.md",
   "agents/artifact-planner.md",
-  "agents/general.md",
   "agents/visual-asset-generator.md",
   "skills/opencode-orchestrator/SKILL.md",
   "skills/opencode-visual-asset-generator/SKILL.md",
-  "skills/opencode-build/SKILL.md",
   "skills/opencode-fixer/SKILL.md",
   "skills/opencode-artifact-planner/SKILL.md",
   "opencode.json",
@@ -735,11 +713,6 @@ const portabilityChecks = [
 ];
 
 const duplicates = [
-  {
-    file: "skills/opencode-build/SKILL.md",
-    text: "If the motion storyboard, icon strategy, or asset manifest is missing on a substantial UI task",
-    max: 1,
-  },
   {
     file: "skills/opencode-fixer/SKILL.md",
     text: "For substantial UI/reference/image-heavy work, do not close on screenshots alone",
@@ -799,7 +772,7 @@ function checkPortability() {
 }
 
 function checkRootFilesForPortability() {
-  const rootFiles = ["AGENTS.md", "agents/orchestrator.md", "agents/build.md", "agents/artifact-planner.md", "agents/general.md", "agents/visual-asset-generator.md", "skills/opencode-orchestrator/SKILL.md", "skills/opencode-visual-asset-generator/SKILL.md", "scripts/prompt-gate-regression.mjs", "opencode.json"];
+  const rootFiles = ["AGENTS.md", "agents/orchestrator.md", "agents/artifact-planner.md", "agents/visual-asset-generator.md", "skills/opencode-orchestrator/SKILL.md", "skills/opencode-visual-asset-generator/SKILL.md", "scripts/prompt-gate-regression.mjs", "opencode.json"];
   for (const file of rootFiles) {
     const content = read(file);
     if (content === null) continue;

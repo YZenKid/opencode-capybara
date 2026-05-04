@@ -57,8 +57,7 @@ Jangan commit `.env`.
 - `orchestrator` adalah default primary agent dan router/integrator.
 - `artifact-planner` adalah primary agent khusus plan/draft/evidence; bukan implementer.
 - Specialist subagents menangani discovery, docs, implementation, UI, architecture review, documents, image assets, consensus, dan final quality review.
-- `build` retired; build retired berarti implementation/testing baru diarahkan ke `@fixer`.
-- `general` retired; general retired berarti jangan diaktifkan tanpa use case dan model valid.
+- Redundant `build` and `general` local agents have been removed; implementation/testing routes to `@fixer`, and general routing stays with `@orchestrator`.
 - Built-in `plan` dan `explore` disabled agar workflow tetap lewat local agents.
 
 ## Agent matrix

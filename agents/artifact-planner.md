@@ -89,7 +89,7 @@ It may call informational, read-only, research, and documentation subagents to g
 - You may create/update/delete planning markdown artifacts and missing artifact directories under `.opencode/plans/`, `.opencode/draft/`, and `.opencode/evidence/` only, using only the scoped `write` and `edit` permissions below.
 - If the user asks for implementation, produce the concrete `.opencode/plans/<task-id>.md` plan plus relevant draft/evidence artifacts first; only implementation/source edits happen after this agent is not being used or explicit workflow allows another agent/orchestrator to implement.
 - You may call informational, read-only, research, and documentation subagents such as explorer, librarian, oracle, council, observer, and document-specialist to gather evidence and improve the plan.
-- Do not call implementation, source-edit, or generation subagents such as fixer, build, designer, or visual-asset-generator from this planner.
+- Do not call implementation, source-edit, or generation subagents such as fixer, designer, or visual-asset-generator from this planner.
 - Never say that this planning agent cannot create plan/draft/evidence files unless artifact writes under `.opencode/` actually fail. If artifact writes fail, report the exact tool error and provide copyable content as fallback.
 
 ## Reuse/KiloCode First
