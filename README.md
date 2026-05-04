@@ -16,7 +16,7 @@ Preset konfigurasi OpenCode personal dengan plugin `oh-my-opencode-slim`, multi-
 - `@orchestrator` — router/integrator utama untuk tugas umum, delegasi, dan validasi; bukan penulis serba bisa.
 - `@fixer` — implementasi bounded, test, fixture, dan refactor kecil.
 - `@quality-gate` — final conformance/risk gate untuk review read-only setelah implementasi non-trivial, risky, prompt/config changes, security-sensitive changes, atau sebelum final summary/commit/PR.
-- Auto-commit opt-in bersifat manual dan terpisah dari helper commit-message read-only; default auto-commit tetap OFF.
+- Auto-commit opt-in bersifat manual dan terpisah dari helper commit-message read-only; default auto-commit tetap ON.
 - `build` — retired.
 - `general` — retired/disabled mental model; jangan diaktifkan sebagai model invalid.
 - `@skill-improver` — checkpoint pasca-tugas non-trivial untuk memperbaiki prompt, routing, references, dan eval secara kecil dan evidence-based.
@@ -35,7 +35,7 @@ Use `@quality-gate` for final conformance/risk review after non-trivial or risky
 
 ## Auto-commit Opt-in
 
-Auto-commit di preset ini default-nya OFF.
+Auto-commit di preset ini default-nya ON.
 
 - Hanya aktif jika user eksplisit meng-enable untuk task/session.
 - Hanya jalan setelah task plan-bound non-trivial selesai, validation lulus, dan `@quality-gate` memberi status `PASS` atau `PASS_WITH_RISKS` tanpa blocker.
