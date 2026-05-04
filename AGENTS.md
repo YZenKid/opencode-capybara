@@ -22,6 +22,19 @@ Each OpenCode agent should rely on its single standalone `opencode-*` skill inst
 - Document/PDF/spreadsheet/Office processing → `@document-specialist` using `opencode-document-specialist`.
 - final conformance/risk gate → `@quality-gate` using `opencode-quality-gate`; use after non-trivial/risky implementation, prompt/config changes, security-sensitive changes, or before final summary/commit/PR. Do not use for task trivial.
 
+## Auto-commit policy
+
+Default auto-commit is OFF.
+
+- Auto-commit may run only when the user explicitly enables it for the current task or session.
+- Only use auto-commit after a plan-bound, non-trivial task is complete, validation has passed, and `@quality-gate` returns `PASS` or `PASS_WITH_RISKS` with no blocker.
+- Generate the commit message from the diff and recent repository style, stage only relevant files, then run a local `git commit`.
+- Never push automatically.
+- Never stage `.env`, secrets, tokens, credentials, unrelated untracked files, or generated/vendor files unless the plan or user explicitly approves them.
+- Never use `--no-verify`, `--no-gpg-sign`, `amend`, force push, or destructive git commands.
+- If a pre-commit hook fails, do not amend; fix the issue and create a new commit only after the tree is clean.
+- If you are unsure about scope or staging, stop and ask.
+
 `@quality-gate` bukan pengganti `@oracle` untuk architecture/deep review, `@designer` untuk visual signoff, atau `@fixer` untuk implementasi/fix.
 
 ## Anti-AI-slop UI policy

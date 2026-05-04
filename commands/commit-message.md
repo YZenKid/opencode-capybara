@@ -6,6 +6,8 @@ model: cliproxyapi/gpt-5.5
 
 Generate a commit message for the current repository changes.
 
+This command is read-only and only provides manual commit-message suggestions; it is separate from any auto-commit opt-in flow.
+
 Arguments from user, if any:
 
 ```text

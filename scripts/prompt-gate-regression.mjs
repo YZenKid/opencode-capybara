@@ -66,6 +66,21 @@ const checks = [
     ],
   },
   {
+    file: "AGENTS.md",
+    name: "auto-commit policy gate",
+    mustInclude: [
+      "Default auto-commit is OFF",
+      "explicitly enables it",
+      "plan-bound, non-trivial task",
+      "validation has passed",
+      "PASS_WITH_RISKS",
+      "Never push automatically",
+      "Never stage `.env`, secrets, tokens, credentials",
+      "Never use `--no-verify`, `--no-gpg-sign`, `amend`",
+      "stop and ask",
+    ],
+  },
+  {
     file: "agents/artifact-planner.md",
     name: "artifact planner design readiness gate",
     mustInclude: [
@@ -237,6 +252,20 @@ const checks = [
     ],
   },
   {
+    file: "agents/orchestrator.md",
+    name: "orchestrator auto-commit gate",
+    mustInclude: [
+      "Default auto-commit is OFF",
+      "explicitly enables auto-commit",
+      "plan-bound, non-trivial task",
+      "@quality-gate returns `PASS` or `PASS_WITH_RISKS`",
+      "Never push automatically",
+      "Never stage `.env`, secrets, tokens, credentials",
+      "Never use `--no-verify`, `--no-gpg-sign`, `amend`",
+      "If scope or staging is unclear, stop and ask",
+    ],
+  },
+  {
     file: "skills/opencode-orchestrator/SKILL.md",
     name: "orchestrator standalone parity contract",
     mustInclude: [
@@ -372,6 +401,20 @@ const checks = [
       "Generated icons are only acceptable for decorative badges",
       "proper icon library",
       "designer review before visual parity claims",
+    ],
+  },
+  {
+    file: "skills/opencode-orchestrator/SKILL.md",
+    name: "orchestrator auto-commit skill gate",
+    mustInclude: [
+      "Auto-commit default is OFF",
+      "explicitly enables it for the current task/session",
+      "plan-bound non-trivial task completes",
+      "@quality-gate returns `PASS` or `PASS_WITH_RISKS`",
+      "never push automatically",
+      "Never stage `.env`, secrets, tokens, credentials",
+      "Never use `--no-verify`, `--no-gpg-sign`, `amend`",
+      "stop and ask",
     ],
   },
   {
