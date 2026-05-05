@@ -17,6 +17,9 @@ permission:
   bash: ask
   external_directory:
     "*": allow
+    write: ask
+    update: ask
+    delete: ask
 ---
 
 # Visual Parity Auditor

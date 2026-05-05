@@ -18,6 +18,9 @@ permission:
     "*.env.example": allow
   external_directory:
     "*": allow
+    write: ask
+    update: ask
+    delete: ask
 ---
 
 # Visual Asset Generator

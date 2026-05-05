@@ -10,6 +10,9 @@ permission:
   doom_loop: ask
   external_directory:
     "*": allow
+    write: ask
+    update: ask
+    delete: ask
     "{env:HOME}/.local/share/opencode/tool-output/*": allow
     "{env:HOME}/.config/opencode/skills/opencode-orchestrator/*": allow
   plan_enter: deny

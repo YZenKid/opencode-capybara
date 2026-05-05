@@ -16,6 +16,9 @@ permission:
     "*.env.example": allow
   external_directory:
     "*": allow
+    write: ask
+    update: ask
+    delete: ask
     "{env:HOME}/.local/share/opencode/tool-output/*": allow
     "{env:HOME}/.config/opencode/skills/opencode-skill-improver/*": allow
   bash: ask

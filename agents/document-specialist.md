@@ -10,6 +10,9 @@ permission:
   bash: ask
   external_directory:
     "*": allow
+    write: ask
+    update: ask
+    delete: ask
   read:
     "*.env": ask
     "*.env.*": allow

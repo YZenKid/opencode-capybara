@@ -7,6 +7,9 @@ permission:
   doom_loop: ask
   external_directory:
     "*": allow
+    write: ask
+    update: ask
+    delete: ask
     /home/ujang/.local/share/opencode/tool-output/*: allow
     /home/ujang/.agents/skills/simplify/*: allow
     /home/ujang/.agents/skills/agent-browser/*: allow

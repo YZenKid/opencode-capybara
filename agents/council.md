@@ -16,6 +16,9 @@ permission:
   apply_patch: deny
   external_directory:
     "*": allow
+    write: ask
+    update: ask
+    delete: ask
 ---
 
 # Council Agent
