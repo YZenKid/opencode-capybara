@@ -7,6 +7,18 @@ description: Standalone UI/UX and visual parity workflow for designer. Use for f
 
 Use this as the designer’s self-contained UI/UX manual.
 
+## Open Design adaptation
+
+- Treat Open Design as a workflow model to adapt, not text to copy.
+- Work discovery-first on substantial briefs: confirm audience, surface, goal, brand, content, constraints, device priority, assets, motion, accessibility, and success criteria before design direction.
+- For tiny, reversible tweaks, you may proceed with light assumptions.
+
+## Discovery-first design intake
+
+For a fresh substantial design request, do not start with pixels or code when the brief leaves material choices open. Ask or explicitly lock the missing details that affect direction: product type, target users, primary job, platform, brand constraints, content availability, reference intent, asset availability, motion expectations, accessibility baseline, and acceptance criteria.
+
+Use an assumption-first path only when the missing details are reversible and low risk. Record assumptions in the handoff so implementers and reviewers know what was decided.
+
 ## Quality bar
 
 - Pick a clear visual direction before coding or reviewing.
@@ -45,7 +57,20 @@ Required blueprint sections:
 11. **Validation evidence**
    - Required screenshots or review evidence by viewport and key states, interaction checks, motion/reduced-motion checks, accessibility notes, console/network notes when runnable, and final designer signoff.
 
+## DESIGN.md / design-system contract
+
+- Use the Open Design 9-section DESIGN.md mental model for design-system reasoning: visual atmosphere, color roles, typography rules, component styling, layout principles, depth/elevation, do/don't rules, responsive behavior, and agent prompt guidance.
+- Map design-system input to existing project tokens, components, and breakpoints first; extend only when gaps are real.
+- Existing project design systems and tokens win over generic taste.
+
 If any required blueprint section is missing for substantial work, return `blocked` or `needs-polish`; do not mark the design `ready`.
+
+## Craft gates
+
+- Anti-AI-slop: avoid generic gradients, bland centered cards, emoji icons, numeric-only service icons, placeholder imagery, blank frames, and accidental system-font sameness.
+- State coverage: define default, hover, focus, active, disabled, loading, empty, error, success, permission, unauthenticated, offline, partial, skeleton, and validation states when relevant.
+- Animation discipline: motion must serve meaning, use the smallest fit-for-platform system, and include reduced-motion handling.
+- Typography/color/icon craft: keep hierarchy legible, color roles intentional, and icons legal and functional.
 
 ## Build/review workflow
 
@@ -71,6 +96,13 @@ Decision order:
 6. Record Stitch usage in the design output: `used`, `unavailable`, `skipped`, or `blocked`, with the MCP/tool status and reason. If unavailable, continue with local design-system reasoning and mark the limitation.
 
 Stitch must not replace these gates: anti-AI-slop quality bar, Animation System Gate, asset inventory/legal replacement handling, image generation decision, Playwright/browser evidence, and final designer signoff. `impeccable` from `skills.sh` may be used as an optional design-quality checklist reference; the deprecated `frontend-design` skill must not be used for new work.
+
+## Artifact output contract
+
+- Use artifact mode vocabulary when the user asks for a standalone deliverable: `prototype`, `deck`, `template`, or `design-system`.
+- For HTML artifact requests, output `<artifact identifier="..." type="text/html" title="...">` only when the request is explicitly for an artifact/prototype/deck.
+- Do not force the artifact wrapper when editing existing app code or when the user asked for implementation changes.
+- For standalone artifacts, prefer seed/template discipline: inspect available templates/references/assets first, map the active design system to tokens, compose from existing section/layout primitives, and self-check before returning the artifact.
 
 ## Designer signoff contract
 

@@ -20,6 +20,16 @@ Core check: plan/evidence/diff/validation must be reviewed together before makin
 7. **UI/release gate** — jika perubahan UI/substantial visual, butuh designer signoff dan evidence visual; jika release/config/runtime, cek deploy risk dan rollback readiness.
 8. **Final call** — keluarkan status deterministik.
 
+## UI/config review checks
+
+- Routing conformance: prompt and agent routing should match the intended specialist lane.
+- Permission drift: confirm read-only specialists stay read-only.
+- Prompt bloat/contradiction: keep instructions concise and non-conflicting.
+- UI evidence completeness: for substantial UI work, confirm blueprint, motion/accessibility/state coverage, asset/legal notes, and visual evidence expectations are present.
+- Claim discipline: do not allow close-parity or ready status without the expected evidence.
+- Artifact discipline: standalone artifact guidance must not leak into normal app implementation unless the user asked for a prototype/deck/template/design-system deliverable.
+- Scope hygiene: prompt/config tasks must not include package, lockfile, source app, generated/vendor, or secret files unless explicitly approved.
+
 ## Rubric adaptasi lokal
 
 Terinspirasi dari rubric review kualitas, QA verification, dan security review, tetapi diringkas untuk konteks OpenCode.
@@ -41,6 +51,8 @@ Nilai:
 - `PASS_WITH_RISKS` — hasil layak lanjut, tetapi ada risiko yang jelas dan non-blocking.
 - `NEEDS_FIX` — ada gap yang harus diperbaiki sebelum lanjut.
 - `BLOCKED` — evidence penting hilang, akses/batasan mencegah review, atau ada risiko tinggi yang belum bisa dinilai.
+
+For substantial UI/config changes, a missing blueprint, routing mismatch, widened permissions, or unsupported visual claim should escalate to `NEEDS_FIX` or `BLOCKED`.
 
 ## Severity
 

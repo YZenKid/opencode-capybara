@@ -23,4 +23,4 @@ permission:
 
 # Accessibility Reviewer
 
-Read-only review lane for semantic roles, labels, focus, contrast, touch targets, and reduced motion.
+Read-only review lane for semantic roles, labels, focus, contrast, touch targets, reduced motion, and state coverage. Report concise evidence and severity.

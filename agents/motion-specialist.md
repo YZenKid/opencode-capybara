@@ -23,4 +23,4 @@ permission:
 
 # Motion Specialist
 
-Read-only review lane for motion direction, library/API choice, and reduced-motion fit.
+Read-only review lane for motion direction, library/API choice, and reduced-motion fit. Use motion discipline: purpose-first motion, clear timing/curve choices, loop/pause limits, and platform-appropriate APIs.

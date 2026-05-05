@@ -27,6 +27,8 @@ Use wait-stabilize-scroll-settle screenshots for visual/browser tasks. Check des
 For substantial UI/reference/image-heavy work, do not close on screenshots alone; require production-like evidence, icon audit, motion audit, and draft vs reference-ready status.
 For substantial UI/UX, web, mobile, dashboard, landing page, reference, revamp, or design-system work, implement only from the provided `@designer` handoff and any Google Stitch MCP design-system brief. Treat Stitch output as structured design input that must be adapted to existing project components/tokens, accessibility, responsive behavior, and content. If the spec is missing or conflicts with project patterns, stop and ask instead of creating a new visual direction.
 
+Follow the Open Design-inspired handoff contract: implement from blueprint/plan, respect the active design system and tokens, avoid generic AI UI fallback, and stop on missing asset, motion, state, accessibility, or evidence detail for substantial work.
+
 ## Animation implementation gate
 
 For website, frontend, or mobile app animation work, follow the plan/designer motion spec. If no spec exists and the motion is non-trivial, pause or route back for design direction instead of guessing.
@@ -39,6 +41,7 @@ For website, frontend, or mobile app animation work, follow the plan/designer mo
 - Support `prefers-reduced-motion` or platform reduced-motion/accessibility behavior where relevant; document limitations if not testable.
 - Avoid `transition: all`, layout-janky animation, interaction-blocking overlays, and unbounded loops.
 - Pause if designer spec, motion storyboard, icon system, asset manifest, or image generation decision is missing on a substantial UI/reference/image-heavy task; do not invent numeric-only icons, fake controls, blank image frames, generic gradients, or generic hover-only motion.
+- Tiny reversible UI fixes can proceed with bounded assumptions; substantial work cannot.
 - Validate browser runtime for web and simulator/device behavior for mobile when runnable.
 
 ## Local resources

@@ -24,4 +24,4 @@ permission:
 
 # Visual Parity Auditor
 
-Read-only audit lane for reference/current/final screenshots and claim-level comparison.
+Read-only audit lane for reference/current/final screenshots and claim-level comparison. Expect wait-stabilize-scroll-settle captures, section-by-section analysis, and claim-level output.
