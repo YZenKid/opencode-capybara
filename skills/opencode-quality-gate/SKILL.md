@@ -23,6 +23,7 @@ Core check: plan/evidence/diff/validation must be reviewed together before makin
 ## UI/config review checks
 
 - Routing conformance: prompt and agent routing should match the intended specialist lane.
+- Project design-guide conformance: UI/design prompts should instruct agents to read the target project's `DESIGN.md` first, then `design-system/DESIGN.md` or a documented equivalent, and project-local guidance should outrank generic taste.
 - Permission drift: confirm read-only specialists stay read-only.
 - Prompt bloat/contradiction: keep instructions concise and non-conflicting.
 - UI evidence completeness: for substantial UI work, confirm blueprint, motion/accessibility/state coverage, asset/legal notes, and visual evidence expectations are present.

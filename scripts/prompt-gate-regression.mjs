@@ -10,6 +10,27 @@ const disabledAgentsKey = ["disabled", "agents"].join("_");
 
 const checks = [
   {
+    file: "commands/init-design.md",
+    name: "project design init command gate",
+    mustInclude: [
+      "Arguments from user",
+      "$ARGUMENTS",
+      "DESIGN.md",
+      "design-system/DESIGN.md",
+      "Visual Theme & Atmosphere",
+      "Color Palette & Roles",
+      "Typography Rules",
+      "Component Stylings",
+      "Layout Principles",
+      "Depth & Elevation",
+      "Do's and Don'ts",
+      "Responsive Behavior",
+      "Agent Prompt Guide",
+      "ask before overwriting",
+      "project-local",
+    ],
+  },
+  {
     file: "agents/council.md",
     name: "local council subagent gate",
     mustInclude: [
@@ -34,6 +55,9 @@ const checks = [
     file: "AGENTS.md",
     name: "global anti-slop and parity gates",
     mustInclude: [
+      "First inspect the target project's `DESIGN.md`",
+      "design-system/DESIGN.md",
+      "suggest `/init-design`",
       "numeric-only service icons",
       "blank image frames",
       "visual density",
@@ -53,6 +77,7 @@ const checks = [
     name: "global general design readiness gate",
     mustInclude: [
       "General Design Readiness Gate",
+      "The target project's own `DESIGN.md` is the first design authority",
       "high-level visual direction is not enough",
       "UI/UX Design Blueprint",
       "Experience direction",
@@ -148,6 +173,19 @@ const checks = [
       "visual-comparison.md",
       "assume image-heavy until proven otherwise",
       "no-generation-needed",
+    ],
+  },
+  {
+    file: "agents/designer.md",
+    name: "designer workflow gate",
+    mustInclude: [
+      "Before any UI/design direction",
+      "target project's `DESIGN.md`",
+      "design-system/DESIGN.md",
+      "suggest `/init-design`",
+      "artifact-first UI workflow",
+      "DESIGN.md awareness",
+      "artifact-mode output",
     ],
   },
   {
@@ -252,6 +290,17 @@ const checks = [
   },
   {
     file: "skills/opencode-designer/SKILL.md",
+    name: "designer design-guide contract",
+    mustInclude: [
+      "Inspect the target project's `DESIGN.md`",
+      "project's own `DESIGN.md` is the first design authority",
+      "design-system/DESIGN.md",
+      "/init-design",
+      "project-local design guide",
+    ],
+  },
+  {
+    file: "skills/opencode-designer/SKILL.md",
     name: "designer general design readiness gate",
     mustInclude: [
       "General Design Readiness Gate",
@@ -275,6 +324,9 @@ const checks = [
     file: "agents/orchestrator.md",
     name: "orchestrator UI hard stop",
     mustInclude: [
+      "target project's `DESIGN.md`",
+      "design-system/DESIGN.md",
+      "suggest `/init-design`",
       "reference/current/final evidence",
       "motion storyboard",
       "icon strategy",
@@ -292,6 +344,7 @@ const checks = [
     file: "agents/orchestrator.md",
     name: "orchestrator general design blueprint hard stop",
     mustInclude: [
+      "Project-local design guidance wins over generic taste",
       "high-level visual direction is insufficient",
       "general end-to-end UI/UX Design Blueprint",
       "experience direction",
@@ -325,6 +378,9 @@ const checks = [
     file: "skills/opencode-orchestrator/SKILL.md",
     name: "orchestrator standalone parity contract",
     mustInclude: [
+      "target project's `DESIGN.md`",
+      "design-system/DESIGN.md",
+      "/init-design",
       "motion storyboard",
       "icon strategy",
       "visual density checks",
@@ -345,6 +401,7 @@ const checks = [
     file: "skills/opencode-orchestrator/SKILL.md",
     name: "orchestrator standalone general design blueprint gate",
     mustInclude: [
+      "The target project's own `DESIGN.md` is the first design authority",
       "high-level visual direction is insufficient",
       "general end-to-end UI/UX Design Blueprint",
       "experience direction",
@@ -379,6 +436,7 @@ const checks = [
     mustInclude: [
       "final reviewer read-only",
       "plan/evidence/diff/validation",
+      "Project design-guide conformance",
       "security/secrets/dependency",
       "docs/config drift",
       "UI/release gate",
@@ -402,6 +460,9 @@ const checks = [
     file: "skills/opencode-fixer/SKILL.md",
     name: "fixer skill UI pause gates",
     mustInclude: [
+      "target project's `DESIGN.md`",
+      "design-system/DESIGN.md",
+      "do not silently override it",
       "production-like evidence",
       "icon audit",
       "motion audit",
@@ -415,6 +476,18 @@ const checks = [
       "blank image frames",
       "generic gradients",
       "generic hover-only motion",
+    ],
+  },
+  {
+    file: "skills/opencode-ui-system-architect/SKILL.md",
+    name: "ui system architect skill gate",
+    mustInclude: [
+      "Inspect the target project's `DESIGN.md`",
+      "Project-local design guidance wins over generic taste",
+      "/init-design",
+      "tokens",
+      "component anatomy",
+      "do not edit files",
     ],
   },
   {
@@ -1000,15 +1073,6 @@ const checks = [
     mustInclude: [
       "keyboard access",
       "focus-visible",
-      "do not edit files",
-    ],
-  },
-  {
-    file: "skills/opencode-ui-system-architect/SKILL.md",
-    name: "ui system architect skill gate",
-    mustInclude: [
-      "tokens",
-      "component anatomy",
       "do not edit files",
     ],
   },

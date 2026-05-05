@@ -47,18 +47,21 @@ Default auto-commit is ON for local commits only.
 
 For any user-facing frontend, web app, mobile app, dashboard, landing page, form, navigation, React/Next, Tailwind, shadcn/ui, or reference/Figma-style work:
 
-1. Route planning/review/polish to `@designer` unless the change is tiny and non-visual.
-2. Do not produce generic UI: no default purple gradients, bland centered cards, random emoji icons, numeric-only service icons, raw placeholders, blank image frames, or accidental system-font sameness unless the existing design system requires it.
-3. Pick a clear visual direction, then implement spacing, typography, color, hierarchy, motion, visual density, responsive behavior, and accessibility deliberately.
-4. Prefer existing project components/tokens; create small coherent tokens only when missing.
-5. Validate rendered UI with browser/visual checks when runnable and do not call a UI task done without production-like screenshots.
-6. For image-heavy UI, use the visual asset pipeline below.
-7. For substantial UI/reference/image-heavy work, require designer signoff and section-by-section evidence before finalizing.
-8. Do not hardcode device-specific absolute paths in prompts, configs, or scripts; derive absolute paths from the active workspace/project root or portable env-based roots. When OpenCode config files live in a different root than the target app, keep those roots distinct and pass the target app `project_root` explicitly.
+1. First inspect the target project's `DESIGN.md` at the project root. If that file is missing, check `design-system/DESIGN.md` or another documented project-specific equivalent before using generic taste. For substantial UI work without project design guidance, suggest `/init-design` instead of inventing a new direction.
+2. Route planning/review/polish to `@designer` unless the change is tiny and non-visual.
+3. Do not produce generic UI: no default purple gradients, bland centered cards, random emoji icons, numeric-only service icons, raw placeholders, blank image frames, or accidental system-font sameness unless the existing design system requires it.
+4. Pick a clear visual direction, then implement spacing, typography, color, hierarchy, motion, visual density, responsive behavior, and accessibility deliberately.
+5. Prefer existing project components/tokens; create small coherent tokens only when missing.
+6. Validate rendered UI with browser/visual checks when runnable and do not call a UI task done without production-like screenshots.
+7. For image-heavy UI, use the visual asset pipeline below.
+8. For substantial UI/reference/image-heavy work, require designer signoff and section-by-section evidence before finalizing.
+9. Do not hardcode device-specific absolute paths in prompts, configs, or scripts; derive absolute paths from the active workspace/project root or portable env-based roots. When OpenCode config files live in a different root than the target app, keep those roots distinct and pass the target app `project_root` explicitly.
 
 ## General Design Readiness Gate
 
 For build-from-scratch or substantial UI/UX work, high-level visual direction is not enough. The `@designer` handoff must become a general end-to-end UI/UX Design Blueprint before implementation is called ready. Apply this domain-agnostically to SaaS, dashboards, marketplaces, mobile apps, internal tools, portals, landing pages, and other product surfaces.
+
+The target project's own `DESIGN.md` is the first design authority. Read it before generic preferences, then check `design-system/DESIGN.md` or any documented project-specific equivalent. Project-local design guidance wins over generic taste when there is any conflict.
 
 Implementation is blocked until the plan/spec includes:
 
@@ -75,6 +78,8 @@ Implementation is blocked until the plan/spec includes:
 11. **Validation evidence** — screenshots or review evidence by viewport and key states, interaction checks, motion/reduced-motion checks, accessibility notes, console/network notes when runnable, and final designer signoff.
 
 If any required blueprint section is missing for substantial UI work, final status must be `blocked`, `needs-polish`, or `draft`, not `done`.
+
+When project-specific design guidance is missing on substantial UI work, suggest `/init-design` before inventing a new visual direction.
 
 ## Frontend/mobile animation policy
 

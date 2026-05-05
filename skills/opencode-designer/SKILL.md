@@ -59,8 +59,11 @@ Required blueprint sections:
 
 ## DESIGN.md / design-system contract
 
+- Inspect the target project's `DESIGN.md` at the project root first. If it is absent, look for `design-system/DESIGN.md` or another documented project-specific equivalent before relying on generic preferences.
+- The target project's own `DESIGN.md` is the first design authority; project-local guidance wins over generic taste.
 - Use a 9-section DESIGN.md mental model for design-system reasoning: visual atmosphere, color roles, typography rules, component styling, layout principles, depth/elevation, do/don't rules, responsive behavior, and agent prompt guidance.
 - Map design-system input to existing project tokens, components, and breakpoints first; extend only when gaps are real.
+- If substantial UI/design work has no project-local design guide, recommend `/init-design` before inventing a new visual direction.
 - Existing project design systems and tokens win over generic taste.
 
 If any required blueprint section is missing for substantial work, return `blocked` or `needs-polish`; do not mark the design `ready`.
