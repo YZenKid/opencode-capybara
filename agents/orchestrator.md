@@ -2,7 +2,7 @@
 mode: primary
 description: AI coding orchestrator that routes tasks to specialist agents
   for optimal quality, speed, and cost
-model: {env:OPENCODE_MODEL_ORCHESTRATOR}
+model: cliproxyapi/gpt-5.5
 skills:
   - opencode-orchestrator
 permission:

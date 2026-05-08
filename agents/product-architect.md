@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: PRD-to-production product architecture specialist for MVP slicing, user flows, and acceptance criteria
-model: {env:OPENCODE_MODEL_ADVISORY}
+model: cliproxyapi/gpt-5.5
 skills:
   - opencode-product-architect
 permission:

@@ -2,7 +2,7 @@
 mode: subagent
 hidden: true
 description: Bounded post-task skill improvement subagent for prompt, routing, and eval refinement.
-model: {env:OPENCODE_MODEL_IMPROVEMENT}
+model: cliproxyapi/gpt-5.4-mini
 skills:
   - opencode-skill-improver
 permission:

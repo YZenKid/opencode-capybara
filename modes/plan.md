@@ -1,5 +1,5 @@
 ---
-model: {env:OPENCODE_MODEL_PLANNER}
+model: cliproxyapi/gpt-5.3-codex
 tools:
   read: true
   grep: true

@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Local codebase discovery and search specialist for unfamiliar or broad scopes
-model: {env:OPENCODE_MODEL_DISCOVERY}
+model: cliproxyapi/gpt-5.4-mini
 skills:
   - opencode-explorer
 permission:

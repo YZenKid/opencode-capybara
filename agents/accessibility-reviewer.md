@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Read-only accessibility reviewer for semantics, keyboard, focus, contrast, and motion
-model: {env:OPENCODE_MODEL_DISCOVERY}
+model: cliproxyapi/gpt-5.4-mini
 skills:
   - opencode-accessibility-reviewer
 permission:

@@ -54,7 +54,7 @@ const checks = [
       'mode: subagent',
       'hidden: false',
       'description: Multi-LLM consensus engine for high-confidence answers',
-      'model: {env:OPENCODE_MODEL_REVIEW}',
+      'model: cliproxyapi/gpt-5.5',
       'opencode-council',
       'council_session: allow',
     ],
@@ -64,7 +64,7 @@ const checks = [
     name: "agent architecture selection gate",
     mustInclude: [
       '"default_agent": "orchestrator"',
-      '"model": "{env:OPENCODE_MODEL_DEFAULT}"',
+      '"model": "cliproxyapi/gpt-5.3-codex"',
       '"plan": {',
       '"explore": {',
     ],
@@ -245,7 +245,7 @@ const checks = [
       "mode: subagent",
       "hidden: false",
       "Final conformance and risk gate for non-trivial OpenCode work",
-      "model: {env:OPENCODE_MODEL_REVIEW}",
+      "model: cliproxyapi/gpt-5.5",
       "opencode-quality-gate",
       "apply_patch: deny",
       "task: deny",
@@ -950,7 +950,7 @@ const checks = [
     mustInclude: [
       "mode: subagent",
       "description:",
-      "model: {env:OPENCODE_MODEL_DISCOVERY}",
+      "model: cliproxyapi/gpt-5.4-mini",
       "opencode-explorer",
       "apply_patch: deny",
       "task: deny",
@@ -964,7 +964,7 @@ const checks = [
     mustInclude: [
       "mode: subagent",
       "description:",
-      "model: {env:OPENCODE_MODEL_DISCOVERY}",
+      "model: cliproxyapi/gpt-5.4-mini",
       "opencode-librarian",
       "apply_patch: deny",
       "task: deny",
@@ -978,7 +978,7 @@ const checks = [
     mustInclude: [
       "mode: subagent",
       "description:",
-      "model: {env:OPENCODE_MODEL_REVIEW}",
+      "model: cliproxyapi/gpt-5.5",
       "opencode-oracle",
       "apply_patch: deny",
       "task: deny",
@@ -992,7 +992,7 @@ const checks = [
     mustInclude: [
       "mode: subagent",
       "description:",
-      "model: {env:OPENCODE_MODEL_DESIGN}",
+      "model: cliproxyapi/gpt-5.5",
       "opencode-designer",
       "Stitch",
       "visual parity",
@@ -1008,7 +1008,7 @@ const checks = [
     mustInclude: [
       "mode: subagent",
       "description:",
-      "model: {env:OPENCODE_MODEL_EXECUTION}",
+      "model: cliproxyapi/gpt-5.3-codex",
       "opencode-fixer",
       "apply_patch: allow",
       "task: deny",
@@ -1032,14 +1032,14 @@ const checks = [
     file: "agents/artifact-planner.md",
     name: "artifact planner env routing gate",
     mustInclude: [
-      "model: {env:OPENCODE_MODEL_PLANNER}",
+      "model: cliproxyapi/gpt-5.3-codex",
     ],
   },
   {
     file: "agents/document-specialist.md",
     name: "document specialist env routing gate",
     mustInclude: [
-      "model: {env:OPENCODE_MODEL_DOCUMENTS}",
+      "model: cliproxyapi/gpt-5.4-mini",
     ],
   },
   {

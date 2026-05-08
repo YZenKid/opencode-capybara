@@ -1,7 +1,7 @@
 ---
 mode: subagent
 description: Document processing specialist for PDF, Office, spreadsheets, presentations, and text document files
-model: {env:OPENCODE_MODEL_DOCUMENTS}
+model: cliproxyapi/gpt-5.4-mini
 variant: low
 skills:
   - opencode-document-specialist
