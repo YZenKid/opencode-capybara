@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Read-only motion specialist for animation systems and reduced-motion checks
-model: cliproxyapi/gpt-5.4-mini
+model: {env:OPENCODE_MODEL_DISCOVERY}
 skills:
   - opencode-motion-specialist
 permission:

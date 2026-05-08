@@ -10,6 +10,23 @@ const disabledAgentsKey = ["disabled", "agents"].join("_");
 
 const checks = [
   {
+    file: ".env.example",
+    name: "model routing env example gate",
+    mustInclude: [
+      "OPENCODE_MODEL_DEFAULT=",
+      "OPENCODE_MODEL_ORCHESTRATOR=",
+      "OPENCODE_MODEL_PLANNER=",
+      "OPENCODE_MODEL_DESIGN=",
+      "OPENCODE_MODEL_REVIEW=",
+      "OPENCODE_MODEL_ADVISORY=",
+      "OPENCODE_MODEL_EXECUTION=",
+      "OPENCODE_MODEL_DISCOVERY=",
+      "OPENCODE_MODEL_DOCUMENTS=",
+      "OPENCODE_MODEL_IMPROVEMENT=",
+      "IMAGE_ASSET_MODEL=",
+    ],
+  },
+  {
     file: "commands/init-design.md",
     name: "project design init command gate",
     mustInclude: [
@@ -37,7 +54,7 @@ const checks = [
       'mode: subagent',
       'hidden: false',
       'description: Multi-LLM consensus engine for high-confidence answers',
-      'model: cliproxyapi/gpt-5.5',
+      'model: {env:OPENCODE_MODEL_REVIEW}',
       'opencode-council',
       'council_session: allow',
     ],
@@ -47,6 +64,7 @@ const checks = [
     name: "agent architecture selection gate",
     mustInclude: [
       '"default_agent": "orchestrator"',
+      '"model": "{env:OPENCODE_MODEL_DEFAULT}"',
       '"plan": {',
       '"explore": {',
     ],
@@ -155,6 +173,25 @@ const checks = [
     ],
   },
   {
+    file: "README.md",
+    name: "model routing documentation gate",
+    mustInclude: [
+      "### Model routing table",
+      "OPENCODE_MODEL_DEFAULT",
+      "OPENCODE_MODEL_ORCHESTRATOR",
+      "OPENCODE_MODEL_PLANNER",
+      "OPENCODE_MODEL_DESIGN",
+      "OPENCODE_MODEL_REVIEW",
+      "OPENCODE_MODEL_ADVISORY",
+      "OPENCODE_MODEL_EXECUTION",
+      "OPENCODE_MODEL_DISCOVERY",
+      "OPENCODE_MODEL_DOCUMENTS",
+      "OPENCODE_MODEL_IMPROVEMENT",
+      "Copy `.env.example` to `.env`",
+      "Missing env vars resolve to an empty string",
+    ],
+  },
+  {
     file: "skills/opencode-artifact-planner/SKILL.md",
     name: "artifact planner standalone skill gate",
     mustInclude: [
@@ -194,6 +231,7 @@ const checks = [
     mustInclude: [
       "mode: primary",
       "router/integrator",
+      "OPENCODE_MODEL_ORCHESTRATOR",
       "direct edits only when the change is tiny",
       "do not issue a final completion claim",
       "@skill-improver",
@@ -207,7 +245,7 @@ const checks = [
       "mode: subagent",
       "hidden: false",
       "Final conformance and risk gate for non-trivial OpenCode work",
-      "model: cliproxyapi/gpt-5.5",
+      "model: {env:OPENCODE_MODEL_REVIEW}",
       "opencode-quality-gate",
       "apply_patch: deny",
       "task: deny",
@@ -236,6 +274,7 @@ const checks = [
       "mode: subagent",
       "hidden: true",
       "opencode-skill-improver",
+      "OPENCODE_MODEL_IMPROVEMENT",
       "bounded post-task skill improvement subagent",
       "secret",
       "prompt bloat",
@@ -911,7 +950,7 @@ const checks = [
     mustInclude: [
       "mode: subagent",
       "description:",
-      "model: cliproxyapi/gpt-5.4-mini",
+      "model: {env:OPENCODE_MODEL_DISCOVERY}",
       "opencode-explorer",
       "apply_patch: deny",
       "task: deny",
@@ -925,7 +964,7 @@ const checks = [
     mustInclude: [
       "mode: subagent",
       "description:",
-      "model: cliproxyapi/gpt-5.4-mini",
+      "model: {env:OPENCODE_MODEL_DISCOVERY}",
       "opencode-librarian",
       "apply_patch: deny",
       "task: deny",
@@ -939,7 +978,7 @@ const checks = [
     mustInclude: [
       "mode: subagent",
       "description:",
-      "model: cliproxyapi/gpt-5.5",
+      "model: {env:OPENCODE_MODEL_REVIEW}",
       "opencode-oracle",
       "apply_patch: deny",
       "task: deny",
@@ -953,7 +992,7 @@ const checks = [
     mustInclude: [
       "mode: subagent",
       "description:",
-      "model: cliproxyapi/gpt-5.5",
+      "model: {env:OPENCODE_MODEL_DESIGN}",
       "opencode-designer",
       "Stitch",
       "visual parity",
@@ -969,7 +1008,7 @@ const checks = [
     mustInclude: [
       "mode: subagent",
       "description:",
-      "model: cliproxyapi/gpt-5.4-mini",
+      "model: {env:OPENCODE_MODEL_EXECUTION}",
       "opencode-fixer",
       "apply_patch: allow",
       "task: deny",
@@ -987,6 +1026,20 @@ const checks = [
       "## Kenapa capybara?",
       "Calm orchestration",
       "Capybara bukan simbol",
+    ],
+  },
+  {
+    file: "agents/artifact-planner.md",
+    name: "artifact planner env routing gate",
+    mustInclude: [
+      "model: {env:OPENCODE_MODEL_PLANNER}",
+    ],
+  },
+  {
+    file: "agents/document-specialist.md",
+    name: "document specialist env routing gate",
+    mustInclude: [
+      "model: {env:OPENCODE_MODEL_DOCUMENTS}",
     ],
   },
   {

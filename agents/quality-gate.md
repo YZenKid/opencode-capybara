@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Final conformance and risk gate for non-trivial OpenCode work
-model: cliproxyapi/gpt-5.5
+model: {env:OPENCODE_MODEL_REVIEW}
 skills:
   - opencode-quality-gate
 permission:

@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Library and docs research specialist for version-sensitive behavior
-model: cliproxyapi/gpt-5.4-mini
+model: {env:OPENCODE_MODEL_DISCOVERY}
 skills:
   - opencode-librarian
 permission:

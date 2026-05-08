@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Release engineering specialist for CI/CD, deployment readiness, monitoring, rollback, migrations, and production operations
-model: cliproxyapi/gpt-5.5
+model: {env:OPENCODE_MODEL_ADVISORY}
 skills:
   - opencode-release-engineer
 permission:

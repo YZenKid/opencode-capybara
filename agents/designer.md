@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: UI/UX owner for polished implementation, accessibility, and visual polish
-model: cliproxyapi/gpt-5.5
+model: {env:OPENCODE_MODEL_DESIGN}
 skills:
   - opencode-designer
 permission:

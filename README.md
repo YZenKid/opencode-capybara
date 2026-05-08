@@ -160,8 +160,37 @@ CONTEXT7_API_KEY="your_context7_api_key"
 GITHUB_PERSONAL_ACCESS_TOKEN="your_github_pat"
 GITHUB_TOOLSETS="context,repos,issues,pull_requests,actions,code_security"
 STITCH_API_KEY="your_stitch_api_key"
+OPENCODE_MODEL_DEFAULT="cliproxyapi/gpt-5.3-codex"
+OPENCODE_MODEL_ORCHESTRATOR="cliproxyapi/gpt-5.5"
+OPENCODE_MODEL_PLANNER="cliproxyapi/gpt-5.3-codex"
+OPENCODE_MODEL_DESIGN="cliproxyapi/gpt-5.5"
+OPENCODE_MODEL_REVIEW="cliproxyapi/gpt-5.5"
+OPENCODE_MODEL_ADVISORY="cliproxyapi/gpt-5.5"
+OPENCODE_MODEL_EXECUTION="cliproxyapi/gpt-5.3-codex"
+OPENCODE_MODEL_DISCOVERY="cliproxyapi/gpt-5.4-mini"
+OPENCODE_MODEL_DOCUMENTS="cliproxyapi/gpt-5.4-mini"
+OPENCODE_MODEL_IMPROVEMENT="cliproxyapi/gpt-5.4-mini"
 IMAGE_ASSET_MODEL="gpt-image-2"
 ```
+
+Copy `.env.example` to `.env` and set every `OPENCODE_MODEL_*` value before launching OpenCode. Missing env vars resolve to an empty string, which can break OpenCode model routing.
+
+### Model routing table
+
+| Env var | Default / recommended model | Used by / capability | Cost guidance |
+|---|---|---|---|
+| `OPENCODE_MODEL_DEFAULT` | `cliproxyapi/gpt-5.3-codex` | Top-level default model and general fallback | Use Codex lane as balanced default for coding-heavy work while keeping specialist high-risk lanes stronger. |
+| `OPENCODE_MODEL_ORCHESTRATOR` | `cliproxyapi/gpt-5.5` | `@orchestrator` primary routing/integration | Keep high quality for delegation, coordination, and final synthesis. |
+| `OPENCODE_MODEL_PLANNER` | `cliproxyapi/gpt-5.3-codex` | `@artifact-planner`, `modes/plan.md`, `agents-disabled/plan.md` | Planning is codebase-heavy and can use Codex to reduce cost while keeping structure strong. |
+| `OPENCODE_MODEL_DESIGN` | `cliproxyapi/gpt-5.5` | `@designer`, `@visual-parity-auditor`, `@ui-system-architect` | UI and visual reasoning are higher-value, so keep quality high. |
+| `OPENCODE_MODEL_REVIEW` | `cliproxyapi/gpt-5.5` | `@oracle`, `@quality-gate`, `@council` | Review lanes should stay strict and high quality; optimize for correctness over cost. |
+| `OPENCODE_MODEL_ADVISORY` | `cliproxyapi/gpt-5.5` | `@product-architect`, `@saas-architect`, `@ai-systems-architect`, `@security-privacy-reviewer`, `@release-engineer`, `@mobile-architect` | Advisory work is often high-stakes; keep the stronger model unless cost pressure is extreme. |
+| `OPENCODE_MODEL_EXECUTION` | `cliproxyapi/gpt-5.3-codex` | `@fixer` | Use Codex for bounded implementation/testing because this lane is code-edit heavy. |
+| `OPENCODE_MODEL_DISCOVERY` | `cliproxyapi/gpt-5.4-mini` | `@explorer`, `@librarian`, `@motion-specialist`, `@accessibility-reviewer` | Discovery and read-only analysis can usually use the lower-cost model. |
+| `OPENCODE_MODEL_DOCUMENTS` | `cliproxyapi/gpt-5.4-mini` | `@document-specialist` | Document processing is usually utility work; keep it cost-efficient. |
+| `OPENCODE_MODEL_IMPROVEMENT` | `cliproxyapi/gpt-5.4-mini` | `@skill-improver` | Small prompt/skill refinements should stay on the cheaper lane. |
+
+`IMAGE_ASSET_MODEL` tetap terpisah dan saat ini memakai `gpt-image-2`.
 
 MCP yang dikonfigurasi: `time`, `brave-search`, `context7`, `grep_app`, `playwright`, `shadcn`, `stitch`, `semgrep`, `github`, dan `image-asset-generator`.
 

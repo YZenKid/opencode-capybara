@@ -1,7 +1,7 @@
 ---
 description: Initialize or update the current project's DESIGN.md
 agent: orchestrator
-model: cliproxyapi/gpt-5.5
+model: {env:OPENCODE_MODEL_DEFAULT}
 ---
 
 Initialize a project-local `DESIGN.md` for the current target project.

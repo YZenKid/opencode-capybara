@@ -1,7 +1,7 @@
 ---
 description: Generate commit message from current git changes
 agent: orchestrator
-model: cliproxyapi/gpt-5.5
+model: {env:OPENCODE_MODEL_DEFAULT}
 ---
 
 Generate a commit message for the current repository changes.

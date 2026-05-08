@@ -1,7 +1,7 @@
 ---
 mode: primary
 description: Plan mode. Disallows implementation edits, but allows creating/updating SDD/TDD plan, draft, and evidence artifacts under `.opencode/`.
-model: cliproxyapi/gpt-5.5
+model: {env:OPENCODE_MODEL_PLANNER}
 permission:
   "*": allow
   doom_loop: ask

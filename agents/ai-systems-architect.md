@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: AI systems specialist for LLM features, RAG, evals, safety, cost, and reliability boundaries
-model: cliproxyapi/gpt-5.5
+model: {env:OPENCODE_MODEL_ADVISORY}
 skills:
   - opencode-ai-systems-architect
 permission:

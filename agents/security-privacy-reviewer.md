@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Read-only security and privacy reviewer for PII, RBAC, tenant isolation, uploads, payments, and AI data risks
-model: cliproxyapi/gpt-5.5
+model: {env:OPENCODE_MODEL_ADVISORY}
 skills:
   - opencode-security-privacy-reviewer
 permission:

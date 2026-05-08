@@ -1,5 +1,5 @@
 ---
-model: cliproxyapi/gpt-5.5
+model: {env:OPENCODE_MODEL_PLANNER}
 tools:
   read: true
   grep: true
