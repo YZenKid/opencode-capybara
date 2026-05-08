@@ -724,6 +724,89 @@ const checks = [
     ],
   },
   {
+    file: "package.json",
+    name: "tool setup script contract gate",
+    mustInclude: [
+      '"setup:tools"',
+      '"setup:tools:check"',
+      '"doctor"',
+      '"test:prompt-gates"',
+    ],
+    mustNotInclude: [
+      '"postinstall": "',
+      '"preinstall": "',
+      '"prepare": "',
+    ],
+  },
+  {
+    file: "README.md",
+    name: "rtk caveman onboarding docs gate",
+    mustInclude: [
+      "npm run setup:tools",
+      "npm run doctor",
+      "RTK",
+      "Caveman",
+      "manual fallback",
+      "no unsafe lifecycle install hooks policy",
+      "OpenCode command rewriting",
+      "opt-in",
+    ],
+    mustNotInclude: [
+      "hidden postinstall",
+    ],
+  },
+  {
+    file: "AGENTS.md",
+    name: "rtk opt-in policy gate",
+    mustInclude: [
+      "RTK may be installed",
+      "OpenCode/OpenChamber auto-rewrite/prefix remains opt-in",
+      "unless user explicitly asks",
+      "Do not prefix shell commands with `rtk`",
+    ],
+  },
+  {
+    file: "scripts/setup-dev-tools.mjs",
+    name: "setup-dev-tools contract gate",
+    mustInclude: [
+      "--check",
+      "--force",
+      "--skip-rtk",
+      "--skip-caveman",
+      "--help",
+      "JuliusBrussee/caveman",
+      "-a opencode",
+      "Checking: rtk --version",
+      "brew install rtk",
+      "https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh",
+      "official RTK install script",
+      "Never run `rtk init` with `-g --opencode`",
+      "Restart OpenCode",
+    ],
+    mustNotInclude: [
+      "--all",
+      "rtk init with -g --opencode",
+      "JuliusBrussee/rtk",
+    ],
+  },
+  {
+    file: "scripts/doctor.mjs",
+    name: "doctor read-only contract gate",
+    mustInclude: [
+      "Read-only",
+      "Node",
+      "npm",
+      "rtk --version",
+      "npx skills",
+      "AGENTS.md",
+      "README.md",
+      "package lifecycle",
+      "remediation",
+      "warn",
+      ".env",
+    ],
+  },
+  {
     file: "agents/visual-asset-generator.md",
     name: "visual asset generator manifest and icon rules",
     mustInclude: [
@@ -924,6 +1007,24 @@ const checks = [
     ],
   },
   {
+    file: "package.json",
+    name: "runtime dependency removal gate",
+    mustInclude: [],
+    mustNotInclude: [
+      upstreamPresetName,
+      pluginPackageName,
+    ],
+  },
+  {
+    file: "package-lock.json",
+    name: "lockfile dependency removal gate",
+    mustInclude: [],
+    mustNotInclude: [
+      upstreamPresetName,
+      pluginPackageName,
+    ],
+  },
+  {
     file: "tui.json",
     name: "tui plugin removal gate",
     mustInclude: [],
@@ -947,24 +1048,6 @@ const checks = [
       "required for core routing",
       upstreamPresetName + ".json",
       "previous plugin preset",
-    ],
-  },
-  {
-    file: "package.json",
-    name: "runtime dependency removal gate",
-    mustInclude: [],
-    mustNotInclude: [
-      upstreamPresetName,
-      pluginPackageName,
-    ],
-  },
-  {
-    file: "package-lock.json",
-    name: "lockfile dependency removal gate",
-    mustInclude: [],
-    mustNotInclude: [
-      upstreamPresetName,
-      pluginPackageName,
     ],
   },
   {

@@ -2,6 +2,9 @@
   "name": "opencode-capybara",
   "private": true,
   "scripts": {
+    "setup:tools": "node scripts/setup-dev-tools.mjs",
+    "setup:tools:check": "node scripts/setup-dev-tools.mjs --check",
+    "doctor": "node scripts/doctor.mjs",
     "test:prompt-gates": "node scripts/prompt-gate-regression.mjs"
   },
   "dependencies": {

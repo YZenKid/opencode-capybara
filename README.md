@@ -26,6 +26,8 @@ Capybara bukan simbol “cepat sendiri”; ia simbol “tenang bersama-sama samp
 git clone <REPO_URL> ~/.config/opencode
 cd ~/.config/opencode
 npm install
+npm run setup:tools
+npm run doctor
 npm run test:prompt-gates
 ```
 
@@ -40,6 +42,25 @@ opencode
 ```
 
 Jangan commit `.env`.
+
+## RTK dan Caveman setup
+
+RTK dan Caveman dipasang secara eksplisit, bukan lewat hidden lifecycle hook. Repo ini tidak memakai `postinstall`, `preinstall`, atau `prepare` untuk install tools pihak ketiga, jadi `npm install` tetap aman dan hanya memasang dependency npm project.
+
+Alur yang disarankan:
+
+```bash
+npm run setup:tools
+npm run doctor
+```
+
+- `npm run setup:tools` menyiapkan RTK dan Caveman secara idempotent.
+- `npm run setup:tools -- --check` hanya melakukan verifikasi read-only.
+- Jika setup otomatis tidak tersedia di platform tertentu, script akan memberi manual fallback command yang jelas.
+- RTK binary boleh terpasang, tetapi OpenCode command rewriting tidak auto-enabled; mode itu tetap opt-in dan hanya dipakai kalau user memang meminta.
+- Repo ini menerapkan no unsafe lifecycle install hooks policy: tidak ada install tools pihak ketiga tersembunyi di lifecycle hook npm.
+
+Kalau ingin menyiapkan ulang tools dengan paksa, gunakan `npm run setup:tools -- --force`.
 
 ## Struktur project
 
@@ -107,6 +128,8 @@ Domain specialists bersifat conditional: gunakan untuk PRD/SaaS/AI/security/rele
 | Mobile/hybrid architecture | `@mobile-architect` + `@designer`/`@release-engineer` as needed | platform/device validation matrix |
 | Production rollout | `@release-engineer` + `@quality-gate` | CI/CD, env, monitoring, rollback evidence |
 | Prompt/config/security-sensitive | orchestrator + `@quality-gate` | prompt gates + final quality status |
+
+Domain specialists bersifat conditional; gunakan hanya saat kebutuhan kerja benar-benar memerlukannya. Tiny UI polish tetap ke `@designer`, dan isolated bugfix tetap ke `@fixer`.
 
 ## Validation dan auto-commit
 

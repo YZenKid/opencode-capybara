@@ -6,6 +6,7 @@ Run package manager and test/build commands directly, for example:
 - `npm run test:coverage`, not `rtk npm run test:coverage`
 - `npx vitest ...`, not `rtk proxy npx vitest ...`
 
+RTK may be installed by explicit setup, but OpenCode/OpenChamber auto-rewrite/prefix remains opt-in unless user explicitly asks.
 RTK is configured separately for Claude Code and should not be used by OpenCode/OpenChamber unless the user explicitly asks for it.
 
 ## Standalone opencode skill policy
