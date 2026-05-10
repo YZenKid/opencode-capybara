@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Read-only UI system architect for tokens, component anatomy, and Stitch handoff
-model: cliproxyapi/gpt-5.5
+model: cliproxyapi/gpt-5.4
 variant: high
 skills:
   - opencode-ui-system-architect

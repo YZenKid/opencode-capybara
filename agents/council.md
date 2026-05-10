@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Multi-LLM consensus engine for high-confidence answers
-model: cliproxyapi/gpt-5.5
+model: cliproxyapi/gpt-5.4
 skills:
   - opencode-council
 permission:

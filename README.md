@@ -161,11 +161,11 @@ GITHUB_PERSONAL_ACCESS_TOKEN="your_github_pat"
 GITHUB_TOOLSETS="context,repos,issues,pull_requests,actions,code_security"
 STITCH_API_KEY="your_stitch_api_key"
 OPENCODE_MODEL_DEFAULT="cliproxyapi/gpt-5.3-codex"
-OPENCODE_MODEL_ORCHESTRATOR="cliproxyapi/gpt-5.5"
+OPENCODE_MODEL_ORCHESTRATOR="cliproxyapi/gpt-5.4"
 OPENCODE_MODEL_PLANNER="cliproxyapi/gpt-5.3-codex"
-OPENCODE_MODEL_DESIGN="cliproxyapi/gpt-5.5"
-OPENCODE_MODEL_REVIEW="cliproxyapi/gpt-5.5"
-OPENCODE_MODEL_ADVISORY="cliproxyapi/gpt-5.5"
+OPENCODE_MODEL_DESIGN="cliproxyapi/gpt-5.4"
+OPENCODE_MODEL_REVIEW="cliproxyapi/gpt-5.4"
+OPENCODE_MODEL_ADVISORY="cliproxyapi/gpt-5.4"
 OPENCODE_MODEL_EXECUTION="cliproxyapi/gpt-5.3-codex"
 OPENCODE_MODEL_DISCOVERY="cliproxyapi/gpt-5.4-mini"
 OPENCODE_MODEL_DOCUMENTS="cliproxyapi/gpt-5.4-mini"
@@ -180,11 +180,11 @@ Copy `.env.example` to `.env` and set every `OPENCODE_MODEL_*` value before laun
 | Env var | Default / recommended model | Used by / capability | Cost guidance |
 |---|---|---|---|
 | `OPENCODE_MODEL_DEFAULT` | `cliproxyapi/gpt-5.3-codex` | Top-level default model and general fallback | Use Codex lane as balanced default for coding-heavy work while keeping specialist high-risk lanes stronger. |
-| `OPENCODE_MODEL_ORCHESTRATOR` | `cliproxyapi/gpt-5.5` | `@orchestrator` primary routing/integration | Keep high quality for delegation, coordination, and final synthesis. |
+| `OPENCODE_MODEL_ORCHESTRATOR` | `cliproxyapi/gpt-5.4` | `@orchestrator` primary routing/integration | Keep high quality for delegation, coordination, and final synthesis. |
 | `OPENCODE_MODEL_PLANNER` | `cliproxyapi/gpt-5.3-codex` | `@artifact-planner`, `modes/plan.md`, `agents-disabled/plan.md` | Planning is codebase-heavy and can use Codex to reduce cost while keeping structure strong. |
-| `OPENCODE_MODEL_DESIGN` | `cliproxyapi/gpt-5.5` | `@designer`, `@visual-parity-auditor`, `@ui-system-architect` | UI and visual reasoning are higher-value, so keep quality high. |
-| `OPENCODE_MODEL_REVIEW` | `cliproxyapi/gpt-5.5` | `@oracle`, `@quality-gate`, `@council` | Review lanes should stay strict and high quality; optimize for correctness over cost. |
-| `OPENCODE_MODEL_ADVISORY` | `cliproxyapi/gpt-5.5` | `@product-architect`, `@saas-architect`, `@ai-systems-architect`, `@security-privacy-reviewer`, `@release-engineer`, `@mobile-architect` | Advisory work is often high-stakes; keep the stronger model unless cost pressure is extreme. |
+| `OPENCODE_MODEL_DESIGN` | `cliproxyapi/gpt-5.4` | `@designer`, `@visual-parity-auditor`, `@ui-system-architect` | UI and visual reasoning are higher-value, so keep quality high. |
+| `OPENCODE_MODEL_REVIEW` | `cliproxyapi/gpt-5.4` | `@oracle`, `@quality-gate`, `@council` | Review lanes should stay strict and high quality; optimize for correctness over cost. |
+| `OPENCODE_MODEL_ADVISORY` | `cliproxyapi/gpt-5.4` | `@product-architect`, `@saas-architect`, `@ai-systems-architect`, `@security-privacy-reviewer`, `@release-engineer`, `@mobile-architect` | Advisory work is often high-stakes; keep the stronger model unless cost pressure is extreme. |
 | `OPENCODE_MODEL_EXECUTION` | `cliproxyapi/gpt-5.3-codex` | `@fixer` | Use Codex for bounded implementation/testing because this lane is code-edit heavy. |
 | `OPENCODE_MODEL_DISCOVERY` | `cliproxyapi/gpt-5.4-mini` | `@explorer`, `@librarian`, `@motion-specialist`, `@accessibility-reviewer` | Discovery and read-only analysis can usually use the lower-cost model. |
 | `OPENCODE_MODEL_DOCUMENTS` | `cliproxyapi/gpt-5.4-mini` | `@document-specialist` | Document processing is usually utility work; keep it cost-efficient. |

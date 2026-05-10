@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Architecture and risk review specialist for complex decisions
-model: cliproxyapi/gpt-5.5
+model: cliproxyapi/gpt-5.4
 skills:
   - opencode-oracle
 permission:

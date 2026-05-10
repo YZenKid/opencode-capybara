@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Mobile and hybrid app architecture specialist for native constraints, offline behavior, push, deep links, camera, QR, and app-store readiness
-model: cliproxyapi/gpt-5.5
+model: cliproxyapi/gpt-5.4
 skills:
   - opencode-mobile-architect
 permission:

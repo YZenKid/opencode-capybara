@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: SaaS architecture specialist for tenancy, RBAC, billing, audit, and workspace systems
-model: cliproxyapi/gpt-5.5
+model: cliproxyapi/gpt-5.4
 skills:
   - opencode-saas-architect
 permission:

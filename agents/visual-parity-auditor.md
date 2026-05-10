@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Read-only visual parity auditor for screenshots and section-by-section comparison
-model: cliproxyapi/gpt-5.5
+model: cliproxyapi/gpt-5.4
 variant: high
 skills:
   - opencode-visual-parity-auditor
