@@ -825,7 +825,7 @@ const checks = [
       "OpenCode command rewriting",
       "opt-in",
       "token compression / context packing",
-      "RTK + Caveman",
+      "RTK dan Caveman secara bersamaan",
     ],
     mustNotInclude: [
       "hidden postinstall",
@@ -839,7 +839,7 @@ const checks = [
       "OpenCode/OpenChamber auto-rewrite/prefix remains opt-in",
       "unless user explicitly asks",
       "Do not prefix shell commands with `rtk`",
-      "Token compression/context packing should stay on the RTK/Caveman workflow",
+      "Token compression/context packing should use RTK and Caveman together",
     ],
   },
   {
@@ -859,7 +859,8 @@ const checks = [
       "official RTK install script",
       "Never run `rtk init` with `-g --opencode`",
       "token compression/context packing",
-      "Caveman is the companion workflow",
+      "not either/or alternatives",
+      "works together with RTK",
       "Restart OpenCode",
     ],
     mustNotInclude: [

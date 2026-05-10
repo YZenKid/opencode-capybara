@@ -79,7 +79,7 @@ function reportRtkCheckMissing() {
 function installRtk({ check, force }) {
   printSection("RTK");
   printLine("Never run `rtk init` with `-g --opencode`.");
-  printLine("Use RTK together with Caveman for token compression/context packing only when that workflow is explicitly desired.");
+  printLine("Use RTK and Caveman together for token compression/context packing when that workflow is needed; they are not either/or alternatives in this repo.");
   if (check) {
     printLine("Checking: rtk --version");
     if (commandExists("rtk", ["--version"])) {
@@ -132,7 +132,7 @@ function installRtk({ check, force }) {
 function installCaveman({ check, force }) {
   printSection("Caveman");
   const targetCommand = "npx -y skills add JuliusBrussee/caveman -a opencode";
-  printLine("Caveman is the companion workflow for RTK-based token compression/context packing in this repo.");
+  printLine("Caveman works together with RTK for token compression/context packing in this repo; do not treat it as an alternative path.");
 
   if (check) {
     const result = run("npx", ["-y", "skills", "--help"]);

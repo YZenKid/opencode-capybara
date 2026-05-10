@@ -18,7 +18,7 @@
 ## Non-negotiable Rules
 - Do not prefix shell commands with `rtk` in OpenCode/OpenChamber sessions.
 - RTK may be installed by explicit setup, but OpenCode/OpenChamber auto-rewrite/prefix remains opt-in unless user explicitly asks.
-- Token compression/context packing should stay on the RTK/Caveman workflow when that capability is needed; do not invent a parallel local compression flow.
+- Token compression/context packing should use RTK and Caveman together when that capability is needed; do not invent a parallel local compression flow or treat them as either/or alternatives.
 - Never commit secrets, tokens, or `.env` files.
 - Use `@orchestrator` for routing and integration.
 - Use `@quality-gate` for material changes, including non-trivial/risky work, prompt/config changes, and security-sensitive changes.

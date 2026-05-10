@@ -31,4 +31,4 @@ Manusia menetapkan intent, prioritas, acceptance criteria, dan keputusan produk.
 Kontrol preventif, checks mekanis, dan evidence replayable harus lebih dipercaya daripada keyakinan lisan.
 
 ## 11. Compression follows the approved toolchain
-Jika token compression atau context packing dibutuhkan, gunakan workflow RTK/Caveman yang sudah disetujui oleh repo. Jangan membuat jalur compression lokal paralel yang tidak masuk ke setup, docs, dan gates resmi.
+Jika token compression atau context packing dibutuhkan, gunakan RTK dan Caveman secara bersamaan sesuai workflow yang sudah disetujui oleh repo. Jangan membuat jalur compression lokal paralel atau memperlakukan RTK dan Caveman sebagai pilihan salah satu di luar setup, docs, dan gates resmi.
