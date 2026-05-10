@@ -5,7 +5,12 @@
     "setup:tools": "node scripts/setup-dev-tools.mjs",
     "setup:tools:check": "node scripts/setup-dev-tools.mjs --check",
     "doctor": "node scripts/doctor.mjs",
-    "test:prompt-gates": "node scripts/prompt-gate-regression.mjs"
+    "post:update": "node scripts/post-update-refresh.mjs",
+    "test:prompt-gates": "node scripts/prompt-gate-regression.mjs",
+    "sync:openchamber": "node scripts/sync-openchamber-settings.mjs",
+    "sync:openchamber:check": "node scripts/sync-openchamber-settings.mjs --check",
+    "sync:openchamber:seed": "node scripts/sync-openchamber-settings.mjs --seed-approved-directories",
+    "sync:openchamber:seed:check": "node scripts/sync-openchamber-settings.mjs --check --seed-approved-directories"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",

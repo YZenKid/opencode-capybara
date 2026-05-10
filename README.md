@@ -31,6 +31,14 @@ npm run doctor
 npm run test:prompt-gates
 ```
 
+Kalau `opencode.json` atau routing model/agent berubah, jalankan:
+
+```bash
+npm run post:update
+```
+
+Command ini akan me-refresh sinkronisasi OpenChamber lalu menjalankan `doctor`.
+
 Setup environment:
 
 ```bash
@@ -138,6 +146,12 @@ npm run test:prompt-gates
 ```
 
 Prompt gates menjaga standalone identity, local agent boundaries, retired/disabled agents, quality-gate routing, auto-commit safety, anti-AI-slop UI policy, visual asset rules, portability, dan commit-message format.
+
+Untuk refresh cepat setelah update config OpenCode:
+
+```bash
+npm run post:update
+```
 
 Auto-commit default ON untuk local commits only; never push automatically.
 

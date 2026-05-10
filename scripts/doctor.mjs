@@ -167,6 +167,20 @@ function checkEnvWarning() {
   return true;
 }
 
+function checkOpenChamberSync() {
+  section("OpenChamber sync");
+  const result = run("node", ["scripts/sync-openchamber-settings.mjs", "--check", "--seed-approved-directories"], { cwd: root });
+  if (result.status === 0) {
+    status("OpenChamber settings", "pass", "in sync with OpenCode");
+    return true;
+  }
+
+  const detail = result.stdout.trim() || result.stderr.trim() || "out of sync";
+  status("OpenChamber settings", "warn", detail.split("\n").join(" | "));
+  remediation("run `npm run sync:openchamber` to align OpenChamber with OpenCode");
+  return true;
+}
+
 function main() {
   log("opencode-capybara doctor");
   log("Read-only checks only; no files will be changed.");
@@ -180,6 +194,7 @@ function main() {
     checkPackageLifecycle(),
     checkDocsPolicy(),
     checkEnvWarning(),
+    checkOpenChamberSync(),
   ];
 
   const failed = results.some((value) => value === false);
