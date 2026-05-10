@@ -27,6 +27,12 @@ User Intent
 - `scripts/*` are the enforceable controls.
 - `.opencode/` contains task-local plans and evidence.
 
+## RTK and Caveman posture
+- RTK may be installed by explicit setup, but OpenCode/OpenChamber command rewriting remains opt-in unless the user explicitly asks.
+- Token compression and context packing should stay on the RTK/Caveman workflow when that capability is needed.
+- Do not invent a parallel local compression flow outside the RTK/Caveman workflow.
+- `scripts/setup-dev-tools.mjs` is the supported setup/check entrypoint for this toolchain.
+
 ## Mechanical enforcement targets
 - prompt/config/docs invariants,
 - docs integrity and cross-linking,
