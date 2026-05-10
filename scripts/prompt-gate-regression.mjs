@@ -824,6 +824,8 @@ const checks = [
       "no unsafe lifecycle install hooks policy",
       "OpenCode command rewriting",
       "opt-in",
+      "token compression / context packing",
+      "RTK + Caveman",
     ],
     mustNotInclude: [
       "hidden postinstall",
@@ -837,6 +839,7 @@ const checks = [
       "OpenCode/OpenChamber auto-rewrite/prefix remains opt-in",
       "unless user explicitly asks",
       "Do not prefix shell commands with `rtk`",
+      "Token compression/context packing should stay on the RTK/Caveman workflow",
     ],
   },
   {
@@ -855,6 +858,8 @@ const checks = [
       "https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh",
       "official RTK install script",
       "Never run `rtk init` with `-g --opencode`",
+      "token compression/context packing",
+      "Caveman is the companion workflow",
       "Restart OpenCode",
     ],
     mustNotInclude: [

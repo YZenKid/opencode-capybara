@@ -68,6 +68,7 @@ npm run doctor
 - `npm run setup:tools -- --check` hanya melakukan verifikasi read-only.
 - Jika setup otomatis tidak tersedia di platform tertentu, script akan memberi manual fallback command yang jelas.
 - RTK binary boleh terpasang, tetapi OpenCode command rewriting tidak auto-enabled; mode itu tetap opt-in dan hanya dipakai kalau user memang meminta.
+- Untuk token compression / context packing, tetap gunakan workflow RTK + Caveman yang dipasang lewat setup ini; jangan buat jalur compression lokal paralel di luar workflow tersebut.
 - Repo ini menerapkan no unsafe lifecycle install hooks policy: tidak ada install tools pihak ketiga tersembunyi di lifecycle hook npm.
 
 Kalau ingin menyiapkan ulang tools dengan paksa, gunakan `npm run setup:tools -- --force`.
