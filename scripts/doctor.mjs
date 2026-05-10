@@ -85,7 +85,12 @@ function checkRepoFiles() {
     ["package.json", true],
     ["README.md", true],
     ["AGENTS.md", true],
+    [".opencode/docs/index.md", true],
+    [".opencode/docs/AGENT_ROUTING.md", true],
+    [".opencode/docs/QUALITY.md", true],
+    [".opencode/docs/EVALS.md", true],
     ["scripts/prompt-gate-regression.mjs", true],
+    ["scripts/docs-integrity-check.mjs", true],
     ["scripts/setup-dev-tools.mjs", true],
     ["scripts/doctor.mjs", true],
   ];
@@ -124,11 +129,15 @@ function checkDocsPolicy() {
   section("Docs and policy");
   const agents = readFileSync(resolve(root, "AGENTS.md"), "utf8");
   const readme = readFileSync(resolve(root, "README.md"), "utf8");
+  const docsIndex = readFileSync(resolve(root, ".opencode/docs/index.md"), "utf8");
 
   let ok = true;
   const agentsNeedles = [
     "RTK may be installed by explicit setup",
     "OpenCode/OpenChamber auto-rewrite/prefix remains opt-in",
+    ".opencode/docs/AGENT_ROUTING.md",
+    ".opencode/docs/QUALITY.md",
+    ".opencode/docs/EVALS.md",
   ];
   for (const needle of agentsNeedles) {
     if (agents.includes(needle)) {
@@ -147,6 +156,24 @@ function checkDocsPolicy() {
     } else {
       status(`README.md: ${needle}`, "fail", "missing");
       remediation("update README.md quick start and RTK/Caveman section");
+      ok = false;
+    }
+  }
+
+  const docsIndexNeedles = [
+    "system of record",
+    "ARCHITECTURE.md",
+    "AGENT_ROUTING.md",
+    "QUALITY.md",
+    "EVALS.md",
+    "GOLDEN_PRINCIPLES.md",
+  ];
+  for (const needle of docsIndexNeedles) {
+    if (docsIndex.includes(needle)) {
+      status(`.opencode/docs/index.md: ${needle}`, "pass");
+    } else {
+      status(`.opencode/docs/index.md: ${needle}`, "fail", "missing");
+      remediation("update .opencode/docs/index.md to reflect the canonical documentation map");
       ok = false;
     }
   }

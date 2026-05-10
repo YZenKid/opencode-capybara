@@ -1,0 +1,15 @@
+{
+  "id": "evidence-verification-negative",
+  "description": "Negative fixture: plan verification evidence should explicitly record eval, harness check, and doctor commands.",
+  "rules": [
+    {
+      "file": ".opencode/evidence/20260510-2140-harness-engineering-plan/verification.md",
+      "mustInclude": [
+        "npm run check:harness",
+        "npm run eval:harness",
+        "npm run doctor"
+      ],
+      "reasonCode": "verification-command-gap"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "docs-system-of-record",
+  "description": "Validates that AGENTS.md maps to canonical docs and the canonical docs index exposes the system-of-record entrypoints.",
+  "rules": [
+    {
+      "file": "AGENTS.md",
+      "mustInclude": [
+        ".opencode/docs/AGENT_ROUTING.md",
+        ".opencode/docs/QUALITY.md",
+        ".opencode/docs/EVALS.md",
+        ".opencode/docs/GOLDEN_PRINCIPLES.md"
+      ],
+      "reasonCode": "agents-map-drift"
+    },
+    {
+      "file": ".opencode/docs/index.md",
+      "mustInclude": [
+        "system of record",
+        "Canonical docs",
+        "AGENT_ROUTING.md",
+        "QUALITY.md",
+        "EVALS.md"
+      ],
+      "reasonCode": "docs-index-drift"
+    }
+  ]
+}

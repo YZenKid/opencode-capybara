@@ -1,0 +1,17 @@
+{
+  "id": "agents-policy-bloat-negative",
+  "description": "Negative fixture: AGENTS.md should stay map-like and avoid re-absorbing long-form policy language that belongs in docs.",
+  "rules": [
+    {
+      "file": "AGENTS.md",
+      "mustNotInclude": [
+        "Page-by-page UX blueprint",
+        "Section-level visual specification",
+        "Motion system",
+        "Interaction and state design",
+        "Validation evidence"
+      ],
+      "reasonCode": "agents-policy-bloat"
+    }
+  ]
+}

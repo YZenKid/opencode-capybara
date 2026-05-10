@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
-import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
+import { createReader, runContentChecks, runDuplicateChecks } from "./prompt-gates/content-checks.mjs";
+import { duplicateChecks, runPortabilityChecks } from "./prompt-gates/runtime-hygiene.mjs";
 
 const root = resolve(import.meta.dirname, "..");
 const upstreamPresetName = ["oh", "my", "opencode", "slim"].join("-");
@@ -48,6 +49,29 @@ const checks = [
     ],
   },
   {
+    file: "commands/init-harness.md",
+    name: "project harness init command gate",
+    mustInclude: [
+      "Arguments from user",
+      "$ARGUMENTS",
+      "AGENTS.md",
+      ".opencode/docs/index.md",
+      ".opencode/docs/AGENT_ROUTING.md",
+      ".opencode/docs/QUALITY.md",
+      ".opencode/docs/EVALS.md",
+      "ask before overwriting",
+      "target under 60 lines",
+      "never exceed 100",
+      "map, not an encyclopedia",
+      "Detailed policy belongs in `.opencode/docs/` and mechanical checks",
+      "Use `@quality-gate`",
+      "Plans are first-class artifacts under `.opencode/plans/`",
+      "Evidence is required for material changes",
+      "Risk Triggers",
+      "Notes",
+    ],
+  },
+  {
     file: "agents/council.md",
     name: "local council subagent gate",
     mustInclude: [
@@ -64,78 +88,66 @@ const checks = [
     name: "agent architecture selection gate",
     mustInclude: [
       '"default_agent": "orchestrator"',
-      '"model": "cliproxyapi/gpt-5.3-codex"',
+      '"model": "cliproxyapi/gpt-5.4"',
       '"plan": {',
       '"explore": {',
     ],
   },
   {
     file: "AGENTS.md",
-    name: "global anti-slop and parity gates",
+    name: "agents toc and docs system-of-record gate",
     mustInclude: [
-      "First inspect the target project's `DESIGN.md`",
-      "design-system/DESIGN.md",
-      "suggest `/init-design`",
-      "numeric-only service icons",
-      "blank image frames",
-      "visual density",
-      "production-like screenshots",
-      "designer signoff",
-      "generic hover-only motion is not enough",
-      "reference/current/final evidence",
-      "designer pass/fail review",
-      "assume it is image-heavy until the designer proves otherwise",
-      "image generation decision",
-      "legal style-equivalent generation",
-      "CSS placeholders",
+      ".opencode/docs/AGENT_ROUTING.md",
+      ".opencode/docs/ARCHITECTURE.md",
+      ".opencode/docs/QUALITY.md",
+      ".opencode/docs/EVALS.md",
+      ".opencode/docs/SECURITY.md",
+      ".opencode/docs/PROMPT_GATES.md",
+      ".opencode/docs/SKILLS.md",
+      ".opencode/docs/GOLDEN_PRINCIPLES.md",
+      ".opencode/docs/AGENT_LEGIBILITY.md",
+      ".opencode/docs/DECISIONS.md",
+      ".opencode/docs/RELEASE.md",
+      ".opencode/docs/QUALITY_SCORE.md",
+      ".opencode/docs/GC_WORKFLOW.md",
+      "AGENTS.md` is the map, not the encyclopedia",
     ],
   },
   {
     file: "AGENTS.md",
-    name: "global general design readiness gate",
+    name: "agents non-negotiable rules gate",
     mustInclude: [
-      "General Design Readiness Gate",
-      "The target project's own `DESIGN.md` is the first design authority",
-      "high-level visual direction is not enough",
-      "UI/UX Design Blueprint",
-      "Experience direction",
-      "Page-by-page UX blueprint",
-      "Section-level visual specification",
-      "Component system plan",
-      "Visual system",
-      "Asset and image decision",
-      "Motion system",
-      "Interaction and state design",
-      "Responsive plan",
-      "Accessibility gate",
-      "Validation evidence",
-      "blocked`, `needs-polish`, or `draft`, not `done`",
+      "Do not prefix shell commands with `rtk`",
+      "RTK may be installed by explicit setup",
+      "OpenCode/OpenChamber auto-rewrite/prefix remains opt-in",
+      "Never commit secrets, tokens, or `.env` files",
+      "Use `@orchestrator`",
+      "Use `@quality-gate`",
+      "Prefer evidence over assertion",
+      "Prefer repo-local docs over chat memory",
     ],
   },
   {
     file: "AGENTS.md",
-    name: "quality gate routing gate",
+    name: "agents harness posture gate",
     mustInclude: [
-      "@quality-gate",
-      "final conformance/risk gate",
-      "non-trivial/risky",
-      "prompt/config changes",
-      "security-sensitive changes",
-      "task trivial",
+      "`.opencode/docs/` is the repository knowledge system of record",
+      "Plans are first-class artifacts under `.opencode/plans/`",
+      "Evidence is required for material changes",
+      "Repeated failures should produce docs, gate, script, or skill improvements",
     ],
   },
   {
     file: "AGENTS.md",
-    name: "auto-commit policy gate",
+    name: "agents risk trigger gate",
     mustInclude: [
-      "Default auto-commit is ON for local commits only",
-      "plan-bound, non-trivial task",
-      "validation has passed",
-      "PASS_WITH_RISKS",
-      "Never push automatically",
-      "Never stage `.env`, secrets, tokens, credentials",
-      "Never use `--no-verify`, `--no-gpg-sign`, `amend`",
-      "stop and ask",
+      "Product ambiguity",
+      "SaaS/multi-tenant/RBAC/billing",
+      "AI/LLM/RAG/evals",
+      "PII/auth/payments/uploads/biometric/privacy",
+      "CI/CD/env/deploy/migration/monitoring",
+      "Native mobile/hybrid/PWA/offline/push/deep links/camera/QR",
+      "User-facing UI/reference/animation/accessibility/design-system work",
     ],
   },
   {
@@ -176,6 +188,8 @@ const checks = [
     file: "README.md",
     name: "model routing documentation gate",
     mustInclude: [
+      "local harness engineering system",
+      ".opencode/docs/",
       "### Model routing table",
       "OPENCODE_MODEL_DEFAULT",
       "OPENCODE_MODEL_ORCHESTRATOR",
@@ -231,7 +245,7 @@ const checks = [
     mustInclude: [
       "mode: primary",
       "router/integrator",
-      "OPENCODE_MODEL_ORCHESTRATOR",
+      "cliproxyapi/gpt-5.4",
       "direct edits only when the change is tiny",
       "do not issue a final completion claim",
       "@skill-improver",
@@ -274,7 +288,7 @@ const checks = [
       "mode: subagent",
       "hidden: true",
       "opencode-skill-improver",
-      "OPENCODE_MODEL_IMPROVEMENT",
+      "cliproxyapi/gpt-5.4-mini",
       "bounded post-task skill improvement subagent",
       "secret",
       "prompt bloat",
@@ -735,7 +749,7 @@ const checks = [
     ],
   },
   {
-    file: "AGENTS.md",
+    file: ".opencode/docs/AGENT_ROUTING.md",
     name: "global conditional domain specialist gate",
     mustInclude: [
       "PRD/product blueprint work",
@@ -744,7 +758,8 @@ const checks = [
       "Security/privacy review",
       "Release/ops readiness",
       "Mobile/hybrid architecture",
-      "Skip domain specialists for tiny UI polish and isolated bugfixes unless risk triggers apply",
+      "Tiny UI polish tetap ke `@designer`",
+      "Isolated bugfix tetap ke `@fixer`",
     ],
   },
   {
@@ -763,12 +778,32 @@ const checks = [
     ],
   },
   {
+    file: "README.md",
+    name: "readme docs system-of-record gate",
+    mustInclude: [
+      "AGENTS.md` sekarang adalah table of contents",
+      "Detail policy hidup di `.opencode/docs/`",
+      ".opencode/docs/index.md",
+      "Plans adalah first-class artifacts di `.opencode/plans/`",
+      "npm run check:harness",
+      "npm run check:docs",
+      "npm run check:agents",
+      "npm run check:skills",
+      "npm run check:evidence",
+    ],
+  },
+  {
     file: "package.json",
     name: "tool setup script contract gate",
     mustInclude: [
       '"setup:tools"',
       '"setup:tools:check"',
       '"doctor"',
+      '"check:docs"',
+      '"check:agents"',
+      '"check:skills"',
+      '"check:evidence"',
+      '"check:harness"',
       '"test:prompt-gates"',
     ],
     mustNotInclude: [
@@ -839,10 +874,58 @@ const checks = [
       "npx skills",
       "AGENTS.md",
       "README.md",
+      ".opencode/docs/index.md",
+      ".opencode/docs/AGENT_ROUTING.md",
+      ".opencode/docs/QUALITY.md",
+      ".opencode/docs/EVALS.md",
       "package lifecycle",
       "remediation",
       "warn",
       ".env",
+    ],
+  },
+  {
+    file: "scripts/docs-integrity-check.mjs",
+    name: "docs integrity contract gate",
+    mustInclude: [
+      ".opencode/docs/index.md",
+      ".opencode/docs/ARCHITECTURE.md",
+      ".opencode/docs/AGENT_ROUTING.md",
+      ".opencode/docs/QUALITY.md",
+      "AGENTS.md",
+      "generated marker",
+      "Docs integrity check passed",
+    ],
+  },
+  {
+    file: ".opencode/docs/index.md",
+    name: "docs index system-of-record gate",
+    requiredHeadings: ["Documentation Index", "Canonical docs", "Generated docs", "Reference docs"],
+    mustInclude: [
+      "system of record",
+      "Canonical docs",
+      "ARCHITECTURE.md",
+      "AGENT_ROUTING.md",
+      "QUALITY.md",
+      "EVALS.md",
+      "GOLDEN_PRINCIPLES.md",
+      "Generated docs",
+      "Reference docs",
+    ],
+  },
+  {
+    file: ".opencode/docs/EVALS.md",
+    name: "harness evals gate",
+    requiredHeadings: ["Goal", "Minimum suite types", "Grader layers", "Replay bundle minimum", "Failure taxonomy"],
+    mustInclude: [
+      "Core behavioral evals",
+      "Constraint evals",
+      "Replay/regression evals",
+      "Drift watch evals",
+      "Grader layers",
+      "Replay bundle minimum",
+      "Failure taxonomy",
+      "failure → taxonomy → remediation → new regression/eval case → rerun",
     ],
   },
   {
@@ -1214,140 +1297,15 @@ const checks = [
   },
 ];
 
-const portabilityChecks = [
-  "AGENTS.md",
-  "agents/orchestrator.md",
-  "agents/artifact-planner.md",
-  "agents/visual-asset-generator.md",
-  "skills/opencode-orchestrator/SKILL.md",
-  "skills/opencode-visual-asset-generator/SKILL.md",
-  "skills/opencode-fixer/SKILL.md",
-  "skills/opencode-artifact-planner/SKILL.md",
-  "opencode.json",
-  "scripts/prompt-gate-regression.mjs",
-];
+const state = { failures: 0 };
+const read = createReader(root, state);
 
-const duplicates = [
-  {
-    file: "skills/opencode-fixer/SKILL.md",
-    text: "For substantial UI/reference/image-heavy work, do not close on screenshots alone",
-    max: 1,
-  },
-];
+runContentChecks({ checks, read, root, state });
+runDuplicateChecks({ duplicates: duplicateChecks, read, state });
+runPortabilityChecks({ read, state });
 
-const forbiddenPaths = ["/home/" + "ujang", "/Users/" + "ujang"];
-
-let failures = 0;
-
-function read(file) {
-  const absolute = resolve(root, file);
-  if (!existsSync(absolute)) {
-    failures += 1;
-    console.error(`✗ ${file}: file missing`);
-    return null;
-  }
-  return readFileSync(absolute, "utf8");
-}
-
-function checkPortability() {
-  for (const file of portabilityChecks) {
-    const content = read(file);
-    if (content === null) continue;
-
-    for (const forbidden of forbiddenPaths) {
-      if (content.includes(forbidden)) {
-        failures += 1;
-        console.error(`✗ ${file}: contains hardcoded path ${forbidden.replace("ujang", "<user>")}`);
-      }
-    }
-
-    if (file === "opencode.json" && content.includes("./bin/image-asset-mcp.mjs")) {
-      failures += 1;
-      console.error(`✗ ${file}: image-asset-generator still uses ./bin/image-asset-mcp.mjs`);
-    }
-
-    if (
-      ["agents/visual-asset-generator.md", "skills/opencode-visual-asset-generator/SKILL.md"].includes(file)
-    ) {
-      const requiredPhrases = [
-        "Never hardcode device-specific absolute paths",
-        "active workspace/project root",
-        "OpenCode config root",
-        "target app `project_root`",
-        "target_path` relative to that root",
-      ];
-      const missing = requiredPhrases.filter((phrase) => !content.includes(phrase));
-      if (missing.length > 0) {
-        failures += 1;
-        console.error(`✗ ${file}: missing portability phrases:`);
-        for (const phrase of missing) console.error(`  - ${phrase}`);
-      }
-    }
-  }
-}
-
-function checkRootFilesForPortability() {
-  const rootFiles = ["AGENTS.md", "agents/orchestrator.md", "agents/artifact-planner.md", "agents/visual-asset-generator.md", "skills/opencode-orchestrator/SKILL.md", "skills/opencode-visual-asset-generator/SKILL.md", "scripts/prompt-gate-regression.mjs", "opencode.json"];
-  for (const file of rootFiles) {
-    const content = read(file);
-    if (content === null) continue;
-    for (const forbidden of forbiddenPaths) {
-      if (content.includes(forbidden)) {
-        failures += 1;
-        console.error(`✗ ${file}: contains hardcoded path ${forbidden.replace("ujang", "<user>")}`);
-      }
-    }
-  }
-}
-
-for (const check of checks) {
-  if (check.mustBeMissing) {
-    const absolute = resolve(root, check.file);
-    if (existsSync(absolute)) {
-      failures += 1;
-      console.error(`✗ ${check.file} (${check.name}) should be removed`);
-    } else {
-      console.log(`✓ ${check.file} (${check.name})`);
-    }
-    continue;
-  }
-
-  const content = read(check.file);
-  if (content === null) continue;
-  const mustInclude = check.mustInclude ?? [];
-  const mustNotInclude = check.mustNotInclude ?? [];
-
-  const missing = mustInclude.filter((needle) => !content.includes(needle));
-  const forbiddenHits = mustNotInclude.filter((needle) => content.includes(needle));
-
-  if (missing.length > 0 || forbiddenHits.length > 0) {
-    failures += 1;
-    console.error(`✗ ${check.file} (${check.name}) ${missing.length > 0 ? "missing" : "forbidden"}:`);
-    for (const item of missing) console.error(`  - missing: ${item}`);
-    for (const item of forbiddenHits) console.error(`  - forbidden: ${item}`);
-  } else {
-    console.log(`✓ ${check.file} (${check.name})`);
-  }
-}
-
-for (const check of duplicates) {
-  const content = read(check.file);
-  if (content === null) continue;
-  const count = content.split(check.text).length - 1;
-  if (count > check.max) {
-    failures += 1;
-    console.error(`✗ ${check.file}: duplicate phrase appears ${count} times (max ${check.max})`);
-    console.error(`  - ${check.text}`);
-  } else {
-    console.log(`✓ ${check.file} duplicate guard (${count}/${check.max})`);
-  }
-}
-
-checkPortability();
-checkRootFilesForPortability();
-
-if (failures > 0) {
-  console.error(`\nPrompt gate regression failed with ${failures} issue(s).`);
+if (state.failures > 0) {
+  console.error(`\nPrompt gate regression failed with ${state.failures} issue(s).`);
   process.exit(1);
 }
 

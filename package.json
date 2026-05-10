@@ -6,6 +6,13 @@
     "setup:tools:check": "node scripts/setup-dev-tools.mjs --check",
     "doctor": "node scripts/doctor.mjs",
     "post:update": "node scripts/post-update-refresh.mjs",
+    "check:docs": "node scripts/docs-integrity-check.mjs",
+    "check:agents": "node scripts/agent-boundary-check.mjs",
+    "check:skills": "node scripts/skill-contract-check.mjs",
+    "check:evidence": "node scripts/evidence-contract-check.mjs",
+    "check:harness": "npm run test:prompt-gates && npm run check:docs && npm run check:agents && npm run check:skills && npm run check:evidence",
+    "check:harness:strict": "npm run check:harness && npm run eval:harness",
+    "eval:harness": "node scripts/evals/harness-eval-runner.mjs",
     "test:prompt-gates": "node scripts/prompt-gate-regression.mjs",
     "sync:openchamber": "node scripts/sync-openchamber-settings.mjs",
     "sync:openchamber:check": "node scripts/sync-openchamber-settings.mjs --check",
@@ -14,7 +21,6 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
-    "@opencode-ai/plugin": "1.14.35",
     "openai": "^6.35.0",
     "sharp": "^0.34.5",
     "zod": "^4.4.1"

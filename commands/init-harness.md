@@ -1,3 +1,46 @@
+---
+description: Initialize or update the current project's AGENTS.md for the harness workflow
+agent: orchestrator
+model: cliproxyapi/gpt-5.4
+---
+
+Initialize a project-local `AGENTS.md` for the current target project so it matches the current harness workflow and rules.
+
+Arguments from user, if any:
+
+```text
+$ARGUMENTS
+```
+
+Workflow:
+
+1. Inspect the current target project root before writing anything.
+2. Read the existing root `AGENTS.md` if it exists.
+3. Inspect `.opencode/docs/index.md` first when present, then review project-local equivalents such as `.opencode/docs/AGENT_ROUTING.md`, `.opencode/docs/QUALITY.md`, `.opencode/docs/EVALS.md`, `.opencode/docs/SECURITY.md`, and `.opencode/docs/DECISIONS.md` when they exist.
+4. Inspect the project README, package manager files, and validation scripts so the file reflects the real workflow instead of generic advice.
+5. If `AGENTS.md` already exists at the project root, ask before overwriting or replacing it.
+6. If no root `AGENTS.md` exists, create one in the current project root.
+7. Keep the file in English and keep it short: target under 60 lines, never exceed 100.
+8. Treat `AGENTS.md` as a map, not an encyclopedia. Detailed policy belongs in `.opencode/docs/` and mechanical checks.
+9. Prefer repo-local docs over embedded long-form instructions. Point to canonical docs instead of duplicating policy.
+10. If the project already uses a docs-as-system-of-record workflow, reflect it explicitly.
+11. If the project does not yet have canonical docs under `.opencode/docs/`, ask whether to scaffold the docs system of record before inventing placeholder links.
+12. Include the current routing and validation posture that future agents must follow.
+13. Use the user's hints from `$ARGUMENTS` only to specialize the file; do not discard the harness baseline.
+14. Do not silently overwrite existing project-specific rules.
+
+Write `AGENTS.md` using exactly these sections, in this order:
+
+- Start Here
+- Non-negotiable Rules
+- Default Flow
+- Harness Posture
+- Risk Triggers
+- Notes
+
+Use this structure:
+
+```markdown
 # AGENTS.md
 
 ## Start Here
@@ -49,3 +92,12 @@ User intent → `@orchestrator` → specialist agents → validation → `@quali
 - For substantial UI work, inspect the target project's `DESIGN.md` first, then `design-system/DESIGN.md` or a documented equivalent.
 - For image-heavy or reference UI work, require evidence, asset decisions, and legal style-equivalent handling.
 - For full operational details, follow the linked docs rather than expanding this file.
+```
+
+After writing the file, summarize:
+
+- where `AGENTS.md` was created or updated,
+- which repo-local docs and scripts informed it,
+- any assumptions made,
+- whether a `.opencode/docs/` system-of-record scaffold is still missing,
+- what future agents should read first.

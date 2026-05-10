@@ -1,0 +1,43 @@
+{
+  "id": "docs-policy-migration-roundtrip",
+  "category": "behavioral-task",
+  "description": "Behavioral eval: policy should live in canonical docs while AGENTS stays map-like and README stays onboarding-oriented.",
+  "artifacts": [
+    {
+      "type": "routing",
+      "file": "AGENTS.md",
+      "mustInclude": [
+        ".opencode/docs/AGENT_ROUTING.md",
+        ".opencode/docs/QUALITY.md",
+        ".opencode/docs/EVALS.md"
+      ],
+      "mustNotInclude": [
+        "Page-by-page UX blueprint",
+        "Section-level visual specification",
+        "Motion system"
+      ],
+      "reasonCode": "agents-docs-roundtrip-regression"
+    },
+    {
+      "type": "canonical-doc",
+      "file": ".opencode/docs/AGENT_ROUTING.md",
+      "mustInclude": [
+        "General Design Readiness Gate",
+        "Asset and image decision",
+        "Validation evidence"
+      ],
+      "reasonCode": "canonical-doc-gap"
+    },
+    {
+      "type": "index",
+      "file": ".opencode/docs/index.md",
+      "mustInclude": [
+        "Canonical docs",
+        "AGENT_ROUTING.md",
+        "QUALITY.md",
+        "EVALS.md"
+      ],
+      "reasonCode": "docs-index-roundtrip-gap"
+    }
+  ]
+}

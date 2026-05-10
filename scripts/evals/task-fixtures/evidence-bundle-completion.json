@@ -1,0 +1,40 @@
+{
+  "id": "evidence-bundle-completion",
+  "category": "behavioral-task",
+  "description": "Behavioral eval: a non-trivial task should have a plan, evidence manifest, discovery artifact, and verification artifact with the expected command set.",
+  "artifacts": [
+    {
+      "type": "plan",
+      "file": ".opencode/plans/20260510-2140-harness-engineering-plan.md",
+      "mustInclude": [
+        "# Validation Commands",
+        "# Evidence Requirements",
+        "# Final Planning Summary"
+      ],
+      "reasonCode": "plan-evidence-shape-gap"
+    },
+    {
+      "type": "manifest",
+      "file": ".opencode/evidence/20260510-2140-harness-engineering-plan/index.json",
+      "mustInclude": [
+        "task_id",
+        "plan_file",
+        "evidence_dir",
+        "validation_commands",
+        "check:harness:strict"
+      ],
+      "reasonCode": "evidence-manifest-gap"
+    },
+    {
+      "type": "verification",
+      "file": ".opencode/evidence/20260510-2140-harness-engineering-plan/verification.md",
+      "mustInclude": [
+        "npm run check:harness",
+        "npm run check:harness:strict",
+        "npm run eval:harness",
+        "npm run doctor"
+      ],
+      "reasonCode": "verification-evidence-gap"
+    }
+  ]
+}

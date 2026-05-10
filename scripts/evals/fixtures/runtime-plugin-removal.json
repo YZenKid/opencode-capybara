@@ -1,0 +1,22 @@
+{
+  "id": "runtime-plugin-removal",
+  "description": "Validates that the standalone harness no longer depends on the removed runtime plugin path.",
+  "rules": [
+    {
+      "file": "package.json",
+      "mustNotInclude": [
+        "@opencode-ai/plugin",
+        "oh-my-opencode-slim"
+      ],
+      "reasonCode": "runtime-plugin-regression"
+    },
+    {
+      "file": "opencode.json",
+      "mustNotInclude": [
+        "@opencode-ai/plugin",
+        "oh-my-opencode-slim"
+      ],
+      "reasonCode": "runtime-config-regression"
+    }
+  ]
+}

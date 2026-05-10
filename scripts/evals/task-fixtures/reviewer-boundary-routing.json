@@ -1,0 +1,42 @@
+{
+  "id": "reviewer-boundary-routing",
+  "category": "behavioral-task",
+  "description": "Behavioral eval: read-only reviewer lanes should stay read-only and route implementation elsewhere.",
+  "artifacts": [
+    {
+      "type": "reviewer-agent",
+      "file": "agents/quality-gate.md",
+      "mustInclude": [
+        "Do not use when",
+        "Jangan mengedit file",
+        "Jangan mengedit file, memperbaiki sendiri"
+      ],
+      "mustNotInclude": [
+        "apply_patch: allow",
+        "task: allow"
+      ],
+      "reasonCode": "quality-gate-boundary-gap"
+    },
+    {
+      "type": "routing-doc",
+      "file": ".opencode/docs/AGENT_ROUTING.md",
+      "mustInclude": [
+        "@quality-gate",
+        "@fixer",
+        "@oracle",
+        "@designer"
+      ],
+      "reasonCode": "routing-boundary-doc-gap"
+    },
+    {
+      "type": "quality-skill",
+      "file": "skills/opencode-quality-gate/SKILL.md",
+      "mustInclude": [
+        "No edit, no autofix",
+        "Read-only only",
+        "final reviewer read-only"
+      ],
+      "reasonCode": "quality-gate-skill-boundary-gap"
+    }
+  ]
+}

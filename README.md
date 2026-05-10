@@ -8,6 +8,8 @@ Standalone OpenCode multi-agent configuration yang tenang, terarah, dan safety-g
 
 `opencode-capybara` adalah konfigurasi OpenCode standalone berbasis local Markdown agents, standalone `opencode-*` skills, prompt gates, dan MCP. Fokusnya: koordinasi specialist agents dengan boundary jelas, evidence yang bisa diverifikasi, dan commit policy yang aman.
 
+Repository ini sekarang juga diposisikan sebagai **local harness engineering system**: `AGENTS.md` adalah peta singkat, `.opencode/docs/` adalah knowledge system of record, `.opencode/plans/` menyimpan plan artifact, dan mechanical checks menjaga agar policy tidak drift.
+
 ## Kenapa capybara?
 
 Capybara dipilih karena tenang, sosial, adaptif, dan bisa berdampingan dengan banyak spesies—metafora untuk orchestration layer yang menyatukan banyak agent, skill, MCP, dan safety gate tanpa menambah noise.
@@ -75,10 +77,13 @@ Kalau ingin menyiapkan ulang tools dengan paksa, gunakan `npm run setup:tools --
 | Path | Fungsi |
 |---|---|
 | `opencode.json`, `tui.json`, `AGENTS.md` | Core config, MCP, dan global policy |
+| `.opencode/docs/` | Canonical system of record untuk routing, quality, evals, security, dan decisions |
 | `agents/*.md` | Local Markdown agents untuk primary/subagent routing |
 | `skills/opencode-*/SKILL.md` | Workflow contract per specialist |
 | `commands/commit-message.md` | Optional read-only helper untuk menyusun commit message manual |
+| `commands/init-harness.md`, `commands/init-design.md` | Bootstrap helper untuk `AGENTS.md` harness workflow dan project-local `DESIGN.md` |
 | `scripts/prompt-gate-regression.mjs` | Regression gates untuk prompt/config/docs invariants |
+| `scripts/*check*.mjs` | Mechanical checks untuk docs, boundaries, skills, dan evidence |
 | `bin/image-asset-mcp.mjs` | Local MCP wrapper untuk generated image assets |
 
 ## Architecture
@@ -139,13 +144,36 @@ Domain specialists bersifat conditional: gunakan untuk PRD/SaaS/AI/security/rele
 
 Domain specialists bersifat conditional; gunakan hanya saat kebutuhan kerja benar-benar memerlukannya. Tiny UI polish tetap ke `@designer`, dan isolated bugfix tetap ke `@fixer`.
 
+## Documentation system of record
+
+- `AGENTS.md` sekarang adalah table of contents + non-negotiable rules.
+- Detail policy hidup di `.opencode/docs/`.
+- `.opencode/docs/index.md` adalah titik masuk utama untuk architecture, routing, quality, evals, security, skills, decisions, release, dan garbage collection workflow.
+- Plans adalah first-class artifacts di `.opencode/plans/`.
+
 ## Validation dan auto-commit
 
 ```bash
 npm run test:prompt-gates
+npm run check:harness
 ```
 
 Prompt gates menjaga standalone identity, local agent boundaries, retired/disabled agents, quality-gate routing, auto-commit safety, anti-AI-slop UI policy, visual asset rules, portability, dan commit-message format.
+
+Harness checks tambahan:
+
+```bash
+npm run check:docs
+npm run check:agents
+npm run check:skills
+npm run check:evidence
+npm run eval:harness
+npm run check:harness:strict
+```
+
+`npm run check:harness` menjalankan prompt gates dan mechanical checks secara berurutan.
+`npm run eval:harness` menjalankan runnable harness eval fixtures ringan dan menulis replayable report ke `.opencode/evidence/harness-evals/latest/`.
+`npm run check:harness:strict` menjalankan `check:harness` lalu `eval:harness` untuk hardening pass yang lebih ketat.
 
 Untuk refresh cepat setelah update config OpenCode:
 
@@ -275,6 +303,7 @@ Maintenance minimal sebelum selesai:
 ```bash
 git status --short
 npm run test:prompt-gates
+npm run check:harness
 ```
 
 Pastikan validation lulus, `@quality-gate` tidak blocker, staging hanya file relevan, dan tidak push otomatis.

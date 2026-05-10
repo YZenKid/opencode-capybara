@@ -1,0 +1,30 @@
+{
+  "id": "readonly-boundary-negative",
+  "description": "Negative fixture: read-only reviewer agents should not regain write/patch permissions.",
+  "rules": [
+    {
+      "file": "agents/quality-gate.md",
+      "mustInclude": [
+        "apply_patch: deny",
+        "task: deny"
+      ],
+      "mustNotInclude": [
+        "apply_patch: allow",
+        "task: allow"
+      ],
+      "reasonCode": "readonly-boundary-regression"
+    },
+    {
+      "file": "agents/oracle.md",
+      "mustInclude": [
+        "apply_patch: deny",
+        "task: deny"
+      ],
+      "mustNotInclude": [
+        "apply_patch: allow",
+        "task: allow"
+      ],
+      "reasonCode": "readonly-boundary-regression"
+    }
+  ]
+}
