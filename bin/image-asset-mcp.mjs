@@ -68,6 +68,12 @@ function normalizeModel() {
   return env('IMAGE_ASSET_MODEL', 'gpt-image-2')
 }
 
+function normalizeQuality(value) {
+  const next = (value || env('IMAGE_ASSET_QUALITY', 'medium')).toLowerCase()
+  if (!['low', 'medium', 'high', 'auto'].includes(next)) return 'medium'
+  return next
+}
+
 function normalizeBackground(background, format) {
   const value = background || env('IMAGE_ASSET_DEFAULT_BACKGROUND', 'auto')
   if (!['auto', 'transparent', 'opaque'].includes(value)) return 'auto'
@@ -234,6 +240,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
             enum: ['auto', 'transparent', 'opaque'],
             description: 'Use transparent for PNG/WebP assets that need alpha channel, such as cutouts, icons, badges, and overlays.',
           },
+          quality: {
+            type: 'string',
+            enum: ['low', 'medium', 'high', 'auto'],
+            description: 'Image generation quality preset. For gpt-image-2 style models, use this instead of reasoningEffort.',
+          },
           alt: { type: 'string' },
           legal_note: { type: 'string' },
         },
@@ -265,6 +276,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
                 format: { type: 'string' },
                 output_format: { type: 'string' },
                 background: { type: 'string' },
+                quality: { type: 'string' },
                 alt: { type: 'string' },
                 legal_note: { type: 'string' },
               },
@@ -288,10 +300,12 @@ async function generateOne(input) {
   const model = normalizeModel()
   const outputFormat = normalizeOutputFormat(input.output_format || input.format, targetPath)
   const background = normalizeBackground(input.background, outputFormat)
+  const quality = normalizeQuality(input.quality)
 
   const request = { model, prompt, size, n: 1 }
   if (background !== 'auto') request.background = background
   if (outputFormat && outputFormat !== 'png') request.output_format = outputFormat
+  if (quality !== 'auto') request.quality = quality
 
   let response
   let transparentFallbackMode = null
@@ -332,6 +346,7 @@ async function generateOne(input) {
     format: path.extname(targetPath).replace('.', '') || input.format || outputFormat || 'png',
     output_format: outputFormat,
     background,
+    quality,
     transparency_verified: transparentResult.transparency_verified,
     transparency_warning: transparentResult.transparency_warning,
     png_info: parsePngInfo(bytes),

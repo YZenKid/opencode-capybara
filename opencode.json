@@ -140,6 +140,17 @@
             "output": [
               "image"
             ]
+          },
+          "variants": {
+            "low": {
+              "quality": "low"
+            },
+            "medium": {
+              "quality": "medium"
+            },
+            "high": {
+              "quality": "high"
+            }
           }
         }
       }
