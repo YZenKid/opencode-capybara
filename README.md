@@ -19,18 +19,25 @@ Kalau kamu baru pertama kali melihat repo ini, anggap proyek ini sebagai:
 - **bukan aplikasi end-user biasa**, melainkan
 - **konfigurasi dan workflow untuk OpenCode/OpenChamber**.
 
-Artinya, tujuan repo ini bukan "clone lalu buka UI aplikasi", tetapi:
+Repo ini paling cocok untuk:
 
-1. memasang konfigurasi OpenCode,
-2. menyiapkan tools pendukung,
-3. mengisi environment variables,
-4. lalu menjalankan OpenCode dengan setup ini.
+- user yang memakai OpenCode/OpenChamber secara rutin,
+- orang yang ingin workflow agent-based yang lebih ketat,
+- maintainer yang butuh docs, quality gate, dan evidence yang rapi.
 
-Kalau kamu pemula, cukup baca bagian-bagian berikut yang tersusun berurutan di bawah ini. Sisanya bisa dibuka nanti saat butuh detail lanjutan.
+Repo ini **kurang cocok** kalau ekspektasimu adalah:
+
+- aplikasi visual yang langsung dibuka di browser,
+- boilerplate frontend/backend sederhana,
+- setup tanpa API key atau tools tambahan.
 
 ## Quick start untuk pemula
 
-Kalau kamu hanya ingin repo ini **terpasang dan lolos pengecekan dasar**, gunakan installer ini:
+```bash
+git clone <REPO_URL> ~/.config/opencode
+cd ~/.config/opencode
+bash scripts/install.sh
+```
 
 Installer ini akan menjalankan:
 
@@ -39,73 +46,35 @@ Installer ini akan menjalankan:
 - setup Caveman secara eksplisit di dalam installer
 - `npm run doctor`
 
-Di beberapa platform, installer ini bisa memanggil `brew install rtk` atau script resmi RTK via `curl | sh`, lalu menjalankan `npx -y skills add JuliusBrussee/caveman -a opencode`. Ini bukan hidden install hook, tapi memang bagian dari setup repo ini.
+Installer ini **butuh network** dan menjalankan setup **third-party tools** secara eksplisit. Kalau kamu butuh mode non-interaktif, gunakan `bash scripts/install.sh --yes`.
 
-Artinya, installer ini **butuh network** dan akan menjalankan setup **third-party tools** sebagai bagian dari onboarding default.
-Installer ini juga akan meminta **konfirmasi** sebelum menjalankan third-party setup. Jika kamu butuh mode non-interaktif, gunakan `bash scripts/install.sh --yes`.
+## Dokumentasi pengguna
 
-Catatan versi RTK:
+Panduan user-facing dipindahkan ke folder [`guide/`](./guide/README.md):
 
-- jalur script resmi memakai fallback **pinned release** `RTK_VERSION=v0.39.0` secara default
-- jalur Homebrew tetap mengikuti **versi formula saat ini**
+- [`guide/INSTALL.md`](./guide/INSTALL.md)
+- [`guide/ENVIRONMENT.md`](./guide/ENVIRONMENT.md)
+- [`guide/SCRIPTS.md`](./guide/SCRIPTS.md)
+- [`guide/MODEL_ROUTING.md`](./guide/MODEL_ROUTING.md)
+- [`guide/TROUBLESHOOTING.md`](./guide/TROUBLESHOOTING.md)
 
-```bash
-git clone <REPO_URL> ~/.config/opencode
-cd ~/.config/opencode
-bash scripts/install.sh
-```
+## Dokumentasi internal harness
 
-Ganti `<REPO_URL>` dengan URL repository ini.
+- `AGENTS.md` adalah peta singkat aturan repo
+- `.opencode/docs/index.md` adalah titik masuk utama policy dan architecture
 
-Kalau installer selesai sukses, berarti dependency utama dan tools pendukung sudah siap, `.env` akan dibuat jika belum ada, dan kamu akan mendapat instruksi langkah berikutnya.
+`AGENTS.md` sekarang adalah table of contents + non-negotiable rules.
+Detail policy hidup di `.opencode/docs/`.
+Plans adalah first-class artifacts di `.opencode/plans/`.
 
-## Yang perlu kamu siapkan
+## Struktur project singkat
 
-Sebelum install, pastikan kamu sudah punya:
+Kalau kamu pemula, cukup kenali 4 area ini dulu:
 
-- `git`
-- `node` dan `npm`
-- akses ke **OpenCode** atau **OpenChamber**
-- akses ke **CLIProxyAPI** atau endpoint OpenAI-compatible yang dipakai sebagai provider model utama repo ini
-- beberapa API key yang dipakai repo ini, minimal sesuai `.env.example`
-
-Kalau salah satu dari daftar di atas belum ada, repo ini kemungkinan belum bisa langsung dipakai penuh.
-
-## Langkah pertama setelah install
-
-Kalau kamu memakai `bash scripts/install.sh`, script itu akan membuat `.env` secara otomatis bila file tersebut belum ada.
-
-Kalau kamu ingin melakukannya manual, lanjutkan dengan setup environment:
-
-```bash
-cp .env.example .env
-```
-
-Isi nilai di `.env`, lalu export ke shell.
-
-Contoh di bawah ini untuk shell **bash/zsh**:
-
-```bash
-set -a
-source ~/.config/opencode/.env
-set +a
-```
-
-Setelah itu, baru jalankan:
-
-```bash
-opencode
-```
-
-Jangan commit `.env`.
-
-Kalau kamu bingung harus mulai dari mana setelah `opencode` berhasil jalan, gunakan urutan mental ini:
-
-1. **`README.md`** → onboarding dan perintah dasar
-2. **`AGENTS.md`** → peta singkat aturan repo
-3. **`.opencode/docs/index.md`** → index dokumentasi lanjutan
-
-Kalau tujuanmu hanya ingin memakai setup ini, kamu tidak perlu membaca semua doc di awal.
+- `README.md` → panduan mulai
+- `guide/` → panduan penggunaan repo
+- `AGENTS.md` → aturan singkat
+- `.opencode/docs/` → dokumentasi detail internal
 
 ## Kenapa capybara?
 
@@ -119,243 +88,16 @@ Capybara dipilih karena tenang, sosial, adaptif, dan bisa berdampingan dengan ba
 
 Capybara bukan simbol “cepat sendiri”; ia simbol “tenang bersama-sama sampai hasilnya benar”.
 
-## Setup lanjutan dan verifikasi penuh
-
-Kalau kamu lompat langsung ke bagian ini, tetap ganti `<REPO_URL>` dengan URL repository ini.
-
-```bash
-git clone <REPO_URL> ~/.config/opencode
-cd ~/.config/opencode
-npm install
-npm run setup:tools
-npm run doctor
-npm run test:prompt-gates
-```
-
-Bagian ini adalah jalur setup penuh setelah quick start pemula di atas berhasil.
-
-Kalau `opencode.json` atau routing model/agent berubah, jalankan:
-
-```bash
-npm run post:update
-```
-
-Command ini akan me-refresh sinkronisasi OpenChamber lalu menjalankan `doctor`.
-
-Setup environment:
-
-```bash
-cp .env.example .env
-set -a
-source ~/.config/opencode/.env
-set +a
-opencode
-```
-
-Jangan commit `.env`.
-
-## Repo ini cocok untuk siapa?
-
-Repo ini paling cocok untuk:
-
-- user yang memakai OpenCode/OpenChamber secara rutin,
-- orang yang ingin workflow agent-based yang lebih ketat,
-- maintainer yang butuh docs, quality gate, dan evidence yang rapi.
-
-Repo ini **kurang cocok** kalau ekspektasimu adalah:
-
-- aplikasi visual yang langsung dibuka di browser,
-- boilerplate frontend/backend sederhana,
-- setup tanpa API key atau tools tambahan.
-
-## RTK dan Caveman setup
-
-RTK dan Caveman dipasang secara eksplisit, bukan lewat hidden lifecycle hook. Repo ini tidak memakai `postinstall`, `preinstall`, atau `prepare` untuk install tools pihak ketiga, jadi `npm install` tetap aman dan hanya memasang dependency npm project.
-
-Alur yang disarankan:
-
-```bash
-npm run setup:tools
-npm run doctor
-```
-
-- `npm run setup:tools` menyiapkan RTK dan Caveman secara idempotent.
-- `npm run setup:tools -- --check` hanya melakukan verifikasi read-only.
-- Secara default, fallback script RTK di-`pin` ke `RTK_VERSION=v0.39.0`, tetapi jalur Homebrew tetap mengikuti versi formula saat ini.
-- Jika setup otomatis tidak tersedia di platform tertentu, script akan memberi manual fallback command yang jelas.
-- RTK binary boleh terpasang, tetapi OpenCode command rewriting tidak auto-enabled; mode itu tetap opt-in dan hanya dipakai kalau user memang meminta.
-- Untuk token compression / context packing, gunakan RTK dan Caveman secara bersamaan melalui workflow yang dipasang lewat setup ini; jangan buat jalur compression lokal paralel atau memperlakukan keduanya sebagai pilihan salah satu.
-- Repo ini menerapkan no unsafe lifecycle install hooks policy: tidak ada install tools pihak ketiga tersembunyi di lifecycle hook npm.
-
-Kalau ingin menyiapkan ulang tools dengan paksa, gunakan `npm run setup:tools -- --force`.
-
-## Struktur project
-
-Kalau kamu pemula, cukup kenali 4 area ini dulu:
-
-- `README.md` → panduan mulai
-- `AGENTS.md` → aturan singkat
-- `.opencode/docs/` → dokumentasi detail
-- `skills/` dan `agents/` → perilaku agent dan workflow
-
-Sisanya bisa dipelajari belakangan.
-
-| Path | Fungsi |
-|---|---|
-| `opencode.json`, `tui.json`, `AGENTS.md` | Core config, MCP, dan global policy |
-| `.opencode/docs/` | Canonical system of record untuk routing, quality, evals, security, dan decisions |
-| `agents/*.md` | Local Markdown agents untuk primary/subagent routing |
-| `skills/opencode-*/SKILL.md` | Workflow contract per specialist |
-| `commands/commit-message.md` | Optional read-only helper untuk menyusun commit message manual |
-| `commands/init-harness.md`, `commands/init-design.md` | Bootstrap helper untuk `AGENTS.md` harness workflow dan project-local `DESIGN.md` |
-| `scripts/prompt-gate-regression.mjs` | Regression gates untuk prompt/config/docs invariants |
-| `scripts/*check*.mjs` | Mechanical checks untuk docs, boundaries, skills, dan evidence |
-| `bin/image-asset-mcp.mjs` | Local MCP wrapper untuk generated image assets |
-
-## Architecture
-
-- `orchestrator` adalah default primary agent dan router/integrator.
-- `artifact-planner` adalah primary agent khusus plan/draft/evidence; bukan implementer.
-- Specialist subagents menangani discovery, docs, implementation, UI, architecture review, documents, image assets, consensus, dan final quality review.
-- Redundant `build` and `general` local agents have been removed; implementation/testing routes to `@fixer`, and general routing stays with `@orchestrator`.
-- Built-in `plan` dan `explore` disabled agar workflow tetap lewat local agents.
-
-## Agent matrix
-
-| Agent | Mode | Fungsi |
-|---|---:|---|
-| `@orchestrator` | primary | Router/integrator, delegation, validation, final summary |
-| `@artifact-planner` | primary | Menulis plan/draft/evidence di `.opencode/` saja |
-| `@explorer` | subagent | Local codebase discovery dan reuse mapping |
-| `@librarian` | subagent | Official docs/library/API research |
-| `@oracle` | subagent | Architecture, simplification, maintainability/risk review |
-| `@fixer` | subagent | Bounded implementation, tests, fixtures, Red/Green/Refactor |
-| `@designer` | subagent | UI/UX implementation/review dan visual polish |
-| `@visual-parity-auditor` | subagent | Read-only screenshot/section parity review |
-| `@motion-specialist` | subagent | Read-only animation/reduced-motion review |
-| `@accessibility-reviewer` | subagent | Read-only a11y review |
-| `@ui-system-architect` | subagent | Read-only tokens/component anatomy review |
-| `@visual-asset-generator` | subagent | Image-heavy asset manifest/generation jobs |
-| `@document-specialist` | subagent | PDF/spreadsheet/Office/document processing |
-| `@product-architect` | subagent | PRD → MVP, epics, user flows, acceptance criteria |
-| `@saas-architect` | subagent | Tenancy, workspace/RBAC, billing, usage limits, audit |
-| `@ai-systems-architect` | subagent | LLM/RAG/evals, AI safety, cost, reliability boundaries |
-| `@security-privacy-reviewer` | subagent | PII, auth, tenant isolation, uploads, payments, AI/biometric data |
-| `@release-engineer` | subagent | CI/CD, env, deploy, monitoring, rollback, production readiness |
-| `@mobile-architect` | subagent | Native/hybrid/PWA, offline, push, deep links, camera/QR, app-store constraints |
-| `@council` | subagent | High-confidence consensus/advisory |
-| `@quality-gate` | subagent | Final read-only conformance/risk gate |
-| `@skill-improver` | subagent | Bounded prompt/agent/skill refinement |
-
-`@skill-improver` hanya untuk non-trivial follow-up, repeated failures, policy gaps, atau explicit request; no blind external updates. `@quality-gate` status: `PASS`, `PASS_WITH_RISKS`, `NEEDS_FIX`, `BLOCKED`.
-
-Domain specialists bersifat conditional: gunakan untuk PRD/SaaS/AI/security/release/mobile decisions yang material, bukan untuk setiap task. Tiny UI polish tetap ke `@designer` atau direct edit; isolated bugfix tetap ke `@fixer` kecuali ada risk trigger seperti auth, PII, tenant isolation, payment, AI data leakage, atau release risk.
-
-## Workflow singkat
-
-| Work type | Route | Gate |
-|---|---|---|
-| Unknown codebase | `@explorer` | summarized file/symbol map |
-| Library/API docs | `@librarian` | official/current docs |
-| Implementation/tests | `@fixer` | Red → Green → Refactor |
-| Architecture/risk | `@oracle` | trade-off/risk summary |
-| UI/reference | `@designer` + UI specialists | screenshots/evidence when runnable |
-| Image-heavy assets | `@designer` manifest → `@visual-asset-generator` | asset metadata + legal notes |
-| PRD → production blueprint | `@artifact-planner` + conditional domain specialists | product/SaaS/AI/security/mobile/release readiness |
-| SaaS architecture | `@saas-architect` + `@security-privacy-reviewer` as needed | tenancy/RBAC/billing/audit checklist |
-| AI feature design | `@ai-systems-architect` + `@librarian`/`@security-privacy-reviewer` as needed | evals, safety, cost, fallback plan |
-| Mobile/hybrid architecture | `@mobile-architect` + `@designer`/`@release-engineer` as needed | platform/device validation matrix |
-| Production rollout | `@release-engineer` + `@quality-gate` | CI/CD, env, monitoring, rollback evidence |
-| Prompt/config/security-sensitive | orchestrator + `@quality-gate` | prompt gates + final quality status |
-
-Domain specialists bersifat conditional; gunakan hanya saat kebutuhan kerja benar-benar memerlukannya. Tiny UI polish tetap ke `@designer`, dan isolated bugfix tetap ke `@fixer`.
-
-## Documentation system of record
-
-- `AGENTS.md` sekarang adalah table of contents + non-negotiable rules.
-- Detail policy hidup di `.opencode/docs/`.
-- `.opencode/docs/index.md` adalah titik masuk utama untuk architecture, routing, quality, evals, security, skills, decisions, release, dan garbage collection workflow.
-- Plans adalah first-class artifacts di `.opencode/plans/`.
-
-## Validation dan auto-commit
-
-```bash
-npm run test:prompt-gates
-npm run check:harness
-```
-
-Prompt gates menjaga standalone identity, local agent boundaries, retired/disabled agents, quality-gate routing, auto-commit safety, anti-AI-slop UI policy, visual asset rules, portability, dan commit-message format.
-
-Harness checks tambahan:
-
-```bash
-npm run check:docs
-npm run check:agents
-npm run check:skills
-npm run check:evidence
-npm run eval:harness
-npm run check:harness:strict
-```
-
-`npm run check:harness` menjalankan prompt gates dan mechanical checks secara berurutan.
-`npm run eval:harness` menjalankan runnable harness eval fixtures ringan dan menulis replayable report ke `.opencode/evidence/harness-evals/latest/`.
-`npm run check:harness:strict` menjalankan `check:harness` lalu `eval:harness` untuk hardening pass yang lebih ketat.
-
-Untuk refresh cepat setelah update config OpenCode:
-
-```bash
-npm run post:update
-```
-
-Auto-commit default ON untuk local commits only; never push automatically.
-
-- Jalan hanya setelah task plan-bound non-trivial selesai, validation lulus, dan `@quality-gate` memberi `PASS` atau `PASS_WITH_RISKS` tanpa blocker.
-- Review `git status`/`git diff`, lalu stage hanya file relevan.
-- Commit message otomatis memakai subject singkat plus body bullet-point.
-- Jangan stage `.env`, secrets, tokens, credentials, unrelated untracked files, atau generated/vendor files kecuali plan/user menyetujui.
-- Jangan gunakan `--no-verify`, `--no-gpg-sign`, `amend`, force push, atau destructive git commands.
-- Kalau scope atau staging meragukan, berhenti dan tanya.
-
-## Environment dan MCP
+## Ringkasan model routing
 
 ### Apa itu CLIProxyAPI di repo ini?
 
 Di repo ini, **CLIProxyAPI** adalah provider model utama yang dipakai OpenCode untuk menjalankan agent-agent lokal.
 
-Variabel utamanya:
-
 - `CLIPROXYAPI_BASE_URL` → base URL endpoint OpenAI-compatible
 - `CLIPROXYAPI_API_KEY` → API key untuk autentikasi ke provider tersebut
 
-Variabel ini dipakai oleh:
-
-- `opencode.json` untuk provider model utama OpenCode
-- MCP image asset generator sebagai fallback/default endpoint image generation
-
 Kalau dua nilai ini salah atau kosong, agent bisa gagal memanggil model meskipun konfigurasi lain terlihat benar.
-
-Minimal env dari `.env.example`:
-
-```bash
-CLIPROXYAPI_BASE_URL="https://your-openai-compatible-endpoint/v1"
-CLIPROXYAPI_API_KEY="your_cliproxyapi_api_key"
-BRAVE_API_KEY="your_brave_search_api_key"
-CONTEXT7_API_KEY="your_context7_api_key"
-GITHUB_PERSONAL_ACCESS_TOKEN="your_github_pat"
-GITHUB_TOOLSETS="context,repos,issues,pull_requests,actions,code_security"
-STITCH_API_KEY="your_stitch_api_key"
-OPENCODE_MODEL_DEFAULT="cliproxyapi/gpt-5.3-codex"
-OPENCODE_MODEL_ORCHESTRATOR="cliproxyapi/gpt-5.4"
-OPENCODE_MODEL_PLANNER="cliproxyapi/gpt-5.3-codex"
-OPENCODE_MODEL_DESIGN="cliproxyapi/gpt-5.4"
-OPENCODE_MODEL_REVIEW="cliproxyapi/gpt-5.4"
-OPENCODE_MODEL_ADVISORY="cliproxyapi/gpt-5.4"
-OPENCODE_MODEL_EXECUTION="cliproxyapi/gpt-5.3-codex"
-OPENCODE_MODEL_DISCOVERY="cliproxyapi/gpt-5.4-mini"
-OPENCODE_MODEL_DOCUMENTS="cliproxyapi/gpt-5.4-mini"
-OPENCODE_MODEL_IMPROVEMENT="cliproxyapi/gpt-5.4-mini"
-IMAGE_ASSET_MODEL="gpt-image-2"
-```
 
 Copy `.env.example` to `.env` and set every `OPENCODE_MODEL_*` value before launching OpenCode. Missing env vars resolve to an empty string, which can break OpenCode model routing.
 
@@ -369,14 +111,6 @@ Kalau kamu mengubah `OPENCODE_MODEL_*`, jalankan:
 ```bash
 npm run sync:agent-models
 ```
-
-Atau gunakan:
-
-```bash
-npm run post:update
-```
-
-untuk menyegarkan sinkronisasi model agent, sinkronisasi OpenChamber, lalu menjalankan `doctor`.
 
 ### Model routing table
 
@@ -393,96 +127,66 @@ untuk menyegarkan sinkronisasi model agent, sinkronisasi OpenChamber, lalu menja
 | `OPENCODE_MODEL_DOCUMENTS` | `cliproxyapi/gpt-5.4-mini` | `@document-specialist` | Document processing is usually utility work; keep it cost-efficient. |
 | `OPENCODE_MODEL_IMPROVEMENT` | `cliproxyapi/gpt-5.4-mini` | `@skill-improver` | Small prompt/skill refinements should stay on the cheaper lane. |
 
-`IMAGE_ASSET_MODEL` tetap terpisah dan saat ini memakai `gpt-image-2`.
+## Ringkasan domain specialist dan workflow
 
-Optional image env tambahan yang juga didukung runtime:
+Domain specialists bersifat conditional.
+Tiny UI polish tetap ke `@designer`, dan isolated bugfix tetap ke `@fixer`.
 
-- `IMAGE_ASSET_DEFAULT_SIZE`
-- `IMAGE_ASSET_DEFAULT_BACKGROUND`
+- `@skill-improver` dipakai untuk non-trivial follow-up, repeated failures, policy gaps, atau explicit request.
+- no blind external updates.
+- `@quality-gate` memberi status seperti `PASS_WITH_RISKS`, `NEEDS_FIX`, dan `BLOCKED`.
+- Redundant `build` and `general` local agents have been removed.
 
-MCP yang dikonfigurasi: `time`, `brave-search`, `context7`, `grep_app`, `playwright`, `shadcn`, `stitch`, `semgrep`, `github`, dan `image-asset-generator`.
+## Script penting
 
-Cek status:
+- `npm run setup:tools`
+- `npm run doctor`
+- `npm run post:update`
+- `npm run sync:agent-models`
+- `npm run test:prompt-gates`
 
-```bash
-set -a
-source ~/.config/opencode/.env
-set +a
-opencode mcp list
-```
+Lihat penjelasan lengkap di [`guide/SCRIPTS.md`](./guide/SCRIPTS.md).
 
-## TDD dan UI policy
+## RTK dan Caveman singkat
 
-Untuk production behavior: Red → Green → Refactor → Verification. TDD mandatory untuk production logic, bug fix, API/service behavior, UI interaction, validation, dan security-sensitive logic. Docs/prompt/config-only changes cukup dengan validation yang relevan.
+- jika setup otomatis tidak tersedia, script akan memberi **manual fallback** command yang jelas
+- repo ini menerapkan **no unsafe lifecycle install hooks policy**
+- **OpenCode command rewriting** tetap **opt-in**
+- untuk **token compression / context packing**, gunakan **RTK dan Caveman secara bersamaan**
 
-Untuk UI/reference work:
+## Ringkasan validasi
 
-1. Route ke `@designer` kecuali tiny non-visual change.
-2. Hindari generic UI, blank image frames, random emoji icons, dan placeholder final.
-3. Reference work butuh reference/current/final evidence dengan wait → stabilize → scroll → settle → screenshot.
-4. Image-heavy work butuh asset manifest dan image generation decision.
-5. Generated/provided assets harus punya path relatif, ukuran eksplisit, alt text, dan legal notes.
-
-Untuk build-from-scratch atau substantial UI/UX work, Design Gate harus menjadi general end-to-end UI/UX Design Blueprint sebelum implementasi dianggap siap. Blueprint wajib mencakup experience direction, page-by-page UX blueprint, section-level visual specification, component system plan, visual system, asset and image decision, motion system, interaction/state design, responsive plan, accessibility gate, dan validation evidence. Jika bagian penting hilang, status harus `blocked`, `needs-polish`, atau `draft`, bukan `done`.
-
-Image MCP memakai config-level path portable:
-
-```json
-"command": ["node", "{env:HOME}/.config/opencode/bin/image-asset-mcp.mjs"]
-```
-
-Untuk asset jobs, `project_root` menunjuk target app/project root dan `target_path` relatif terhadap root tersebut.
-
-## OpenChamber wrapper
-
-Jika OpenChamber tidak mewarisi env shell, buat wrapper:
+Validasi yang paling umum:
 
 ```bash
-mkdir -p ~/.config/opencode/bin
-cat > ~/.config/opencode/bin/opencode-with-env <<'EOF'
-#!/usr/bin/env bash
-set -euo pipefail
-ENV_FILE="${OPENCODE_ENV_FILE:-$HOME/.config/opencode/.env}"
-if [ -f "$ENV_FILE" ]; then
-  set -a
-  source "$ENV_FILE"
-  set +a
-fi
-exec opencode "$@"
-EOF
-chmod +x ~/.config/opencode/bin/opencode-with-env
-launchctl setenv OPENCHAMBER_OPENCODE_PATH "$HOME/.config/opencode/bin/opencode-with-env"
-```
-
-## Portability, security, troubleshooting
-
-- Jangan hardcode concrete path seperti `/home/<user>` atau `/Users/<user>` di active prompt/config/script.
-- Gunakan `$HOME` atau `{env:HOME}` untuk config-level examples.
-- Bedakan **OpenCode config root** dari **target app/project root**.
-- Jangan paste token ke chat; revoke/regenerate token jika secret pernah ter-commit.
-- Batasi GitHub token ke repository/permission yang dibutuhkan.
-- Jika MCP gagal, pastikan `.env` sudah diload dan token tersedia.
-- Jika agent baru belum terbaca, restart OpenCode lalu jalankan `ping all agents`.
-
-## References
-
-- OpenCode — platform dan runtime utama yang menjadi target konfigurasi repo ini:
-  - https://github.com/sst/opencode
-- Slim preset ancestor — preset/ancestor yang menjadi titik awal sebelum repo ini berevolusi menjadi `opencode-capybara`:
-  - https://github.com/YZenKid/oh-my-opencode-slim-preset
-- RTK AI — toolchain utama untuk token compression / context packing, dipakai bersama Caveman sesuai workflow repo:
-  - https://github.com/rtk-ai/rtk
-- Caveman — companion workflow yang dipakai bersama RTK, bukan jalur alternatif terpisah:
-  - https://github.com/JuliusBrussee/caveman
-- GPT Harness Engineering — referensi konsep untuk evals, replayability, evidence, dan hardening harness:
-  - https://openai.com/index/harness-engineering/
-
-Maintenance minimal sebelum selesai:
-
-```bash
-git status --short
 npm run test:prompt-gates
 npm run check:harness
 ```
 
-Pastikan validation lulus, `@quality-gate` tidak blocker, staging hanya file relevan, dan tidak push otomatis.
+Harness checks tambahan:
+
+```bash
+npm run check:docs
+npm run check:agents
+npm run check:skills
+npm run check:evidence
+```
+
+## Ringkasan validasi dan auto-commit
+
+Auto-commit default ON untuk local commits only; never push automatically.
+
+- Jalan hanya setelah task **plan-bound non-trivial selesai**, **validation lulus**, dan `@quality-gate` memberi `PASS` atau `PASS_WITH_RISKS` tanpa blocker.
+- Review `git status`/`git diff`, lalu **stage hanya file relevan**.
+- Commit message otomatis memakai **subject singkat plus body bullet-point**.
+- Jangan stage `.env`, secrets, tokens, credentials, unrelated untracked files, atau generated/vendor files kecuali plan/user menyetujui.
+- Jangan gunakan `--no-verify`, `--no-gpg-sign`, `amend`, force push, atau destructive git commands.
+- Kalau scope atau staging meragukan, berhenti dan tanya.
+
+## Ringkasan internal workflow
+
+- Redundant `build` and `general` local agents have been removed.
+- `@skill-improver` dipakai untuk non-trivial follow-up, repeated failures, policy gaps, atau explicit request.
+- `@quality-gate` memberi status seperti `PASS_WITH_RISKS`, `NEEDS_FIX`, dan `BLOCKED`.
+
+Detail lengkap tetap ada di `.opencode/docs/` dan file agent/skill terkait.
