@@ -190,3 +190,16 @@ Auto-commit default ON untuk local commits only; never push automatically.
 - `@quality-gate` memberi status seperti `PASS_WITH_RISKS`, `NEEDS_FIX`, dan `BLOCKED`.
 
 Detail lengkap tetap ada di `.opencode/docs/` dan file agent/skill terkait.
+
+## References
+
+- OpenCode — platform dan runtime utama yang menjadi target konfigurasi repo ini:
+  - https://github.com/sst/opencode
+- Slim preset ancestor — preset/ancestor yang menjadi titik awal sebelum repo ini berevolusi menjadi `opencode-capybara`:
+  - https://github.com/YZenKid/oh-my-opencode-slim-preset
+- RTK AI — toolchain utama untuk token compression / context packing, dipakai bersama Caveman sesuai workflow repo:
+  - https://github.com/rtk-ai/rtk
+- Caveman — companion workflow yang dipakai bersama RTK, bukan jalur alternatif terpisah:
+  - https://github.com/JuliusBrussee/caveman
+- GPT Harness Engineering — referensi konsep untuk evals, replayability, evidence, dan hardening harness:
+  - https://openai.com/index/harness-engineering/
