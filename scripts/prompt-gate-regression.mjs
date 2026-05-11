@@ -1179,7 +1179,6 @@ const checks = [
     name: "runtime plugin wording gate",
     mustInclude: [],
     mustNotInclude: [
-      upstreamPresetName,
       pluginPackageName,
       disabledAgentsKey,
       "Install dependency plugin",

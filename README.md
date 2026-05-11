@@ -299,6 +299,19 @@ launchctl setenv OPENCHAMBER_OPENCODE_PATH "$HOME/.config/opencode/bin/opencode-
 - Jika MCP gagal, pastikan `.env` sudah diload dan token tersedia.
 - Jika agent baru belum terbaca, restart OpenCode lalu jalankan `ping all agents`.
 
+## References
+
+- OpenCode — platform dan runtime utama yang menjadi target konfigurasi repo ini:
+  - https://github.com/sst/opencode
+- Slim preset ancestor — preset/ancestor yang menjadi titik awal sebelum repo ini berevolusi menjadi `opencode-capybara`:
+  - https://github.com/YZenKid/oh-my-opencode-slim-preset
+- RTK AI — toolchain utama untuk token compression / context packing, dipakai bersama Caveman sesuai workflow repo:
+  - https://github.com/rtk-ai/rtk
+- Caveman — companion workflow yang dipakai bersama RTK, bukan jalur alternatif terpisah:
+  - https://github.com/JuliusBrussee/caveman
+- GPT Harness Engineering — referensi konsep untuk evals, replayability, evidence, dan hardening harness:
+  - https://openai.com/index/harness-engineering/
+
 Maintenance minimal sebelum selesai:
 
 ```bash
