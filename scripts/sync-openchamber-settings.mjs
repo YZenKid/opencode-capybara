@@ -115,6 +115,13 @@ function printHelp() {
   log("- --openchamber-settings: override OpenChamber settings path");
 }
 
+function resolveEnvTemplate(value, env) {
+  if (typeof value !== "string") return value;
+  const match = value.match(/^\{env:([A-Za-z_][A-Za-z0-9_]*)\}$/u);
+  if (!match) return value;
+  return env[match[1]] || value;
+}
+
 function main() {
   let flags;
   try {
@@ -142,11 +149,15 @@ function main() {
     opencodeEnv.OPENCODE_MODEL_DISCOVERY ||
     opencodeEnv.OPENCODE_MODEL_IMPROVEMENT ||
     opencodeEnv.OPENCODE_MODEL_DEFAULT ||
-    opencodeConfig.model;
+    resolveEnvTemplate(opencodeConfig.model, opencodeEnv);
+
+  const defaultModel =
+    opencodeEnv.OPENCODE_MODEL_DEFAULT ||
+    resolveEnvTemplate(opencodeConfig.model, opencodeEnv);
 
   const desired = {
     homeDirectory: flags.opencodeRoot,
-    defaultModel: opencodeConfig.model,
+    defaultModel,
     defaultAgent: opencodeConfig.default_agent,
     zenModel,
   };

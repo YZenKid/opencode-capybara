@@ -66,6 +66,7 @@ Sebelum install, pastikan kamu sudah punya:
 - `git`
 - `node` dan `npm`
 - akses ke **OpenCode** atau **OpenChamber**
+- akses ke **CLIProxyAPI** atau endpoint OpenAI-compatible yang dipakai sebagai provider model utama repo ini
 - beberapa API key yang dipakai repo ini, minimal sesuai `.env.example`
 
 Kalau salah satu dari daftar di atas belum ada, repo ini kemungkinan belum bisa langsung dipakai penuh.
@@ -317,6 +318,22 @@ Auto-commit default ON untuk local commits only; never push automatically.
 
 ## Environment dan MCP
 
+### Apa itu CLIProxyAPI di repo ini?
+
+Di repo ini, **CLIProxyAPI** adalah provider model utama yang dipakai OpenCode untuk menjalankan agent-agent lokal.
+
+Variabel utamanya:
+
+- `CLIPROXYAPI_BASE_URL` → base URL endpoint OpenAI-compatible
+- `CLIPROXYAPI_API_KEY` → API key untuk autentikasi ke provider tersebut
+
+Variabel ini dipakai oleh:
+
+- `opencode.json` untuk provider model utama OpenCode
+- MCP image asset generator sebagai fallback/default endpoint image generation
+
+Kalau dua nilai ini salah atau kosong, agent bisa gagal memanggil model meskipun konfigurasi lain terlihat benar.
+
 Minimal env dari `.env.example`:
 
 ```bash
@@ -342,6 +359,25 @@ IMAGE_ASSET_MODEL="gpt-image-2"
 
 Copy `.env.example` to `.env` and set every `OPENCODE_MODEL_*` value before launching OpenCode. Missing env vars resolve to an empty string, which can break OpenCode model routing.
 
+Model routing sekarang diterapkan lewat dua jalur:
+
+- `opencode.json` memakai `OPENCODE_MODEL_DEFAULT` untuk model default runtime
+- `scripts/sync-agent-models.mjs` menyamakan `model:` literal di `agents/*.md` dengan nilai `OPENCODE_MODEL_*` dari `.env`
+
+Kalau kamu mengubah `OPENCODE_MODEL_*`, jalankan:
+
+```bash
+npm run sync:agent-models
+```
+
+Atau gunakan:
+
+```bash
+npm run post:update
+```
+
+untuk menyegarkan sinkronisasi model agent, sinkronisasi OpenChamber, lalu menjalankan `doctor`.
+
 ### Model routing table
 
 | Env var | Default / recommended model | Used by / capability | Cost guidance |
@@ -358,6 +394,11 @@ Copy `.env.example` to `.env` and set every `OPENCODE_MODEL_*` value before laun
 | `OPENCODE_MODEL_IMPROVEMENT` | `cliproxyapi/gpt-5.4-mini` | `@skill-improver` | Small prompt/skill refinements should stay on the cheaper lane. |
 
 `IMAGE_ASSET_MODEL` tetap terpisah dan saat ini memakai `gpt-image-2`.
+
+Optional image env tambahan yang juga didukung runtime:
+
+- `IMAGE_ASSET_DEFAULT_SIZE`
+- `IMAGE_ASSET_DEFAULT_BACKGROUND`
 
 MCP yang dikonfigurasi: `time`, `brave-search`, `context7`, `grep_app`, `playwright`, `shadcn`, `stitch`, `semgrep`, `github`, dan `image-asset-generator`.
 

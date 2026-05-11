@@ -19,7 +19,13 @@ function log(message = "") {
 
 function main() {
   log("opencode-capybara post-update refresh");
-  log("Refreshing OpenChamber sync and running doctor checks.");
+  log("Refreshing agent model sync, OpenChamber sync, and doctor checks.");
+
+  const agentSyncResult = run("node", ["scripts/sync-agent-models.mjs"]);
+  if (agentSyncResult.status !== 0) {
+    process.exitCode = agentSyncResult.status || 1;
+    return;
+  }
 
   const syncResult = run("node", ["scripts/sync-openchamber-settings.mjs", "--seed-approved-directories"]);
   if (syncResult.status !== 0) {

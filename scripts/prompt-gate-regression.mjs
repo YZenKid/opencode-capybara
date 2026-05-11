@@ -78,7 +78,7 @@ const checks = [
       'mode: subagent',
       'hidden: false',
       'description: Multi-LLM consensus engine for high-confidence answers',
-      'model: cliproxyapi/gpt-5.4',
+      'model:',
       'opencode-council',
       'council_session: allow',
     ],
@@ -88,7 +88,7 @@ const checks = [
     name: "agent architecture selection gate",
     mustInclude: [
       '"default_agent": "orchestrator"',
-      '"model": "cliproxyapi/gpt-5.4"',
+      '"model": "{env:OPENCODE_MODEL_DEFAULT}"',
       '"plan": {',
       '"explore": {',
     ],
@@ -203,6 +203,8 @@ const checks = [
       "OPENCODE_MODEL_IMPROVEMENT",
       "Copy `.env.example` to `.env`",
       "Missing env vars resolve to an empty string",
+      "scripts/sync-agent-models.mjs",
+      "npm run sync:agent-models",
     ],
   },
   {
@@ -796,6 +798,8 @@ const checks = [
     file: "package.json",
     name: "tool setup script contract gate",
     mustInclude: [
+      '"sync:agent-models"',
+      '"sync:agent-models:check"',
       '"setup:tools"',
       '"setup:tools:check"',
       '"doctor"',
@@ -1040,7 +1044,7 @@ const checks = [
     mustInclude: [
       "mode: subagent",
       "description:",
-      "model: cliproxyapi/gpt-5.4-mini",
+      "model:",
       "opencode-explorer",
       "apply_patch: deny",
       "task: deny",
@@ -1054,7 +1058,7 @@ const checks = [
     mustInclude: [
       "mode: subagent",
       "description:",
-      "model: cliproxyapi/gpt-5.4-mini",
+      "model:",
       "opencode-librarian",
       "apply_patch: deny",
       "task: deny",
@@ -1068,7 +1072,7 @@ const checks = [
     mustInclude: [
       "mode: subagent",
       "description:",
-      "model: cliproxyapi/gpt-5.4",
+      "model:",
       "opencode-oracle",
       "apply_patch: deny",
       "task: deny",
@@ -1082,7 +1086,7 @@ const checks = [
     mustInclude: [
       "mode: subagent",
       "description:",
-      "model: cliproxyapi/gpt-5.4",
+      "model:",
       "opencode-designer",
       "Stitch",
       "visual parity",
@@ -1098,7 +1102,7 @@ const checks = [
     mustInclude: [
       "mode: subagent",
       "description:",
-      "model: cliproxyapi/gpt-5.3-codex",
+      "model:",
       "opencode-fixer",
       "apply_patch: allow",
       "task: deny",
@@ -1122,14 +1126,14 @@ const checks = [
     file: "agents/artifact-planner.md",
     name: "artifact planner env routing gate",
     mustInclude: [
-      "model: cliproxyapi/gpt-5.3-codex",
+      "model:",
     ],
   },
   {
     file: "agents/document-specialist.md",
     name: "document specialist env routing gate",
     mustInclude: [
-      "model: cliproxyapi/gpt-5.4-mini",
+      "model:",
     ],
   },
   {

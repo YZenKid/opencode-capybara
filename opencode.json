@@ -145,7 +145,7 @@
       }
     }
   },
-  "model": "cliproxyapi/gpt-5.4",
+  "model": "{env:OPENCODE_MODEL_DEFAULT}",
   "default_agent": "orchestrator",
   "mcp": {
     "time": {

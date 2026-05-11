@@ -65,7 +65,7 @@ function normalizeSize(width, height) {
 }
 
 function normalizeModel() {
-  return env('IMAGE_ASSET_MODEL', env('OPENAI_IMAGE_MODEL', 'gpt-image-2'))
+  return env('IMAGE_ASSET_MODEL', 'gpt-image-2')
 }
 
 function normalizeBackground(background, format) {
@@ -189,9 +189,9 @@ async function makeWhiteBackgroundTransparent(inputPath, outputPath = inputPath)
 }
 
 function buildClient() {
-  const apiKey = env('IMAGE_ASSET_API_KEY', env('OPENAI_API_KEY', env('CLIPROXYAPI_API_KEY')))
-  const baseURL = env('IMAGE_ASSET_BASE_URL', env('OPENAI_BASE_URL', env('CLIPROXYAPI_BASE_URL')))
-  if (!apiKey) throw new Error('Missing IMAGE_ASSET_API_KEY, OPENAI_API_KEY, or CLIPROXYAPI_API_KEY')
+  const apiKey = env('IMAGE_ASSET_API_KEY', env('CLIPROXYAPI_API_KEY'))
+  const baseURL = env('IMAGE_ASSET_BASE_URL', env('CLIPROXYAPI_BASE_URL'))
+  if (!apiKey) throw new Error('Missing IMAGE_ASSET_API_KEY or CLIPROXYAPI_API_KEY')
   return new OpenAI({ apiKey, baseURL })
 }
 
@@ -204,7 +204,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
     {
       name: 'generate_image_asset',
       description:
-        'Generate one legal style-equivalent image asset from a prompt and save it under project_root. Uses the configured image endpoint/model via IMAGE_ASSET_* or OpenAI/CliProxy environment variables.',
+        'Generate one legal style-equivalent image asset from a prompt and save it under project_root. Uses the configured image endpoint/model via IMAGE_ASSET_* or CLIPROXYAPI_* environment variables.',
       inputSchema: {
         type: 'object',
         additionalProperties: false,

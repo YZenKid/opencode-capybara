@@ -91,6 +91,7 @@ function checkRepoFiles() {
     [".opencode/docs/EVALS.md", true],
     ["scripts/prompt-gate-regression.mjs", true],
     ["scripts/docs-integrity-check.mjs", true],
+    ["scripts/sync-agent-models.mjs", true],
     ["scripts/setup-dev-tools.mjs", true],
     ["scripts/doctor.mjs", true],
   ];
@@ -208,6 +209,33 @@ function checkOpenChamberSync() {
   return true;
 }
 
+function checkAgentModelSync() {
+  section("Agent model sync");
+  const result = run("node", ["scripts/sync-agent-models.mjs", "--check"], { cwd: root });
+  if (result.status === 0) {
+    status("Agent models", "pass", "in sync with .env routing vars");
+    return true;
+  }
+
+  const detail = result.stdout.trim() || result.stderr.trim() || "out of sync";
+  status("Agent models", "warn", detail.split("\n").join(" | "));
+  remediation("run `npm run sync:agent-models` after updating OPENCODE_MODEL_* values in .env");
+  return true;
+}
+
+function checkDefaultModelRouting() {
+  section("Default model routing");
+  const opencode = JSON.parse(readFileSync(resolve(root, "opencode.json"), "utf8"));
+  if (opencode.model === "{env:OPENCODE_MODEL_DEFAULT}") {
+    status("opencode.json model", "pass", "uses OPENCODE_MODEL_DEFAULT env routing");
+    return true;
+  }
+
+  status("opencode.json model", "warn", `expected {env:OPENCODE_MODEL_DEFAULT}, got ${JSON.stringify(opencode.model)}`);
+  remediation("set opencode.json model to {env:OPENCODE_MODEL_DEFAULT}");
+  return true;
+}
+
 function main() {
   log("opencode-capybara doctor");
   log("Read-only checks only; no files will be changed.");
@@ -221,6 +249,8 @@ function main() {
     checkPackageLifecycle(),
     checkDocsPolicy(),
     checkEnvWarning(),
+    checkDefaultModelRouting(),
+    checkAgentModelSync(),
     checkOpenChamberSync(),
   ];
 
