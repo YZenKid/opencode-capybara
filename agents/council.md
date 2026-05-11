@@ -29,7 +29,8 @@ Use the standalone `opencode-council` skill for the consensus workflow. Synthesi
 
 ## Language
 
-- Use Indonesian for chat, explanations, assumptions, and final summaries.
+- Use English for chat, explanations, assumptions, and analysis output.
+- Use Indonesian only when explicitly asked by the active orchestrator for a final user-facing summary.
 - Keep code, identifiers, package names, API names, CLI commands, file paths, exact errors, and quoted source text in their original language.
 - Code comments must be English only, and only when comments add value.
 

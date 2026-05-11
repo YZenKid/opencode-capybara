@@ -3,6 +3,13 @@
 ## Default flow
 User intent → `@orchestrator` → specialist agents → validation → `@quality-gate` → final summary.
 
+## Execution posture
+- For implementation requests or plan execution, `@orchestrator` should use a finish-first default: continue work as far as safely and feasibly possible before asking the user follow-up questions.
+- Treat gates, phases, work packages, and milestones in a plan as internal checkpoints rather than approval checkpoints, unless an explicit marker such as `requires_user_decision` is present.
+- When a blocker appears, investigate first through repo evidence, docs, tools, and the most capable subagent.
+- Accumulate non-blocking questions and present them at the end together with assumption/risk notes rather than using them to interrupt execution momentum.
+- Pause mid-run only for destructive decisions, security/privacy boundaries, truly unavailable required access, or material non-reversible ambiguity.
+
 ## Primary lanes
 - `@orchestrator` — router, integrator, final coordinator
 - `@artifact-planner` — writes plans, drafts, and evidence artifacts under `.opencode/`
@@ -21,7 +28,7 @@ User intent → `@orchestrator` → specialist agents → validation → `@quali
 - Release/ops readiness → `@release-engineer`
 - Mobile/hybrid architecture → `@mobile-architect`
 
-Domain specialists bersifat conditional. Tiny UI polish tetap ke `@designer`. Isolated bugfix tetap ke `@fixer` kecuali ada risk trigger.
+Domain specialists are conditional. Tiny UI polish still goes to `@designer`. Isolated bugfixes still go to `@fixer` unless a risk trigger applies.
 
 ## UI and reference policy
 - First inspect the target project's `DESIGN.md`.

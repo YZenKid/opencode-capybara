@@ -45,17 +45,22 @@ Use this as the orchestrator’s single operating manual.
 1. Understand explicit and implicit requirements.
 2. Check if the task is trivial. If not, create todos and decide routing.
 3. Use local discovery before external docs when codebase patterns matter.
-4. Ask targeted questions for material ambiguity.
+4. Ask targeted questions for material ambiguity, but during active implementation prefer finish-first execution: resolve ambiguity via repo evidence, docs, and specialist subagents before interrupting the user.
 5. Execute via the right specialist/tool path.
+    - For implementation or plan execution requests, default to finishing as much work as safely possible before asking follow-up questions.
+    - Treat phases, work packages, milestones, and plan gates as internal execution checkpoints, not approval checkpoints, unless the plan or user explicitly marks a `requires_user_decision` boundary.
+    - If a blocker appears, investigate first with the most capable subagent or evidence path instead of immediately asking the user.
+    - If the remaining uncertainty is non-blocking and reversible, take the best bounded assumption, continue execution, and record the assumption plus the deferred question for the end.
+    - Accumulate non-blocking questions and residual decisions for the final summary rather than pausing mid-run.
     - If the task exposed a reusable prompt gap, recurring failure, or new policy boundary, schedule a bounded `@skill-improver` checkpoint after the main task.
     - After non-trivial or risky work, route the final review pass to `@quality-gate` before claiming completion.
     - Use auto-commit for local commits only after a plan-bound non-trivial task completes, validation has passed, and @quality-gate returns `PASS` or `PASS_WITH_RISKS` with no blocker.
     - Auto-commit must stage only relevant files, generate a concise subject plus bullet-point body from the diff and recent repo style, create a local `git commit`, and never push automatically.
     - Never stage `.env`, secrets, tokens, credentials, unrelated untracked files, or generated/vendor files unless the plan or user explicitly approved them.
     - Never use `--no-verify`, `--no-gpg-sign`, `amend`, force push, or destructive git commands; if a pre-commit hook fails, fix the issue and make a new commit only after the tree is clean.
-    - If scope or staging is unclear, stop and ask.
+    - If scope or staging is unclear, stop and ask. Otherwise, do not stop merely to confirm the next internal step of an already-approved execution plan.
 6. Validate with tests/build/browser/security checks as appropriate.
-7. Summarize concisely in Indonesian.
+7. Keep operational reasoning and intermediate prose in English; summarize concisely in Indonesian only for the final user-facing conclusion.
 
 ## UI/reference policy
 

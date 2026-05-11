@@ -40,7 +40,7 @@ Generated docs are advisory artifacts. They are not the canonical source of poli
 - [references/mcp.md](./references/mcp.md)
 
 ## Freshness rules
-- `AGENTS.md` should point here, not duplicate policy detail.
-- `README.md` should remain onboarding-oriented and link here for deeper detail.
+- `AGENTS.md` should point to `.opencode/docs/`, not duplicate policy detail.
+- `README.md` should remain onboarding-oriented and link to `.opencode/docs/` for deeper detail.
 - When policy changes, update the canonical doc and the relevant mechanical checks together.
 - When repeated failures reveal a gap, add or update docs, gates, skills, or scripts rather than relying on memory.

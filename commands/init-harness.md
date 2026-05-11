@@ -16,7 +16,7 @@ Workflow:
 
 1. Inspect the current target project root before writing anything.
 2. Read the existing root `AGENTS.md` if it exists.
-3. Inspect `.opencode/docs/index.md` first when present, then review project-local equivalents such as `.opencode/docs/AGENT_ROUTING.md`, `.opencode/docs/QUALITY.md`, `.opencode/docs/EVALS.md`, `.opencode/docs/SECURITY.md`, and `.opencode/docs/DECISIONS.md` when they exist.
+3. Inspect `.opencode/docs/index.md` first when present, then review the full canonical doc set when it exists: `.opencode/docs/AGENT_ROUTING.md`, `.opencode/docs/AGENT_LEGIBILITY.md`, `.opencode/docs/QUALITY.md`, `.opencode/docs/EVALS.md`, `.opencode/docs/SECURITY.md`, `.opencode/docs/PROMPT_GATES.md`, `.opencode/docs/SKILLS.md`, `.opencode/docs/MCP.md`, `.opencode/docs/GOLDEN_PRINCIPLES.md`, `.opencode/docs/DECISIONS.md`, `.opencode/docs/RELEASE.md`, `.opencode/docs/QUALITY_SCORE.md`, and `.opencode/docs/GC_WORKFLOW.md`.
 4. Inspect the project README, package manager files, and validation scripts so the file reflects the real workflow instead of generic advice.
 5. If `AGENTS.md` already exists at the project root, ask before overwriting or replacing it.
 6. If no root `AGENTS.md` exists, create one in the current project root.
@@ -26,8 +26,13 @@ Workflow:
 10. If the project already uses a docs-as-system-of-record workflow, reflect it explicitly.
 11. If the project does not yet have canonical docs under `.opencode/docs/`, ask whether to scaffold the docs system of record before inventing placeholder links.
 12. Include the current routing and validation posture that future agents must follow.
-13. Use the user's hints from `$ARGUMENTS` only to specialize the file; do not discard the harness baseline.
-14. Do not silently overwrite existing project-specific rules.
+13. Make the division of labor legible: future readers should understand that `@orchestrator` routes/integrates, while specialists and subagents own bounded execution, design, research, review, and domain-risk work.
+14. Make agent/subagent capabilities explicit enough that work does not collapse back into `@orchestrator` by default. Mention where to look for the full role/capability matrix when the project uses many specialists.
+15. In `AGENTS.md`, include a short role-and-skill ownership note that explains what the most important agents are for: routing/integration, planning, bounded implementation, architecture/review, UI/design, discovery/docs research, and final quality signoff.
+16. Make the specialist lane names concrete enough that a future operator can tell which agent should be used first for a given kind of work, without reading every agent file.
+17. When the project also uses project-local design guidance, mention the downstream UI ownership chain clearly: `@designer` first, then UI specialist review lanes and `@quality-gate` when relevant.
+18. Use the user's hints from `$ARGUMENTS` only to specialize the file; do not discard the harness baseline.
+19. Do not silently overwrite existing project-specific rules.
 
 Write `AGENTS.md` using exactly these sections, in this order:
 
@@ -79,6 +84,9 @@ User intent → `@orchestrator` → specialist agents → validation → `@quali
 - Plans are first-class artifacts under `.opencode/plans/`.
 - Evidence is required for material changes.
 - Repeated failures should produce docs, gate, script, or skill improvements.
+- `@orchestrator` routes, decomposes, and integrates; do not let all implementation collapse into direct orchestrator execution.
+- Specialists and subagents should own bounded work according to their documented capabilities in `.opencode/docs/AGENT_ROUTING.md` and `.opencode/docs/SKILLS.md`.
+- Core ownership shorthand: `@orchestrator` routes/integrates, `@artifact-planner` writes plans, `@fixer` implements bounded changes/tests, `@oracle` handles architecture/review, `@designer` owns UI/UX, `@explorer`/`@librarian` handle discovery/docs, and `@quality-gate` does final signoff.
 
 ## Risk Triggers
 - Product ambiguity → `@product-architect`
@@ -92,6 +100,8 @@ User intent → `@orchestrator` → specialist agents → validation → `@quali
 ## Notes
 - For substantial UI work, inspect the target project's `DESIGN.md` first, then `design-system/DESIGN.md` or a documented equivalent.
 - For image-heavy or reference UI work, require evidence, asset decisions, and legal style-equivalent handling.
+- If the project has many agents/subagents, document the role and primary skill ownership clearly enough that future work does not default back to `@orchestrator` for planning, implementation, review, or research.
+- If many agents are available, future operators should read `.opencode/docs/AGENT_ROUTING.md` and `.opencode/docs/SKILLS.md` first to understand who owns discovery, implementation, review, design, and domain-specific risk.
 - For full operational details, follow the linked docs rather than expanding this file.
 ```
 

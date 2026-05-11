@@ -36,6 +36,9 @@ User intent → `@orchestrator` → specialist agents → validation → `@quali
 - Plans are first-class artifacts under `.opencode/plans/`.
 - Evidence is required for material changes.
 - Repeated failures should produce docs, gate, script, or skill improvements.
+- `@orchestrator` routes, decomposes, and integrates; do not let all implementation collapse into direct orchestrator execution.
+- Specialists and subagents should own bounded work according to their documented capabilities in `.opencode/docs/AGENT_ROUTING.md` and `.opencode/docs/SKILLS.md`.
+- Core ownership shorthand: `@orchestrator` routes/integrates, `@artifact-planner` writes plans, `@fixer` implements bounded changes/tests, `@oracle` handles architecture/review, `@designer` owns UI/UX, `@explorer`/`@librarian` handle discovery/docs, and `@quality-gate` does final signoff.
 
 ## Risk Triggers
 - Product ambiguity → `@product-architect`
@@ -49,4 +52,6 @@ User intent → `@orchestrator` → specialist agents → validation → `@quali
 ## Notes
 - For substantial UI work, inspect the target project's `DESIGN.md` first, then `design-system/DESIGN.md` or a documented equivalent.
 - For image-heavy or reference UI work, require evidence, asset decisions, and legal style-equivalent handling.
+- If the project has many agents/subagents, document the role and primary skill ownership clearly enough that future work does not default back to `@orchestrator` for planning, implementation, review, or research.
+- If many agents are available, read `.opencode/docs/AGENT_ROUTING.md` and `.opencode/docs/SKILLS.md` first to understand who owns discovery, implementation, review, design, and domain-specific risk.
 - For full operational details, follow the linked docs rather than expanding this file.

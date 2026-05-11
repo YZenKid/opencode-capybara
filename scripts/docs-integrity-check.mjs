@@ -206,10 +206,11 @@ function checkDecisionAdjacency() {
 
     const decisions = read(".opencode/docs/DECISIONS.md");
     if (decisions === null) return;
-    if (!decisions.includes("2026-05-10") || !decisions.includes("Harness engineering migration baseline")) {
+    const hasDecisionHeading = /##\s+\d{4}-\d{2}-\d{2}\s+—\s+/.test(decisions);
+    if (!hasDecisionHeading) {
       failures += 1;
       console.error("✗ .opencode/docs/DECISIONS.md does not reflect the active guarded docs/scripts changes");
-      console.error("  - Remediation: add or update a decision entry when docs/scripts policy changes materially.");
+      console.error("  - Remediation: add or update a dated decision entry when docs/scripts policy changes materially.");
     } else {
       console.log("✓ .opencode/docs/DECISIONS.md provides decision adjacency for current guarded changes");
     }

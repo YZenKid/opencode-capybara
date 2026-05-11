@@ -24,8 +24,8 @@ Prompt gates convert important repository invariants into deterministic checks.
 - Auto-commit safety
 
 ## Change adjacency rule
-Jika Anda mengubah policy atau docs yang dijaga gate:
+If you change policy or docs guarded by a gate:
 1. update canonical doc,
-2. update gate/check yang terkait,
+2. update the related gate/check,
 3. rerun validation,
 4. record decision/evidence.

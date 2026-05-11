@@ -1,11 +1,11 @@
 # Skill Creator Summary
 
-Ringkasan praktis dari pola `skill-creator`:
+Practical summary of the `skill-creator` pattern:
 
-- Mulai dari intent yang jelas dan spesifik.
-- Kumpulkan evidence sebelum menulis instruksi baru.
-- Tulis `SKILL.md` sesingkat mungkin, lalu pindahkan detail ke references bila perlu.
-- Gunakan contoh nyata dan eval prompt kecil untuk memverifikasi perubahan.
-- Bandingkan baseline vs with-skill agar dampak prompt terlihat.
-- Perbaiki trigger description supaya skill dipanggil hanya ketika memang bernilai.
-- Jaga safety gate: no secrets, no blind updates, no prompt bloat, no instruction conflict.
+- Start from a clear and specific intent.
+- Gather evidence before writing new instructions.
+- Keep `SKILL.md` as short as possible, then move extra detail into references when needed.
+- Use real examples and small evaluation prompts to verify the change.
+- Compare baseline vs with-skill behavior so the prompt impact is visible.
+- Refine the trigger description so the skill is called only when it is genuinely useful.
+- Preserve the safety gate: no secrets, no blind updates, no prompt bloat, and no instruction conflict.

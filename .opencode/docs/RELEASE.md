@@ -3,7 +3,7 @@
 ## Local readiness
 - Run `npm run check:harness`
 - Run `npm run doctor`
-- Ensure `@quality-gate` is non-blocking for material changes
+- Ensure `@quality-gate` has completed with `PASS` or `PASS_WITH_RISKS` for material changes
 
 ## Future CI mirror
 When CI is added or expanded, mirror the local harness checks instead of inventing a separate validation contract.

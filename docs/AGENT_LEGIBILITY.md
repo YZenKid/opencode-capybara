@@ -13,17 +13,18 @@ Agents perform better when:
 - boundaries are enforced mechanically.
 
 ## Repository-local knowledge rule
-Jika pengetahuan penting tidak bisa ditemukan di repo saat agent berjalan, pengetahuan tersebut secara praktis tidak tersedia.
+If important knowledge cannot be found in the repo while an agent is running, that knowledge is practically unavailable.
 
 ## Legibility goals
-- `AGENTS.md` menjadi map singkat.
-- `docs/` menjadi system of record.
-- `.opencode/plans/` menjadi tempat plan durable.
-- `scripts/*check*.mjs` menjadi guardrails mekanis.
-- Error messages harus memberi langkah remediation yang jelas.
+- `AGENTS.md` should remain a short map.
+- `docs/` should remain the reference-only mirror layer in this repository.
+- `.opencode/plans/` should remain the durable plan location.
+- `scripts/*check*.mjs` should remain the mechanical guardrails.
+- Error messages should provide clear remediation steps.
+- Work division across agents and subagents should be easy to read so execution does not default back to `@orchestrator`.
 
 ## Improvement order after repeated failures
-Jika agent gagal berulang, perbaiki harness dalam urutan ini:
+If an agent fails repeatedly, improve the harness in this order:
 1. clarify docs,
 2. tighten skill contract,
 3. add prompt regression,

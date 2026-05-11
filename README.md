@@ -4,34 +4,34 @@
   <img src="assets/opencode-capybara-icon.png" alt="opencode-capybara capybara mascot icon" width="128" height="128" />
 </p>
 
-Standalone OpenCode multi-agent configuration yang tenang, terarah, dan safety-gated untuk coding, docs, UI, browser validation, security scan, GitHub context, dan visual asset workflow.
+Standalone OpenCode multi-agent configuration designed for calm, directed, safety-gated work across coding, docs, UI, browser validation, security scanning, GitHub context, and visual asset workflows.
 
-`opencode-capybara` adalah konfigurasi untuk **OpenCode sebagai runtime/platform utama**, dengan dukungan sinkronisasi ke **OpenChamber sebagai aplikasi pendamping**. Repo ini membantu mengatur agent, workflow, validasi, dan dokumentasi agar penggunaan OpenCode lebih rapi dan aman.
+`opencode-capybara` is a configuration layer for **OpenCode as the primary runtime/platform**, with synchronization support for **OpenChamber as a companion application**. This repo helps organize agents, workflows, validation, and documentation so OpenCode usage stays cleaner and safer.
 
-Secara internal repo ini memakai local Markdown agents, standalone `opencode-*` skills, prompt gates, MCP, dan dokumentasi terstruktur di `.opencode/docs/`.
+Internally, this repo uses local Markdown agents, standalone `opencode-*` skills, prompt gates, MCP, and structured documentation under `.opencode/docs/`.
 
-Repository ini juga diposisikan sebagai **local harness engineering system**.
+This repository is also positioned as a **local harness engineering system**.
 
-## Mulai dari sini
+## Start here
 
-Kalau kamu baru pertama kali melihat repo ini, anggap proyek ini sebagai:
+If you are seeing this repo for the first time, treat it as:
 
-- **bukan aplikasi end-user biasa**, melainkan
-- **konfigurasi dan workflow untuk OpenCode**, dengan dukungan integrasi ke OpenChamber bila dipakai.
+- **not a typical end-user application**, but rather
+- **configuration and workflow for OpenCode**, with integration support for OpenChamber when used.
 
-Repo ini paling cocok untuk:
+This repo is best suited for:
 
-- user yang memakai OpenCode secara rutin, termasuk yang mengaksesnya lewat OpenChamber,
-- orang yang ingin workflow agent-based yang lebih ketat,
-- maintainer yang butuh docs, quality gate, dan evidence yang rapi.
+- users who work with OpenCode regularly, including through OpenChamber,
+- people who want stricter agent-based workflows,
+- maintainers who need structured docs, quality gates, and evidence.
 
-Repo ini **kurang cocok** kalau ekspektasimu adalah:
+This repo is **less suitable** if you expect:
 
-- aplikasi visual yang langsung dibuka di browser,
-- boilerplate frontend/backend sederhana,
-- setup tanpa API key atau tools tambahan.
+- a visual application opened directly in the browser,
+- a simple frontend/backend boilerplate,
+- setup without API keys or additional tools.
 
-## Quick start untuk pemula
+## Quick start for beginners
 
 ```bash
 git clone <REPO_URL> ~/.config/opencode
@@ -39,18 +39,18 @@ cd ~/.config/opencode
 bash scripts/install.sh
 ```
 
-Installer ini akan menjalankan:
+The installer will run:
 
 - `npm install`
-- setup RTK secara eksplisit di dalam installer
-- setup Caveman secara eksplisit di dalam installer
+- explicit RTK setup inside the installer
+- explicit Caveman setup inside the installer
 - `npm run doctor`
 
-Installer ini **butuh network** dan menjalankan setup **third-party tools** secara eksplisit. Kalau kamu butuh mode non-interaktif, gunakan `bash scripts/install.sh --yes`.
+This installer **requires network access** and runs **third-party tool setup** explicitly. If you need non-interactive mode, use `bash scripts/install.sh --yes`.
 
-## Dokumentasi pengguna
+## User documentation
 
-Panduan user-facing dipindahkan ke folder [`guide/`](./guide/README.md):
+User-facing guides live under [`guide/`](./guide/README.md):
 
 - [`guide/INSTALL.md`](./guide/INSTALL.md)
 - [`guide/ENVIRONMENT.md`](./guide/ENVIRONMENT.md)
@@ -58,55 +58,55 @@ Panduan user-facing dipindahkan ke folder [`guide/`](./guide/README.md):
 - [`guide/MODEL_ROUTING.md`](./guide/MODEL_ROUTING.md)
 - [`guide/TROUBLESHOOTING.md`](./guide/TROUBLESHOOTING.md)
 
-## Dokumentasi internal harness
+## Internal harness documentation
 
-- `AGENTS.md` adalah peta singkat aturan repo
-- `.opencode/docs/index.md` adalah titik masuk utama policy dan architecture
+- `AGENTS.md` is the short map of repo rules
+- `.opencode/docs/index.md` is the main entry point for policy and architecture
 
-`AGENTS.md` sekarang adalah table of contents + non-negotiable rules.
-Detail policy hidup di `.opencode/docs/`.
-Plans adalah first-class artifacts di `.opencode/plans/`.
+`AGENTS.md` is now a table of contents plus non-negotiable rules.
+Detailed policy lives in `.opencode/docs/`.
+Plans are first-class artifacts under `.opencode/plans/`.
 
-## Struktur project singkat
+## Project structure at a glance
 
-Kalau kamu pemula, cukup kenali 4 area ini dulu:
+If you are new here, start with these four areas:
 
-- `README.md` → panduan mulai
-- `guide/` → panduan penggunaan repo
-- `AGENTS.md` → aturan singkat
-- `.opencode/docs/` → dokumentasi detail internal
+- `README.md` → getting started guide
+- `guide/` → repo usage guides
+- `AGENTS.md` → short rules
+- `.opencode/docs/` → detailed internal documentation
 
-## Kenapa capybara?
+## Why capybara?
 
-Capybara dipilih karena tenang, sosial, adaptif, dan bisa berdampingan dengan banyak spesies—metafora untuk orchestration layer yang menyatukan banyak agent, skill, MCP, dan safety gate tanpa menambah noise.
+Capybara was chosen because it is calm, social, adaptable, and comfortable coexisting with many species—a metaphor for an orchestration layer that brings together many agents, skills, MCP tools, and safety gates without adding noise.
 
-- **Calm orchestration** — `@orchestrator` meredam chaos multi-agent/multi-tool.
-- **Coexistence** — agents, docs, browser, security, GitHub, documents, dan image tooling hidup berdampingan.
-- **Social coordination** — multi-agent collaboration bekerja lebih baik dengan role yang jelas.
-- **Low drama, high utility** — safety gates dan validation lebih penting daripada aksi agresif.
-- **Adaptability** — satu setup bisa berpindah konteks antara code, docs, UI, security, dan document work.
+- **Calm orchestration** — `@orchestrator` absorbs multi-agent/multi-tool chaos.
+- **Coexistence** — agents, docs, browser tooling, security, GitHub, documents, and image tooling coexist cleanly.
+- **Social coordination** — multi-agent collaboration works better when roles are clear.
+- **Low drama, high utility** — safety gates and validation matter more than aggressive action.
+- **Adaptability** — one setup can move across code, docs, UI, security, and document work.
 
-Capybara bukan simbol “cepat sendiri”; ia simbol “tenang bersama-sama sampai hasilnya benar”.
+Capybara is not a symbol of “fast alone”; it is a symbol of “calm together until the result is right.”
 
-## Ringkasan model routing
+## Model routing summary
 
-### Apa itu CLIProxyAPI di repo ini?
+### What is CLIProxyAPI in this repo?
 
-Di repo ini, **CLIProxyAPI** adalah provider model utama yang dipakai OpenCode untuk menjalankan agent-agent lokal.
+In this repo, **CLIProxyAPI** is the primary model provider used by OpenCode to run local agents.
 
 - `CLIPROXYAPI_BASE_URL` → base URL endpoint OpenAI-compatible
-- `CLIPROXYAPI_API_KEY` → API key untuk autentikasi ke provider tersebut
+- `CLIPROXYAPI_API_KEY` → API key for authentication with that provider
 
-Kalau dua nilai ini salah atau kosong, agent bisa gagal memanggil model meskipun konfigurasi lain terlihat benar.
+If these two values are wrong or empty, agents may fail to call models even if the rest of the configuration looks correct.
 
 Copy `.env.example` to `.env` and set every `OPENCODE_MODEL_*` value before launching OpenCode. Missing env vars resolve to an empty string, which can break OpenCode model routing.
 
-Model routing sekarang diterapkan lewat dua jalur:
+Model routing is currently applied through two paths:
 
-- `opencode.json` memakai `OPENCODE_MODEL_DEFAULT` untuk model default runtime
-- `scripts/sync-agent-models.mjs` menyamakan `model:` literal di `agents/*.md` dengan nilai `OPENCODE_MODEL_*` dari `.env`
+- `opencode.json` uses `OPENCODE_MODEL_DEFAULT` for the default runtime model
+- `scripts/sync-agent-models.mjs` synchronizes literal `model:` values in `agents/*.md` with `OPENCODE_MODEL_*` values from `.env`
 
-Kalau kamu mengubah `OPENCODE_MODEL_*`, jalankan:
+If you change `OPENCODE_MODEL_*`, run:
 
 ```bash
 npm run sync:agent-models
@@ -127,17 +127,17 @@ npm run sync:agent-models
 | `OPENCODE_MODEL_DOCUMENTS` | `cliproxyapi/gpt-5.4-mini` | `@document-specialist` | Document processing is usually utility work; keep it cost-efficient. |
 | `OPENCODE_MODEL_IMPROVEMENT` | `cliproxyapi/gpt-5.4-mini` | `@skill-improver` | Small prompt/skill refinements should stay on the cheaper lane. |
 
-## Ringkasan domain specialist dan workflow
+## Domain specialist and workflow summary
 
-Domain specialists bersifat conditional.
-Tiny UI polish tetap ke `@designer`, dan isolated bugfix tetap ke `@fixer`.
+Domain specialists are conditional.
+Tiny UI polish still goes to `@designer`, and isolated bugfixes still go to `@fixer`.
 
-- `@skill-improver` dipakai untuk non-trivial follow-up, repeated failures, policy gaps, atau explicit request.
+- `@skill-improver` is used for non-trivial follow-up, repeated failures, policy gaps, or explicit requests.
 - no blind external updates.
-- `@quality-gate` memberi status seperti `PASS_WITH_RISKS`, `NEEDS_FIX`, dan `BLOCKED`.
+- `@quality-gate` returns statuses such as `PASS_WITH_RISKS`, `NEEDS_FIX`, and `BLOCKED`.
 - Redundant `build` and `general` local agents have been removed.
 
-## Script penting
+## Important scripts
 
 - `npm run setup:tools`
 - `npm run doctor`
@@ -145,25 +145,25 @@ Tiny UI polish tetap ke `@designer`, dan isolated bugfix tetap ke `@fixer`.
 - `npm run sync:agent-models`
 - `npm run test:prompt-gates`
 
-Lihat penjelasan lengkap di [`guide/SCRIPTS.md`](./guide/SCRIPTS.md).
+See the full explanation in [`guide/SCRIPTS.md`](./guide/SCRIPTS.md).
 
-## RTK dan Caveman singkat
+## RTK and Caveman in brief
 
-- jika setup otomatis tidak tersedia, script akan memberi **manual fallback** command yang jelas
-- repo ini menerapkan **no unsafe lifecycle install hooks policy**
-- **OpenCode command rewriting** tetap **opt-in**
-- untuk **token compression / context packing**, gunakan **RTK dan Caveman secara bersamaan**
+- if automatic setup is unavailable, the script will provide clear **manual fallback** commands
+- this repo enforces a **no unsafe lifecycle install hooks policy**
+- **OpenCode command rewriting** remains **opt-in**
+- for **token compression / context packing**, use **RTK and Caveman together**
 
-## Ringkasan validasi
+## Validation summary
 
-Validasi yang paling umum:
+Most common validation:
 
 ```bash
 npm run test:prompt-gates
 npm run check:harness
 ```
 
-Harness checks tambahan:
+Additional harness checks:
 
 ```bash
 npm run check:docs
@@ -172,34 +172,34 @@ npm run check:skills
 npm run check:evidence
 ```
 
-## Ringkasan validasi dan auto-commit
+## Validation and auto-commit summary
 
-Auto-commit default ON untuk local commits only; never push automatically.
+Auto-commit defaults to ON for local commits only; never push automatically.
 
-- Jalan hanya setelah task **plan-bound non-trivial selesai**, **validation lulus**, dan `@quality-gate` memberi `PASS` atau `PASS_WITH_RISKS` tanpa blocker.
-- Review `git status`/`git diff`, lalu **stage hanya file relevan**.
-- Commit message otomatis memakai **subject singkat plus body bullet-point**.
-- Jangan stage `.env`, secrets, tokens, credentials, unrelated untracked files, atau generated/vendor files kecuali plan/user menyetujui.
-- Jangan gunakan `--no-verify`, `--no-gpg-sign`, `amend`, force push, atau destructive git commands.
-- Kalau scope atau staging meragukan, berhenti dan tanya.
+- Run only after a **plan-bound non-trivial task is complete**, **validation passes**, and `@quality-gate` returns `PASS` or `PASS_WITH_RISKS` without a blocker.
+- Review `git status`/`git diff`, then **stage only relevant files**.
+- Auto-generated commit messages use a **short subject plus bullet-point body**.
+- Never stage `.env`, secrets, tokens, credentials, unrelated untracked files, or generated/vendor files unless the plan/user explicitly approves them.
+- Never use `--no-verify`, `--no-gpg-sign`, `amend`, force push, or destructive git commands.
+- If scope or staging is unclear, stop and ask.
 
-## Ringkasan internal workflow
+## Internal workflow summary
 
 - Redundant `build` and `general` local agents have been removed.
-- `@skill-improver` dipakai untuk non-trivial follow-up, repeated failures, policy gaps, atau explicit request.
-- `@quality-gate` memberi status seperti `PASS_WITH_RISKS`, `NEEDS_FIX`, dan `BLOCKED`.
+- `@skill-improver` is used for non-trivial follow-up, repeated failures, policy gaps, or explicit requests.
+- `@quality-gate` returns statuses such as `PASS_WITH_RISKS`, `NEEDS_FIX`, and `BLOCKED`.
 
-Detail lengkap tetap ada di `.opencode/docs/` dan file agent/skill terkait.
+Full details remain in `.opencode/docs/` and the related agent/skill files.
 
 ## References
 
-- OpenCode — platform dan runtime utama yang menjadi target konfigurasi repo ini:
+- OpenCode — the main platform and runtime targeted by this repo configuration:
   - https://github.com/sst/opencode
-- Slim preset ancestor — preset/ancestor yang menjadi titik awal sebelum repo ini berevolusi menjadi `opencode-capybara`:
+- Slim preset ancestor — the preset/ancestor that served as the starting point before this repo evolved into `opencode-capybara`:
   - https://github.com/YZenKid/oh-my-opencode-slim-preset
-- RTK AI — toolchain utama untuk token compression / context packing, dipakai bersama Caveman sesuai workflow repo:
+- RTK AI — the primary toolchain for token compression / context packing, used together with Caveman according to the repo workflow:
   - https://github.com/rtk-ai/rtk
-- Caveman — companion workflow yang dipakai bersama RTK, bukan jalur alternatif terpisah:
+- Caveman — the companion workflow used together with RTK, not a separate alternative path:
   - https://github.com/JuliusBrussee/caveman
-- GPT Harness Engineering — referensi konsep untuk evals, replayability, evidence, dan hardening harness:
+- GPT Harness Engineering — conceptual reference for evals, replayability, evidence, and harness hardening:
   - https://openai.com/index/harness-engineering/

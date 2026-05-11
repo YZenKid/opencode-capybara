@@ -6,7 +6,7 @@ model: cliproxyapi/gpt-5.3-codex
 
 Generate a commit message for the current repository changes.
 
-This command is read-only and only provides manual commit-message suggestions; it is separate from any auto-commit opt-in flow.
+This command is read-only and only provides manual commit-message suggestions; it does not perform commits and is separate from the orchestrator's local auto-commit policy.
 
 Arguments from user, if any:
 
@@ -47,7 +47,7 @@ Rules:
 - Follow the repository's recent commit message style when it is clear.
 - If the repo appears to use Conventional Commits, prefer that format.
 - If auto-commit guidance or repo style suggests a multi-line message, output a concise subject line followed by a bullet-point body that summarizes the most important changes.
-- Keep prose in Indonesian.
+- Keep prose in English.
 - Keep commit messages themselves in English unless the repository history clearly uses Indonesian.
 - Focus on why the change exists, not just what files changed.
 - Warn if the diff appears to include secrets, credentials, `.env`, tokens, or generated/vendor files.
@@ -74,5 +74,5 @@ If there are no changes, respond only:
 ```text
 Status: no-changes
 
-Tidak ada perubahan untuk dibuatkan commit message.
+There are no changes to generate a commit message for.
 ```

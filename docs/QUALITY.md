@@ -7,7 +7,7 @@
 - `BLOCKED`
 
 ## Evidence contract
-Setiap perubahan material harus berakhir dengan evidence, bukan hanya klaim.
+Every material change must end with evidence, not just claims.
 
 ### Final summary template
 ```md
@@ -29,7 +29,7 @@ Setiap perubahan material harus berakhir dengan evidence, bukan hanya klaim.
 - ...
 ```
 
-Jika evidence tidak tersedia, tulis limitation note yang eksplisit.
+If evidence is unavailable, write an explicit limitation note.
 
 ## Replay bundle minimum
 - `task_id`
@@ -42,21 +42,21 @@ Jika evidence tidak tersedia, tulis limitation note yang eksplisit.
 - reason codes / failure category if not `PASS`
 
 ## Standard agent loop
-1. `@orchestrator` memahami intent dan memilih route.
-2. `@explorer` discovery bila konteks belum jelas.
-3. `@artifact-planner` membuat plan untuk task non-trivial.
-4. `@fixer` melakukan implementasi bounded.
-5. Jalankan validation yang relevan.
-6. `@oracle` meninjau architecture risk bila material.
-7. Reviewer spesialis kondisional dipanggil bila ada risk trigger.
-8. `@quality-gate` melakukan final read-only conformance review.
-9. Final summary disusun dari evidence.
+1. `@orchestrator` understands intent and chooses the route.
+2. `@explorer` does discovery when context is still unclear.
+3. `@artifact-planner` writes the plan for non-trivial tasks.
+4. `@fixer` performs bounded implementation.
+5. Run the relevant validation.
+6. `@oracle` reviews architecture risk when material.
+7. Conditional specialist reviewers are called when a risk trigger applies.
+8. `@quality-gate` performs the final read-only conformance review.
+9. The final summary is assembled from evidence.
 
 ## Minimal atomic migration rule
-Perubahan yang memindahkan policy antara `AGENTS.md`, `README.md`, `.opencode/docs/`, reference mirror `docs/`, dan scripts harus mendarat bersama dengan update gate/doctor yang terkait.
+Changes that move policy between `AGENTS.md`, `README.md`, `.opencode/docs/`, reference mirror `docs/`, and scripts must land together with the related gate/doctor updates.
 
 ## Remediation-oriented error standard
-Error messages harus menyebut:
-- invariant yang rusak,
-- file/area terkait,
-- langkah perbaikan spesifik.
+Error messages must state:
+- the broken invariant,
+- the relevant file/area,
+- specific remediation steps.

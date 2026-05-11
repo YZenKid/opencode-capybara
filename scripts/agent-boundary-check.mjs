@@ -8,7 +8,7 @@ const root = resolve(import.meta.dirname, "..");
 const checks = [
   {
     file: "agents/quality-gate.md",
-    mustInclude: ["apply_patch: deny", "task: deny", "Do not use when", "Jangan mengedit file"],
+    mustInclude: ["apply_patch: deny", "task: deny", "Do not use when", "Do not edit files"],
   },
   {
     file: "agents/oracle.md",

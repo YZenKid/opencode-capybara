@@ -7,6 +7,12 @@ description: Standalone SDD/TDD artifact planning workflow for artifact-planner.
 
 Use this as the planner’s only workflow. Write planning artifacts only under `.opencode/plans/`, `.opencode/draft/`, and `.opencode/evidence/`.
 
+## Language
+
+- Use English for chat, operational explanations, assumptions, and question gates.
+- Use Indonesian only for planning artifacts produced by this skill and for the final user-facing planning summary.
+- Do not mix Indonesian and English in the same prose block except for exact technical names, paths, commands, APIs, quoted text, or errors.
+
 ## Lifecycle
 
 1. Discover local project patterns, docs, constraints, references, and available tools.

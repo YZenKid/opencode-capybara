@@ -36,6 +36,7 @@ Workflow:
 11. Include explicit instructions that project-local `DESIGN.md` wins over generic preferences, and that UI/design work should read it first, then `design-system/DESIGN.md` or any documented project-specific equivalent.
 12. If the project is missing design guidance and the work is substantial UI/design work, suggest `/init-design` and ask targeted follow-up questions before inventing a new visual direction.
 13. Do not overwrite project design guidance silently.
+14. In the generated guide, make the downstream ownership chain explicit enough that future operators know `@designer` owns UI direction first, while accessibility/motion/UI-system review lanes and final `@quality-gate` signoff are conditional follow-up lanes rather than replacements.
 
 Write `DESIGN.md` as a concrete project guide, not a generic checklist. Use this structure:
 
@@ -71,6 +72,8 @@ Define mobile-first rules, navigation changes, CTA placement, data display adapt
 
 ## Agent Prompt Guide
 Give direct instructions for future coding/design agents: which files/tokens/components to read first, how to apply this design system, when to reuse/extend/create, when to ask questions, when to run visual validation, and how to report deviations.
+
+The `Agent Prompt Guide` should also state the downstream ownership chain for substantial UI work: `@designer` owns direction and implementation guidance first; `@visual-parity-auditor`, `@motion-specialist`, `@accessibility-reviewer`, and `@ui-system-architect` are conditional review/specialist lanes; `@quality-gate` remains the final cross-cutting signoff lane when the work is non-trivial.
 ```
 
 After writing the file, summarize:

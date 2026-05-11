@@ -5,20 +5,21 @@ description: Standalone final review skill for OpenCode. Use for evidence-based 
 
 # OpenCode Quality Gate
 
-Skill ini adalah final reviewer read-only. Fokus pada conformance, risiko, dan bukti, bukan perbaikan.
+This skill is a read-only final reviewer. Focus on conformance, risk, and evidence rather than fixing issues.
+It serves as the final reviewer read-only lane for OpenCode signoff.
 
 Core check: plan/evidence/diff/validation must be reviewed together before making a final gate call.
 
-## Workflow ringkas
+## Workflow
 
-1. **Intake** — baca plan, evidence, diff, status validasi, dan ringkasan tugas.
-2. **Scope snapshot** — pastikan apa yang diminta, apa yang berubah, dan apa yang tidak berubah.
-3. **Plan/evidence conformance** — cek alignment terhadap acceptance criteria, scope, dan instruksi prioritas.
-4. **Diff review** — cari bug risk, regression risk, scope creep, dan mismatch docs/config.
-5. **Security and supply-chain review** — periksa secrets, `.env`, permission widening, auth/path drift, dependency risk, unsafe patterns, dan security posture.
-6. **Tests/TDD evidence** — nilai apakah test evidence memadai, termasuk regresi, unit/integration/e2e, dan alasan jika tidak ada test yang relevan.
-7. **UI/release gate** — jika perubahan UI/substantial visual, butuh designer signoff dan evidence visual; jika release/config/runtime, cek deploy risk dan rollback readiness.
-8. **Final call** — keluarkan status deterministik.
+1. **Intake** — read the plan, evidence, diff, validation status, and task summary.
+2. **Scope snapshot** — confirm what was requested, what changed, and what did not change.
+3. **Plan/evidence conformance** — check alignment with acceptance criteria, scope, and priority instructions.
+4. **Diff review** — look for bug risk, regression risk, scope creep, and docs/config mismatches.
+5. **Security and supply-chain review** — inspect secrets, `.env`, permission widening, auth/path drift, dependency risk, unsafe patterns, and security posture.
+6. **Tests/TDD evidence** — judge whether test evidence is sufficient, including regression, unit/integration/e2e coverage, and the rationale when no relevant tests exist.
+7. **UI/release gate** — if the change is UI/substantial visual, require designer signoff and visual evidence; if it is release/config/runtime work, check deploy risk and rollback readiness.
+8. **Final call** — return a deterministic status.
 
 ## UI/config review checks
 
@@ -31,37 +32,37 @@ Core check: plan/evidence/diff/validation must be reviewed together before makin
 - Artifact discipline: standalone artifact guidance must not leak into normal app implementation unless the user asked for a prototype/deck/template/design-system deliverable.
 - Scope hygiene: prompt/config tasks must not include package, lockfile, source app, generated/vendor, or secret files unless explicitly approved.
 
-## Rubric adaptasi lokal
+## Local rubric adaptation
 
-Terinspirasi dari rubric review kualitas, QA verification, dan security review, tetapi diringkas untuk konteks OpenCode.
+Inspired by quality review, QA verification, and security review rubrics, but condensed for the OpenCode context.
 
-Nilai:
+Evaluate:
 
 - plan conformance,
 - evidence completeness,
 - diff correctness,
-- test coverage dan TDD evidence,
+- test coverage and TDD evidence,
 - security/secrets/dependency posture,
 - docs/config drift,
 - release/regression risk,
-- UI signoff requirement bila relevan.
+- UI signoff requirements when relevant.
 
-## Status final
+## Final statuses
 
-- `PASS` — semua required evidence ada, risiko residual rendah, dan tidak ada blocker.
-- `PASS_WITH_RISKS` — hasil layak lanjut, tetapi ada risiko yang jelas dan non-blocking.
-- `NEEDS_FIX` — ada gap yang harus diperbaiki sebelum lanjut.
-- `BLOCKED` — evidence penting hilang, akses/batasan mencegah review, atau ada risiko tinggi yang belum bisa dinilai.
+- `PASS` — all required evidence is present, residual risk is low, and there is no blocker.
+- `PASS_WITH_RISKS` — the result is acceptable to proceed, but there are clear non-blocking risks.
+- `NEEDS_FIX` — there is a gap that must be fixed before proceeding.
+- `BLOCKED` — key evidence is missing, access/constraints prevent review, or there is high risk that cannot yet be assessed.
 
 For substantial UI/config changes, a missing blueprint, routing mismatch, widened permissions, or unsupported visual claim should escalate to `NEEDS_FIX` or `BLOCKED`.
 
 ## Severity
 
-Gunakan severity berikut pada findings: `BLOCKER`, `HIGH`, `MEDIUM`, `LOW`, `INFO`.
+Use the following severities for findings: `BLOCKER`, `HIGH`, `MEDIUM`, `LOW`, `INFO`.
 
 ## Output contract
 
-Selalu laporkan:
+Always report:
 
 - `Status`
 - `Scope Checked`
@@ -75,6 +76,6 @@ Selalu laporkan:
 
 - Read-only only.
 - No edit, no autofix, no patch, no commit.
-- Jangan baca `.env` atau secret.
-- Jangan memperluas scope tanpa evidence baru yang relevan.
-- Jika bukti kurang, minta bukti atau tandai `BLOCKED`/`NEEDS_FIX` sesuai gap.
+- Do not read `.env` files or secrets.
+- Do not expand scope without relevant new evidence.
+- If evidence is insufficient, request evidence or mark `BLOCKED`/`NEEDS_FIX` based on the gap.
