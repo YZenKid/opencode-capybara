@@ -6,9 +6,105 @@
 
 Standalone OpenCode multi-agent configuration yang tenang, terarah, dan safety-gated untuk coding, docs, UI, browser validation, security scan, GitHub context, dan visual asset workflow.
 
-`opencode-capybara` adalah konfigurasi OpenCode standalone berbasis local Markdown agents, standalone `opencode-*` skills, prompt gates, dan MCP. Fokusnya: koordinasi specialist agents dengan boundary jelas, evidence yang bisa diverifikasi, dan commit policy yang aman.
+`opencode-capybara` adalah konfigurasi OpenCode untuk OpenCode/OpenChamber. Repo ini membantu mengatur agent, workflow, validasi, dan dokumentasi agar penggunaan OpenCode lebih rapi dan aman.
 
-Repository ini sekarang juga diposisikan sebagai **local harness engineering system**: `AGENTS.md` adalah peta singkat, `.opencode/docs/` adalah knowledge system of record, `.opencode/plans/` menyimpan plan artifact, dan mechanical checks menjaga agar policy tidak drift.
+Secara internal repo ini memakai local Markdown agents, standalone `opencode-*` skills, prompt gates, MCP, dan dokumentasi terstruktur di `.opencode/docs/`.
+
+Repository ini juga diposisikan sebagai **local harness engineering system**.
+
+## Mulai dari sini
+
+Kalau kamu baru pertama kali melihat repo ini, anggap proyek ini sebagai:
+
+- **bukan aplikasi end-user biasa**, melainkan
+- **konfigurasi dan workflow untuk OpenCode/OpenChamber**.
+
+Artinya, tujuan repo ini bukan "clone lalu buka UI aplikasi", tetapi:
+
+1. memasang konfigurasi OpenCode,
+2. menyiapkan tools pendukung,
+3. mengisi environment variables,
+4. lalu menjalankan OpenCode dengan setup ini.
+
+Kalau kamu pemula, cukup baca bagian-bagian berikut yang tersusun berurutan di bawah ini. Sisanya bisa dibuka nanti saat butuh detail lanjutan.
+
+## Quick start untuk pemula
+
+Kalau kamu hanya ingin repo ini **terpasang dan lolos pengecekan dasar**, gunakan installer ini:
+
+Installer ini akan menjalankan:
+
+- `npm install`
+- setup RTK secara eksplisit di dalam installer
+- setup Caveman secara eksplisit di dalam installer
+- `npm run doctor`
+
+Di beberapa platform, installer ini bisa memanggil `brew install rtk` atau script resmi RTK via `curl | sh`, lalu menjalankan `npx -y skills add JuliusBrussee/caveman -a opencode`. Ini bukan hidden install hook, tapi memang bagian dari setup repo ini.
+
+Artinya, installer ini **butuh network** dan akan menjalankan setup **third-party tools** sebagai bagian dari onboarding default.
+Installer ini juga akan meminta **konfirmasi** sebelum menjalankan third-party setup. Jika kamu butuh mode non-interaktif, gunakan `bash scripts/install.sh --yes`.
+
+Catatan versi RTK:
+
+- jalur script resmi memakai fallback **pinned release** `RTK_VERSION=v0.39.0` secara default
+- jalur Homebrew tetap mengikuti **versi formula saat ini**
+
+```bash
+git clone <REPO_URL> ~/.config/opencode
+cd ~/.config/opencode
+bash scripts/install.sh
+```
+
+Ganti `<REPO_URL>` dengan URL repository ini.
+
+Kalau installer selesai sukses, berarti dependency utama dan tools pendukung sudah siap, `.env` akan dibuat jika belum ada, dan kamu akan mendapat instruksi langkah berikutnya.
+
+## Yang perlu kamu siapkan
+
+Sebelum install, pastikan kamu sudah punya:
+
+- `git`
+- `node` dan `npm`
+- akses ke **OpenCode** atau **OpenChamber**
+- beberapa API key yang dipakai repo ini, minimal sesuai `.env.example`
+
+Kalau salah satu dari daftar di atas belum ada, repo ini kemungkinan belum bisa langsung dipakai penuh.
+
+## Langkah pertama setelah install
+
+Kalau kamu memakai `bash scripts/install.sh`, script itu akan membuat `.env` secara otomatis bila file tersebut belum ada.
+
+Kalau kamu ingin melakukannya manual, lanjutkan dengan setup environment:
+
+```bash
+cp .env.example .env
+```
+
+Isi nilai di `.env`, lalu export ke shell.
+
+Contoh di bawah ini untuk shell **bash/zsh**:
+
+```bash
+set -a
+source ~/.config/opencode/.env
+set +a
+```
+
+Setelah itu, baru jalankan:
+
+```bash
+opencode
+```
+
+Jangan commit `.env`.
+
+Kalau kamu bingung harus mulai dari mana setelah `opencode` berhasil jalan, gunakan urutan mental ini:
+
+1. **`README.md`** → onboarding dan perintah dasar
+2. **`AGENTS.md`** → peta singkat aturan repo
+3. **`.opencode/docs/index.md`** → index dokumentasi lanjutan
+
+Kalau tujuanmu hanya ingin memakai setup ini, kamu tidak perlu membaca semua doc di awal.
 
 ## Kenapa capybara?
 
@@ -22,7 +118,9 @@ Capybara dipilih karena tenang, sosial, adaptif, dan bisa berdampingan dengan ba
 
 Capybara bukan simbol “cepat sendiri”; ia simbol “tenang bersama-sama sampai hasilnya benar”.
 
-## Quick start
+## Setup lanjutan dan verifikasi penuh
+
+Kalau kamu lompat langsung ke bagian ini, tetap ganti `<REPO_URL>` dengan URL repository ini.
 
 ```bash
 git clone <REPO_URL> ~/.config/opencode
@@ -32,6 +130,8 @@ npm run setup:tools
 npm run doctor
 npm run test:prompt-gates
 ```
+
+Bagian ini adalah jalur setup penuh setelah quick start pemula di atas berhasil.
 
 Kalau `opencode.json` atau routing model/agent berubah, jalankan:
 
@@ -53,6 +153,20 @@ opencode
 
 Jangan commit `.env`.
 
+## Repo ini cocok untuk siapa?
+
+Repo ini paling cocok untuk:
+
+- user yang memakai OpenCode/OpenChamber secara rutin,
+- orang yang ingin workflow agent-based yang lebih ketat,
+- maintainer yang butuh docs, quality gate, dan evidence yang rapi.
+
+Repo ini **kurang cocok** kalau ekspektasimu adalah:
+
+- aplikasi visual yang langsung dibuka di browser,
+- boilerplate frontend/backend sederhana,
+- setup tanpa API key atau tools tambahan.
+
 ## RTK dan Caveman setup
 
 RTK dan Caveman dipasang secara eksplisit, bukan lewat hidden lifecycle hook. Repo ini tidak memakai `postinstall`, `preinstall`, atau `prepare` untuk install tools pihak ketiga, jadi `npm install` tetap aman dan hanya memasang dependency npm project.
@@ -66,6 +180,7 @@ npm run doctor
 
 - `npm run setup:tools` menyiapkan RTK dan Caveman secara idempotent.
 - `npm run setup:tools -- --check` hanya melakukan verifikasi read-only.
+- Secara default, fallback script RTK di-`pin` ke `RTK_VERSION=v0.39.0`, tetapi jalur Homebrew tetap mengikuti versi formula saat ini.
 - Jika setup otomatis tidak tersedia di platform tertentu, script akan memberi manual fallback command yang jelas.
 - RTK binary boleh terpasang, tetapi OpenCode command rewriting tidak auto-enabled; mode itu tetap opt-in dan hanya dipakai kalau user memang meminta.
 - Untuk token compression / context packing, gunakan RTK dan Caveman secara bersamaan melalui workflow yang dipasang lewat setup ini; jangan buat jalur compression lokal paralel atau memperlakukan keduanya sebagai pilihan salah satu.
@@ -74,6 +189,15 @@ npm run doctor
 Kalau ingin menyiapkan ulang tools dengan paksa, gunakan `npm run setup:tools -- --force`.
 
 ## Struktur project
+
+Kalau kamu pemula, cukup kenali 4 area ini dulu:
+
+- `README.md` → panduan mulai
+- `AGENTS.md` → aturan singkat
+- `.opencode/docs/` → dokumentasi detail
+- `skills/` dan `agents/` → perilaku agent dan workflow
+
+Sisanya bisa dipelajari belakangan.
 
 | Path | Fungsi |
 |---|---|

@@ -77,9 +77,11 @@ function reportRtkCheckMissing() {
 }
 
 function installRtk({ check, force }) {
+  const pinnedVersion = process.env.RTK_VERSION || "v0.39.0";
   printSection("RTK");
   printLine("Never run `rtk init` with `-g --opencode`.");
   printLine("Use RTK and Caveman together for token compression/context packing when that workflow is needed; they are not either/or alternatives in this repo.");
+  printLine(`Pinned fallback version: ${pinnedVersion}`);
   if (check) {
     printLine("Checking: rtk --version");
     if (commandExists("rtk", ["--version"])) {
@@ -97,6 +99,7 @@ function installRtk({ check, force }) {
 
   if (platform() === "darwin" && commandExists("brew", ["--version"])) {
     printLine("Running: brew install rtk");
+    printLine("Note: Homebrew installs the current formula version. Use RTK_VERSION with the pinned script fallback path if you need a deterministic non-Homebrew install.");
     const result = run("brew", ["install", "rtk"], { stdio: "inherit" });
     if (result.status !== 0) {
       printResult("RTK", "warn", "brew install failed");
@@ -108,10 +111,10 @@ function installRtk({ check, force }) {
   }
 
   if (hasUnixLikeSupport() && commandExists("curl", ["--version"]) && hasShell()) {
-    const scriptUrl = "https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh";
+    const scriptUrl = `https://raw.githubusercontent.com/rtk-ai/rtk/${pinnedVersion}/install.sh`;
     printLine("Running official RTK install script explicitly because setup was requested.");
-    printLine(`Running: curl -fsSL ${scriptUrl} | sh`);
-    const result = spawnSync("sh", ["-lc", `curl -fsSL ${JSON.stringify(scriptUrl)} | sh`], {
+    printLine(`Running pinned script: curl -fsSL ${scriptUrl} | RTK_VERSION=${pinnedVersion} sh`);
+    const result = spawnSync("sh", ["-lc", `curl -fsSL ${JSON.stringify(scriptUrl)} | RTK_VERSION=${JSON.stringify(pinnedVersion)} sh`], {
       encoding: "utf8",
       stdio: "inherit",
     });
