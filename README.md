@@ -6,7 +6,7 @@
 
 Standalone OpenCode multi-agent configuration yang tenang, terarah, dan safety-gated untuk coding, docs, UI, browser validation, security scan, GitHub context, dan visual asset workflow.
 
-`opencode-capybara` adalah konfigurasi OpenCode untuk OpenCode/OpenChamber. Repo ini membantu mengatur agent, workflow, validasi, dan dokumentasi agar penggunaan OpenCode lebih rapi dan aman.
+`opencode-capybara` adalah konfigurasi untuk **OpenCode sebagai runtime/platform utama**, dengan dukungan sinkronisasi ke **OpenChamber sebagai aplikasi pendamping**. Repo ini membantu mengatur agent, workflow, validasi, dan dokumentasi agar penggunaan OpenCode lebih rapi dan aman.
 
 Secara internal repo ini memakai local Markdown agents, standalone `opencode-*` skills, prompt gates, MCP, dan dokumentasi terstruktur di `.opencode/docs/`.
 
@@ -17,11 +17,11 @@ Repository ini juga diposisikan sebagai **local harness engineering system**.
 Kalau kamu baru pertama kali melihat repo ini, anggap proyek ini sebagai:
 
 - **bukan aplikasi end-user biasa**, melainkan
-- **konfigurasi dan workflow untuk OpenCode/OpenChamber**.
+- **konfigurasi dan workflow untuk OpenCode**, dengan dukungan integrasi ke OpenChamber bila dipakai.
 
 Repo ini paling cocok untuk:
 
-- user yang memakai OpenCode/OpenChamber secara rutin,
+- user yang memakai OpenCode secara rutin, termasuk yang mengaksesnya lewat OpenChamber,
 - orang yang ingin workflow agent-based yang lebih ketat,
 - maintainer yang butuh docs, quality gate, dan evidence yang rapi.
 

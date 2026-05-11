@@ -135,7 +135,7 @@ function checkDocsPolicy() {
   let ok = true;
   const agentsNeedles = [
     "RTK may be installed by explicit setup",
-    "OpenCode/OpenChamber auto-rewrite/prefix remains opt-in",
+    "OpenCode auto-rewrite/prefix remains opt-in",
     ".opencode/docs/AGENT_ROUTING.md",
     ".opencode/docs/QUALITY.md",
     ".opencode/docs/EVALS.md",

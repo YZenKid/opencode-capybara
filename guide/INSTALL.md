@@ -2,7 +2,7 @@
 
 ## Project ini sebenarnya apa?
 
-`opencode-capybara` adalah konfigurasi OpenCode/OpenChamber yang mengatur agent, workflow, validasi, dan dokumentasi agar penggunaan OpenCode lebih rapi dan aman.
+`opencode-capybara` adalah konfigurasi untuk **OpenCode sebagai runtime/platform utama**, dengan dukungan sinkronisasi ke **OpenChamber sebagai aplikasi pendamping**.
 
 Ini **bukan aplikasi end-user biasa** yang langsung dibuka di browser.
 
@@ -10,7 +10,7 @@ Ini **bukan aplikasi end-user biasa** yang langsung dibuka di browser.
 
 - `git`
 - `node` dan `npm`
-- akses ke **OpenCode** atau **OpenChamber**
+- akses ke **OpenCode** sebagai runtime utama; OpenChamber opsional jika kamu memakai app pendampingnya
 - akses ke **CLIProxyAPI** atau endpoint OpenAI-compatible yang dipakai sebagai provider model utama repo ini
 - beberapa API key yang dipakai repo ini, minimal sesuai `.env.example`
 

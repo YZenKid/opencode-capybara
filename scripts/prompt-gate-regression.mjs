@@ -119,7 +119,7 @@ const checks = [
     mustInclude: [
       "Do not prefix shell commands with `rtk`",
       "RTK may be installed by explicit setup",
-      "OpenCode/OpenChamber auto-rewrite/prefix remains opt-in",
+      "OpenCode auto-rewrite/prefix remains opt-in",
       "Never commit secrets, tokens, or `.env` files",
       "Use `@orchestrator`",
       "Use `@quality-gate`",
@@ -840,7 +840,7 @@ const checks = [
     name: "rtk opt-in policy gate",
     mustInclude: [
       "RTK may be installed",
-      "OpenCode/OpenChamber auto-rewrite/prefix remains opt-in",
+      "OpenCode auto-rewrite/prefix remains opt-in",
       "unless user explicitly asks",
       "Do not prefix shell commands with `rtk`",
       "Token compression/context packing should use RTK and Caveman together",

@@ -28,7 +28,7 @@ User Intent
 - `.opencode/` contains task-local plans and evidence.
 
 ## RTK and Caveman posture
-- RTK may be installed by explicit setup, but OpenCode/OpenChamber command rewriting remains opt-in unless the user explicitly asks.
+- RTK may be installed by explicit setup, but OpenCode command rewriting remains opt-in unless the user explicitly asks; OpenChamber should inherit that posture when it wraps or launches OpenCode.
 - Token compression and context packing should use RTK and Caveman together when that capability is needed.
 - Do not invent a parallel local compression flow outside the RTK/Caveman workflow or treat RTK and Caveman as either/or alternatives.
 - `scripts/setup-dev-tools.mjs` is the supported setup/check entrypoint for this toolchain.
