@@ -2,6 +2,8 @@
   "name": "opencode-capybara",
   "private": true,
   "scripts": {
+    "docs:generate": "node scripts/generate-generated-docs.mjs",
+    "docs:generate:check": "node scripts/generate-generated-docs.mjs --check",
     "sync:agent-models": "node scripts/sync-agent-models.mjs",
     "sync:agent-models:check": "node scripts/sync-agent-models.mjs --check",
     "setup:tools": "node scripts/setup-dev-tools.mjs",

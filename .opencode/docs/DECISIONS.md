@@ -16,3 +16,10 @@
 - Plan gates, phases, and work packages are internal execution checkpoints by default, not user approval checkpoints, unless explicitly marked otherwise.
 - Non-blocking questions should be deferred and accumulated for the end-of-run summary together with assumptions and residual decisions.
 - Mid-run interruption is reserved for destructive/irreversible actions, security/privacy boundaries, missing mandatory access, or material non-reversible ambiguity.
+
+## 2026-05-12 — Operational proof density hardening
+- The repo now keeps curated exemplar task bundles under `.opencode/plans/` and `.opencode/evidence/` to prove the evidence contract with real artifacts, not placeholders.
+- Advisory generated summaries under `docs/generated/` are refreshed via `npm run docs:generate` rather than remaining static placeholders.
+- The strict golden path for proof-of-use is documented in `.opencode/docs/QUALITY.md` so maintainers can replay a small end-to-end harness success path.
+- Generated-doc freshness is now mechanically enforced through `npm run docs:generate:check` and included in docs-integrity validation to reduce silent drift.
+- The generated-doc parser remains intentionally lightweight but now relies on simpler structure-aware extraction instead of a single broad regex pass.

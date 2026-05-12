@@ -41,6 +41,20 @@ If evidence is unavailable, write an explicit limitation note.
 - final verdict
 - reason codes / failure category if not `PASS`
 
+## Strict golden path
+Use this lightweight end-to-end path to prove the harness is operational, not only well-documented:
+
+1. Start from a real plan artifact in `.opencode/plans/`.
+2. Ensure matching task evidence exists under `.opencode/evidence/<task-id>/` with `discovery.md`, `verification.md`, and `index.json`.
+3. Refresh advisory generated docs with `npm run docs:generate`.
+4. Run `npm run docs:generate:check`.
+5. Run `npm run check:evidence`.
+6. Run `npm run check:docs`.
+7. Run `npm run check:harness:strict`.
+8. Record the outcome in the task's verification artifact.
+
+The curated exemplar task bundles in `.opencode/plans/` and `.opencode/evidence/` are intended to keep this path replayable for maintainers.
+
 ## Standard agent loop
 1. `@orchestrator` understands intent and chooses the route.
 2. `@explorer` does discovery when context is still unclear.

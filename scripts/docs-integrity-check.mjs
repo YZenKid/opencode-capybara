@@ -115,6 +115,28 @@ function checkGeneratedDocsLabel() {
   }
 }
 
+function checkGeneratedDocsFreshness() {
+  try {
+    execFileSync("node", ["scripts/generate-generated-docs.mjs", "--check"], {
+      cwd: root,
+      encoding: "utf8",
+      stdio: "pipe",
+    });
+    console.log("✓ docs/generated/* freshness");
+  } catch (error) {
+    failures += 1;
+    const stderr = String(error.stderr || "").trim();
+    console.error("✗ docs/generated/* freshness check failed");
+    if (stderr) {
+      for (const line of stderr.split("\n")) {
+        console.error(`  - ${line}`);
+      }
+    } else {
+      console.error("  - Remediation: run `npm run docs:generate` and commit refreshed generated docs.");
+    }
+  }
+}
+
 function checkReferenceMirrorPosture() {
   const referenceFiles = [
     "docs/index.md",
@@ -225,6 +247,7 @@ checkCanonicalFilesExist();
 checkIndexCoverage();
 checkAgentsPointers();
 checkGeneratedDocsLabel();
+checkGeneratedDocsFreshness();
 checkReferenceMirrorPosture();
 checkMirrorPolicyBloat();
 checkDecisionAdjacency();

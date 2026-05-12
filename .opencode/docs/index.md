@@ -21,11 +21,12 @@ This directory is the **system of record** for `opencode-capybara`.
 - [GC_WORKFLOW.md](./GC_WORKFLOW.md)
 
 ## Planning and execution artifacts
-- [exec-plans/active/README.md](./exec-plans/active/README.md)
-- [exec-plans/completed/README.md](./exec-plans/completed/README.md)
+- Plan artifacts live under `.opencode/plans/`.
+- Task evidence lives under `.opencode/evidence/<task-id>/`.
+- Use `.opencode/docs/QUALITY.md` as the canonical contract for evidence and replay expectations.
 
 ## Generated docs
-Generated docs are advisory artifacts. They are not the canonical source of policy.
+Generated docs are advisory artifacts produced by `npm run docs:generate`. They are not the canonical source of policy.
 
 - [generated/agent-matrix.md](../../docs/generated/agent-matrix.md)
 - [generated/prompt-gate-report.md](../../docs/generated/prompt-gate-report.md)
