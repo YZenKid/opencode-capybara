@@ -97,6 +97,9 @@ if (!existsSync(evalReport)) {
     "fixture_ids",
     "results",
     "reason_codes",
+    "transcript_summary",
+    "drift_summary",
+    "release_gate_readiness",
   ].filter((key) => !(key in report));
   if (reportMissing.length > 0) {
     fail("harness eval report is missing replay fields", reportMissing.map((item) => `missing: ${item}`));

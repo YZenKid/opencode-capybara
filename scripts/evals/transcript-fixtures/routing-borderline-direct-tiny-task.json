@@ -1,0 +1,14 @@
+{
+  "id": "routing-borderline-direct-tiny-task",
+  "category": "transcript-behavior",
+  "classification": "borderline",
+  "releaseCritical": false,
+  "description": "Transcript eval: a tiny direct orchestrator task can be valid but should not score perfect if delegation legibility is absent.",
+  "expectedReasonCodes": [],
+  "expectedScoreRange": [3, 4],
+  "events": [
+    { "agent": "orchestrator", "action": "read", "fileCount": 2 },
+    { "agent": "orchestrator", "action": "edit", "fileCount": 1 },
+    { "agent": "orchestrator", "action": "complete", "material": false }
+  ]
+}

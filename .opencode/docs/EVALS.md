@@ -65,6 +65,8 @@ failure → taxonomy → remediation → new regression/eval case → rerun
   - `routing-compliant-positive`
   - `routing-raw-overreach-negative`
   - `routing-raw-compliant-positive`
+  - `routing-borderline-direct-tiny-task`
+  - `routing-fallback-valid-specialist-unavailable`
 
 ## Strict validation lane
 - `npm run check:harness:strict`
@@ -86,4 +88,12 @@ Transcript sequence fixtures live in:
 - `scripts/evals/transcript-fixtures/`
 
 They add replayable sequence-level routing checks for orchestrator overreach without requiring a heavy semantic judge.
-Transcript fixtures may use either explicit normalized `events`, `rawTranscript`, or `rawToolTrace` inputs. Each transcript eval emits `transcript_source_mode` plus a deterministic `routing_score` from 0–5 across lane fit, threshold compliance, planner-first, evidence legibility proxy, and final-gate presence.
+Transcript fixtures may use either explicit normalized `events`, `rawTranscript`, `rawToolTrace`, or `shareExport` inputs. Each transcript eval emits `transcript_source_mode` plus a deterministic `routing_score` from 0–5 across lane fit, threshold compliance, planner-first, evidence legibility proxy, and final-gate presence.
+
+Maintainer workflow for transcript fixtures:
+- Prefer adding a new fixture whenever a real workflow failure or ambiguity is discovered.
+- Label fixtures as `good`, `bad`, `borderline`, or `fallback-valid` via `classification`.
+- Mark fixtures with `releaseCritical: true` only when they should count toward release readiness.
+- Provide `expectedReasonCodes` and, when useful, `expectedScoreRange` so regressions stay explicit.
+- If the source is not already normalized, prefer `rawToolTrace` over free-form text when structured data is available.
+- Use `shareExport` for saved OpenCode share/session HTML or embedded payload snippets when the source is real but not already normalized. The adapter is intentionally heuristic: it extracts transcript-like quoted strings from script payloads, decodes common JS escapes, and only keeps candidates that look structurally like transcript lines (agent/action cues with transcript-style ordering) before normalizing them into replayable events.

@@ -1,0 +1,12 @@
+{
+  "id": "routing-share-export-compliant-positive",
+  "category": "transcript-behavior",
+  "classification": "good",
+  "releaseCritical": false,
+  "description": "Share-export eval: a real-session style HTML payload with embedded transcript-like text should normalize into compliant planner-first routing.",
+  "expectedReasonCodes": [],
+  "expectedScoreRange": [5, 5],
+  "shareExport": {
+    "html": "<!DOCTYPE html><html><head><title>OpenCode</title></head><body><script>self.$R=self.$R||[];($R[1],$R[7]={sessionID:\"ses_demo_share\",shareID:\"demoShare\",session:[{id:\"ses_demo_share\",agent:\"orchestrator\",title:\"Routing eval\"}],messages:[{role:\"assistant\",content:\"orchestrator: delegate plan to artifact-planner for non-trivial routing hardening\"},{role:\"assistant\",content:\"artifact-planner: plan non-trivial rollout 1 file\"},{role:\"assistant\",content:\"orchestrator: delegate discovery to explorer\"},{role:\"assistant\",content:\"explorer: discover 6 files across routing docs\"},{role:\"assistant\",content:\"orchestrator: delegate implementation to fixer\"},{role:\"assistant\",content:\"fixer: implement non-trivial multi-file update 3 files material\"},{role:\"assistant\",content:\"orchestrator: delegate review to quality-gate\"},{role:\"assistant\",content:\"quality-gate: review material change\"},{role:\"assistant\",content:\"orchestrator: complete material rollout\"}],session_diff:{ses_demo_share:[{file:\"scripts/evals/lib.mjs\",patch:\"Index: scripts/evals/lib.mjs\\n@@ -1,2 +1,3 @@\"}]}});</script></body></html>"
+  }
+}

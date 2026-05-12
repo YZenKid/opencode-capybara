@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { evaluateTaskFixture, evaluateTextRules, evaluateTranscriptFixture, loadFixtures, readJson, readTextOrNull } from "./lib.mjs";
 
@@ -22,6 +22,8 @@ let failed = 0;
 const validatedFiles = new Set();
 const transcriptScores = [];
 const transcriptSourceModes = {};
+const transcriptScoreBands = {};
+const transcriptClassifications = {};
 
 let gitSha = "unknown";
 try {
@@ -97,9 +99,29 @@ for (const { file, fixture } of transcriptFixtures) {
   validatedFiles.add(`scripts/evals/transcript-fixtures/${file}`);
   transcriptScores.push(result.routing_score?.score_0_to_5 ?? 0);
   transcriptSourceModes[result.transcript_source_mode] = (transcriptSourceModes[result.transcript_source_mode] ?? 0) + 1;
+  transcriptScoreBands[result.routing_score?.score_band ?? "unknown"] = (transcriptScoreBands[result.routing_score?.score_band ?? "unknown"] ?? 0) + 1;
+  transcriptClassifications[result.fixture_classification ?? "general"] = (transcriptClassifications[result.fixture_classification ?? "general"] ?? 0) + 1;
   if (result.status === "FAIL") failed += 1;
   results.push(result);
 }
+
+const transcriptResults = results.filter((result) => result.category === "transcript-behavior");
+const releaseCriticalTranscriptResults = transcriptResults.filter((result) => result.release_critical);
+const releaseCriticalAverage = releaseCriticalTranscriptResults.length > 0
+  ? Number((releaseCriticalTranscriptResults.reduce((sum, result) => sum + (result.routing_score?.score_0_to_5 ?? 0), 0) / releaseCriticalTranscriptResults.length).toFixed(2))
+  : null;
+
+const historyDir = resolve(root, ".opencode", "evidence", "harness-evals", "history");
+mkdirSync(historyDir, { recursive: true });
+const historyFiles = existsSync(historyDir)
+  ? readdirSync(historyDir).filter((file) => file.endsWith(".json")).sort()
+  : [];
+const previousHistoryPath = historyFiles.length > 0 ? resolve(historyDir, historyFiles.at(-1)) : null;
+const previousHistory = previousHistoryPath && existsSync(previousHistoryPath) ? readJson(previousHistoryPath) : null;
+
+const currentAverage = transcriptScores.length > 0
+  ? Number((transcriptScores.reduce((sum, score) => sum + score, 0) / transcriptScores.length).toFixed(2))
+  : null;
 
 const report = {
   task_id: "harness-evals-latest",
@@ -124,8 +146,33 @@ const report = {
   ),
   transcript_summary: {
     fixture_count: transcriptFixtures.length,
-    average_score_0_to_5: transcriptScores.length > 0 ? Number((transcriptScores.reduce((sum, score) => sum + score, 0) / transcriptScores.length).toFixed(2)) : null,
+    average_score_0_to_5: currentAverage,
+    min_score_0_to_5: transcriptScores.length > 0 ? Math.min(...transcriptScores) : null,
+    max_score_0_to_5: transcriptScores.length > 0 ? Math.max(...transcriptScores) : null,
     source_modes: transcriptSourceModes,
+    score_bands: transcriptScoreBands,
+    classifications: transcriptClassifications,
+    release_critical_fixture_count: releaseCriticalTranscriptResults.length,
+    release_critical_average_score_0_to_5: releaseCriticalAverage,
+  },
+  drift_summary: {
+    previous_timestamp: previousHistory?.timestamp ?? null,
+    previous_average_score_0_to_5: previousHistory?.transcript_summary?.average_score_0_to_5 ?? null,
+    average_score_delta: previousHistory?.transcript_summary?.average_score_0_to_5 != null && currentAverage != null
+      ? Number((currentAverage - previousHistory.transcript_summary.average_score_0_to_5).toFixed(2))
+      : null,
+    failed_delta: previousHistory?.failed != null ? failed - previousHistory.failed : null,
+    fixture_count_delta: previousHistory?.transcript_summary?.fixture_count != null
+      ? transcriptFixtures.length - previousHistory.transcript_summary.fixture_count
+      : null,
+  },
+  release_gate_readiness: {
+    transcript_fixtures_all_pass: transcriptResults.every((result) => result.status === "PASS"),
+    release_critical_all_pass: releaseCriticalTranscriptResults.every((result) => result.status === "PASS"),
+    release_critical_average_score_0_to_5: releaseCriticalAverage,
+    minimum_required_average_score_0_to_5: 4.5,
+    ready: transcriptResults.every((result) => result.status === "PASS")
+      && (releaseCriticalAverage == null || releaseCriticalAverage >= 4.5),
   },
   files_changed: Array.from(validatedFiles).sort(),
   results,
@@ -145,6 +192,9 @@ writeFileSync(
       `- Failed: ${report.failed}`,
       report.transcript_summary.fixture_count > 0 ? `- Transcript fixture count: ${report.transcript_summary.fixture_count}` : null,
       report.transcript_summary.fixture_count > 0 ? `- Transcript average routing score: ${report.transcript_summary.average_score_0_to_5}/5` : null,
+      report.transcript_summary.fixture_count > 0 ? `- Transcript score bands: ${Object.entries(report.transcript_summary.score_bands).map(([key, value]) => `${key}=${value}`).join(", ")}` : null,
+      report.drift_summary.previous_timestamp ? `- Drift average delta: ${report.drift_summary.average_score_delta}` : null,
+      `- Release gate ready: ${report.release_gate_readiness.ready}`,
       "- Tool trace:",
       ...report.tool_trace_summary.map((item) => `  - ${item}`),
       `- Files changed summary: ${report.changed_files_summary}`,
@@ -162,12 +212,18 @@ writeFileSync(
       `- Description: ${result.description}`,
       result.transcript_source_mode ? `- Transcript source mode: ${result.transcript_source_mode}` : null,
       result.routing_score ? `- Routing score: ${result.routing_score.score_0_to_5}/5` : null,
+      result.routing_score ? `- Routing score band: ${result.routing_score.score_band}` : null,
+      result.routing_score ? `- Routing confidence: ${result.routing_score.confidence}` : null,
       result.routing_score ? `- Routing dimensions: ${Object.entries(result.routing_score.dimensions).map(([key, value]) => `${key}=${value ? "pass" : "fail"}`).join(", ")}` : null,
       ...result.checks.map((check) => `- ${check.file}: ${check.status}${check.reason_code ? ` (${check.reason_code})` : ""}`),
       "",
     ].filter(Boolean)),
   ].join("\n"),
 );
+
+const historySafeTimestamp = report.timestamp.replace(/[:]/g, "-");
+writeFileSync(resolve(historyDir, `${historySafeTimestamp}.json`), JSON.stringify(report, null, 2));
+writeFileSync(resolve(historyDir, `${historySafeTimestamp}.md`), readFileSync(resolve(reportDir, "report.md"), "utf8"));
 
 for (const result of results) {
   console.log(`${result.status === "PASS" ? "✓" : "✗"} ${result.id}`);

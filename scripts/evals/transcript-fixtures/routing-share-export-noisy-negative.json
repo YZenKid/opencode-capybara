@@ -1,0 +1,17 @@
+{
+  "id": "routing-share-export-noisy-negative",
+  "category": "transcript-behavior",
+  "classification": "bad",
+  "releaseCritical": false,
+  "description": "Share-export eval: noisy embedded script content should still surface orchestrator overreach when transcript-like strings indicate redundant discovery, direct multi-file edits, and missing planner/gate steps.",
+  "expectedReasonCodes": [
+    "routing-overreach-redundant-orchestrator-discovery",
+    "routing-overreach-orchestrator-multifile-edit",
+    "routing-overreach-missing-planner-first",
+    "routing-overreach-missing-quality-gate"
+  ],
+  "expectedScoreRange": [1, 1],
+  "shareExport": {
+    "html": "<!DOCTYPE html><html><body><script>self.$R=self.$R||[];window.__NOISE__={title:\"OpenCode\",summary:\"marketing copy only\",labels:[\"theme\",\"routing\",\"dashboard\"],cards:[{message:\"welcome back\"},{message:\"release notes\"}],metrics:[\"coverage 92\",\"confidence medium\"]};($R[1],$R[7]={sessionID:\"ses_noisy_share\",shareID:\"noisyShare\",session:[{id:\"ses_noisy_share\",agent:\"orchestrator\"}],messages:[{role:\"assistant\",content:\"orchestrator: delegate discovery to explorer\"},{role:\"assistant\",content:\"explorer: discover 8 files across routing docs\"},{role:\"assistant\",content:\"orchestrator: read 6 files to double-check everything after explorer\"},{role:\"assistant\",content:\"orchestrator: edit 3 files with direct patch\"},{role:\"assistant\",content:\"orchestrator: implement non-trivial multi-file update 3 files material\"},{role:\"assistant\",content:\"orchestrator: complete material rollout\"}],notes:[\"ignore visual chrome\",\"no transcript beyond this point\"]});</script></body></html>"
+  }
+}

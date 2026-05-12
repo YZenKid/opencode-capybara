@@ -1,0 +1,12 @@
+{
+  "id": "routing-share-export-keyword-noise-boundary",
+  "category": "transcript-behavior",
+  "classification": "borderline",
+  "releaseCritical": false,
+  "description": "Share-export eval: transcript-like keywords without a real routing sequence should remain a weak boundary case instead of being interpreted as a full compliant workflow.",
+  "expectedReasonCodes": [],
+  "expectedScoreRange": [2, 2],
+  "shareExport": {
+    "html": "<!DOCTYPE html><html><body><script>window.__UI_COPY__={title:\"orchestrator explorer fixer quality-gate\",summary:\"delegate plan discover implement review complete\",cards:[{label:\"routing dashboard\"},{label:\"tool trace explorer\"}],notes:[\"artifact-planner quality-gate\",\"orchestrator workflow\"]};</script></body></html>"
+  }
+}

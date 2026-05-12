@@ -1,0 +1,12 @@
+{
+  "id": "routing-share-export-malformed-partial",
+  "category": "transcript-behavior",
+  "classification": "general",
+  "releaseCritical": false,
+  "description": "Share-export eval: a truncated partial export should still normalize deterministically when a few transcript-like strings remain, without requiring a perfect session wrapper.",
+  "expectedReasonCodes": [],
+  "expectedScoreRange": [5, 5],
+  "shareExport": {
+    "html": "<html><body><script>window.__PARTIAL__={shareID:\"partialShare\",message:\"orchestrator: delegate implementation to fixer\",notes:\"fixer: implement tiny patch 1 file\",tail:\"orchestrator: delegate review to quality-gate\\nquality-gate: review tiny patch\\norchestrator: complete\"};</script><script>broken_payload={sessionID:\"partialShare\",messages:[{content:\"unterminated transcript block..." 
+  }
+}

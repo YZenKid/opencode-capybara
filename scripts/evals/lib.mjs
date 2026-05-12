@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
+import { normalizeShareExportFixture } from "./share-export-adapter.mjs";
 
 export function readJson(file) {
   return JSON.parse(readFileSync(file, "utf8"));
@@ -58,6 +59,46 @@ export function loadFixtures(fixturesDir) {
     .filter((file) => file.endsWith(".json"))
     .sort()
     .map((file) => ({ file, fixture: readJson(resolve(fixturesDir, file)) }));
+}
+
+function validateTranscriptFixtureSchema(fixture) {
+  const errors = [];
+  if (!fixture || typeof fixture !== "object") {
+    return ["fixture must be a JSON object"];
+  }
+
+  if (typeof fixture.id !== "string" || fixture.id.length === 0) {
+    errors.push("fixture.id must be a non-empty string");
+  }
+
+  if (typeof fixture.description !== "string" || fixture.description.length === 0) {
+    errors.push("fixture.description must be a non-empty string");
+  }
+
+  const sourceKeys = ["events", "rawTranscript", "rawToolTrace", "shareExport"].filter((key) => key in fixture);
+  if (sourceKeys.length !== 1) {
+    errors.push("fixture must define exactly one source: events, rawTranscript, rawToolTrace, or shareExport");
+  }
+
+  if (fixture.expectedReasonCodes && !Array.isArray(fixture.expectedReasonCodes)) {
+    errors.push("fixture.expectedReasonCodes must be an array when present");
+  }
+
+  if (fixture.expectedScoreRange) {
+    const validRange = Array.isArray(fixture.expectedScoreRange)
+      && fixture.expectedScoreRange.length === 2
+      && fixture.expectedScoreRange.every((value) => Number.isInteger(value) && value >= 0 && value <= 5)
+      && fixture.expectedScoreRange[0] <= fixture.expectedScoreRange[1];
+    if (!validRange) {
+      errors.push("fixture.expectedScoreRange must be a two-item integer array between 0 and 5");
+    }
+  }
+
+  if (fixture.releaseCritical != null && typeof fixture.releaseCritical !== "boolean") {
+    errors.push("fixture.releaseCritical must be boolean when present");
+  }
+
+  return errors;
 }
 
 export function evaluateTaskFixture(root, fixture) {
@@ -250,21 +291,42 @@ function normalizeTranscriptFixture(fixture) {
     };
   }
 
+  if (fixture.shareExport) {
+    return normalizeShareExportFixture(fixture.shareExport, normalizeRawTranscriptEntry);
+  }
+
   return {
     sourceMode: "empty",
     events: [],
   };
 }
 
+function scoreBandFromValue(score) {
+  if (score >= 5) return "excellent";
+  if (score >= 4) return "strong";
+  if (score >= 3) return "usable";
+  if (score >= 1) return "weak";
+  return "failed";
+}
+
+function confidenceFromSourceMode(sourceMode, eventCount) {
+  if (sourceMode === "normalized-events") return "high";
+  if (sourceMode === "share-export") return eventCount >= 5 ? "medium" : "low";
+  if (sourceMode === "raw-tool-trace") return eventCount >= 5 ? "medium" : "low";
+  if (sourceMode === "raw-transcript") return eventCount >= 8 ? "medium" : "low";
+  return "low";
+}
+
 function computeRoutingScore(context) {
+  const sparseTrace = context.events.length < 2;
   const laneFit = !context.actualReasonCodes.has("routing-overreach-redundant-orchestrator-discovery")
     && !context.actualReasonCodes.has("routing-overreach-orchestrator-multifile-edit");
   const thresholdCompliance = !context.events.some(
     (event) => event.agent === "orchestrator" && ((event.action === "edit" && event.fileCount >= 2) || (event.action === "read" && event.fileCount > 3)),
   );
-  const plannerFirst = !context.actualReasonCodes.has("routing-overreach-missing-planner-first");
+  const plannerFirst = !sparseTrace && !context.actualReasonCodes.has("routing-overreach-missing-planner-first");
   const evidenceLegibilityProxy = context.events.some((event) => event.agent === "orchestrator" && event.action.startsWith("delegate_"));
-  const finalGatePresence = !context.actualReasonCodes.has("routing-overreach-missing-quality-gate");
+  const finalGatePresence = !sparseTrace && !context.actualReasonCodes.has("routing-overreach-missing-quality-gate");
 
   const dimensions = {
     lane_fit: laneFit,
@@ -274,9 +336,19 @@ function computeRoutingScore(context) {
     final_gate_presence: finalGatePresence,
   };
 
+  const score = Object.values(dimensions).filter(Boolean).length;
   return {
-    score_0_to_5: Object.values(dimensions).filter(Boolean).length,
+    score_0_to_5: score,
+    score_band: scoreBandFromValue(score),
     dimensions,
+    coverage: {
+      event_count: context.events.length,
+      source_mode: context.sourceMode,
+      has_material_claim: context.events.some((event) => event.material),
+      has_non_trivial_work: context.events.some((event) => event.nonTrivial),
+      has_delegation: context.events.some((event) => event.action.startsWith("delegate_")),
+    },
+    confidence: confidenceFromSourceMode(context.sourceMode, context.events.length),
     reasons: Object.entries(dimensions)
       .filter(([, value]) => !value)
       .map(([key]) => key),
@@ -284,6 +356,45 @@ function computeRoutingScore(context) {
 }
 
 export function evaluateTranscriptFixture(fixture) {
+  const schemaErrors = validateTranscriptFixtureSchema(fixture);
+  if (schemaErrors.length > 0) {
+    return {
+      id: fixture?.id ?? "unknown-transcript-fixture",
+      description: fixture?.description ?? "Invalid transcript fixture",
+      category: fixture?.category ?? "transcript-behavior",
+      transcript_source_mode: "invalid-schema",
+      routing_score: {
+        score_0_to_5: 0,
+        score_band: "failed",
+        dimensions: {
+          lane_fit: false,
+          threshold_compliance: false,
+          planner_first: false,
+          evidence_legibility_proxy: false,
+          final_gate_presence: false,
+        },
+        coverage: {
+          event_count: 0,
+          source_mode: "invalid-schema",
+          has_material_claim: false,
+          has_non_trivial_work: false,
+          has_delegation: false,
+        },
+        confidence: "low",
+        reasons: ["invalid_transcript_fixture_schema"],
+      },
+      release_critical: Boolean(fixture?.releaseCritical),
+      fixture_classification: fixture?.classification ?? "invalid",
+      status: "FAIL",
+      checks: schemaErrors.map((detail) => ({
+        type: "transcript-schema",
+        status: "FAIL",
+        reason_code: "invalid-transcript-fixture-schema",
+        detail,
+      })),
+    };
+  }
+
   const normalized = normalizeTranscriptFixture(fixture);
   const events = normalized.events;
   const violationChecks = [];
@@ -357,7 +468,22 @@ export function evaluateTranscriptFixture(fixture) {
   const routingScore = computeRoutingScore({
     events,
     actualReasonCodes,
+    sourceMode: normalized.sourceMode,
   });
+
+  if (fixture.expectedScoreRange) {
+    const [min, max] = fixture.expectedScoreRange;
+    if (routingScore.score_0_to_5 < min || routingScore.score_0_to_5 > max) {
+      checks.push({
+        type: "transcript-score",
+        status: "FAIL",
+        reason_code: "transcript-routing-score-out-of-range",
+        detail: `routing score ${routingScore.score_0_to_5} was outside expected range ${min}-${max}`,
+      });
+    }
+  }
+
+  const finalStatus = checks.some((check) => check.status === "FAIL") || expectationMismatch ? "FAIL" : "PASS";
 
   return {
     id: fixture.id,
@@ -365,7 +491,9 @@ export function evaluateTranscriptFixture(fixture) {
     category: fixture.category ?? "transcript-behavior",
     transcript_source_mode: normalized.sourceMode,
     routing_score: routingScore,
-    status: expectationMismatch ? "FAIL" : "PASS",
+    release_critical: Boolean(fixture.releaseCritical),
+    fixture_classification: fixture.classification ?? "general",
+    status: finalStatus,
     checks,
   };
 }

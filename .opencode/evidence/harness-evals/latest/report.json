@@ -1,0 +1,808 @@
+{
+  "task_id": "harness-evals-latest",
+  "timestamp": "2026-05-12T12:53:01.562Z",
+  "harness_version": "6316ac80829a08e0fd68c16dfc0d04cb1986823b",
+  "prompt_or_task_summary": "Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.",
+  "tool_trace_summary": [
+    "Read eval fixture JSON files from scripts/evals/fixtures/",
+    "Read behavioral task fixture JSON files from scripts/evals/task-fixtures/",
+    "Read transcript sequence fixtures from scripts/evals/transcript-fixtures/",
+    "Read target repository files and evaluate mustInclude/mustNotInclude rules",
+    "Write replayable report artifacts under .opencode/evidence/harness-evals/latest/"
+  ],
+  "changed_files_summary": "Read-only eval run; no repository files were modified. files_changed lists validated target files.",
+  "validation_outputs": [
+    {
+      "command": "npm run eval:harness",
+      "result": "PASS"
+    }
+  ],
+  "verdict": "PASS",
+  "fixture_count": 20,
+  "failed": 0,
+  "fixture_ids": [
+    "agents-policy-bloat-negative",
+    "docs-system-of-record",
+    "evidence-verification-negative",
+    "readonly-boundary-negative",
+    "runtime-plugin-removal",
+    "docs-policy-migration-roundtrip",
+    "evidence-bundle-completion",
+    "orchestrator-routing-discipline-20260512-1708",
+    "planner-and-mcp-state-contract",
+    "reviewer-boundary-routing",
+    "routing-borderline-direct-tiny-task",
+    "routing-compliant-positive",
+    "routing-fallback-valid-specialist-unavailable",
+    "routing-overreach-negative",
+    "routing-raw-compliant-positive",
+    "routing-raw-overreach-negative",
+    "routing-share-export-compliant-positive",
+    "routing-share-export-keyword-noise-boundary",
+    "routing-share-export-malformed-partial",
+    "routing-share-export-noisy-negative"
+  ],
+  "reason_codes": [
+    "routing-overreach-redundant-orchestrator-discovery",
+    "routing-overreach-orchestrator-multifile-edit",
+    "routing-overreach-missing-planner-first",
+    "routing-overreach-missing-quality-gate",
+    "routing-overreach-redundant-orchestrator-discovery",
+    "routing-overreach-orchestrator-multifile-edit",
+    "routing-overreach-missing-planner-first",
+    "routing-overreach-missing-quality-gate",
+    "routing-overreach-redundant-orchestrator-discovery",
+    "routing-overreach-orchestrator-multifile-edit",
+    "routing-overreach-missing-planner-first",
+    "routing-overreach-missing-quality-gate"
+  ],
+  "transcript_summary": {
+    "fixture_count": 10,
+    "average_score_0_to_5": 3.4,
+    "min_score_0_to_5": 1,
+    "max_score_0_to_5": 5,
+    "source_modes": {
+      "normalized-events": 4,
+      "raw-transcript": 1,
+      "raw-tool-trace": 1,
+      "share-export": 4
+    },
+    "score_bands": {
+      "strong": 1,
+      "excellent": 5,
+      "weak": 4
+    },
+    "classifications": {
+      "borderline": 2,
+      "general": 5,
+      "fallback-valid": 1,
+      "good": 1,
+      "bad": 1
+    },
+    "release_critical_fixture_count": 1,
+    "release_critical_average_score_0_to_5": 5
+  },
+  "drift_summary": {
+    "previous_timestamp": "2026-05-12T12:50:04.292Z",
+    "previous_average_score_0_to_5": 3.4,
+    "average_score_delta": 0,
+    "failed_delta": 0,
+    "fixture_count_delta": 0
+  },
+  "release_gate_readiness": {
+    "transcript_fixtures_all_pass": true,
+    "release_critical_all_pass": true,
+    "release_critical_average_score_0_to_5": 5,
+    "minimum_required_average_score_0_to_5": 4.5,
+    "ready": true
+  },
+  "files_changed": [
+    ".opencode/docs/AGENT_ROUTING.md",
+    ".opencode/docs/MCP.md",
+    ".opencode/docs/QUALITY.md",
+    ".opencode/docs/index.md",
+    ".opencode/evidence/20260510-2140-harness-engineering-plan/index.json",
+    ".opencode/evidence/20260510-2140-harness-engineering-plan/verification.md",
+    ".opencode/evidence/20260512-1708-orchestrator-routing-hardening/index.json",
+    ".opencode/evidence/20260512-1708-orchestrator-routing-hardening/routing-decisions.md",
+    ".opencode/evidence/20260512-1708-orchestrator-routing-hardening/verification.md",
+    ".opencode/plans/20260510-2140-harness-engineering-plan.md",
+    ".opencode/plans/20260512-1708-orchestrator-routing-hardening.md",
+    "AGENTS.md",
+    "agents/oracle.md",
+    "agents/quality-gate.md",
+    "opencode.json",
+    "package.json",
+    "scripts/evals/transcript-fixtures/routing-borderline-direct-tiny-task.json",
+    "scripts/evals/transcript-fixtures/routing-compliant-positive.json",
+    "scripts/evals/transcript-fixtures/routing-fallback-valid-specialist-unavailable.json",
+    "scripts/evals/transcript-fixtures/routing-overreach-negative.json",
+    "scripts/evals/transcript-fixtures/routing-raw-compliant-positive.json",
+    "scripts/evals/transcript-fixtures/routing-raw-overreach-negative.json",
+    "scripts/evals/transcript-fixtures/routing-share-export-compliant-positive.json",
+    "scripts/evals/transcript-fixtures/routing-share-export-keyword-noise-boundary.json",
+    "scripts/evals/transcript-fixtures/routing-share-export-malformed-partial.json",
+    "scripts/evals/transcript-fixtures/routing-share-export-noisy-negative.json",
+    "skills/opencode-orchestrator/SKILL.md",
+    "skills/opencode-quality-gate/SKILL.md"
+  ],
+  "results": [
+    {
+      "id": "agents-policy-bloat-negative",
+      "description": "Negative fixture: AGENTS.md should stay map-like and avoid re-absorbing long-form policy language that belongs in docs.",
+      "status": "PASS",
+      "checks": [
+        {
+          "file": "AGENTS.md",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "docs-system-of-record",
+      "description": "Validates that AGENTS.md maps to canonical docs and the canonical docs index exposes the system-of-record entrypoints.",
+      "status": "PASS",
+      "checks": [
+        {
+          "file": "AGENTS.md",
+          "status": "PASS"
+        },
+        {
+          "file": ".opencode/docs/index.md",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "evidence-verification-negative",
+      "description": "Negative fixture: plan verification evidence should explicitly record eval, harness check, and doctor commands.",
+      "status": "PASS",
+      "checks": [
+        {
+          "file": ".opencode/evidence/20260510-2140-harness-engineering-plan/verification.md",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "readonly-boundary-negative",
+      "description": "Negative fixture: read-only reviewer agents should not regain write/patch permissions.",
+      "status": "PASS",
+      "checks": [
+        {
+          "file": "agents/quality-gate.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/oracle.md",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "runtime-plugin-removal",
+      "description": "Validates that the standalone harness no longer depends on the removed runtime plugin path.",
+      "status": "PASS",
+      "checks": [
+        {
+          "file": "package.json",
+          "status": "PASS"
+        },
+        {
+          "file": "opencode.json",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "docs-policy-migration-roundtrip",
+      "description": "Behavioral eval: policy should live in canonical docs while AGENTS stays map-like and README stays onboarding-oriented.",
+      "category": "behavioral-task",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "routing",
+          "file": "AGENTS.md",
+          "status": "PASS"
+        },
+        {
+          "type": "canonical-doc",
+          "file": ".opencode/docs/AGENT_ROUTING.md",
+          "status": "PASS"
+        },
+        {
+          "type": "index",
+          "file": ".opencode/docs/index.md",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "evidence-bundle-completion",
+      "description": "Behavioral eval: a non-trivial task should have a plan, evidence manifest, discovery artifact, and verification artifact with the expected command set.",
+      "category": "behavioral-task",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "plan",
+          "file": ".opencode/plans/20260510-2140-harness-engineering-plan.md",
+          "status": "PASS"
+        },
+        {
+          "type": "manifest",
+          "file": ".opencode/evidence/20260510-2140-harness-engineering-plan/index.json",
+          "status": "PASS"
+        },
+        {
+          "type": "verification",
+          "file": ".opencode/evidence/20260510-2140-harness-engineering-plan/verification.md",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "orchestrator-routing-discipline-20260512-1708",
+      "description": "Behavioral eval: task bundle 20260512-1708 must be plan-bound, include explicit routing decisions, record a quality-gate outcome, and keep routing policy/skill references aligned.",
+      "category": "behavioral-task",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "plan",
+          "file": ".opencode/plans/20260512-1708-orchestrator-routing-hardening.md",
+          "status": "PASS"
+        },
+        {
+          "type": "manifest",
+          "file": ".opencode/evidence/20260512-1708-orchestrator-routing-hardening/index.json",
+          "status": "PASS"
+        },
+        {
+          "type": "routing-decision",
+          "file": ".opencode/evidence/20260512-1708-orchestrator-routing-hardening/routing-decisions.md",
+          "status": "PASS"
+        },
+        {
+          "type": "quality-outcome",
+          "file": ".opencode/evidence/20260512-1708-orchestrator-routing-hardening/verification.md",
+          "status": "PASS"
+        },
+        {
+          "type": "routing-policy",
+          "file": ".opencode/docs/AGENT_ROUTING.md",
+          "status": "PASS"
+        },
+        {
+          "type": "quality-loop",
+          "file": ".opencode/docs/QUALITY.md",
+          "status": "PASS"
+        },
+        {
+          "type": "orchestrator-skill",
+          "file": "skills/opencode-orchestrator/SKILL.md",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "planner-and-mcp-state-contract",
+      "description": "Behavioral eval: non-trivial work is planner-bound while MCP configured-vs-usable state language remains explicit and consistent.",
+      "category": "behavioral-task",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "routing-map",
+          "file": "AGENTS.md",
+          "status": "PASS"
+        },
+        {
+          "type": "canonical-routing",
+          "file": ".opencode/docs/AGENT_ROUTING.md",
+          "status": "PASS"
+        },
+        {
+          "type": "mcp-state-doc",
+          "file": ".opencode/docs/MCP.md",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "reviewer-boundary-routing",
+      "description": "Behavioral eval: read-only reviewer lanes should stay read-only and route implementation elsewhere.",
+      "category": "behavioral-task",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "reviewer-agent",
+          "file": "agents/quality-gate.md",
+          "status": "PASS"
+        },
+        {
+          "type": "routing-doc",
+          "file": ".opencode/docs/AGENT_ROUTING.md",
+          "status": "PASS"
+        },
+        {
+          "type": "quality-skill",
+          "file": "skills/opencode-quality-gate/SKILL.md",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "routing-borderline-direct-tiny-task",
+      "description": "Transcript eval: a tiny direct orchestrator task can be valid but should not score perfect if delegation legibility is absent.",
+      "category": "transcript-behavior",
+      "transcript_source_mode": "normalized-events",
+      "routing_score": {
+        "score_0_to_5": 4,
+        "score_band": "strong",
+        "dimensions": {
+          "lane_fit": true,
+          "threshold_compliance": true,
+          "planner_first": true,
+          "evidence_legibility_proxy": false,
+          "final_gate_presence": true
+        },
+        "coverage": {
+          "event_count": 3,
+          "source_mode": "normalized-events",
+          "has_material_claim": false,
+          "has_non_trivial_work": false,
+          "has_delegation": false
+        },
+        "confidence": "high",
+        "reasons": [
+          "evidence_legibility_proxy"
+        ]
+      },
+      "release_critical": false,
+      "fixture_classification": "borderline",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "detail": "transcript matched expected routing behavior",
+          "file": "scripts/evals/transcript-fixtures/routing-borderline-direct-tiny-task.json"
+        }
+      ]
+    },
+    {
+      "id": "routing-compliant-positive",
+      "description": "Transcript eval: compliant routing should delegate planner-first, use explorer for discovery, use fixer for bounded multi-file implementation, and run quality-gate before material completion.",
+      "category": "transcript-behavior",
+      "transcript_source_mode": "normalized-events",
+      "routing_score": {
+        "score_0_to_5": 5,
+        "score_band": "excellent",
+        "dimensions": {
+          "lane_fit": true,
+          "threshold_compliance": true,
+          "planner_first": true,
+          "evidence_legibility_proxy": true,
+          "final_gate_presence": true
+        },
+        "coverage": {
+          "event_count": 10,
+          "source_mode": "normalized-events",
+          "has_material_claim": true,
+          "has_non_trivial_work": true,
+          "has_delegation": true
+        },
+        "confidence": "high",
+        "reasons": []
+      },
+      "release_critical": false,
+      "fixture_classification": "general",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "detail": "transcript matched expected routing behavior",
+          "file": "scripts/evals/transcript-fixtures/routing-compliant-positive.json"
+        }
+      ]
+    },
+    {
+      "id": "routing-fallback-valid-specialist-unavailable",
+      "description": "Transcript eval: fallback direct execution can remain valid when specialist routing was attempted, work stays tiny, and quality-gate still happens before material completion.",
+      "category": "transcript-behavior",
+      "transcript_source_mode": "normalized-events",
+      "routing_score": {
+        "score_0_to_5": 5,
+        "score_band": "excellent",
+        "dimensions": {
+          "lane_fit": true,
+          "threshold_compliance": true,
+          "planner_first": true,
+          "evidence_legibility_proxy": true,
+          "final_gate_presence": true
+        },
+        "coverage": {
+          "event_count": 7,
+          "source_mode": "normalized-events",
+          "has_material_claim": true,
+          "has_non_trivial_work": true,
+          "has_delegation": true
+        },
+        "confidence": "high",
+        "reasons": []
+      },
+      "release_critical": true,
+      "fixture_classification": "fallback-valid",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "detail": "transcript matched expected routing behavior",
+          "file": "scripts/evals/transcript-fixtures/routing-fallback-valid-specialist-unavailable.json"
+        }
+      ]
+    },
+    {
+      "id": "routing-overreach-negative",
+      "description": "Transcript eval: detect orchestrator overreach after explorer delegation, direct multi-file editing, missing planner-first, and missing quality-gate before material completion.",
+      "category": "transcript-behavior",
+      "transcript_source_mode": "normalized-events",
+      "routing_score": {
+        "score_0_to_5": 1,
+        "score_band": "weak",
+        "dimensions": {
+          "lane_fit": false,
+          "threshold_compliance": false,
+          "planner_first": false,
+          "evidence_legibility_proxy": true,
+          "final_gate_presence": false
+        },
+        "coverage": {
+          "event_count": 6,
+          "source_mode": "normalized-events",
+          "has_material_claim": true,
+          "has_non_trivial_work": true,
+          "has_delegation": true
+        },
+        "confidence": "high",
+        "reasons": [
+          "lane_fit",
+          "threshold_compliance",
+          "planner_first",
+          "final_gate_presence"
+        ]
+      },
+      "release_critical": false,
+      "fixture_classification": "general",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "transcript-expectation",
+          "status": "PASS",
+          "detail": "transcript matched expected routing reason codes: routing-overreach-missing-planner-first, routing-overreach-missing-quality-gate, routing-overreach-orchestrator-multifile-edit, routing-overreach-redundant-orchestrator-discovery",
+          "file": "scripts/evals/transcript-fixtures/routing-overreach-negative.json"
+        },
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "reason_code": "routing-overreach-redundant-orchestrator-discovery",
+          "detail": "orchestrator resumed read-heavy discovery after explorer delegation at event 2",
+          "file": "scripts/evals/transcript-fixtures/routing-overreach-negative.json"
+        },
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "reason_code": "routing-overreach-orchestrator-multifile-edit",
+          "detail": "orchestrator directly edited 4 files at event 3",
+          "file": "scripts/evals/transcript-fixtures/routing-overreach-negative.json"
+        },
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "reason_code": "routing-overreach-missing-planner-first",
+          "detail": "non-trivial implementation started at event 4 before planner-first routing",
+          "file": "scripts/evals/transcript-fixtures/routing-overreach-negative.json"
+        },
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "reason_code": "routing-overreach-missing-quality-gate",
+          "detail": "material completion happened at event 5 before quality-gate review",
+          "file": "scripts/evals/transcript-fixtures/routing-overreach-negative.json"
+        }
+      ]
+    },
+    {
+      "id": "routing-raw-compliant-positive",
+      "description": "Raw transcript eval: planner-first, explorer discovery, fixer implementation, and quality-gate review should produce a full 5/5 routing score.",
+      "category": "transcript-behavior",
+      "transcript_source_mode": "raw-transcript",
+      "routing_score": {
+        "score_0_to_5": 5,
+        "score_band": "excellent",
+        "dimensions": {
+          "lane_fit": true,
+          "threshold_compliance": true,
+          "planner_first": true,
+          "evidence_legibility_proxy": true,
+          "final_gate_presence": true
+        },
+        "coverage": {
+          "event_count": 10,
+          "source_mode": "raw-transcript",
+          "has_material_claim": true,
+          "has_non_trivial_work": true,
+          "has_delegation": true
+        },
+        "confidence": "medium",
+        "reasons": []
+      },
+      "release_critical": false,
+      "fixture_classification": "general",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "detail": "transcript matched expected routing behavior",
+          "file": "scripts/evals/transcript-fixtures/routing-raw-compliant-positive.json"
+        }
+      ]
+    },
+    {
+      "id": "routing-raw-overreach-negative",
+      "description": "Raw tool trace eval: orchestrator overreach should be detected from trace-like entries.",
+      "category": "transcript-behavior",
+      "transcript_source_mode": "raw-tool-trace",
+      "routing_score": {
+        "score_0_to_5": 1,
+        "score_band": "weak",
+        "dimensions": {
+          "lane_fit": false,
+          "threshold_compliance": false,
+          "planner_first": false,
+          "evidence_legibility_proxy": true,
+          "final_gate_presence": false
+        },
+        "coverage": {
+          "event_count": 6,
+          "source_mode": "raw-tool-trace",
+          "has_material_claim": true,
+          "has_non_trivial_work": true,
+          "has_delegation": true
+        },
+        "confidence": "medium",
+        "reasons": [
+          "lane_fit",
+          "threshold_compliance",
+          "planner_first",
+          "final_gate_presence"
+        ]
+      },
+      "release_critical": false,
+      "fixture_classification": "general",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "transcript-expectation",
+          "status": "PASS",
+          "detail": "transcript matched expected routing reason codes: routing-overreach-missing-planner-first, routing-overreach-missing-quality-gate, routing-overreach-orchestrator-multifile-edit, routing-overreach-redundant-orchestrator-discovery",
+          "file": "scripts/evals/transcript-fixtures/routing-raw-overreach-negative.json"
+        },
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "reason_code": "routing-overreach-redundant-orchestrator-discovery",
+          "detail": "orchestrator resumed read-heavy discovery after explorer delegation at event 2",
+          "file": "scripts/evals/transcript-fixtures/routing-raw-overreach-negative.json"
+        },
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "reason_code": "routing-overreach-orchestrator-multifile-edit",
+          "detail": "orchestrator directly edited 3 files at event 3",
+          "file": "scripts/evals/transcript-fixtures/routing-raw-overreach-negative.json"
+        },
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "reason_code": "routing-overreach-missing-planner-first",
+          "detail": "non-trivial implementation started at event 4 before planner-first routing",
+          "file": "scripts/evals/transcript-fixtures/routing-raw-overreach-negative.json"
+        },
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "reason_code": "routing-overreach-missing-quality-gate",
+          "detail": "material completion happened at event 5 before quality-gate review",
+          "file": "scripts/evals/transcript-fixtures/routing-raw-overreach-negative.json"
+        }
+      ]
+    },
+    {
+      "id": "routing-share-export-compliant-positive",
+      "description": "Share-export eval: a real-session style HTML payload with embedded transcript-like text should normalize into compliant planner-first routing.",
+      "category": "transcript-behavior",
+      "transcript_source_mode": "share-export",
+      "routing_score": {
+        "score_0_to_5": 5,
+        "score_band": "excellent",
+        "dimensions": {
+          "lane_fit": true,
+          "threshold_compliance": true,
+          "planner_first": true,
+          "evidence_legibility_proxy": true,
+          "final_gate_presence": true
+        },
+        "coverage": {
+          "event_count": 9,
+          "source_mode": "share-export",
+          "has_material_claim": true,
+          "has_non_trivial_work": true,
+          "has_delegation": true
+        },
+        "confidence": "medium",
+        "reasons": []
+      },
+      "release_critical": false,
+      "fixture_classification": "good",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "detail": "transcript matched expected routing behavior",
+          "file": "scripts/evals/transcript-fixtures/routing-share-export-compliant-positive.json"
+        }
+      ]
+    },
+    {
+      "id": "routing-share-export-keyword-noise-boundary",
+      "description": "Share-export eval: transcript-like keywords without a real routing sequence should remain a weak boundary case instead of being interpreted as a full compliant workflow.",
+      "category": "transcript-behavior",
+      "transcript_source_mode": "share-export",
+      "routing_score": {
+        "score_0_to_5": 2,
+        "score_band": "weak",
+        "dimensions": {
+          "lane_fit": true,
+          "threshold_compliance": true,
+          "planner_first": false,
+          "evidence_legibility_proxy": false,
+          "final_gate_presence": false
+        },
+        "coverage": {
+          "event_count": 1,
+          "source_mode": "share-export",
+          "has_material_claim": false,
+          "has_non_trivial_work": false,
+          "has_delegation": false
+        },
+        "confidence": "low",
+        "reasons": [
+          "planner_first",
+          "evidence_legibility_proxy",
+          "final_gate_presence"
+        ]
+      },
+      "release_critical": false,
+      "fixture_classification": "borderline",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "detail": "transcript matched expected routing behavior",
+          "file": "scripts/evals/transcript-fixtures/routing-share-export-keyword-noise-boundary.json"
+        }
+      ]
+    },
+    {
+      "id": "routing-share-export-malformed-partial",
+      "description": "Share-export eval: a truncated partial export should still normalize deterministically when a few transcript-like strings remain, without requiring a perfect session wrapper.",
+      "category": "transcript-behavior",
+      "transcript_source_mode": "share-export",
+      "routing_score": {
+        "score_0_to_5": 5,
+        "score_band": "excellent",
+        "dimensions": {
+          "lane_fit": true,
+          "threshold_compliance": true,
+          "planner_first": true,
+          "evidence_legibility_proxy": true,
+          "final_gate_presence": true
+        },
+        "coverage": {
+          "event_count": 5,
+          "source_mode": "share-export",
+          "has_material_claim": true,
+          "has_non_trivial_work": false,
+          "has_delegation": true
+        },
+        "confidence": "medium",
+        "reasons": []
+      },
+      "release_critical": false,
+      "fixture_classification": "general",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "detail": "transcript matched expected routing behavior",
+          "file": "scripts/evals/transcript-fixtures/routing-share-export-malformed-partial.json"
+        }
+      ]
+    },
+    {
+      "id": "routing-share-export-noisy-negative",
+      "description": "Share-export eval: noisy embedded script content should still surface orchestrator overreach when transcript-like strings indicate redundant discovery, direct multi-file edits, and missing planner/gate steps.",
+      "category": "transcript-behavior",
+      "transcript_source_mode": "share-export",
+      "routing_score": {
+        "score_0_to_5": 1,
+        "score_band": "weak",
+        "dimensions": {
+          "lane_fit": false,
+          "threshold_compliance": false,
+          "planner_first": false,
+          "evidence_legibility_proxy": true,
+          "final_gate_presence": false
+        },
+        "coverage": {
+          "event_count": 6,
+          "source_mode": "share-export",
+          "has_material_claim": true,
+          "has_non_trivial_work": true,
+          "has_delegation": true
+        },
+        "confidence": "medium",
+        "reasons": [
+          "lane_fit",
+          "threshold_compliance",
+          "planner_first",
+          "final_gate_presence"
+        ]
+      },
+      "release_critical": false,
+      "fixture_classification": "bad",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "transcript-expectation",
+          "status": "PASS",
+          "detail": "transcript matched expected routing reason codes: routing-overreach-missing-planner-first, routing-overreach-missing-quality-gate, routing-overreach-orchestrator-multifile-edit, routing-overreach-redundant-orchestrator-discovery",
+          "file": "scripts/evals/transcript-fixtures/routing-share-export-noisy-negative.json"
+        },
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "reason_code": "routing-overreach-redundant-orchestrator-discovery",
+          "detail": "orchestrator resumed read-heavy discovery after explorer delegation at event 2",
+          "file": "scripts/evals/transcript-fixtures/routing-share-export-noisy-negative.json"
+        },
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "reason_code": "routing-overreach-orchestrator-multifile-edit",
+          "detail": "orchestrator directly edited 3 files at event 3",
+          "file": "scripts/evals/transcript-fixtures/routing-share-export-noisy-negative.json"
+        },
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "reason_code": "routing-overreach-missing-planner-first",
+          "detail": "non-trivial implementation started at event 4 before planner-first routing",
+          "file": "scripts/evals/transcript-fixtures/routing-share-export-noisy-negative.json"
+        },
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "reason_code": "routing-overreach-missing-quality-gate",
+          "detail": "material completion happened at event 5 before quality-gate review",
+          "file": "scripts/evals/transcript-fixtures/routing-share-export-noisy-negative.json"
+        }
+      ]
+    }
+  ]
+}

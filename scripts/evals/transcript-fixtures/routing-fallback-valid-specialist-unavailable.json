@@ -1,0 +1,18 @@
+{
+  "id": "routing-fallback-valid-specialist-unavailable",
+  "category": "transcript-behavior",
+  "classification": "fallback-valid",
+  "releaseCritical": true,
+  "description": "Transcript eval: fallback direct execution can remain valid when specialist routing was attempted, work stays tiny, and quality-gate still happens before material completion.",
+  "expectedReasonCodes": [],
+  "expectedScoreRange": [4, 5],
+  "events": [
+    { "agent": "orchestrator", "action": "delegate_plan", "delegatedTo": "artifact-planner" },
+    { "agent": "artifact-planner", "action": "plan", "fileCount": 1, "nonTrivial": true },
+    { "agent": "orchestrator", "action": "delegate_implementation", "delegatedTo": "fixer", "notes": "specialist unavailable, fallback to tiny direct patch" },
+    { "agent": "orchestrator", "action": "edit", "fileCount": 1, "notes": "fallback direct patch kept within tiny-task threshold" },
+    { "agent": "orchestrator", "action": "delegate_review", "delegatedTo": "quality-gate" },
+    { "agent": "quality-gate", "action": "review", "material": true },
+    { "agent": "orchestrator", "action": "complete", "material": true }
+  ]
+}

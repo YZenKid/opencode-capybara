@@ -41,6 +41,12 @@ If evidence is unavailable, write an explicit limitation note.
 - final verdict
 - reason codes / failure category if not `PASS`
 
+For routing-quality work, replay evidence should also preserve:
+- transcript fixture score summary,
+- score bands / source-mode coverage,
+- release-gate readiness state,
+- drift summary against the previous harness snapshot when available.
+
 ## Strict golden path
 Use this lightweight end-to-end path to prove the harness is operational, not only well-documented:
 

@@ -16,6 +16,8 @@
     "check:evidence": "node scripts/evidence-contract-check.mjs",
     "check:harness": "npm run test:prompt-gates && npm run check:docs && npm run check:agents && npm run check:skills && npm run check:evidence",
     "check:harness:strict": "npm run check:harness && npm run eval:harness",
+    "check:routing-release": "node scripts/evals/release-gate-check.mjs",
+    "check:release": "npm run check:harness:strict && npm run check:routing-release && npm run doctor",
     "eval:harness": "node scripts/evals/harness-eval-runner.mjs",
     "test:prompt-gates": "node scripts/prompt-gate-regression.mjs",
     "sync:openchamber": "node scripts/sync-openchamber-settings.mjs",

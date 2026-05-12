@@ -1,0 +1,21 @@
+{
+  "task_id": "20260512-1822-routing-5of5-roadmap",
+  "plan_file": ".opencode/plans/20260512-1822-routing-5of5-roadmap.md",
+  "evidence_dir": ".opencode/evidence/20260512-1822-routing-5of5-roadmap",
+  "required_files": [
+    "discovery.md",
+    "verification.md",
+    "index.json"
+  ],
+  "validation_commands": [
+    "npm run test:prompt-gates",
+    "npm run check:docs",
+    "npm run check:agents",
+    "npm run check:skills",
+    "npm run eval:harness",
+    "npm run check:harness:strict",
+    "npm run check:routing-release",
+    "npm run check:release",
+    "npm run check:evidence"
+  ]
+}

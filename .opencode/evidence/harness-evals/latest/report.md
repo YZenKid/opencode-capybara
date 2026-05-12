@@ -1,0 +1,244 @@
+# Harness Eval Report
+
+- Timestamp: 2026-05-12T12:53:01.562Z
+- Harness version: 6316ac80829a08e0fd68c16dfc0d04cb1986823b
+- Task summary: Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.
+- Verdict: PASS
+- Fixture count: 20
+- Failed: 0
+- Transcript fixture count: 10
+- Transcript average routing score: 3.4/5
+- Transcript score bands: strong=1, excellent=5, weak=4
+- Drift average delta: 0
+- Release gate ready: true
+- Tool trace:
+  - Read eval fixture JSON files from scripts/evals/fixtures/
+  - Read behavioral task fixture JSON files from scripts/evals/task-fixtures/
+  - Read transcript sequence fixtures from scripts/evals/transcript-fixtures/
+  - Read target repository files and evaluate mustInclude/mustNotInclude rules
+  - Write replayable report artifacts under .opencode/evidence/harness-evals/latest/
+- Files changed summary: Read-only eval run; no repository files were modified. files_changed lists validated target files.
+  - .opencode/docs/AGENT_ROUTING.md
+  - .opencode/docs/MCP.md
+  - .opencode/docs/QUALITY.md
+  - .opencode/docs/index.md
+  - .opencode/evidence/20260510-2140-harness-engineering-plan/index.json
+  - .opencode/evidence/20260510-2140-harness-engineering-plan/verification.md
+  - .opencode/evidence/20260512-1708-orchestrator-routing-hardening/index.json
+  - .opencode/evidence/20260512-1708-orchestrator-routing-hardening/routing-decisions.md
+  - .opencode/evidence/20260512-1708-orchestrator-routing-hardening/verification.md
+  - .opencode/plans/20260510-2140-harness-engineering-plan.md
+  - .opencode/plans/20260512-1708-orchestrator-routing-hardening.md
+  - AGENTS.md
+  - agents/oracle.md
+  - agents/quality-gate.md
+  - opencode.json
+  - package.json
+  - scripts/evals/transcript-fixtures/routing-borderline-direct-tiny-task.json
+  - scripts/evals/transcript-fixtures/routing-compliant-positive.json
+  - scripts/evals/transcript-fixtures/routing-fallback-valid-specialist-unavailable.json
+  - scripts/evals/transcript-fixtures/routing-overreach-negative.json
+  - scripts/evals/transcript-fixtures/routing-raw-compliant-positive.json
+  - scripts/evals/transcript-fixtures/routing-raw-overreach-negative.json
+  - scripts/evals/transcript-fixtures/routing-share-export-compliant-positive.json
+  - scripts/evals/transcript-fixtures/routing-share-export-keyword-noise-boundary.json
+  - scripts/evals/transcript-fixtures/routing-share-export-malformed-partial.json
+  - scripts/evals/transcript-fixtures/routing-share-export-noisy-negative.json
+  - skills/opencode-orchestrator/SKILL.md
+  - skills/opencode-quality-gate/SKILL.md
+- Validation outputs:
+  - npm run eval:harness → PASS
+- Fixture IDs:
+  - agents-policy-bloat-negative
+  - docs-system-of-record
+  - evidence-verification-negative
+  - readonly-boundary-negative
+  - runtime-plugin-removal
+  - docs-policy-migration-roundtrip
+  - evidence-bundle-completion
+  - orchestrator-routing-discipline-20260512-1708
+  - planner-and-mcp-state-contract
+  - reviewer-boundary-routing
+  - routing-borderline-direct-tiny-task
+  - routing-compliant-positive
+  - routing-fallback-valid-specialist-unavailable
+  - routing-overreach-negative
+  - routing-raw-compliant-positive
+  - routing-raw-overreach-negative
+  - routing-share-export-compliant-positive
+  - routing-share-export-keyword-noise-boundary
+  - routing-share-export-malformed-partial
+  - routing-share-export-noisy-negative
+- Reason codes:
+  - routing-overreach-redundant-orchestrator-discovery
+  - routing-overreach-orchestrator-multifile-edit
+  - routing-overreach-missing-planner-first
+  - routing-overreach-missing-quality-gate
+  - routing-overreach-redundant-orchestrator-discovery
+  - routing-overreach-orchestrator-multifile-edit
+  - routing-overreach-missing-planner-first
+  - routing-overreach-missing-quality-gate
+  - routing-overreach-redundant-orchestrator-discovery
+  - routing-overreach-orchestrator-multifile-edit
+  - routing-overreach-missing-planner-first
+  - routing-overreach-missing-quality-gate
+
+## agents-policy-bloat-negative
+- Status: PASS
+- Description: Negative fixture: AGENTS.md should stay map-like and avoid re-absorbing long-form policy language that belongs in docs.
+- AGENTS.md: PASS
+## docs-system-of-record
+- Status: PASS
+- Description: Validates that AGENTS.md maps to canonical docs and the canonical docs index exposes the system-of-record entrypoints.
+- AGENTS.md: PASS
+- .opencode/docs/index.md: PASS
+## evidence-verification-negative
+- Status: PASS
+- Description: Negative fixture: plan verification evidence should explicitly record eval, harness check, and doctor commands.
+- .opencode/evidence/20260510-2140-harness-engineering-plan/verification.md: PASS
+## readonly-boundary-negative
+- Status: PASS
+- Description: Negative fixture: read-only reviewer agents should not regain write/patch permissions.
+- agents/quality-gate.md: PASS
+- agents/oracle.md: PASS
+## runtime-plugin-removal
+- Status: PASS
+- Description: Validates that the standalone harness no longer depends on the removed runtime plugin path.
+- package.json: PASS
+- opencode.json: PASS
+## docs-policy-migration-roundtrip
+- Status: PASS
+- Description: Behavioral eval: policy should live in canonical docs while AGENTS stays map-like and README stays onboarding-oriented.
+- AGENTS.md: PASS
+- .opencode/docs/AGENT_ROUTING.md: PASS
+- .opencode/docs/index.md: PASS
+## evidence-bundle-completion
+- Status: PASS
+- Description: Behavioral eval: a non-trivial task should have a plan, evidence manifest, discovery artifact, and verification artifact with the expected command set.
+- .opencode/plans/20260510-2140-harness-engineering-plan.md: PASS
+- .opencode/evidence/20260510-2140-harness-engineering-plan/index.json: PASS
+- .opencode/evidence/20260510-2140-harness-engineering-plan/verification.md: PASS
+## orchestrator-routing-discipline-20260512-1708
+- Status: PASS
+- Description: Behavioral eval: task bundle 20260512-1708 must be plan-bound, include explicit routing decisions, record a quality-gate outcome, and keep routing policy/skill references aligned.
+- .opencode/plans/20260512-1708-orchestrator-routing-hardening.md: PASS
+- .opencode/evidence/20260512-1708-orchestrator-routing-hardening/index.json: PASS
+- .opencode/evidence/20260512-1708-orchestrator-routing-hardening/routing-decisions.md: PASS
+- .opencode/evidence/20260512-1708-orchestrator-routing-hardening/verification.md: PASS
+- .opencode/docs/AGENT_ROUTING.md: PASS
+- .opencode/docs/QUALITY.md: PASS
+- skills/opencode-orchestrator/SKILL.md: PASS
+## planner-and-mcp-state-contract
+- Status: PASS
+- Description: Behavioral eval: non-trivial work is planner-bound while MCP configured-vs-usable state language remains explicit and consistent.
+- AGENTS.md: PASS
+- .opencode/docs/AGENT_ROUTING.md: PASS
+- .opencode/docs/MCP.md: PASS
+## reviewer-boundary-routing
+- Status: PASS
+- Description: Behavioral eval: read-only reviewer lanes should stay read-only and route implementation elsewhere.
+- agents/quality-gate.md: PASS
+- .opencode/docs/AGENT_ROUTING.md: PASS
+- skills/opencode-quality-gate/SKILL.md: PASS
+## routing-borderline-direct-tiny-task
+- Status: PASS
+- Description: Transcript eval: a tiny direct orchestrator task can be valid but should not score perfect if delegation legibility is absent.
+- Transcript source mode: normalized-events
+- Routing score: 4/5
+- Routing score band: strong
+- Routing confidence: high
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=fail, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/routing-borderline-direct-tiny-task.json: PASS
+## routing-compliant-positive
+- Status: PASS
+- Description: Transcript eval: compliant routing should delegate planner-first, use explorer for discovery, use fixer for bounded multi-file implementation, and run quality-gate before material completion.
+- Transcript source mode: normalized-events
+- Routing score: 5/5
+- Routing score band: excellent
+- Routing confidence: high
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=pass, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/routing-compliant-positive.json: PASS
+## routing-fallback-valid-specialist-unavailable
+- Status: PASS
+- Description: Transcript eval: fallback direct execution can remain valid when specialist routing was attempted, work stays tiny, and quality-gate still happens before material completion.
+- Transcript source mode: normalized-events
+- Routing score: 5/5
+- Routing score band: excellent
+- Routing confidence: high
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=pass, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/routing-fallback-valid-specialist-unavailable.json: PASS
+## routing-overreach-negative
+- Status: PASS
+- Description: Transcript eval: detect orchestrator overreach after explorer delegation, direct multi-file editing, missing planner-first, and missing quality-gate before material completion.
+- Transcript source mode: normalized-events
+- Routing score: 1/5
+- Routing score band: weak
+- Routing confidence: high
+- Routing dimensions: lane_fit=fail, threshold_compliance=fail, planner_first=fail, evidence_legibility_proxy=pass, final_gate_presence=fail
+- scripts/evals/transcript-fixtures/routing-overreach-negative.json: PASS
+- scripts/evals/transcript-fixtures/routing-overreach-negative.json: PASS (routing-overreach-redundant-orchestrator-discovery)
+- scripts/evals/transcript-fixtures/routing-overreach-negative.json: PASS (routing-overreach-orchestrator-multifile-edit)
+- scripts/evals/transcript-fixtures/routing-overreach-negative.json: PASS (routing-overreach-missing-planner-first)
+- scripts/evals/transcript-fixtures/routing-overreach-negative.json: PASS (routing-overreach-missing-quality-gate)
+## routing-raw-compliant-positive
+- Status: PASS
+- Description: Raw transcript eval: planner-first, explorer discovery, fixer implementation, and quality-gate review should produce a full 5/5 routing score.
+- Transcript source mode: raw-transcript
+- Routing score: 5/5
+- Routing score band: excellent
+- Routing confidence: medium
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=pass, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/routing-raw-compliant-positive.json: PASS
+## routing-raw-overreach-negative
+- Status: PASS
+- Description: Raw tool trace eval: orchestrator overreach should be detected from trace-like entries.
+- Transcript source mode: raw-tool-trace
+- Routing score: 1/5
+- Routing score band: weak
+- Routing confidence: medium
+- Routing dimensions: lane_fit=fail, threshold_compliance=fail, planner_first=fail, evidence_legibility_proxy=pass, final_gate_presence=fail
+- scripts/evals/transcript-fixtures/routing-raw-overreach-negative.json: PASS
+- scripts/evals/transcript-fixtures/routing-raw-overreach-negative.json: PASS (routing-overreach-redundant-orchestrator-discovery)
+- scripts/evals/transcript-fixtures/routing-raw-overreach-negative.json: PASS (routing-overreach-orchestrator-multifile-edit)
+- scripts/evals/transcript-fixtures/routing-raw-overreach-negative.json: PASS (routing-overreach-missing-planner-first)
+- scripts/evals/transcript-fixtures/routing-raw-overreach-negative.json: PASS (routing-overreach-missing-quality-gate)
+## routing-share-export-compliant-positive
+- Status: PASS
+- Description: Share-export eval: a real-session style HTML payload with embedded transcript-like text should normalize into compliant planner-first routing.
+- Transcript source mode: share-export
+- Routing score: 5/5
+- Routing score band: excellent
+- Routing confidence: medium
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=pass, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/routing-share-export-compliant-positive.json: PASS
+## routing-share-export-keyword-noise-boundary
+- Status: PASS
+- Description: Share-export eval: transcript-like keywords without a real routing sequence should remain a weak boundary case instead of being interpreted as a full compliant workflow.
+- Transcript source mode: share-export
+- Routing score: 2/5
+- Routing score band: weak
+- Routing confidence: low
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=fail, evidence_legibility_proxy=fail, final_gate_presence=fail
+- scripts/evals/transcript-fixtures/routing-share-export-keyword-noise-boundary.json: PASS
+## routing-share-export-malformed-partial
+- Status: PASS
+- Description: Share-export eval: a truncated partial export should still normalize deterministically when a few transcript-like strings remain, without requiring a perfect session wrapper.
+- Transcript source mode: share-export
+- Routing score: 5/5
+- Routing score band: excellent
+- Routing confidence: medium
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=pass, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/routing-share-export-malformed-partial.json: PASS
+## routing-share-export-noisy-negative
+- Status: PASS
+- Description: Share-export eval: noisy embedded script content should still surface orchestrator overreach when transcript-like strings indicate redundant discovery, direct multi-file edits, and missing planner/gate steps.
+- Transcript source mode: share-export
+- Routing score: 1/5
+- Routing score band: weak
+- Routing confidence: medium
+- Routing dimensions: lane_fit=fail, threshold_compliance=fail, planner_first=fail, evidence_legibility_proxy=pass, final_gate_presence=fail
+- scripts/evals/transcript-fixtures/routing-share-export-noisy-negative.json: PASS
+- scripts/evals/transcript-fixtures/routing-share-export-noisy-negative.json: PASS (routing-overreach-redundant-orchestrator-discovery)
+- scripts/evals/transcript-fixtures/routing-share-export-noisy-negative.json: PASS (routing-overreach-orchestrator-multifile-edit)
+- scripts/evals/transcript-fixtures/routing-share-export-noisy-negative.json: PASS (routing-overreach-missing-planner-first)
+- scripts/evals/transcript-fixtures/routing-share-export-noisy-negative.json: PASS (routing-overreach-missing-quality-gate)
