@@ -1,0 +1,18 @@
+{
+  "id": "routing-raw-compliant-positive",
+  "category": "transcript-behavior",
+  "description": "Raw transcript eval: planner-first, explorer discovery, fixer implementation, and quality-gate review should produce a full 5/5 routing score.",
+  "expectedReasonCodes": [],
+  "rawTranscript": [
+    "orchestrator: delegate plan to artifact-planner for non-trivial task",
+    "artifact-planner: plan non-trivial rollout 1 file",
+    "orchestrator: delegate discovery to explorer",
+    "explorer: discover 7 files across routing docs",
+    "orchestrator: read 2 files for minimal verification",
+    "orchestrator: delegate implementation to fixer",
+    "fixer: implement non-trivial multi-file update 4 files material",
+    "orchestrator: delegate review to quality-gate",
+    "quality-gate: review material change",
+    "orchestrator: complete material rollout"
+  ]
+}

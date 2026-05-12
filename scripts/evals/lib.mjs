@@ -152,8 +152,140 @@ function normalizeTranscriptEvents(events) {
   }));
 }
 
+function inferAgent(text) {
+  const lower = text.toLowerCase();
+  const prefixMatch = lower.match(/^([a-z0-9\-]+)\s*:/);
+  if (prefixMatch) return prefixMatch[1];
+  if (lower.includes("quality-gate")) return "quality-gate";
+  if (lower.includes("artifact-planner") || lower.includes("planner")) return "artifact-planner";
+  if (lower.includes("explorer")) return "explorer";
+  if (lower.includes("fixer")) return "fixer";
+  if (lower.includes("orchestrator")) return "orchestrator";
+  return "unknown";
+}
+
+function inferDelegatedTo(text) {
+  const lower = text.toLowerCase();
+  if (lower.includes("quality-gate")) return "quality-gate";
+  if (lower.includes("artifact-planner") || lower.includes("planner")) return "artifact-planner";
+  if (lower.includes("explorer")) return "explorer";
+  if (lower.includes("fixer")) return "fixer";
+  return null;
+}
+
+function inferAction(text) {
+  const lower = text.toLowerCase();
+  if (lower.includes("delegate") && lower.includes("discover")) return "delegate_discovery";
+  if (lower.includes("delegate") && lower.includes("plan")) return "delegate_plan";
+  if (lower.includes("delegate") && (lower.includes("implement") || lower.includes("fixer"))) return "delegate_implementation";
+  if (lower.includes("delegate") && (lower.includes("review") || lower.includes("quality-gate"))) return "delegate_review";
+  if (lower.includes("discover")) return "discover";
+  if (lower.includes("read")) return "read";
+  if (lower.includes("edit") || lower.includes("patch")) return "edit";
+  if (lower.includes("implement")) return "implement";
+  if (lower.includes("review")) return "review";
+  if (lower.includes("complete") || lower.includes("done") || lower.includes("final summary")) return "complete";
+  if (lower.includes("plan")) return "plan";
+  return "unknown";
+}
+
+function inferFileCount(text, fallback = 0) {
+  const explicit = text.match(/(\d+)\s+files?/i);
+  if (explicit) return Number(explicit[1]);
+  return Number(fallback ?? 0);
+}
+
+function inferMaterial(text) {
+  const lower = text.toLowerCase();
+  return lower.includes("material") || lower.includes("release") || lower.includes("done") || lower.includes("complete");
+}
+
+function inferNonTrivial(text, fallbackFileCount = 0) {
+  const lower = text.toLowerCase();
+  return lower.includes("non-trivial") || lower.includes("multi-file") || lower.includes("bounded implementation") || fallbackFileCount >= 2;
+}
+
+function normalizeRawTranscriptEntry(entry, index) {
+  const text = typeof entry === "string" ? entry : JSON.stringify(entry);
+  const fileCount = typeof entry === "object" && entry !== null
+    ? Number(entry.fileCount ?? (Array.isArray(entry.files) ? entry.files.length : 0))
+    : inferFileCount(text);
+  return {
+    index,
+    agent: typeof entry === "object" && entry !== null ? (entry.agent ?? inferAgent(text)) : inferAgent(text),
+    action: typeof entry === "object" && entry !== null ? (entry.action ?? inferAction(text)) : inferAction(text),
+    fileCount,
+    material: typeof entry === "object" && entry !== null ? Boolean(entry.material ?? inferMaterial(text)) : inferMaterial(text),
+    nonTrivial: typeof entry === "object" && entry !== null ? Boolean(entry.nonTrivial ?? inferNonTrivial(text, fileCount)) : inferNonTrivial(text, fileCount),
+    delegatedTo: typeof entry === "object" && entry !== null ? (entry.delegatedTo ?? inferDelegatedTo(text)) : inferDelegatedTo(text),
+    notes: typeof entry === "object" && entry !== null ? (entry.notes ?? text) : text,
+  };
+}
+
+function normalizeTranscriptFixture(fixture) {
+  if (fixture.events) {
+    return {
+      sourceMode: "normalized-events",
+      events: normalizeTranscriptEvents(fixture.events),
+    };
+  }
+
+  if (fixture.rawTranscript) {
+    const entries = Array.isArray(fixture.rawTranscript)
+      ? fixture.rawTranscript
+      : String(fixture.rawTranscript)
+          .split("\n")
+          .map((line) => line.trim())
+          .filter(Boolean);
+    return {
+      sourceMode: "raw-transcript",
+      events: entries.map((entry, index) => normalizeRawTranscriptEntry(entry, index)),
+    };
+  }
+
+  if (fixture.rawToolTrace) {
+    return {
+      sourceMode: "raw-tool-trace",
+      events: fixture.rawToolTrace.map((entry, index) => normalizeRawTranscriptEntry(entry, index)),
+    };
+  }
+
+  return {
+    sourceMode: "empty",
+    events: [],
+  };
+}
+
+function computeRoutingScore(context) {
+  const laneFit = !context.actualReasonCodes.has("routing-overreach-redundant-orchestrator-discovery")
+    && !context.actualReasonCodes.has("routing-overreach-orchestrator-multifile-edit");
+  const thresholdCompliance = !context.events.some(
+    (event) => event.agent === "orchestrator" && ((event.action === "edit" && event.fileCount >= 2) || (event.action === "read" && event.fileCount > 3)),
+  );
+  const plannerFirst = !context.actualReasonCodes.has("routing-overreach-missing-planner-first");
+  const evidenceLegibilityProxy = context.events.some((event) => event.agent === "orchestrator" && event.action.startsWith("delegate_"));
+  const finalGatePresence = !context.actualReasonCodes.has("routing-overreach-missing-quality-gate");
+
+  const dimensions = {
+    lane_fit: laneFit,
+    threshold_compliance: thresholdCompliance,
+    planner_first: plannerFirst,
+    evidence_legibility_proxy: evidenceLegibilityProxy,
+    final_gate_presence: finalGatePresence,
+  };
+
+  return {
+    score_0_to_5: Object.values(dimensions).filter(Boolean).length,
+    dimensions,
+    reasons: Object.entries(dimensions)
+      .filter(([, value]) => !value)
+      .map(([key]) => key),
+  };
+}
+
 export function evaluateTranscriptFixture(fixture) {
-  const events = normalizeTranscriptEvents(fixture.events);
+  const normalized = normalizeTranscriptFixture(fixture);
+  const events = normalized.events;
   const violationChecks = [];
   const actualReasonCodes = new Set();
 
@@ -222,10 +354,17 @@ export function evaluateTranscriptFixture(fixture) {
     checks.push({ type: "transcript-semantics", status: "PASS", detail: "transcript matched expected routing behavior" });
   }
 
+  const routingScore = computeRoutingScore({
+    events,
+    actualReasonCodes,
+  });
+
   return {
     id: fixture.id,
     description: fixture.description,
     category: fixture.category ?? "transcript-behavior",
+    transcript_source_mode: normalized.sourceMode,
+    routing_score: routingScore,
     status: expectationMismatch ? "FAIL" : "PASS",
     checks,
   };

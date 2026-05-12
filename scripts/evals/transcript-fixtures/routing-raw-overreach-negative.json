@@ -1,0 +1,19 @@
+{
+  "id": "routing-raw-overreach-negative",
+  "category": "transcript-behavior",
+  "description": "Raw tool trace eval: orchestrator overreach should be detected from trace-like entries.",
+  "expectedReasonCodes": [
+    "routing-overreach-redundant-orchestrator-discovery",
+    "routing-overreach-orchestrator-multifile-edit",
+    "routing-overreach-missing-planner-first",
+    "routing-overreach-missing-quality-gate"
+  ],
+  "rawToolTrace": [
+    { "agent": "orchestrator", "action": "delegate_discovery", "delegatedTo": "explorer" },
+    { "agent": "explorer", "action": "discover", "fileCount": 8 },
+    { "agent": "orchestrator", "tool": "read", "fileCount": 6, "notes": "redo broad discovery after explorer" },
+    { "agent": "orchestrator", "tool": "apply_patch", "action": "edit", "fileCount": 3, "nonTrivial": true },
+    { "agent": "orchestrator", "action": "implement", "fileCount": 3, "nonTrivial": true, "material": true },
+    { "agent": "orchestrator", "action": "complete", "material": true }
+  ]
+}

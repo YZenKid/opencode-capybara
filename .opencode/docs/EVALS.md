@@ -63,6 +63,8 @@ failure → taxonomy → remediation → new regression/eval case → rerun
 - current transcript-shaped routing fixtures:
   - `routing-overreach-negative`
   - `routing-compliant-positive`
+  - `routing-raw-overreach-negative`
+  - `routing-raw-compliant-positive`
 
 ## Strict validation lane
 - `npm run check:harness:strict`
@@ -84,3 +86,4 @@ Transcript sequence fixtures live in:
 - `scripts/evals/transcript-fixtures/`
 
 They add replayable sequence-level routing checks for orchestrator overreach without requiring a heavy semantic judge.
+Transcript fixtures may use either explicit normalized `events`, `rawTranscript`, or `rawToolTrace` inputs. Each transcript eval emits `transcript_source_mode` plus a deterministic `routing_score` from 0–5 across lane fit, threshold compliance, planner-first, evidence legibility proxy, and final-gate presence.

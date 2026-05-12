@@ -20,6 +20,8 @@ const transcriptFixtures = existsSync(transcriptFixturesDir) ? loadFixtures(tran
 const results = [];
 let failed = 0;
 const validatedFiles = new Set();
+const transcriptScores = [];
+const transcriptSourceModes = {};
 
 let gitSha = "unknown";
 try {
@@ -87,8 +89,14 @@ for (const { fixture } of taskFixtures) {
   results.push(result);
 }
 
-for (const { fixture } of transcriptFixtures) {
+for (const { file, fixture } of transcriptFixtures) {
   const result = evaluateTranscriptFixture(fixture);
+  for (const check of result.checks) {
+    if (!check.file) check.file = `scripts/evals/transcript-fixtures/${file}`;
+  }
+  validatedFiles.add(`scripts/evals/transcript-fixtures/${file}`);
+  transcriptScores.push(result.routing_score?.score_0_to_5 ?? 0);
+  transcriptSourceModes[result.transcript_source_mode] = (transcriptSourceModes[result.transcript_source_mode] ?? 0) + 1;
   if (result.status === "FAIL") failed += 1;
   results.push(result);
 }
@@ -114,6 +122,11 @@ const report = {
   reason_codes: results.flatMap((result) =>
     result.checks.filter((check) => check.reason_code).map((check) => check.reason_code),
   ),
+  transcript_summary: {
+    fixture_count: transcriptFixtures.length,
+    average_score_0_to_5: transcriptScores.length > 0 ? Number((transcriptScores.reduce((sum, score) => sum + score, 0) / transcriptScores.length).toFixed(2)) : null,
+    source_modes: transcriptSourceModes,
+  },
   files_changed: Array.from(validatedFiles).sort(),
   results,
 };
@@ -130,6 +143,8 @@ writeFileSync(
       `- Verdict: ${report.verdict}`,
       `- Fixture count: ${report.fixture_count}`,
       `- Failed: ${report.failed}`,
+      report.transcript_summary.fixture_count > 0 ? `- Transcript fixture count: ${report.transcript_summary.fixture_count}` : null,
+      report.transcript_summary.fixture_count > 0 ? `- Transcript average routing score: ${report.transcript_summary.average_score_0_to_5}/5` : null,
       "- Tool trace:",
       ...report.tool_trace_summary.map((item) => `  - ${item}`),
       `- Files changed summary: ${report.changed_files_summary}`,
@@ -145,9 +160,12 @@ writeFileSync(
         `## ${result.id}`,
       `- Status: ${result.status}`,
       `- Description: ${result.description}`,
+      result.transcript_source_mode ? `- Transcript source mode: ${result.transcript_source_mode}` : null,
+      result.routing_score ? `- Routing score: ${result.routing_score.score_0_to_5}/5` : null,
+      result.routing_score ? `- Routing dimensions: ${Object.entries(result.routing_score.dimensions).map(([key, value]) => `${key}=${value ? "pass" : "fail"}`).join(", ")}` : null,
       ...result.checks.map((check) => `- ${check.file}: ${check.status}${check.reason_code ? ` (${check.reason_code})` : ""}`),
       "",
-    ]),
+    ].filter(Boolean)),
   ].join("\n"),
 );
 
