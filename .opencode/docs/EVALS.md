@@ -58,6 +58,11 @@ failure → taxonomy → remediation → new regression/eval case → rerun
   - `evidence-bundle-completion`
   - `reviewer-boundary-routing`
   - `planner-and-mcp-state-contract`
+  - `orchestrator-routing-discipline-20260512-1708`
+
+- current transcript-shaped routing fixtures:
+  - `routing-overreach-negative`
+  - `routing-compliant-positive`
 
 ## Strict validation lane
 - `npm run check:harness:strict`
@@ -74,3 +79,8 @@ Behavioral task fixtures live in:
 - `scripts/evals/task-fixtures/`
 
 They remain deterministic and structural. They are meant to simulate real harness maintenance flows without introducing a judge-heavy eval platform.
+
+Transcript sequence fixtures live in:
+- `scripts/evals/transcript-fixtures/`
+
+They add replayable sequence-level routing checks for orchestrator overreach without requiring a heavy semantic judge.

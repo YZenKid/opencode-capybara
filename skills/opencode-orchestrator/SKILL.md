@@ -13,6 +13,12 @@ Canonical tool references:
 
 ## Core routing
 
+Direct-work threshold (hard default):
+- `@orchestrator` may execute directly only for tiny, reversible tasks (typically 1 edited file and <=3 file reads for verification).
+- If discovery becomes unknown-scope, cross-area, or read-heavy (>3 files), route to `@explorer` instead of continuing direct reads.
+- If implementation touches 2+ files, route bounded implementation to `@fixer` by default.
+- If work is non-trivial, route through `@artifact-planner` first; do not treat planner-first as optional preference.
+
 - Unknown codebase, broad search, symbol discovery, test/helper discovery → `@explorer`.
 - Current library/API/docs behavior → `@librarian`; prefer official docs/context first, then GitHub/web when needed.
 - User-facing UI, visual polish, responsive layout, reference matching → `@designer`.
@@ -51,6 +57,7 @@ Canonical tool references:
    - Non-trivial work should route through `@artifact-planner` first so execution is plan-bound (`.opencode/plans/<task-id>.md`) with an evidence path (`.opencode/evidence/<task-id>/`).
    - Trivial, single-step, and easily reversible tasks may skip planner.
 3. Use local discovery before external docs when codebase patterns matter.
+   - For multi-file/read-heavy discovery, do not keep discovery in orchestrator; route to `@explorer` and consume its output.
 4. Ask targeted questions for material ambiguity, but during active implementation prefer finish-first execution: resolve ambiguity via repo evidence, docs, and specialist subagents before interrupting the user.
 5. Execute via the right specialist/tool path.
     - For implementation or plan execution requests, default to finishing as much work as safely possible before asking follow-up questions.
@@ -58,8 +65,9 @@ Canonical tool references:
     - If a blocker appears, investigate first with the most capable subagent or evidence path instead of immediately asking the user.
     - If the remaining uncertainty is non-blocking and reversible, take the best bounded assumption, continue execution, and record the assumption plus the deferred question for the end.
     - Accumulate non-blocking questions and residual decisions for the final summary rather than pausing mid-run.
-    - If the task exposed a reusable prompt gap, recurring failure, or new policy boundary, schedule a bounded `@skill-improver` checkpoint after the main task.
-    - After non-trivial or risky work, route the final review pass to `@quality-gate` before claiming completion.
+     - If the task exposed a reusable prompt gap, recurring failure, or new policy boundary, schedule a bounded `@skill-improver` checkpoint after the main task.
+     - After non-trivial or risky work, route the final review pass to `@quality-gate` before claiming completion.
+     - Do not do multi-file bounded implementation directly in orchestrator unless specialist routing is unavailable; if fallback is used, record explicit limitation and rationale in evidence.
     - Use auto-commit for local commits only after a plan-bound non-trivial task completes, validation has passed, and @quality-gate returns `PASS` or `PASS_WITH_RISKS` with no blocker.
     - Auto-commit must stage only relevant files, generate a concise subject plus bullet-point body from the diff and recent repo style, create a local `git commit`, and never push automatically.
     - Never stage `.env`, secrets, tokens, credentials, unrelated untracked files, or generated/vendor files unless the plan or user explicitly approved them.

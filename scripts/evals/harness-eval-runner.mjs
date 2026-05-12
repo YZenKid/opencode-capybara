@@ -3,17 +3,19 @@
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { evaluateTaskFixture, evaluateTextRules, loadFixtures, readJson, readTextOrNull } from "./lib.mjs";
+import { evaluateTaskFixture, evaluateTextRules, evaluateTranscriptFixture, loadFixtures, readJson, readTextOrNull } from "./lib.mjs";
 
 const root = resolve(import.meta.dirname, "..", "..");
 const fixturesDir = resolve(root, "scripts", "evals", "fixtures");
 const taskFixturesDir = resolve(root, "scripts", "evals", "task-fixtures");
+const transcriptFixturesDir = resolve(root, "scripts", "evals", "transcript-fixtures");
 const reportDir = resolve(root, ".opencode", "evidence", "harness-evals", "latest");
 
 mkdirSync(reportDir, { recursive: true });
 
 const fixtures = loadFixtures(fixturesDir);
 const taskFixtures = existsSync(taskFixturesDir) ? loadFixtures(taskFixturesDir) : [];
+const transcriptFixtures = existsSync(transcriptFixturesDir) ? loadFixtures(transcriptFixturesDir) : [];
 
 const results = [];
 let failed = 0;
@@ -85,6 +87,12 @@ for (const { fixture } of taskFixtures) {
   results.push(result);
 }
 
+for (const { fixture } of transcriptFixtures) {
+  const result = evaluateTranscriptFixture(fixture);
+  if (result.status === "FAIL") failed += 1;
+  results.push(result);
+}
+
 const report = {
   task_id: "harness-evals-latest",
   timestamp: new Date().toISOString(),
@@ -93,6 +101,7 @@ const report = {
   tool_trace_summary: [
     "Read eval fixture JSON files from scripts/evals/fixtures/",
     "Read behavioral task fixture JSON files from scripts/evals/task-fixtures/",
+    "Read transcript sequence fixtures from scripts/evals/transcript-fixtures/",
     "Read target repository files and evaluate mustInclude/mustNotInclude rules",
     "Write replayable report artifacts under .opencode/evidence/harness-evals/latest/",
   ],

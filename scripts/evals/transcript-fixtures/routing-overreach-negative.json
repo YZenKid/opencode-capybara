@@ -1,0 +1,19 @@
+{
+  "id": "routing-overreach-negative",
+  "category": "transcript-behavior",
+  "description": "Transcript eval: detect orchestrator overreach after explorer delegation, direct multi-file editing, missing planner-first, and missing quality-gate before material completion.",
+  "expectedReasonCodes": [
+    "routing-overreach-redundant-orchestrator-discovery",
+    "routing-overreach-orchestrator-multifile-edit",
+    "routing-overreach-missing-planner-first",
+    "routing-overreach-missing-quality-gate"
+  ],
+  "events": [
+    { "agent": "orchestrator", "action": "delegate_discovery", "delegatedTo": "explorer" },
+    { "agent": "explorer", "action": "discover", "fileCount": 8 },
+    { "agent": "orchestrator", "action": "read", "fileCount": 6, "notes": "redundant rediscovery after explorer handoff" },
+    { "agent": "orchestrator", "action": "edit", "fileCount": 4, "nonTrivial": true },
+    { "agent": "orchestrator", "action": "implement", "fileCount": 4, "nonTrivial": true, "material": true },
+    { "agent": "orchestrator", "action": "complete", "material": true }
+  ]
+}

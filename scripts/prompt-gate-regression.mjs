@@ -297,6 +297,18 @@ const checks = [
     ],
   },
   {
+    file: "skills/opencode-orchestrator/SKILL.md",
+    name: "orchestrator delegation threshold skill gate",
+    mustInclude: [
+      "Direct-work threshold (hard default)",
+      "`@orchestrator` may execute directly only for tiny, reversible tasks",
+      "read-heavy (>3 files)",
+      "implementation touches 2+ files, route bounded implementation to `@fixer`",
+      "do not keep discovery in orchestrator; route to `@explorer`",
+      "Do not do multi-file bounded implementation directly in orchestrator",
+    ],
+  },
+  {
     file: "agents/council.md",
     name: "council language split gate",
     mustInclude: [
@@ -321,6 +333,20 @@ const checks = [
       "Planner invocation expectation",
       "Non-trivial tasks should route through `@artifact-planner` first",
       "Trivial, single-step, and easily reversible tasks may execute directly without planner",
+    ],
+  },
+  {
+    file: ".opencode/docs/AGENT_ROUTING.md",
+    name: "orchestrator direct-vs-delegate threshold gate",
+    mustInclude: [
+      "## Direct-work thresholds for `@orchestrator`",
+      "at most 1 file is edited",
+      "at most 3 files are read for local confirmation",
+      "implementation is bounded but touches 2+ files",
+      "## Routing anti-patterns (and remediation)",
+      "delegate discovery to `@explorer`, then `@orchestrator` still reads many files",
+      "## Compact routing quality checklist",
+      "Score guidance: 5/5 = strong routing discipline",
     ],
   },
   {

@@ -1,0 +1,18 @@
+{
+  "id": "routing-compliant-positive",
+  "category": "transcript-behavior",
+  "description": "Transcript eval: compliant routing should delegate planner-first, use explorer for discovery, use fixer for bounded multi-file implementation, and run quality-gate before material completion.",
+  "expectedReasonCodes": [],
+  "events": [
+    { "agent": "orchestrator", "action": "delegate_plan", "delegatedTo": "artifact-planner" },
+    { "agent": "artifact-planner", "action": "plan", "fileCount": 1, "nonTrivial": true },
+    { "agent": "orchestrator", "action": "delegate_discovery", "delegatedTo": "explorer" },
+    { "agent": "explorer", "action": "discover", "fileCount": 7 },
+    { "agent": "orchestrator", "action": "read", "fileCount": 2, "notes": "minimal verification only" },
+    { "agent": "orchestrator", "action": "delegate_implementation", "delegatedTo": "fixer" },
+    { "agent": "fixer", "action": "implement", "fileCount": 4, "nonTrivial": true, "material": true },
+    { "agent": "orchestrator", "action": "delegate_review", "delegatedTo": "quality-gate" },
+    { "agent": "quality-gate", "action": "review", "material": true },
+    { "agent": "orchestrator", "action": "complete", "material": true }
+  ]
+}

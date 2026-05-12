@@ -131,6 +131,7 @@ function checkDocsPolicy() {
   const agents = readFileSync(resolve(root, "AGENTS.md"), "utf8");
   const readme = readFileSync(resolve(root, "README.md"), "utf8");
   const docsIndex = readFileSync(resolve(root, ".opencode/docs/index.md"), "utf8");
+  const routing = readFileSync(resolve(root, ".opencode/docs/AGENT_ROUTING.md"), "utf8");
 
   let ok = true;
   const agentsNeedles = [
@@ -175,6 +176,21 @@ function checkDocsPolicy() {
     } else {
       status(`.opencode/docs/index.md: ${needle}`, "fail", "missing");
       remediation("update .opencode/docs/index.md to reflect the canonical documentation map");
+      ok = false;
+    }
+  }
+
+  const routingNeedles = [
+    "## Direct-work thresholds for `@orchestrator`",
+    "## Routing anti-patterns (and remediation)",
+    "## Compact routing quality checklist",
+  ];
+  for (const needle of routingNeedles) {
+    if (routing.includes(needle)) {
+      status(`.opencode/docs/AGENT_ROUTING.md: ${needle}`, "pass");
+    } else {
+      status(`.opencode/docs/AGENT_ROUTING.md: ${needle}`, "fail", "missing");
+      remediation("update .opencode/docs/AGENT_ROUTING.md orchestrator thresholds/rubric sections");
       ok = false;
     }
   }

@@ -14,6 +14,45 @@ Planner invocation expectation:
 - Non-trivial tasks should route through `@artifact-planner` first so implementation is plan-bound with explicit evidence paths.
 - Trivial, single-step, and easily reversible tasks may execute directly without planner.
 
+## Direct-work thresholds for `@orchestrator`
+`@orchestrator` is a router/integrator first, not the default worker. Direct execution is allowed only for tiny tasks.
+
+`@orchestrator` may act directly only when **all** conditions are true:
+- scope is trivial, single-step, and easily reversible,
+- at most 1 file is edited,
+- at most 3 files are read for local confirmation,
+- no unknown-scope discovery is required,
+- no risk trigger/domain specialist lane is required.
+
+`@orchestrator` must delegate by default when one of these is true:
+- discovery is unknown-scope, cross-area, or read-heavy (>3 files) → `@explorer`,
+- implementation is bounded but touches 2+ files (including code+test/docs pair) → `@fixer`,
+- work is non-trivial or has material ambiguity/risk → `@artifact-planner` first,
+- change is material and needs completion claim → final pass through `@quality-gate`.
+
+Permitted fallback: if a specialist is unavailable, use the next safest lane and record the limitation explicitly in final evidence.
+
+## Routing anti-patterns (and remediation)
+- Anti-pattern: delegate discovery to `@explorer`, then `@orchestrator` still reads many files and redoes discovery.
+  - Remediation: consume explorer output; only perform minimal spot-check reads.
+- Anti-pattern: `@orchestrator` performs multi-file implementation directly because "it is faster".
+  - Remediation: route bounded implementation to `@fixer`.
+- Anti-pattern: non-trivial implementation starts without plan/evidence path.
+  - Remediation: route to `@artifact-planner` first, then implement plan-bound.
+- Anti-pattern: completion claim on material change without `@quality-gate`.
+  - Remediation: run final conformance gate before claiming done.
+
+## Compact routing quality checklist
+Use this quick rubric for real workflow audits:
+
+- [ ] **Lane fit**: discovery/implementation/review went to the expected primary lanes.
+- [ ] **Threshold compliance**: orchestrator direct work stayed within tiny-task limits.
+- [ ] **Planner-first**: non-trivial work is plan-bound before implementation.
+- [ ] **Evidence legibility**: delegation choices and fallback reasons are explicitly recorded.
+- [ ] **Final gate**: material changes include `@quality-gate` pass/verdict.
+
+Score guidance: 5/5 = strong routing discipline; 3–4/5 = acceptable with minor drift; ≤2/5 = routing failure requiring remediation.
+
 ## Primary lanes
 - `@orchestrator` — router, integrator, final coordinator
 - `@artifact-planner` — writes plans, drafts, and evidence artifacts under `.opencode/`

@@ -17,6 +17,7 @@ Prompt gates convert important repository invariants into deterministic checks.
 
 ## Invariant categories
 - Routing and skill posture
+- Orchestrator direct-vs-delegate thresholds
 - Read-only vs write-capable boundaries
 - Docs as system of record
 - Evidence contract
@@ -31,6 +32,11 @@ If you change policy or docs guarded by a gate:
 2. update the related gate/check,
 3. rerun validation,
 4. record decision/evidence.
+
+Routing hardening minimum:
+- Ensure `.opencode/docs/AGENT_ROUTING.md` keeps explicit orchestrator direct-work thresholds, anti-pattern examples, and compact routing checklist/rubric.
+- Ensure `skills/opencode-orchestrator/SKILL.md` keeps hard defaults that route read-heavy discovery to `@explorer` and multi-file bounded implementation to `@fixer`.
+- Enforce via `npm run test:prompt-gates` (and `npm run doctor` as a quick local policy sanity check).
 
 ## Generated reports
 - Refresh advisory generated summaries with `npm run docs:generate`.

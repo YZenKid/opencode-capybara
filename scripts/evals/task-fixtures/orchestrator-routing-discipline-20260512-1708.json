@@ -1,0 +1,82 @@
+{
+  "id": "orchestrator-routing-discipline-20260512-1708",
+  "category": "behavioral-task",
+  "description": "Behavioral eval: task bundle 20260512-1708 must be plan-bound, include explicit routing decisions, record a quality-gate outcome, and keep routing policy/skill references aligned.",
+  "artifacts": [
+    {
+      "type": "plan",
+      "file": ".opencode/plans/20260512-1708-orchestrator-routing-hardening.md",
+      "mustInclude": [
+        "# Evidence Requirements",
+        "# Validation Commands",
+        "@artifact-planner",
+        "@quality-gate"
+      ],
+      "reasonCode": "orchestrator-routing-plan-contract-gap"
+    },
+    {
+      "type": "manifest",
+      "file": ".opencode/evidence/20260512-1708-orchestrator-routing-hardening/index.json",
+      "mustInclude": [
+        "\"task_id\": \"20260512-1708-orchestrator-routing-hardening\"",
+        "\"plan_file\": \".opencode/plans/20260512-1708-orchestrator-routing-hardening.md\"",
+        "routing-decisions.md",
+        "verification.md"
+      ],
+      "reasonCode": "orchestrator-routing-evidence-manifest-gap"
+    },
+    {
+      "type": "routing-decision",
+      "file": ".opencode/evidence/20260512-1708-orchestrator-routing-hardening/routing-decisions.md",
+      "mustInclude": [
+        "## Routing Decision Summary",
+        "@artifact-planner",
+        "@fixer",
+        "@quality-gate",
+        "### Validation lane"
+      ],
+      "reasonCode": "orchestrator-routing-decision-artifact-gap"
+    },
+    {
+      "type": "quality-outcome",
+      "file": ".opencode/evidence/20260512-1708-orchestrator-routing-hardening/verification.md",
+      "mustInclude": [
+        "Result: PASS",
+        "## Risks / Limitations"
+      ],
+      "reasonCode": "orchestrator-routing-quality-outcome-gap"
+    },
+    {
+      "type": "routing-policy",
+      "file": ".opencode/docs/AGENT_ROUTING.md",
+      "mustInclude": [
+        "Non-trivial tasks should route through `@artifact-planner` first",
+        "@quality-gate",
+        "Compact routing quality checklist"
+      ],
+      "reasonCode": "orchestrator-routing-policy-alignment-gap"
+    },
+    {
+      "type": "quality-loop",
+      "file": ".opencode/docs/QUALITY.md",
+      "mustInclude": [
+        "Standard agent loop",
+        "@artifact-planner",
+        "@fixer",
+        "@quality-gate"
+      ],
+      "reasonCode": "orchestrator-routing-quality-loop-gap"
+    },
+    {
+      "type": "orchestrator-skill",
+      "file": "skills/opencode-orchestrator/SKILL.md",
+      "mustInclude": [
+        "Direct-work threshold (hard default)",
+        "route through `@artifact-planner` first",
+        "route bounded implementation to `@fixer`",
+        "final review pass to `@quality-gate`"
+      ],
+      "reasonCode": "orchestrator-routing-skill-alignment-gap"
+    }
+  ]
+}
