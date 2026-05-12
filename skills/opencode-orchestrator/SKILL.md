@@ -48,6 +48,8 @@ Canonical tool references:
 
 1. Understand explicit and implicit requirements.
 2. Check if the task is trivial. If not, create todos and decide routing.
+   - Non-trivial work should route through `@artifact-planner` first so execution is plan-bound (`.opencode/plans/<task-id>.md`) with an evidence path (`.opencode/evidence/<task-id>/`).
+   - Trivial, single-step, and easily reversible tasks may skip planner.
 3. Use local discovery before external docs when codebase patterns matter.
 4. Ask targeted questions for material ambiguity, but during active implementation prefer finish-first execution: resolve ambiguity via repo evidence, docs, and specialist subagents before interrupting the user.
 5. Execute via the right specialist/tool path.

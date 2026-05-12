@@ -37,6 +37,7 @@ Use `opencode-quality-gate` for final read-only, evidence-based, deterministic r
 - Request additional evidence when required evidence is missing.
 - Return one final status: `PASS`, `PASS_WITH_RISKS`, `NEEDS_FIX`, or `BLOCKED`.
 - Do not edit files, self-fix issues, delegate tasks, or expand review scope.
+- Jangan mengedit file, memperbaiki sendiri, atau mengubah scope review.
 
 ## Use when
 

@@ -147,6 +147,14 @@ const checks = [
   },
   {
     file: "AGENTS.md",
+    name: "agents planner invocation expectation gate",
+    mustInclude: [
+      "Non-trivial work should route through `@artifact-planner` first",
+      "trivial single-step and easily reversible tasks may skip planner",
+    ],
+  },
+  {
+    file: "AGENTS.md",
     name: "agents risk trigger gate",
     mustInclude: [
       "Product ambiguity",
@@ -281,6 +289,14 @@ const checks = [
     ],
   },
   {
+    file: "skills/opencode-orchestrator/SKILL.md",
+    name: "orchestrator planner invocation gate",
+    mustInclude: [
+      "Non-trivial work should route through `@artifact-planner` first",
+      "Trivial, single-step, and easily reversible tasks may skip planner",
+    ],
+  },
+  {
     file: "agents/council.md",
     name: "council language split gate",
     mustInclude: [
@@ -296,6 +312,52 @@ const checks = [
       "finish-first default",
       "internal checkpoints rather than approval checkpoints",
       "Accumulate non-blocking questions",
+    ],
+  },
+  {
+    file: ".opencode/docs/AGENT_ROUTING.md",
+    name: "canonical planner invocation gate",
+    mustInclude: [
+      "Planner invocation expectation",
+      "Non-trivial tasks should route through `@artifact-planner` first",
+      "Trivial, single-step, and easily reversible tasks may execute directly without planner",
+    ],
+  },
+  {
+    file: ".opencode/docs/MCP.md",
+    name: "mcp state terminology gate",
+    mustInclude: [
+      "MCP state terminology",
+      "configured",
+      "auth-blocked",
+      "unauthenticated",
+      "authenticated",
+      "connected",
+      "usable",
+      "read-only",
+      "unsupported",
+      "Figma state walkthrough",
+    ],
+  },
+  {
+    file: ".opencode/docs/TOOL_USAGE.md",
+    name: "tool usage mcp state gate",
+    mustInclude: [
+      "MCP state model",
+      "configured does not imply usable",
+      "Figma quick interpretation",
+      "auth-blocked/unauthenticated",
+      "read-only/unsupported",
+    ],
+  },
+  {
+    file: ".opencode/docs/AGENT_TOOL_ACCESS.md",
+    name: "agent tool access mcp state gate",
+    mustInclude: [
+      "MCP state interpretation",
+      "configured alone is inventory-level only",
+      "authenticated + connected + role-permitted",
+      "read-only/unsupported constraints",
     ],
   },
   {

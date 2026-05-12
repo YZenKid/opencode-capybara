@@ -30,6 +30,8 @@
 ## Default Flow
 User intent → `@orchestrator` → specialist agents → validation → `@quality-gate` → final summary.
 
+Non-trivial work should route through `@artifact-planner` first (plan + evidence path), then implementation; trivial single-step and easily reversible tasks may skip planner.
+
 ## Harness Posture
 - `.opencode/docs/` is the repository knowledge system of record.
 - `AGENTS.md` is the map, not the encyclopedia.

@@ -15,6 +15,13 @@ for (const entry of readdirSync(skillsDir, { withFileTypes: true })) {
   const content = readFileSync(file, "utf8");
   const requirements = content.startsWith("---") ? ["name:", "description:"] : ["## Workflow", "## Output contract"];
   const missing = requirements.filter((needle) => !content.includes(needle));
+
+  const hasTitle = content.includes("# ");
+  const hasContractMarker = /^##\s+.+/m.test(content);
+
+  if (!hasTitle) missing.push("# <title>");
+  if (!hasContractMarker) missing.push("contract-section-marker");
+
   if (missing.length > 0) {
     failures += 1;
     console.error(`✗ skills/${entry.name}/SKILL.md: missing contract fields`);

@@ -44,13 +44,15 @@ If evidence is unavailable, write an explicit limitation note.
 ## Standard agent loop
 1. `@orchestrator` understands intent and chooses the route.
 2. `@explorer` does discovery when context is still unclear.
-3. `@artifact-planner` writes the plan for non-trivial tasks.
+3. `@artifact-planner` writes the plan for non-trivial tasks; trivial single-step and easily reversible tasks may skip planner.
 4. `@fixer` performs bounded implementation.
 5. Run the relevant validation.
 6. `@oracle` reviews architecture risk when material.
 7. Conditional specialist reviewers are called when a risk trigger applies.
 8. `@quality-gate` performs the final read-only conformance review.
 9. The final summary is assembled from evidence.
+
+Non-trivial implementation should be treated as plan-bound work: plan artifact under `.opencode/plans/` plus evidence under `.opencode/evidence/` before completion claims.
 
 ## Minimal atomic migration rule
 Changes that move policy between `AGENTS.md`, `README.md`, `.opencode/docs/`, and scripts must land together with the related gate/doctor updates.

@@ -38,6 +38,34 @@ const checks = [
     file: "agents/visual-parity-auditor.md",
     mustInclude: ["apply_patch: deny", "task: deny"],
   },
+  {
+    file: "agents/security-privacy-reviewer.md",
+    mustInclude: ["apply_patch: deny", "task: deny"],
+  },
+  {
+    file: "agents/release-engineer.md",
+    mustInclude: ["apply_patch: deny", "task: deny"],
+  },
+  {
+    file: "agents/ai-systems-architect.md",
+    mustInclude: ["apply_patch: deny", "task: deny"],
+  },
+  {
+    file: "agents/mobile-architect.md",
+    mustInclude: ["apply_patch: deny", "task: deny"],
+  },
+  {
+    file: "agents/saas-architect.md",
+    mustInclude: ["apply_patch: deny", "task: deny"],
+  },
+  {
+    file: "agents/product-architect.md",
+    mustInclude: ["apply_patch: deny", "task: deny"],
+  },
+  {
+    file: "agents/council.md",
+    mustInclude: ["apply_patch: deny", "task: deny"],
+  },
 ];
 
 let failures = 0;

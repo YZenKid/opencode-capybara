@@ -1,0 +1,42 @@
+{
+  "id": "planner-and-mcp-state-contract",
+  "category": "behavioral-task",
+  "description": "Behavioral eval: non-trivial work is planner-bound while MCP configured-vs-usable state language remains explicit and consistent.",
+  "artifacts": [
+    {
+      "type": "routing-map",
+      "file": "AGENTS.md",
+      "mustInclude": [
+        "Non-trivial work should route through `@artifact-planner` first",
+        "trivial single-step and easily reversible tasks may skip planner"
+      ],
+      "reasonCode": "planner-invocation-map-gap"
+    },
+    {
+      "type": "canonical-routing",
+      "file": ".opencode/docs/AGENT_ROUTING.md",
+      "mustInclude": [
+        "Planner invocation expectation",
+        "Non-trivial tasks should route through `@artifact-planner` first",
+        "Trivial, single-step, and easily reversible tasks may execute directly without planner"
+      ],
+      "reasonCode": "planner-invocation-canonical-gap"
+    },
+    {
+      "type": "mcp-state-doc",
+      "file": ".opencode/docs/MCP.md",
+      "mustInclude": [
+        "MCP state terminology",
+        "configured",
+        "auth-blocked / unauthenticated",
+        "authenticated",
+        "connected",
+        "usable",
+        "read-only / unsupported",
+        "Rule: `configured` does **not** mean `usable`.",
+        "Figma state walkthrough"
+      ],
+      "reasonCode": "mcp-state-model-gap"
+    }
+  ]
+}

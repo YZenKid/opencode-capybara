@@ -10,6 +10,10 @@ User intent → `@orchestrator` → specialist agents → validation → `@quali
 - Accumulate non-blocking questions and present them at the end together with assumption/risk notes rather than using them to interrupt execution momentum.
 - Pause mid-run only for destructive decisions, security/privacy boundaries, truly unavailable required access, or material non-reversible ambiguity.
 
+Planner invocation expectation:
+- Non-trivial tasks should route through `@artifact-planner` first so implementation is plan-bound with explicit evidence paths.
+- Trivial, single-step, and easily reversible tasks may execute directly without planner.
+
 ## Primary lanes
 - `@orchestrator` — router, integrator, final coordinator
 - `@artifact-planner` — writes plans, drafts, and evidence artifacts under `.opencode/`

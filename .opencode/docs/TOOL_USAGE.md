@@ -18,6 +18,24 @@ Related docs:
 
 Rule: a tool must be both **available** and **permitted** before use. If not, use documented **fallback**.
 
+## MCP state model (normative)
+
+When reasoning about configured MCP tools, use the same state terms as [MCP.md](./MCP.md):
+- configured
+- auth-blocked/unauthenticated
+- authenticated
+- connected
+- usable
+- read-only/unsupported
+
+Operational rule: configured does not imply usable.
+
+### Figma quick interpretation
+- `figma` present in inventory only proves **configured**.
+- If OAuth/session is missing or blocked, treat as **auth-blocked/unauthenticated** and use fallback workflow.
+- Treat as **usable** only when the required capability works in the current client/server/role context.
+- If a capability is not supported (for example canvas-write in current environment), classify it as **read-only/unsupported** for that action.
+
 ## Tool classes
 
 ### 1) Built-in OpenCode tools

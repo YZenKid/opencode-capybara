@@ -82,3 +82,70 @@ EOF
 chmod +x ~/.config/opencode/bin/opencode-with-env
 launchctl setenv OPENCHAMBER_OPENCODE_PATH "$HOME/.config/opencode/bin/opencode-with-env"
 ```
+
+## Figma MCP belum bisa auth atau re-auth
+
+### 1) Cek config posture dulu
+
+Pastikan `opencode.json` entry `figma` memakai:
+
+- `"type": "remote"`
+- `"url": "https://mcp.figma.com/mcp"`
+- `"oauth": {}`
+- `"enabled": true`
+
+Gejala config salah yang umum:
+
+- `MCP server figma is not an OAuth-capable remote server`
+
+### 2) Jalur native auth (default)
+
+Untuk auth pertama kali, jalankan:
+
+```bash
+bash scripts/figma-mcp-auth.sh auth
+```
+
+Untuk reconnect / re-auth, jalankan:
+
+```bash
+bash scripts/figma-mcp-auth.sh reauth
+```
+
+Jika ingin langsung verifikasi setelah flow:
+
+```bash
+bash scripts/figma-mcp-auth.sh auth --verify
+```
+
+### 3) Jika native auth gagal (approved-client restriction)
+
+Gejala umum:
+
+- `HTTP 403 ... Forbidden`
+
+Gunakan bootstrap helper:
+
+```bash
+bash scripts/figma-mcp-auth.sh bootstrap --verify
+```
+
+Helper ini menulis token ke:
+
+- `~/.local/share/opencode/mcp-auth.json`
+
+### 4) Verifikasi status pasca-auth
+
+```bash
+opencode mcp list
+opencode mcp debug figma
+```
+
+Success signature yang diharapkan: `figma` terlihat connected/authenticated.
+
+### 5) Machine/device baru
+
+- Gunakan config repo yang sama (`oauth: {}` tetap wajib).
+- Jalankan ulang auth di device baru (native dulu, bootstrap jika perlu).
+- Jangan commit `~/.local/share/opencode/mcp-auth.json`.
+- Jangan copy token antar mesin sebagai default workflow; lebih aman regenerate auth di device tujuan.

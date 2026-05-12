@@ -214,7 +214,7 @@
     "figma": {
       "type": "remote",
       "url": "https://mcp.figma.com/mcp",
-      "oauth": true,
+      "oauth": {},
       "enabled": true,
       "timeout": 300000
     },

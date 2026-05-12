@@ -14,6 +14,14 @@ It complements:
 - **permitted**: allowed by role contract/permission boundary.
 - **fallback**: safe alternate when preferred is unavailable/not permitted.
 
+## MCP state interpretation
+
+Use MCP state terms from [MCP.md](./MCP.md) when discussing tool readiness.
+
+- configured alone is inventory-level only, not execution readiness.
+- Runtime use should require `authenticated + connected + role-permitted` for the needed capability.
+- If capability is unavailable by role/client/server limits, classify it as `read-only/unsupported constraints` and route to the documented fallback.
+
 ## Matrix (primary roles)
 
 ### `@orchestrator`

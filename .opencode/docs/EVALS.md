@@ -57,6 +57,7 @@ failure → taxonomy → remediation → new regression/eval case → rerun
   - `docs-policy-migration-roundtrip`
   - `evidence-bundle-completion`
   - `reviewer-boundary-routing`
+  - `planner-and-mcp-state-contract`
 
 ## Strict validation lane
 - `npm run check:harness:strict`
