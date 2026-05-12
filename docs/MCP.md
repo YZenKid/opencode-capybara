@@ -7,7 +7,7 @@ Configured MCP surfaces include:
 - `grep_app`
 - `playwright`
 - `shadcn`
-- `stitch`
+- `figma`
 - `image-asset-generator`
 - `semgrep`
 - `github`
@@ -17,3 +17,5 @@ Configured MCP surfaces include:
 - Prefer local discovery before external tools when repo-local context is enough.
 - Do not hardcode device-specific absolute paths in MCP configuration or prompts.
 - Image generation must use explicit `project_root` and `target_path` relative to that root.
+- For UI/design tasks, treat Figma MCP output as design input only (context/rules/canvas artifacts), not final implementation.
+- Figma MCP capabilities may vary by remote server/client support and seat permissions (for example write-to-canvas or live UI sync availability).

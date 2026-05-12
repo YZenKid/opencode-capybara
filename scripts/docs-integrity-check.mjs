@@ -17,6 +17,8 @@ const canonicalDocs = [
   ".opencode/docs/PROMPT_GATES.md",
   ".opencode/docs/SKILLS.md",
   ".opencode/docs/MCP.md",
+  ".opencode/docs/TOOL_USAGE.md",
+  ".opencode/docs/AGENT_TOOL_ACCESS.md",
   ".opencode/docs/EVALS.md",
   ".opencode/docs/GOLDEN_PRINCIPLES.md",
   ".opencode/docs/DECISIONS.md",

@@ -25,7 +25,6 @@ BRAVE_API_KEY="your_brave_search_api_key"
 CONTEXT7_API_KEY="your_context7_api_key"
 GITHUB_PERSONAL_ACCESS_TOKEN="your_github_pat"
 GITHUB_TOOLSETS="context,repos,issues,pull_requests,actions,code_security"
-STITCH_API_KEY="your_stitch_api_key"
 OPENCODE_MODEL_DEFAULT="cliproxyapi/gpt-5.3-codex"
 OPENCODE_MODEL_ORCHESTRATOR="cliproxyapi/gpt-5.4"
 OPENCODE_MODEL_PLANNER="cliproxyapi/gpt-5.3-codex"
@@ -57,7 +56,12 @@ Copy `.env.example` to `.env` and set every `OPENCODE_MODEL_*` value before laun
 - `CONTEXT7_API_KEY`
 - `GITHUB_PERSONAL_ACCESS_TOKEN`
 - `GITHUB_TOOLSETS`
-- `STITCH_API_KEY`
+
+### Figma MCP (remote)
+
+- `figma` MCP pada `opencode.json` memakai remote URL `https://mcp.figma.com/mcp`.
+- Gunakan posture OAuth client/host (bukan API-key header custom) sesuai dukungan server/client resmi.
+- Capability Figma MCP bisa berbeda tergantung support client, mode remote/desktop, dan seat/plan (misalnya write-to-canvas atau live UI sync).
 
 ### Image asset
 

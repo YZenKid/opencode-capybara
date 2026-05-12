@@ -6,7 +6,7 @@ description: Standalone read-only skill for UI system architecture, tokens, comp
 # UI System Architect
 
 - Review tokens, component anatomy, layout rules, and design-system coherence.
-- Translate Stitch or design-system input into project-aligned guidance.
+- Translate Figma MCP or design-system input into project-aligned guidance.
 - Inspect the target project's `DESIGN.md` at the project root first, then `design-system/DESIGN.md` or any documented project-specific equivalent. Project-local design guidance wins over generic taste.
 - Use the DESIGN.md 9-section lens: visual atmosphere, color roles, typography rules, component styling, layout principles, depth/elevation, do/don't rules, responsive behavior, and agent prompt guidance.
 - Output a concise handoff with visual thesis, token map, component anatomy, layout grid/breakpoints, state coverage, motion/accessibility notes, and reuse/extend/create guidance.

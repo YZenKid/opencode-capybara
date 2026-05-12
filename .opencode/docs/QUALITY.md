@@ -55,6 +55,10 @@ If evidence is unavailable, write an explicit limitation note.
 ## Minimal atomic migration rule
 Changes that move policy between `AGENTS.md`, `README.md`, `.opencode/docs/`, and scripts must land together with the related gate/doctor updates.
 
+Tool-selection quality references:
+- Operational tool guidance: [TOOL_USAGE.md](./TOOL_USAGE.md)
+- Role boundary matrix: [AGENT_TOOL_ACCESS.md](./AGENT_TOOL_ACCESS.md)
+
 ## Remediation-oriented error standard
 Error messages must state:
 - the broken invariant,

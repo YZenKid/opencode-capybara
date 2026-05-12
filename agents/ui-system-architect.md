@@ -1,7 +1,7 @@
 ---
 mode: subagent
 hidden: false
-description: Read-only UI system architect for tokens, component anatomy, and Stitch handoff
+description: Read-only UI system architect for tokens, component anatomy, and Figma/design-system handoff
 model: cliproxyapi/gpt-5.4
 variant: high
 skills:

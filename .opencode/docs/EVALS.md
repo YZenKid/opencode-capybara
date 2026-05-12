@@ -38,6 +38,8 @@ Use pass/fail + reason codes wherever possible.
 - harness bug
 - flaky / nondeterministic failure
 
+Use [TOOL_USAGE.md](./TOOL_USAGE.md) and [AGENT_TOOL_ACCESS.md](./AGENT_TOOL_ACCESS.md) as canonical references when triaging tool-selection failures.
+
 ## Improvement loop
 failure → taxonomy → remediation → new regression/eval case → rerun
 

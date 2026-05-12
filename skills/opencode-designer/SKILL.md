@@ -7,6 +7,10 @@ description: Standalone UI/UX and visual parity workflow for designer. Use for f
 
 Use this as the designer’s self-contained UI/UX manual.
 
+For canonical tool policy and boundaries, refer to:
+- `.opencode/docs/TOOL_USAGE.md`
+- `.opencode/docs/AGENT_TOOL_ACCESS.md`
+
 ## Smart UI artifact workflow
 
 - Use an artifact-first design workflow that makes the agent behave like a senior product designer with a clear brief, design-system context, craft rules, and validation evidence.
@@ -79,26 +83,26 @@ If any required blueprint section is missing for substantial work, return `block
 
 1. Inspect framework, styling, tokens, assets, components, and tests.
 2. Define the full Design Readiness Gate blueprint for substantial work: experience direction, page map, section specs, component/visual systems, asset decisions, motion map, states, responsive rules, accessibility, and evidence plan.
-3. Use Stitch when it adds value, then adapt the output to existing project tokens/components instead of copying blindly.
+3. Use Figma MCP when it adds value, then adapt the output to existing project tokens/components instead of copying blindly.
 4. For substantial work, consume specialist handoffs from `@visual-parity-auditor`, `@motion-specialist`, `@accessibility-reviewer`, and `@ui-system-architect` as needed.
 5. Implement/review section-by-section and component-by-component against the blueprint.
 6. Check accessibility: semantics, labels, focus-visible, alt text, touch targets, reduced motion.
 7. Validate with browser screenshots when runnable; for substantial UI/reference work, require reference/current/final captures and section-by-section comparison.
 
-## Google Stitch MCP Design System Gate
+## Figma MCP Design/Canvas Gate
 
-For substantial UI/UX, web, mobile, app design, design-system, dashboard, landing page, reference replication, or revamp work, use Google Stitch MCP as a design-system ideation and generation assistant when the `stitch` MCP is available. Stitch is a remote MCP server at `https://stitch.googleapis.com/mcp`; it can connect AI tools to Stitch projects and provide project/screen, AI generation, and design-system workflows. Treat Stitch output as design input, not final implementation.
+For substantial UI/UX, web, mobile, app design, design-system, dashboard, landing page, reference replication, or revamp work, use Figma MCP as a design-system and canvas assistant when the `figma` MCP is available. Figma MCP can provide design context, search design systems, create design-system rules, write to canvas, and in supported clients send live UI to Figma. Treat Figma MCP output as design input, not final implementation.
 
 Decision order:
 
 1. Inspect existing project UI, tokens, component library, assets, routing, accessibility conventions, responsive breakpoints, and animation patterns.
-2. Decide whether Stitch adds value. Use Stitch for new visual direction, substantial redesign, mobile/web app screen generation, design-system extraction, variants, or reference-to-system translation. Skip Stitch for tiny visual fixes, backend-only tasks, or projects with a strict existing design system where generation would add noise.
-3. If Stitch is available, provide a focused design brief instead of a generic prompt: target platform, target users, primary flows, existing tokens/components, brand constraints, content constraints, accessibility requirements, responsive breakpoints, motion direction, asset/image decisions, and legal/reference limitations.
-4. Ask Stitch for a structured handoff: visual thesis, design-system principles, token recommendations, typography scale, color roles, spacing/radius/elevation, component anatomy, screen layout rules, responsive behavior, interaction states, accessibility notes, and implementation guidance.
-5. Adapt Stitch output to project patterns using Reuse > Extend > Create. Do not copy generated UI blindly, introduce unrelated libraries, override established tokens without reason, or bypass accessibility and browser validation.
-6. Record Stitch usage in the design output: `used`, `unavailable`, `skipped`, or `blocked`, with the MCP/tool status and reason. If unavailable, continue with local design-system reasoning and mark the limitation.
+2. Decide whether Figma MCP adds value. Use it for new visual direction, substantial redesign, design-context extraction, design-system search/rules, canvas updates, or reference-to-system translation. Skip it for tiny visual fixes, backend-only tasks, or projects with a strict existing design system where extra MCP steps add noise.
+3. If Figma MCP is available, provide a focused brief instead of a generic prompt: target platform, target users, primary flows, existing tokens/components, brand constraints, content constraints, accessibility requirements, responsive breakpoints, motion direction, asset/image decisions, and legal/reference limitations.
+4. Ask Figma MCP for structured design outputs: visual thesis, design-system principles/rules, token recommendations, typography scale, color roles, spacing/radius/elevation, component anatomy, canvas/layout rules, responsive behavior, interaction states, accessibility notes, and implementation guidance.
+5. Adapt Figma MCP output to project patterns using Reuse > Extend > Create. Do not copy generated design blindly, introduce unrelated libraries, override established tokens without reason, or bypass accessibility and browser validation.
+6. Record Figma MCP usage in the design output: `used`, `unavailable`, `read-only`, `skipped`, or `blocked`, with MCP/client/seat status and reason. If unavailable or write unsupported, continue with local design-system reasoning and mark the limitation.
 
-Stitch must not replace these gates: anti-AI-slop quality bar, Animation System Gate, asset inventory/legal replacement handling, image generation decision, Playwright/browser evidence, and final designer signoff. `impeccable` from `skills.sh` may be used as an optional design-quality checklist reference; the deprecated `frontend-design` skill must not be used for new work.
+Figma MCP must not replace these gates: anti-AI-slop quality bar, Animation System Gate, asset inventory/legal replacement handling, image generation decision, Playwright/browser evidence, and final designer signoff. `impeccable` from `skills.sh` may be used as an optional design-quality checklist reference; the deprecated `frontend-design` skill must not be used for new work.
 
 ## Artifact output contract
 

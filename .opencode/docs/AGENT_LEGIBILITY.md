@@ -15,6 +15,10 @@ Agents perform better when:
 ## Repository-local knowledge rule
 If important knowledge cannot be found in the repo while an agent is running, that knowledge is practically unavailable.
 
+Tool behavior must remain repo-legible via:
+- [TOOL_USAGE.md](./TOOL_USAGE.md) for operational selection rules
+- [AGENT_TOOL_ACCESS.md](./AGENT_TOOL_ACCESS.md) for role boundaries
+
 ## Legibility goals
 - `AGENTS.md` should remain a short map.
 - `.opencode/docs/` should remain the system of record.

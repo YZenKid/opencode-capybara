@@ -12,6 +12,8 @@ This directory is the **system of record** for `opencode-capybara`.
 - [PROMPT_GATES.md](./PROMPT_GATES.md)
 - [SKILLS.md](./SKILLS.md)
 - [MCP.md](./MCP.md)
+- [TOOL_USAGE.md](./TOOL_USAGE.md)
+- [AGENT_TOOL_ACCESS.md](./AGENT_TOOL_ACCESS.md)
 - [EVALS.md](./EVALS.md)
 - [GOLDEN_PRINCIPLES.md](./GOLDEN_PRINCIPLES.md)
 - [DECISIONS.md](./DECISIONS.md)
