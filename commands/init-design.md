@@ -73,7 +73,7 @@ Define mobile-first rules, navigation changes, CTA placement, data display adapt
 ## Agent Prompt Guide
 Give direct instructions for future coding/design agents: which files/tokens/components to read first, how to apply this design system, when to reuse/extend/create, when to ask questions, when to run visual validation, and how to report deviations.
 
-The `Agent Prompt Guide` should also state the downstream ownership chain for substantial UI work: `@designer` owns direction and implementation guidance first; `@visual-parity-auditor`, `@motion-specialist`, `@accessibility-reviewer`, and `@ui-system-architect` are conditional review/specialist lanes; `@quality-gate` remains the final cross-cutting signoff lane when the work is non-trivial.
+The `Agent Prompt Guide` should also state the downstream ownership chain for substantial UI work: `@designer` owns direction, motion/reduced-motion review, and implementation guidance first; `@architect` is a conditional specialist lane; `@quality-gate` remains the final cross-cutting signoff lane when the work is non-trivial.
 ```
 
 After writing the file, summarize:

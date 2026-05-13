@@ -119,17 +119,17 @@ npm run sync:agent-models
 | `OPENCODE_MODEL_DEFAULT` | `cliproxyapi/gpt-5.3-codex` | Top-level default model and general fallback | Use Codex lane as balanced default for coding-heavy work while keeping specialist high-risk lanes stronger. |
 | `OPENCODE_MODEL_ORCHESTRATOR` | `cliproxyapi/gpt-5.4` | `@orchestrator` primary routing/integration | Keep high quality for delegation, coordination, and final synthesis. |
 | `OPENCODE_MODEL_PLANNER` | `cliproxyapi/gpt-5.3-codex` | `@artifact-planner`, `modes/plan.md`, `agents-disabled/plan.md` | Planning is codebase-heavy and can use Codex to reduce cost while keeping structure strong. |
-| `OPENCODE_MODEL_DESIGN` | `cliproxyapi/gpt-5.4` | `@designer`, `@visual-parity-auditor`, `@ui-system-architect` | UI and visual reasoning are higher-value, so keep quality high. |
+| `OPENCODE_MODEL_DESIGN` | `cliproxyapi/gpt-5.4` | `@designer` | UI and visual reasoning are higher-value, so keep quality high. |
 | `OPENCODE_MODEL_REVIEW` | `cliproxyapi/gpt-5.4` | `@oracle`, `@quality-gate`, `@council` | Review lanes should stay strict and high quality; optimize for correctness over cost. |
-| `OPENCODE_MODEL_ADVISORY` | `cliproxyapi/gpt-5.4` | `@product-systems-architect`, `@platform-architect`, `@security-risk-reviewer`, `@ai-systems-architect` | Advisory work is often high-stakes; keep the stronger model unless cost pressure is extreme. |
+| `OPENCODE_MODEL_ADVISORY` | `cliproxyapi/gpt-5.4` | `@architect` | Advisory work is often high-stakes; keep the stronger model unless cost pressure is extreme. |
 | `OPENCODE_MODEL_EXECUTION` | `cliproxyapi/gpt-5.3-codex` | `@fixer` | Use Codex for bounded implementation/testing because this lane is code-edit heavy. |
-| `OPENCODE_MODEL_DISCOVERY` | `cliproxyapi/gpt-5.4-mini` | `@explorer`, `@librarian`, `@motion-specialist`, `@accessibility-reviewer` | Discovery and read-only analysis can usually use the lower-cost model. |
-| `OPENCODE_MODEL_DOCUMENTS` | `cliproxyapi/gpt-5.4-mini` | `@document-specialist` | Document processing is usually utility work; keep it cost-efficient. |
+| `OPENCODE_MODEL_DISCOVERY` | `cliproxyapi/gpt-5.4-mini` | `@explorer`, `@librarian` | Discovery and read-only analysis can usually use the lower-cost model. |
+| `OPENCODE_MODEL_DOCUMENTS` | `cliproxyapi/gpt-5.4-mini` | Reserved compatibility lane (document-centric work now routes via `@librarian`) | Keep for env compatibility; active document support is merged into librarian. |
 | `OPENCODE_MODEL_IMPROVEMENT` | `cliproxyapi/gpt-5.4-mini` | `@skill-improver` | Small prompt/skill refinements should stay on the cheaper lane. |
 
 ## Domain specialist and workflow summary
 
-Domain specialists are conditional.
+Domain helper/advisory lanes are conditional.
 Tiny UI polish still goes to `@designer`, and isolated bugfixes still go to `@fixer`.
 
 - `@skill-improver` is used for non-trivial follow-up, repeated failures, policy gaps, or explicit requests.

@@ -1,6 +1,6 @@
 ---
 name: opencode-designer
-description: Standalone UI/UX and visual parity workflow for designer. Use for frontend design, design systems, responsive layouts, reference replication, accessibility review, visual polish, asset planning, and browser-validated UI quality.
+description: Standalone UI/UX, motion direction, and visual parity workflow for designer. Use for frontend design, design systems, responsive layouts, reference replication, motion/reduced-motion review, accessibility review, visual polish, asset planning, and browser-validated UI quality.
 ---
 
 # OpenCode Designer Skill
@@ -84,7 +84,7 @@ If any required blueprint section is missing for substantial work, return `block
 1. Inspect framework, styling, tokens, assets, components, and tests.
 2. Define the full Design Readiness Gate blueprint for substantial work: experience direction, page map, section specs, component/visual systems, asset decisions, motion map, states, responsive rules, accessibility, and evidence plan.
 3. Use Figma MCP when it adds value, then adapt the output to existing project tokens/components instead of copying blindly.
-4. For substantial work, consume specialist handoffs from `@visual-parity-auditor`, `@motion-specialist`, `@accessibility-reviewer`, and `@ui-system-architect` as needed.
+4. For substantial work, own motion direction/reduced-motion review directly and consume specialist handoffs from `@architect` as needed; final cross-cutting security/accessibility/visual-parity signoff is handled by `@quality-gate`.
 5. Implement/review section-by-section and component-by-component against the blueprint.
 6. Check accessibility: semantics, labels, focus-visible, alt text, touch targets, reduced motion.
 7. Validate with browser screenshots when runnable; for substantial UI/reference work, require reference/current/final captures and section-by-section comparison.

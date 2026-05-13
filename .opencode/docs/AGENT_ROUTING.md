@@ -14,6 +14,7 @@ Planner invocation expectation:
 - `@artifact-planner` is a **triggered lane**, not default-first.
 - Invoke it for multi-phase, spec-heavy, materially ambiguous, or evidence-heavy work.
 - Trivial, single-step, and easily reversible tasks may execute directly without planner.
+- Non-trivial tasks should route through `@artifact-planner` first when planning depth/evidence is required.
 
 ## Direct-work thresholds for `@orchestrator`
 `@orchestrator` is a router/integrator first, not the default worker. Direct execution is allowed only for tiny tasks.
@@ -66,15 +67,18 @@ Score guidance: 5/5 = strong routing discipline; 3–4/5 = acceptable with minor
 - `@artifact-planner` — planning artifacts and evidence paths under `.opencode/`.
 - Trigger only when scope/ambiguity/evidence needs justify planning overhead.
 
-## Specialist lanes (triggered)
-- `@product-systems-architect` — MVP slicing, flows, tenancy/workspace model, RBAC, billing, usage limits.
-- `@platform-architect` — CI/CD, deploy/env/migrations/rollback/monitoring, plus mobile/offline/push/deep-links/platform constraints.
-- `@security-risk-reviewer` — auth, PII, uploads, payments, secrets, token/session handling, tenant isolation, privacy/biometric risk.
-- `@ai-systems-architect` — LLM/RAG/embeddings/tool-calling/evals/model cost-reliability.
-- `@document-specialist` — PDF/sheets/Office extraction, transformation, validation, form/file-centric workflows.
+## Helper lanes (triggered)
+- `@architect` — unified read-only advisory lane for product/SaaS, platform/runtime/release/mobile, AI/LLM/RAG/evals, and UI-system architecture boundaries.
+- `@artifact-planner` — planning artifacts and evidence paths under `.opencode/`.
+- `@librarian` — supporting docs/API research helper and document-centric read-only extraction/research/transformation support.
 - `@skill-improver` — prompt/skill/routing improvements after repeated failure or evidence.
 
-Specialist lanes are conditional. Tiny UI polish still routes to `@designer`; isolated bugfixes still route to `@fixer` unless a risk trigger applies.
+Helper lanes are conditional. Tiny UI polish still routes to `@designer`; isolated bugfixes still route to `@fixer` unless a risk trigger applies.
+
+Global conditional specialist framing:
+- PRD/product blueprint work, SaaS architecture, AI system design, Security/privacy review, Release/ops readiness, and Mobile/hybrid architecture can trigger `@architect`.
+- Tiny UI polish still goes to `@designer`.
+- Isolated bugfixes still go to `@fixer`.
 
 ## UI and reference policy
 - First inspect the target project's `DESIGN.md`.
@@ -103,7 +107,7 @@ For substantial UI/UX work, high-level visual direction is not enough. Require a
 If the blueprint is incomplete, status must be `blocked`, `needs-polish`, or `draft`, not `done`.
 
 ## Risk triggers
-- auth, PII, tenant isolation, payment, upload, secrets, token/session handling, biometric data, permission/RBAC → security review
+- auth, PII, tenant isolation, payment, upload, secrets, token/session handling, biometric data, permission/RBAC → final security/privacy assessment in `@quality-gate`; use `@architect` for upstream architecture decisions
 - architecture boundary, new abstraction, large refactor, dependency direction, data model change → oracle
-- visual layout change, animation, accessibility, design token, screenshot/reference parity, responsive behavior → designer plus relevant UI specialists
-- CI/CD, deployment, env var, migration, monitoring, rollback, mobile/offline/push/deep-links/platform runtime constraints → platform architect
+- visual layout change, animation/motion direction, design token, screenshot/reference parity, responsive behavior → `@designer` for design direction (including reduced-motion review) and `@quality-gate` for final accessibility/visual-parity signoff when material
+- CI/CD, deployment, env var, migration, monitoring, rollback, mobile/offline/push/deep-links/platform runtime constraints → `@architect`

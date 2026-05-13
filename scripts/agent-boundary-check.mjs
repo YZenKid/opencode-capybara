@@ -23,35 +23,7 @@ const checks = [
     mustInclude: ["apply_patch: deny", "task: deny"],
   },
   {
-    file: "agents/accessibility-reviewer.md",
-    mustInclude: ["apply_patch: deny", "task: deny"],
-  },
-  {
-    file: "agents/motion-specialist.md",
-    mustInclude: ["apply_patch: deny", "task: deny"],
-  },
-  {
-    file: "agents/ui-system-architect.md",
-    mustInclude: ["apply_patch: deny", "task: deny"],
-  },
-  {
-    file: "agents/visual-parity-auditor.md",
-    mustInclude: ["apply_patch: deny", "task: deny"],
-  },
-  {
-    file: "agents/security-risk-reviewer.md",
-    mustInclude: ["apply_patch: deny", "task: deny"],
-  },
-  {
-    file: "agents/ai-systems-architect.md",
-    mustInclude: ["apply_patch: deny", "task: deny"],
-  },
-  {
-    file: "agents/platform-architect.md",
-    mustInclude: ["apply_patch: deny", "task: deny"],
-  },
-  {
-    file: "agents/product-systems-architect.md",
+    file: "agents/architect.md",
     mustInclude: ["apply_patch: deny", "task: deny"],
   },
   {

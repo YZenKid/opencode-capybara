@@ -2,8 +2,8 @@
 
 Generated inventory of deterministic prompt-gate checks. This file is advisory and must not replace canonical policy in `.opencode/docs/PROMPT_GATES.md`.
 
-- Gate count: historical snapshot; regenerate with `npm run test:prompt-gates` for current inventory
-- Unique files covered: 67
+- Gate count: 86
+- Unique files covered: 48
 - Primary implementation: `scripts/prompt-gate-regression.mjs`
 
 ## Commands referenced
@@ -61,58 +61,44 @@ Generated inventory of deterministic prompt-gate checks. This file is advisory a
 43. **redundant build skill removed gate** — `skills/opencode-build/SKILL.md`
 44. **redundant general skill removed gate** — `skills/opencode-general/SKILL.md`
 45. **fixer skill UI pause gates** — `skills/opencode-fixer/SKILL.md`
-46. **ui system architect skill gate** — `skills/opencode-ui-system-architect/SKILL.md`
-47. **product systems architect subagent gate** — `agents/product-systems-architect.md`
-48. **ai systems architect subagent gate** — `agents/ai-systems-architect.md`
-49. **security risk reviewer subagent gate** — `agents/security-risk-reviewer.md`
-50. **platform architect subagent gate** — `agents/platform-architect.md`
-51. **product systems architect skill gate** — `skills/opencode-product-systems-architect/SKILL.md`
-52. **ai systems architect skill gate** — `skills/opencode-ai-systems-architect/SKILL.md`
-53. **security risk reviewer skill gate** — `skills/opencode-security-risk-reviewer/SKILL.md`
-54. **platform architect skill gate** — `skills/opencode-platform-architect/SKILL.md`
-55. **conditional domain specialist routing gate** — `agents/orchestrator.md`
-56. **orchestrator conditional domain skill gate** — `skills/opencode-orchestrator/SKILL.md`
-61. **artifact planner domain advisory gate** — `agents/artifact-planner.md`
-62. **artifact planner production blueprint skill gate** — `skills/opencode-artifact-planner/SKILL.md`
-63. **global conditional domain specialist gate** — `.opencode/docs/AGENT_ROUTING.md`
-64. **readme conditional domain specialist gate** — `README.md`
-65. **readme docs system-of-record gate** — `README.md`
-66. **tool setup script contract gate** — `package.json`
-67. **rtk caveman onboarding docs gate** — `README.md`
-68. **rtk opt-in policy gate** — `AGENTS.md`
-69. **setup-dev-tools contract gate** — `scripts/setup-dev-tools.mjs`
-70. **doctor read-only contract gate** — `scripts/doctor.mjs`
-71. **docs integrity contract gate** — `scripts/docs-integrity-check.mjs`
-72. **docs index system-of-record gate** — `.opencode/docs/index.md`
-73. **harness evals gate** — `.opencode/docs/EVALS.md`
-74. **visual asset generator manifest and icon rules** — `agents/visual-asset-generator.md`
-75. **visual asset generator standalone manifest rules** — `skills/opencode-visual-asset-generator/SKILL.md`
-76. **orchestrator auto-commit skill gate** — `skills/opencode-orchestrator/SKILL.md`
-77. **skill improver documentation gate** — `README.md`
-78. **auto-commit policy readme gate** — `README.md`
-79. **explorer agent gate** — `agents/explorer.md`
-80. **librarian agent gate** — `agents/librarian.md`
-81. **oracle agent gate** — `agents/oracle.md`
-82. **designer agent gate** — `agents/designer.md`
-83. **fixer agent gate** — `agents/fixer.md`
-84. **standalone identity gate** — `README.md`
-85. **artifact planner env routing gate** — `agents/artifact-planner.md`
-86. **document specialist env routing gate** — `agents/document-specialist.md`
-87. **package identity gate** — `package.json`
-88. **runtime plugin removal gate** — `opencode.json`
-89. **runtime dependency removal gate** — `package.json`
-90. **lockfile dependency removal gate** — `package-lock.json`
-91. **tui plugin removal gate** — `tui.json`
-92. **runtime plugin wording gate** — `README.md`
-93. **obsolete bun lockfile removed gate** — `bun.lock`
-94. **manual commit message format gate** — `commands/commit-message.md`
-95. **retired workflow command removed gate** — `commands/tdd.md`
-96. **retired UI workflow command removed gate** — `commands/replicate-ui.md`
-97. **retired revamp workflow command removed gate** — `commands/revamp-like.md`
-98. **visual parity agent gate** — `agents/visual-parity-auditor.md`
-99. **motion specialist agent gate** — `agents/motion-specialist.md`
-100. **accessibility reviewer agent gate** — `agents/accessibility-reviewer.md`
-101. **ui system architect agent gate** — `agents/ui-system-architect.md`
-102. **visual parity skill gate** — `skills/opencode-visual-parity-auditor/SKILL.md`
-103. **motion specialist skill gate** — `skills/opencode-motion-specialist/SKILL.md`
-104. **accessibility reviewer skill gate** — `skills/opencode-accessibility-reviewer/SKILL.md`
+46. **unified architect subagent gate** — `agents/architect.md`
+47. **unified architect skill gate** — `skills/opencode-architect/SKILL.md`
+48. **conditional domain specialist routing gate** — `agents/orchestrator.md`
+49. **orchestrator conditional domain skill gate** — `skills/opencode-orchestrator/SKILL.md`
+50. **artifact planner domain advisory gate** — `agents/artifact-planner.md`
+51. **artifact planner production blueprint skill gate** — `skills/opencode-artifact-planner/SKILL.md`
+52. **global conditional domain specialist gate** — `.opencode/docs/AGENT_ROUTING.md`
+53. **readme conditional domain specialist gate** — `README.md`
+54. **readme docs system-of-record gate** — `README.md`
+55. **tool setup script contract gate** — `package.json`
+56. **rtk caveman onboarding docs gate** — `README.md`
+57. **rtk opt-in policy gate** — `AGENTS.md`
+58. **setup-dev-tools contract gate** — `scripts/setup-dev-tools.mjs`
+59. **doctor read-only contract gate** — `scripts/doctor.mjs`
+60. **docs integrity contract gate** — `scripts/docs-integrity-check.mjs`
+61. **docs index system-of-record gate** — `.opencode/docs/index.md`
+62. **harness evals gate** — `.opencode/docs/EVALS.md`
+63. **visual asset generator manifest and icon rules** — `agents/visual-asset-generator.md`
+64. **visual asset generator standalone manifest rules** — `skills/opencode-visual-asset-generator/SKILL.md`
+65. **orchestrator auto-commit skill gate** — `skills/opencode-orchestrator/SKILL.md`
+66. **skill improver documentation gate** — `README.md`
+67. **auto-commit policy readme gate** — `README.md`
+68. **explorer agent gate** — `agents/explorer.md`
+69. **librarian agent gate** — `agents/librarian.md`
+70. **oracle agent gate** — `agents/oracle.md`
+71. **designer agent gate** — `agents/designer.md`
+72. **fixer agent gate** — `agents/fixer.md`
+73. **standalone identity gate** — `README.md`
+74. **artifact planner env routing gate** — `agents/artifact-planner.md`
+75. **package identity gate** — `package.json`
+76. **runtime plugin removal gate** — `opencode.json`
+77. **runtime dependency removal gate** — `package.json`
+78. **lockfile dependency removal gate** — `package-lock.json`
+79. **tui plugin removal gate** — `tui.json`
+80. **runtime plugin wording gate** — `README.md`
+81. **obsolete bun lockfile removed gate** — `bun.lock`
+82. **manual commit message format gate** — `commands/commit-message.md`
+83. **retired workflow command removed gate** — `commands/tdd.md`
+84. **retired UI workflow command removed gate** — `commands/replicate-ui.md`
+85. **retired revamp workflow command removed gate** — `commands/revamp-like.md`
+86. **quality-gate merged review lanes gate** — `skills/opencode-quality-gate/SKILL.md`

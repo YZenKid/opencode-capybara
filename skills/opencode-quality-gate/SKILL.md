@@ -16,9 +16,9 @@ Core check: plan/evidence/diff/validation must be reviewed together before makin
 2. **Scope snapshot** — confirm what was requested, what changed, and what did not change.
 3. **Plan/evidence conformance** — check alignment with acceptance criteria, scope, and priority instructions.
 4. **Diff review** — look for bug risk, regression risk, scope creep, and docs/config mismatches.
-5. **Security and supply-chain review** — inspect secrets, `.env`, permission widening, auth/path drift, dependency risk, unsafe patterns, and security posture.
+5. **Security and supply-chain review** — inspect secrets, `.env`, permission widening, auth/path drift, dependency risk, unsafe patterns, and security/privacy posture (PII, session/token, tenant isolation, payment/upload boundaries).
 6. **Tests/TDD evidence** — judge whether test evidence is sufficient, including regression, unit/integration/e2e coverage, and the rationale when no relevant tests exist.
-7. **UI/release gate** — if the change is UI/substantial visual, require designer signoff and visual evidence; if it is release/config/runtime work, check deploy risk and rollback readiness.
+7. **UI/release gate** — if the change is UI/substantial visual, require designer signoff, accessibility evidence (semantics/focus/labels/contrast/motion), and visual parity evidence before strong parity claims; if it is release/config/runtime work, check deploy risk and rollback readiness.
 8. **Final call** — return a deterministic status.
 
 ## UI/config review checks
@@ -46,6 +46,8 @@ Evaluate:
 - docs/config drift,
 - release/regression risk,
 - UI signoff requirements when relevant.
+
+This lane now absorbs the former standalone security-risk-reviewer, accessibility-reviewer, and visual-parity-auditor responsibilities at final gate time.
 
 ## Final statuses
 

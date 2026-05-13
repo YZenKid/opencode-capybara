@@ -20,13 +20,11 @@ User intent → `@orchestrator` → specialist agents → validation → `@quali
 - `@designer` — UI/UX, visual polish, reference work, design-system direction
 - `@quality-gate` — final conformance and risk review
 
-## Conditional domain specialists
-- Product/SaaS architecture (PRD/MVP/flows + tenancy/RBAC/billing) → `@product-systems-architect`
-- AI system design → `@ai-systems-architect`
-- Security/privacy review → `@security-risk-reviewer`
-- Platform/runtime/release/mobile constraints → `@platform-architect`
+## Conditional helper lanes
+- Unified architecture advisory (product/SaaS, AI, platform/runtime/release/mobile, UI-system boundaries) → `@architect`
+- Security/privacy/accessibility/visual-parity final signoff → `@quality-gate`
 
-Domain specialists are conditional. Tiny UI polish still goes to `@designer`. Isolated bugfixes still go to `@fixer` unless a risk trigger applies.
+Helper lanes are conditional. Tiny UI polish still goes to `@designer`. Isolated bugfixes still go to `@fixer` unless a risk trigger applies.
 
 ## UI and reference policy
 - First inspect the target project's `DESIGN.md`.
@@ -55,7 +53,7 @@ For substantial UI/UX work, high-level visual direction is not enough. Require a
 If the blueprint is incomplete, status must be `blocked`, `needs-polish`, or `draft`, not `done`.
 
 ## Risk triggers
-- auth, PII, tenant isolation, payment, upload, secrets, token/session handling, biometric data, permission/RBAC → security review
+- auth, PII, tenant isolation, payment, upload, secrets, token/session handling, biometric data, permission/RBAC → `@architect` for design decisions, `@quality-gate` for final signoff
 - architecture boundary, new abstraction, large refactor, dependency direction, data model change → oracle
 - visual layout change, animation, accessibility, design token, screenshot/reference parity, responsive behavior → designer plus relevant UI specialists
-- CI/CD, deployment, env var, migration, monitoring, rollback, mobile/offline/push/deep-links/platform runtime constraints → platform architect
+- CI/CD, deployment, env var, migration, monitoring, rollback, mobile/offline/push/deep-links/platform runtime constraints → `@architect`

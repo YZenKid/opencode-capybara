@@ -31,10 +31,11 @@
 User intent → `@orchestrator` → specialist agents → validation → `@quality-gate` → final summary.
 
 `@artifact-planner` is a **triggered planning lane** (not default tax). Use it for multi-phase, spec-heavy, materially ambiguous, or evidence-heavy work.
+Non-trivial work should route through `@artifact-planner` first when planning depth/evidence is required; trivial single-step and easily reversible tasks may skip planner.
 
 Default operating model:
 - **6 core agents**: `@orchestrator`, `@explorer`, `@fixer`, `@designer`, `@oracle`, `@quality-gate`
-- **6 specialist lanes (triggered by objective risk/scope signals)**: `@product-systems-architect`, `@platform-architect`, `@security-risk-reviewer`, `@ai-systems-architect`, `@document-specialist`, `@skill-improver`
+- **Helper lanes (triggered as needed)**: `@architect`, `@artifact-planner`, `@librarian`, `@skill-improver`
 
 `AGENT_ROUTING.md` is the source of truth for routing and ownership.
 
@@ -49,14 +50,16 @@ Default operating model:
 - Core ownership shorthand: `@orchestrator` routes/integrates, `@fixer` implements bounded changes/tests, `@oracle` handles architecture/review, `@designer` owns UI/UX, `@explorer` handles discovery, and `@quality-gate` does final signoff.
 
 ## Risk Triggers
-- Product/SaaS scope (MVP, flows, tenancy, RBAC, billing) → `@product-systems-architect`
-- Platform/runtime scope (CI/CD, deploy/env/migrations, mobile/offline/push/deep-links) → `@platform-architect`
-- PII/auth/payments/uploads/biometric/privacy → `@security-risk-reviewer`
-- AI/LLM/RAG/evals → `@ai-systems-architect`
-- Document/file-centric workflows (PDF/sheets/Office extraction/validation) → `@document-specialist`
+- Product ambiguity and SaaS/multi-tenant/RBAC/billing boundaries → `@architect`
+- AI/LLM/RAG/evals architecture boundaries → `@architect`
+- CI/CD/env/deploy/migration/monitoring and Native mobile/hybrid/PWA/offline/push/deep links/camera/QR constraints → `@architect`
+- Product/SaaS/platform/AI/UI-system architecture boundaries → `@architect`
+- Security/privacy/accessibility/visual-parity final signoff → `@quality-gate`
+- PII/auth/payments/uploads/biometric/privacy final signoff → `@quality-gate`
+- Document/file-centric read-only extraction/research/transformation support (PDF/sheets/Office) → supporting `@librarian` lane
 - Prompt/skill/routing improvement after repeated failure/evidence → `@skill-improver`
 - Current library/API docs lookup when local context is insufficient → supporting `@librarian` research lane
-- User-facing UI/reference/animation/accessibility/design-system work → `@designer` plus UI specialists as needed
+- User-facing UI/reference/animation/accessibility/design-system work → `@designer`
 
 ## Notes
 - For substantial UI work, inspect the target project's `DESIGN.md` first, then `design-system/DESIGN.md` or a documented equivalent.

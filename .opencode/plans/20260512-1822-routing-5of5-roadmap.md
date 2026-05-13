@@ -190,7 +190,7 @@ Evaluator routing adalah logic regression-prone. Tanpa TDD, false positive/negat
   - review tradeoff scoring, false positive/negative, dan kapan semantic adjudication dibutuhkan.
 - `@quality-gate`
   - final conformance review per milestone material.
-- `@platform-architect`
+- `@architect`
   - optional ketika release gating, trend reports, dan automation policy mulai material.
 
 Tool path yang disarankan:

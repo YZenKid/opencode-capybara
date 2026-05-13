@@ -26,11 +26,10 @@ Canonical tool references:
 5. Write one primary plan: `.opencode/plans/<task-id>.md`.
 6. Keep only operationally useful evidence; delete stale drafts after consolidation.
 
-The planner may call informational/read-only/research/documentation helpers to improve plan confidence. `@librarian` remains a supporting research helper (not a core/specialist routing lane). Domain advisors are conditional:
-- `@product-systems-architect`
-- `@platform-architect`
-- `@security-risk-reviewer`
-- `@ai-systems-architect`
+The planner may call informational/read-only/research/documentation helpers to improve plan confidence. `@librarian` remains a supporting research helper (not a core/specialist routing lane). Domain advisory is conditional via:
+- `@architect`
+
+This planner may call informational, read-only, research, and documentation subagents only. Do not call implementation/source-edit/generation subagents such as fixer, designer, or visual-asset-generator.
 
 Do not call implementation/source-edit/generation subagents (e.g., `@fixer`, `@designer`, `@visual-asset-generator`). If implementation is requested, write the plan and stop.
 
@@ -51,11 +50,8 @@ Plan Red → Green → Refactor. Identify the first failing/regression test. For
 
 Use this mode when the user provides PRD/product docs or asks to turn product documentation into an implementation-ready plan. The planner remains the artifact writer; domain specialists are conditional advisors only.
 
-- If the source is PDF, DOCX, spreadsheet, presentation, or mixed document input, use `@document-specialist` first.
-- Use `@product-systems-architect` when product/SaaS boundaries are material (MVP slicing, epics, flows, acceptance criteria, product assumptions, tenancy/workspace/team model, RBAC, subscription-billing, usage limits, onboarding/admin, and audit logs).
-- Use `@ai-systems-architect` only for AI/LLM/RAG/embedding/tool-calling/evals/face matching/model-cost-reliability decisions.
-- Use `@security-risk-reviewer` for PII/auth/RBAC/tenant isolation/payments/uploads/biometric/AI data/consent-retention-auditability risks.
-- Use `@platform-architect` when platform/runtime boundaries are material (native/hybrid/PWA/offline/push/deep links/camera-QR/permissions/app-store/mobile performance plus deployment/CI-CD/env readiness/migrations/monitoring/rollback/backup/operations).
+- If the source is PDF, DOCX, spreadsheet, presentation, or mixed document input, use `@librarian` first for document-centric read-only extraction/research/transformation support.
+- Use `@architect` when product/SaaS/platform/runtime/AI/UI-system architecture boundaries are material (MVP slicing, flows, tenancy/RBAC/billing, runtime/release constraints, AI eval/reliability/safety decisions, design-system architecture boundaries).
 - Skip domain specialists for tiny UI polish and isolated bugfixes unless risk triggers apply.
 - Add a Production Blueprint Summary when applicable: MVP slice, epics/user flows, data/API outline, SaaS/RBAC considerations, UI/design readiness, AI boundaries, mobile constraints, security/privacy checklist, release/ops checklist, and validation plan.
 

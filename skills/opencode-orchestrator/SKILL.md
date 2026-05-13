@@ -15,6 +15,7 @@ Canonical tool references:
 
 Direct-work threshold (hard default):
 - `@orchestrator` may execute directly only for tiny, reversible tasks (typically 1 edited file and <=3 file reads for verification).
+- Non-trivial work should route through `@artifact-planner` first when planning depth/evidence is required.
 - If discovery becomes unknown-scope, cross-area, or read-heavy (>3 files), route to `@explorer` instead of continuing direct reads.
 - If implementation touches 2+ files, route bounded implementation to `@fixer` by default.
 - `@artifact-planner` is a triggered/conditional planning lane, not default-first. Trigger it for multi-phase/spec-heavy/materially ambiguous/evidence-heavy work.
@@ -24,8 +25,8 @@ Direct-work threshold (hard default):
 - User-facing UI, visual polish, responsive layout, reference matching → `@designer`.
 - Substantial UI/UX, web, mobile, app design, design-system generation, or revamp work → `@designer`; when the `figma` MCP is available, require a Figma MCP-assisted design/canvas/design-system pass before implementation unless the designer records a reason to skip it.
 - Before any UI/design direction is finalized, inspect the target project's `DESIGN.md` at the project root, then `design-system/DESIGN.md` or any documented project-specific equivalent. Project-local design guidance wins over generic taste; if substantial UI work has no project guide, suggest `/init-design` before inventing a direction.
-- Visual parity audits → `@visual-parity-auditor`; motion direction/library choice → `@motion-specialist`; accessibility review → `@accessibility-reviewer`; UI system/tokens/anatomy → `@ui-system-architect`.
-- Non-trivial website/mobile motion direction or animation library/API choice can route to `@motion-specialist` or `@designer`; bounded implementation after the spec is clear → `@fixer`.
+- Product/platform/AI/UI-system architecture boundaries → `@architect` (unified advisory lane).
+- Non-trivial website/mobile motion direction or animation library/API choice routes to `@designer`; bounded implementation after the spec is clear → `@fixer`.
 - Bounded implementation, tests, fixtures, mocks, small refactors → `@fixer`.
 - Post-task prompt/agent/skill improvement after non-trivial work, repeated failures, recurring patterns, policy gaps, or explicit user request → `@skill-improver`; skip trivial tasks and keep the checkpoint bounded.
 - Architecture, senior review, simplification, security/scalability/data tradeoffs → `@oracle`.
@@ -34,13 +35,11 @@ Direct-work threshold (hard default):
 - Image-heavy legal replacements → designer asset manifest and image generation decision, then `@visual-asset-generator` or available image tool.
 - High-stakes ambiguous decisions → `@council` only when consensus is worth cost/time; keep this as the local council subagent, while plugin-generated council duplicates are disabled separately.
 - Artifact-writing plans → `@artifact-planner`; never use built-in read-only Plan Mode for artifact writing.
-- `@product-systems-architect` (triggered): PRD/MVP/epics/flows/acceptance criteria/product ambiguity plus tenancy/workspace/RBAC/billing/usage boundaries.
-- AI/LLM/RAG/embedding/tool-calling/evals/face-matching production behavior → `@ai-systems-architect`; use `@librarian` for version-sensitive SDK docs.
-- `@security-risk-reviewer` (triggered): PII/auth/payments/uploads/biometric/privacy/AI data risks.
-- `@platform-architect` (triggered): CI/CD/deploy/env/migration/monitoring/rollback/ops plus native/hybrid/PWA/offline/push/deep-link/camera/QR/app-store constraints.
-- Document/file extraction/transformation/validation → `@document-specialist` cluster.
+- AI/LLM/RAG/embedding/tool-calling/evals/face-matching production behavior and product/platform architecture ambiguity → `@architect`; use `@librarian` for version-sensitive SDK docs.
+- Security/privacy-sensitive boundaries (PII/auth/payments/uploads/biometric/privacy/AI data) are escalated for final signoff in `@quality-gate`; architecture decisions for those boundaries can be advised by `@architect`.
+- Document/file-centric read-only extraction/research/transformation support → `@librarian` cluster.
 - Post-task prompt/skill/routing refinement after evidence → `@skill-improver` cluster.
-- Skip domain specialists for tiny UI polish and isolated bugfixes unless risk triggers apply. Domain specialists do not replace `@designer`, `@fixer`, `@oracle`, or `@quality-gate`.
+- Keep `@architect` as a triggered/conditional advisory lane for material boundaries only. Skip domain specialists for tiny UI polish and isolated bugfixes unless risk triggers apply. Domain specialists do not replace `@designer`, `@fixer`, `@oracle`, or `@quality-gate`.
 
 ## Portability rules
 

@@ -52,19 +52,16 @@ Canonical tool policy references are `.opencode/docs/TOOL_USAGE.md` (operational
 ## Triggered helper lanes
 
 - `@artifact-planner`: **triggered planning lane**, not default-first. Use when scope is multi-phase/spec-heavy/ambiguous or evidence-heavy; create `.opencode` artifacts, then hand off to implementation lanes.
-- `@librarian`: supporting docs/API research helper, not a core or specialist routing lane.
+- `@librarian`: supporting docs/API research helper plus document-centric read-only extraction/research/transformation support, not a core or specialist routing lane.
 - `@visual-asset-generator`: generate legal style-equivalent image assets from designer/orchestrator manifest.
 - `@council`: expensive consensus lane for high-stakes ambiguity only.
 
-## Specialist lanes (triggered)
+## Helper lanes (triggered)
 
-- `@product-systems-architect`: PRD/MVP/flows plus SaaS tenancy/workspace/RBAC/billing boundaries.
-- `@platform-architect`: CI/CD/deploy/rollback/ops plus mobile/hybrid/offline/push/deep-link constraints.
-- `@security-risk-reviewer`: PII/auth/payments/uploads/biometric/privacy and related risk controls.
-- `@ai-systems-architect`: AI/LLM/RAG/tool-calling/evals/model-cost-reliability boundaries.
-- `@document-specialist`: document-file workflows (PDF/sheets/Office extraction/validation).
+- `@architect`: unified read-only advisory lane for product/SaaS, platform/runtime/release/mobile, AI/LLM/RAG/evals, and UI-system architecture boundaries.
+- `@librarian`: supporting docs/API research helper plus document-centric read-only extraction/research/transformation support.
 - `@skill-improver`: bounded post-task prompt/routing improvements when evidence warrants it.
-- UI review clusters when needed: `@visual-parity-auditor`, `@motion-specialist`, `@accessibility-reviewer`, `@ui-system-architect`.
+- `@artifact-planner`: triggered planning lane for multi-phase/spec-heavy/ambiguous/evidence-heavy work.
 
 ## Routing shorthand
 
@@ -72,16 +69,18 @@ Canonical tool policy references are `.opencode/docs/TOOL_USAGE.md` (operational
 - Discovery-heavy: `@explorer`.
 - Implementation-heavy: `@fixer`.
 - UI-heavy: `@designer` (read project `DESIGN.md` first).
-- Material ambiguity/risk in product-platform-security-AI domains: trigger relevant specialist lane.
+- Material ambiguity/risk in product-platform-security-AI-UI-system architecture domains: trigger `@architect`.
 - Non-trivial finalization: `@quality-gate` before completion claims.
 
 ### Auto-commit policy
 
 - Default auto-commit is ON for local commits only.
-- Use only after plan-bound non-trivial work passes validation and `@quality-gate` returns `PASS`/`PASS_WITH_RISKS` with no blocker.
+- Use only after a plan-bound, non-trivial task passes validation and @quality-gate returns `PASS` or `PASS_WITH_RISKS` with no blocker.
 - Stage only relevant files; never stage secrets or unrelated/generated/vendor files without explicit approval.
+- Never stage `.env`, secrets, tokens, credentials, unrelated untracked files, or generated/vendor files without explicit approval.
 - Never push automatically; never use unsafe git bypass flags or destructive commands.
-- If scope/staging is unclear, stop and ask.
+- Never use `--no-verify`, `--no-gpg-sign`, `amend`, force push, or destructive git commands.
+- If scope or staging is unclear, stop and ask.
 
 ### Portability rules
 
@@ -164,16 +163,16 @@ When working through multi-step tasks, consider enabling auto-continue to avoid 
 - After non-trivial tasks, repeated failures, newly discovered recurring patterns, policy gaps, or explicit user request, route a bounded improvement checkpoint to @skill-improver; skip trivial tasks and do not treat it as mandatory after every task.
 - If a request spans multiple lanes, delegate only the lanes that add clear value
 
-### Conditional domain specialist routing
+### Conditional helper-lane routing
 - Keep `@orchestrator` as the default interface. `@artifact-planner` is triggered/conditional, not mandatory.
-- Domain specialists are conditional advisors, not mandatory hops.
+- Helper lanes are conditional advisors, not mandatory hops.
 - Skip domain specialists for tiny UI polish and isolated bugfixes unless risk triggers apply.
-- PRD/product docs needing MVP/flows/acceptance criteria → `@product-systems-architect`; if source is PDF/DOCX/XLSX, use `@document-specialist` first.
-- SaaS/multi-tenant/workspace/RBAC/billing/usage-limit decisions → `@product-systems-architect`.
-- AI/LLM/RAG/embedding/tool-calling/evals/face-matching production decisions → @ai-systems-architect; route version-sensitive SDK behavior to @librarian.
-- PII/auth/session/payments/webhooks/uploads/tenant isolation/biometric/privacy/AI data risk → `@security-risk-reviewer`.
-- Deployment/CI/CD/env/migration/monitoring/rollback/production readiness → `@platform-architect`.
-- Native mobile/hybrid/PWA/offline/push/deep-link/camera/QR/app-store constraints → `@platform-architect`.
+- Inspect the target project's `DESIGN.md` first, then `design-system/DESIGN.md` or equivalent; suggest `/init-design` if substantial UI direction is missing.
+- PRD/product docs needing MVP/flows/acceptance criteria and SaaS/multi-tenant/RBAC/billing decisions → `@architect`; if source is PDF/DOCX/XLSX, use `@librarian` first for document-centric extraction/research/transformation support.
+- AI/LLM/RAG/embedding/tool-calling/evals/face-matching production decisions → `@architect`; route version-sensitive SDK behavior to `@librarian`.
+- PII/auth/session/payments/webhooks/uploads/tenant isolation/biometric/privacy/AI data risk architecture decisions → `@architect`; final security/privacy signoff remains in `@quality-gate`.
+- Deployment/CI/CD/env/migration/monitoring/rollback/production readiness and native mobile/hybrid/PWA/offline/push/deep-link/camera/QR/app-store constraints → `@architect`.
+- Accessibility and visual-parity are reviewed at final gate by `@quality-gate`; `@designer` still owns UI direction and implementation.
 - Domain specialists do not replace @designer for UI direction, @fixer for implementation, @oracle for deep tradeoff review, or @quality-gate for final conformance.
 
 

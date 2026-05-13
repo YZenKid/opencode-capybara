@@ -7,7 +7,7 @@
 - Never bypass validation or quality gating for risky changes.
 
 ## Review triggers
-Use `@security-risk-reviewer` when the work touches:
+Use `@architect` for security/privacy architecture decisions and `@quality-gate` for final security/privacy signoff when the work touches:
 - auth,
 - PII,
 - session/token handling,

@@ -4,7 +4,7 @@ This document is the canonical matrix for tool access behavior by agent role.
 
 Operating model context (routing details stay in `AGENT_ROUTING.md`):
 - 6 core agents handle default daily flow.
-- 6 specialist lanes are trigger-only exception lanes.
+- Trigger-only helper/specialist lanes are exception lanes (including unified `@architect`).
 - `@artifact-planner` is a triggered planning lane (not default-first).
 
 It complements:

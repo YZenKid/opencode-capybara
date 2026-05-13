@@ -110,7 +110,6 @@ function main() {
     OPENCODE_MODEL_ADVISORY: env.OPENCODE_MODEL_ADVISORY,
     OPENCODE_MODEL_EXECUTION: env.OPENCODE_MODEL_EXECUTION,
     OPENCODE_MODEL_DISCOVERY: env.OPENCODE_MODEL_DISCOVERY,
-    OPENCODE_MODEL_DOCUMENTS: env.OPENCODE_MODEL_DOCUMENTS,
     OPENCODE_MODEL_IMPROVEMENT: env.OPENCODE_MODEL_IMPROVEMENT,
   };
 
@@ -129,21 +128,13 @@ function main() {
     ["agents/orchestrator.md", env.OPENCODE_MODEL_ORCHESTRATOR],
     ["agents/artifact-planner.md", env.OPENCODE_MODEL_PLANNER],
     ["agents/designer.md", env.OPENCODE_MODEL_DESIGN],
-    ["agents/visual-parity-auditor.md", env.OPENCODE_MODEL_DESIGN],
-    ["agents/ui-system-architect.md", env.OPENCODE_MODEL_DESIGN],
     ["agents/oracle.md", env.OPENCODE_MODEL_REVIEW],
     ["agents/quality-gate.md", env.OPENCODE_MODEL_REVIEW],
     ["agents/council.md", env.OPENCODE_MODEL_REVIEW],
-    ["agents/product-systems-architect.md", env.OPENCODE_MODEL_ADVISORY],
-    ["agents/ai-systems-architect.md", env.OPENCODE_MODEL_ADVISORY],
-    ["agents/security-risk-reviewer.md", env.OPENCODE_MODEL_ADVISORY],
-    ["agents/platform-architect.md", env.OPENCODE_MODEL_ADVISORY],
+    ["agents/architect.md", env.OPENCODE_MODEL_ADVISORY],
     ["agents/fixer.md", env.OPENCODE_MODEL_EXECUTION],
     ["agents/explorer.md", env.OPENCODE_MODEL_DISCOVERY],
     ["agents/librarian.md", env.OPENCODE_MODEL_DISCOVERY],
-    ["agents/motion-specialist.md", env.OPENCODE_MODEL_DISCOVERY],
-    ["agents/accessibility-reviewer.md", env.OPENCODE_MODEL_DISCOVERY],
-    ["agents/document-specialist.md", env.OPENCODE_MODEL_DOCUMENTS],
     ["agents/skill-improver.md", env.OPENCODE_MODEL_IMPROVEMENT],
   ];
 
