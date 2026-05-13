@@ -121,7 +121,7 @@ npm run sync:agent-models
 | `OPENCODE_MODEL_PLANNER` | `cliproxyapi/gpt-5.3-codex` | `@artifact-planner`, `modes/plan.md`, `agents-disabled/plan.md` | Planning is codebase-heavy and can use Codex to reduce cost while keeping structure strong. |
 | `OPENCODE_MODEL_DESIGN` | `cliproxyapi/gpt-5.4` | `@designer`, `@visual-parity-auditor`, `@ui-system-architect` | UI and visual reasoning are higher-value, so keep quality high. |
 | `OPENCODE_MODEL_REVIEW` | `cliproxyapi/gpt-5.4` | `@oracle`, `@quality-gate`, `@council` | Review lanes should stay strict and high quality; optimize for correctness over cost. |
-| `OPENCODE_MODEL_ADVISORY` | `cliproxyapi/gpt-5.4` | `@product-architect`, `@saas-architect`, `@ai-systems-architect`, `@security-privacy-reviewer`, `@release-engineer`, `@mobile-architect` | Advisory work is often high-stakes; keep the stronger model unless cost pressure is extreme. |
+| `OPENCODE_MODEL_ADVISORY` | `cliproxyapi/gpt-5.4` | `@product-systems-architect`, `@platform-architect`, `@security-risk-reviewer`, `@ai-systems-architect` | Advisory work is often high-stakes; keep the stronger model unless cost pressure is extreme. |
 | `OPENCODE_MODEL_EXECUTION` | `cliproxyapi/gpt-5.3-codex` | `@fixer` | Use Codex for bounded implementation/testing because this lane is code-edit heavy. |
 | `OPENCODE_MODEL_DISCOVERY` | `cliproxyapi/gpt-5.4-mini` | `@explorer`, `@librarian`, `@motion-specialist`, `@accessibility-reviewer` | Discovery and read-only analysis can usually use the lower-cost model. |
 | `OPENCODE_MODEL_DOCUMENTS` | `cliproxyapi/gpt-5.4-mini` | `@document-specialist` | Document processing is usually utility work; keep it cost-efficient. |

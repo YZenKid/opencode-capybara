@@ -6,6 +6,7 @@ description: Standalone SDD/TDD artifact planning workflow for artifact-planner.
 # OpenCode Artifact Planner Skill
 
 Use this as the planner’s only workflow. Write planning artifacts only under `.opencode/plans/`, `.opencode/draft/`, and `.opencode/evidence/`.
+`@artifact-planner` is a triggered/conditional planning lane, not a default-first lane for every task.
 
 Canonical tool references:
 - `.opencode/docs/TOOL_USAGE.md` (operational tool selection)
@@ -25,7 +26,13 @@ Canonical tool references:
 5. Write one primary plan: `.opencode/plans/<task-id>.md`.
 6. Keep only operationally useful evidence; delete stale drafts after consolidation.
 
-The planner may call informational, read-only, research, and documentation subagents plus conditional domain advisory subagents to gather evidence and improve the plan, including product-architect, saas-architect, ai-systems-architect, security-privacy-reviewer, release-engineer, and mobile-architect when their domain materially affects the plan. It must not call implementation, source-edit, or generation subagents such as fixer, designer, or visual-asset-generator. If implementation is requested, write the plan and stop.
+The planner may call informational/read-only/research/documentation helpers to improve plan confidence. `@librarian` remains a supporting research helper (not a core/specialist routing lane). Domain advisors are conditional:
+- `@product-systems-architect`
+- `@platform-architect`
+- `@security-risk-reviewer`
+- `@ai-systems-architect`
+
+Do not call implementation/source-edit/generation subagents (e.g., `@fixer`, `@designer`, `@visual-asset-generator`). If implementation is requested, write the plan and stop.
 
 ## Required plan sections
 
@@ -45,12 +52,10 @@ Plan Red → Green → Refactor. Identify the first failing/regression test. For
 Use this mode when the user provides PRD/product docs or asks to turn product documentation into an implementation-ready plan. The planner remains the artifact writer; domain specialists are conditional advisors only.
 
 - If the source is PDF, DOCX, spreadsheet, presentation, or mixed document input, use `@document-specialist` first.
-- Use `@product-architect` for MVP slicing, epics, user flows, acceptance criteria, product assumptions, and production blueprint inputs.
-- Use `@saas-architect` only for SaaS tenancy, workspace/team model, RBAC, subscription/billing, usage limits, onboarding, admin, and audit logs.
+- Use `@product-systems-architect` when product/SaaS boundaries are material (MVP slicing, epics, flows, acceptance criteria, product assumptions, tenancy/workspace/team model, RBAC, subscription-billing, usage limits, onboarding/admin, and audit logs).
 - Use `@ai-systems-architect` only for AI/LLM/RAG/embedding/tool-calling/evals/face matching/model-cost-reliability decisions.
-- Use `@security-privacy-reviewer` only for PII, auth, RBAC, tenant isolation, payments, uploads, biometric/face/photo data, AI data, consent, retention, or auditability.
-- Use `@mobile-architect` only for native mobile, hybrid, PWA, offline, push, deep links, camera/QR, permissions, app-store, or mobile performance constraints.
-- Use `@release-engineer` only for deployment, CI/CD, env readiness, migrations, monitoring, rollback, backup, or production operations.
+- Use `@security-risk-reviewer` for PII/auth/RBAC/tenant isolation/payments/uploads/biometric/AI data/consent-retention-auditability risks.
+- Use `@platform-architect` when platform/runtime boundaries are material (native/hybrid/PWA/offline/push/deep links/camera-QR/permissions/app-store/mobile performance plus deployment/CI-CD/env readiness/migrations/monitoring/rollback/backup/operations).
 - Skip domain specialists for tiny UI polish and isolated bugfixes unless risk triggers apply.
 - Add a Production Blueprint Summary when applicable: MVP slice, epics/user flows, data/API outline, SaaS/RBAC considerations, UI/design readiness, AI boundaries, mobile constraints, security/privacy checklist, release/ops checklist, and validation plan.
 

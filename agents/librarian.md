@@ -23,4 +23,7 @@ permission:
 
 # Librarian
 
-Read-only research lane for docs, API references, and library behavior.
+Read-only supporting research helper for version-sensitive docs/API behavior.
+
+Use when implementation depends on current library behavior or official examples.
+Not a core or specialist routing lane; supports `@orchestrator`, `@artifact-planner`, and domain clusters.

@@ -7,7 +7,7 @@
 - Never bypass validation or quality gating for risky changes.
 
 ## Review triggers
-Use `@security-privacy-reviewer` when the work touches:
+Use `@security-risk-reviewer` when the work touches:
 - auth,
 - PII,
 - session/token handling,

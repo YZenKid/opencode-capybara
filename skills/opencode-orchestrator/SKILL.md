@@ -17,10 +17,10 @@ Direct-work threshold (hard default):
 - `@orchestrator` may execute directly only for tiny, reversible tasks (typically 1 edited file and <=3 file reads for verification).
 - If discovery becomes unknown-scope, cross-area, or read-heavy (>3 files), route to `@explorer` instead of continuing direct reads.
 - If implementation touches 2+ files, route bounded implementation to `@fixer` by default.
-- If work is non-trivial, route through `@artifact-planner` first; do not treat planner-first as optional preference.
+- `@artifact-planner` is a triggered/conditional planning lane, not default-first. Trigger it for multi-phase/spec-heavy/materially ambiguous/evidence-heavy work.
 
 - Unknown codebase, broad search, symbol discovery, test/helper discovery → `@explorer`.
-- Current library/API/docs behavior → `@librarian`; prefer official docs/context first, then GitHub/web when needed.
+- Current library/API/docs behavior → `@librarian` (supporting helper); prefer official docs/context first, then GitHub/web when needed.
 - User-facing UI, visual polish, responsive layout, reference matching → `@designer`.
 - Substantial UI/UX, web, mobile, app design, design-system generation, or revamp work → `@designer`; when the `figma` MCP is available, require a Figma MCP-assisted design/canvas/design-system pass before implementation unless the designer records a reason to skip it.
 - Before any UI/design direction is finalized, inspect the target project's `DESIGN.md` at the project root, then `design-system/DESIGN.md` or any documented project-specific equivalent. Project-local design guidance wins over generic taste; if substantial UI work has no project guide, suggest `/init-design` before inventing a direction.
@@ -34,13 +34,12 @@ Direct-work threshold (hard default):
 - Image-heavy legal replacements → designer asset manifest and image generation decision, then `@visual-asset-generator` or available image tool.
 - High-stakes ambiguous decisions → `@council` only when consensus is worth cost/time; keep this as the local council subagent, while plugin-generated council duplicates are disabled separately.
 - Artifact-writing plans → `@artifact-planner`; never use built-in read-only Plan Mode for artifact writing.
-- PDF, spreadsheet, Office, presentation, text-document extraction/transformation/validation → `@document-specialist`.
-- PRD/product docs needing MVP, epics, flows, acceptance criteria, or production blueprint inputs → `@product-architect` only when product ambiguity is material.
-- SaaS/multi-tenant/workspace/RBAC/billing/usage-limit architecture → `@saas-architect` only when those boundaries affect the work.
+- `@product-systems-architect` (triggered): PRD/MVP/epics/flows/acceptance criteria/product ambiguity plus tenancy/workspace/RBAC/billing/usage boundaries.
 - AI/LLM/RAG/embedding/tool-calling/evals/face-matching production behavior → `@ai-systems-architect`; use `@librarian` for version-sensitive SDK docs.
-- PII/auth/session/payments/webhooks/uploads/tenant isolation/biometric/privacy/AI data risk → `@security-privacy-reviewer`.
-- Deployment/CI/CD/env/migration/monitoring/rollback/production readiness → `@release-engineer`.
-- Native mobile/hybrid/PWA/offline/push/deep-link/camera/QR/app-store constraints → `@mobile-architect`.
+- `@security-risk-reviewer` (triggered): PII/auth/payments/uploads/biometric/privacy/AI data risks.
+- `@platform-architect` (triggered): CI/CD/deploy/env/migration/monitoring/rollback/ops plus native/hybrid/PWA/offline/push/deep-link/camera/QR/app-store constraints.
+- Document/file extraction/transformation/validation → `@document-specialist` cluster.
+- Post-task prompt/skill/routing refinement after evidence → `@skill-improver` cluster.
 - Skip domain specialists for tiny UI polish and isolated bugfixes unless risk triggers apply. Domain specialists do not replace `@designer`, `@fixer`, `@oracle`, or `@quality-gate`.
 
 ## Portability rules
@@ -54,7 +53,7 @@ Direct-work threshold (hard default):
 
 1. Understand explicit and implicit requirements.
 2. Check if the task is trivial. If not, create todos and decide routing.
-   - Non-trivial work should route through `@artifact-planner` first so execution is plan-bound (`.opencode/plans/<task-id>.md`) with an evidence path (`.opencode/evidence/<task-id>/`).
+   - Use `@artifact-planner` when planning depth/evidence is required; otherwise proceed with direct routing.
    - Trivial, single-step, and easily reversible tasks may skip planner.
 3. Use local discovery before external docs when codebase patterns matter.
    - For multi-file/read-heavy discovery, do not keep discovery in orchestrator; route to `@explorer` and consume its output.

@@ -39,11 +39,7 @@ const checks = [
     mustInclude: ["apply_patch: deny", "task: deny"],
   },
   {
-    file: "agents/security-privacy-reviewer.md",
-    mustInclude: ["apply_patch: deny", "task: deny"],
-  },
-  {
-    file: "agents/release-engineer.md",
+    file: "agents/security-risk-reviewer.md",
     mustInclude: ["apply_patch: deny", "task: deny"],
   },
   {
@@ -51,15 +47,11 @@ const checks = [
     mustInclude: ["apply_patch: deny", "task: deny"],
   },
   {
-    file: "agents/mobile-architect.md",
+    file: "agents/platform-architect.md",
     mustInclude: ["apply_patch: deny", "task: deny"],
   },
   {
-    file: "agents/saas-architect.md",
-    mustInclude: ["apply_patch: deny", "task: deny"],
-  },
-  {
-    file: "agents/product-architect.md",
+    file: "agents/product-systems-architect.md",
     mustInclude: ["apply_patch: deny", "task: deny"],
   },
   {

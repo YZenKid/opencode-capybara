@@ -29,7 +29,7 @@ Workflow:
 13. Make the division of labor legible: future readers should understand that `@orchestrator` routes/integrates, while specialists and subagents own bounded execution, design, research, review, and domain-risk work.
 14. Make agent/subagent capabilities explicit enough that work does not collapse back into `@orchestrator` by default. Mention where to look for the full role/capability matrix when the project uses many specialists.
 15. In `AGENTS.md`, include a short role-and-skill ownership note that explains what the most important agents are for: routing/integration, planning, bounded implementation, architecture/review, UI/design, discovery/docs research, and final quality signoff.
-16. Make the specialist lane names concrete enough that a future operator can tell which agent should be used first for a given kind of work, without reading every agent file.
+16. Use merged specialist lane names directly (`@product-systems-architect`, `@platform-architect`, `@security-risk-reviewer`) so a future operator can route quickly without reading every agent file.
 17. When the project also uses project-local design guidance, mention the downstream UI ownership chain clearly: `@designer` first, then UI specialist review lanes and `@quality-gate` when relevant.
 18. Use the user's hints from `$ARGUMENTS` only to specialize the file; do not discard the harness baseline.
 19. Do not silently overwrite existing project-specific rules.
@@ -89,12 +89,10 @@ User intent → `@orchestrator` → specialist agents → validation → `@quali
 - Core ownership shorthand: `@orchestrator` routes/integrates, `@artifact-planner` writes plans, `@fixer` implements bounded changes/tests, `@oracle` handles architecture/review, `@designer` owns UI/UX, `@explorer`/`@librarian` handle discovery/docs, and `@quality-gate` does final signoff.
 
 ## Risk Triggers
-- Product ambiguity → `@product-architect`
-- SaaS/multi-tenant/RBAC/billing → `@saas-architect`
+- Product ambiguity/SaaS boundaries (MVP, flows, tenancy, RBAC, billing) → `@product-systems-architect`
 - AI/LLM/RAG/evals → `@ai-systems-architect`
-- PII/auth/payments/uploads/biometric/privacy → `@security-privacy-reviewer`
-- CI/CD/env/deploy/migration/monitoring → `@release-engineer`
-- Native mobile/hybrid/PWA/offline/push/deep links/camera/QR → `@mobile-architect`
+- PII/auth/payments/uploads/biometric/privacy → `@security-risk-reviewer`
+- CI/CD/env/deploy/migration/monitoring + native mobile/hybrid/offline/push/deep-links constraints → `@platform-architect`
 - User-facing UI/reference/animation/accessibility/design-system work → `@designer` plus UI specialists as needed
 
 ## Notes

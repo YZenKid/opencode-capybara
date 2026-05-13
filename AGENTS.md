@@ -30,7 +30,13 @@
 ## Default Flow
 User intent → `@orchestrator` → specialist agents → validation → `@quality-gate` → final summary.
 
-Non-trivial work should route through `@artifact-planner` first (plan + evidence path), then implementation; trivial single-step and easily reversible tasks may skip planner.
+`@artifact-planner` is a **triggered planning lane** (not default tax). Use it for multi-phase, spec-heavy, materially ambiguous, or evidence-heavy work.
+
+Default operating model:
+- **6 core agents**: `@orchestrator`, `@explorer`, `@fixer`, `@designer`, `@oracle`, `@quality-gate`
+- **6 specialist lanes (triggered by objective risk/scope signals)**: `@product-systems-architect`, `@platform-architect`, `@security-risk-reviewer`, `@ai-systems-architect`, `@document-specialist`, `@skill-improver`
+
+`AGENT_ROUTING.md` is the source of truth for routing and ownership.
 
 ## Harness Posture
 - `.opencode/docs/` is the repository knowledge system of record.
@@ -40,15 +46,16 @@ Non-trivial work should route through `@artifact-planner` first (plan + evidence
 - Repeated failures should produce docs, gate, script, or skill improvements.
 - `@orchestrator` routes, decomposes, and integrates; do not let all implementation collapse into direct orchestrator execution.
 - Specialists and subagents should own bounded work according to their documented capabilities in `.opencode/docs/AGENT_ROUTING.md` and `.opencode/docs/SKILLS.md`.
-- Core ownership shorthand: `@orchestrator` routes/integrates, `@artifact-planner` writes plans, `@fixer` implements bounded changes/tests, `@oracle` handles architecture/review, `@designer` owns UI/UX, `@explorer`/`@librarian` handle discovery/docs, and `@quality-gate` does final signoff.
+- Core ownership shorthand: `@orchestrator` routes/integrates, `@fixer` implements bounded changes/tests, `@oracle` handles architecture/review, `@designer` owns UI/UX, `@explorer` handles discovery, and `@quality-gate` does final signoff.
 
 ## Risk Triggers
-- Product ambiguity → `@product-architect`
-- SaaS/multi-tenant/RBAC/billing → `@saas-architect`
+- Product/SaaS scope (MVP, flows, tenancy, RBAC, billing) → `@product-systems-architect`
+- Platform/runtime scope (CI/CD, deploy/env/migrations, mobile/offline/push/deep-links) → `@platform-architect`
+- PII/auth/payments/uploads/biometric/privacy → `@security-risk-reviewer`
 - AI/LLM/RAG/evals → `@ai-systems-architect`
-- PII/auth/payments/uploads/biometric/privacy → `@security-privacy-reviewer`
-- CI/CD/env/deploy/migration/monitoring → `@release-engineer`
-- Native mobile/hybrid/PWA/offline/push/deep links/camera/QR → `@mobile-architect`
+- Document/file-centric workflows (PDF/sheets/Office extraction/validation) → `@document-specialist`
+- Prompt/skill/routing improvement after repeated failure/evidence → `@skill-improver`
+- Current library/API docs lookup when local context is insufficient → supporting `@librarian` research lane
 - User-facing UI/reference/animation/accessibility/design-system work → `@designer` plus UI specialists as needed
 
 ## Notes

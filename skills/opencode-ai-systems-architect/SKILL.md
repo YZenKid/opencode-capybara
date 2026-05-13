@@ -7,7 +7,7 @@ Read-only AI systems architecture workflow for production AI features. Use this 
 - Trigger for AI assistants, summarizers, recommendations, embeddings/vector search, RAG, multimodal/vision, face matching, tool-calling, AI workflows, AI evals, or model cost/reliability decisions.
 - Skip for ordinary non-AI features, simple copywriting, tiny UI polish, or isolated bugfixes without AI behavior.
 - For version-sensitive SDK/provider behavior, route docs lookup to `@librarian`.
-- For user data, PII, biometric, or tool access, involve `@security-privacy-reviewer`.
+- For user data, PII, biometric, or tool access, involve `@security-risk-reviewer`.
 
 ## Workflow
 

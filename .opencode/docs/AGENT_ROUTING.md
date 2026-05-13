@@ -11,7 +11,8 @@ User intent → `@orchestrator` → specialist agents → validation → `@quali
 - Pause mid-run only for destructive decisions, security/privacy boundaries, truly unavailable required access, or material non-reversible ambiguity.
 
 Planner invocation expectation:
-- Non-trivial tasks should route through `@artifact-planner` first so implementation is plan-bound with explicit evidence paths.
+- `@artifact-planner` is a **triggered lane**, not default-first.
+- Invoke it for multi-phase, spec-heavy, materially ambiguous, or evidence-heavy work.
 - Trivial, single-step, and easily reversible tasks may execute directly without planner.
 
 ## Direct-work thresholds for `@orchestrator`
@@ -27,7 +28,7 @@ Planner invocation expectation:
 `@orchestrator` must delegate by default when one of these is true:
 - discovery is unknown-scope, cross-area, or read-heavy (>3 files) → `@explorer`,
 - implementation is bounded but touches 2+ files (including code+test/docs pair) → `@fixer`,
-- work is non-trivial or has material ambiguity/risk → `@artifact-planner` first,
+- work is multi-phase, spec-heavy, materially ambiguous, or evidence-heavy → `@artifact-planner`,
 - change is material and needs completion claim → final pass through `@quality-gate`.
 
 Permitted fallback: if a specialist is unavailable, use the next safest lane and record the limitation explicitly in final evidence.
@@ -37,8 +38,8 @@ Permitted fallback: if a specialist is unavailable, use the next safest lane and
   - Remediation: consume explorer output; only perform minimal spot-check reads.
 - Anti-pattern: `@orchestrator` performs multi-file implementation directly because "it is faster".
   - Remediation: route bounded implementation to `@fixer`.
-- Anti-pattern: non-trivial implementation starts without plan/evidence path.
-  - Remediation: route to `@artifact-planner` first, then implement plan-bound.
+- Anti-pattern: complex/ambiguous work starts without a plan/evidence path.
+  - Remediation: route to `@artifact-planner`, then implement plan-bound.
 - Anti-pattern: completion claim on material change without `@quality-gate`.
   - Remediation: run final conformance gate before claiming done.
 
@@ -47,31 +48,33 @@ Use this quick rubric for real workflow audits:
 
 - [ ] **Lane fit**: discovery/implementation/review went to the expected primary lanes.
 - [ ] **Threshold compliance**: orchestrator direct work stayed within tiny-task limits.
-- [ ] **Planner-first**: non-trivial work is plan-bound before implementation.
+- [ ] **Planner triggered correctly**: complex/ambiguous/evidence-heavy work is plan-bound before implementation.
 - [ ] **Evidence legibility**: delegation choices and fallback reasons are explicitly recorded.
 - [ ] **Final gate**: material changes include `@quality-gate` pass/verdict.
 
 Score guidance: 5/5 = strong routing discipline; 3–4/5 = acceptable with minor drift; ≤2/5 = routing failure requiring remediation.
 
-## Primary lanes
+## Core agents (default operating model)
 - `@orchestrator` — router, integrator, final coordinator
-- `@artifact-planner` — writes plans, drafts, and evidence artifacts under `.opencode/`
 - `@explorer` — codebase discovery and reuse mapping
-- `@librarian` — library/API docs and official references
 - `@fixer` — bounded implementation, tests, Red/Green/Refactor
-- `@oracle` — architecture, maintainability, simplification, deep review
 - `@designer` — UI/UX, visual polish, reference work, design-system direction
+- `@oracle` — architecture, maintainability, simplification, deep review
 - `@quality-gate` — final conformance and risk review
 
-## Conditional domain specialists
-- PRD/product blueprint work → `@product-architect`
-- SaaS architecture → `@saas-architect`
-- AI system design → `@ai-systems-architect`
-- Security/privacy review → `@security-privacy-reviewer`
-- Release/ops readiness → `@release-engineer`
-- Mobile/hybrid architecture → `@mobile-architect`
+## Triggered planning lane
+- `@artifact-planner` — planning artifacts and evidence paths under `.opencode/`.
+- Trigger only when scope/ambiguity/evidence needs justify planning overhead.
 
-Domain specialists are conditional. Tiny UI polish still goes to `@designer`. Isolated bugfixes still go to `@fixer` unless a risk trigger applies.
+## Specialist lanes (triggered)
+- `@product-systems-architect` — MVP slicing, flows, tenancy/workspace model, RBAC, billing, usage limits.
+- `@platform-architect` — CI/CD, deploy/env/migrations/rollback/monitoring, plus mobile/offline/push/deep-links/platform constraints.
+- `@security-risk-reviewer` — auth, PII, uploads, payments, secrets, token/session handling, tenant isolation, privacy/biometric risk.
+- `@ai-systems-architect` — LLM/RAG/embeddings/tool-calling/evals/model cost-reliability.
+- `@document-specialist` — PDF/sheets/Office extraction, transformation, validation, form/file-centric workflows.
+- `@skill-improver` — prompt/skill/routing improvements after repeated failure or evidence.
+
+Specialist lanes are conditional. Tiny UI polish still routes to `@designer`; isolated bugfixes still route to `@fixer` unless a risk trigger applies.
 
 ## UI and reference policy
 - First inspect the target project's `DESIGN.md`.
@@ -103,4 +106,4 @@ If the blueprint is incomplete, status must be `blocked`, `needs-polish`, or `dr
 - auth, PII, tenant isolation, payment, upload, secrets, token/session handling, biometric data, permission/RBAC → security review
 - architecture boundary, new abstraction, large refactor, dependency direction, data model change → oracle
 - visual layout change, animation, accessibility, design token, screenshot/reference parity, responsive behavior → designer plus relevant UI specialists
-- CI/CD, deployment, env var, migration, monitoring, rollback → release engineer
+- CI/CD, deployment, env var, migration, monitoring, rollback, mobile/offline/push/deep-links/platform runtime constraints → platform architect

@@ -2,6 +2,11 @@
 
 This document is the canonical matrix for tool access behavior by agent role.
 
+Operating model context (routing details stay in `AGENT_ROUTING.md`):
+- 6 core agents handle default daily flow.
+- 6 specialist lanes are trigger-only exception lanes.
+- `@artifact-planner` is a triggered planning lane (not default-first).
+
 It complements:
 - [TOOL_USAGE.md](./TOOL_USAGE.md) for operational selection guidance
 - [AGENT_ROUTING.md](./AGENT_ROUTING.md) for role routing
@@ -22,7 +27,7 @@ Use MCP state terms from [MCP.md](./MCP.md) when discussing tool readiness.
 - Runtime use should require `authenticated + connected + role-permitted` for the needed capability.
 - If capability is unavailable by role/client/server limits, classify it as `read-only/unsupported constraints` and route to the documented fallback.
 
-## Matrix (primary roles)
+## Matrix (documented lanes and helpers)
 
 ### `@orchestrator`
 - **available**: broad OpenCode + delegated specialist paths.
@@ -47,6 +52,8 @@ Use MCP state terms from [MCP.md](./MCP.md) when discussing tool readiness.
 - **preferred**: official docs path first (`context7`), then source/examples.
 - **permitted**: research and explanation, not implementation edits.
 - **fallback**: if official docs unavailable, use source/GitHub + explicit uncertainty notes.
+
+Note: `@librarian` is a supporting research helper, not one of the 6 core agents or 6 specialist lanes in the simplified routing model.
 
 ### `@designer`
 - **available**: UI/design analysis and relevant MCP surfaces when configured.

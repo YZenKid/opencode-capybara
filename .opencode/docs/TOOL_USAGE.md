@@ -9,6 +9,8 @@ Related docs:
 - Agent boundary matrix: [AGENT_TOOL_ACCESS.md](./AGENT_TOOL_ACCESS.md)
 - Role routing: [AGENT_ROUTING.md](./AGENT_ROUTING.md)
 
+Model note: this handbook is tool-heuristics only. Core/specialist ownership and planner triggering rules are defined in `AGENT_ROUTING.md`.
+
 ## Vocabulary (normative)
 
 - **available**: tool exists in the runtime/session.

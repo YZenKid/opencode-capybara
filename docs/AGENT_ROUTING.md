@@ -21,12 +21,10 @@ User intent → `@orchestrator` → specialist agents → validation → `@quali
 - `@quality-gate` — final conformance and risk review
 
 ## Conditional domain specialists
-- PRD/product blueprint work → `@product-architect`
-- SaaS architecture → `@saas-architect`
+- Product/SaaS architecture (PRD/MVP/flows + tenancy/RBAC/billing) → `@product-systems-architect`
 - AI system design → `@ai-systems-architect`
-- Security/privacy review → `@security-privacy-reviewer`
-- Release/ops readiness → `@release-engineer`
-- Mobile/hybrid architecture → `@mobile-architect`
+- Security/privacy review → `@security-risk-reviewer`
+- Platform/runtime/release/mobile constraints → `@platform-architect`
 
 Domain specialists are conditional. Tiny UI polish still goes to `@designer`. Isolated bugfixes still go to `@fixer` unless a risk trigger applies.
 
@@ -60,4 +58,4 @@ If the blueprint is incomplete, status must be `blocked`, `needs-polish`, or `dr
 - auth, PII, tenant isolation, payment, upload, secrets, token/session handling, biometric data, permission/RBAC → security review
 - architecture boundary, new abstraction, large refactor, dependency direction, data model change → oracle
 - visual layout change, animation, accessibility, design token, screenshot/reference parity, responsive behavior → designer plus relevant UI specialists
-- CI/CD, deployment, env var, migration, monitoring, rollback → release engineer
+- CI/CD, deployment, env var, migration, monitoring, rollback, mobile/offline/push/deep-links/platform runtime constraints → platform architect

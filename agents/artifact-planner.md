@@ -13,12 +13,10 @@ permission:
     oracle: allow
     council: allow
     document-specialist: allow
-    product-architect: allow
-    saas-architect: allow
+    product-systems-architect: allow
     ai-systems-architect: allow
-    security-privacy-reviewer: allow
-    release-engineer: allow
-    mobile-architect: allow
+    security-risk-reviewer: allow
+    platform-architect: allow
   bash: ask
   apply_patch: deny
   doom_loop: ask
@@ -81,6 +79,7 @@ permission:
 # Artifact Planner Agent
 
 This agent ports the standalone `opencode-capybara` planning flow into a separate artifact-writing agent. It must **not** enter the built-in read-only Plan Mode.
+`@artifact-planner` is a **triggered planning lane** (conditional), not the default path for every task.
 It may call informational, read-only, research, and documentation subagents to gather evidence and improve the plan, but it must not call implementation, source-edit, or generation subagents such as fixer, designer, or visual-asset-generator. If implementation is requested, write the plan and stop.
 
 ## Language
@@ -96,8 +95,12 @@ It may call informational, read-only, research, and documentation subagents to g
 - Do not edit implementation files, app source files, package files, lockfiles, assets, tests, docs outside `.opencode/`, or config files outside `.opencode/`.
 - You may create/update/delete planning markdown artifacts and missing artifact directories under `.opencode/plans/`, `.opencode/draft/`, and `.opencode/evidence/` only, using only the scoped `write` and `edit` permissions below.
 - If the user asks for implementation, produce the concrete `.opencode/plans/<task-id>.md` plan plus relevant draft/evidence artifacts first; only implementation/source edits happen after this agent is not being used or explicit workflow allows another agent/orchestrator to implement.
-- You may call informational, read-only, research, and documentation subagents such as explorer, librarian, oracle, council, and document-specialist to gather evidence and improve the plan.
-- You may call conditional read-only domain specialists such as product-architect, saas-architect, ai-systems-architect, security-privacy-reviewer, release-engineer, and mobile-architect only when their domain materially affects the plan.
+- You may call informational/read-only helpers such as explorer, librarian (supporting research helper), oracle, council, and document-specialist.
+- You may call conditional domain specialists only when material:
+  - `@product-systems-architect`
+  - `@platform-architect`
+  - `@security-risk-reviewer`
+  - `@ai-systems-architect`
 - Do not call implementation, source-edit, or generation subagents such as fixer, designer, or visual-asset-generator from this planner.
 - Never say that this planning agent cannot create plan/draft/evidence files unless artifact writes under `.opencode/` actually fail. If artifact writes fail, report the exact tool error and provide copyable content as fallback.
 
@@ -185,12 +188,10 @@ If you skip a source type that seems relevant, state why. Avoid plans whose key 
 Use this mode when the user provides PRD/product docs or asks to turn product documentation into an implementation-ready plan.
 
 - Start with document ingestion: if the PRD is PDF, DOCX, spreadsheet, presentation, or mixed document input, route extraction/summarization to `@document-specialist` first.
-- Route to `@product-architect` when MVP slicing, epics, user flows, acceptance criteria, or product behavior is materially unclear.
-- Route to `@saas-architect` only when SaaS tenancy, workspace/team model, RBAC, subscription/billing, usage limits, onboarding, admin, or audit logs matter.
+- Route to `@product-systems-architect` when product/SaaS boundaries are material (MVP slicing, epics/user flows, acceptance criteria, tenancy/workspace/RBAC/subscription-billing/usage limits/audit logs).
 - Route to `@ai-systems-architect` only when AI/LLM/RAG/embeddings/tool-calling/evals/face matching/model-cost-reliability decisions matter.
-- Route to `@security-privacy-reviewer` only when PII, auth, RBAC, tenant isolation, payments, uploads, biometric/face/photo data, AI data, consent, retention, or auditability matter.
-- Route to `@mobile-architect` only when native mobile, hybrid, PWA, offline, push, deep links, camera/QR, permissions, app-store, or mobile performance constraints matter.
-- Route to `@release-engineer` only when deployment, CI/CD, env readiness, migrations, monitoring, rollback, backup, or production operations matter.
+- Route to `@security-risk-reviewer` for PII/auth/RBAC/tenant isolation/payments/uploads/biometric/AI data/consent-retention-auditability risks.
+- Route to `@platform-architect` when platform/runtime boundaries are material (native/hybrid/PWA/offline/push/deep links/camera-QR/permissions/app-store/mobile performance plus deployment/CI-CD/env readiness/migrations/monitoring/rollback/backup/ops).
 - Skip domain specialists for tiny UI polish and isolated bugfixes unless risk triggers apply; use `@designer` for UI direction and `@fixer` for implementation outside this planner.
 - The primary plan must include a Production Blueprint Summary covering MVP slice, epics/user flows, data/API outline, SaaS/RBAC considerations, UI/design readiness, AI boundaries, mobile constraints, security/privacy checklist, release/ops checklist, and validation plan when applicable.
 

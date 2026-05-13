@@ -2,7 +2,7 @@
 
 Generated inventory of deterministic prompt-gate checks. This file is advisory and must not replace canonical policy in `.opencode/docs/PROMPT_GATES.md`.
 
-- Gate count: 104
+- Gate count: historical snapshot; regenerate with `npm run test:prompt-gates` for current inventory
 - Unique files covered: 67
 - Primary implementation: `scripts/prompt-gate-regression.mjs`
 
@@ -62,20 +62,16 @@ Generated inventory of deterministic prompt-gate checks. This file is advisory a
 44. **redundant general skill removed gate** — `skills/opencode-general/SKILL.md`
 45. **fixer skill UI pause gates** — `skills/opencode-fixer/SKILL.md`
 46. **ui system architect skill gate** — `skills/opencode-ui-system-architect/SKILL.md`
-47. **product architect subagent gate** — `agents/product-architect.md`
-48. **saas architect subagent gate** — `agents/saas-architect.md`
-49. **ai systems architect subagent gate** — `agents/ai-systems-architect.md`
-50. **security privacy reviewer subagent gate** — `agents/security-privacy-reviewer.md`
-51. **release engineer subagent gate** — `agents/release-engineer.md`
-52. **mobile architect subagent gate** — `agents/mobile-architect.md`
-53. **product architect skill gate** — `skills/opencode-product-architect/SKILL.md`
-54. **saas architect skill gate** — `skills/opencode-saas-architect/SKILL.md`
-55. **ai systems architect skill gate** — `skills/opencode-ai-systems-architect/SKILL.md`
-56. **security privacy reviewer skill gate** — `skills/opencode-security-privacy-reviewer/SKILL.md`
-57. **release engineer skill gate** — `skills/opencode-release-engineer/SKILL.md`
-58. **mobile architect skill gate** — `skills/opencode-mobile-architect/SKILL.md`
-59. **conditional domain specialist routing gate** — `agents/orchestrator.md`
-60. **orchestrator conditional domain skill gate** — `skills/opencode-orchestrator/SKILL.md`
+47. **product systems architect subagent gate** — `agents/product-systems-architect.md`
+48. **ai systems architect subagent gate** — `agents/ai-systems-architect.md`
+49. **security risk reviewer subagent gate** — `agents/security-risk-reviewer.md`
+50. **platform architect subagent gate** — `agents/platform-architect.md`
+51. **product systems architect skill gate** — `skills/opencode-product-systems-architect/SKILL.md`
+52. **ai systems architect skill gate** — `skills/opencode-ai-systems-architect/SKILL.md`
+53. **security risk reviewer skill gate** — `skills/opencode-security-risk-reviewer/SKILL.md`
+54. **platform architect skill gate** — `skills/opencode-platform-architect/SKILL.md`
+55. **conditional domain specialist routing gate** — `agents/orchestrator.md`
+56. **orchestrator conditional domain skill gate** — `skills/opencode-orchestrator/SKILL.md`
 61. **artifact planner domain advisory gate** — `agents/artifact-planner.md`
 62. **artifact planner production blueprint skill gate** — `skills/opencode-artifact-planner/SKILL.md`
 63. **global conditional domain specialist gate** — `.opencode/docs/AGENT_ROUTING.md`

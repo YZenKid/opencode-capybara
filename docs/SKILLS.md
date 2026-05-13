@@ -14,12 +14,10 @@
 - `opencode-document-specialist`
 
 ## Conditional specialist skills
-- `opencode-product-architect`
-- `opencode-saas-architect`
+- `opencode-product-systems-architect`
 - `opencode-ai-systems-architect`
-- `opencode-security-privacy-reviewer`
-- `opencode-release-engineer`
-- `opencode-mobile-architect`
+- `opencode-security-risk-reviewer`
+- `opencode-platform-architect`
 - `opencode-skill-improver`
 
 ## Contract expectations
