@@ -61,7 +61,7 @@ function buildClient() {
 async function generateVariant(client, quality, options) {
   const startedAt = Date.now()
   const response = await client.images.generate({
-    model: env('IMAGE_ASSET_MODEL', 'gpt-image-2'),
+    model: env('IMAGE_ASSET_MODEL', 'cx/gpt-5.5-image'),
     prompt: `${options.prompt}\n\nNegative prompt: ${options.negativePrompt}`,
     size: '1536x896',
     n: 1,

@@ -27,10 +27,11 @@
 |---|---|---|
 | `npm run sync:agent-models` | Menyamakan `model:` di `agents/*.md` dengan `OPENCODE_MODEL_*` dari `.env` | Setelah mengubah model di `.env` |
 | `npm run sync:agent-models:check` | Cek read-only apakah model agent sudah sinkron dengan `.env` | Untuk audit atau validasi CI/manual |
-| `npm run sync:openchamber` | Menyinkronkan setting OpenChamber agar mengikuti config OpenCode sebagai source of truth | Saat `doctor` memberi warning OpenChamber out of sync |
+| `npm run sync:openchamber` | Menyinkronkan setting OpenChamber agar mengikuti config OpenCode sebagai source of truth; `defaultModel` diarahkan ke model orchestrator untuk new session, plus menulis metadata `opencodeAgentModelMap` untuk mirror routing agent | Saat `doctor` memberi warning OpenChamber out of sync |
 | `npm run sync:openchamber:check` | Cek read-only sync OpenChamber | Saat hanya ingin audit tanpa menulis file |
 | `npm run sync:openchamber:seed` | Sync OpenChamber sambil menambahkan repo root ke approved directories bila perlu | Saat environment OpenChamber baru atau approved directory belum ada |
 | `npm run sync:openchamber:seed:check` | Cek read-only untuk flow sync + seed approved directories | Saat ingin audit kondisi OpenChamber lengkap |
+| `npm run compare:openchamber-models` | Menampilkan tabel perbandingan setting model OpenCode vs OpenChamber, termasuk mirror `opencodeAgentModelMap` | Saat ingin audit cepat mismatch atau memastikan hasil sync |
 
 ## Validasi dan quality checks
 

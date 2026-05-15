@@ -1,7 +1,7 @@
 ---
 mode: primary
 description: Artifact-writing SDD/TDD planner using the standalone opencode-capybara plan flow without entering built-in read-only Plan Mode.
-model: cliproxyapi/gpt-5.3-codex
+model: cliproxyapi/high
 skills:
   - opencode-artifact-planner
 permission:

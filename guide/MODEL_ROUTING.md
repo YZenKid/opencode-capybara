@@ -35,16 +35,16 @@ npm run post:update
 
 | Env var | Default / recommended model | Used by / capability | Cost guidance |
 |---|---|---|---|
-| `OPENCODE_MODEL_DEFAULT` | `cliproxyapi/gpt-5.3-codex` | Top-level default model and general fallback | Use Codex lane as balanced default for coding-heavy work while keeping specialist high-risk lanes stronger. |
-| `OPENCODE_MODEL_ORCHESTRATOR` | `cliproxyapi/gpt-5.4` | `@orchestrator` primary routing/integration | Keep high quality for delegation, coordination, and final synthesis. |
-| `OPENCODE_MODEL_PLANNER` | `cliproxyapi/gpt-5.3-codex` | `@artifact-planner`, `modes/plan.md`, `agents-disabled/plan.md` | Planning is codebase-heavy and can use Codex to reduce cost while keeping structure strong. |
-| `OPENCODE_MODEL_DESIGN` | `cliproxyapi/gpt-5.4` | `@designer` | UI and visual reasoning are higher-value, so keep quality high. |
-| `OPENCODE_MODEL_REVIEW` | `cliproxyapi/gpt-5.4` | `@oracle`, `@quality-gate`, `@council` | Review lanes should stay strict and high quality; optimize for correctness over cost. |
-| `OPENCODE_MODEL_ADVISORY` | `cliproxyapi/gpt-5.4` | `@architect` | Advisory work is often high-stakes; keep the stronger model unless cost pressure is extreme. |
-| `OPENCODE_MODEL_EXECUTION` | `cliproxyapi/gpt-5.3-codex` | `@fixer` | Use Codex for bounded implementation/testing because this lane is code-edit heavy. |
-| `OPENCODE_MODEL_DISCOVERY` | `cliproxyapi/gpt-5.4-mini` | `@explorer`, `@librarian` | Discovery and read-only analysis can usually use the lower-cost model. |
-| `OPENCODE_MODEL_DOCUMENTS` | `cliproxyapi/gpt-5.4-mini` | Reserved compatibility lane (document-centric work now routes via `@librarian`) | Keep for env compatibility; active document support is merged into librarian. |
-| `OPENCODE_MODEL_IMPROVEMENT` | `cliproxyapi/gpt-5.4-mini` | `@skill-improver` | Small prompt/skill refinements should stay on the cheaper lane. |
+| `OPENCODE_MODEL_DEFAULT` | `cliproxyapi/low` | Top-level default model and general fallback | Keep the baseline lane low-cost for broad default routing. |
+| `OPENCODE_MODEL_ORCHESTRATOR` | `cliproxyapi/medium` | `@orchestrator` primary routing/integration | Use a balanced lane for delegation, coordination, and synthesis. |
+| `OPENCODE_MODEL_PLANNER` | `cliproxyapi/high` | `@artifact-planner`, `modes/plan.md`, `agents-disabled/plan.md` | Keep planning on the strongest lane for higher-accuracy specs and execution handoffs. |
+| `OPENCODE_MODEL_DESIGN` | `cliproxyapi/medium` | `@designer` | Use a balanced lane for UI and visual reasoning. |
+| `OPENCODE_MODEL_REVIEW` | `cliproxyapi/medium` | `@oracle`, `@quality-gate`, `@council` | Keep review quality solid without defaulting to the highest-cost lane. |
+| `OPENCODE_MODEL_ADVISORY` | `cliproxyapi/medium` | `@architect` | Use a balanced lane for advisory and architecture guidance. |
+| `OPENCODE_MODEL_EXECUTION` | `cliproxyapi/medium` | `@fixer` | Keep bounded implementation and testing on a balanced lane. |
+| `OPENCODE_MODEL_DISCOVERY` | `cliproxyapi/low` | `@explorer`, `@librarian` | Discovery and read-only analysis stay on the cheaper lane. |
+| `OPENCODE_MODEL_DOCUMENTS` | `cliproxyapi/low` | Reserved compatibility lane (document-centric work now routes via `@librarian`) | Keep for env compatibility on the cheaper lane. |
+| `OPENCODE_MODEL_IMPROVEMENT` | `cliproxyapi/low` | `@skill-improver` | Prompt and skill refinements stay on the cheaper lane. |
 
 ## Hubungan dengan OpenChamber
 

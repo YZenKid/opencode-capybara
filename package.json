@@ -23,7 +23,8 @@
     "sync:openchamber": "node scripts/sync-openchamber-settings.mjs",
     "sync:openchamber:check": "node scripts/sync-openchamber-settings.mjs --check",
     "sync:openchamber:seed": "node scripts/sync-openchamber-settings.mjs --seed-approved-directories",
-    "sync:openchamber:seed:check": "node scripts/sync-openchamber-settings.mjs --check --seed-approved-directories"
+    "sync:openchamber:seed:check": "node scripts/sync-openchamber-settings.mjs --check --seed-approved-directories",
+    "compare:openchamber-models": "node scripts/compare-openchamber-models.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",

@@ -9,8 +9,8 @@
         "apiKey": "{env:CLIPROXYAPI_API_KEY}"
       },
       "models": {
-        "gpt-5.4": {
-          "name": "GPT 5.4",
+        "high": {
+          "name": "High",
           "attachment": true,
           "modalities": {
             "input": [
@@ -49,8 +49,8 @@
             }
           }
         },
-        "gpt-5.4-mini": {
-          "name": "GPT 5.4 Mini",
+        "low": {
+          "name": "Low",
           "attachment": true,
           "modalities": {
             "input": [
@@ -89,8 +89,8 @@
             }
           }
         },
-        "gpt-5.3-codex": {
-          "name": "GPT 5.3 Codex",
+        "medium": {
+          "name": "Medium",
           "attachment": true,
           "modalities": {
             "input": [
@@ -129,8 +129,8 @@
             }
           }
         },
-        "gpt-image-2": {
-          "name": "GPT Image 2",
+        "cx/gpt-5.5-image": {
+          "name": "CX GPT 5.5 Image",
           "attachment": true,
           "modalities": {
             "input": [

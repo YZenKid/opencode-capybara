@@ -2,6 +2,7 @@
 set -euo pipefail
 
 ENV_FILE="${OPENCODE_ENV_FILE:-$HOME/.config/opencode/.env}"
+REAL_OPENCODE_BIN="${OPENCODE_REAL_BIN:-/opt/homebrew/bin/opencode}"
 
 if [ -f "$ENV_FILE" ]; then
   set -a
@@ -10,4 +11,9 @@ if [ -f "$ENV_FILE" ]; then
   set +a
 fi
 
-exec opencode "$@"
+if [ ! -x "$REAL_OPENCODE_BIN" ]; then
+  printf 'opencode real binary not found: %s\n' "$REAL_OPENCODE_BIN" >&2
+  exit 1
+fi
+
+exec "$REAL_OPENCODE_BIN" "$@"

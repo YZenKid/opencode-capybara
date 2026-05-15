@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Unified read-only architect lane for product/SaaS, platform/runtime/release, AI, and UI-system boundaries
-model: cliproxyapi/gpt-5.4
+model: cliproxyapi/medium
 skills:
   - opencode-architect
 permission:

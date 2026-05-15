@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Bounded implementation and testing specialist for Red/Green/Refactor work
-model: cliproxyapi/gpt-5.3-codex
+model: cliproxyapi/medium
 skills:
   - opencode-fixer
 permission:

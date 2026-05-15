@@ -65,7 +65,7 @@ function normalizeSize(width, height) {
 }
 
 function normalizeModel() {
-  return env('IMAGE_ASSET_MODEL', 'gpt-image-2')
+  return env('IMAGE_ASSET_MODEL', 'cx/gpt-5.5-image')
 }
 
 function normalizeQuality(value) {
@@ -243,7 +243,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
           quality: {
             type: 'string',
             enum: ['low', 'medium', 'high', 'auto'],
-            description: 'Image generation quality preset. For gpt-image-2 style models, use this instead of reasoningEffort.',
+            description: 'Image generation quality preset for the configured image model.',
           },
           alt: { type: 'string' },
           legal_note: { type: 'string' },
