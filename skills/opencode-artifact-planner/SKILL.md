@@ -35,7 +35,9 @@ Do not call implementation/source-edit/generation subagents (e.g., `@fixer`, `@d
 
 ## Required plan sections
 
-Goal, Non-goals, Scope, Requirements, Acceptance Criteria, Existing Patterns/Reuse, Constraints, Risks, Decisions/Assumptions, TDD/Test Plan, Implementation Steps, Expected Files to Change, Agent/Tool Routing, Validation Commands, Evidence Requirements, Done Criteria, Final Planning Summary.
+Goal, Non-goals, Scope, Requirements, Acceptance Criteria, Existing Patterns/Reuse, Constraints, Risks, Decisions/Assumptions, TDD/Test Plan, Implementation Steps, Expected Files to Change, Agent/Tool Routing, Execution-ready Worklist / Handoff Contract, Validation Commands, Evidence Requirements, Done Criteria, Final Planning Summary.
+
+Execution-ready Worklist / Handoff Contract is mandatory for non-trivial plans and must allow `@orchestrator` to execute to completion without replanning. For each atomic ordered task include: dependencies (`depends_on`), owner/lane, validation, task exit criteria, blocking status (`ready`/`blocked`) with reason, `requires_user_decision` (`yes`/`no`), and a `start_with` pointer for the first non-blocked task.
 
 For UI/reference work also include Visual Spec Summary, Asset Manifest Summary, Image Generation Decision, Reference Capture Requirements, and Visual Comparison Requirements.
 Keep one primary plan file as the durable source of truth; any visual artifacts or extra notes belong in draft/evidence only when operationally useful and should not compete as alternate primary plans.

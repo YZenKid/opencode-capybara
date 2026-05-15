@@ -1,0 +1,77 @@
+{
+  "id": "init-harness-minimal-foreign-repo-scaffold",
+  "category": "behavioral-task",
+  "description": "Replayable temp-repo scaffold proof for init-harness expectations on a minimal external-style repo: canonical .opencode/docs plus short AGENTS.md map. Limitation: this uses a narrow eval-only temp-repo scaffold adapter rather than the real /init-harness slash-command runtime.",
+  "execute": {
+    "mode": "init-harness-scaffold",
+    "seedRoot": "scripts/evals/fixtures/minimal-foreign-repo-seed"
+  },
+  "artifacts": [
+    {
+      "type": "agents-map",
+      "file": "AGENTS.md",
+      "mustInclude": [
+        ".opencode/docs/AGENT_ROUTING.md",
+        ".opencode/docs/ARCHITECTURE.md",
+        ".opencode/docs/QUALITY.md",
+        ".opencode/docs/EVALS.md",
+        "Keep this file short and map-like"
+      ],
+      "mustNotInclude": [
+        "Page-by-page UX blueprint",
+        "Section-level visual specification",
+        "Motion system"
+      ],
+      "reasonCode": "init-harness-fixture-agents-map-regression"
+    },
+    {
+      "type": "canonical-index",
+      "file": ".opencode/docs/index.md",
+      "mustInclude": [
+        "system of record",
+        "Canonical docs",
+        "AGENT_ROUTING.md",
+        "ARCHITECTURE.md",
+        "QUALITY.md",
+        "EVALS.md"
+      ],
+      "reasonCode": "init-harness-fixture-docs-index-regression"
+    },
+    {
+      "type": "canonical-doc",
+      "file": ".opencode/docs/AGENT_ROUTING.md",
+      "mustInclude": [
+        "# Agent Routing",
+        "Execution posture"
+      ],
+      "reasonCode": "init-harness-fixture-missing-canonical-doc"
+    },
+    {
+      "type": "canonical-doc",
+      "file": ".opencode/docs/ARCHITECTURE.md",
+      "mustInclude": [
+        "# Architecture",
+        "Core architecture"
+      ],
+      "reasonCode": "init-harness-fixture-missing-canonical-doc"
+    },
+    {
+      "type": "canonical-doc",
+      "file": ".opencode/docs/QUALITY.md",
+      "mustInclude": [
+        "# Quality",
+        "Evidence contract"
+      ],
+      "reasonCode": "init-harness-fixture-missing-canonical-doc"
+    },
+    {
+      "type": "canonical-doc",
+      "file": ".opencode/docs/EVALS.md",
+      "mustInclude": [
+        "# Evals",
+        "Replay bundle minimum"
+      ],
+      "reasonCode": "init-harness-fixture-missing-canonical-doc"
+    }
+  ]
+}

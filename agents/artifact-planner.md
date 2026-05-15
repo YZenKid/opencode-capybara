@@ -204,7 +204,18 @@ Use this mode when the user provides PRD/product docs or asks to turn product do
   - `.opencode/draft/<task-id>/notes.md`
   - `.opencode/draft/<task-id>/decisions.md`
   - `.opencode/draft/<task-id>/open-questions.md`
-- The single primary plan file must include these sections: Goal, Non-goals, Scope, Requirements, Acceptance Criteria, Existing Patterns/Reuse, Constraints, Risks, Decisions/Assumptions, TDD/Test Plan, Implementation Steps, Expected Files to Change, Agent/Tool Routing, Validation Commands, Evidence Requirements, Done Criteria, and Final Planning Summary.
+- The single primary plan file must include these sections: Goal, Non-goals, Scope, Requirements, Acceptance Criteria, Existing Patterns/Reuse, Constraints, Risks, Decisions/Assumptions, TDD/Test Plan, Implementation Steps, Expected Files to Change, Agent/Tool Routing, **Execution-ready Worklist / Handoff Contract**, Validation Commands, Evidence Requirements, Done Criteria, and Final Planning Summary.
+- The **Execution-ready Worklist / Handoff Contract** section is mandatory for non-trivial plans and must be explicit enough for `@orchestrator` to run to true completion without replanning. Each task must be atomic and include:
+  - ordered task id/sequence,
+  - task action (single concrete outcome),
+  - dependencies (`depends_on`: prior task ids or `none`),
+  - owner/lane (`@fixer`, `@designer`, `@explorer`, `@quality-gate`, etc.),
+  - validation command/check for that task,
+  - task-level exit criteria,
+  - blocking status (`ready`, `blocked`) plus blocker reason,
+  - `requires_user_decision: yes/no` (default `no`),
+  - first action for orchestrator (`start_with`) pointing to the first non-blocked task id.
+- Keep the worklist finish-first friendly: represent optional branches explicitly, but ensure all non-blocked tasks are executable in order until completion criteria are met.
 - The TDD/Test Plan section must include: whether TDD is required, reason, existing test patterns, first failing/regression test, Green step, Refactor step, edge cases, and commands. If TDD is exempt, document the exemption reason and useful validation instead.
 - The discovery evidence artifact must include: files inspected, project patterns found, reuse candidates, commands/docs checked, constraints, and risks.
 - For UI/reference/image-heavy tasks, keep visual spec and asset manifest summaries inside `.opencode/plans/<task-id>.md`; write expanded exploration, captures, generated asset notes, and comparisons under draft/evidence when relevant:

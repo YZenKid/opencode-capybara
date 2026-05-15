@@ -116,6 +116,12 @@ Use same workflow for reference/current/final captures. Local resource notes: `r
 - Default to Red → Green → Refactor for production behavior.
 - For UI work, Red can be baseline mismatch screenshots; Green is implementation + checks; Refactor is visual comparison cleanup.
 - Before non-trivial implementation, look for `.opencode/plans/<task-id>.md`; follow it and write evidence under `.opencode/evidence/<task-id>/`.
+- When a plan includes an `Execution-ready Worklist / Handoff Contract`, treat it as the execution source of truth:
+  - Start with the declared `start_with` first non-blocked task.
+  - Execute all ordered non-blocked tasks finish-first until plan done criteria are met.
+  - Respect `depends_on`, owner/lane routing, validation, and per-task exit criteria.
+  - Do not stop at internal milestones/phases unless a task is explicitly `blocked` or `requires_user_decision: yes`.
+  - If a task is blocked, attempt unblock via repo evidence/docs/specialists first; escalate to user only when still materially blocked.
 
 ## Final summary
 

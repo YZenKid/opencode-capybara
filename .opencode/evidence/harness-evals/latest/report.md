@@ -1,10 +1,10 @@
 # Harness Eval Report
 
-- Timestamp: 2026-05-12T12:53:01.562Z
-- Harness version: 6316ac80829a08e0fd68c16dfc0d04cb1986823b
+- Timestamp: 2026-05-15T01:51:59.086Z
+- Harness version: 32f128a37cfb0d865ddaeb42de8a6a74b21cee9c
 - Task summary: Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.
 - Verdict: PASS
-- Fixture count: 20
+- Fixture count: 21
 - Failed: 0
 - Transcript fixture count: 10
 - Transcript average routing score: 3.4/5
@@ -19,6 +19,8 @@
   - Write replayable report artifacts under .opencode/evidence/harness-evals/latest/
 - Files changed summary: Read-only eval run; no repository files were modified. files_changed lists validated target files.
   - .opencode/docs/AGENT_ROUTING.md
+  - .opencode/docs/ARCHITECTURE.md
+  - .opencode/docs/EVALS.md
   - .opencode/docs/MCP.md
   - .opencode/docs/QUALITY.md
   - .opencode/docs/index.md
@@ -56,6 +58,7 @@
   - runtime-plugin-removal
   - docs-policy-migration-roundtrip
   - evidence-bundle-completion
+  - init-harness-minimal-foreign-repo-scaffold
   - orchestrator-routing-discipline-20260512-1708
   - planner-and-mcp-state-contract
   - reviewer-boundary-routing
@@ -118,6 +121,15 @@
 - .opencode/plans/20260510-2140-harness-engineering-plan.md: PASS
 - .opencode/evidence/20260510-2140-harness-engineering-plan/index.json: PASS
 - .opencode/evidence/20260510-2140-harness-engineering-plan/verification.md: PASS
+## init-harness-minimal-foreign-repo-scaffold
+- Status: PASS
+- Description: Replayable temp-repo scaffold proof for init-harness expectations on a minimal external-style repo: canonical .opencode/docs plus short AGENTS.md map. Limitation: this uses a narrow eval-only temp-repo scaffold adapter rather than the real /init-harness slash-command runtime.
+- AGENTS.md: PASS
+- .opencode/docs/index.md: PASS
+- .opencode/docs/AGENT_ROUTING.md: PASS
+- .opencode/docs/ARCHITECTURE.md: PASS
+- .opencode/docs/QUALITY.md: PASS
+- .opencode/docs/EVALS.md: PASS
 ## orchestrator-routing-discipline-20260512-1708
 - Status: PASS
 - Description: Behavioral eval: task bundle 20260512-1708 must be plan-bound, include explicit routing decisions, record a quality-gate outcome, and keep routing policy/skill references aligned.
@@ -242,3 +254,8 @@
 - scripts/evals/transcript-fixtures/routing-share-export-noisy-negative.json: PASS (routing-overreach-orchestrator-multifile-edit)
 - scripts/evals/transcript-fixtures/routing-share-export-noisy-negative.json: PASS (routing-overreach-missing-planner-first)
 - scripts/evals/transcript-fixtures/routing-share-export-noisy-negative.json: PASS (routing-overreach-missing-quality-gate)
+### Execution metadata for init-harness-minimal-foreign-repo-scaffold
+- Mode: init-harness-scaffold
+- Seed root: scripts/evals/fixtures/minimal-foreign-repo-seed
+- Generated files: .opencode/docs/AGENT_LEGIBILITY.md, .opencode/docs/AGENT_ROUTING.md, .opencode/docs/AGENT_TOOL_ACCESS.md, .opencode/docs/ARCHITECTURE.md, .opencode/docs/DECISIONS.md, .opencode/docs/EVALS.md, .opencode/docs/GC_WORKFLOW.md, .opencode/docs/GOLDEN_PRINCIPLES.md, .opencode/docs/MCP.md, .opencode/docs/PROMPT_GATES.md, .opencode/docs/QUALITY.md, .opencode/docs/QUALITY_SCORE.md, .opencode/docs/RELEASE.md, .opencode/docs/SECURITY.md, .opencode/docs/SKILLS.md, .opencode/docs/TOOL_USAGE.md, .opencode/docs/index.md, AGENTS.md, README.md, package.json
+- Limitation: Eval-only temp-repo scaffold adapter; does not execute the real /init-harness slash-command runtime.

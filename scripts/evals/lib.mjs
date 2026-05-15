@@ -1,5 +1,7 @@
-import { existsSync, readFileSync, readdirSync } from "node:fs";
-import { resolve } from "node:path";
+import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
+import { execFileSync, spawn } from "node:child_process";
 import { normalizeShareExportFixture } from "./share-export-adapter.mjs";
 
 export function readJson(file) {
@@ -61,6 +63,220 @@ export function loadFixtures(fixturesDir) {
     .map((file) => ({ file, fixture: readJson(resolve(fixturesDir, file)) }));
 }
 
+function ensureDir(dir) {
+  mkdirSync(dir, { recursive: true });
+}
+
+function copyTree(sourceDir, targetDir) {
+  ensureDir(targetDir);
+  for (const entry of readdirSync(sourceDir)) {
+    const sourcePath = resolve(sourceDir, entry);
+    const targetPath = resolve(targetDir, entry);
+    const stats = statSync(sourcePath);
+    if (stats.isDirectory()) {
+      copyTree(sourcePath, targetPath);
+    } else {
+      ensureDir(resolve(targetPath, ".."));
+      copyFileSync(sourcePath, targetPath);
+    }
+  }
+}
+
+function listFilesRecursive(dir, baseDir = dir) {
+  if (!existsSync(dir)) return [];
+  const files = [];
+  for (const entry of readdirSync(dir)) {
+    const entryPath = resolve(dir, entry);
+    const stats = statSync(entryPath);
+    if (stats.isDirectory()) {
+      files.push(...listFilesRecursive(entryPath, baseDir));
+    } else {
+      files.push(entryPath.replace(`${baseDir}/`, ""));
+    }
+  }
+  return files.sort();
+}
+
+const initHarnessCanonicalDocs = [
+  "index.md",
+  "ARCHITECTURE.md",
+  "AGENT_ROUTING.md",
+  "AGENT_LEGIBILITY.md",
+  "QUALITY.md",
+  "QUALITY_SCORE.md",
+  "SECURITY.md",
+  "PROMPT_GATES.md",
+  "SKILLS.md",
+  "MCP.md",
+  "TOOL_USAGE.md",
+  "AGENT_TOOL_ACCESS.md",
+  "EVALS.md",
+  "GOLDEN_PRINCIPLES.md",
+  "DECISIONS.md",
+  "RELEASE.md",
+  "GC_WORKFLOW.md",
+];
+
+const initHarnessGeneratedAgents = `# AGENTS.md
+
+## Start Here
+- Routing rules: \`.opencode/docs/AGENT_ROUTING.md\`
+- Architecture: \`.opencode/docs/ARCHITECTURE.md\`
+- Quality and evidence: \`.opencode/docs/QUALITY.md\`
+- Harness evals and replayability: \`.opencode/docs/EVALS.md\`
+- Security policy: \`.opencode/docs/SECURITY.md\`
+- Prompt gates: \`.opencode/docs/PROMPT_GATES.md\`
+- Skills index: \`.opencode/docs/SKILLS.md\`
+- MCP overview: \`.opencode/docs/MCP.md\`
+- Golden principles: \`.opencode/docs/GOLDEN_PRINCIPLES.md\`
+- Agent legibility: \`.opencode/docs/AGENT_LEGIBILITY.md\`
+- Decisions log: \`.opencode/docs/DECISIONS.md\`
+- Release and operational readiness: \`.opencode/docs/RELEASE.md\`
+- Quality score and GC workflow: \`.opencode/docs/QUALITY_SCORE.md\`, \`.opencode/docs/GC_WORKFLOW.md\`
+
+## Non-negotiable Rules
+- Use \`@orchestrator\` for routing and integration.
+- Use \`@quality-gate\` for material changes.
+- Prefer evidence over assertion.
+- Prefer repo-local docs over chat memory.
+- Keep this file short and map-like.
+
+## Default Flow
+User intent → \`@orchestrator\` → specialist agents → validation → \`@quality-gate\` → final summary.
+
+## Harness Posture
+- \`.opencode/docs/\` is the repository knowledge system of record.
+- \`AGENTS.md\` is the map, not the encyclopedia.
+- Plans are first-class artifacts under \`.opencode/plans/\`.
+- Evidence is required for material changes.
+
+## Risk Triggers
+- Product/SaaS/platform/AI/UI-system architecture ambiguity → \`@architect\`
+- Security/privacy/accessibility/visual-parity final signoff → \`@quality-gate\`
+- User-facing UI/reference/animation/accessibility/design-system work → \`@designer\`
+
+## Notes
+- Future operators should read \`.opencode/docs/index.md\` first, then follow the canonical docs by concern.
+- Keep this file short and map-like.
+`;
+
+function runShell(script, cwd) {
+  return execFileSync("sh", ["-lc", script], {
+    cwd,
+    encoding: "utf8",
+    stdio: "pipe",
+    timeout: 300000,
+  });
+}
+
+function prepareInitHarnessTempRepo(root, fixture) {
+  const seedRoot = resolve(root, fixture.execute.seedRoot);
+  const tempRoot = mkdtempSync(join(tmpdir(), "opencode-init-harness-"));
+  copyTree(seedRoot, tempRoot);
+
+  const docsTargetDir = resolve(tempRoot, ".opencode", "docs");
+  ensureDir(docsTargetDir);
+  for (const file of initHarnessCanonicalDocs) {
+    copyFileSync(resolve(root, ".opencode", "docs", file), resolve(docsTargetDir, file));
+  }
+
+  writeFileSync(resolve(tempRoot, "AGENTS.md"), initHarnessGeneratedAgents);
+
+  return {
+    fixtureRoot: tempRoot,
+    execution: {
+      mode: fixture.execute.mode,
+      seed_root: fixture.execute.seedRoot,
+      generated_files: listFilesRecursive(tempRoot),
+      limitation: "Eval-only temp-repo scaffold adapter; does not execute the real /init-harness slash-command runtime.",
+    },
+    cleanup() {
+      rmSync(tempRoot, { recursive: true, force: true });
+    },
+  };
+}
+
+function prepareInitHarnessRuntimeTempRepo(root, fixture) {
+  const seedRoot = resolve(root, fixture.execute.seedRoot);
+  const tempRoot = mkdtempSync(join(tmpdir(), "opencode-init-harness-runtime-"));
+  copyTree(seedRoot, tempRoot);
+
+  const port = 43000 + Math.floor(Math.random() * 1000);
+  const logFile = resolve(tempRoot, ".opencode-runtime.log");
+  const stdoutFile = resolve(tempRoot, ".opencode-run.stdout.log");
+  const stderrFile = resolve(tempRoot, ".opencode-run.stderr.log");
+  const runtimeMessage = fixture.execute.runtimeMessage ?? "/init-harness";
+  const serverUrl = `http://127.0.0.1:${port}`;
+  const logHandle = writeFileSync(logFile, "");
+  const logFd = readFileSync(logFile, "utf8");
+  void logHandle;
+  void logFd;
+  const server = spawn("opencode", ["serve", "--pure", "--hostname", "127.0.0.1", "--port", String(port)], {
+    cwd: root,
+    detached: false,
+    stdio: ["ignore", "ignore", "ignore"],
+  });
+
+  let ready = false;
+  for (let attempt = 0; attempt < 100; attempt += 1) {
+    try {
+      const output = execFileSync("sh", ["-lc", `curl -fsS ${JSON.stringify(serverUrl)} >/dev/null`], {
+        cwd: root,
+        encoding: "utf8",
+        stdio: "pipe",
+        timeout: 2000,
+      });
+      void output;
+      ready = true;
+      break;
+    } catch {
+      Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 200);
+    }
+  }
+
+  if (!ready) {
+    server.kill("SIGTERM");
+    throw new Error(`opencode serve did not become ready at ${serverUrl}`);
+  }
+
+  const stdout = execFileSync("opencode", [
+    "run",
+    "--pure",
+    "--dangerously-skip-permissions",
+    "--attach",
+    serverUrl,
+    "--dir",
+    tempRoot,
+    runtimeMessage,
+  ], {
+    cwd: root,
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"],
+    timeout: 300000,
+  });
+  writeFileSync(stdoutFile, stdout);
+  writeFileSync(stderrFile, "");
+  server.kill("SIGTERM");
+
+  return {
+    fixtureRoot: tempRoot,
+    execution: {
+      mode: fixture.execute.mode,
+      seed_root: fixture.execute.seedRoot,
+      server_url: serverUrl,
+      runtime_message: runtimeMessage,
+      generated_files: listFilesRecursive(tempRoot),
+      stdout: readTextOrNull(stdoutFile) ?? "",
+      stderr: readTextOrNull(stderrFile) ?? "",
+      limitation: "Uses the real local opencode runtime via serve+attach in a temp repo, but still depends on the locally installed runtime version and environment.",
+    },
+    cleanup() {
+      server.kill("SIGTERM");
+      rmSync(tempRoot, { recursive: true, force: true });
+    },
+  };
+}
+
 function validateTranscriptFixtureSchema(fixture) {
   const errors = [];
   if (!fixture || typeof fixture !== "object") {
@@ -102,73 +318,91 @@ function validateTranscriptFixtureSchema(fixture) {
 }
 
 export function evaluateTaskFixture(root, fixture) {
+  let fixtureRoot = fixture.root ? resolve(root, fixture.root) : root;
+  let execution = null;
+  let cleanup = null;
+  if (fixture.execute?.mode === "init-harness-scaffold") {
+    const prepared = prepareInitHarnessTempRepo(root, fixture);
+    fixtureRoot = prepared.fixtureRoot;
+    execution = prepared.execution;
+    cleanup = prepared.cleanup;
+  } else if (fixture.execute?.mode === "opencode-runtime-init-harness") {
+    const prepared = prepareInitHarnessRuntimeTempRepo(root, fixture);
+    fixtureRoot = prepared.fixtureRoot;
+    execution = prepared.execution;
+    cleanup = prepared.cleanup;
+  }
   const checks = [];
   let failed = false;
 
-  for (const artifact of fixture.artifacts ?? []) {
-    const target = resolve(root, artifact.file);
-    const content = readTextOrNull(target);
+  try {
+    for (const artifact of fixture.artifacts ?? []) {
+      const target = resolve(fixtureRoot, artifact.file);
+      const content = readTextOrNull(target);
 
-    if (content === null) {
-      failed = true;
-      checks.push({
-        type: artifact.type ?? "artifact",
-        file: artifact.file,
-        status: "FAIL",
-        reason_code: artifact.reasonCode ?? "missing-artifact",
-      });
-      continue;
-    }
+      if (content === null) {
+        failed = true;
+        checks.push({
+          type: artifact.type ?? "artifact",
+          file: artifact.file,
+          status: "FAIL",
+          reason_code: artifact.reasonCode ?? "missing-artifact",
+        });
+        continue;
+      }
 
-    let missing = [];
-    let forbidden = [];
+      let missing = [];
+      let forbidden = [];
 
-    if (artifact.requiredHeadings) {
-      missing = [...missing, ...hasHeadings(content, artifact.requiredHeadings).map((item) => `heading:${item}`)];
-    }
+      if (artifact.requiredHeadings) {
+        missing = [...missing, ...hasHeadings(content, artifact.requiredHeadings).map((item) => `heading:${item}`)];
+      }
 
-    if (artifact.requiredFrontmatterKeys) {
-      const frontmatter = parseFrontmatter(content);
-      if (frontmatter === null) {
-        missing = [...missing, ...artifact.requiredFrontmatterKeys.map((item) => `frontmatter:${item}`)];
+      if (artifact.requiredFrontmatterKeys) {
+        const frontmatter = parseFrontmatter(content);
+        if (frontmatter === null) {
+          missing = [...missing, ...artifact.requiredFrontmatterKeys.map((item) => `frontmatter:${item}`)];
+        } else {
+          missing = [...missing, ...missingKeys(frontmatter, artifact.requiredFrontmatterKeys).map((item) => `frontmatter:${item}`)];
+        }
+      }
+
+      if (artifact.requiredJsonKeys) {
+        const parsed = JSON.parse(content);
+        missing = [...missing, ...missingKeys(parsed, artifact.requiredJsonKeys).map((item) => `json:${item}`)];
+      }
+
+      const textRuleResult = evaluateTextRules(content, artifact);
+      missing = [...missing, ...textRuleResult.missing];
+      forbidden = [...forbidden, ...textRuleResult.forbidden];
+
+      if (artifact.expectedReasonCodes) {
+        const parsed = JSON.parse(content);
+        const actual = new Set(parsed.reason_codes ?? []);
+        const missingReasonCodes = artifact.expectedReasonCodes.filter((item) => !actual.has(item));
+        missing = [...missing, ...missingReasonCodes.map((item) => `reason_code:${item}`)];
+      }
+
+      if (missing.length > 0 || forbidden.length > 0) {
+        failed = true;
+        checks.push({
+          type: artifact.type ?? "artifact",
+          file: artifact.file,
+          status: "FAIL",
+          reason_code: artifact.reasonCode ?? "task-artifact-mismatch",
+          missing,
+          forbidden,
+        });
       } else {
-        missing = [...missing, ...missingKeys(frontmatter, artifact.requiredFrontmatterKeys).map((item) => `frontmatter:${item}`)];
+        checks.push({
+          type: artifact.type ?? "artifact",
+          file: artifact.file,
+          status: "PASS",
+        });
       }
     }
-
-    if (artifact.requiredJsonKeys) {
-      const parsed = JSON.parse(content);
-      missing = [...missing, ...missingKeys(parsed, artifact.requiredJsonKeys).map((item) => `json:${item}`)];
-    }
-
-    const textRuleResult = evaluateTextRules(content, artifact);
-    missing = [...missing, ...textRuleResult.missing];
-    forbidden = [...forbidden, ...textRuleResult.forbidden];
-
-    if (artifact.expectedReasonCodes) {
-      const parsed = JSON.parse(content);
-      const actual = new Set(parsed.reason_codes ?? []);
-      const missingReasonCodes = artifact.expectedReasonCodes.filter((item) => !actual.has(item));
-      missing = [...missing, ...missingReasonCodes.map((item) => `reason_code:${item}`)];
-    }
-
-    if (missing.length > 0 || forbidden.length > 0) {
-      failed = true;
-      checks.push({
-        type: artifact.type ?? "artifact",
-        file: artifact.file,
-        status: "FAIL",
-        reason_code: artifact.reasonCode ?? "task-artifact-mismatch",
-        missing,
-        forbidden,
-      });
-    } else {
-      checks.push({
-        type: artifact.type ?? "artifact",
-        file: artifact.file,
-        status: "PASS",
-      });
-    }
+  } finally {
+    cleanup?.();
   }
 
   return {
@@ -177,6 +411,7 @@ export function evaluateTaskFixture(root, fixture) {
     category: fixture.category ?? "behavioral-task",
     status: failed ? "FAIL" : "PASS",
     checks,
+    execution,
   };
 }
 

@@ -1,7 +1,7 @@
 {
   "task_id": "harness-evals-latest",
-  "timestamp": "2026-05-12T12:53:01.562Z",
-  "harness_version": "6316ac80829a08e0fd68c16dfc0d04cb1986823b",
+  "timestamp": "2026-05-15T01:51:59.086Z",
+  "harness_version": "32f128a37cfb0d865ddaeb42de8a6a74b21cee9c",
   "prompt_or_task_summary": "Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.",
   "tool_trace_summary": [
     "Read eval fixture JSON files from scripts/evals/fixtures/",
@@ -18,7 +18,7 @@
     }
   ],
   "verdict": "PASS",
-  "fixture_count": 20,
+  "fixture_count": 21,
   "failed": 0,
   "fixture_ids": [
     "agents-policy-bloat-negative",
@@ -28,6 +28,7 @@
     "runtime-plugin-removal",
     "docs-policy-migration-roundtrip",
     "evidence-bundle-completion",
+    "init-harness-minimal-foreign-repo-scaffold",
     "orchestrator-routing-discipline-20260512-1708",
     "planner-and-mcp-state-contract",
     "reviewer-boundary-routing",
@@ -83,7 +84,7 @@
     "release_critical_average_score_0_to_5": 5
   },
   "drift_summary": {
-    "previous_timestamp": "2026-05-12T12:50:04.292Z",
+    "previous_timestamp": "2026-05-15T01:51:56.072Z",
     "previous_average_score_0_to_5": 3.4,
     "average_score_delta": 0,
     "failed_delta": 0,
@@ -98,6 +99,8 @@
   },
   "files_changed": [
     ".opencode/docs/AGENT_ROUTING.md",
+    ".opencode/docs/ARCHITECTURE.md",
+    ".opencode/docs/EVALS.md",
     ".opencode/docs/MCP.md",
     ".opencode/docs/QUALITY.md",
     ".opencode/docs/index.md",
@@ -215,7 +218,8 @@
           "file": ".opencode/docs/index.md",
           "status": "PASS"
         }
-      ]
+      ],
+      "execution": null
     },
     {
       "id": "evidence-bundle-completion",
@@ -238,7 +242,73 @@
           "file": ".opencode/evidence/20260510-2140-harness-engineering-plan/verification.md",
           "status": "PASS"
         }
-      ]
+      ],
+      "execution": null
+    },
+    {
+      "id": "init-harness-minimal-foreign-repo-scaffold",
+      "description": "Replayable temp-repo scaffold proof for init-harness expectations on a minimal external-style repo: canonical .opencode/docs plus short AGENTS.md map. Limitation: this uses a narrow eval-only temp-repo scaffold adapter rather than the real /init-harness slash-command runtime.",
+      "category": "behavioral-task",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "agents-map",
+          "file": "AGENTS.md",
+          "status": "PASS"
+        },
+        {
+          "type": "canonical-index",
+          "file": ".opencode/docs/index.md",
+          "status": "PASS"
+        },
+        {
+          "type": "canonical-doc",
+          "file": ".opencode/docs/AGENT_ROUTING.md",
+          "status": "PASS"
+        },
+        {
+          "type": "canonical-doc",
+          "file": ".opencode/docs/ARCHITECTURE.md",
+          "status": "PASS"
+        },
+        {
+          "type": "canonical-doc",
+          "file": ".opencode/docs/QUALITY.md",
+          "status": "PASS"
+        },
+        {
+          "type": "canonical-doc",
+          "file": ".opencode/docs/EVALS.md",
+          "status": "PASS"
+        }
+      ],
+      "execution": {
+        "mode": "init-harness-scaffold",
+        "seed_root": "scripts/evals/fixtures/minimal-foreign-repo-seed",
+        "generated_files": [
+          ".opencode/docs/AGENT_LEGIBILITY.md",
+          ".opencode/docs/AGENT_ROUTING.md",
+          ".opencode/docs/AGENT_TOOL_ACCESS.md",
+          ".opencode/docs/ARCHITECTURE.md",
+          ".opencode/docs/DECISIONS.md",
+          ".opencode/docs/EVALS.md",
+          ".opencode/docs/GC_WORKFLOW.md",
+          ".opencode/docs/GOLDEN_PRINCIPLES.md",
+          ".opencode/docs/MCP.md",
+          ".opencode/docs/PROMPT_GATES.md",
+          ".opencode/docs/QUALITY.md",
+          ".opencode/docs/QUALITY_SCORE.md",
+          ".opencode/docs/RELEASE.md",
+          ".opencode/docs/SECURITY.md",
+          ".opencode/docs/SKILLS.md",
+          ".opencode/docs/TOOL_USAGE.md",
+          ".opencode/docs/index.md",
+          "AGENTS.md",
+          "README.md",
+          "package.json"
+        ],
+        "limitation": "Eval-only temp-repo scaffold adapter; does not execute the real /init-harness slash-command runtime."
+      }
     },
     {
       "id": "orchestrator-routing-discipline-20260512-1708",
@@ -281,7 +351,8 @@
           "file": "skills/opencode-orchestrator/SKILL.md",
           "status": "PASS"
         }
-      ]
+      ],
+      "execution": null
     },
     {
       "id": "planner-and-mcp-state-contract",
@@ -304,7 +375,8 @@
           "file": ".opencode/docs/MCP.md",
           "status": "PASS"
         }
-      ]
+      ],
+      "execution": null
     },
     {
       "id": "reviewer-boundary-routing",
@@ -327,7 +399,8 @@
           "file": "skills/opencode-quality-gate/SKILL.md",
           "status": "PASS"
         }
-      ]
+      ],
+      "execution": null
     },
     {
       "id": "routing-borderline-direct-tiny-task",

@@ -218,6 +218,18 @@ writeFileSync(
       ...result.checks.map((check) => `- ${check.file}: ${check.status}${check.reason_code ? ` (${check.reason_code})` : ""}`),
       "",
     ].filter(Boolean)),
+      ...results.flatMap((result) => result.execution ? [
+        `### Execution metadata for ${result.id}`,
+        `- Mode: ${result.execution.mode}`,
+        `- Seed root: ${result.execution.seed_root}`,
+        result.execution.server_url ? `- Server URL: ${result.execution.server_url}` : null,
+        result.execution.runtime_message ? `- Runtime message: ${result.execution.runtime_message}` : null,
+        result.execution.generated_files?.length ? `- Generated files: ${result.execution.generated_files.join(", ")}` : null,
+        result.execution.stdout ? `- Stdout captured: ${JSON.stringify(result.execution.stdout.trim())}` : null,
+        result.execution.stderr ? `- Stderr captured: ${JSON.stringify(result.execution.stderr.trim())}` : null,
+        result.execution.limitation ? `- Limitation: ${result.execution.limitation}` : null,
+        "",
+      ].filter(Boolean) : []),
   ].join("\n"),
 );
 

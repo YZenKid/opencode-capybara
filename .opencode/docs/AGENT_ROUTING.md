@@ -15,6 +15,14 @@ Planner invocation expectation:
 - Invoke it for multi-phase, spec-heavy, materially ambiguous, or evidence-heavy work.
 - Trivial, single-step, and easily reversible tasks may execute directly without planner.
 - Non-trivial tasks should route through `@artifact-planner` first when planning depth/evidence is required.
+- Planner handoff quality bar: non-trivial plans must include an explicit `Execution-ready Worklist / Handoff Contract` with ordered atomic tasks, dependencies, owner/lane, validation, exit criteria, blocking status, and a `start_with` first action for orchestrator.
+
+## Plan-bound execution contract (orchestrator)
+- If a primary plan includes `Execution-ready Worklist / Handoff Contract`, treat it as execution source of truth.
+- Start from `start_with` and run all non-blocked tasks in order using declared dependencies/lanes.
+- Treat milestones/phases as internal progress markers, not stop points.
+- Stop only for true blockers (`blocked`) or explicit `requires_user_decision` boundaries.
+- Completion claim requires finishing every non-blocked task and satisfying plan done criteria.
 
 ## Direct-work thresholds for `@orchestrator`
 `@orchestrator` is a router/integrator first, not the default worker. Direct execution is allowed only for tiny tasks.

@@ -49,7 +49,9 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 - Review accessibility and visual-parity evidence when substantial UI claims are made.
 - Return one status only: `PASS`, `PASS_WITH_RISKS`, `NEEDS_FIX`, or `BLOCKED`.
 - Stay read-only: do not edit files, self-fix, or expand scope into implementation.
+- Jangan mengedit file, memperbaiki sendiri, atau memperluas scope ke implementasi.
 - Do not edit files.
+- Jangan mengedit file.
 
 ## Input contract
 - Scope/request summary.
