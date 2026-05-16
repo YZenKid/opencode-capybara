@@ -3,13 +3,13 @@
 Before approving any UI work:
 
 ## Design System Compliance
-- [ ] Component verified in your Figma Design System
+- [ ] Component verified in your design system
 - [ ] Component implementation checked in your Component Library
-- [ ] Figma Dev Mode specs followed (spacing, tokens, typography)
+- [ ] Design system specs followed (spacing, tokens, typography)
 - [ ] Design tokens used (no hardcoded hex colors or pixel values)
 - [ ] Token imports verified in code
-- [ ] All variants/states implemented as designed in Figma
-- [ ] Spacing measurements match Figma Dev Mode exactly
+- [ ] All variants/states implemented as designed
+- [ ] Spacing measurements match design system specs exactly
 - [ ] Deviations documented with design approval
 
 ## Aesthetic Quality (especially for new designs)
@@ -26,7 +26,7 @@ Before approving any UI work:
 - [ ] Single clear primary action per view
 
 ## Quality Craft
-- [ ] Uses design system components (verified in Figma)
+- [ ] Uses design system components (verified)
 - [ ] Design tokens used (no hardcoded values)
 - [ ] Distinctive aesthetic (not generic overused fonts/cliched schemes)
 - [ ] Accessible (Grade C minimum, Grade B ideal)

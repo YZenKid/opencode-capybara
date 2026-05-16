@@ -29,7 +29,7 @@ For canonical tool policy and boundaries, refer to:
 
 Use wait-stabilize-scroll-settle screenshots for visual/browser tasks. Check desktop/tablet/mobile when responsive behavior changes. Record console/network issues only when they affect rendering.
 For substantial UI/reference/image-heavy work, do not close on screenshots alone; require production-like evidence, icon audit, motion audit, and draft vs reference-ready status.
-For substantial UI/UX, web, mobile, dashboard, landing page, reference, revamp, or design-system work, implement only from the provided `@designer` handoff and any Figma MCP design/canvas/design-system brief. Treat Figma MCP output as structured design input that must be adapted to existing project components/tokens, accessibility, responsive behavior, and content. If the spec is missing or conflicts with project patterns, stop and ask instead of creating a new visual direction. If Figma MCP was unavailable/read-only/client-limited, proceed from the documented fallback handoff and record the limitation.
+For substantial UI/UX, web, mobile, dashboard, landing page, reference, revamp, or design-system work, implement only from the provided `@designer` handoff. If the spec is missing or conflicts with project patterns, stop and ask instead of creating a new visual direction.
 
 Before implementing UI-related changes, inspect the target project's `DESIGN.md` at the project root, then `design-system/DESIGN.md` or any documented project-specific equivalent. Treat project-local design guidance as higher priority than generic preferences, and do not silently override it.
 

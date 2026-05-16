@@ -42,14 +42,13 @@ Follow a smarter artifact-first UI workflow with DESIGN.md awareness and artifac
 - Implement or refine UI with accessibility and reduced-motion considerations.
 - Before any UI/design direction, inspect the target project's `DESIGN.md` first.
 - If `DESIGN.md` is unavailable, fall back to `design-system/DESIGN.md` or an equivalent project guide.
-- Use Figma MCP when available for substantial design-system/revamp context.
 - Do not overstate ownership: this is a helper lane; final conformance/risk signoff remains with `@quality-gate`.
 
 ## Input contract
 - Target screens/components and user intent.
 - Existing design guidance/tokens/components.
 - Constraints: breakpoints, accessibility, motion preferences, asset availability.
-- Reference screenshots/URLs/Figma nodes when relevant.
+- Reference screenshots/URLs when relevant.
 
 ## Workflow
 1. Discover current UI patterns and design constraints.

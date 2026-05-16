@@ -407,7 +407,6 @@ const checks = [
       "usable",
       "read-only",
       "unsupported",
-      "Figma state walkthrough",
     ],
   },
   {
@@ -416,7 +415,6 @@ const checks = [
     mustInclude: [
       "MCP state model",
       "configured does not imply usable",
-      "Figma quick interpretation",
       "auth-blocked/unauthenticated",
       "read-only/unsupported",
     ],
@@ -1116,7 +1114,6 @@ const checks = [
       "description:",
       "model:",
       "opencode-designer",
-      "Figma",
       "visual parity",
       "apply_patch: allow",
       "task: deny",

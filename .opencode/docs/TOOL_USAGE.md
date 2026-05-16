@@ -32,12 +32,6 @@ When reasoning about configured MCP tools, use the same state terms as [MCP.md](
 
 Operational rule: configured does not imply usable.
 
-### Figma quick interpretation
-- `figma` present in inventory only proves **configured**.
-- If OAuth/session is missing or blocked, treat as **auth-blocked/unauthenticated** and use fallback workflow.
-- Treat as **usable** only when the required capability works in the current client/server/role context.
-- If a capability is not supported (for example canvas-write in current environment), classify it as **read-only/unsupported** for that action.
-
 ## Tool classes
 
 ### 1) Built-in OpenCode tools
@@ -56,7 +50,7 @@ Commonly used categories:
 - GitHub APIs/search/PR workflows (`github`)
 - Browser/runtime UI evidence (`playwright`)
 - Security scans/findings (`semgrep`)
-- Design-generation surfaces (`figma`, image tooling)
+- Image-generation surfaces (`image-asset-generator`)
 - Time/locality helpers (`time`)
 
 ## Selection heuristics

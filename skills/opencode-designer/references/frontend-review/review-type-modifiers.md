@@ -5,7 +5,7 @@ Adjust focus based on review context:
 ## PR Review
 - **Focus**: Code implementation, design system component usage, design token usage, accessibility in code
 - **Check**: Proper imports, design tokens used (not hardcoded), ARIA attributes present
-- **Verify**: Component matches Figma specs using Dev Mode
+- **Verify**: Component matches design specs from the project's design system
 
 ## Creative Frontend Review
 - **Focus**: Aesthetic direction, typography choices, visual distinctiveness, motion design
@@ -25,7 +25,7 @@ Adjust focus based on review context:
 
 ## Design System Compliance Audit
 - **Focus**: Deep dive design system usage
-- **Check**: All components match Figma specs, design tokens used throughout, no hardcoded values
-- **Test**: Compare implementation side-by-side with Figma using Dev Mode
+- **Check**: All components match design specs, design tokens used throughout, no hardcoded values
+- **Test**: Compare implementation side-by-side with design system specs
 - **Verify**: Component variants, spacing, colors, typography all match design system
 - **Document**: Any deviations with rationale and plan to align

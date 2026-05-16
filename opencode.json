@@ -211,13 +211,6 @@
       "enabled": true,
       "timeout": 30000
     },
-    "figma": {
-      "type": "remote",
-      "url": "https://mcp.figma.com/mcp",
-      "oauth": {},
-      "enabled": true,
-      "timeout": 300000
-    },
     "image-asset-generator": {
       "type": "local",
       "command": [

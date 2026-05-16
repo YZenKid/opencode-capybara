@@ -33,8 +33,7 @@
         "connected",
         "usable",
         "read-only / unsupported",
-        "Rule: `configured` does **not** mean `usable`.",
-        "Figma state walkthrough"
+        "Rule: `configured` does **not** mean `usable`."
       ],
       "reasonCode": "mcp-state-model-gap"
     }

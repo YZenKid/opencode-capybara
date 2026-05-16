@@ -15,7 +15,6 @@ Configured MCP surfaces include:
 - `grep_app`
 - `playwright`
 - `shadcn`
-- `figma`
 - `image-asset-generator`
 - `semgrep`
 - `github`
@@ -33,22 +32,9 @@ Use this lightweight state model consistently across docs/prompt surfaces:
 
 Rule: `configured` does **not** mean `usable`.
 
-## Figma state walkthrough (concrete example)
-
-1. `figma` listed in inventory → **configured**.
-2. OAuth not completed or rejected by environment policy → **auth-blocked / unauthenticated**.
-3. OAuth accepted by provider → **authenticated**.
-4. MCP endpoint responds in current runtime → **connected**.
-5. Needed action works in current client/server + permission context → **usable**.
-6. Canvas-write/live-sync not available in current setup or current role is review-only → **read-only / unsupported** for that action.
-
 ## Policy
 - MCP usage should be explicit and task-relevant.
 - Prefer local discovery before external tools when repo-local context is enough.
 - Do not hardcode device-specific absolute paths in MCP configuration or prompts.
 - Image generation must use explicit `project_root` and `target_path` relative to that root.
-- For UI/design tasks, treat Figma MCP output as design input only (context/rules/canvas artifacts), not final implementation.
-- Figma MCP capabilities may vary by remote server/client support and seat permissions (for example write-to-canvas or live UI sync availability).
-- Figma config posture in this repo is remote + OAuth object (`oauth: {}`).
-- Native `opencode mcp auth figma` may fail in some environments due to Figma approved-client restriction; use repo bootstrap helper when needed.
 - OpenCode auth store file (`~/.local/share/opencode/mcp-auth.json`) is sensitive and must never be committed.

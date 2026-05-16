@@ -12,12 +12,12 @@
 [Pass/Needs Work/Blocked] - [One-line assessment]
 
 ### Design System Compliance (if applicable)
-- [ ] Component exists in [Your Figma Design System]
+- [ ] Component exists in [Your Design System]
 - [ ] Component usage verified in [Your Component Library]
-- [ ] Implementation matches Figma specs (spacing, colors, typography)
+- [ ] Implementation matches design specs (spacing, colors, typography)
 - [ ] Uses design tokens (not hardcoded values) - verified in code
 - [ ] All variants match design system options
-- [ ] Spacing verified against Figma Dev Mode
+- [ ] Spacing verified against design system specs
 - [ ] Documented exception if deviating from design system
 
 ### Aesthetic Quality (especially for new designs)
@@ -64,5 +64,5 @@
 - [Specific code change with design token reference]
 - [Typography recommendation for better aesthetic direction]
 - [Motion/animation suggestion]
-- [Link to design system in Figma]
+- [Link to design system]
 ```

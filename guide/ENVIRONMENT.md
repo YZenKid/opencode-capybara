@@ -57,23 +57,6 @@ Copy `.env.example` to `.env` and set every `OPENCODE_MODEL_*` value before laun
 - `GITHUB_PERSONAL_ACCESS_TOKEN`
 - `GITHUB_TOOLSETS`
 
-### Figma MCP (remote)
-
-- `figma` MCP pada `opencode.json` memakai remote URL `https://mcp.figma.com/mcp`.
-- Gunakan posture OAuth client/host (bukan API-key header custom) sesuai dukungan server/client resmi.
-- Untuk OpenCode, bentuk config OAuth yang diharapkan adalah object, misalnya: `"oauth": {}`.
-- Native auth `opencode mcp auth figma` bisa gagal pada sebagian environment karena approved-client restriction di sisi Figma (contoh gejala: HTTP 403/Forbidden).
-- Jika native auth gagal, gunakan bootstrap helper repo ini:
-
-  ```bash
-  bash scripts/figma-mcp-auth.sh bootstrap
-  ```
-
-  Helper tersebut menulis token OAuth ke `~/.local/share/opencode/mcp-auth.json`.
-- File `~/.local/share/opencode/mcp-auth.json` bersifat **sensitif** (token). Jangan commit, jangan share sembarangan, dan jangan jadikan artefak lintas-device default.
-- Untuk machine/device baru: pakai config repo yang sama, lalu **ulang auth di device tersebut** (native atau bootstrap). Jangan mengandalkan copy token antar mesin.
-- Capability Figma MCP bisa berbeda tergantung support client, mode remote/desktop, dan seat/plan (misalnya write-to-canvas atau live UI sync).
-
 ### Image asset
 
 - `IMAGE_ASSET_MODEL`

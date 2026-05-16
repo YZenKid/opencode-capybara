@@ -177,10 +177,9 @@ When working through multi-step tasks, consider enabling auto-continue to avoid 
 
 
 ### Anti-AI-slop UI gate
-For any frontend, web app, mobile app, landing page, dashboard, form, nav, React/Next, React Native/Expo, Flutter, Tailwind, shadcn/ui, or Figma-to-code task:
+For any frontend, web app, mobile app, landing page, dashboard, form, nav, React/Next, React Native/Expo, Flutter, Tailwind, shadcn/ui, or design-to-code task:
 - Route design/planning/review to @designer unless the change is tiny and non-visual.
 - Use the configured standalone `opencode-*` skill for the target agent instead of loading multiple overlapping legacy skills.
-- For substantial UI/UX, design-system, mobile/web app, dashboard, landing page, reference, or revamp work, require @designer to run the Figma MCP Design/Canvas Gate when `figma` is available. Use Figma MCP for design context, design-system search/rules, and canvas write flows where supported; output remains design input only and must still be adapted to existing project tokens/components with accessibility, asset, animation, and screenshot validation.
 - Final UI must pass a non-generic visual direction check: distinctive typography/hierarchy, coherent palette/tokens, visual density, responsive layout, meaningful states, accessibility, and no default AI-slop patterns.
 - For build-from-scratch or substantial UI/UX work, high-level visual direction is insufficient. Require a general end-to-end UI/UX Design Blueprint before implementation is called ready: experience direction, page-by-page UX blueprint, section-level visual specification, component system plan, visual system, asset and image decision, motion system, interaction/state design, responsive plan, accessibility gate, and validation evidence. Project-local design guidance wins over generic taste.
 - Implementation is blocked when a substantial UI plan lacks page-level, section-level, component-level, image/asset, motion, state, responsive, accessibility, or evidence detail; final status must be `blocked`, `needs-polish`, or `draft`, not `done`.

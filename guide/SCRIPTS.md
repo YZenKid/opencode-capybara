@@ -9,17 +9,6 @@
 | `npm run setup:tools:check` | Verifikasi read-only apakah tool setup sudah tersedia | Saat ingin cek kondisi tool tanpa mengubah sistem |
 | `npm run doctor` | Menjalankan pemeriksaan repo, env posture, sync agent model, dan sync OpenChamber | Setelah setup atau saat troubleshooting |
 | `npm run post:update` | Menjalankan sync agent model, sync OpenChamber, lalu `doctor` | Setelah update config, model routing, atau file agent |
-| `bash scripts/figma-mcp-auth.sh auth` | Direct wrapper: validasi config lalu eksekusi `opencode mcp auth figma` | Saat ingin connect Figma MCP pertama kali |
-| `bash scripts/figma-mcp-auth.sh reauth` | Direct wrapper: validasi config lalu eksekusi `opencode mcp logout figma` dan `opencode mcp auth figma` | Saat auth perlu direset/diulang |
-| `bash scripts/figma-mcp-auth.sh bootstrap` | Direct wrapper: validasi config lalu eksekusi helper bootstrap OAuth (`node scripts/figma-mcp-auth-bootstrap.mjs https://mcp.figma.com/mcp`) | Saat native auth gagal (approved-client restriction/403) |
-| `bash scripts/figma-mcp-auth.sh <mode> --verify` | Menjalankan verifikasi pasca-flow: `opencode mcp list` + `opencode mcp debug figma` | Setelah auth/reauth/bootstrap untuk cek status aktual |
-
-### Catatan Figma MCP
-
-- Config repo ini untuk Figma MCP memakai `oauth: {}` (object), bukan API-key auth.
-- Bootstrap helper menulis token ke `~/.local/share/opencode/mcp-auth.json`.
-- File token tersebut sensitif: jangan commit dan jangan disebar.
-- Untuk machine/device baru, ulangi flow auth di device itu (disarankan), bukan copy token antar mesin.
 
 ## Sinkronisasi model dan config
 
