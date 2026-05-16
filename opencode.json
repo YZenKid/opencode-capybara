@@ -196,7 +196,10 @@
       "type": "local",
       "command": [
         "npx",
-        "@playwright/mcp@latest"
+        "@playwright/mcp@latest",
+        "--extension",
+        "--browser",
+        "chrome"
       ],
       "enabled": true,
       "timeout": 30000
