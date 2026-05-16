@@ -197,9 +197,7 @@
       "command": [
         "npx",
         "@playwright/mcp@latest",
-        "--extension",
-        "--browser",
-        "chrome"
+        "--cdp-endpoint=http://127.0.0.1:9333"
       ],
       "enabled": true,
       "timeout": 30000
