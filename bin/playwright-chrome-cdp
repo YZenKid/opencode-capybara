@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PORT="${OPENCODE_PLAYWRIGHT_CDP_PORT:-9333}"
+PROFILE_DIR="${OPENCODE_PLAYWRIGHT_PROFILE_DIR:-$ROOT_DIR/.tmp/playwright-chrome-cdp-profile}"
+CHROME_APP="${OPENCODE_PLAYWRIGHT_CHROME_APP:-Google Chrome}"
+START_URL="${1:-about:blank}"
+DEVTOOLS_FILE="$PROFILE_DIR/DevToolsActivePort"
+
+print_ready() {
+  local detected_port detected_path
+  {
+    IFS= read -r detected_port || true
+    IFS= read -r detected_path || true
+  } < "$DEVTOOLS_FILE"
+
+  if [[ -n "${detected_port:-}" && -n "${detected_path:-}" ]]; then
+    printf 'Playwright CDP ready\n'
+    printf '  HTTP: http://127.0.0.1:%s\n' "$detected_port"
+    printf '  WS:   ws://127.0.0.1:%s%s\n' "$detected_port" "$detected_path"
+    printf '  Profile: %s\n' "$PROFILE_DIR"
+    return 0
+  fi
+
+  return 1
+}
+
+if curl -fsS "http://127.0.0.1:${PORT}/json/version" >/dev/null 2>&1; then
+  if [[ -f "$DEVTOOLS_FILE" ]] && print_ready; then
+    exit 0
+  fi
+
+  printf 'Playwright CDP already listening on http://127.0.0.1:%s\n' "$PORT"
+  exit 0
+fi
+
+mkdir -p "$PROFILE_DIR"
+
+open -na "$CHROME_APP" --args \
+  "--remote-debugging-port=${PORT}" \
+  "--user-data-dir=${PROFILE_DIR}" \
+  "$START_URL"
+
+for _ in {1..20}; do
+  if curl -fsS "http://127.0.0.1:${PORT}/json/version" >/dev/null 2>&1 && [[ -f "$DEVTOOLS_FILE" ]]; then
+    print_ready && exit 0
+  fi
+  sleep 1
+done
+
+printf 'Chrome launched, but CDP endpoint not ready yet.\n' >&2
+printf 'Check Chrome window, then retry this script.\n' >&2
+exit 1
