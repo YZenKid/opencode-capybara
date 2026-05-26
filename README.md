@@ -206,6 +206,8 @@ Full details remain in `.opencode/docs/` and the related agent/skill files.
   - https://github.com/sst/opencode
 - Slim preset ancestor — the preset/ancestor that served as the starting point before this repo evolved into `opencode-capybara`:
   - https://github.com/YZenKid/oh-my-opencode-slim-preset
+- oh-my-pi (`omp`) — reference for deterministic edit, LSP-first workflow, debugger/runtime primitives, and eval-driven harness design that informed the OMP adoption roadmap:
+  - https://github.com/can1357/oh-my-pi
 - RTK AI — the primary toolchain for token compression / context packing, used together with Caveman according to the repo workflow:
   - https://github.com/rtk-ai/rtk
 - Caveman — the companion workflow used together with RTK, not a separate alternative path:
