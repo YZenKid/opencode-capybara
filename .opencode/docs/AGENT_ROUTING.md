@@ -7,8 +7,14 @@ User intent → `@orchestrator` → specialist agents → validation → `@quali
 - For implementation requests or plan execution, `@orchestrator` should use a finish-first default: continue work as far as safely and feasibly possible before asking the user follow-up questions.
 - Treat gates, phases, work packages, and milestones in a plan as internal checkpoints rather than approval checkpoints, unless an explicit marker such as `requires_user_decision` is present.
 - When a blocker appears, investigate first through repo evidence, docs, tools, and the most capable subagent.
+- Use blocker taxonomy:
+  - `hard_stop`: destructive/irreversible approval boundary, security/privacy/secrets decision boundary, truly unavailable required access/dependency, contradictory requirements, or material non-reversible decision with no safe subset.
+  - `soft_blocker`: continue safe subset and record risk.
+  - `deferred_question`: queue to final summary.
+  - `follow_up`: non-blocking continuation item.
+- Advisory lanes are non-veto by default. Advisory labels (`needs-architect-decisions`, `blocked`, `Material block exists`) must be reclassified via taxonomy + repo evidence before stopping.
 - Accumulate non-blocking questions and present them at the end together with assumption/risk notes rather than using them to interrupt execution momentum.
-- Pause mid-run only for destructive decisions, security/privacy boundaries, truly unavailable required access, or material non-reversible ambiguity.
+- Pause mid-run only for `hard_stop`.
 
 Planner invocation expectation:
 - `@artifact-planner` is a **triggered lane**, not default-first.
@@ -21,7 +27,8 @@ Planner invocation expectation:
 - If a primary plan includes `Execution-ready Worklist / Handoff Contract`, treat it as execution source of truth.
 - Start from `start_with` and run all non-blocked tasks in order using declared dependencies/lanes.
 - Treat milestones/phases as internal progress markers, not stop points.
-- Stop only for true blockers (`blocked`) or explicit `requires_user_decision` boundaries.
+- Stop only for `hard_stop` conditions or explicit `requires_user_decision` boundaries.
+- Advisory/worklist labels using `blocked` must be normalized into the blocker taxonomy before orchestrator decides to stop.
 - Completion claim requires finishing every non-blocked task and satisfying plan done criteria.
 
 ## Direct-work thresholds for `@orchestrator`
@@ -67,6 +74,8 @@ Score guidance: 5/5 = strong routing discipline; 3–4/5 = acceptable with minor
 
 Cross-lane contract baseline (non-trivial work):
 - Typed output schema fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
+- Typed schema is internal coordination contract and non-user-facing.
+- Orchestrator must normalize internal outputs before user-facing final response; never pass raw internal labels directly.
 - Validation ladder: plan/handoff check → discovery/research evidence → implementation/docs change → diff review → targeted validation commands → `@quality-gate` for non-trivial/risky completion claims.
 - LSP-first for rename/refactor/navigation/diagnostic-driven edits where available; fallback to `glob`/`grep`/`read` + minimal edits must be recorded in evidence when confidence drops.
 - `@orchestrator` — router, integrator, final coordinator

@@ -1,14 +1,14 @@
 # Harness Eval Report
 
-- Timestamp: 2026-05-26T07:15:51.244Z
-- Harness version: b9c01265297b5cc5b40f656ba0552373ad7e2597
+- Timestamp: 2026-05-29T15:15:43.537Z
+- Harness version: 9d08f70a0316a6d5add2015e6f7a575cf0259fd8
 - Task summary: Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.
 - Verdict: PASS
-- Fixture count: 21
+- Fixture count: 24
 - Failed: 0
-- Transcript fixture count: 10
-- Transcript average routing score: 3.4/5
-- Transcript score bands: strong=1, excellent=5, weak=4
+- Transcript fixture count: 13
+- Transcript average routing score: 3.54/5
+- Transcript score bands: usable=1, strong=2, excellent=6, weak=4
 - Drift average delta: 0
 - Release gate ready: true
 - Tool trace:
@@ -36,6 +36,9 @@
   - agents/quality-gate.md
   - opencode.json
   - package.json
+  - scripts/evals/transcript-fixtures/final-output-raw-subagent-language-negative.json
+  - scripts/evals/transcript-fixtures/finish-first-advisory-veto-negative.json
+  - scripts/evals/transcript-fixtures/finish-first-indonesian-final-positive.json
   - scripts/evals/transcript-fixtures/routing-borderline-direct-tiny-task.json
   - scripts/evals/transcript-fixtures/routing-compliant-positive.json
   - scripts/evals/transcript-fixtures/routing-fallback-valid-specialist-unavailable.json
@@ -62,6 +65,9 @@
   - orchestrator-routing-discipline-20260512-1708
   - planner-and-mcp-state-contract
   - reviewer-boundary-routing
+  - final-output-raw-subagent-language-negative
+  - finish-first-advisory-veto-negative
+  - finish-first-indonesian-final-positive
   - routing-borderline-direct-tiny-task
   - routing-compliant-positive
   - routing-fallback-valid-specialist-unavailable
@@ -73,6 +79,8 @@
   - routing-share-export-malformed-partial
   - routing-share-export-noisy-negative
 - Reason codes:
+  - final-output-raw-internal-passthrough
+  - finish-first-premature-advisory-stop
   - routing-overreach-redundant-orchestrator-discovery
   - routing-overreach-orchestrator-multifile-edit
   - routing-overreach-missing-planner-first
@@ -152,6 +160,36 @@
 - agents/quality-gate.md: PASS
 - .opencode/docs/AGENT_ROUTING.md: PASS
 - skills/opencode-quality-gate/SKILL.md: PASS
+## final-output-raw-subagent-language-negative
+- Status: PASS
+- Description: Transcript eval: detect raw internal/subagent fields leaked directly into final user-facing output.
+- Transcript source mode: normalized-events
+- Routing score: 3/5
+- Routing score band: usable
+- Routing confidence: high
+- Routing dimensions: lane_fit=pass, threshold_compliance=fail, planner_first=pass, evidence_legibility_proxy=fail, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/final-output-raw-subagent-language-negative.json: PASS
+- scripts/evals/transcript-fixtures/final-output-raw-subagent-language-negative.json: PASS (final-output-raw-internal-passthrough)
+## finish-first-advisory-veto-negative
+- Status: PASS
+- Description: Transcript eval: detect premature stop after advisory soft blocker when safe subset work should continue.
+- Transcript source mode: normalized-events
+- Routing score: 4/5
+- Routing score band: strong
+- Routing confidence: high
+- Routing dimensions: lane_fit=fail, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=pass, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/finish-first-advisory-veto-negative.json: PASS
+- scripts/evals/transcript-fixtures/finish-first-advisory-veto-negative.json: PASS (finish-first-premature-advisory-stop)
+## finish-first-indonesian-final-positive
+- Status: PASS
+- Description: Transcript eval: advisory risk handled, safe subset work continues, final output normalized in Indonesian.
+- Transcript source mode: normalized-events
+- Routing score: 5/5
+- Routing score band: excellent
+- Routing confidence: high
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=pass, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/finish-first-indonesian-final-positive.json: PASS
+- scripts/evals/transcript-fixtures/finish-first-indonesian-final-positive.json: PASS
 ## routing-borderline-direct-tiny-task
 - Status: PASS
 - Description: Transcript eval: a tiny direct orchestrator task can be valid but should not score perfect if delegation legibility is absent.

@@ -36,5 +36,8 @@ Preventive controls, mechanical checks, and replayable evidence should be truste
 ## 12. Compression follows the approved toolchain
 If token compression or context packing is needed, use RTK and Caveman together according to the repo-approved workflow. Do not create a parallel local compression path or treat RTK and Caveman as either/or choices outside the official setup, docs, and gates.
 
-## 13. One prose language per context
-Default operational prose, instructions, and agent-internal coordination should stay in English. Use Bahasa Indonesia only for artifact-planner plan output and for final user-facing conclusions, unless the user explicitly requests a different language policy. Avoid mixed English/Indonesian prose blocks outside technical literals.
+## 13. Indonesian-first user-facing prose
+Default user-facing orchestrator communication must be Bahasa Indonesia: progress, summary, risks, next steps, and handoff.
+Internal coordination may keep technical schema wording, but raw internal labels must not be shown directly to users.
+Technical literals stay original: code, identifiers, package names, API names, CLI commands, file paths, exact errors, and quoted source.
+If user explicitly requests another language policy, follow user request.

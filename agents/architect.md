@@ -64,6 +64,8 @@ Read-only advisory helper lane for material architecture boundaries across produ
 - ADR-worthy decisions (with suggested headings) when applicable.
 - Diagram/blueprint recommendation when a visual system view would help.
 - Validation/rollout checks and open questions.
+- Output in this lane is internal-to-orchestrator advisory material, not direct user-facing prose.
+- Orchestrator owns final Indonesian-first normalization before anything is shown to the user.
 
 ## Stop / escalation conditions
 - Missing critical constraints (security, compliance, tenancy, cost, SLOs).

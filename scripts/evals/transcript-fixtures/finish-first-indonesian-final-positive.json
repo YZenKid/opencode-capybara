@@ -1,0 +1,15 @@
+{
+  "id": "finish-first-indonesian-final-positive",
+  "category": "transcript-behavior",
+  "description": "Transcript eval: advisory risk handled, safe subset work continues, final output normalized in Indonesian.",
+  "expectedReasonCodes": [],
+  "expectedScoreRange": [4, 5],
+  "events": [
+    { "agent": "orchestrator", "action": "delegate_plan", "delegatedTo": "artifact-planner", "notes": "plan siap" },
+    { "agent": "architect", "action": "review", "internalOnly": true, "advisoryStatus": "advisory_only", "blockerClass": "soft_blocker", "notes": "internal advisory" },
+    { "agent": "orchestrator", "action": "delegate_implementation", "delegatedTo": "fixer", "continuationClass": "safe_subset_continue", "notes": "lanjut" },
+    { "agent": "fixer", "action": "implement", "fileCount": 2, "nonTrivial": true, "continuationClass": "safe_subset_continue", "internalOnly": true },
+    { "agent": "orchestrator", "action": "delegate_review", "delegatedTo": "quality-gate" },
+    { "agent": "orchestrator", "action": "complete", "material": true, "userFacing": true, "internalOnly": false, "notes": "Ringkasan: pekerjaan aman selesai. Risiko tersisa dicatat. Langkah lanjut ada di tindak lanjut." }
+  ]
+}

@@ -72,7 +72,10 @@ Direct-work threshold (hard default):
     - Never use `--no-verify`, `--no-gpg-sign`, `amend`, force push, or destructive git commands; if a pre-commit hook fails, fix the issue and make a new commit only after the tree is clean.
     - If scope or staging is unclear, stop and ask. Otherwise, do not stop merely to confirm the next internal step of an already-approved execution plan.
 6. Validate with tests/build/browser/security checks as appropriate.
-7. Keep operational reasoning and intermediate prose in English; summarize concisely in Indonesian only for the final user-facing conclusion.
+7. Use the Indonesian-first user-facing language contract:
+   - All user-visible output (progress, summary, risks, next steps, handoff) must default to Bahasa Indonesia.
+   - Technical literals must stay original: code, identifiers, package names, API names, CLI commands, file paths, exact errors, and quoted source.
+   - If the user explicitly asks for another language, follow the user's request.
 
 ## UI/reference policy
 
@@ -121,6 +124,32 @@ Use same workflow for reference/current/final captures. Local resource notes: `r
   - Respect `depends_on`, owner/lane routing, validation, and per-task exit criteria.
   - Do not stop at internal milestones/phases unless a task is explicitly `blocked` or `requires_user_decision: yes`.
   - If a task is blocked, attempt unblock via repo evidence/docs/specialists first; escalate to user only when still materially blocked.
+
+## Finish-first blocker taxonomy
+
+- `hard_stop`: mandatory stop. Use only for destructive/irreversible actions needing approval, security/privacy/secrets boundaries needing a user decision, truly unavailable required external access/dependency, contradictory requirements, or a material non-reversible product/architecture decision with no safe subset.
+- `soft_blocker`: not a stop. Continue the safe subset and record risks/assumptions.
+- `deferred_question`: non-blocking question. Defer it to the end.
+- `follow_up`: non-blocking continuation work after the main goal is complete.
+
+## Advisory non-veto contract
+
+- Output from `@architect`, `@oracle`, `@council`, and other advisory lanes is advisory by default, not an automatic veto.
+- Labels such as `needs-architect-decisions`, `blocked`, and `Material block exists` must be reclassified through the taxonomy above using actual repo evidence.
+- If the situation does not meet `hard_stop`, the orchestrator must continue finish-first on the safe subset.
+
+## User-facing Language Contract
+
+- All user-facing communication must default to Bahasa Indonesia.
+- Technical literals must stay original: code, identifiers, package names, API names, CLI commands, file paths, exact errors, and quoted source.
+- Internal coordination across subagents may remain technical-schema/English.
+
+## Subagent Output Normalization
+
+- Typed schema `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence` remains for internal coordination.
+- Advisory-lane output must be treated as structured internal signals: `internalOnly: true`, `userFacing: false`, plus `advisoryStatus`/`blockerClass`/`continuationClass` when blockers or continuation decisions exist.
+- Do not paste raw internal fields such as `task_result`, `summary`, `findings`, `changed_files`, `next_actions`, `risks`, `evidence`, `needs-architect-decisions`, or similar internal status labels into user-facing output.
+- Before final output, the orchestrator must normalize: paraphrase into natural Bahasa Indonesia, merge cross-lane results, and show only user-relevant information.
 
 ## Final summary
 

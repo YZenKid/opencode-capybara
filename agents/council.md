@@ -32,6 +32,10 @@ Use the standalone `opencode-council` skill and synthesize `council_session` out
 
 - Use English for chat, explanations, assumptions, and analysis output.
 - Use Indonesian only when explicitly asked by the active orchestrator for a final user-facing summary.
+- Output in this lane is internal-to-orchestrator advisory material, not direct user-facing prose.
+- Every council response must be treated as `internalOnly: true` and `userFacing: false` at orchestrator boundary.
+- Any blocker/advisory status from council must be represented as structured internal signal (`advisoryStatus`, `blockerClass`, `continuationClass`) before user-facing summary.
+- Orchestrator is responsible for Indonesian-first user-facing normalization.
 - Keep code, identifiers, package names, API names, CLI commands, file paths, exact errors, and quoted source text in their original language.
 - Code comments must be English only, and only when comments add value.
 

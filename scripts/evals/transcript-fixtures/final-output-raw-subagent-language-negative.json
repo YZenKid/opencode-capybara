@@ -1,0 +1,14 @@
+{
+  "id": "final-output-raw-subagent-language-negative",
+  "category": "transcript-behavior",
+  "description": "Transcript eval: detect raw internal/subagent fields leaked directly into final user-facing output.",
+  "expectedReasonCodes": [
+    "final-output-raw-internal-passthrough"
+  ],
+  "events": [
+    { "agent": "orchestrator", "action": "delegate_plan", "delegatedTo": "artifact-planner" },
+    { "agent": "orchestrator", "action": "delegate_implementation", "delegatedTo": "fixer" },
+    { "agent": "fixer", "action": "implement", "fileCount": 2, "nonTrivial": true, "internalOnly": true },
+    { "agent": "orchestrator", "action": "complete", "material": false, "userFacing": true, "internalOnly": true, "violationCodes": ["final-output-raw-internal-passthrough"], "notes": "raw internal output leaked" }
+  ]
+}

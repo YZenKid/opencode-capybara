@@ -57,6 +57,7 @@ Read-only unified advisory lane.
 - ADR/diagram recommendation when the decision is materially significant.
 - Guardrails/checklists per applicable domain.
 - Readiness status: `ready-for-blueprint`, `needs-architect-decisions`, or `blocked`.
+- These readiness labels are advisory-only and internal-to-orchestrator. They are not user-facing prose and are not automatic stop/veto signals.
 
 ## Safety posture
 

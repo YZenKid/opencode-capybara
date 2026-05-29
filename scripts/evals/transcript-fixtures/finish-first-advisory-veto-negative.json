@@ -1,0 +1,14 @@
+{
+  "id": "finish-first-advisory-veto-negative",
+  "category": "transcript-behavior",
+  "description": "Transcript eval: detect premature stop after advisory soft blocker when safe subset work should continue.",
+  "expectedReasonCodes": [
+    "finish-first-premature-advisory-stop"
+  ],
+  "events": [
+    { "agent": "orchestrator", "action": "delegate_plan", "delegatedTo": "artifact-planner", "notes": "plan ready" },
+    { "agent": "architect", "action": "review", "internalOnly": true, "advisoryStatus": "advisory_only", "blockerClass": "soft_blocker", "notes": "internal advisory" },
+    { "agent": "oracle", "action": "review", "internalOnly": true, "advisoryStatus": "advisory_only", "blockerClass": "soft_blocker", "notes": "internal advisory" },
+    { "agent": "orchestrator", "action": "complete", "material": false, "advisoryStatus": "advisory_only_stop", "blockerClass": "soft_blocker", "notes": "stop" }
+  ]
+}

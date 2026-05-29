@@ -1,7 +1,7 @@
 {
   "task_id": "harness-evals-latest",
-  "timestamp": "2026-05-26T07:15:51.244Z",
-  "harness_version": "b9c01265297b5cc5b40f656ba0552373ad7e2597",
+  "timestamp": "2026-05-29T15:15:43.537Z",
+  "harness_version": "9d08f70a0316a6d5add2015e6f7a575cf0259fd8",
   "prompt_or_task_summary": "Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.",
   "tool_trace_summary": [
     "Read eval fixture JSON files from scripts/evals/fixtures/",
@@ -18,7 +18,7 @@
     }
   ],
   "verdict": "PASS",
-  "fixture_count": 21,
+  "fixture_count": 24,
   "failed": 0,
   "fixture_ids": [
     "agents-policy-bloat-negative",
@@ -32,6 +32,9 @@
     "orchestrator-routing-discipline-20260512-1708",
     "planner-and-mcp-state-contract",
     "reviewer-boundary-routing",
+    "final-output-raw-subagent-language-negative",
+    "finish-first-advisory-veto-negative",
+    "finish-first-indonesian-final-positive",
     "routing-borderline-direct-tiny-task",
     "routing-compliant-positive",
     "routing-fallback-valid-specialist-unavailable",
@@ -44,6 +47,8 @@
     "routing-share-export-noisy-negative"
   ],
   "reason_codes": [
+    "final-output-raw-internal-passthrough",
+    "finish-first-premature-advisory-stop",
     "routing-overreach-redundant-orchestrator-discovery",
     "routing-overreach-orchestrator-multifile-edit",
     "routing-overreach-missing-planner-first",
@@ -58,24 +63,25 @@
     "routing-overreach-missing-quality-gate"
   ],
   "transcript_summary": {
-    "fixture_count": 10,
-    "average_score_0_to_5": 3.4,
+    "fixture_count": 13,
+    "average_score_0_to_5": 3.54,
     "min_score_0_to_5": 1,
     "max_score_0_to_5": 5,
     "source_modes": {
-      "normalized-events": 4,
+      "normalized-events": 7,
       "raw-transcript": 1,
       "raw-tool-trace": 1,
       "share-export": 4
     },
     "score_bands": {
-      "strong": 1,
-      "excellent": 5,
+      "usable": 1,
+      "strong": 2,
+      "excellent": 6,
       "weak": 4
     },
     "classifications": {
+      "general": 8,
       "borderline": 2,
-      "general": 5,
       "fallback-valid": 1,
       "good": 1,
       "bad": 1
@@ -84,8 +90,8 @@
     "release_critical_average_score_0_to_5": 5
   },
   "drift_summary": {
-    "previous_timestamp": "2026-05-26T07:15:48.732Z",
-    "previous_average_score_0_to_5": 3.4,
+    "previous_timestamp": "2026-05-29T15:15:42.165Z",
+    "previous_average_score_0_to_5": 3.54,
     "average_score_delta": 0,
     "failed_delta": 0,
     "fixture_count_delta": 0
@@ -116,6 +122,9 @@
     "agents/quality-gate.md",
     "opencode.json",
     "package.json",
+    "scripts/evals/transcript-fixtures/final-output-raw-subagent-language-negative.json",
+    "scripts/evals/transcript-fixtures/finish-first-advisory-veto-negative.json",
+    "scripts/evals/transcript-fixtures/finish-first-indonesian-final-positive.json",
     "scripts/evals/transcript-fixtures/routing-borderline-direct-tiny-task.json",
     "scripts/evals/transcript-fixtures/routing-compliant-positive.json",
     "scripts/evals/transcript-fixtures/routing-fallback-valid-specialist-unavailable.json",
@@ -401,6 +410,142 @@
         }
       ],
       "execution": null
+    },
+    {
+      "id": "final-output-raw-subagent-language-negative",
+      "description": "Transcript eval: detect raw internal/subagent fields leaked directly into final user-facing output.",
+      "category": "transcript-behavior",
+      "transcript_source_mode": "normalized-events",
+      "routing_score": {
+        "score_0_to_5": 3,
+        "score_band": "usable",
+        "dimensions": {
+          "lane_fit": true,
+          "threshold_compliance": false,
+          "planner_first": true,
+          "evidence_legibility_proxy": false,
+          "final_gate_presence": true
+        },
+        "coverage": {
+          "event_count": 4,
+          "source_mode": "normalized-events",
+          "has_material_claim": false,
+          "has_non_trivial_work": true,
+          "has_delegation": true
+        },
+        "confidence": "high",
+        "reasons": [
+          "threshold_compliance",
+          "evidence_legibility_proxy"
+        ]
+      },
+      "release_critical": false,
+      "fixture_classification": "general",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "transcript-expectation",
+          "status": "PASS",
+          "detail": "transcript matched expected routing reason codes: final-output-raw-internal-passthrough",
+          "file": "scripts/evals/transcript-fixtures/final-output-raw-subagent-language-negative.json"
+        },
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "reason_code": "final-output-raw-internal-passthrough",
+          "detail": "raw internal/subagent fields leaked into user-facing orchestrator output",
+          "file": "scripts/evals/transcript-fixtures/final-output-raw-subagent-language-negative.json"
+        }
+      ]
+    },
+    {
+      "id": "finish-first-advisory-veto-negative",
+      "description": "Transcript eval: detect premature stop after advisory soft blocker when safe subset work should continue.",
+      "category": "transcript-behavior",
+      "transcript_source_mode": "normalized-events",
+      "routing_score": {
+        "score_0_to_5": 4,
+        "score_band": "strong",
+        "dimensions": {
+          "lane_fit": false,
+          "threshold_compliance": true,
+          "planner_first": true,
+          "evidence_legibility_proxy": true,
+          "final_gate_presence": true
+        },
+        "coverage": {
+          "event_count": 4,
+          "source_mode": "normalized-events",
+          "has_material_claim": false,
+          "has_non_trivial_work": false,
+          "has_delegation": true
+        },
+        "confidence": "high",
+        "reasons": [
+          "lane_fit"
+        ]
+      },
+      "release_critical": false,
+      "fixture_classification": "general",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "transcript-expectation",
+          "status": "PASS",
+          "detail": "transcript matched expected routing reason codes: finish-first-premature-advisory-stop",
+          "file": "scripts/evals/transcript-fixtures/finish-first-advisory-veto-negative.json"
+        },
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "reason_code": "finish-first-premature-advisory-stop",
+          "detail": "orchestrator stopped after advisory soft blocker without safe subset continuation",
+          "file": "scripts/evals/transcript-fixtures/finish-first-advisory-veto-negative.json"
+        }
+      ]
+    },
+    {
+      "id": "finish-first-indonesian-final-positive",
+      "description": "Transcript eval: advisory risk handled, safe subset work continues, final output normalized in Indonesian.",
+      "category": "transcript-behavior",
+      "transcript_source_mode": "normalized-events",
+      "routing_score": {
+        "score_0_to_5": 5,
+        "score_band": "excellent",
+        "dimensions": {
+          "lane_fit": true,
+          "threshold_compliance": true,
+          "planner_first": true,
+          "evidence_legibility_proxy": true,
+          "final_gate_presence": true
+        },
+        "coverage": {
+          "event_count": 6,
+          "source_mode": "normalized-events",
+          "has_material_claim": true,
+          "has_non_trivial_work": true,
+          "has_delegation": true
+        },
+        "confidence": "high",
+        "reasons": []
+      },
+      "release_critical": false,
+      "fixture_classification": "general",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "transcript-expectation",
+          "status": "PASS",
+          "detail": "transcript matched expected routing reason codes: ",
+          "file": "scripts/evals/transcript-fixtures/finish-first-indonesian-final-positive.json"
+        },
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "detail": "user-facing final output showed Indonesian normalization without raw internal fields",
+          "file": "scripts/evals/transcript-fixtures/finish-first-indonesian-final-positive.json"
+        }
+      ]
     },
     {
       "id": "routing-borderline-direct-tiny-task",

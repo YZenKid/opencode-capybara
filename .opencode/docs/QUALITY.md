@@ -65,6 +65,7 @@ The curated exemplar task bundles in `.opencode/plans/` and `.opencode/evidence/
 Validation ladder baseline: plan/handoff check → discovery/research evidence → implementation/docs change → diff review → targeted validation commands → final `@quality-gate` for non-trivial/risky completion claims.
 
 Typed output baseline for active lanes (non-trivial work): `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
+This schema is internal/non-user-facing. Final user-facing messaging must be normalized by orchestrator into natural Bahasa Indonesia prose, with technical literals kept exact.
 
 LSP-first baseline: use LSP for rename/refactor/navigation/diagnostic-driven edits when available; if fallback path used, record limitation/evidence impact explicitly.
 

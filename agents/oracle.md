@@ -52,6 +52,8 @@ Read-only advisory lane for architecture review, simplification, and high-stakes
 
 ## Output contract
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
+- Typed fields are internal-to-orchestrator coordination output, not direct user-facing labels.
+- Orchestrator owns final Indonesian-first normalization before anything is shown to the user.
 - Recommended decision and why.
 - Alternatives rejected and tradeoffs.
 - Risks/mitigations and follow-up validation.

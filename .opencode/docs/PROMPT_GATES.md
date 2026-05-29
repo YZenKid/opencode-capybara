@@ -24,7 +24,10 @@ Prompt gates convert important repository invariants into deterministic checks.
 - Portability rules
 - Setup safety / no hidden install hooks
 - Auto-commit safety
-- Finish-first execution with deferred non-blocking questions
+- Finish-first execution with explicit blocker taxonomy and deferred non-blocking questions
+- Advisory non-veto behavior (must reclassify advisory status via taxonomy + evidence)
+- Indonesian-first user-facing orchestrator language with technical-literal exceptions
+- Subagent internal-schema normalization before user-facing final output
 
 ## Change adjacency rule
 If you change policy or docs guarded by a gate:

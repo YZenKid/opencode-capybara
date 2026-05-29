@@ -325,8 +325,14 @@ const checks = [
   },
   {
     file: "skills/opencode-orchestrator/SKILL.md",
-    name: "orchestrator language split gate",
+    name: "orchestrator indonesian user-facing policy gate",
     mustInclude: [
+      "User-facing Language Contract",
+      "All user-facing communication must default to Bahasa Indonesia.",
+      "Subagent Output Normalization",
+      "Do not paste raw internal fields such as `task_result`, `summary`, `findings`, `changed_files`, `next_actions`, `risks`, `evidence`",
+    ],
+    mustNotInclude: [
       "Keep operational reasoning and intermediate prose in English; summarize concisely in Indonesian only for the final user-facing conclusion.",
     ],
   },

@@ -424,6 +424,12 @@ function normalizeTranscriptEvents(events) {
     material: Boolean(event.material ?? false),
     nonTrivial: Boolean(event.nonTrivial ?? false),
     delegatedTo: event.delegatedTo ?? null,
+    userFacing: event.userFacing == null ? null : Boolean(event.userFacing),
+    internalOnly: event.internalOnly == null ? null : Boolean(event.internalOnly),
+    blockerClass: event.blockerClass ?? null,
+    advisoryStatus: event.advisoryStatus ?? null,
+    continuationClass: event.continuationClass ?? null,
+    violationCodes: Array.isArray(event.violationCodes) ? event.violationCodes : [],
     notes: event.notes ?? "",
   }));
 }
@@ -494,6 +500,12 @@ function normalizeRawTranscriptEntry(entry, index) {
     material: typeof entry === "object" && entry !== null ? Boolean(entry.material ?? inferMaterial(text)) : inferMaterial(text),
     nonTrivial: typeof entry === "object" && entry !== null ? Boolean(entry.nonTrivial ?? inferNonTrivial(text, fileCount)) : inferNonTrivial(text, fileCount),
     delegatedTo: typeof entry === "object" && entry !== null ? (entry.delegatedTo ?? inferDelegatedTo(text)) : inferDelegatedTo(text),
+    userFacing: typeof entry === "object" && entry !== null && entry.userFacing != null ? Boolean(entry.userFacing) : null,
+    internalOnly: typeof entry === "object" && entry !== null && entry.internalOnly != null ? Boolean(entry.internalOnly) : null,
+    blockerClass: typeof entry === "object" && entry !== null ? (entry.blockerClass ?? null) : null,
+    advisoryStatus: typeof entry === "object" && entry !== null ? (entry.advisoryStatus ?? null) : null,
+    continuationClass: typeof entry === "object" && entry !== null ? (entry.continuationClass ?? null) : null,
+    violationCodes: typeof entry === "object" && entry !== null && Array.isArray(entry.violationCodes) ? entry.violationCodes : [],
     notes: typeof entry === "object" && entry !== null ? (entry.notes ?? text) : text,
   };
 }
@@ -555,12 +567,14 @@ function confidenceFromSourceMode(sourceMode, eventCount) {
 function computeRoutingScore(context) {
   const sparseTrace = context.events.length < 2;
   const laneFit = !context.actualReasonCodes.has("routing-overreach-redundant-orchestrator-discovery")
-    && !context.actualReasonCodes.has("routing-overreach-orchestrator-multifile-edit");
+    && !context.actualReasonCodes.has("routing-overreach-orchestrator-multifile-edit")
+    && !context.actualReasonCodes.has("finish-first-premature-advisory-stop");
   const thresholdCompliance = !context.events.some(
     (event) => event.agent === "orchestrator" && ((event.action === "edit" && event.fileCount >= 2) || (event.action === "read" && event.fileCount > 3)),
-  );
+  ) && !context.actualReasonCodes.has("final-output-raw-internal-passthrough");
   const plannerFirst = !sparseTrace && !context.actualReasonCodes.has("routing-overreach-missing-planner-first");
-  const evidenceLegibilityProxy = context.events.some((event) => event.agent === "orchestrator" && event.action.startsWith("delegate_"));
+  const evidenceLegibilityProxy = context.events.some((event) => event.agent === "orchestrator" && event.action.startsWith("delegate_"))
+    && !context.actualReasonCodes.has("final-output-raw-internal-passthrough");
   const finalGatePresence = !sparseTrace && !context.actualReasonCodes.has("routing-overreach-missing-quality-gate");
 
   const dimensions = {
@@ -674,6 +688,63 @@ export function evaluateTranscriptFixture(fixture) {
     if (qualityGateIndex === -1 || qualityGateIndex > materialCompletionIndex) {
       actualReasonCodes.add("routing-overreach-missing-quality-gate");
       violationChecks.push({ type: "transcript-semantics", status: "FAIL", reason_code: "routing-overreach-missing-quality-gate", detail: `material completion happened at event ${materialCompletionIndex} before quality-gate review` });
+    }
+  }
+
+  const advisoryStopIndex = events.findIndex((event) => {
+    if (event.agent !== "orchestrator") return false;
+    if (!["complete", "review", "unknown"].includes(event.action)) return false;
+    if (event.advisoryStatus === "advisory_only_stop" || event.blockerClass === "soft_blocker") return true;
+    const note = String(event.notes ?? "").toLowerCase();
+    return note.includes("needs-architect-decisions") || note.includes("material block exists") || note.includes("soft blocker") || note.includes("advisory_only") || note.includes("advisory stop") || note.includes("blocked by advisory");
+  });
+  const hasAdvisoryStopSignal = advisoryStopIndex !== -1;
+  const hasSafeContinuation = advisoryStopIndex !== -1 && events.some((event) => {
+    if (event.index <= advisoryStopIndex) return false;
+    if (event.continuationClass === "safe_subset_continue") return true;
+    if (event.agent === "orchestrator") {
+      return ["implement", "edit", "discover", "delegate_implementation", "delegate_discovery"].includes(event.action);
+    }
+    return ["fixer", "explorer", "designer"].includes(event.agent) && ["implement", "edit", "discover"].includes(event.action);
+  });
+  const hasHardStopSignal = events.some((event) => {
+    if (event.agent !== "orchestrator") return false;
+    if (event.blockerClass === "hard_stop") return true;
+    const note = String(event.notes ?? "").toLowerCase();
+    return note.includes("hard_stop") || note.includes("destructive") || note.includes("irreversible") || note.includes("security boundary") || note.includes("privacy boundary") || note.includes("secrets boundary") || note.includes("missing required access") || note.includes("contradictory requirements");
+  });
+  if (hasAdvisoryStopSignal && !hasSafeContinuation && !hasHardStopSignal) {
+    actualReasonCodes.add("finish-first-premature-advisory-stop");
+    violationChecks.push({ type: "transcript-semantics", status: "FAIL", reason_code: "finish-first-premature-advisory-stop", detail: "orchestrator stopped after advisory soft blocker without safe subset continuation" });
+  }
+
+  const hasRawInternalPassthrough = events.some((event) => {
+    if (event.agent !== "orchestrator") return false;
+    if (event.userFacing === true && event.internalOnly === true) return true;
+    const note = String(event.notes ?? "");
+    const lower = note.toLowerCase();
+    return ["task_result", "changed_files", "next_actions", "summary:", "findings:", "needs-architect-decisions", "status:"].some((token) => lower.includes(token));
+  });
+  if (hasRawInternalPassthrough) {
+    actualReasonCodes.add("final-output-raw-internal-passthrough");
+    violationChecks.push({ type: "transcript-semantics", status: "FAIL", reason_code: "final-output-raw-internal-passthrough", detail: "raw internal/subagent fields leaked into user-facing orchestrator output" });
+  }
+
+  const hasIndonesianFinal = events.some((event) => {
+    if (event.agent !== "orchestrator") return false;
+    if (event.action !== "complete") return false;
+    const lower = String(event.notes ?? "").toLowerCase();
+    return lower.includes("ringkasan") || lower.includes("lanjut") || lower.includes("risiko") || lower.includes("langkah");
+  });
+  if (!hasRawInternalPassthrough && hasIndonesianFinal) {
+    violationChecks.push({ type: "transcript-semantics", status: "PASS", detail: "user-facing final output showed Indonesian normalization without raw internal fields" });
+  }
+
+  for (const event of events) {
+    for (const violationCode of event.violationCodes ?? []) {
+      if (typeof violationCode === "string" && violationCode.length > 0) {
+        actualReasonCodes.add(violationCode);
+      }
     }
   }
 

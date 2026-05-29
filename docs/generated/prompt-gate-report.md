@@ -32,7 +32,7 @@ Generated inventory of deterministic prompt-gate checks. This file is advisory a
 14. **artifact planner language split gate** — `agents/artifact-planner.md`
 15. **designer workflow gate** — `agents/designer.md`
 16. **orchestrator primary mode gate** — `agents/orchestrator.md`
-17. **orchestrator language split gate** — `skills/opencode-orchestrator/SKILL.md`
+17. **orchestrator indonesian user-facing policy gate** — `skills/opencode-orchestrator/SKILL.md`
 18. **orchestrator planner invocation gate** — `skills/opencode-orchestrator/SKILL.md`
 19. **orchestrator delegation threshold skill gate** — `skills/opencode-orchestrator/SKILL.md`
 20. **council language split gate** — `agents/council.md`
