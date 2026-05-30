@@ -10,10 +10,23 @@ Use this for read-only research and document-centric extraction/transformation s
 ## Source priority
 
 1. Local project files, lockfiles, and config.
-2. Official docs/context provider.
+2. Official docs/context provider (`context7`).
 3. GitHub source, issues, PRs, and examples.
-4. Web search for current/external facts.
-5. Skill registry when user asks for capabilities.
+4. Web search via `web_search` from MCP `9router` for current/external facts.
+5. URL extraction via `web_fetch` from MCP `9router` when user provides a URL.
+6. Skill registry when user asks for capabilities.
+
+## 9Router web tools
+
+Use `web_search` when repo-local docs, `context7`, and GitHub evidence are insufficient and you need current public web information.
+- Default model: `NINEROUTER_SEARCH_MODEL` or `search-combo`.
+- Capture query, URLs, and why each result matters.
+
+Use `web_fetch` when a user gives a URL and wants page content extracted as markdown/text/html without interactive browser work.
+- Default model: `NINEROUTER_FETCH_MODEL` or `fetch-combo`.
+- Extract concise facts with citation.
+
+Both tools require `NINEROUTER_URL` (and `NINEROUTER_KEY` if auth enabled). Verify env before calling.
 
 ## Document-centric support scope
 

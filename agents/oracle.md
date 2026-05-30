@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Read-only architecture and risk review advisor for complex decisions
-model: cliproxyapi/medium
+model: 9router/medium
 skills:
   - opencode-oracle
 permission:

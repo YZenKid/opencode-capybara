@@ -2,7 +2,7 @@
 mode: subagent
 hidden: true
 description: Bounded post-task skill improvement subagent for prompt, routing, and eval refinement.
-model: cliproxyapi/fast
+model: 9router/fast
 skills:
   - opencode-skill-improver
 permission:

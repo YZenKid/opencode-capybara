@@ -50,10 +50,10 @@ function parseArgs(argv) {
 }
 
 function buildClient() {
-  const apiKey = env('CLIPROXYAPI_API_KEY')
-  const baseURL = env('CLIPROXYAPI_BASE_URL')
-  if (!apiKey || !baseURL) {
-    throw new Error('Missing CLIPROXYAPI_API_KEY or CLIPROXYAPI_BASE_URL')
+  const apiKey = env('NINEROUTER_KEY')
+  const baseURL = `${env('NINEROUTER_URL', 'http://localhost:20128').replace(/\/$/, '')}/v1`
+  if (!apiKey) {
+    throw new Error('Missing NINEROUTER_KEY')
   }
   return new OpenAI({ apiKey, baseURL })
 }
@@ -61,7 +61,7 @@ function buildClient() {
 async function generateVariant(client, quality, options) {
   const startedAt = Date.now()
   const response = await client.images.generate({
-    model: env('IMAGE_ASSET_MODEL', 'cx/gpt-5.5-image'),
+    model: env('NINEROUTER_IMAGE_MODEL', 'gemini/gemini-3-pro-image-preview'),
     prompt: `${options.prompt}\n\nNegative prompt: ${options.negativePrompt}`,
     size: '1536x896',
     n: 1,

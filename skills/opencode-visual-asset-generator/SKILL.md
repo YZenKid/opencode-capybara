@@ -32,6 +32,14 @@ Prompts must be written like a professional art director, not as generic tags. R
 - Keep the OpenCode config root separate from the target application root.
 - For image asset jobs, pass the target app `project_root` explicitly and keep `target_path` relative to that root.
 
+## Execution provider
+
+Use 9Router image generation for executable image asset jobs.
+Preferred MCP tool: `generate_image_asset` from `9router`.
+Fallback only if configured: legacy `image-asset-generator` in disabled compatibility posture.
+
+Do not call raw image providers directly. Route image generation through 9Router so model/account/fallback policy stays centralized.
+
 ## Output
 
 Return generated/failed metadata, paths, dimensions, prompts used, alt text, legal notes, warnings, and integration notes. Require integrated browser screenshots and designer review before visual parity claims.

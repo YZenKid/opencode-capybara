@@ -1,7 +1,7 @@
 ---
 description: Initialize or update the current project's AGENTS.md for the harness workflow
 agent: orchestrator
-model: cliproxyapi/high
+model: 9router/high
 ---
 
 Initialize a project-local `AGENTS.md` for the current target project so it matches the current harness workflow and rules.

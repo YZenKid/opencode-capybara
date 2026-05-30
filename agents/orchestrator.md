@@ -2,7 +2,7 @@
 mode: primary
 description: AI coding orchestrator that routes tasks to specialist agents
   for optimal quality, speed, and cost
-model: cliproxyapi/medium
+model: 9router/medium
 skills:
   - opencode-orchestrator
 permission:

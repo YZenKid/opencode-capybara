@@ -1,15 +1,16 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
-    "cliproxyapi": {
+    "9router": {
       "npm": "@ai-sdk/openai-compatible",
-      "name": "CliProxyAPI",
+      "name": "9Router",
       "options": {
-        "baseURL": "{env:CLIPROXYAPI_BASE_URL}",
-        "apiKey": "{env:CLIPROXYAPI_API_KEY}"
+        "baseURL": "{env:NINEROUTER_URL}/v1",
+        "apiKey": "{env:NINEROUTER_KEY}"
       },
       "models": {
         "high": {
+          "id": "cx/gpt-5.5",
           "name": "High",
           "attachment": true,
           "reasoning": true,
@@ -51,6 +52,7 @@
           }
         },
         "medium": {
+          "id": "cx/gpt-5.5",
           "name": "Medium",
           "attachment": true,
           "reasoning": true,
@@ -92,6 +94,7 @@
           }
         },
         "low": {
+          "id": "cx/gpt-5.5",
           "name": "Low",
           "attachment": true,
           "reasoning": true,
@@ -133,6 +136,7 @@
           }
         },
         "fast": {
+          "id": "cx/gpt-5.4-mini",
           "name": "Fast",
           "attachment": true,
           "modalities": {
@@ -147,30 +151,6 @@
           "limit": {
             "context": 200000,
             "output": 64000
-          }
-        },
-        "cx/gpt-5.5-image": {
-          "name": "CX GPT 5.5 Image",
-          "attachment": true,
-          "modalities": {
-            "input": [
-              "text",
-              "image"
-            ],
-            "output": [
-              "image"
-            ]
-          },
-          "variants": {
-            "low": {
-              "quality": "low"
-            },
-            "medium": {
-              "quality": "medium"
-            },
-            "high": {
-              "quality": "high"
-            }
           }
         }
       }
@@ -195,7 +175,28 @@
       ],
       "environment": {
         "BRAVE_API_KEY": "{env:BRAVE_API_KEY}"
-      }
+      },
+      "enabled": false
+    },
+    "9router": {
+      "type": "local",
+      "command": [
+        "node",
+        "{env:HOME}/.config/opencode/bin/9router-mcp.mjs"
+      ],
+      "environment": {
+        "NINEROUTER_URL": "{env:NINEROUTER_URL}",
+        "NINEROUTER_KEY": "{env:NINEROUTER_KEY}",
+        "NINEROUTER_SEARCH_MODEL": "{env:NINEROUTER_SEARCH_MODEL}",
+        "NINEROUTER_FETCH_MODEL": "{env:NINEROUTER_FETCH_MODEL}",
+        "NINEROUTER_IMAGE_MODEL": "{env:NINEROUTER_IMAGE_MODEL}",
+        "NINEROUTER_IMAGE_DEFAULT_SIZE": "{env:NINEROUTER_IMAGE_DEFAULT_SIZE}",
+        "NINEROUTER_IMAGE_DEFAULT_QUALITY": "{env:NINEROUTER_IMAGE_DEFAULT_QUALITY}",
+        "NINEROUTER_IMAGE_DEFAULT_BACKGROUND": "{env:NINEROUTER_IMAGE_DEFAULT_BACKGROUND}",
+        "NINEROUTER_IMAGE_MAX_BYTES": "{env:NINEROUTER_IMAGE_MAX_BYTES}"
+      },
+      "enabled": true,
+      "timeout": 300000
     },
     "context7": {
       "type": "local",
@@ -238,12 +239,7 @@
         "node",
         "{env:HOME}/.config/opencode/bin/image-asset-mcp.mjs"
       ],
-      "environment": {
-        "IMAGE_ASSET_BASE_URL": "{env:CLIPROXYAPI_BASE_URL}",
-        "IMAGE_ASSET_API_KEY": "{env:CLIPROXYAPI_API_KEY}",
-        "IMAGE_ASSET_MODEL": "{env:IMAGE_ASSET_MODEL}"
-      },
-      "enabled": true,
+      "enabled": false,
       "timeout": 300000
     },
     "semgrep": {

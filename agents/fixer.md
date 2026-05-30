@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Bounded implementation and testing specialist for Red/Green/Refactor work
-model: cliproxyapi/low
+model: 9router/low
 skills:
   - opencode-fixer
 permission:

@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Local codebase discovery and search specialist for unfamiliar or broad scopes
-model: cliproxyapi/low
+model: 9router/low
 skills:
   - opencode-explorer
 permission:

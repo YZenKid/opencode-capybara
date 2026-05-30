@@ -3,6 +3,7 @@
 import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import process from "node:process";
 
 const root = resolve(import.meta.dirname, "..");
 
@@ -29,6 +30,11 @@ function status(label, state, detail = "") {
 
 function remediation(command) {
   log(`  Remediation: ${command}`);
+}
+
+function env(name, fallback = "") {
+  const value = process.env[name];
+  return value == null || value === "" ? fallback : value;
 }
 
 function checkNode() {
@@ -211,6 +217,40 @@ function checkEnvWarning() {
   return true;
 }
 
+function check9Router() {
+  section("9Router");
+  const url = env("NINEROUTER_URL");
+  const key = env("NINEROUTER_KEY");
+  const searchModel = env("NINEROUTER_SEARCH_MODEL");
+  const fetchModel = env("NINEROUTER_FETCH_MODEL");
+  const imageModel = env("NINEROUTER_IMAGE_MODEL");
+
+  if (!url) {
+    status("NINEROUTER_URL", "warn", "missing");
+    remediation("set NINEROUTER_URL in .env before using 9Router-backed provider or MCP tools");
+    return true;
+  }
+
+  status("NINEROUTER_URL", "pass", url);
+  status("NINEROUTER_KEY", key ? "pass" : "warn", key ? "present" : "missing or auth disabled");
+  if (searchModel) status("NINEROUTER_SEARCH_MODEL", "pass", searchModel);
+  else status("NINEROUTER_SEARCH_MODEL", "warn", "unset; default MCP behavior applies");
+  if (fetchModel) status("NINEROUTER_FETCH_MODEL", "pass", fetchModel);
+  else status("NINEROUTER_FETCH_MODEL", "warn", "unset; default MCP behavior applies");
+  if (imageModel) status("NINEROUTER_IMAGE_MODEL", "pass", imageModel);
+  else status("NINEROUTER_IMAGE_MODEL", "warn", "unset; default MCP behavior applies");
+
+  const healthUrl = `${url.replace(/\/$/, "")}/api/health`;
+  const result = run("curl", ["-fsS", healthUrl]);
+  if (result.status === 0) {
+    status("9Router health", "pass", result.stdout.trim() || "ok");
+  } else {
+    status("9Router health", "warn", result.stderr.trim() || "unreachable");
+    remediation(`verify ${healthUrl} is reachable and NINEROUTER_URL is correct`);
+  }
+  return true;
+}
+
 function checkOpenChamberSync() {
   section("OpenChamber sync");
   const result = run("node", ["scripts/sync-openchamber-settings.mjs", "--check", "--seed-approved-directories"], { cwd: root });
@@ -265,6 +305,7 @@ function main() {
     checkPackageLifecycle(),
     checkDocsPolicy(),
     checkEnvWarning(),
+    check9Router(),
     checkDefaultModelRouting(),
     checkAgentModelSync(),
     checkOpenChamberSync(),

@@ -36,8 +36,8 @@ cp .env.example .env
 
 Isi semua value penting, terutama:
 
-- `CLIPROXYAPI_BASE_URL`
-- `CLIPROXYAPI_API_KEY`
+- `NINEROUTER_URL`
+- `NINEROUTER_KEY`
 - semua `OPENCODE_MODEL_*`, termasuk `OPENCODE_MODEL_VISUAL_ASSET` dan `OPENCODE_MODEL_QUALITY_GATE`
 
 ## RTK atau Caveman belum tersedia
@@ -54,13 +54,20 @@ Untuk cek read-only:
 npm run setup:tools:check
 ```
 
-## Image asset generator gagal konek ke provider
+## 9Router atau image asset gagal konek
 
 Pastikan nilai ini benar:
 
-- `CLIPROXYAPI_BASE_URL`
-- `CLIPROXYAPI_API_KEY`
-- `IMAGE_ASSET_MODEL`
+- `NINEROUTER_URL`
+- `NINEROUTER_KEY`
+- `NINEROUTER_IMAGE_MODEL`
+
+Gejala umum:
+
+- `Missing NINEROUTER_URL` → env belum ter-load
+- `401` → `NINEROUTER_KEY` salah/kedaluwarsa
+- `400 Invalid model format` → model tidak ada di 9Router
+- `503 All accounts unavailable` → account upstream 9Router sedang habis/offline
 
 ## OpenChamber tidak mewarisi env shell
 

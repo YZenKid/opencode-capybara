@@ -46,11 +46,12 @@ See [MCP.md](./MCP.md) for the active inventory.
 
 Commonly used categories:
 - Official docs lookup (`context7`)
-- Web/current information (`brave-search`)
+- Web/current information (`9router` → `web_search`)
+- Web page extraction (`9router` → `web_fetch`)
 - GitHub APIs/search/PR workflows (`github`)
 - Browser/runtime UI evidence (`playwright`)
 - Security scans/findings (`semgrep`)
-- Image-generation surfaces (`image-asset-generator`)
+- Image-generation surfaces (`9router` → `generate_image`, `generate_image_asset`)
 - Time/locality helpers (`time`)
 
 ## Selection heuristics
@@ -63,7 +64,7 @@ Policy note: prefer local canonical capybara lanes for execution. Built-in OpenC
 
 2. **Use external sources only when local context is insufficient or version-sensitive.**
    - Preferred: `context7` for library/API behavior
-   - Fallback: `github` examples/source, then `brave-search`
+   - Fallback: `github` examples/source, then `9router` `web_search`
 
 3. **Use role-appropriate tool paths.**
    - If tool is available but outside role boundary, delegate to the permitted agent.

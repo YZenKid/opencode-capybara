@@ -59,23 +59,23 @@ function normalizeSize(width, height) {
   const w = Number(width)
   const h = Number(height)
   if (!Number.isFinite(w) || !Number.isFinite(h) || w <= 0 || h <= 0) {
-    return env('IMAGE_ASSET_DEFAULT_SIZE', '1024x1024')
+    return env('IMAGE_ASSET_DEFAULT_SIZE', env('NINEROUTER_IMAGE_DEFAULT_SIZE', '1024x1024'))
   }
   return `${Math.round(w)}x${Math.round(h)}`
 }
 
 function normalizeModel() {
-  return env('IMAGE_ASSET_MODEL', 'cx/gpt-5.5-image')
+  return env('IMAGE_ASSET_MODEL', env('NINEROUTER_IMAGE_MODEL', 'gemini/gemini-3-pro-image-preview'))
 }
 
 function normalizeQuality(value) {
-  const next = (value || env('IMAGE_ASSET_QUALITY', 'medium')).toLowerCase()
+  const next = (value || env('IMAGE_ASSET_QUALITY', env('NINEROUTER_IMAGE_DEFAULT_QUALITY', 'medium'))).toLowerCase()
   if (!['low', 'medium', 'high', 'auto'].includes(next)) return 'medium'
   return next
 }
 
 function normalizeBackground(background, format) {
-  const value = background || env('IMAGE_ASSET_DEFAULT_BACKGROUND', 'auto')
+  const value = background || env('IMAGE_ASSET_DEFAULT_BACKGROUND', env('NINEROUTER_IMAGE_DEFAULT_BACKGROUND', 'auto'))
   if (!['auto', 'transparent', 'opaque'].includes(value)) return 'auto'
   const requestedFormat = (format || '').toLowerCase()
   if (value === 'transparent' && ['jpg', 'jpeg'].includes(requestedFormat)) {
@@ -195,9 +195,10 @@ async function makeWhiteBackgroundTransparent(inputPath, outputPath = inputPath)
 }
 
 function buildClient() {
-  const apiKey = env('IMAGE_ASSET_API_KEY', env('CLIPROXYAPI_API_KEY'))
-  const baseURL = env('IMAGE_ASSET_BASE_URL', env('CLIPROXYAPI_BASE_URL'))
-  if (!apiKey) throw new Error('Missing IMAGE_ASSET_API_KEY or CLIPROXYAPI_API_KEY')
+  const apiKey = env('IMAGE_ASSET_API_KEY', env('NINEROUTER_KEY'))
+  const baseURL = env('IMAGE_ASSET_BASE_URL', env('NINEROUTER_URL') ? `${env('NINEROUTER_URL').replace(/\/$/, '')}/v1` : undefined)
+  if (!apiKey) throw new Error('Missing IMAGE_ASSET_API_KEY or NINEROUTER_KEY')
+  if (!baseURL) throw new Error('Missing IMAGE_ASSET_BASE_URL or NINEROUTER_URL')
   return new OpenAI({ apiKey, baseURL })
 }
 
@@ -210,7 +211,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
     {
       name: 'generate_image_asset',
       description:
-        'Generate one legal style-equivalent image asset from a prompt and save it under project_root. Uses the configured image endpoint/model via IMAGE_ASSET_* or CLIPROXYAPI_* environment variables.',
+        'Generate one legal style-equivalent image asset from a prompt and save it under project_root. Uses the configured image endpoint/model via IMAGE_ASSET_* overrides or NINEROUTER_* environment variables.',
       inputSchema: {
         type: 'object',
         additionalProperties: false,

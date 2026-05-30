@@ -90,14 +90,14 @@ Capybara is not a symbol of “fast alone”; it is a symbol of “calm together
 
 ## Model routing summary
 
-### What is CLIProxyAPI in this repo?
+### What is 9Router in this repo?
 
-In this repo, **CLIProxyAPI** is the primary model provider used by OpenCode to run local agents.
+In this repo, **9Router** is the primary AI/web/image gateway used by OpenCode to run local agents and network-backed tools.
 
-- `CLIPROXYAPI_BASE_URL` → base URL endpoint OpenAI-compatible
-- `CLIPROXYAPI_API_KEY` → API key for authentication with that provider
+- `NINEROUTER_URL` → base URL for the 9Router endpoint
+- `NINEROUTER_KEY` → API key for authentication with that gateway
 
-If these two values are wrong or empty, agents may fail to call models even if the rest of the configuration looks correct.
+If these two values are wrong or empty, agents and MCP tools may fail even if the rest of the configuration looks correct.
 
 Copy `.env.example` to `.env` and set every `OPENCODE_MODEL_*` value before launching OpenCode. Missing env vars resolve to an empty string, which can break OpenCode model routing.
 
@@ -114,7 +114,7 @@ npm run sync:agent-models
 
 OpenChamber only supports global defaults such as `defaultModel`, `defaultAgent`, and `zenModel`. This repo sets OpenChamber `defaultAgent` to `orchestrator` and aligns OpenChamber `defaultModel` to `OPENCODE_MODEL_ORCHESTRATOR` so new sessions start as Orchestrator + its intended primary model. The repo also writes a metadata mirror named `opencodeAgentModelMap` into OpenChamber settings so the rest of the OpenCode per-agent routing remains visible even though OpenChamber does not enforce 1:1 per-agent model overrides at runtime.
 
-Image asset generation defaults to `IMAGE_ASSET_MODEL="cx/gpt-5.5-image"` against the configured OpenAI-compatible endpoint.
+Image asset generation defaults to `NINEROUTER_IMAGE_MODEL="gemini/gemini-3-pro-image-preview"` through the unified `9router` MCP surface.
 
 Use `npm run compare:openchamber-models` to print the current OpenCode vs OpenChamber model/settings matrix.
 
@@ -122,19 +122,19 @@ Use `npm run compare:openchamber-models` to print the current OpenCode vs OpenCh
 
 | Env var | Default / recommended model | Used by / capability | Cost guidance |
 |---|---|---|---|
-| `OPENCODE_MODEL_DEFAULT` | `cliproxyapi/low` | Top-level default model and general fallback | Keep the baseline lane low-cost for broad default routing. |
-| `OPENCODE_MODEL_ORCHESTRATOR` | `cliproxyapi/medium` | `@orchestrator` primary routing/integration | Use a balanced lane for delegation, coordination, and synthesis. |
-| `OPENCODE_MODEL_PLANNER` | `cliproxyapi/high` | `@artifact-planner`, `modes/plan.md`, `agents-disabled/plan.md` | Keep planning on the strongest lane for higher-accuracy specs and execution handoffs. |
-| `OPENCODE_MODEL_DESIGN` | `cliproxyapi/high` | `@designer` | Keep substantial UI/design reasoning, motion, and accessibility work on the high lane. |
-| `OPENCODE_MODEL_VISUAL_ASSET` | `cliproxyapi/medium` | `@visual-asset-generator` | Keep visual asset manifest prep and legal style-equivalent generation routing on medium while leaving designer on high. |
-| `OPENCODE_MODEL_REVIEW` | `cliproxyapi/medium` | `@oracle`, `@council` | Keep advisory/review reasoning on a balanced lane without degrading high-confidence review paths. |
-| `OPENCODE_MODEL_QUALITY_GATE` | `cliproxyapi/low` | `@quality-gate` | Final conformance gate stays cheap and explicit without forcing `@oracle`/`@council` down. |
-| `OPENCODE_MODEL_ADVISORY` | `cliproxyapi/medium` | `@architect` | Use a balanced lane for advisory and architecture guidance. |
-| `OPENCODE_MODEL_EXECUTION` | `cliproxyapi/low` | `@fixer` | Keep bounded implementation and testing on lower-cost lane. |
-| `OPENCODE_MODEL_DISCOVERY` | `cliproxyapi/low` | `@explorer` | Local discovery and read-only pattern analysis stay on the cheaper lane. |
-| `OPENCODE_MODEL_DOCUMENTS` | `cliproxyapi/low` | Reserved compatibility lane (document-centric work now routes via `@librarian`) | Keep for env compatibility on the cheaper lane. |
-| `OPENCODE_MODEL_IMPROVEMENT` | `cliproxyapi/fast` | Compatibility alias (agent mapping now uses `OPENCODE_MODEL_FAST`) | Kept for env compatibility; recommended default aligned to fast. |
-| `OPENCODE_MODEL_FAST` | `cliproxyapi/fast` | `@librarian`, `@skill-improver` | Docs/API lookup, summarization, and bounded prompt refinements are latency-sensitive and low-risk; use the fast lane. |
+| `OPENCODE_MODEL_DEFAULT` | `9router/low` | Top-level default model and general fallback | Keep the baseline lane low-cost for broad default routing. |
+| `OPENCODE_MODEL_ORCHESTRATOR` | `9router/medium` | `@orchestrator` primary routing/integration | Use a balanced lane for delegation, coordination, and synthesis. |
+| `OPENCODE_MODEL_PLANNER` | `9router/high` | `@artifact-planner`, `modes/plan.md`, `agents-disabled/plan.md` | Keep planning on the strongest lane for higher-accuracy specs and execution handoffs. |
+| `OPENCODE_MODEL_DESIGN` | `9router/high` | `@designer` | Keep substantial UI/design reasoning, motion, and accessibility work on the high lane. |
+| `OPENCODE_MODEL_VISUAL_ASSET` | `9router/medium` | `@visual-asset-generator` | Keep visual asset manifest prep and legal style-equivalent generation routing on medium while leaving designer on high. |
+| `OPENCODE_MODEL_REVIEW` | `9router/medium` | `@oracle`, `@council` | Keep advisory/review reasoning on a balanced lane without degrading high-confidence review paths. |
+| `OPENCODE_MODEL_QUALITY_GATE` | `9router/low` | `@quality-gate` | Final conformance gate stays cheap and explicit without forcing `@oracle`/`@council` down. |
+| `OPENCODE_MODEL_ADVISORY` | `9router/medium` | `@architect` | Use a balanced lane for advisory and architecture guidance. |
+| `OPENCODE_MODEL_EXECUTION` | `9router/low` | `@fixer` | Keep bounded implementation and testing on lower-cost lane. |
+| `OPENCODE_MODEL_DISCOVERY` | `9router/low` | `@explorer` | Local discovery and read-only pattern analysis stay on the cheaper lane. |
+| `OPENCODE_MODEL_DOCUMENTS` | `9router/low` | Reserved compatibility lane (document-centric work now routes via `@librarian`) | Keep for env compatibility on the cheaper lane. |
+| `OPENCODE_MODEL_IMPROVEMENT` | `9router/fast` | Compatibility alias (agent mapping now uses `OPENCODE_MODEL_FAST`) | Kept for env compatibility; recommended default aligned to fast. |
+| `OPENCODE_MODEL_FAST` | `9router/fast` | `@librarian`, `@skill-improver` | Docs/API lookup, summarization, and bounded prompt refinements are latency-sensitive and low-risk; use the fast lane. |
 
 ## Domain specialist and workflow summary
 

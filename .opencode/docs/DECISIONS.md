@@ -1,5 +1,13 @@
 # Decisions
 
+## 2026-05-30 — 9Router primary migration
+- Provider default switched from `cliproxyapi` to `9router` in `opencode.json` and model routing env defaults.
+- Unified MCP `9router` enabled via `bin/9router-mcp.mjs` for web search, fetch, and image surfaces.
+- Legacy duplicate surfaces (`brave-search`, `image-asset-generator`) moved to disabled posture to avoid tool-name collision while keeping non-9Router MCPs intact.
+- Agent/command model frontmatter and docs references aligned to `9router/...` aliases.
+- Verification evidence recorded under `.opencode/evidence/20260530-1647-9router-migration/verification.md`, including live-endpoint limitation when env unavailable.
+
+
 ## 2026-05-10 — Harness engineering migration baseline
 - `AGENTS.md` is now a short table of contents plus non-negotiables.
 - `.opencode/docs/` is the repository system of record.

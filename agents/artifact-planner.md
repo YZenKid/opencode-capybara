@@ -1,7 +1,7 @@
 ---
 mode: primary
 description: Artifact-writing SDD/TDD planner using the standalone opencode-capybara plan flow without entering built-in read-only Plan Mode.
-model: cliproxyapi/high
+model: 9router/high
 skills:
   - opencode-artifact-planner
 permission:
@@ -136,7 +136,7 @@ It may call informational, read-only, research, and documentation subagents to g
 - Do not rely on memory when current external/library/repository information materially affects the plan.
 - For stack/library behavior, verify with official docs through @librarian/context7 when available.
 - Use GitHub search/API when planning depends on GitHub repositories, issues, PRs, Actions, package source, examples, or upstream implementation details.
-- Use brave-search when external, current, competitive, reference, post-2025, or broad web information is needed and official/local sources are insufficient.
+- Use `9router` `web_search` when external, current, competitive, reference, post-2025, or broad web information is needed and official/local sources are insufficient.
 - Use browser/reference tooling for visual references, deployed apps, screenshots, flows, forms, or interactive web behavior.
 - Mention MCP/documentation sources briefly when they influenced the plan.
 - If an MCP/tool that would materially improve confidence is unavailable or not used, record the reason in `Evidence Requirements` or `Final Planning Summary`.

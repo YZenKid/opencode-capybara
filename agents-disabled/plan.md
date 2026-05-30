@@ -1,7 +1,7 @@
 ---
 mode: primary
 description: Plan mode. Disallows implementation edits, but allows creating/updating SDD/TDD plan, draft, and evidence artifacts under `.opencode/`.
-model: cliproxyapi/gpt-5.3-codex
+model: 9router/gpt-5.3-codex
 permission:
   "*": allow
   doom_loop: ask
@@ -73,7 +73,7 @@ permission:
 
 ## MCP Workflow
 - For stack/library behavior, verify with official docs through @librarian/context7 when available.
-- Use brave-search only when external, current, or post-2025 information is needed and official/local sources are insufficient.
+- Use `9router` `web_search` only when external, current, or post-2025 information is needed and official/local sources are insufficient.
 - Mention MCP/documentation sources briefly when they influenced the plan.
 
 ## TDD Planning Workflow

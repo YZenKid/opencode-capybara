@@ -11,8 +11,9 @@ Ini **bukan aplikasi end-user biasa** yang langsung dibuka di browser.
 - `git`
 - `node` dan `npm`
 - akses ke **OpenCode** sebagai runtime utama; OpenChamber opsional jika kamu memakai app pendampingnya
-- akses ke **CLIProxyAPI** atau endpoint OpenAI-compatible yang dipakai sebagai provider model utama repo ini
-- beberapa API key yang dipakai repo ini, minimal sesuai `.env.example`
+- akses ke **9Router** local/remote endpoint sebagai gateway provider utama repo ini
+- API key 9Router kalau instance-mu mewajibkan auth
+- beberapa API key lain yang dipakai repo ini, minimal sesuai `.env.example`
 
 ## Quick start untuk pemula
 
@@ -64,6 +65,14 @@ Kalau `.env` belum ada:
 
 ```bash
 cp .env.example .env
+```
+
+Sebelum menjalankan OpenCode, verifikasi 9Router:
+
+```bash
+curl "$NINEROUTER_URL/api/health"
+curl "$NINEROUTER_URL/v1/models/web"
+curl "$NINEROUTER_URL/v1/models/image"
 ```
 
 Lalu isi `.env` dan export ke shell.

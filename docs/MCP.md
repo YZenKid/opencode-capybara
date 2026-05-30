@@ -2,14 +2,27 @@
 
 Configured MCP surfaces include:
 - `time`
-- `brave-search`
+- `9router`
 - `context7`
 - `grep_app`
 - `playwright`
 - `shadcn`
-- `image-asset-generator`
+- `image-asset-generator` (disabled compatibility)
 - `semgrep`
 - `github`
+- `brave-search` (disabled legacy)
+
+## 9Router MCP
+
+`9router` exposes:
+- `health_check_9router`
+- `list_9router_models`
+- `get_9router_model_info`
+- `web_search`
+- `web_fetch`
+- `generate_image`
+- `generate_image_asset`
+- `generate_image_assets_batch`
 
 ## Policy
 - MCP usage should be explicit and task-relevant.

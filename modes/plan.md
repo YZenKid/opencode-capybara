@@ -1,5 +1,5 @@
 ---
-model: cliproxyapi/gpt-5.3-codex
+model: 9router/gpt-5.3-codex
 tools:
   read: true
   grep: true
