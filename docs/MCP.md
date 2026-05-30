@@ -29,3 +29,4 @@ Configured MCP surfaces include:
 - Do not hardcode device-specific absolute paths in MCP configuration or prompts.
 - Image generation must use explicit `project_root` and `target_path` relative to that root.
 - For `background=transparent` PNG flows, `9router` may apply bounded edge-connected near-white background repair when provider returns an opaque PNG. Treat `transparency_verified`, `transparency_warning`, and `png_info` as authoritative result metadata.
+- Operator tuning: `NINEROUTER_REPAIR_WHITE_THRESHOLD` controls white cutoff (default `245`), and `NINEROUTER_REPAIR_VARIANCE_THRESHOLD` controls allowed RGB spread for removable background candidates (default `8`).

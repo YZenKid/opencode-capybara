@@ -210,6 +210,54 @@ try {
 
     const alphaEdge = preserveRaw[(0 * width + 2) * 4 + 3]
     assert.equal(alphaEdge, 0)
+
+    const brightEdgeForeground = new Uint8Array(width * height * 3)
+    for (let y = 0; y < height; y += 1) {
+      for (let x = 0; x < width; x += 1) {
+        const idx = (y * width + x) * 3
+        const edge = x === 0 || y === 0 || x === width - 1 || y === height - 1
+        if (edge) {
+          brightEdgeForeground[idx] = 255
+          brightEdgeForeground[idx + 1] = 246
+          brightEdgeForeground[idx + 2] = 246
+        } else {
+          brightEdgeForeground[idx] = 20
+          brightEdgeForeground[idx + 1] = 20
+          brightEdgeForeground[idx + 2] = 20
+        }
+      }
+    }
+
+    const brightEdgeOpaque = await sharp(brightEdgeForeground, { raw: { width, height, channels: 3 } }).png().toBuffer()
+    let brightEdgeCalls = 0
+    const mockFetchBrightEdgeForeground = async (url, options) => {
+      assert.equal(url, 'https://api.9router.com/v1/images/generations')
+      brightEdgeCalls += 1
+      const body = JSON.parse(options.body)
+      if (brightEdgeCalls === 1) {
+        assert.equal(body.background, 'transparent')
+        return { ok: false, status: 400, text: async () => 'transparent background is not supported' }
+      }
+      assert.equal(body.background, 'opaque')
+      return { ok: true, headers: { get: () => 'application/json' }, json: async () => ({ data: [{ b64_json: brightEdgeOpaque.toString('base64') }] }) }
+    }
+
+    const brightEdgeResult = await generateImageAsset({
+      project_root: root,
+      target_path: targetRel,
+      prompt: 'Preserve bright edge foreground',
+      width,
+      height,
+      output_format: 'png',
+      background: 'transparent',
+    }, mockFetchBrightEdgeForeground)
+
+    assert.equal(brightEdgeCalls, 2)
+    assert.equal(brightEdgeResult.transparency_verified, true)
+    const brightEdgeSaved = await readFile(targetAbs)
+    const brightEdgeRaw = await sharp(brightEdgeSaved).ensureAlpha().raw().toBuffer()
+    const brightEdgeAlpha = brightEdgeRaw[(0 * width + 2) * 4 + 3]
+    assert.equal(brightEdgeAlpha, 255)
   }
 } finally {
   await rm(testTmpDir, { recursive: true, force: true })

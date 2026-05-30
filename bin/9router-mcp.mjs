@@ -108,6 +108,11 @@ async function tryRepairTransparentPng(bytes) {
   const meta = await base.metadata()
   if (meta?.hasAlpha) return { bytes, repaired: false, reason: 'already_has_alpha' }
 
+  const whiteThresholdRaw = Number(env('NINEROUTER_REPAIR_WHITE_THRESHOLD', '245'))
+  const whiteThreshold = Number.isFinite(whiteThresholdRaw) ? Math.max(0, Math.min(255, Math.round(whiteThresholdRaw))) : 245
+  const varianceThresholdRaw = Number(env('NINEROUTER_REPAIR_VARIANCE_THRESHOLD', '8'))
+  const varianceThreshold = Number.isFinite(varianceThresholdRaw) ? Math.max(0, Math.round(varianceThresholdRaw)) : 8
+
   const { data, info } = await base.ensureAlpha(1).raw().toBuffer({ resolveWithObject: true })
   const width = info.width
   const height = info.height
@@ -121,7 +126,10 @@ async function tryRepairTransparentPng(bytes) {
     const r = data[i]
     const g = data[i + 1]
     const b = data[i + 2]
-    if (r >= 245 && g >= 245 && b >= 245) nearWhiteMask[p] = 1
+    const max = Math.max(r, g, b)
+    const min = Math.min(r, g, b)
+    const lowVariance = (max - min) <= varianceThreshold
+    if (r >= whiteThreshold && g >= whiteThreshold && b >= whiteThreshold && lowVariance) nearWhiteMask[p] = 1
   }
 
   function pushIfEdgeNearWhite(x, y) {
