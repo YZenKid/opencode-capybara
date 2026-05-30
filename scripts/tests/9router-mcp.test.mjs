@@ -258,6 +258,54 @@ try {
     const brightEdgeRaw = await sharp(brightEdgeSaved).ensureAlpha().raw().toBuffer()
     const brightEdgeAlpha = brightEdgeRaw[(0 * width + 2) * 4 + 3]
     assert.equal(brightEdgeAlpha, 255)
+
+    const saturatedBrightEdgeForeground = new Uint8Array(width * height * 3)
+    for (let y = 0; y < height; y += 1) {
+      for (let x = 0; x < width; x += 1) {
+        const idx = (y * width + x) * 3
+        const edge = x === 0 || y === 0 || x === width - 1 || y === height - 1
+        if (edge) {
+          saturatedBrightEdgeForeground[idx] = 255
+          saturatedBrightEdgeForeground[idx + 1] = 255
+          saturatedBrightEdgeForeground[idx + 2] = 246
+        } else {
+          saturatedBrightEdgeForeground[idx] = 20
+          saturatedBrightEdgeForeground[idx + 1] = 20
+          saturatedBrightEdgeForeground[idx + 2] = 20
+        }
+      }
+    }
+
+    const saturatedBrightEdgeOpaque = await sharp(saturatedBrightEdgeForeground, { raw: { width, height, channels: 3 } }).png().toBuffer()
+    let saturatedBrightEdgeCalls = 0
+    const mockFetchSaturatedBrightEdgeForeground = async (url, options) => {
+      assert.equal(url, 'https://api.9router.com/v1/images/generations')
+      saturatedBrightEdgeCalls += 1
+      const body = JSON.parse(options.body)
+      if (saturatedBrightEdgeCalls === 1) {
+        assert.equal(body.background, 'transparent')
+        return { ok: false, status: 400, text: async () => 'transparent background is not supported' }
+      }
+      assert.equal(body.background, 'opaque')
+      return { ok: true, headers: { get: () => 'application/json' }, json: async () => ({ data: [{ b64_json: saturatedBrightEdgeOpaque.toString('base64') }] }) }
+    }
+
+    const saturatedBrightEdgeResult = await generateImageAsset({
+      project_root: root,
+      target_path: targetRel,
+      prompt: 'Preserve saturated bright edge foreground',
+      width,
+      height,
+      output_format: 'png',
+      background: 'transparent',
+    }, mockFetchSaturatedBrightEdgeForeground)
+
+    assert.equal(saturatedBrightEdgeCalls, 2)
+    assert.equal(saturatedBrightEdgeResult.transparency_verified, true)
+    const saturatedBrightEdgeSaved = await readFile(targetAbs)
+    const saturatedBrightEdgeRaw = await sharp(saturatedBrightEdgeSaved).ensureAlpha().raw().toBuffer()
+    const saturatedBrightEdgeAlpha = saturatedBrightEdgeRaw[(0 * width + 2) * 4 + 3]
+    assert.equal(saturatedBrightEdgeAlpha, 255)
   }
 } finally {
   await rm(testTmpDir, { recursive: true, force: true })
