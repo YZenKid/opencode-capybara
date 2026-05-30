@@ -91,6 +91,41 @@ function sanitizeError(error) {
   return redactedKey.replace(/Bearer\s+[A-Za-z0-9._-]+/gi, 'Bearer [REDACTED]')
 }
 
+let sharpModulePromise = null
+async function getSharp() {
+  if (!sharpModulePromise) {
+    sharpModulePromise = import('sharp')
+      .then((m) => m?.default || m)
+      .catch(() => null)
+  }
+  return sharpModulePromise
+}
+
+async function tryRepairTransparentPng(bytes) {
+  const sharp = await getSharp()
+  if (!sharp) return { bytes, repaired: false, reason: 'sharp_unavailable' }
+  const base = sharp(bytes)
+  const meta = await base.metadata()
+  if (meta?.hasAlpha) return { bytes, repaired: false, reason: 'already_has_alpha' }
+
+  const { data, info } = await base.ensureAlpha(1).raw().toBuffer({ resolveWithObject: true })
+  for (let i = 0; i < data.length; i += info.channels) {
+    const r = data[i]
+    const g = data[i + 1]
+    const b = data[i + 2]
+    const nearWhite = r >= 245 && g >= 245 && b >= 245
+    if (nearWhite) data[i + 3] = 0
+  }
+
+  const repairedBytes = await sharp(data, {
+    raw: { width: info.width, height: info.height, channels: info.channels },
+  }).png().toBuffer()
+
+  const repairedInfo = parsePngInfo(repairedBytes)
+  if (!repairedInfo?.has_alpha) return { bytes, repaired: false, reason: 'repair_failed_no_alpha' }
+  return { bytes: repairedBytes, repaired: true, reason: 'white_to_alpha_threshold' }
+}
+
 function baseUrl() {
   return env('NINEROUTER_URL', 'https://api.9router.com').replace(/\/$/, '')
 }
@@ -209,15 +244,25 @@ export async function generateImageAsset(input, fetchImpl = fetch) {
     sourceUrl = parsed.url || null
   }
 
-  const pngInfo = format === 'png' ? parsePngInfo(bytes) : null
+  let pngInfo = format === 'png' ? parsePngInfo(bytes) : null
   let transparencyVerified = null
   let transparencyWarning = null
   if (background === 'transparent' && format === 'png') {
     transparencyVerified = Boolean(pngInfo?.has_alpha)
     if (!transparencyVerified) {
-      transparencyWarning = transparentFallbackMode
-        ? `${transparentFallbackMode}; endpoint returned PNG without alpha after retry.`
-        : 'Endpoint accepted background=transparent but returned PNG without alpha.'
+      const repaired = await tryRepairTransparentPng(bytes)
+      if (repaired.repaired) {
+        bytes = repaired.bytes
+        pngInfo = parsePngInfo(bytes)
+        transparencyVerified = Boolean(pngInfo?.has_alpha)
+        transparencyWarning = transparentFallbackMode
+          ? `${transparentFallbackMode}; repaired opaque PNG via sharp (${repaired.reason}).`
+          : `Endpoint accepted background=transparent but returned PNG without alpha; repaired via sharp (${repaired.reason}).`
+      } else {
+        transparencyWarning = transparentFallbackMode
+          ? `${transparentFallbackMode}; endpoint returned PNG without alpha after retry; repair skipped (${repaired.reason}).`
+          : `Endpoint accepted background=transparent but returned PNG without alpha; repair skipped (${repaired.reason}).`
+      }
     }
   }
 

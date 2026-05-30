@@ -56,4 +56,5 @@ Rule: `configured` does **not** mean `usable`.
 - Prefer local discovery before external tools when repo-local context is enough.
 - Do not hardcode device-specific absolute paths in MCP configuration or prompts.
 - Image generation must use explicit `project_root` and `target_path` relative to that root.
+- For `background=transparent` PNG flows, `9router` may apply bounded near-white-to-alpha repair when provider returns an opaque PNG. Treat `transparency_verified`, `transparency_warning`, and `png_info` as authoritative result metadata.
 - OpenCode auth store file (`~/.local/share/opencode/mcp-auth.json`) is sensitive and must never be committed.

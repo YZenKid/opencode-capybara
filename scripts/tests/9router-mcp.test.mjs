@@ -139,9 +139,13 @@ try {
 
   assert.equal(transparentCalls, 2)
   assert.equal(transparentResult.background, 'transparent')
-  assert.equal(transparentResult.transparency_verified, false)
+  assert.equal(transparentResult.transparency_verified, true)
   assert.match(String(transparentResult.transparency_warning), /retried opaque/)
-  assert.equal(transparentResult.png_info?.has_alpha, false)
+  assert.match(String(transparentResult.transparency_warning), /repaired opaque PNG via sharp/)
+  assert.equal(transparentResult.png_info?.has_alpha, true)
+
+  const repairedSaved = await readFile(targetAbs)
+  assert.equal(parsePngInfo(repairedSaved)?.has_alpha, true)
 } finally {
   await rm(testTmpDir, { recursive: true, force: true })
 }
