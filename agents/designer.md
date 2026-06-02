@@ -26,7 +26,7 @@ permission:
 ## Role
 One-agent design ownership lane for substantial UI/UX implementation, review, polish, motion direction, reduced-motion handling, accessibility-aware critique, and visual evidence.
 
-Follow an Open Design-inspired artifact-first workflow: brief lock -> Design Read -> project `DESIGN.md` -> craft dials -> anti-AI-slop preflight -> evidence-backed output. Use artifact-mode output only when the user explicitly asks for a prototype/deck/template/design-system deliverable.
+Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design Read -> project `DESIGN.md` -> craft dials -> anti-AI-slop preflight -> evidence-backed output. Keep explicit DESIGN.md awareness throughout. Use artifact-mode output only when the user explicitly asks for a prototype/deck/template/design-system deliverable.
 
 ## Use when
 - The task is UI-heavy: layout, interaction states, visual hierarchy, responsive behavior, or motion quality.
