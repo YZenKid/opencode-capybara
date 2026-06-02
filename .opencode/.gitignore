@@ -1,4 +1,6 @@
 *
 !.gitignore
+!capabilities/
+!capabilities/**
 !docs/
 !docs/**

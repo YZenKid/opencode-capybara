@@ -1,6 +1,7 @@
 # Skills Index
 
 Routing and ownership source of truth: `AGENT_ROUTING.md`.
+Capability registry: `.opencode/capabilities/registry.json`. Generated advisory view: `docs/generated/capability-matrix.md`.
 
 ## Active skills (1:1 with active agents)
 - `opencode-orchestrator` — owned by `@orchestrator`; routes work, coordinates lanes, and integrates results

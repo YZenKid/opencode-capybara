@@ -2,6 +2,8 @@
 
 This document is the MCP **inventory** for this repository.
 
+Risk/governance registry: `.opencode/capabilities/registry.json`. Generated advisory view: `docs/generated/mcp-risk-matrix.md`.
+
 For operational usage guidance (when/why/how), use:
 - [TOOL_USAGE.md](./TOOL_USAGE.md)
 - [AGENT_TOOL_ACCESS.md](./AGENT_TOOL_ACCESS.md)

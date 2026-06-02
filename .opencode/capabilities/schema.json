@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpenCode Capybara capability registry",
+  "type": "object",
+  "required": ["version", "source", "agents", "skills", "mcp", "external_comparators"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "source": { "type": "string", "const": "current-local-state" },
+    "agents": { "type": "array", "items": { "$ref": "#/$defs/capability" } },
+    "skills": { "type": "array", "items": { "$ref": "#/$defs/capability" } },
+    "mcp": { "type": "array", "items": { "$ref": "#/$defs/mcp" } },
+    "external_comparators": { "type": "array", "items": { "$ref": "#/$defs/externalComparator" } }
+  },
+  "$defs": {
+    "nonEmptyString": { "type": "string", "minLength": 1 },
+    "stringList": { "type": "array", "items": { "$ref": "#/$defs/nonEmptyString" }, "minItems": 1 },
+    "capability": {
+      "type": "object",
+      "required": ["name", "status", "owner_lane", "risk", "fallback", "evidence", "source"],
+      "additionalProperties": true,
+      "properties": {
+        "name": { "$ref": "#/$defs/nonEmptyString" },
+        "status": { "enum": ["active", "inactive", "external-comparator"] },
+        "owner_lane": { "$ref": "#/$defs/nonEmptyString" },
+        "risk": { "$ref": "#/$defs/stringList" },
+        "fallback": { "$ref": "#/$defs/nonEmptyString" },
+        "evidence": { "$ref": "#/$defs/stringList" },
+        "source": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "mcp": {
+      "type": "object",
+      "required": ["name", "status", "owner_lane", "risk", "fallback", "evidence", "source", "transport", "auth", "data_egress", "write_capability", "allowed_lanes", "denied_lanes", "evidence_required", "secret_surfaces"],
+      "additionalProperties": true,
+      "properties": {
+        "name": { "$ref": "#/$defs/nonEmptyString" },
+        "status": { "enum": ["configured", "disabled", "external-comparator"] },
+        "owner_lane": { "$ref": "#/$defs/nonEmptyString" },
+        "risk": { "$ref": "#/$defs/stringList" },
+        "fallback": { "$ref": "#/$defs/nonEmptyString" },
+        "evidence": { "$ref": "#/$defs/stringList" },
+        "source": { "$ref": "#/$defs/nonEmptyString" },
+        "transport": { "enum": ["local", "remote"] },
+        "auth": { "$ref": "#/$defs/nonEmptyString" },
+        "data_egress": { "$ref": "#/$defs/nonEmptyString" },
+        "write_capability": { "type": "boolean" },
+        "allowed_lanes": { "$ref": "#/$defs/stringList" },
+        "denied_lanes": { "$ref": "#/$defs/stringList" },
+        "evidence_required": { "$ref": "#/$defs/stringList" },
+        "secret_surfaces": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "externalComparator": {
+      "type": "object",
+      "required": ["name", "status", "repository", "license", "patterns", "decision", "reason", "risk", "fallback", "evidence"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "$ref": "#/$defs/nonEmptyString" },
+        "status": { "type": "string", "const": "external-comparator" },
+        "repository": { "$ref": "#/$defs/nonEmptyString" },
+        "license": { "$ref": "#/$defs/nonEmptyString" },
+        "patterns": { "$ref": "#/$defs/stringList" },
+        "decision": { "enum": ["adopt", "adapt", "reject", "defer"] },
+        "reason": { "$ref": "#/$defs/nonEmptyString" },
+        "risk": { "$ref": "#/$defs/stringList" },
+        "fallback": { "$ref": "#/$defs/nonEmptyString" },
+        "evidence": { "$ref": "#/$defs/stringList" }
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "capability-governance-negative",
+  "description": "Negative fixture: capability governance must block external overreach, MCP auth ambiguity, quality-gate bypass, routing ambiguity, and prompt bloat.",
+  "rules": [
+    {
+      "file": ".opencode/capabilities/registry.json",
+      "mustInclude": [
+        "\"status\": \"external-comparator\"",
+        "\"GITHUB_PERSONAL_ACCESS_TOKEN\"",
+        "\"configured does not mean usable/authenticated\"",
+        "\"@quality-gate\"",
+        "\"prompt-bloat\""
+      ],
+      "mustNotInclude": [
+        "\"status\": \"active-external\"",
+        "\"source_import\": true"
+      ],
+      "reasonCode": "capability-governance"
+    }
+  ]
+}

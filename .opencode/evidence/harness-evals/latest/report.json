@@ -1,7 +1,7 @@
 {
   "task_id": "harness-evals-latest",
-  "timestamp": "2026-05-31T01:44:50.299Z",
-  "harness_version": "3b1d6c2e465cde828b60ede29657e5a67792aa62",
+  "timestamp": "2026-06-02T14:51:54.721Z",
+  "harness_version": "8eac2c56dc019019e3b9901ca3cf69fae1c75f79",
   "prompt_or_task_summary": "Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.",
   "tool_trace_summary": [
     "Read eval fixture JSON files from scripts/evals/fixtures/",
@@ -18,10 +18,11 @@
     }
   ],
   "verdict": "PASS",
-  "fixture_count": 24,
+  "fixture_count": 25,
   "failed": 0,
   "fixture_ids": [
     "agents-policy-bloat-negative",
+    "capability-governance-negative",
     "docs-system-of-record",
     "evidence-verification-negative",
     "readonly-boundary-negative",
@@ -90,7 +91,7 @@
     "release_critical_average_score_0_to_5": 5
   },
   "drift_summary": {
-    "previous_timestamp": "2026-05-29T15:15:43.537Z",
+    "previous_timestamp": "2026-06-02T14:51:19.314Z",
     "previous_average_score_0_to_5": 3.54,
     "average_score_delta": 0,
     "failed_delta": 0,
@@ -104,6 +105,7 @@
     "ready": true
   },
   "files_changed": [
+    ".opencode/capabilities/registry.json",
     ".opencode/docs/AGENT_ROUTING.md",
     ".opencode/docs/ARCHITECTURE.md",
     ".opencode/docs/EVALS.md",
@@ -146,6 +148,17 @@
       "checks": [
         {
           "file": "AGENTS.md",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "capability-governance-negative",
+      "description": "Negative fixture: capability governance must block external overreach, MCP auth ambiguity, quality-gate bypass, routing ambiguity, and prompt bloat.",
+      "status": "PASS",
+      "checks": [
+        {
+          "file": ".opencode/capabilities/registry.json",
           "status": "PASS"
         }
       ]

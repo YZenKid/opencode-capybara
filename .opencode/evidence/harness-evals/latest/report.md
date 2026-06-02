@@ -1,10 +1,10 @@
 # Harness Eval Report
 
-- Timestamp: 2026-05-31T01:44:50.299Z
-- Harness version: 3b1d6c2e465cde828b60ede29657e5a67792aa62
+- Timestamp: 2026-06-02T14:51:54.721Z
+- Harness version: 8eac2c56dc019019e3b9901ca3cf69fae1c75f79
 - Task summary: Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.
 - Verdict: PASS
-- Fixture count: 24
+- Fixture count: 25
 - Failed: 0
 - Transcript fixture count: 13
 - Transcript average routing score: 3.54/5
@@ -18,6 +18,7 @@
   - Read target repository files and evaluate mustInclude/mustNotInclude rules
   - Write replayable report artifacts under .opencode/evidence/harness-evals/latest/
 - Files changed summary: Read-only eval run; no repository files were modified. files_changed lists validated target files.
+  - .opencode/capabilities/registry.json
   - .opencode/docs/AGENT_ROUTING.md
   - .opencode/docs/ARCHITECTURE.md
   - .opencode/docs/EVALS.md
@@ -55,6 +56,7 @@
   - npm run eval:harness → PASS
 - Fixture IDs:
   - agents-policy-bloat-negative
+  - capability-governance-negative
   - docs-system-of-record
   - evidence-verification-negative
   - readonly-boundary-negative
@@ -98,6 +100,10 @@
 - Status: PASS
 - Description: Negative fixture: AGENTS.md should stay map-like and avoid re-absorbing long-form policy language that belongs in docs.
 - AGENTS.md: PASS
+## capability-governance-negative
+- Status: PASS
+- Description: Negative fixture: capability governance must block external overreach, MCP auth ambiguity, quality-gate bypass, routing ambiguity, and prompt bloat.
+- .opencode/capabilities/registry.json: PASS
 ## docs-system-of-record
 - Status: PASS
 - Description: Validates that AGENTS.md maps to canonical docs and the canonical docs index exposes the system-of-record entrypoints.

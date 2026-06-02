@@ -99,6 +99,9 @@ function checkAgentsPointers() {
 function checkGeneratedDocsLabel() {
   const generatedFiles = [
     "docs/generated/agent-matrix.md",
+    "docs/generated/capability-matrix.md",
+    "docs/generated/mcp-risk-matrix.md",
+    "docs/generated/external-comparison.md",
     "docs/generated/prompt-gate-report.md",
     "docs/generated/docs-integrity-report.md",
   ];

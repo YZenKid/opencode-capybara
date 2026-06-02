@@ -1,5 +1,7 @@
 # Agent Routing
 
+Capability registry: `.opencode/capabilities/registry.json`. Generated advisory view: `docs/generated/capability-matrix.md`.
+
 ## Default flow
 User intent → `@orchestrator` → specialist agents → validation → `@quality-gate` → final summary.
 

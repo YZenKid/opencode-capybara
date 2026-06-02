@@ -25,12 +25,29 @@ function parseFrontmatter(markdown) {
   if (end === -1) return {};
   const body = markdown.slice(4, end).split("\n");
   const result = {};
+  let activeKey = null;
   for (const line of body) {
+    const itemMatch = line.match(/^\s+-\s+(.*)$/);
+    if (itemMatch && activeKey) {
+      if (!Array.isArray(result[activeKey])) result[activeKey] = [];
+      result[activeKey].push(itemMatch[1].trim());
+      continue;
+    }
     const match = line.match(/^([A-Za-z0-9_\-]+):\s*(.*)$/);
     if (!match) continue;
-    result[match[1]] = match[2];
+    activeKey = match[1];
+    result[activeKey] = match[2] || [];
   }
   return result;
+}
+
+function formatCell(value) {
+  if (Array.isArray(value)) return value.length > 0 ? value.join(", ") : "none";
+  return String(value || "none").replace(/\s+/g, " ").trim();
+}
+
+function loadRegistry() {
+  return JSON.parse(read(".opencode/capabilities/registry.json"));
 }
 
 function parseArrayLiteral(content, variableName) {
@@ -124,7 +141,7 @@ function collectAgentMatrix() {
         agent,
         mode: frontmatter.mode || "unknown",
         model: frontmatter.model || "unknown",
-        skills: frontmatter.skills || "none",
+        skills: formatCell(frontmatter.skills),
         description: String(frontmatter.description || "").replace(/\s+/g, " ").trim(),
       };
     });
@@ -143,6 +160,63 @@ function collectAgentMatrix() {
   ];
 
   return renderReport("Agent Matrix", lines);
+}
+
+function collectCapabilityMatrix() {
+  const registry = loadRegistry();
+  const rows = [
+    ...registry.agents.map((item) => ["agent", item.name, item.owner_lane, item.status, item.risk.join(", "), item.fallback]),
+    ...registry.skills.map((item) => ["skill", item.name, item.owner_lane, item.status, item.risk.join(", "), item.fallback]),
+  ].sort((a, b) => `${a[0]}:${a[1]}`.localeCompare(`${b[0]}:${b[1]}`));
+
+  return renderReport("Capability Matrix", [
+    "# Generated: Capability Matrix",
+    "",
+    "Generated from `.opencode/capabilities/registry.json`. Advisory only; canonical policy remains in `.opencode/docs/`.",
+    "",
+    `- Agents: ${registry.agents.length}`,
+    `- Skills: ${registry.skills.length}`,
+    "",
+    "| Type | Name | Owner lane | Status | Risk | Fallback |",
+    "| --- | --- | --- | --- | --- | --- |",
+    ...rows.map((row) => `| ${row.join(" | ")} |`),
+  ]);
+}
+
+function collectMcpRiskMatrix() {
+  const registry = loadRegistry();
+  return renderReport("MCP Risk Matrix", [
+    "# Generated: MCP Risk Matrix",
+    "",
+    "Generated from `.opencode/capabilities/registry.json`. Advisory only; configured does not mean usable/authenticated.",
+    "",
+    `- MCP entries: ${registry.mcp.length}`,
+    "",
+    "| MCP | Transport | Owner | Auth | Data egress | Write | Allowed lanes | Denied lanes | Fallback | Evidence required | Secret surfaces |",
+    "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+    ...registry.mcp
+      .slice()
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map((item) => `| ${item.name} | ${item.transport} | ${item.owner_lane} | ${item.auth} | ${item.data_egress} | ${item.write_capability ? "yes" : "no"} | ${item.allowed_lanes.join(", ")} | ${item.denied_lanes.join(", ")} | ${item.fallback} | ${item.evidence_required.join(", ")} | ${item.secret_surfaces.join(", ") || "none"} |`),
+  ]);
+}
+
+function collectExternalComparison() {
+  const registry = loadRegistry();
+  return renderReport("External Comparison", [
+    "# Generated: External Comparison",
+    "",
+    "Generated from `.opencode/capabilities/registry.json`. External repos are comparators only, not active capabilities or source imports.",
+    "",
+    `- Comparators: ${registry.external_comparators.length}`,
+    "",
+    "| Comparator | Status | License | Decision | Patterns | Reason | Risk |",
+    "| --- | --- | --- | --- | --- | --- | --- |",
+    ...registry.external_comparators
+      .slice()
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map((item) => `| ${item.name} | ${item.status} | ${item.license} | ${item.decision} | ${item.patterns.join(", ")} | ${item.reason} | ${item.risk.join(", ")} |`),
+  ]);
 }
 
 function collectPromptGateReport() {
@@ -202,6 +276,9 @@ function collectDocsIntegrityReport() {
 
 const outputs = [
   ["docs/generated/agent-matrix.md", collectAgentMatrix()],
+  ["docs/generated/capability-matrix.md", collectCapabilityMatrix()],
+  ["docs/generated/mcp-risk-matrix.md", collectMcpRiskMatrix()],
+  ["docs/generated/external-comparison.md", collectExternalComparison()],
   ["docs/generated/prompt-gate-report.md", collectPromptGateReport()],
   ["docs/generated/docs-integrity-report.md", collectDocsIntegrityReport()],
 ];
