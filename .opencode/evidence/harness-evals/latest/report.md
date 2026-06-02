@@ -1,7 +1,7 @@
 # Harness Eval Report
 
-- Timestamp: 2026-06-02T14:51:54.721Z
-- Harness version: 8eac2c56dc019019e3b9901ca3cf69fae1c75f79
+- Timestamp: 2026-06-02T15:01:50.111Z
+- Harness version: e42a1b2c640ff133de4de019586bcc18e83b4be0
 - Task summary: Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.
 - Verdict: PASS
 - Fixture count: 25
