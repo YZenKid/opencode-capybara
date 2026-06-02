@@ -174,6 +174,7 @@ When working through multi-step tasks, consider enabling auto-continue to avoid 
 - Skip domain specialists for tiny UI polish and isolated bugfixes unless risk triggers apply.
 - Inspect the target project's `DESIGN.md` first, then `design-system/DESIGN.md` or equivalent; suggest `/init-design` if substantial UI direction is missing.
 - PRD/product docs needing MVP/flows/acceptance criteria and SaaS/multi-tenant/RBAC/billing decisions → `@architect`; if source is PDF/DOCX/XLSX, use `@librarian` first for document-centric extraction/research/transformation support.
+- PDF/DOCX/XLSX/PPT/Office inputs where the active model reports unsupported attachment input (for example `input.pdf:false`) are not a hard stop. Interpret that as “model cannot read the attachment directly”; check workspace file availability and route document extraction/Q&A/summarization to `@librarian` before asking the user to convert the document.
 - AI/LLM/RAG/embedding/tool-calling/evals/face-matching production decisions → `@architect`; route version-sensitive SDK behavior to `@librarian`.
 - PII/auth/session/payments/webhooks/uploads/tenant isolation/biometric/privacy/AI data risk architecture decisions → `@architect`; final security/privacy signoff remains in `@quality-gate`.
 - Deployment/CI/CD/env/migration/monitoring/rollback/production readiness and native mobile/hybrid/PWA/offline/push/deep-link/camera/QR/app-store constraints → `@architect`.

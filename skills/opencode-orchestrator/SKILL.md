@@ -38,6 +38,7 @@ Direct-work threshold (hard default):
 - AI/LLM/RAG/embedding/tool-calling/evals/face-matching production behavior and product/platform architecture ambiguity → `@architect`; use `@librarian` for version-sensitive SDK docs.
 - Security/privacy-sensitive boundaries (PII/auth/payments/uploads/biometric/privacy/AI data) are escalated for final signoff in `@quality-gate`; architecture decisions for those boundaries can be advised by `@architect`.
 - Document/file-centric read-only extraction/research/transformation support → `@librarian` cluster.
+- PDF/DOCX/XLSX/PPT/Office inputs with model attachment capability gaps (`input.pdf:false` or equivalent) are not a hard stop. Treat the model limit as a direct-attachment limit only: first check whether the file exists in workspace, then route extraction/Q&A/summarization to `@librarian`; only ask the user to convert to text/markdown after `@librarian` or local extraction tools are unavailable or fail.
 - Post-task prompt/skill/routing refinement after evidence → `@skill-improver` cluster.
 - Keep `@architect` as a triggered/conditional advisory lane for material boundaries only. Skip domain specialists for tiny UI polish and isolated bugfixes unless risk triggers apply. Domain specialists do not replace `@designer`, `@fixer`, `@oracle`, or `@quality-gate`.
 

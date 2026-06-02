@@ -26,6 +26,7 @@ Prompt gates convert important repository invariants into deterministic checks.
 - Auto-commit safety
 - Finish-first execution with explicit blocker taxonomy and deferred non-blocking questions
 - Advisory non-veto behavior (must reclassify advisory status via taxonomy + evidence)
+- Document fallback routing: unsupported model attachment input (for example `input.pdf:false`) must trigger workspace-file check plus `@librarian` extraction before asking the user to convert PDF/DOCX/XLSX/PPT/Office files.
 - Indonesian-first user-facing orchestrator language with technical-literal exceptions
 - Subagent internal-schema normalization before user-facing final output
 

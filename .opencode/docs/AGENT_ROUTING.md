@@ -95,6 +95,9 @@ Cross-lane contract baseline (non-trivial work):
 - `@librarian` — supporting docs/API research helper and document-centric read-only extraction/research/transformation support.
 - `@skill-improver` — prompt/skill/routing improvements after repeated failure or evidence.
 
+Document fallback rule:
+- If a user asks to read, summarize, compare, or transform PDF/DOCX/XLSX/PPT/Office input and the active model reports no direct attachment support (for example `input.pdf:false`), do not stop at the model capability check. Treat it as a direct-attachment limitation, check whether the file is available in the workspace, then route to `@librarian` for document-centric extraction. Ask the user to convert the file only after the `@librarian` lane or local extraction tools are unavailable or fail.
+
 Helper lanes are conditional. Tiny UI polish still routes to `@designer`; isolated bugfixes still route to `@fixer` unless a risk trigger applies.
 
 Global conditional specialist framing:

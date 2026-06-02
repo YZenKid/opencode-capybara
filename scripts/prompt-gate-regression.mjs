@@ -362,6 +362,17 @@ const checks = [
     ],
   },
   {
+    file: "skills/opencode-orchestrator/SKILL.md",
+    name: "orchestrator document fallback skill gate",
+    mustInclude: [
+      "PDF/DOCX/XLSX/PPT/Office inputs",
+      "input.pdf:false",
+      "direct-attachment limit only",
+      "route extraction/Q&A/summarization to `@librarian`",
+      "only ask the user to convert to text/markdown after `@librarian` or local extraction tools are unavailable or fail",
+    ],
+  },
+  {
     file: "agents/council.md",
     name: "council language split gate",
     mustInclude: [
@@ -405,6 +416,18 @@ const checks = [
       "delegate discovery to `@explorer`, then `@orchestrator` still reads many files",
       "## Compact routing quality checklist",
       "Score guidance: 5/5 = strong routing discipline",
+    ],
+  },
+  {
+    file: ".opencode/docs/AGENT_ROUTING.md",
+    name: "canonical document fallback routing gate",
+    mustInclude: [
+      "Document fallback rule",
+      "PDF/DOCX/XLSX/PPT/Office input",
+      "input.pdf:false",
+      "do not stop at the model capability check",
+      "route to `@librarian` for document-centric extraction",
+      "Ask the user to convert the file only after the `@librarian` lane or local extraction tools are unavailable or fail",
     ],
   },
   {
