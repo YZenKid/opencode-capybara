@@ -21,6 +21,30 @@ Core check: plan/evidence/diff/validation must be reviewed together before makin
 7. **UI/release gate** — if the change is UI/substantial visual, require designer signoff, accessibility evidence (semantics/focus/labels/contrast/motion), and visual parity evidence before strong parity claims; if it is release/config/runtime work, check deploy risk and rollback readiness.
 8. **Final call** — return a deterministic status.
 
+## Open Design-inspired UI gate
+
+For UI, visual asset, reference, motion, or design-system work, gate design taste through evidence and mechanical checks, not unsupported preference.
+
+Required checks when relevant:
+
+- `Design Read` present for substantial visual work.
+- `DESIGN_VARIANCE`, `MOTION_INTENSITY`, `VISUAL_DENSITY` documented or clearly implied by existing `DESIGN.md`.
+- Project `DESIGN.md` or `design-system/DESIGN.md` was read, followed, or absence/fallback recorded.
+- Screenshot evidence supports readiness/parity claims: before/current/final and key responsive viewports when runnable.
+- Accessibility evidence covers contrast, semantics, focus, labels, keyboard/touch, alt text, and reduced-motion.
+- Motion evidence explains purpose and reduced-motion fallback; no gratuitous motion claim.
+- Asset/image evidence includes generation decision, dimensions, alt/decorative strategy, legal notes, integration notes, `quality_bar`, and `reject_if`.
+- Anti-AI-slop mechanical failures checked: hero fit, nav single-line, CTA contrast/wrap/duplicate intent, eyebrow restraint, layout repetition, image strategy, motion motivation, reduced-motion, fake dashboards/placeholders/generic neon.
+
+### Status mapping for UI/design
+
+- `BLOCKED`: required evidence absent and reviewer cannot assess claimed UI/design outcome; screenshot/access/design-system/reference evidence missing for strong readiness/parity claim.
+- `NEEDS_FIX`: concrete mechanical failure exists: contrast/wrap/layout break, missing reduced-motion, missing asset/legal notes, unreviewed generic AI imagery, unsupported copied reference, widened permission/read-only violation, or requested design scope not done.
+- `PASS_WITH_RISKS`: implementation appears acceptable but evidence has non-blocking gaps or residual visual risk.
+- `PASS`: evidence complete enough; no blocker; residual risk low.
+
+Pure taste preference without request/design-system/evidence support is `LOW` or follow-up only. Do not block because reviewer personally prefers another style.
+
 ## UI/config review checks
 
 - Routing conformance: prompt and agent routing should match the intended specialist lane.
@@ -56,7 +80,7 @@ This lane now absorbs the former standalone security-risk-reviewer, accessibilit
 - `NEEDS_FIX` — there is a gap that must be fixed before proceeding.
 - `BLOCKED` — key evidence is missing, access/constraints prevent review, or there is high risk that cannot yet be assessed.
 
-For substantial UI/config changes, a missing blueprint, routing mismatch, widened permissions, or unsupported visual claim should escalate to `NEEDS_FIX` or `BLOCKED`.
+For substantial UI/config changes, a missing blueprint, routing mismatch, widened permissions, mechanical design failure, missing visual evidence, or unsupported visual claim should escalate to `NEEDS_FIX` or `BLOCKED`.
 
 ## Severity
 

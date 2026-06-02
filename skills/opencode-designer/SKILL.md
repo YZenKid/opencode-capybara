@@ -31,6 +31,62 @@ Use an assumption-first path only when the missing details are reversible and lo
 - Prefer existing components/tokens; create small tokens only when missing.
 - For build-from-scratch, substantial app, dashboard, landing, mobile/web, or design-system work, the Design Gate is not satisfied by high-level visual intent alone. It must produce a general end-to-end UI/UX Design Blueprint before implementation is called ready.
 
+## Open Design skill adaptation
+
+Adapt useful Open Design patterns locally; do not paste upstream wholesale or claim upstream tools/scripts exist here.
+
+| Open Design source | Local rule |
+|---|---|
+| `frontend-design` | Establish point of view, real states, responsive/a11y, production-grade UI, no generic gradients/cards/blobs, self-review before final. |
+| `taste-skill` | Write `Design Read`; set `DESIGN_VARIANCE`, `MOTION_INTENSITY`, `VISUAL_DENSITY`; run mechanical anti-slop checks. |
+| `design-brief` | Convert vague ask into palette, accent, typography, display, layout, mood, density, assets, platform, constraints, and defaults. |
+| `reference-design-contract` | Split references into `Keep`, `Change`, `Do not copy`; preserve intent, not protected assets, exact CSS, logos, or exact layout. |
+| `design-md` | Treat project `DESIGN.md` as design source of truth and update/ask for it through `/init-design` when missing. |
+| `web-design-guidelines` | Apply layout/type/color/motion/a11y basics before taste flourishes. |
+| `design-review` | Score critique with evidence; state what a 10/10 would require; flag AI slop. |
+| `plan-design-review` | Require before/after screenshot plan and viewport/state evidence for substantial visual work. |
+| `ui-ux-pro-max` | Caveat: use only as inspiration category. Do not claim its pattern library/assets/scripts are active unless installed locally. |
+
+### Design Read and craft dials
+
+For substantial work, write:
+
+`Reading this as: <surface> for <audience>, with <vibe>, leaning toward <design system/aesthetic family>.`
+
+Then set:
+
+- `DESIGN_VARIANCE`: low/medium/high divergence from common patterns/reference.
+- `MOTION_INTENSITY`: none/subtle/moderate/expressive, tied to user value.
+- `VISUAL_DENSITY`: airy/balanced/dense, tied to content and device priority.
+
+Project-local `DESIGN.md` overrides these defaults.
+
+### Mechanical anti-AI-slop preflight
+
+Run before output or handoff. Treat context-aware failures as `needs-polish` or blocker for readiness claims.
+
+- Hero fit: above-fold hero fits initial viewport; no cropped primary CTA/content.
+- Nav single-line: desktop nav and primary actions do not wrap or collide.
+- CTA contrast/wrap/duplicate intent: CTAs meet contrast, do not wrap on desktop, and avoid duplicated same-intent buttons.
+- Eyebrow restraint: avoid repetitive eyebrow labels; max roughly `ceil(sectionCount / 3)` unless design system says otherwise.
+- Layout repetition: avoid same card/grid rhythm every section; vary section anatomy with purpose.
+- Image strategy: every visual section declares `generate`, `use-provided-assets`, `licensed-existing-assets`, or `no-generation-needed`.
+- Motion motivation: every non-trivial motion explains meaning and chosen API/system.
+- Reduced-motion: support `prefers-reduced-motion` or platform equivalent.
+- AI tells: reject default purple/blue glow, fake dashboards, vague neon blobs, emoji icons, random serif/display type, placeholder frames, numeric-only service icons, and cloned reference visuals.
+
+### Generation taste contract
+
+For UI, image, mockup, hero, thumbnail, avatar, badge, or background generation:
+
+1. Brief lock: target surface, audience, brand, constraints, platform, assets, acceptance.
+2. Design Read and dials.
+3. Read `DESIGN.md` first; fallback `design-system/DESIGN.md`; suggest `/init-design` for substantial missing guidance.
+4. Manifest/art direction: section title, semantic subject, composition, palette/light, medium, dimensions, alt/decorative strategy, legal notes, integration notes, `quality_bar`, `reject_if`.
+5. Reference contract when applicable: `keep`, `change`, `do_not_copy`.
+6. Execute generation only after manifest is art-directed; prefer visual-asset-generator/9router saved asset path.
+7. Require integration evidence before ready/parity claims.
+
 ## General Design Readiness Gate
 
 For build-from-scratch or substantial UI/UX work, treat this gate as blocking until the plan/spec contains enough detail to implement without guessing. Keep it domain-agnostic: apply it to SaaS, dashboards, marketplaces, mobile apps, internal tools, portals, landing pages, and other product surfaces.

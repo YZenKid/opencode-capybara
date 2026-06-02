@@ -10,12 +10,24 @@ Use this to transform asset manifests into legal generation jobs and integration
 ## Input contract
 
 Require asset id, type, priority, target path, dimensions/aspect ratio, prompt, negative prompt, alt text, placement notes, legal notes, section title/description, semantic subject, palette notes, and background/output format when relevant.
+
+Manifest-level taste fields:
+
+- `design_read`
+- `DESIGN_VARIANCE`
+- `MOTION_INTENSITY`
+- `VISUAL_DENSITY`
+- `quality_bar`
+- `reject_if`
+- `keep`, `change`, `do_not_copy` for reference-inspired work
+
 For substantial UI/reference/image-heavy work, the manifest must also include an image generation decision, icon strategy, art direction, style board, reference traits, composition notes, quality_bar, reject_if, and explicit legal notes for each generated asset; otherwise return error instead of guessing. If the decision is `generate`, return executable jobs; if it is `use-provided-assets`, `licensed-existing-assets`, or `no-generation-needed`, return integration/validation notes instead of silently creating placeholders.
 
 Prompts must be written like a professional art director, not as generic tags. Reject manifests that only say "modern tech dashboard", "futuristic", "cyberpunk", or "abstract UI" without domain-specific objects, composition, and meaning.
 
 ## Rules
 
+- Open Design influence: use `taste-skill` for Design Read/dials/anti-slop, `reference-design-contract` for `keep/change/do_not_copy`, and `frontend-design` for production-grade, section-meaningful visuals.
 - Never copy restricted/reference assets without license/proof.
 - Preserve visual qualities as legal style-equivalent: palette, crop, mood, density, lighting, placement intent.
 - Avoid readable text, watermarks, trademarks, and logo lookalikes.
@@ -38,6 +50,19 @@ Use 9Router image generation for executable image asset jobs.
 Preferred MCP tool: `generate_image_asset` from `9router`.
 
 Do not call raw image providers directly. Route image generation through 9Router so model/account/fallback policy stays centralized.
+
+### 9router MCP generation contract
+
+Before calling `generate_image_asset` or `generate_image_assets_batch`, verify each job has:
+
+- explicit `project_root` for target app and relative `target_path`
+- section-aware `prompt` with subject, composition, palette/light, medium, camera/crop/perspective, texture/material, brand/domain specificity
+- `negative_prompt` blocking fake text, logos, watermarks, copied reference assets, generic cyberpunk/neon, placeholder UI, uncanny hands/faces when relevant
+- `width`, `height`, `format`, `output_format`, `background`, `quality`
+- `alt` and `legal_note`
+- `quality_bar`, `reject_if`, and integration notes available in manifest/handoff
+
+Generation flow: brief -> `design_read` -> dials -> manifest/art direction -> 9router generation -> integration evidence -> designer/quality-gate review. Do not claim `generated` unless files were actually created by tool output.
 
 ## Output
 
