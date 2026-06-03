@@ -97,6 +97,26 @@ Cross-lane contract baseline (non-trivial work):
 - `@librarian` — supporting docs/API research helper and document-centric read-only extraction/research/transformation support.
 - `@skill-improver` — prompt/skill/routing improvements after repeated failure or evidence.
 
+## Domain subagents (triggered only)
+
+These agents are `mode: subagent`. `@orchestrator` remains default. `@artifact-planner` remains triggered, not default-first.
+
+| Agent | Owns | Route when | Do not route when |
+|---|---|---|---|
+| `@frontend` | Web UI implementation | React/Next/Vue/Svelte components, pages, forms, state, routing, API integration, component tests, accessibility implementation | Visual direction or design-system choices are missing -> `@designer`; backend contract unclear -> `@backend`/`@system-analyst` |
+| `@mobile` | Mobile implementation | React Native, Expo, Flutter, navigation, native permissions, offline, push, camera, deep links, mobile performance | Mobile architecture/privacy/store boundary needs decision -> `@architect`/`@quality-gate` |
+| `@backend` | API/server/data implementation | Endpoints, services, validation, auth integration, DB queries, migrations, jobs, queues, backend tests | Requirements/API contract unclear -> `@system-analyst`; major data/security architecture -> `@architect`/`@quality-gate` |
+| `@devops` | CI/CD, Docker, env, deploy, monitoring | GitHub Actions, Dockerfile, compose, release scripts, observability config, rollback plans | Deploy/destructive/credential action lacks explicit approval; architecture/release boundary -> `@architect`/`@quality-gate` |
+| `@system-analyst` | Read-only requirements/contracts | PRD, user flows, API contracts, data flows, edge cases, NFRs, acceptance criteria | Source edits or tests are requested -> implementation lane |
+| `@project-manager` | Read-only delivery planning | Milestones, backlog, issue breakdown, dependency/risk register, release checklist, handoff | Requirements unclear -> `@system-analyst`; source edits requested -> implementation lane |
+| `@fullstack` | Small vertical slice | Tight, clear FE/BE change with small scope and known contract | Broad scope, unknown contracts, or multi-subsystem work -> split `@frontend` + `@backend` or plan first |
+
+Domain anti-overlap rules:
+- UI/UX direction stays with `@designer`; `@frontend` implements from direction.
+- `@fullstack` is never catch-all/default. Split once scope grows or contracts are unclear.
+- Read-only agents (`@system-analyst`, `@project-manager`) must not edit source.
+- `@devops` must ask before deploy, destructive infra, credential, or production mutation commands.
+
 Document fallback rule:
 - If a user asks to read, summarize, compare, or transform PDF/DOCX/XLSX/PPT/Office input and the active model reports no direct attachment support (for example `input.pdf:false`), do not stop at the model capability check. Treat it as a direct-attachment limitation, check whether the file is available in the workspace, then route to `@librarian` for document-centric extraction. Ask the user to convert the file only after the `@librarian` lane or local extraction tools are unavailable or fail.
 
@@ -106,6 +126,13 @@ Global conditional specialist framing:
 - PRD/product blueprint work, SaaS architecture, AI system design, Security/privacy review, Release/ops readiness, and Mobile/hybrid architecture can trigger `@architect`.
 - Tiny UI polish still goes to `@designer`.
 - Isolated bugfixes still go to `@fixer`.
+- Web implementation with existing design direction can route to `@frontend`.
+- Backend/API/data implementation can route to `@backend`.
+- Mobile app implementation can route to `@mobile`.
+- CI/CD/Docker/env/deploy work can route to `@devops` with approval gates.
+- Requirements/contract clarification can route to `@system-analyst`.
+- Milestone/backlog/release planning can route to `@project-manager`.
+- Small FE/BE vertical slices can route to `@fullstack`; split when scope grows.
 
 ## UI and reference policy
 - First inspect the target project's `DESIGN.md`.

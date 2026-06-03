@@ -243,6 +243,39 @@
       "oauth": false,
       "enabled": true,
       "timeout": 30000
+    },
+    "postgres_local": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "{env:LOCAL_POSTGRES_URL}"
+      ],
+      "enabled": false,
+      "timeout": 30000
+    },
+    "git_local": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "mcp-server-git",
+        "--repository",
+        "."
+      ],
+      "enabled": false,
+      "timeout": 30000
+    },
+    "sqlite_local": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "mcp-server-sqlite",
+        "--db-path",
+        "{env:LOCAL_SQLITE_PATH}"
+      ],
+      "enabled": false,
+      "timeout": 30000
     }
   },
   "agent": {

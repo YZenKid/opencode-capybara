@@ -37,8 +37,9 @@ function extractFrontmatterList(content, key) {
 }
 
 const activeAgents = [
-  "architect", "artifact-planner", "council", "designer", "explorer", "fixer",
-  "librarian", "oracle", "orchestrator", "quality-gate", "skill-improver", "visual-asset-generator",
+  "architect", "artifact-planner", "backend", "council", "designer", "devops", "explorer", "fixer",
+  "frontend", "fullstack", "librarian", "mobile", "oracle", "orchestrator", "project-manager",
+  "quality-gate", "skill-improver", "system-analyst", "visual-asset-generator",
 ];
 const activeSkills = activeAgents.map((agent) => `opencode-${agent}`);
 const configuredMcp = Object.entries(config.mcp ?? {}).filter(([, value]) => value.enabled !== false).map(([name]) => name).sort();

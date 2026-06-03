@@ -67,6 +67,48 @@ Note: `@librarian` is a supporting research helper, not one of the 6 core agents
 - **permitted**: bounded implementation (including tests/fixtures) within task scope.
 - **fallback**: if requirements/spec are ambiguous, stop and route back for clarification/design.
 
+### `@frontend`
+- **available**: web implementation and validation toolchain.
+- **preferred**: project-local design guidance, existing component patterns, focused tests, browser checks when relevant.
+- **permitted**: bounded web UI edits after design direction exists.
+- **fallback**: route missing UX/visual direction to `@designer`; route unclear API contracts to `@backend`/`@system-analyst`.
+
+### `@mobile`
+- **available**: mobile implementation and safe validation toolchain.
+- **preferred**: existing navigation/platform patterns and safe build/test/simulator checks.
+- **permitted**: bounded React Native/Expo/Flutter/mobile app edits.
+- **fallback**: route native architecture/privacy/store boundaries to `@architect`/`@quality-gate`.
+
+### `@backend`
+- **available**: API/server/data implementation and validation toolchain.
+- **preferred**: existing service/validation/auth/migration/test patterns with TDD for production logic.
+- **permitted**: bounded backend edits and safe local validation.
+- **fallback**: route unclear requirements/contracts to `@system-analyst`; route major data/security decisions to `@architect`/`@quality-gate`.
+
+### `@devops`
+- **available**: CI/CD, Docker, env, release, monitoring, and safe local validation tools.
+- **preferred**: dry-run/read-only/local checks before mutation.
+- **permitted**: bounded config/script/doc edits; deploy/destructive/credential/production commands require explicit ask/approval.
+- **fallback**: route platform/release architecture to `@architect`; final release/security signoff to `@quality-gate`.
+
+### `@system-analyst` (read-only)
+- **available**: read-only discovery/research and artifact drafting.
+- **preferred**: requirements, user-flow, API contract, data-flow, edge-case, NFR, and acceptance-criteria analysis.
+- **permitted**: read-only analysis and handoff output; no source edits.
+- **fallback**: route delivery breakdown to `@project-manager`; implementation to domain/fixer lanes.
+
+### `@project-manager` (read-only)
+- **available**: read-only planning/research and artifact drafting.
+- **preferred**: milestones, backlog, issue breakdown, dependency/risk register, release checklist, and handoff sequencing.
+- **permitted**: read-only planning output; no source edits or external tracker writes unless explicitly approved/configured.
+- **fallback**: route unclear requirements to `@system-analyst`; implementation to domain/fixer lanes.
+
+### `@fullstack`
+- **available**: frontend + backend implementation and validation toolchain for small vertical slices.
+- **preferred**: clear UI/API/data contract with focused tests and integration validation.
+- **permitted**: bounded tightly-coupled FE/BE edits only.
+- **fallback**: split to `@frontend` + `@backend` or plan first when scope grows.
+
 ### `@oracle`
 - **available**: read-heavy analysis/review pathways.
 - **preferred**: architecture/risk/tradeoff review with concrete repo evidence.
@@ -86,7 +128,7 @@ LSP-first policy for edit-owning lanes (`@orchestrator` tiny direct edits, `@fix
 1. Availability does not override permission boundaries.
 2. Preferred path can be skipped only with a concrete reason (not habit).
 3. Fallback must preserve safety and evidence posture.
-4. Read-only reviewers must not modify source files.
+4. Read-only reviewers and read-only artifact lanes (`@system-analyst`, `@project-manager`) must not modify source files.
 
 ## Conflict resolution examples
 
