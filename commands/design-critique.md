@@ -14,7 +14,7 @@ $ARGUMENTS
 
 Workflow:
 
-1. Read target project `DESIGN.md` first; fallback to `design-system/DESIGN.md` or documented equivalent.
+1. Read target project `DESIGN.md` first, then `design-system/DESIGN.md` or documented equivalent.
 2. Capture/inspect supplied screenshots, URLs, references, code, and user acceptance criteria.
 3. Write `Design Read`: `Reading this as: <surface> for <audience>, with <vibe>, leaning toward <design system/aesthetic family>.`
 4. Set/read dials: `DESIGN_VARIANCE`, `MOTION_INTENSITY`, `VISUAL_DENSITY`.
@@ -22,6 +22,9 @@ Workflow:
 6. Run mechanical preflight: hero fit, nav single-line, CTA contrast/wrap/duplicate intent, eyebrow restraint, layout repetition, image strategy, motion motivation, reduced-motion.
 7. Report issues by severity: `BLOCKER`, `HIGH`, `MEDIUM`, `LOW`, `INFO`.
 8. Distinguish mechanical/evidence failures from pure taste preferences. Pure preference should be `LOW` or follow-up.
-9. Provide next actions, required evidence, and whether `@quality-gate` handoff is needed.
+9. Respect ownership: `@designer`/`opencode-designer` owns UI direction/review; do not edit unless directly requested/routed. Bounded implementation goes to `@fixer` or domain lanes.
+10. If planning artifact needs designer input, `@artifact-planner` may use designer only as read-only advisory input.
+11. For image-heavy work, `@visual-asset-generator` is invoked by `@orchestrator`/`@designer` from asset manifest/image-heavy plan, not by planner.
+12. Provide next actions, required screenshots/evidence, reduced-motion/accessibility checks, and whether `@quality-gate` handoff is needed before a substantial UI completion claim.
 
 Output: concise findings, locations/sections, evidence used, score, preflight result, and prioritized fix list.

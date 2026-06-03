@@ -1,12 +1,12 @@
 ---
 description: Generate commit message from current git changes
 agent: orchestrator
-model: 9router/gpt-5.3-codex
+model: 9router/medium
 ---
 
 Generate a commit message for the current repository changes.
 
-This command is read-only and only provides manual commit-message suggestions; it does not perform commits and is separate from the orchestrator's local auto-commit policy.
+This command is read-only and only provides manual commit-message suggestions. It does not run commits, does not override `@orchestrator` routing/integration, and does not change any orchestrator auto-commit policy.
 
 Arguments from user, if any:
 
@@ -41,6 +41,7 @@ Recent commit messages for style reference:
 Rules:
 
 - Do not run git add, git commit, git push, or any command that mutates the repository.
+- Respect current routing docs: `@orchestrator`/`opencode-orchestrator` owns routing and integration; this command only analyzes the diff text already shown here.
 - Analyze staged changes first. If there are staged changes, generate the message for staged changes only.
 - If there are no staged changes, generate the message for all unstaged tracked changes and clearly say that nothing is staged.
 - If there are untracked files shown by git status, mention that they are not included in the diff unless they are staged.
@@ -51,6 +52,7 @@ Rules:
 - Keep commit messages themselves in English unless the repository history clearly uses Indonesian.
 - Focus on why the change exists, not just what files changed.
 - Warn if the diff appears to include secrets, credentials, `.env`, tokens, or generated/vendor files.
+- Warn that prompt/config/security-sensitive changes should get `@quality-gate` review before any non-trivial completion or release claim.
 
 Output format:
 

@@ -33,9 +33,9 @@ Workflow:
 17. Include the current routing and validation posture that future agents must follow.
 18. Make the division of labor legible: future readers should understand that `@orchestrator` routes/integrates, while specialists and subagents own bounded execution, design, research, review, and domain-risk work.
 19. Make agent/subagent capabilities explicit enough that work does not collapse back into `@orchestrator` by default. Mention where to look for the full role/capability matrix when the project uses many specialists.
-20. In `AGENTS.md`, include a short role-and-skill ownership note that explains what the most important agents are for: routing/integration, planning, bounded implementation, architecture/review, UI/design, discovery/docs research, and final quality signoff.
+20. In `AGENTS.md`, include a short role-and-skill ownership note that explains the 6 core agents: `@orchestrator` routing/integration, `@explorer` discovery, `@fixer` bounded implementation/tests, `@designer` UI/design, `@oracle` architecture/review, and `@quality-gate` final signoff.
 21. Use the unified helper lane names directly (`@architect`, `@quality-gate`) so a future operator can route quickly without reading every agent file.
-22. When the project also uses project-local design guidance, mention the downstream UI ownership chain clearly: `@designer` first, then UI specialist review lanes and `@quality-gate` when relevant.
+22. When the project also uses project-local design guidance, mention the downstream UI ownership chain clearly: read `DESIGN.md` first, then `design-system/DESIGN.md`; `@designer` owns direction/review; implementation goes to `@fixer`/domain lanes unless designer is directly routed; substantial UI needs screenshots/evidence/reduced-motion/accessibility checks and `@quality-gate`.
 23. Use the user's hints from `$ARGUMENTS` only to specialize the file; do not discard the harness baseline.
 24. Do not silently overwrite existing project-specific rules.
 25. Explicitly state which agent should be used first for default execution (`@orchestrator`).
@@ -92,16 +92,24 @@ User intent → `@orchestrator` → specialist agents → validation → `@quali
 - Repeated failures should produce docs, gate, script, or skill improvements.
 - `@orchestrator` routes, decomposes, and integrates; do not let all implementation collapse into direct orchestrator execution.
 - Specialists and subagents should own bounded work according to their documented capabilities in `.opencode/docs/AGENT_ROUTING.md` and `.opencode/docs/SKILLS.md`.
-- Core ownership shorthand: `@orchestrator` routes/integrates, `@artifact-planner` writes plans, `@fixer` implements bounded changes/tests, `@oracle` handles architecture/review, `@designer` owns UI/UX, `@explorer`/`@librarian` handle discovery/docs, and `@quality-gate` does final signoff.
+- 6 core agents: `@orchestrator` routes/integrates, `@explorer` discovers, `@fixer` implements bounded changes/tests, `@designer` owns UI/UX direction and review, `@oracle` handles architecture/review, and `@quality-gate` does final signoff.
+- Triggered helper/domain lanes: `@artifact-planner`, `@architect`, `@librarian`, `@skill-improver`, `@frontend`, `@backend`, `@mobile`, `@devops`, `@fullstack`, `@system-analyst`, `@project-manager`, `@council`, and `@visual-asset-generator`.
+- Active skills: 19 `opencode-*` skills listed in `.opencode/docs/SKILLS.md`; legacy merged-away reviewer variants are not active routing lanes.
 
 ## Risk Triggers
-- Product/SaaS/platform/AI/UI-system architecture ambiguity → `@architect`
-- PII/auth/payments/uploads/biometric/privacy + accessibility/visual-parity final signoff → `@quality-gate`
-- User-facing UI/reference/animation/accessibility/design-system work → `@designer` plus UI specialists as needed
+- Product/SaaS/platform/runtime/mobile/AI/UI-system architecture ambiguity → `@architect`
+- Requirements, user flows, API contracts, data flows, NFRs, or acceptance criteria unclear → `@system-analyst`
+- Docs/API research or document extraction/summary needed → `@librarian`
+- Release/deploy/ops, CI/CD, Docker, env, monitoring, or rollback work → `@devops` with approval gates
+- PII/auth/payments/uploads/biometric/privacy, prompt/config/security-sensitive changes, or material completion claims → `@quality-gate`
+- User-facing UI/reference/animation/accessibility/design-system work → `@designer`
+- Repeated failure or post-task prompt/routing improvement → `@skill-improver`
 
 ## Notes
 - For substantial UI work, inspect the target project's `DESIGN.md` first, then `design-system/DESIGN.md` or a documented equivalent.
-- For image-heavy or reference UI work, require evidence, asset decisions, and legal style-equivalent handling.
+- `@designer` owns UI direction/review and may implement only when directly routed/requested; `@artifact-planner` may use designer only as read-only advisory input.
+- For image-heavy or reference UI work, require evidence, asset decisions, and legal style-equivalent handling; `@visual-asset-generator` is invoked by `@orchestrator`/`@designer` from an asset manifest/image-heavy plan, not by planner.
+- Substantial UI requires screenshots/evidence/reduced-motion/accessibility checks and `@quality-gate` before completion claim.
 - If the project has many agents/subagents, document the role and primary skill ownership clearly enough that future work does not default back to `@orchestrator` for planning, implementation, review, or research.
 - If many agents are available, future operators should read `.opencode/docs/AGENT_ROUTING.md` and `.opencode/docs/SKILLS.md` first to understand who owns discovery, implementation, review, design, and domain-specific risk.
 - For full operational details, follow the linked docs rather than expanding this file.

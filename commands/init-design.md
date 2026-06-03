@@ -1,7 +1,7 @@
 ---
 description: Initialize or update the current project's DESIGN.md
 agent: orchestrator
-model: 9router/gpt-5.3-codex
+model: 9router/medium
 ---
 
 Initialize a project-local `DESIGN.md` for the current target project.
@@ -36,7 +36,11 @@ Workflow:
 11. Include explicit instructions that project-local `DESIGN.md` wins over generic preferences, and that UI/design work should read it first, then `design-system/DESIGN.md` or any documented project-specific equivalent.
 12. If the project is missing design guidance and the work is substantial UI/design work, suggest `/init-design` and ask targeted follow-up questions before inventing a new visual direction.
 13. Do not overwrite project design guidance silently.
-14. In the generated guide, make the downstream ownership chain explicit enough that future operators know `@designer` owns UI direction first, while accessibility/motion/UI-system review lanes and final `@quality-gate` signoff are conditional follow-up lanes rather than replacements.
+14. In the generated guide, make the downstream ownership chain explicit enough that future operators know `@orchestrator`/`opencode-orchestrator` routes/integrates, `@designer`/`opencode-designer` owns UI direction/review first, bounded implementation/tests go to `@fixer` or domain lanes, evidence-heavy/spec-heavy planning goes to `@artifact-planner`, and final non-trivial UI/prompt/config/docs/security-sensitive changes go to `@quality-gate`.
+15. State that `@designer` may implement only when directly routed/requested.
+16. State that `@artifact-planner` may use designer only as read-only advisory input.
+17. State that `@visual-asset-generator` is invoked by `@orchestrator`/`@designer` from an asset manifest/image-heavy plan, not by planner.
+18. State that substantial UI requires evidence/screenshots/reduced-motion/accessibility checks and `@quality-gate` before completion claim.
 
 Write `DESIGN.md` as a concrete project guide, not a generic checklist. Use this structure:
 
@@ -73,7 +77,7 @@ Define mobile-first rules, navigation changes, CTA placement, data display adapt
 ## Agent Prompt Guide
 Give direct instructions for future coding/design agents: which files/tokens/components to read first, how to apply this design system, when to reuse/extend/create, when to ask questions, when to run visual validation, and how to report deviations.
 
-The `Agent Prompt Guide` should also state the downstream ownership chain for substantial UI work: `@designer` owns direction, motion/reduced-motion review, and implementation guidance first; `@architect` is a conditional specialist lane; `@quality-gate` remains the final cross-cutting signoff lane when the work is non-trivial.
+The `Agent Prompt Guide` should also state the downstream ownership chain for substantial UI work: `@orchestrator` routes/integrates; `@designer` owns direction, motion/reduced-motion review, and implementation guidance first; `@designer` may implement only when directly routed/requested; bounded implementation/tests go to `@fixer` or domain lanes; `@artifact-planner` handles evidence-heavy/spec-heavy planning and may use designer only as read-only advisory input; `@visual-asset-generator` is invoked by `@orchestrator`/`@designer` from an asset manifest/image-heavy plan; `@quality-gate` remains final signoff for non-trivial UI/prompt/config/docs/security-sensitive changes.
 ```
 
 After writing the file, summarize:
