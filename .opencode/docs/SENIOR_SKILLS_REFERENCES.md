@@ -1,6 +1,6 @@
 # Senior Skills References
 
-Curated `skills.sh` references for OpenCode domain lanes. Use these as non-authoritative inspiration only. Do not mass install external skills. Prefer local OpenCode agents, skills, docs, tests, and evidence. Install an external skill only after explicit user approval and stack fit review.
+Curated `skills.sh` references for OpenCode domain lanes. Use these as non-authoritative inspiration only. Do not mass install external skills. Prefer local OpenCode agents, skills, docs, tests, and evidence. Install an external skill only after explicit user approval and detected-stack relevance review.
 
 ## Usage policy
 - Reference ideas, checklists, and wording; do not copy blindly.

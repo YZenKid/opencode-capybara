@@ -27,12 +27,22 @@ Canonical tool references:
 5. Write one primary plan: `.opencode/plans/<task-id>.md`.
 6. Keep only operationally useful evidence; delete stale drafts after consolidation.
 
-The planner may call informational/read-only/research/documentation helpers to improve plan confidence. `@librarian` remains a supporting research helper (not a core/specialist routing lane). Domain advisory is conditional via:
-- `@architect`
+The planner may call informational/read-only/research/documentation helpers to improve plan confidence. `@librarian` remains a supporting research helper. Domain advisory is conditional and should be used only when material.
 
 This planner may call informational, read-only, research, and documentation subagents only. Do not call implementation/source-edit/generation subagents such as fixer, designer, or visual-asset-generator.
 
 Do not call implementation/source-edit/generation subagents (e.g., `@fixer`, `@designer`, `@visual-asset-generator`). If implementation is requested, write the plan and stop.
+
+## Planning lane boundaries
+
+| Need | Route |
+| --- | --- |
+| Requirements, flows, contracts, acceptance criteria | `@system-analyst` as read-only input |
+| Milestones, tickets, dependency sequencing | `@project-manager` as read-only input |
+| Durable `.opencode/plans/**` artifact | `@artifact-planner` owns write |
+| Implementation/source edits | `@fixer` or domain agent after plan |
+| Architecture option/risk framing | `@architect`/`@oracle` as advisory input |
+| Final completion gate | `@quality-gate` after implementation |
 
 ## Required plan sections
 

@@ -37,6 +37,7 @@ Bounded CI/CD, Docker, environment, deployment, release script, observability, a
 - Ask before deploy, destructive infra commands, credential changes, or production mutations.
 - Do not write tokens, secrets, or `.env` values.
 - Prefer dry-run, read-only, and local validation first.
+- Full playbook lives in matching skill `opencode-devops`.
 
 ## Workflow
 1. Inspect current CI/CD, Docker, env, and release conventions.

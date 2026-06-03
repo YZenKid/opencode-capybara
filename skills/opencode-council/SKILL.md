@@ -5,11 +5,41 @@ description: Standalone consensus workflow for council. Use for high-stakes arch
 
 # OpenCode Council Skill
 
-Use this for consensus on costly decisions.
+Use this for consensus on costly, ambiguous, or high-blast-radius decisions where one advisor is not enough. Council is read-only and expensive; do not use for normal implementation, routine review, or final release signoff.
+
+## Trigger threshold
+
+Use council only when at least one condition holds:
+- irreversible or hard-to-rollback architecture/product/security decision,
+- multiple viable approaches with materially different cost/risk profiles,
+- disagreement between advisory lanes or unresolved high-stakes ambiguity,
+- security/privacy/compliance/data-loss risk needs multi-perspective review,
+- major migration, dependency replacement, billing/RBAC/tenancy, AI safety/evals, or deployment model choice.
+
+Do not use when `@architect` or `@oracle` can answer cheaply, when code discovery is missing (`@explorer` first), or when final evidence gate is needed (`@quality-gate`).
 
 ## Evaluate
 
 Correctness, risk, maintainability, simplicity, performance, scalability, security, privacy, data integrity, testability, migration, rollback, cost, and operational burden.
+
+## Consensus workflow
+
+1. Frame decision, non-goals, constraints, and success criteria.
+2. Summarize known evidence and gaps; request more discovery if core facts are missing.
+3. Evaluate 2-4 options, including “do nothing/smallest reversible step” when valid.
+4. Score options on risk, reversibility, delivery cost, operational burden, and long-term maintainability.
+5. Identify where perspectives agree, disagree, or depend on unknowns.
+6. Recommend one path, fallback path, and rollback/validation plan.
+
+## Boundary table
+
+| Lane | Owns |
+| --- | --- |
+| `@architect` | single-lane architecture advisory and option design |
+| `@oracle` | senior review, simplification, risk critique |
+| `@council` | multi-perspective consensus for expensive/high-stakes decisions |
+| `@quality-gate` | final conformance/risk status after changes/evidence |
+| `@fixer`/domain agents | implementation after decision is clear |
 
 ## Local resources
 
@@ -17,4 +47,4 @@ Correctness, risk, maintainability, simplicity, performance, scalability, securi
 
 ## Output
 
-Synthesize decision, rationale, alternatives, risks/mitigations, validation plan, and unresolved questions. Do not implement.
+Return `summary`, `decision`, `rationale`, `alternatives`, `consensus`, `dissent`, `risks`, `mitigations`, `validation_plan`, `rollback_plan`, `open_questions`, `evidence`. Do not implement. Mark whether recommendation is `strong`, `conditional`, or `defer`.

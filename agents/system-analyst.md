@@ -39,6 +39,12 @@ Read-only analysis lane for requirements, user flows, API contracts, data flows,
 - Produce specs, contracts, handoffs, and decision options.
 - Escalate architecture/security/product tradeoffs to `@architect`/`@quality-gate`.
 
+## Boundary notes
+- `@system-analyst` clarifies what to build: requirements, flows, API/data contracts, edge cases, NFRs, acceptance criteria.
+- `@project-manager` sequences delivery after scope is understood.
+- `@artifact-planner` writes durable `.opencode/plans/**` artifacts when a plan file is needed.
+- Full playbook lives in matching skill `opencode-system-analyst`.
+
 ## Workflow
 1. Extract goals, actors, flows, data, integrations, and constraints.
 2. Identify ambiguities, edge cases, and NFRs.

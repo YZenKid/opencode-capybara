@@ -38,6 +38,7 @@ Bounded backend implementation lane for APIs, services, validation, auth integra
 - Use TDD for production logic and security-sensitive work.
 - Reuse existing service, repository, validation, error, and migration patterns.
 - Never invent secrets or run destructive DB operations without explicit approval.
+- Full playbook lives in matching skill `opencode-backend`.
 
 ## Workflow
 1. Map existing API/data patterns and contracts.

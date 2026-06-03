@@ -55,13 +55,11 @@ Canonical tool policy references are `.opencode/docs/TOOL_USAGE.md` (operational
 - `@librarian`: supporting docs/API research helper plus document-centric read-only extraction/research/transformation support, not a core or specialist routing lane.
 - `@visual-asset-generator`: generate legal style-equivalent image assets from designer/orchestrator manifest.
 - `@council`: expensive consensus lane for high-stakes ambiguity only.
-
-## Helper lanes (triggered)
-
 - `@architect`: unified read-only advisory lane for product/SaaS, platform/runtime/release/mobile, AI/LLM/RAG/evals, and UI-system architecture boundaries.
-- `@librarian`: supporting docs/API research helper plus document-centric read-only extraction/research/transformation support.
 - `@skill-improver`: bounded post-task prompt/routing improvements when evidence warrants it.
-- `@artifact-planner`: triggered planning lane for multi-phase/spec-heavy/ambiguous/evidence-heavy work.
+- `@system-analyst`: read-only requirements, user-flow, API/data contract, edge-case, NFR, acceptance-criteria clarification.
+- `@project-manager`: read-only milestones, issues, dependencies, risk register, release checklist, and handoff sequencing.
+- `@frontend`/`@backend`/`@mobile`/`@devops`/`@fullstack`: stack-specific bounded implementation after scope and design/contracts are clear.
 
 ## Routing shorthand
 
@@ -71,6 +69,18 @@ Canonical tool policy references are `.opencode/docs/TOOL_USAGE.md` (operational
 - UI-heavy: `@designer` (read project `DESIGN.md` first).
 - Material ambiguity/risk in product-platform-security-AI-UI-system architecture domains: trigger `@architect`.
 - Non-trivial finalization: `@quality-gate` before completion claims.
+
+## Routing decision tree
+
+1. Tiny, reversible, <=1 file, clear validation? Orchestrator may do directly.
+2. Missing repo facts? `@explorer`. Missing current docs/API/source facts? `@librarian`. Missing requirements/flows/contracts? `@system-analyst`.
+3. Need durable `.opencode` plan/evidence handoff? `@artifact-planner`; use `@project-manager` input for milestones/tickets.
+4. UX/visual/reference/motion direction missing? `@designer` first.
+5. Clear implementation? Route by dominant surface: general/tests → `@fixer`; web UI → `@frontend`; API/data/jobs → `@backend`; native/hybrid → `@mobile`; CI/CD/deploy/env → `@devops`; small FE+BE vertical slice → `@fullstack`.
+6. Product/platform/AI/UI-system tradeoff changes architecture/risk? `@architect`.
+7. Need senior critique/simplification/persistent debugging strategy? `@oracle`.
+8. High-stakes ambiguity still unresolved? `@council`.
+9. Non-trivial/risky/prompt/config/security/UI claim finalization? `@quality-gate`.
 
 ### Auto-commit policy
 

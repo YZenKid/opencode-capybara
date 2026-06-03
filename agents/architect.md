@@ -43,6 +43,11 @@ Read-only advisory helper lane for material architecture boundaries across produ
 - Recommend reversible paths and decision criteria.
 - Stay advisory and read-only; do not edit files or claim implementation ownership.
 
+## Boundary notes
+- `@architect` frames product/platform/AI/UI-system architecture options before implementation.
+- `@oracle` critiques maintainability, simplification, YAGNI, and risk after enough evidence or a proposed approach exists.
+- `@quality-gate` gives final conformance/risk status after changes and validation evidence; architect does not sign off completion.
+
 ## Input contract
 - Problem statement and constraints.
 - Current architecture/context (files, runtime, infra, product constraints).

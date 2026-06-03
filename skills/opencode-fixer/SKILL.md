@@ -17,6 +17,20 @@ For canonical tool policy and boundaries, refer to:
 - Reuse project patterns before creating new abstractions.
 - Make minimal safe changes.
 - Escalate architecture/unclear decisions instead of guessing.
+- Do not add new animation dependencies unless an explicit plan/designer handoff names the dependency and rationale, or the user directly approves it after existing options are checked.
+
+## Boundary table
+
+| Work | Route |
+| --- | --- |
+| Bounded edits, tests, fixtures, small refactors | `@fixer` |
+| Web UI implementation with design already clear | `@frontend` or `@fixer` for tiny changes |
+| Backend/API/data implementation | `@backend` |
+| Native/hybrid mobile implementation | `@mobile` |
+| Cross-stack vertical slice, small and clear | `@fullstack` |
+| Missing UX/visual/motion direction | `@designer` first |
+| Architecture/product/security tradeoff | `@architect`/`@oracle` |
+| Final conformance/risk decision | `@quality-gate` |
 
 ## Red → Green → Refactor
 
@@ -40,6 +54,7 @@ Follow the smart UI handoff contract: implement from blueprint/plan, respect the
 For website, frontend, or mobile app animation work, follow the plan/designer motion spec. If no spec exists and the motion is non-trivial, pause or route back for design direction instead of guessing.
 
 - Check existing animation dependencies and patterns first (`package.json`, lockfiles, `pubspec.yaml`, components, tokens, utilities). Prefer reuse over new dependencies.
+- Hard rule: no new animation package for bounded fixer work by default. Reuse existing system or platform primitives; if a new package is still needed, stop and route/ask unless explicit approved handoff already exists.
 - Web: use CSS native for simple hover/focus/opacity/transform; consider `motion.dev` for non-trivial React/Next/Vue layout/state/gesture/scroll motion, `animejs` for timeline/SVG choreography, and `animate.css` only for quick ready-made effects.
 - React Native/Expo: prefer existing patterns; use built-in `Animated`/`LayoutAnimation` for simple motion, Reanimated + Gesture Handler for non-trivial UI-thread/gesture/layout motion, and Lottie only for valid motion assets like onboarding/loading/brand illustrations.
 - Flutter: prefer implicit animations for simple property changes, explicit `AnimationController` for complex choreography, and Hero for shared-element route transitions.

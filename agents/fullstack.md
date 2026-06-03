@@ -38,6 +38,7 @@ Narrow vertical-slice implementation lane for small, tightly-coupled frontend/ba
 - Keep slice small; do not become catch-all implementation lane.
 - Split work once complexity, risk, or unknowns grow.
 - Use focused tests across contract boundary when feasible.
+- Full playbook lives in matching skill `opencode-fullstack`.
 
 ## Workflow
 1. Confirm vertical slice, API contract, and UI state.

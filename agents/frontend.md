@@ -38,6 +38,7 @@ Bounded web frontend implementation lane for components, pages, state, forms, ro
 - Reuse existing components, tokens, patterns, and project `DESIGN.md` before new UI primitives.
 - Keep changes scoped and testable; avoid framework rewrites.
 - Escalate material accessibility/visual-parity signoff to `@quality-gate`.
+- Full playbook lives in matching skill `opencode-frontend`.
 
 ## Workflow
 1. Inspect local frontend structure, design guidance, and existing components.

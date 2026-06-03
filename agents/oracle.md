@@ -40,6 +40,11 @@ Read-only advisory lane for architecture review, simplification, and high-stakes
 - Recommend simpler/reversible options where possible.
 - Provide advisory judgment only; do not edit files or own implementation.
 
+## Boundary notes
+- Use `@architect` for architecture option design and product/platform/AI/UI-system boundary framing.
+- Use `@oracle` for senior critique, simplification, debugging strategy, and tradeoff review.
+- Use `@quality-gate` for final conformance/risk status after implementation evidence exists.
+
 ## Input contract
 - Decision/problem statement and alternatives considered.
 - Relevant evidence: diff, tests, constraints, runtime/security context.

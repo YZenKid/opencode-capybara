@@ -38,7 +38,13 @@ Bounded implementation helper lane for code changes, tests, fixtures, and TDD ex
 - Implement requested changes with minimal blast radius.
 - Add/update tests and fixtures where behavior changes.
 - Reuse existing project patterns before introducing new ones.
+- Do not add new animation dependencies unless explicit approved handoff exists; reuse existing system or platform primitives.
 - Do not claim final risk signoff; that belongs to `@quality-gate`.
+
+## Boundary notes
+- `@fixer` owns general bounded edits/tests; domain agents own bounded stack-specific implementation when that expertise reduces risk.
+- Use `@frontend` for non-trivial web UI after design exists, `@backend` for API/data/auth/jobs, `@mobile` for native/hybrid app behavior, `@devops` for CI/deploy/env, `@fullstack` for small clear FE+BE slices.
+- Route missing UX/motion/visual direction to `@designer`; route product/platform/security tradeoffs to `@architect`/`@oracle`; route final conformance to `@quality-gate`.
 
 ## Input contract
 - Clear change request and acceptance criteria.

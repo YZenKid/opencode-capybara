@@ -38,6 +38,7 @@ Bounded mobile implementation lane for React Native, Expo, Flutter, native navig
 - Reuse existing app architecture, state, navigation, and platform conventions.
 - Avoid adding native dependencies without checking platform impact.
 - Document simulator/device limitations when validation cannot run.
+- Full playbook lives in matching skill `opencode-mobile`.
 
 ## Workflow
 1. Identify stack and platform targets.

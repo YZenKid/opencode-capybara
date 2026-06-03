@@ -1,33 +1,60 @@
 ---
 name: opencode-fullstack
-description: Narrow fullstack vertical-slice workflow for small tightly-coupled frontend/backend changes, contract tests, integration validation, and split-threshold enforcement.
+description: Senior narrow fullstack vertical-slice playbook for small tightly-coupled frontend/backend changes, contracts, integration tests, and split-threshold enforcement.
 ---
 
 # OpenCode Fullstack Skill
 
-Use for small, clear vertical slices spanning UI and API/data code.
+Use for small clear vertical slices spanning UI and API/data code where one agent can keep contract coherence. Detect actual frontend, backend, and data stacks from repo evidence first; local project conventions win; make no stack assumptions.
 
-## Duties
-- Keep one coherent FE/BE slice with clear contract and limited files.
-- Add focused contract/integration/regression tests when feasible.
-- Split to `@frontend` and `@backend` when scope grows.
+## Trigger / skip
+- Trigger: tiny UI + endpoint change, form + validation + persistence, API contract test, integration regression, frontend route consuming backend data.
+- Skip: broad feature, unclear UX/API/data model, multi-service change, big migration, auth model redesign, devops/release work; split to domain lanes or `@architect`.
 
-## Forbidden
-- Do not become catch-all implementation lane.
-- Do not proceed when UX direction, API contract, auth, or data model is unclear.
-- Do not handle broad refactors or multi-subsystem migrations.
+## Stack detection
+- Frontend: package scripts, framework/router dirs, components, form/state/data libs, browser tests.
+- Backend: language/framework manifests, routes/services/tests, migrations, queues/jobs, authz patterns.
+- Data: detected database schemas/migrations/indexes/fixtures.
+- Integration: API clients, generated types, OpenAPI, contract tests, E2E tests, Docker/Compose dev env.
 
-## Senior reference knowledge
-- See `.opencode/docs/SENIOR_SKILLS_REFERENCES.md`.
-- Relevant references: `vercel-labs/agent-skills/vercel-react-best-practices`, `vercel-labs/next-skills/next-best-practices`, `supabase/agent-skills/supabase-postgres-best-practices`, `mattpocock/skills/tdd`, `mattpocock/skills/diagnose`.
-- Use as non-authoritative inspiration for small vertical-slice checklists after stack fit; split to domain lanes when scope grows.
+## Responsibilities
+- Keep one coherent user-facing slice with explicit contract, limited files, and focused tests.
+- Update both sides only when coupling is direct and small.
+- Preserve API compatibility or document intentional change.
+- Split early when independent workstreams, architecture decisions, or release risk appear.
+
+## Senior heuristics / checklist
+- Contract first: request/response, validation, authz, error mapping, loading/error UI, idempotency.
+- Data first enough: migration safety, constraints, indexes, rollback/backfill notes.
+- UI first enough: a11y, responsive state, slow/error/empty handling, no secret leakage.
+- Tests: unit where logic lives, contract/integration for boundary, browser/E2E for critical flow.
+- Split threshold: more than one route + one backend area, broad schema change, cross-cutting auth, async jobs, CI/deploy impact, or unclear ownership.
 
 ## Workflow
-1. Confirm slice, user flow, API contract, and data changes.
-2. Red: add focused regression/contract evidence when feasible.
-3. Green: implement minimal UI + backend change.
-4. Refactor: simplify boundaries and naming.
-5. Validate: relevant tests/lint/type/browser/API checks.
+1. Confirm slice, user flow, UX states, API contract, data changes, and auth rules.
+2. Detect stack and reuse existing FE/BE/integration patterns.
+3. Red: add failing contract/regression/integration test or capture repro evidence.
+4. Green: implement minimal UI + API/data change.
+5. Refactor: keep names/contracts aligned; avoid opportunistic broad cleanup.
+6. Validate focused frontend, backend, and integration checks.
+7. Record split decision and remaining domain risks.
 
-## Output
-Return `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence` plus split decision and validation commands/results.
+## Validation
+- Run targeted frontend lint/type/test and backend tests for touched code.
+- Run migration checks or test DB setup when schema changed.
+- Run browser/API integration check when user flow changed and tooling exists.
+- Document skipped checks with reason and risk.
+
+## Escalation
+- Route `@frontend`, `@backend`, `@mobile`, or `@devops` when scope exceeds narrow slice.
+- Route `@system-analyst` for unclear contract/acceptance criteria.
+- Route `@architect` for auth/RBAC/multi-tenant/billing/migration/platform tradeoffs.
+- Route `@quality-gate` for material security/privacy/accessibility/release-sensitive completion.
+
+## Output contract
+Return `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`. Include split decision, contract impact, validation commands/results, and skipped checks.
+
+## Domain references
+- `.opencode/docs/SENIOR_SKILLS_REFERENCES.md`.
+- Relevant inspiration: framework/database best practices, TDD/diagnose references listed there, only when detected stack matches.
+- References guide checklists only; local docs/tests/contracts win.

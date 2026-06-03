@@ -5,7 +5,35 @@ description: Standalone documentation, research, and document-centric read-only 
 
 # OpenCode Librarian Skill
 
-Use this for read-only research and document-centric extraction/transformation support.
+Use this for read-only research and document-centric extraction/transformation support. Librarian provides sourced facts; it does not implement code, make architecture decisions, or sign off risk.
+
+## Boundary table
+
+| Need | Route |
+| --- | --- |
+| Repo files/symbols/tests/patterns | `@explorer` |
+| Current docs, API behavior, upstream examples, package/source research | `@librarian` |
+| Requirements/flows/contracts | `@system-analyst` |
+| Architecture tradeoff | `@architect`/`@oracle` |
+| Code edits | `@fixer` or domain agent |
+
+## Research playbooks
+
+### Library/API behavior
+1. Identify package, version, framework, runtime, and local config from repo evidence.
+2. Use official docs/context provider first for current API semantics.
+3. Cross-check with source/GitHub examples when docs are ambiguous.
+4. Return exact API names, caveats, migration notes, and verification command.
+
+### Upstream/GitHub research
+1. Prefer scoped repo/package searches over broad web search.
+2. Capture issue/PR/source links and dates when behavior changed.
+3. Distinguish stable release behavior from canary/main-branch behavior.
+
+### Document extraction/Q&A
+1. Preserve original files; extract to copy artifacts only when needed.
+2. Track source file, page/sheet/section, extraction method, and confidence.
+3. For tables/contracts, preserve structure and note lossy conversions.
 
 ## Source priority
 
@@ -15,6 +43,8 @@ Use this for read-only research and document-centric extraction/transformation s
 4. Web search via `web_search` from MCP `9router` for current/external facts.
 5. URL extraction via `web_fetch` from MCP `9router` when user provides a URL.
 6. Skill registry when user asks for capabilities.
+
+Use the minimum source depth needed. Avoid broad tutorials and stale blog posts when official/versioned docs answer the question.
 
 ## 9Router web tools
 
@@ -43,7 +73,7 @@ Guardrails:
 
 ## Output format
 
-Return concise findings: version/context, relevant APIs/options, official caveats, examples, sources consulted, uncertainty, and verification steps.
+Return concise findings: `summary`, `version_context`, `facts`, `api_options`, `caveats`, `examples`, `sources`, `uncertainty`, `verification_steps`, `next_actions`. Include URLs or local paths for every material claim.
 
 ## Local resources
 

@@ -42,6 +42,37 @@ Direct-work threshold (hard default):
 - Post-task prompt/skill/routing refinement after evidence → `@skill-improver` cluster.
 - Keep `@architect` as a triggered/conditional advisory lane for material boundaries only. Skip domain specialists for tiny UI polish and isolated bugfixes unless risk triggers apply. Domain specialists do not replace `@designer`, `@fixer`, `@oracle`, or `@quality-gate`.
 
+## Routing decision tree
+
+1. Is request tiny, reversible, and <=1 file with clear validation? Orchestrator may handle directly.
+2. Is scope unclear or repo facts missing? Route `@explorer` for code facts; route `@librarian` for docs/API/source facts; route `@system-analyst` for requirements/flows/contracts.
+3. Does work need a durable plan, milestones, or evidence-heavy handoff? Route `@artifact-planner`; use `@project-manager` input for tickets/milestones.
+4. Is UX/visual direction, reference parity, motion direction, or design system unresolved? Route `@designer` before implementation.
+5. Is implementation clear and bounded?
+   - general edits/tests/fixtures/refactor → `@fixer`
+   - web UI/page/component work → `@frontend` when design exists; `@fixer` only for tiny UI fixes
+   - API/service/auth/data/job/migration work → `@backend`
+   - native/hybrid app, permissions, offline, push, camera, deep links → `@mobile`
+   - CI/CD/Docker/env/deploy/monitoring/rollback config → `@devops`
+   - small tightly-coupled UI+API vertical slice → `@fullstack`; split when scope grows
+6. Does decision change product/platform/AI/UI-system architecture or risk posture? Route `@architect` for option framing.
+7. Need senior critique, simplification, persistent debugging strategy, or YAGNI review? Route `@oracle`.
+8. Need multi-perspective consensus for expensive/high-stakes ambiguity? Route `@council` only after cheaper lanes cannot resolve it.
+9. After non-trivial/risky/prompt/config/security/UI claim changes, route `@quality-gate` before completion claim.
+
+## Boundary quick table
+
+| Boundary | Owner | Not owner |
+| --- | --- | --- |
+| Clear bounded code edits/tests | `@fixer` or domain implementation agent | architecture/final signoff |
+| Web/backend/mobile/devops vertical expertise | `@frontend`/`@backend`/`@mobile`/`@devops` | broad planning or final gate |
+| Requirements/contracts | `@system-analyst` | implementation |
+| Milestones/tickets/sequencing | `@project-manager` | source edits |
+| Durable `.opencode` plan artifacts | `@artifact-planner` | implementation/source edits |
+| Architecture option framing | `@architect` | code review/final gate |
+| Senior critique/simplification | `@oracle` | final gate |
+| Final conformance/risk status | `@quality-gate` | self-fix/edit |
+
 ## Portability rules
 
 - Never hardcode device-specific absolute paths in prompts, configs, scripts, or artifacts.

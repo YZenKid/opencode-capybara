@@ -56,6 +56,11 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 - Do not edit files.
 - Jangan mengedit file.
 
+## Boundary notes
+- `@quality-gate` is final read-only status gate, not architecture advisor or fixer.
+- `@architect`/`@oracle` can recommend approaches before or during work; their advice is not final PASS/BLOCKED status.
+- If gate finds required fixes, return status and evidence; route remediation back to `@fixer` or domain agent.
+
 ## Input contract
 - Scope/request summary.
 - Final diff and changed file list.

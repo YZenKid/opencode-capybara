@@ -1,33 +1,57 @@
 ---
 name: opencode-devops
-description: Devops workflow for GitHub Actions, Docker, env config, deploy, monitoring, release scripts, rollback planning, and destructive-action approval gates.
+description: Senior DevOps playbook for GitHub Actions, Docker, env config, deploy, monitoring, release scripts, rollback planning, and destructive-action approval gates.
 ---
 
-# OpenCode Devops Skill
+# OpenCode DevOps Skill
 
-Use for bounded CI/CD, Docker, environment, deployment, monitoring, and release work.
+Use for bounded CI/CD, containers, environment, deployment, monitoring, and release work. Detect actual project runtimes, build tools, and deploy targets from repo evidence; local project conventions win; make no stack assumptions.
 
-## Duties
-- Reuse existing workflows, Docker config, env conventions, release scripts, and docs.
-- Prefer dry-run/read-only/local validation before mutation.
-- Record rollback and monitoring evidence for release-affecting changes.
+## Trigger / skip
+- Trigger: GitHub Actions, Dockerfile/Compose, build scripts, env templates, release/rollback docs, deploy config, monitoring checks, CI failure fixes.
+- Skip: production deploy/delete/secret rotation without explicit approval; architecture-level platform design → `@architect`; security/release final signoff → `@quality-gate`.
 
-## Forbidden
-- Do not deploy, delete, rotate credentials, or mutate production without explicit approval.
-- Do not write tokens, keys, or `.env` secrets.
-- Do not add token/key MCPs unless user explicitly configures them.
+## Stack detection
+- Inspect `.github/workflows`, `Dockerfile*`, `docker-compose*`, `Makefile`, package scripts, language/tool manifests, build commands, deploy docs, env examples.
+- Identify runtime image, build cache, healthcheck, ports, volumes, env injection, secrets source, migrations in release path.
+- Detect CI triggers, branch filters, permissions, concurrency, artifacts, caches, matrix, deployment environments.
 
-## Senior reference knowledge
-- See `.opencode/docs/SENIOR_SKILLS_REFERENCES.md`.
-- Relevant reference: `xixu-me/skills/github-actions-docs`.
-- Use as non-authoritative inspiration for GitHub Actions syntax/checklists; local CI config and approval gates win.
+## Responsibilities
+- Reuse existing CI/CD, Docker, env, release, and monitoring conventions.
+- Prefer dry-run/local validation before remote mutation.
+- Minimize secret exposure; never write tokens/keys/real `.env` values.
+- Record rollback, blast radius, observability, and approval needs for release-affecting work.
+
+## Senior heuristics / checklist
+- CI: least-permission `GITHUB_TOKEN`, pinned actions where policy expects, cache keys scoped, concurrency cancels stale runs, artifacts named/retained intentionally.
+- Docker: small deterministic builds, non-root when possible, `.dockerignore`, healthcheck, no secrets in layers, correct signal handling, reproducible build args.
+- Env: example values only, required vars documented, prod/stage/dev separation clear.
+- Release: migration order, rollback path, feature flags, smoke checks, logs/metrics/alerts, owner/on-call handoff.
+- Safety: classify destructive commands; ask before deploy/delete/rotate/migrate prod.
 
 ## Workflow
-1. Inspect CI/CD, Docker, env, deploy, and monitoring patterns.
-2. Mark destructive/credential boundaries.
-3. Implement minimal config/script/doc change.
-4. Validate with safe commands.
-5. Report rollback, observability, and secret risks.
+1. Inspect workflows, Docker, scripts, env docs, deploy/release path.
+2. Mark destructive, credential, production, and migration boundaries.
+3. Reproduce failure locally or via read-only CI evidence when possible.
+4. Implement minimal config/script/doc change.
+5. Validate with safe syntax/build/test/dry-run commands.
+6. Report rollback, monitoring, and residual risk.
 
-## Output
-Return `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence` plus validation commands/results.
+## Validation
+- GitHub Actions: YAML syntax/reusable workflow consistency; use existing CI checks/logs if available.
+- Docker: `docker build`/Compose config only when safe and expected; avoid pushing images.
+- App builds: run targeted build checks per repo conventions and detected stack.
+- Secrets: confirm no `.env`, keys, tokens, or credentials added to diff.
+
+## Escalation
+- Ask explicit approval before deploy, prod migration, delete, credential rotation, public release, or external service mutation.
+- Route `@architect` for platform topology, IaC strategy, scaling, multi-env redesign.
+- Route `@quality-gate` for production/release/security-sensitive completion.
+
+## Output contract
+Return `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`. Include approval gates, rollback notes, validation commands/results, and skipped unsafe actions.
+
+## Domain references
+- `.opencode/docs/SENIOR_SKILLS_REFERENCES.md`.
+- Relevant inspiration: `xixu-me/skills/github-actions-docs` for GitHub Actions syntax/checklists.
+- Local workflows, approval gates, and secrets policy win.

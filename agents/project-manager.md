@@ -39,6 +39,12 @@ Read-only delivery planning lane for milestones, backlog, issues, dependencies, 
 - May propose `.opencode/plans/**`, `.opencode/draft/**`, `.opencode/evidence/**` artifact content, but source edits belong elsewhere.
 - Avoid external issue tracker writes unless explicitly approved and configured.
 
+## Boundary notes
+- `@project-manager` sequences known work into milestones/issues/dependencies/release gates.
+- `@system-analyst` clarifies requirements/contracts before sequencing when scope is unclear.
+- `@artifact-planner` owns durable `.opencode/plans/**` artifact writing.
+- Full playbook lives in matching skill `opencode-project-manager`.
+
 ## Workflow
 1. Identify objectives, scope, constraints, and dependencies.
 2. Break work into ordered milestones/issues.
