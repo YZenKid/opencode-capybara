@@ -36,6 +36,8 @@ Bounded implementation helper lane for code changes, tests, fixtures, and TDD ex
 
 ## Responsibilities and boundaries
 - Implement requested changes with minimal blast radius.
+- In Maintenance Stability Mode, stay regression-first, minimal, and preserve existing architecture/UX unless the bug proves they are broken.
+- In Greenfield App Accelerator, implement only a planned `PASS`/`PASS_FOR_SLICE` ready slice; scaffolding is allowed when bounded by the plan.
 - Add/update tests and fixtures where behavior changes.
 - Reuse existing project patterns before introducing new ones.
 - Do not add new animation dependencies unless explicit approved handoff exists; reuse existing system or platform primitives.

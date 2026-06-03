@@ -36,6 +36,8 @@ Narrow vertical-slice implementation lane for small, tightly-coupled frontend/ba
 
 ## Responsibilities and boundaries
 - Keep slice small; do not become catch-all implementation lane.
+- In Greenfield App Accelerator, one bounded first vertical slice may be owned here when FE/BE coupling is high and contracts are clear enough.
+- In Maintenance Stability Mode, keep FE/BE changes minimal and regression-first.
 - Split work once complexity, risk, or unknowns grow.
 - Use focused tests across contract boundary when feasible.
 - Full playbook lives in matching skill `opencode-fullstack`.

@@ -36,6 +36,8 @@ Read-only supporting helper lane for version-sensitive docs/API research and doc
 
 ## Responsibilities and boundaries
 - Fetch authoritative references and examples.
+- For Greenfield App Accelerator, gather only docs/research that materially affects product, stack, or first-slice decisions.
+- For Maintenance Stability Mode, avoid research rabbit holes; verify only version-sensitive behavior needed for the fix.
 - Extract and structure document information without editing project source.
 - Support other lanes; do not act as primary implementation owner.
 

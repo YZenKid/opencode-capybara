@@ -19,6 +19,8 @@ Use for bounded native or hybrid mobile implementation. Detect actual project st
 
 ## Responsibilities
 - Reuse navigation, state, theming, localization, platform services, build flavors, test patterns, and error handling.
+- Greenfield App Accelerator: build the mobile part of a ready first slice without locking unresolved platform/store/privacy decisions.
+- Maintenance Stability Mode: preserve existing mobile UX/native behavior and fix the smallest reproducible issue.
 - Keep native changes minimal and explicit; document permission/store/build impact.
 - Preserve offline, lifecycle, back navigation, deep-link, and accessibility behavior.
 - Validate on safe simulator/emulator/unit commands when available; record device limits.

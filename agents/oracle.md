@@ -37,6 +37,8 @@ Read-only advisory lane for architecture review, simplification, and high-stakes
 
 ## Responsibilities and boundaries
 - Review assumptions, complexity, and long-term maintainability.
+- For Greenfield App Accelerator, protect creativity from premature YAGNI while still checking feasibility, reversibility, and risk.
+- For Maintenance Stability Mode, bias toward smallest behavior-preserving fix and avoid broad rewrites.
 - Recommend simpler/reversible options where possible.
 - Provide advisory judgment only; do not edit files or own implementation.
 

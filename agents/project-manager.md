@@ -36,6 +36,8 @@ Read-only delivery planning lane for milestones, backlog, issues, dependencies, 
 
 ## Responsibilities and boundaries
 - Stay read-only; do not patch source files.
+- For Greenfield App Accelerator, sequence first usable vertical slice before broader backlog.
+- For Maintenance Stability Mode, sequence regression fix, validation, rollout, and follow-up without greenfield planning overhead.
 - May propose `.opencode/plans/**`, `.opencode/draft/**`, `.opencode/evidence/**` artifact content, but source edits belong elsewhere.
 - Avoid external issue tracker writes unless explicitly approved and configured.
 

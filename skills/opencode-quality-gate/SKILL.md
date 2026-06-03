@@ -10,6 +10,8 @@ It serves as the final reviewer read-only lane for OpenCode signoff.
 
 Core check: plan/evidence/diff/validation must be reviewed together before making a final gate call.
 
+Mode-aware check: for Greenfield App Accelerator, verify Plan Quality Gate status, `PASS_FOR_SLICE` safety, claim level, creative-depth evidence, and validation. For Maintenance Stability Mode, verify regression evidence and smallest safe diff rationale; do not block only because greenfield product thesis or 2-3 creative alternatives are absent.
+
 ## Workflow
 
 1. **Intake** — read the plan, evidence, diff, validation status, and task summary.

@@ -2,8 +2,8 @@
 
 Generated inventory of deterministic prompt-gate checks. This file is advisory and must not replace canonical policy in `.opencode/docs/PROMPT_GATES.md`.
 
-- Gate count: 88
-- Unique files covered: 48
+- Gate count: 93
+- Unique files covered: 50
 - Primary implementation: `scripts/prompt-gate-regression.mjs`
 
 ## Commands referenced
@@ -104,3 +104,8 @@ Generated inventory of deterministic prompt-gate checks. This file is advisory a
 86. **retired UI workflow command removed gate** — `commands/replicate-ui.md`
 87. **retired revamp workflow command removed gate** — `commands/revamp-like.md`
 88. **quality-gate merged review lanes gate** — `skills/opencode-quality-gate/SKILL.md`
+89. **mode-aware greenfield maintenance routing gate** — `.opencode/docs/AGENT_ROUTING.md`
+90. **mode-aware quality evidence gate** — `.opencode/docs/QUALITY.md`
+91. **orchestrator mode selection gate** — `skills/opencode-orchestrator/SKILL.md`
+92. **artifact planner creative depth gate** — `skills/opencode-artifact-planner/SKILL.md`
+93. **fullstack greenfield slice gate** — `skills/opencode-fullstack/SKILL.md`

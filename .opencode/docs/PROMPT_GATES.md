@@ -29,6 +29,10 @@ Prompt gates convert important repository invariants into deterministic checks.
 - Document fallback routing: unsupported model attachment input (for example `input.pdf:false`) must trigger workspace-file check plus `@librarian` extraction before asking the user to convert PDF/DOCX/XLSX/PPT/Office files.
 - Indonesian-first user-facing orchestrator language with technical-literal exceptions
 - Subagent internal-schema normalization before user-facing final output
+- Mode-aware execution: Greenfield App Accelerator for new app/MVP/product builds and Maintenance Stability Mode for bugfix/maintenance work.
+- Creative Depth Contract for greenfield plans: alternatives, tradeoff scoring, first-slice rationale, journey-to-contract mapping, readiness status, and `PASS_FOR_SLICE` support.
+- Plan Quality Gate before non-trivial implementation with `PASS`, `PASS_FOR_SLICE`, `NEEDS_DEPTH`, and `BLOCKED`.
+- Over-gating prevention: maintenance/bugfix work must not require greenfield product thesis or 2-3 creative alternatives by default.
 
 ## Change adjacency rule
 If you change policy or docs guarded by a gate:
@@ -40,6 +44,8 @@ If you change policy or docs guarded by a gate:
 Routing hardening minimum:
 - Ensure `.opencode/docs/AGENT_ROUTING.md` keeps explicit orchestrator direct-work thresholds, anti-pattern examples, and compact routing checklist/rubric.
 - Ensure `skills/opencode-orchestrator/SKILL.md` keeps hard defaults that route read-heavy discovery to `@explorer` and multi-file bounded implementation to `@fixer`.
+- Ensure greenfield work cannot be executed from a shallow plan lacking creative alternatives, tradeoff scoring, journey-to-contract mapping, readiness status, and Plan Quality Gate.
+- Ensure maintenance work remains lightweight and regression-first rather than being forced through greenfield-heavy gates.
 - Enforce via `npm run test:prompt-gates` (and `npm run doctor` as a quick local policy sanity check).
 
 ## Generated reports

@@ -27,6 +27,9 @@ Use this for strategic analysis, senior engineering review, simplification press
 
 ## Review posture
 
+Greenfield App Accelerator: protect useful creativity from premature YAGNI while checking feasibility, reversibility, and risk.
+Maintenance Stability Mode: bias toward smallest behavior-preserving fix and avoid broad rewrites.
+
 Prioritize correctness, simplicity, maintainability, testability, security, and operational risk. Push back on unnecessary complexity. Match project conventions.
 
 ## Architecture checklist

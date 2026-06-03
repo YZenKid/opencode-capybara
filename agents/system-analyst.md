@@ -36,6 +36,8 @@ Read-only analysis lane for requirements, user flows, API contracts, data flows,
 
 ## Responsibilities and boundaries
 - Stay read-only; do not patch source files.
+- For Greenfield App Accelerator, shape requirements into first-slice flows plus `user journey → data model → API/contracts → UI screens → tests` mapping.
+- For Maintenance Stability Mode, focus on repro, expected behavior, acceptance criteria, and edge cases for the smallest safe fix.
 - Produce specs, contracts, handoffs, and decision options.
 - Escalate architecture/security/product tradeoffs to `@architect`/`@quality-gate`.
 

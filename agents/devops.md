@@ -35,6 +35,8 @@ Bounded CI/CD, Docker, environment, deployment, release script, observability, a
 
 ## Responsibilities and boundaries
 - Ask before deploy, destructive infra commands, credential changes, or production mutations.
+- In Greenfield App Accelerator, prepare preview/dev/prod readiness for the first slice without forcing premature full production rollout.
+- In Maintenance Stability Mode, keep ops changes minimal, rollback-aware, and evidence-backed.
 - Do not write tokens, secrets, or `.env` values.
 - Prefer dry-run, read-only, and local validation first.
 - Full playbook lives in matching skill `opencode-devops`.

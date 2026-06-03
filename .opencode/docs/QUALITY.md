@@ -81,6 +81,36 @@ LSP-first baseline: use LSP for rename/refactor/navigation/diagnostic-driven edi
 
 Non-trivial implementation should be treated as plan-bound work: plan artifact under `.opencode/plans/` plus evidence under `.opencode/evidence/` before completion claims.
 
+## Mode-aware Plan Quality Gate
+Run this before non-trivial implementation and again before final completion when plan quality changed during execution.
+
+- `PASS`: material decisions, acceptance criteria, creative alternatives where required, tradeoffs, TDD, validation, and worklist are ready.
+- `PASS_FOR_SLICE`: whole-product ambiguity remains, but the first vertical slice is explicit, safe, validated, and does not lock unresolved decisions.
+- `NEEDS_DEPTH`: plan has the expected sections but lacks substance, alternatives, mapping, evidence, or validation detail.
+- `BLOCKED`: a material decision or required access is missing and no safe slice exists.
+
+Only `PASS` and `PASS_FOR_SLICE` can proceed to implementation.
+
+## Greenfield evidence minimum
+For new app, MVP, SaaS/product build, blank repo, or major revamp work, evidence must include:
+- selected mode: `Greenfield App Accelerator`;
+- product thesis and target user pain;
+- considered product/UX/architecture options plus tradeoff score or rationale;
+- selected first vertical slice and why it is slice-safe;
+- journey-to-contract map: `user journey → data model → API/contracts → UI screens → tests`;
+- design readiness level (`MVP design enough`, `needs-polish`, `reference-ready`, or `blocked`);
+- validation commands/results and final claim level (`MVP slice complete`, `draft`, `prototype`, or whole-app complete only when true).
+
+## Maintenance evidence minimum
+For bugfix, regression, refactor, dependency update, small feature, or incident follow-up work, evidence must include:
+- selected mode: `Maintenance Stability Mode`;
+- repro, failing behavior, regression test, or targeted local evidence;
+- smallest safe diff rationale;
+- validation commands/results;
+- any behavior/security/product decision that was asked, assumed, or deferred.
+
+Maintenance work should not be forced through greenfield product thesis or creative alternatives unless the bug itself requires a product/UX decision.
+
 ## Minimal atomic migration rule
 Changes that move policy between `AGENTS.md`, `README.md`, `.opencode/docs/`, and scripts must land together with the related gate/doctor updates.
 

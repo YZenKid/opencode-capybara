@@ -1,0 +1,25 @@
+{
+  "cases": [
+    {
+      "name": "greenfield app must plan before implementation",
+      "input": "Build a new SaaS MVP from scratch",
+      "expected_mode": "Greenfield App Accelerator",
+      "required_behavior": [
+        "route to @artifact-planner before implementation",
+        "Creative Depth Contract",
+        "Plan Quality Gate",
+        "PASS_FOR_SLICE"
+      ]
+    },
+    {
+      "name": "maintenance bugfix must stay lightweight",
+      "input": "Fix existing checkout regression",
+      "expected_mode": "Maintenance Stability Mode",
+      "forbidden_behavior": [
+        "require product thesis by default",
+        "require 2-3 creative alternatives by default",
+        "force greenfield gates by default"
+      ]
+    }
+  ]
+}

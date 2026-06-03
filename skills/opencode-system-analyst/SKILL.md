@@ -18,6 +18,8 @@ Use for requirements and contract clarification before implementation. Read-only
 
 ## Responsibilities
 - Convert ambiguity into structured facts, assumptions, open questions, and acceptance criteria.
+- Greenfield App Accelerator: shape first-slice flows and `user journey → data model → API/contracts → UI screens → tests` mapping.
+- Maintenance Stability Mode: focus on repro, expected behavior, edge cases, and testable acceptance criteria for the smallest safe fix.
 - Produce handoff-ready slices with user value, contract boundaries, edge cases, and validation ideas.
 - Identify impacted domains and route to correct specialist lanes.
 - Stay evidence-based; do not invent product decisions.

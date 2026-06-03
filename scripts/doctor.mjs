@@ -208,9 +208,14 @@ function checkEnvWarning() {
   section("Environment file");
   const envPath = resolve(root, ".env");
   if (existsSync(envPath)) {
-    status(".env", "warn", "present");
-    remediation("do not commit .env; keep secrets local only");
-    return true;
+    const ignored = run("git", ["check-ignore", ".env"], { cwd: root });
+    if (ignored.status === 0) {
+      status(".env", "pass", "present and git-ignored");
+      return true;
+    }
+    status(".env", "fail", "present but not git-ignored");
+    remediation("add `.env` to .gitignore before continuing; keep secrets local only");
+    return false;
   }
   status(".env", "warn", "not present");
   remediation("copy .env.example to .env if you need local credentials");

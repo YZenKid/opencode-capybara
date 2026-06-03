@@ -36,6 +36,8 @@ Bounded backend implementation lane for APIs, services, validation, auth integra
 
 ## Responsibilities and boundaries
 - Use TDD for production logic and security-sensitive work.
+- In Greenfield App Accelerator, propose or implement only the data/API portion of a ready vertical slice with migration path and explicit unresolved decisions.
+- In Maintenance Stability Mode, keep changes regression-first, minimal, and compatible with existing contracts unless intentional change is approved.
 - Reuse existing service, repository, validation, error, and migration patterns.
 - Never invent secrets or run destructive DB operations without explicit approval.
 - Full playbook lives in matching skill `opencode-backend`.

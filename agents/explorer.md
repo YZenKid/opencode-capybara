@@ -36,6 +36,8 @@ Read-only helper lane for codebase discovery, symbol mapping, and reuse candidat
 
 ## Responsibilities and boundaries
 - Map files, symbols, dependencies, and existing patterns.
+- For Greenfield App Accelerator, discover repo/project patterns only as deep as needed to ground first-slice options.
+- For Maintenance Stability Mode, focus discovery on repro area, ownership, tests, and existing patterns for smallest safe fix.
 - Prefer evidence from repository paths/lines over assumptions.
 - Stay read-only; do not patch source files.
 

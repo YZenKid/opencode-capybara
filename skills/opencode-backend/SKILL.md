@@ -20,6 +20,8 @@ Use for bounded server/API/data implementation. Detect actual project stack from
 
 ## Responsibilities
 - Reuse existing layering, validation, authz, error envelopes, logging, transactions, migrations, and test fixtures.
+- Greenfield App Accelerator: implement/propose only the data/API portion of a ready slice with explicit contract and migration path.
+- Maintenance Stability Mode: keep changes regression-first, minimal, and backward-compatible unless approved.
 - Implement minimal contract-safe server changes; avoid hidden API breaks.
 - Add/update focused tests for production logic, authz, validation, DB behavior, and regressions.
 - Keep DB changes reversible where possible; never run destructive commands without explicit approval.

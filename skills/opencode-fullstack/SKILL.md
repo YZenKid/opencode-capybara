@@ -19,6 +19,8 @@ Use for small clear vertical slices spanning UI and API/data code where one agen
 
 ## Responsibilities
 - Keep one coherent user-facing slice with explicit contract, limited files, and focused tests.
+- Greenfield App Accelerator: may own one bounded first vertical slice when FE/BE coupling is high, contracts are clear enough, and the plan is `PASS` or `PASS_FOR_SLICE`.
+- Maintenance Stability Mode: keep FE/BE diff minimal and regression-first.
 - Update both sides only when coupling is direct and small.
 - Preserve API compatibility or document intentional change.
 - Split early when independent workstreams, architecture decisions, or release risk appear.

@@ -18,6 +18,8 @@ Use for delivery planning, sequencing, backlog shaping, issue breakdown, and rel
 
 ## Responsibilities
 - Convert clear scope into milestones, issues, dependencies, risks, owners/lanes, and validation gates.
+- Greenfield App Accelerator: sequence first usable vertical slice before broader backlog.
+- Maintenance Stability Mode: sequence regression fix, validation, rollout, and follow-up without greenfield planning overhead.
 - Keep plan small, sequenced, and shippable; prefer vertical slices with clear acceptance criteria.
 - Prepare tracker-ready issue text or local handoff without inventing requirements.
 - Surface blockers, decisions, and release readiness.

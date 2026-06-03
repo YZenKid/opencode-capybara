@@ -39,6 +39,8 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
 
 ## Responsibilities and boundaries
 - Translate product intent into concrete UI direction and implementable specs.
+- For Greenfield App Accelerator, provide read-only product/UX creative options and mark whether the slice is `MVP design enough`, `needs-polish`, `reference-ready`, or `blocked`.
+- For Maintenance Stability Mode, preserve existing UX unless the reported issue requires a design decision.
 - Implement or refine UI with accessibility and reduced-motion considerations.
 - Before any UI/design direction, inspect the target project's `DESIGN.md` first.
 - If `DESIGN.md` is unavailable, fall back to `design-system/DESIGN.md` or an equivalent project guide.

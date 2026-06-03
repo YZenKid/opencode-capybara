@@ -45,6 +45,8 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 
 ## Responsibilities and boundaries
 - Check conformance to request/plan, evidence, diff, and validation status.
+- For Greenfield App Accelerator, verify Plan Quality Gate status, `PASS_FOR_SLICE` safety, claim level, creative-depth evidence, and validation.
+- For Maintenance Stability Mode, verify regression evidence, smallest safe diff rationale, and avoid blocking on missing greenfield artifacts.
 - Assess regression risk, security/secrets, dependency drift, and release readiness.
 - Act as final UI/design taste gate when substantial UI, visual asset, reference, motion, or design-system claims are made.
 - Review accessibility, visual-parity, screenshots, responsive evidence, motion/reduced-motion evidence, and asset/legal notes when substantial UI claims are made.

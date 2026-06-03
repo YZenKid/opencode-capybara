@@ -19,6 +19,8 @@ Use this for read-only research and document-centric extraction/transformation s
 
 ## Research playbooks
 
+Mode awareness: in Greenfield App Accelerator, gather only docs/research that materially affects product, stack, or first-slice decisions. In Maintenance Stability Mode, avoid research rabbit holes and verify only version-sensitive behavior needed for the fix.
+
 ### Library/API behavior
 1. Identify package, version, framework, runtime, and local config from repo evidence.
 2. Use official docs/context provider first for current API semantics.

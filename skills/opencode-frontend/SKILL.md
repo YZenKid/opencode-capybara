@@ -19,6 +19,8 @@ Use for bounded web UI implementation where visual direction, route intent, and 
 
 ## Responsibilities
 - Reuse project components, tokens, layouts, hooks, error/loading/empty patterns, and test fixtures.
+- Greenfield App Accelerator: implement from `MVP design enough` or stronger handoff and focus on first usable UI slice; full visual parity only when reference/image-heavy.
+- Maintenance Stability Mode: preserve existing UX and fix the smallest reproducible UI surface.
 - Implement minimal UI changes with stable contracts, accessible semantics, and predictable render/data boundaries.
 - Keep client components small; keep server-only logic out of browser bundles.
 - Add/update tests when behavior changes; capture browser evidence for interaction/regression work.

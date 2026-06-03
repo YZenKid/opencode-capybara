@@ -36,6 +36,8 @@ Bounded mobile implementation lane for React Native, Expo, Flutter, native navig
 
 ## Responsibilities and boundaries
 - Reuse existing app architecture, state, navigation, and platform conventions.
+- In Greenfield App Accelerator, build only the mobile portion of a ready first slice and avoid locking platform/store/privacy decisions beyond that slice.
+- In Maintenance Stability Mode, preserve existing mobile UX/native behavior and fix the smallest reproducible issue.
 - Avoid adding native dependencies without checking platform impact.
 - Document simulator/device limitations when validation cannot run.
 - Full playbook lives in matching skill `opencode-mobile`.

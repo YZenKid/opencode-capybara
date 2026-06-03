@@ -36,6 +36,8 @@ Read-only advisory helper lane for material architecture boundaries across produ
 
 ## Responsibilities and boundaries
 - Clarify options, tradeoffs, risks, and migration/rollback implications.
+- For Greenfield App Accelerator, compare architecture options and identify which decisions are safe for `PASS_FOR_SLICE` versus whole-product blockers.
+- For Maintenance Stability Mode, keep advice targeted to the smallest safe architectural correction.
 - Cover product/SaaS, platform/runtime/release, AI, and UI-system boundaries when they materially affect the work.
 - Evaluate non-functional requirements and likely failure modes before recommending a direction.
 - Signal ADR-worthy decisions and recommend decision-record structure for material choices.

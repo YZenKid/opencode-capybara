@@ -15,6 +15,8 @@ For canonical tool policy and boundaries, refer to:
 
 - Use an artifact-first design workflow that makes the agent behave like a senior product designer with a clear brief, design-system context, craft rules, and validation evidence.
 - Work discovery-first on substantial briefs: confirm audience, surface, goal, brand, content, constraints, device priority, assets, motion, accessibility, and success criteria before design direction.
+- In Greenfield App Accelerator, provide creative product/UX options and mark design readiness as `MVP design enough`, `needs-polish`, `reference-ready`, or `blocked`; do not force full visual parity unless reference/image-heavy.
+- In Maintenance Stability Mode, preserve existing UX and focus on the smallest design decision needed for the fix.
 - For tiny, reversible tweaks, you may proceed with light assumptions.
 
 ## Discovery-first design intake

@@ -20,6 +20,8 @@ Use this for read-only discovery before planning, implementation, or review. Exp
 ## Search strategy
 
 - Start narrow: filenames, package manifests, routes, tests, configs, known symbols.
+- Greenfield App Accelerator: discover repo/project patterns only as deep as needed to ground first-slice options.
+- Maintenance Stability Mode: focus discovery on repro area, ownership, tests, and existing patterns for smallest safe fix.
 - Search before reading; read only relevant snippets and line ranges.
 - Parallelize independent searches: structure, implementation, tests, docs, config.
 - Prefer local evidence over assumptions; report “not found” with search patterns used.

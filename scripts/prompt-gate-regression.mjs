@@ -219,7 +219,8 @@ const checks = [
       "assume image-heavy until the visual spec proves otherwise",
       "legal style-equivalent generation by default",
       "informational, read-only, research, and documentation subagents",
-      "fixer, designer, or visual-asset-generator",
+      "@designer` is allowed only for read-only UX/product creativity advisory input",
+      "fixer or visual-asset-generator",
       "write the plan and stop",
       "Execution-ready Worklist / Handoff Contract",
       "ordered task id/sequence",
@@ -264,7 +265,8 @@ const checks = [
     name: "artifact planner standalone skill gate",
     mustInclude: [
       "informational, read-only, research, and documentation subagents",
-      "fixer, designer, or visual-asset-generator",
+      "@designer` is allowed only for read-only UX/product creativity advisory input",
+      "fixer or visual-asset-generator",
       "write the plan and stop",
       "Design Readiness Gate",
       "motion storyboard",
@@ -955,6 +957,8 @@ const checks = [
       "remediation",
       "warn",
       ".env",
+      "check-ignore",
+      "present and git-ignored",
     ],
   },
   {
@@ -1290,6 +1294,64 @@ const checks = [
       "absorbs the former standalone",
     ],
   },
+  {
+    file: ".opencode/docs/AGENT_ROUTING.md",
+    name: "mode-aware greenfield maintenance routing gate",
+    mustInclude: [
+      "Greenfield App Accelerator",
+      "Maintenance Stability Mode",
+      "Best Practice Readiness Contract",
+      "Creative Depth Contract",
+      "Plan Quality Gate",
+      "PASS_FOR_SLICE",
+      "user journey → data model → API/contracts → UI screens → tests",
+      "Maintenance work should not be forced through greenfield product thesis",
+    ],
+  },
+  {
+    file: ".opencode/docs/QUALITY.md",
+    name: "mode-aware quality evidence gate",
+    mustInclude: [
+      "Mode-aware Plan Quality Gate",
+      "Greenfield evidence minimum",
+      "Maintenance evidence minimum",
+      "MVP slice complete",
+      "smallest safe diff rationale",
+      "Only `PASS` and `PASS_FOR_SLICE` can proceed to implementation",
+    ],
+  },
+  {
+    file: "skills/opencode-orchestrator/SKILL.md",
+    name: "orchestrator mode selection gate",
+    mustInclude: [
+      "Classify mode: Greenfield App Accelerator",
+      "Maintenance Stability Mode",
+      "Plan Quality Gate values: `PASS`, `PASS_FOR_SLICE`, `NEEDS_DEPTH`, `BLOCKED`",
+      "do not force product thesis or 2-3 creative alternatives",
+    ],
+  },
+  {
+    file: "skills/opencode-artifact-planner/SKILL.md",
+    name: "artifact planner creative depth gate",
+    mustInclude: [
+      "Greenfield App Accelerator",
+      "Creative Depth Contract",
+      "tradeoff scoring",
+      "ready-for-slice",
+      "ready-for-implementation",
+      "Maintenance Stability Mode",
+      "do not require product thesis or 2-3 creative alternatives",
+    ],
+  },
+  {
+    file: "skills/opencode-fullstack/SKILL.md",
+    name: "fullstack greenfield slice gate",
+    mustInclude: [
+      "one bounded first vertical slice",
+      "PASS_FOR_SLICE",
+      "Maintenance Stability Mode",
+    ],
+  },
 ];
 
 const state = { failures: 0 };
@@ -1298,6 +1360,35 @@ const read = createReader(root, state);
 runContentChecks({ checks, read, root, state });
 runDuplicateChecks({ duplicates: duplicateChecks, read, state });
 runPortabilityChecks({ read, state });
+
+const orchestratorSkill = read("skills/opencode-orchestrator/SKILL.md") ?? "";
+const routingDoc = read(".opencode/docs/AGENT_ROUTING.md") ?? "";
+const modeFixture = read("scripts/evals/fixtures/greenfield-maintenance-mode-routing.json") ?? "";
+const modeBehaviorChecks = [
+  {
+    name: "greenfield routes to planner before implementation",
+    pass:
+      orchestratorSkill.includes("Route to `@artifact-planner` before implementation") &&
+      routingDoc.includes("route new app/MVP/SaaS/product builds to `@artifact-planner` before implementation") &&
+      modeFixture.includes("greenfield app must plan before implementation"),
+  },
+  {
+    name: "maintenance avoids greenfield-heavy gates",
+    pass:
+      orchestratorSkill.includes("do not force product thesis or 2-3 creative alternatives") &&
+      routingDoc.includes("Maintenance work should not be forced through greenfield product thesis") &&
+      modeFixture.includes("maintenance bugfix must stay lightweight"),
+  },
+];
+
+for (const check of modeBehaviorChecks) {
+  if (!check.pass) {
+    state.failures += 1;
+    console.error(`✗ mode behavior (${check.name})`);
+  } else {
+    console.log(`✓ mode behavior (${check.name})`);
+  }
+}
 
 if (state.failures > 0) {
   console.error(`\nPrompt gate regression failed with ${state.failures} issue(s).`);

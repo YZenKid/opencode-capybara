@@ -11,6 +11,8 @@ Read-only unified advisory lane.
 
 - Trigger when material architecture boundaries are involved across product, platform, AI, or UI-system concerns.
 - Skip for tiny UI polish and isolated bugfixes unless risk triggers apply.
+- In Greenfield App Accelerator, compare options and identify `PASS_FOR_SLICE`-safe decisions versus whole-product blockers.
+- In Maintenance Stability Mode, keep advice targeted to smallest safe architectural correction.
 - `@librarian` remains a supporting docs helper when version-sensitive behavior matters.
 - `@artifact-planner` remains triggered/conditional and the primary artifact-writing planner.
 

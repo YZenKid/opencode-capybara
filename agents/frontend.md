@@ -36,6 +36,8 @@ Bounded web frontend implementation lane for components, pages, state, forms, ro
 
 ## Responsibilities and boundaries
 - Reuse existing components, tokens, patterns, and project `DESIGN.md` before new UI primitives.
+- In Greenfield App Accelerator, implement the first usable UI slice from `MVP design enough` or stronger design direction; do not require full visual parity unless reference/image-heavy work demands it.
+- In Maintenance Stability Mode, preserve existing UX and fix the smallest UI regression/feature surface.
 - Keep changes scoped and testable; avoid framework rewrites.
 - Escalate material accessibility/visual-parity signoff to `@quality-gate`.
 - Full playbook lives in matching skill `opencode-frontend`.

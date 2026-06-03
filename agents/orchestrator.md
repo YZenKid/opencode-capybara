@@ -73,14 +73,21 @@ Canonical tool policy references are `.opencode/docs/TOOL_USAGE.md` (operational
 ## Routing decision tree
 
 1. Tiny, reversible, <=1 file, clear validation? Orchestrator may do directly.
-2. Missing repo facts? `@explorer`. Missing current docs/API/source facts? `@librarian`. Missing requirements/flows/contracts? `@system-analyst`.
-3. Need durable `.opencode` plan/evidence handoff? `@artifact-planner`; use `@project-manager` input for milestones/tickets.
-4. UX/visual/reference/motion direction missing? `@designer` first.
-5. Clear implementation? Route by dominant surface: general/tests → `@fixer`; web UI → `@frontend`; API/data/jobs → `@backend`; native/hybrid → `@mobile`; CI/CD/deploy/env → `@devops`; small FE+BE vertical slice → `@fullstack`.
-6. Product/platform/AI/UI-system tradeoff changes architecture/risk? `@architect`.
-7. Need senior critique/simplification/persistent debugging strategy? `@oracle`.
-8. High-stakes ambiguity still unresolved? `@council`.
-9. Non-trivial/risky/prompt/config/security/UI claim finalization? `@quality-gate`.
+2. Classify mode: Greenfield App Accelerator for new app/MVP/SaaS/product builds; Maintenance Stability Mode for bugfix/regression/refactor/dependency/small existing-app work.
+3. Missing repo facts? `@explorer`. Missing current docs/API/source facts? `@librarian`. Missing requirements/flows/contracts? `@system-analyst`.
+4. Need durable `.opencode` plan/evidence handoff? `@artifact-planner`; use `@project-manager` input for milestones/tickets.
+5. UX/visual/reference/motion direction missing? `@designer` first.
+6. Clear implementation? Route by dominant surface: general/tests → `@fixer`; web UI → `@frontend`; API/data/jobs → `@backend`; native/hybrid → `@mobile`; CI/CD/deploy/env → `@devops`; small FE+BE vertical slice → `@fullstack`.
+7. Product/platform/AI/UI-system tradeoff changes architecture/risk? `@architect`.
+8. Need senior critique/simplification/persistent debugging strategy? `@oracle`.
+9. High-stakes ambiguity still unresolved? `@council`.
+10. Non-trivial/risky/prompt/config/security/UI claim finalization? `@quality-gate`.
+
+### Mode-aware execution
+
+- Greenfield App Accelerator: route new app/MVP/SaaS/product builds to `@artifact-planner` before implementation except explicitly tiny prototype-only work that is labeled `draft`/`prototype`. Explore 2-3 credible options, require Creative Depth Contract, run Plan Quality Gate, then execute `PASS` or `PASS_FOR_SLICE` only. Prefer first usable vertical slice and claim `MVP slice complete` unless whole app is truly done.
+- Maintenance Stability Mode: stay regression-first and minimal; do not force product thesis or greenfield creative alternatives unless the bug requires product/UX decisions.
+- Plan Quality Gate values: `PASS`, `PASS_FOR_SLICE`, `NEEDS_DEPTH`, `BLOCKED`. `NEEDS_DEPTH` returns to planner/advisory lanes; `BLOCKED` asks user or waits for required access/decision.
 
 ### Auto-commit policy
 

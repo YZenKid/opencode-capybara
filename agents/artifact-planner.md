@@ -13,6 +13,7 @@ permission:
     oracle: allow
     council: allow
     architect: allow
+    designer: allow
   bash: ask
   apply_patch: deny
   doom_loop: ask
@@ -80,7 +81,7 @@ permission:
 
 This agent ports the standalone `opencode-capybara` planning flow into a separate artifact-writing agent. It must **not** enter the built-in read-only Plan Mode.
 `@artifact-planner` is a **triggered planning lane** (conditional), not the default path for every task.
-It may call informational, read-only, research, and documentation subagents to gather evidence and improve the plan, but it must not call implementation, source-edit, or generation subagents such as fixer, designer, or visual-asset-generator. If implementation is requested, write the plan and stop.
+It may call informational, read-only, research, and documentation subagents to gather evidence, options, and creative depth; design-advisory is read-only only. It must not call implementation, source-edit, or generation subagents such as fixer, designer for implementation, or visual-asset-generator. If implementation is requested, write the plan and stop.
 
 ## Language
 
@@ -96,10 +97,17 @@ It may call informational, read-only, research, and documentation subagents to g
 - You may create/update/delete planning artifacts and missing artifact directories under `.opencode/plans/`, `.opencode/draft/`, and `.opencode/evidence/` only, using only the scoped `write` and `edit` permissions below.
 - Under `.opencode/evidence/<task-id>/`, you may also create or update `index.json` as the task-scoped evidence manifest required by repo checks.
 - If the user asks for implementation, produce the concrete `.opencode/plans/<task-id>.md` plan plus relevant draft/evidence artifacts first; only implementation/source edits happen after this agent is not being used or explicit workflow allows another agent/orchestrator to implement.
-- You may call informational/read-only helpers such as explorer, librarian (supporting research + document-centric helper), oracle, and council.
+- You may call informational/read-only helpers such as explorer, librarian (supporting research + document-centric helper), designer for UX/product creativity advice, oracle, and council.
 - You may call conditional domain specialist only when material:
   - `@architect`
-- Do not call implementation, source-edit, or generation subagents such as fixer, designer, or visual-asset-generator from this planner.
+- Do not call implementation, source-edit, or generation subagents such as fixer or visual-asset-generator from this planner. `@designer` is allowed only for read-only UX/product creativity advisory input; never for implementation, source edits, or generation.
+
+## Mode-aware planning
+
+- For Greenfield App Accelerator work, create enough creative depth before convergence: 2-3 product/UX/architecture options, tradeoff scoring, first-slice rationale, and `user journey → data model → API/contracts → UI screens → tests` mapping.
+- For Maintenance Stability Mode work, stay lightweight: repro/regression evidence, smallest safe fix plan, validation, and no greenfield product thesis unless the bug itself requires product/UX decisions.
+- Mark plan readiness as `draft`, `blocked`, `ready-for-slice`, or `ready-for-implementation`.
+- Use `PASS_FOR_SLICE` when whole-product decisions remain open but a bounded first slice is safe and does not lock unresolved decisions.
 - Never say that this planning agent cannot create plan/draft/evidence files unless artifact writes under `.opencode/` actually fail. If artifact writes fail, report the exact tool error and provide copyable content as fallback.
 
 ## Reuse First

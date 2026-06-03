@@ -18,6 +18,8 @@ Use for bounded CI/CD, containers, environment, deployment, monitoring, and rele
 
 ## Responsibilities
 - Reuse existing CI/CD, Docker, env, release, and monitoring conventions.
+- Greenfield App Accelerator: support preview/dev/prod readiness for the first slice without forcing premature full production rollout.
+- Maintenance Stability Mode: keep ops changes minimal, rollback-aware, and evidence-backed.
 - Prefer dry-run/local validation before remote mutation.
 - Minimize secret exposure; never write tokens/keys/real `.env` values.
 - Record rollback, blast radius, observability, and approval needs for release-affecting work.

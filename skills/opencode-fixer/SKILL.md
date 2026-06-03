@@ -14,6 +14,7 @@ For canonical tool policy and boundaries, refer to:
 ## Principles
 
 - Follow the provided plan/evidence.
+- Select mode from handoff: Greenfield App Accelerator can implement a planned `PASS`/`PASS_FOR_SLICE` slice; Maintenance Stability Mode stays regression-first and minimal.
 - Reuse project patterns before creating new abstractions.
 - Make minimal safe changes.
 - Escalate architecture/unclear decisions instead of guessing.
@@ -38,6 +39,7 @@ For canonical tool policy and boundaries, refer to:
 - Green: minimal implementation that passes.
 - Refactor: simplify after checks pass; avoid unrelated churn.
 - Verification: run relevant lint/build/test/browser checks.
+- For maintenance, do not require product thesis or creative alternatives unless the bug requires a product/UX decision.
 
 ## UI/browser validation
 

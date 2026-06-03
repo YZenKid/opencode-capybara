@@ -33,6 +33,48 @@ Planner invocation expectation:
 - Advisory/worklist labels using `blocked` must be normalized into the blocker taxonomy before orchestrator decides to stop.
 - Completion claim requires finishing every non-blocked task and satisfying plan done criteria.
 
+## Mode-aware execution contracts
+
+Before non-trivial routing, classify the request into one mode and record the mode in evidence or handoff notes.
+
+### Greenfield App Accelerator
+Use for new apps, blank repos, MVPs, SaaS/product builds, or major product revamps.
+
+- Always route new app/MVP/SaaS/product builds to `@artifact-planner` before implementation except explicitly tiny prototype-only work labeled `draft`/`prototype`.
+- Optimize for the first usable vertical slice, not whole-app perfection.
+- Explore 2-3 credible product/UX/architecture options, compare tradeoffs, then converge.
+- Allow `PASS_FOR_SLICE` execution when whole-product decisions remain open but the selected slice avoids locking those decisions.
+- Allow `@fullstack` to own one bounded greenfield vertical slice when FE/BE coupling is high and contracts are clear enough.
+- Allow `@fixer` to scaffold or implement only from a ready slice plan, not from a vague product idea.
+- Require enough design direction for MVP usefulness; require the full visual/reference gate only when the work is substantial UI, image-heavy, or parity-driven.
+- Final claim should be `MVP slice complete` unless the whole app is actually finished and validated.
+
+### Maintenance Stability Mode
+Use for bugfixes, regressions, refactors, dependency updates, small features in existing apps, and incident follow-up.
+
+- Maintenance work should not be forced through greenfield product thesis, 2-3 creative alternatives, or whole-app planning by default.
+- Do not require product thesis, 2-3 creative alternatives, or greenfield gates by default.
+- Start with repro, regression test, targeted evidence, or clear failing behavior.
+- Prefer the smallest safe diff and preserve existing architecture/UX unless the bug proves they are broken.
+- Use `@explorer` for local facts, `@fixer` or the domain lane for implementation, and `@quality-gate` for material/risky changes.
+- Ask only for material behavior, security, privacy, product, or irreversible decisions.
+
+## Best Practice Readiness Contract
+Non-trivial work is not ready to implement until the handoff identifies the mode, goal, non-goals, constraints, acceptance criteria, owner/lane, validation path, evidence path, and blocker class. Fresh app/product work must also identify material product, data, auth, payment, privacy, RBAC, platform, UI, and release decisions as answered, deferred, slice-safe, or blocked.
+
+## Creative Depth Contract
+For Greenfield App Accelerator work, plans must include: product thesis and target pain; 2-3 viable product/UX approaches before choosing one; architecture options with tradeoff scoring; first vertical slice options and chosen-slice rationale; `user journey → data model → API/contracts → UI screens → tests` mapping; design readiness summary; differentiation ideas bounded by MVP scope; and readiness status (`draft`, `blocked`, `ready-for-slice`, or `ready-for-implementation`). Plans missing this contract are not execution-ready.
+
+## Plan Quality Gate
+Before `@orchestrator` executes a non-trivial plan, classify readiness:
+
+- `PASS`: plan has material decisions, creative alternatives where required, tradeoffs, TDD, validation, and worklist ready.
+- `PASS_FOR_SLICE`: whole product has open questions, but the first slice is safe, explicit, and does not lock unresolved decisions.
+- `NEEDS_DEPTH`: plan has sections but lacks substance, alternatives, mapping, evidence, or validation detail.
+- `BLOCKED`: material decision missing and no safe slice exists.
+
+Only `PASS` and `PASS_FOR_SLICE` may proceed to implementation. `NEEDS_DEPTH` goes back to planner/advisory lanes. `BLOCKED` asks the user or waits for required access/decision.
+
 ## Direct-work thresholds for `@orchestrator`
 `@orchestrator` is a router/integrator first, not the default worker. Direct execution is allowed only for tiny tasks.
 
