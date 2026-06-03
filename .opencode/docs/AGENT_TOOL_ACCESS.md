@@ -58,7 +58,7 @@ Note: `@librarian` is a supporting research helper, not one of the 6 core agents
 ### `@designer`
 - **available**: UI/design analysis and relevant MCP surfaces when configured.
 - **preferred**: project-local `DESIGN.md` + structured UI evidence + design specialist workflows.
-- **permitted**: UI/UX direction and implementation within designer contract.
+- **permitted**: UI/UX direction and implementation within designer contract; implementation only when directly routed, while `@artifact-planner` usage is read-only advisory input.
 - **fallback**: if generation/design MCP is unavailable, continue with local design-system reasoning and mark limitation.
 
 ### `@fixer`

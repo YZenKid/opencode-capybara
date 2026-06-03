@@ -184,6 +184,7 @@ Global conditional specialist framing:
 - Require visual density, production-like screenshots, designer signoff, and reference/current/final evidence for substantial UI/reference work.
 - Generic hover-only motion is not enough for substantial reference work.
 - Treat image-heavy work explicitly with an image generation decision and legal style-equivalent generation when needed.
+- `@visual-asset-generator` is invoked by `@orchestrator`/`@designer` from an asset manifest or image-heavy UI plan; `@artifact-planner` does not invoke generation lanes.
 - Do not leave final sections as CSS placeholders when imagery materially affects quality.
 
 ## General Design Readiness Gate
