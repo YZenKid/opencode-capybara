@@ -24,6 +24,12 @@ const canonicalDocs = [
   ".opencode/docs/DECISIONS.md",
   ".opencode/docs/RELEASE.md",
   ".opencode/docs/GC_WORKFLOW.md",
+  ".opencode/docs/STATE_RUNTIME.md",
+  ".opencode/docs/DURABLE_EXECUTION.md",
+  ".opencode/docs/WORKTREE_RUNTIME.md",
+  ".opencode/docs/VERIFY_FIX_LOOP.md",
+  ".opencode/docs/WORKER_BACKENDS.md",
+  ".opencode/docs/DETERMINISTIC_EDIT_RUNTIME.md",
 ];
 
 let failures = 0;
@@ -84,6 +90,12 @@ function checkAgentsPointers() {
     ".opencode/docs/RELEASE.md",
     ".opencode/docs/QUALITY_SCORE.md",
     ".opencode/docs/GC_WORKFLOW.md",
+    ".opencode/docs/STATE_RUNTIME.md",
+    ".opencode/docs/DURABLE_EXECUTION.md",
+    ".opencode/docs/WORKTREE_RUNTIME.md",
+    ".opencode/docs/VERIFY_FIX_LOOP.md",
+    ".opencode/docs/WORKER_BACKENDS.md",
+    ".opencode/docs/DETERMINISTIC_EDIT_RUNTIME.md",
   ];
 
   const missing = required.filter((needle) => !agents.includes(needle));

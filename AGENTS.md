@@ -5,6 +5,7 @@
 - Architecture: `.opencode/docs/ARCHITECTURE.md`
 - Quality and evidence: `.opencode/docs/QUALITY.md`
 - Harness evals and replayability: `.opencode/docs/EVALS.md`
+- Runtime execution state: `.opencode/docs/STATE_RUNTIME.md`, `.opencode/docs/DURABLE_EXECUTION.md`, `.opencode/docs/WORKTREE_RUNTIME.md`, `.opencode/docs/VERIFY_FIX_LOOP.md`, `.opencode/docs/WORKER_BACKENDS.md`, `.opencode/docs/DETERMINISTIC_EDIT_RUNTIME.md`
 - Security policy: `.opencode/docs/SECURITY.md`
 - Prompt gates: `.opencode/docs/PROMPT_GATES.md`
 - Skills index: `.opencode/docs/SKILLS.md`
@@ -46,6 +47,7 @@ Default operating model:
 - `.opencode/docs/` is the repository knowledge system of record.
 - `AGENTS.md` is the map, not the encyclopedia.
 - Plans are first-class artifacts under `.opencode/plans/`.
+- Runtime state lives under `.opencode/state/` for durable runs, task queues, mailbox, memory, and worktree metadata.
 - Evidence is required for material changes.
 - Repeated failures should produce docs, gate, script, or skill improvements.
 - `@orchestrator` routes, decomposes, and integrates; do not let all implementation collapse into direct orchestrator execution.

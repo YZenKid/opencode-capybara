@@ -22,6 +22,7 @@ For canonical tool policy and boundaries, refer to:
 ## Principles
 
 - Follow the provided plan/evidence.
+- When a durable run/worktree/task assignment exists, preserve runtime metadata and report task/result updates in evidence rather than inventing side channels.
 - Select mode from handoff: Greenfield App Accelerator can implement a planned `PASS`/`PASS_FOR_SLICE` slice; Maintenance Stability Mode stays regression-first and minimal.
 - Reuse project patterns before creating new abstractions.
 - Make minimal safe changes.

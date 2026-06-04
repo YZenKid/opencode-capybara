@@ -9,6 +9,7 @@ Urutan baca yang disarankan:
 3. [SCRIPTS.md](./SCRIPTS.md)
 4. [MODEL_ROUTING.md](./MODEL_ROUTING.md)
 5. [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)
+6. [RUNTIME_OPERATIONS.md](./RUNTIME_OPERATIONS.md)
 
 Kalau kamu butuh dokumen internal harness engineering, lihat:
 

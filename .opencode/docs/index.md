@@ -19,6 +19,12 @@ This directory is the **system of record** for `opencode-capybara`.
 - [DECISIONS.md](./DECISIONS.md)
 - [RELEASE.md](./RELEASE.md)
 - [GC_WORKFLOW.md](./GC_WORKFLOW.md)
+- [STATE_RUNTIME.md](./STATE_RUNTIME.md)
+- [DURABLE_EXECUTION.md](./DURABLE_EXECUTION.md)
+- [WORKTREE_RUNTIME.md](./WORKTREE_RUNTIME.md)
+- [VERIFY_FIX_LOOP.md](./VERIFY_FIX_LOOP.md)
+- [WORKER_BACKENDS.md](./WORKER_BACKENDS.md)
+- [DETERMINISTIC_EDIT_RUNTIME.md](./DETERMINISTIC_EDIT_RUNTIME.md)
 
 ## Planning and execution artifacts
 - Plan artifacts live under `.opencode/plans/`.

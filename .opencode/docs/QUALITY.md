@@ -45,6 +45,8 @@ If no reliable source existed, say so explicitly and keep the claim level conser
 - `task_id`
 - `timestamp`
 - harness/prompt version metadata
+- runtime run id/status when durable execution is used
+- task queue + mailbox summary when runtime state is used
 - tool trace summary
 - changed files summary
 - validation outputs

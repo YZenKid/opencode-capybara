@@ -8,7 +8,7 @@ description: Standalone final review skill for OpenCode. Use for evidence-based 
 This skill is a read-only final reviewer. Focus on conformance, risk, and evidence rather than fixing issues.
 It serves as the final reviewer read-only lane for OpenCode signoff.
 
-Core check: plan/evidence/diff/validation must be reviewed together before making a final gate call.
+Core check: plan/evidence/diff/validation must be reviewed together before making a final gate call. When durable runtime state is used, include `.opencode/state/` run/task/mailbox/worktree/verification summaries in the final review basis.
 
 Mode-aware check: for Greenfield App Accelerator, verify Plan Quality Gate status, `PASS_FOR_SLICE` safety, claim level, creative-depth evidence, and validation. For Maintenance Stability Mode, verify regression evidence and smallest safe diff rationale; do not block only because greenfield product thesis or 2-3 creative alternatives are absent.
 

@@ -1,7 +1,7 @@
 {
   "task_id": "harness-evals-latest",
-  "timestamp": "2026-06-04T06:17:48.653Z",
-  "harness_version": "0f956e4d1f7b98990a606479e9e120538aab5e71",
+  "timestamp": "2026-06-04T11:31:26.703Z",
+  "harness_version": "917004f251745a7ca340c4e3d1043863aa0c8965",
   "prompt_or_task_summary": "Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.",
   "tool_trace_summary": [
     "Read eval fixture JSON files from scripts/evals/fixtures/",
@@ -93,7 +93,7 @@
     "release_critical_average_score_0_to_5": 5
   },
   "drift_summary": {
-    "previous_timestamp": "2026-06-04T06:11:27.045Z",
+    "previous_timestamp": "2026-06-04T11:23:24.131Z",
     "previous_average_score_0_to_5": 3.54,
     "average_score_delta": 0,
     "failed_delta": 0,

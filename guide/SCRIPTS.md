@@ -22,6 +22,31 @@
 | `npm run sync:openchamber:seed:check` | Cek read-only untuk flow sync + seed approved directories | Saat ingin audit kondisi OpenChamber lengkap |
 | `npm run compare:openchamber-models` | Menampilkan tabel perbandingan setting model OpenCode vs OpenChamber, termasuk mirror `opencodeAgentModelMap` | Saat ingin audit cepat mismatch atau memastikan hasil sync |
 
+## Runtime operator helpers
+
+| Script | Fungsi | Kapan dipakai |
+|---|---|---|
+| `npm run runtime:board -- --run-id <id>` | Tampilkan board summary run | Saat butuh ringkasan task/mailbox/execution |
+| `npm run runtime:watch -- --run-id <id> --ticks 5 --interval-ms 250` | Snapshot board berulang secara bounded | Saat ingin watch mode ringan tanpa daemon |
+| `npm run runtime:poll -- --run-id <id>` | Poll semua execution aktif | Saat ingin update status process |
+| `npm run runtime:tail -- --run-id <id> --execution-id <id> --lines 20` | Ambil tail stdout/stderr execution | Saat debugging worker tertentu |
+| `npm run runtime:tail -- --run-id <id> --execution-id <id> --follow --timeout-ms 5000 --poll-ms 250` | Live follow log sampai timeout | Saat perlu `tail -f` bounded untuk worker tertentu |
+| `npm run runtime:retry -- --run-id <id> --task-id <task> --execution-id <id>` | Paksa retry bounded untuk task gagal | Saat perlu retry manual |
+| `npm run runtime:consume -- --run-id <id> --worker-name <worker>` | Consume mailbox worker sekali | Saat ingin drain mailbox manual |
+| `npm run runtime:heartbeat -- --run-id <id> --worker-name <worker> --owner <owner>` | Perpanjang lease worker aktif | Saat consumer/worker perlu keepalive lease |
+| `npm run runtime:lease-status -- --run-id <id> --worker-name <worker>` | Tampilkan owner/expiry lock worker | Saat debugging lease conflict |
+| `npm run runtime:lease-cleanup -- --run-id <id> --worker-name <worker> --force` | Bersihkan lease stale / paksa cleanup | Saat lock yatim menghalangi consumer |
+| `npm run runtime:lease-sweep -- --run-id <id> --force` | Sweep lease untuk semua worker pada run | Saat ingin bersihkan stale lock massal |
+| `npm run runtime:diagnostics -- --run-id <id>` | Tampilkan board + lease report gabungan | Saat butuh ringkasan operator penuh |
+| `npm run runtime:tail-session-start -- --run-id <id> --execution-id <id> --session-id tail-1` | Mulai sesi tail persisten | Saat ingin polling tail lintas command |
+| `npm run runtime:tail-session-status -- --run-id <id> --session-id tail-1` | Poll status sesi tail persisten | Saat lanjut memantau sesi tail |
+| `npm run runtime:tail-session-stop -- --run-id <id> --session-id tail-1` | Hentikan sesi tail persisten | Saat sesi tail tidak dibutuhkan lagi |
+| `npm run runtime:supervise -- --run-id <id> --max-retries 3` | Jalankan supervisor tick/loop bounded | Saat ingin auto poll/consume/retry tanpa daemon |
+| `npm run test:runtime-phase7` | Validasi tail/watch/leases/backoff dan generic temp-repo flow | Setelah ubah runtime operator layer |
+| `npm run test:runtime-phase8` | Validasi tail follow, heartbeat, jitter, dan generic temp-repo flow | Setelah ubah follow/lease/backoff layer |
+| `npm run test:runtime-phase9` | Validasi live follow, auto-heartbeat renewal, lease diagnostics/cleanup, dan generic temp-repo flow | Setelah ubah lease/live-follow layer |
+| `npm run test:runtime-phase10` | Validasi tail session manager, lease sweeper, diagnostics report, dan generic temp-repo flow | Setelah ubah operator aggregation layer |
+
 ## Validasi dan quality checks
 
 | Script | Fungsi | Kapan dipakai |

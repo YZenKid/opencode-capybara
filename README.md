@@ -62,10 +62,12 @@ User-facing guides live under [`guide/`](./guide/README.md):
 
 - `AGENTS.md` is the short map of repo rules
 - `.opencode/docs/index.md` is the main entry point for policy and architecture
+- `.opencode/state/` is the local runtime state root for durable runs, tasks, mailbox, memory, and worktree metadata
 
 `AGENTS.md` is now a table of contents plus non-negotiable rules.
 Detailed policy lives in `.opencode/docs/`.
 Plans are first-class artifacts under `.opencode/plans/`.
+Runtime execution state lives under `.opencode/state/` and complements plans/evidence rather than replacing them. Phase 2 adds JSON-first CLI entrypoints (`create`, `status`, `continue`, `dispatch`, `execute`); Phase 3 adds persisted dispatcher/executor records for worker launch plans and worktree-backed execution. Phase 4 adds bounded retry loops, mailbox consumption, process polling, and richer live runtime board summaries. Phase 5 adds bounded supervisor ticks/loops with board snapshot persistence. Phase 6 adds per-execution logs plus direct runtime CLI ops (`board`, `poll`, `retry`, `consume`, `supervise`). Phase 7 adds log tailing, retry backoff policy, worker lease locks for multi-consumer safety, and board watch mode that also works against arbitrary git repos using `--project-root`. Phase 8 adds `tail --follow`, lease heartbeat renewal, and deterministic jitter backoff while preserving cross-repo support. Phase 9 adds timeout-bounded live follow, supervisor auto-heartbeat renewal, and lease diagnostics / stale cleanup commands. Phase 10 adds persistent tail sessions, all-worker lease sweeps, and combined board+lease diagnostics reporting.
 
 ## Project structure at a glance
 
@@ -153,6 +155,9 @@ Tiny UI polish still goes to `@designer`, and isolated bugfixes still go to `@fi
 - `npm run post:update`
 - `npm run sync:agent-models`
 - `npm run test:prompt-gates`
+- `npm run test:runtime-foundation`
+- `npm run test:runtime-cli`
+- `npm run test:runtime-ops`
 
 See the full explanation in [`guide/SCRIPTS.md`](./guide/SCRIPTS.md).
 
@@ -175,6 +180,12 @@ npm run check:harness
 Additional harness checks:
 
 ```bash
+npm run test:runtime-foundation
+npm run test:runtime-cli
+npm run test:runtime-ops
+npm run test:runtime-supervisor
+npm run test:runtime-cli-ops
+npm run test:runtime-phase7
 npm run check:docs
 npm run check:agents
 npm run check:skills

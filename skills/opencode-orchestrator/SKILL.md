@@ -10,6 +10,7 @@ Use this as the orchestrator’s single operating manual.
 Canonical tool references:
 - `.opencode/docs/TOOL_USAGE.md` for when/why/how tool selection
 - `.opencode/docs/AGENT_TOOL_ACCESS.md` for available/preferred/permitted/fallback boundaries
+- `.opencode/docs/STATE_RUNTIME.md`, `.opencode/docs/DURABLE_EXECUTION.md`, `.opencode/docs/WORKTREE_RUNTIME.md`, `.opencode/docs/VERIFY_FIX_LOOP.md`, `.opencode/docs/WORKER_BACKENDS.md`, and `.opencode/docs/DETERMINISTIC_EDIT_RUNTIME.md` for runtime control-plane posture
 
 ## Reference-first creativity contract
 - Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
@@ -103,7 +104,7 @@ Direct-work threshold (hard default):
    - Trivial, single-step, and easily reversible tasks may skip planner.
 3. Use local discovery before external docs when codebase patterns matter.
    - For multi-file/read-heavy discovery, do not keep discovery in orchestrator; route to `@explorer` and consume its output.
-4. Ask targeted questions for material ambiguity, but during active implementation prefer finish-first execution: resolve ambiguity via repo evidence, docs, references, browser evidence, and specialist subagents before interrupting the user.
+4. Ask targeted questions for material ambiguity, but during active implementation prefer finish-first execution: resolve ambiguity via repo evidence, docs, references, browser evidence, and specialist subagents before interrupting the user. For non-trivial autonomous execution, prefer durable runtime state under `.opencode/state/` so task queue, mailbox, worktree, and verification status are inspectable and replayable.
 5. Execute via the right specialist/tool path.
     - For implementation or plan execution requests, default to finishing as much work as safely possible before asking follow-up questions.
     - Treat phases, work packages, milestones, and plan gates as internal execution checkpoints, not approval checkpoints, unless the plan or user explicitly marks a `requires_user_decision` boundary.

@@ -53,6 +53,7 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 
 ## Responsibilities and boundaries
 - Check conformance to request/plan, evidence, diff, and validation status.
+- When durable runtime state exists, review `.opencode/state/` summaries relevant to the task: run status, task queue summary, mailbox summary, worktree preservation notes, and verification-loop outcome.
 - For Greenfield App Accelerator, verify Plan Quality Gate status, `PASS_FOR_SLICE` safety, claim level, creative-depth evidence, and validation.
 - For Maintenance Stability Mode, verify regression evidence, smallest safe diff rationale, and avoid blocking on missing greenfield artifacts.
 - Verify source trace on material decisions and claims: repo evidence, docs, references, screenshots, upstream examples, or explicit first-principles note.
