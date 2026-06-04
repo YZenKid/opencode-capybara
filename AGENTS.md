@@ -23,6 +23,9 @@
 - Use `@orchestrator` for routing and integration.
 - Use `@quality-gate` for material changes, including non-trivial/risky work, prompt/config changes, and security-sensitive changes.
 - Prefer evidence over assertion.
+- Prefer references over assumptions. If repo files, official docs, upstream source, screenshots/reference URLs, or runtime evidence are reasonably available, use them before inventing details.
+- Creativity must stay grounded. For greenfield/product/UI work, generate 2-3 bounded options from evidence or explicit first principles when that materially improves quality, then choose and explain.
+- Do not let checklist compliance override stronger evidence, better references, or clear runtime feedback.
 - Prefer repo-local docs over chat memory.
 - Do not modify files from read-only reviewer agents.
 - Keep `AGENTS.md` short; detailed policy belongs in `.opencode/docs/` and mechanical checks.

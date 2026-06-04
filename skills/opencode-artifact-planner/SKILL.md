@@ -13,6 +13,14 @@ Canonical tool references:
 - `.opencode/docs/TOOL_USAGE.md` (operational tool selection)
 - `.opencode/docs/AGENT_TOOL_ACCESS.md` (role boundaries and fallback)
 
+## Reference-first creativity contract
+- Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
+- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
+- If a reasonable source exists, use it or state why it was skipped.
+- For greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with explicit rationale.
+- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
+- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+
 ## Language
 
 - Use Indonesian for all user-facing communication, including chat, operational explanations, assumptions, question gates, planning summaries, and planning artifacts produced by this skill.
@@ -26,6 +34,8 @@ Canonical tool references:
 4. Draft only when useful under `.opencode/draft/<task-id>/`.
 5. Write one primary plan: `.opencode/plans/<task-id>.md`.
 6. Keep only operationally useful evidence; delete stale drafts after consolidation.
+
+Before convergence, explicitly choose source strategy for the task: local repo evidence, official docs, upstream source/examples, screenshots/reference URLs, and current web research. If a reasonable source is skipped, state why.
 
 The planner may call informational/read-only/research/documentation helpers to improve plan confidence. `@librarian` remains a supporting research helper. Domain advisory is conditional and should be used only when material.
 
@@ -55,6 +65,8 @@ Do not call implementation/source-edit/generation subagents (for example `@fixer
 ## Required plan sections
 
 Goal, Non-goals, Scope, Requirements, Acceptance Criteria, Existing Patterns/Reuse, Constraints, Risks, Decisions/Assumptions, TDD/Test Plan, Implementation Steps, Expected Files to Change, Agent/Tool Routing, Execution-ready Worklist / Handoff Contract, Validation Commands, Evidence Requirements, Done Criteria, Final Planning Summary.
+
+For non-trivial plans, include a concise source-strategy note or equivalent under `Evidence Requirements`, `Decisions/Assumptions`, or `Final Planning Summary`: what sources were used, what was skipped, which major choices are repo-backed/reference-backed/docs-backed/first-principles-driven, and which assumptions remain.
 
 Execution-ready Worklist / Handoff Contract is mandatory for non-trivial plans and must allow `@orchestrator` to execute to completion without replanning. For each atomic ordered task include: dependencies (`depends_on`), owner/lane, validation, task exit criteria, blocking status (`ready`/`blocked`) with reason, `requires_user_decision` (`yes`/`no`), and a `start_with` pointer for the first non-blocked task.
 
@@ -87,3 +99,6 @@ Add or reference `.opencode/evidence/<task-id>/reference-captures.md`, `current-
 ## Finalization
 
 `Final Planning Summary` must list artifacts created/kept/deleted, key decisions, assumptions, open questions, readiness, and cleanup performed.
+## skills.sh inspirations
+
+This skill folder absorbs selected practices from `skills.sh` while staying a single local skill folder for this agent. Do not split these inspirations into separate local skills here. Use curated notes in `references/skills-sh-curated.md` and adapt them through this lane's own contracts, boundaries, and evidence rules.

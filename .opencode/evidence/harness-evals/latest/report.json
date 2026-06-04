@@ -1,7 +1,7 @@
 {
   "task_id": "harness-evals-latest",
-  "timestamp": "2026-06-02T15:01:50.111Z",
-  "harness_version": "e42a1b2c640ff133de4de019586bcc18e83b4be0",
+  "timestamp": "2026-06-04T06:17:48.653Z",
+  "harness_version": "0f956e4d1f7b98990a606479e9e120538aab5e71",
   "prompt_or_task_summary": "Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.",
   "tool_trace_summary": [
     "Read eval fixture JSON files from scripts/evals/fixtures/",
@@ -18,13 +18,14 @@
     }
   ],
   "verdict": "PASS",
-  "fixture_count": 25,
+  "fixture_count": 26,
   "failed": 0,
   "fixture_ids": [
     "agents-policy-bloat-negative",
     "capability-governance-negative",
     "docs-system-of-record",
     "evidence-verification-negative",
+    "greenfield-maintenance-mode-routing",
     "readonly-boundary-negative",
     "runtime-plugin-removal",
     "docs-policy-migration-roundtrip",
@@ -48,6 +49,7 @@
     "routing-share-export-noisy-negative"
   ],
   "reason_codes": [
+    "unsupported-fixture-shape",
     "final-output-raw-internal-passthrough",
     "finish-first-premature-advisory-stop",
     "routing-overreach-redundant-orchestrator-discovery",
@@ -91,7 +93,7 @@
     "release_critical_average_score_0_to_5": 5
   },
   "drift_summary": {
-    "previous_timestamp": "2026-06-02T14:51:54.721Z",
+    "previous_timestamp": "2026-06-04T06:11:27.045Z",
     "previous_average_score_0_to_5": 3.54,
     "average_score_delta": 0,
     "failed_delta": 0,
@@ -186,6 +188,18 @@
         {
           "file": ".opencode/evidence/20260510-2140-harness-engineering-plan/verification.md",
           "status": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "greenfield-maintenance-mode-routing",
+      "description": "Skipped non-text-rule fixture: greenfield-maintenance-mode-routing.json",
+      "status": "SKIP",
+      "checks": [
+        {
+          "file": "scripts/evals/fixtures/greenfield-maintenance-mode-routing.json",
+          "status": "SKIP",
+          "reason_code": "unsupported-fixture-shape"
         }
       ]
     },

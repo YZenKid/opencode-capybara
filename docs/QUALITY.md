@@ -31,6 +31,16 @@ Every material change must end with evidence, not just claims.
 
 If evidence is unavailable, write an explicit limitation note.
 
+## Reference trace minimum
+For material planning, implementation, review, or design claims, evidence should make the source basis legible:
+- key repo files or artifacts used,
+- authoritative docs/source URLs or identifiers when external behavior mattered,
+- reference screenshots/URLs when visual or UX choices mattered,
+- unresolved assumptions and why they were still necessary,
+- whether the final choice is reference-backed, repo-backed, or first-principles-driven.
+
+If no reliable source existed, say so explicitly and keep the claim level conservative.
+
 ## Replay bundle minimum
 - `task_id`
 - `timestamp`

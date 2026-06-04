@@ -7,6 +7,14 @@ description: Standalone documentation, research, and document-centric read-only 
 
 Use this for read-only research and document-centric extraction/transformation support. Librarian provides sourced facts; it does not implement code, make architecture decisions, or sign off risk.
 
+## Reference-first creativity contract
+- Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
+- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
+- If a reasonable source exists, use it or state why it was skipped.
+- For greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with explicit rationale.
+- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
+- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+
 ## Boundary table
 
 | Need | Route |
@@ -83,3 +91,6 @@ Return concise findings: `summary`, `version_context`, `facts`, `api_options`, `
 - `references/agents-md.md` for agent instruction documentation practices.
 
 Do not edit implementation/source files. Avoid broad tutorials unless asked.
+## skills.sh inspirations
+
+This skill folder absorbs selected practices from `skills.sh` while staying a single local skill folder for this agent. Do not split these inspirations into separate local skills here. Use curated notes in `references/skills-sh-curated.md` and adapt them through this lane's own contracts, boundaries, and evidence rules.

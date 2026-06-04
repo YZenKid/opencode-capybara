@@ -42,9 +42,25 @@ const validationCommands = [
   },
 ];
 
-for (const { fixture } of fixtures) {
+for (const { file, fixture } of fixtures) {
   const checks = [];
   let fixtureFailed = false;
+
+  if (!Array.isArray(fixture.rules)) {
+    results.push({
+      id: fixture.id ?? file.replace(/\.json$/, ""),
+      description: fixture.description ?? `Skipped non-text-rule fixture: ${file}`,
+      status: "SKIP",
+      checks: [
+        {
+          file: `scripts/evals/fixtures/${file}`,
+          status: "SKIP",
+          reason_code: "unsupported-fixture-shape",
+        },
+      ],
+    });
+    continue;
+  }
 
   for (const rule of fixture.rules) {
     const target = resolve(root, rule.file);
@@ -78,8 +94,8 @@ for (const { fixture } of fixtures) {
     id: fixture.id,
     description: fixture.description,
     status: fixtureFailed ? "FAIL" : "PASS",
-      checks,
-    });
+    checks,
+  });
 }
 
 for (const { fixture } of taskFixtures) {

@@ -7,6 +7,14 @@ description: Standalone visual asset generation workflow for visual-asset-genera
 
 Use this to transform asset manifests into legal generation jobs and integration notes.
 
+## Reference-first creativity contract
+- Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
+- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
+- If a reasonable source exists, use it or state why it was skipped.
+- For greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with explicit rationale.
+- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
+- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+
 ## Input contract
 
 Require asset id, type, priority, target path, dimensions/aspect ratio, prompt, negative prompt, alt text, placement notes, legal notes, section title/description, semantic subject, palette notes, and background/output format when relevant.
@@ -73,3 +81,6 @@ Return generated/failed metadata, paths, dimensions, prompts used, alt text, leg
 For image-heavy UI, require a section-aware manifest before generation. Each job must include section title/description, semantic subject, placement notes, dimensions or aspect ratio, art direction, palette and lighting notes, target path relative to the target app root, alt/decorative strategy, legal note, and rejection criteria.
 
 Use generated assets for rich hero art, portraits, thumbnails, avatars, mockups, atmospheric backgrounds, and decorative badges when licensed/provided assets are unavailable. Use icon libraries for functional symbols and brand marks. Do not generate logo lookalikes or substitute vague neon/abstract filler for meaningful section imagery.
+## skills.sh inspirations
+
+This skill folder absorbs selected practices from `skills.sh` while staying a single local skill folder for this agent. Do not split these inspirations into separate local skills here. Use curated notes in `references/skills-sh-curated.md` and adapt them through this lane's own contracts, boundaries, and evidence rules.

@@ -7,6 +7,14 @@ description: Senior stack-agnostic backend API/data playbook for server framewor
 
 Use for bounded server/API/data implementation. Detect actual project stack from repo evidence before edits; local project conventions win; make no language, framework, or database assumptions.
 
+## Reference-first creativity contract
+- Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
+- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
+- If a reasonable source exists, use it or state why it was skipped.
+- For greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with explicit rationale.
+- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
+- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+
 ## Trigger / skip
 - Trigger: endpoints, controllers, services, validation, auth integration, DB queries, migrations, jobs/queues, API tests, background processing, server-side security fixes.
 - Skip: unclear requirements/contracts → `@system-analyst`; broad architecture/data model decisions → `@architect`; frontend slice too coupled and tiny → `@fullstack`; final security/privacy signoff → `@quality-gate`.
@@ -57,3 +65,6 @@ Return `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidenc
 - `.opencode/docs/SENIOR_SKILLS_REFERENCES.md`.
 - Relevant inspiration: `supabase/agent-skills/supabase-postgres-best-practices`, `supabase/agent-skills/supabase` only when detected stack matches, `mattpocock/skills/tdd`.
 - Local schema/tests/docs win; do not assume Supabase.
+## skills.sh inspirations
+
+This skill folder absorbs selected practices from `skills.sh` while staying a single local skill folder for this agent. Do not split these inspirations into separate local skills here. Use curated notes in `references/skills-sh-curated.md` and adapt them through this lane's own contracts, boundaries, and evidence rules.

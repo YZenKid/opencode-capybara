@@ -26,4 +26,7 @@ Every skill should provide:
 - a clear workflow or usage contract,
 - allowed/forbidden posture where relevant,
 - evidence/output expectations when relevant,
-- failure or limitation handling when relevant.
+- failure or limitation handling when relevant,
+- source strategy: when to rely on repo evidence, official docs, upstream source/examples, browser/screenshots, or current web research,
+- anti-assumption posture: how to mark assumptions, when to ask, and when to stop instead of guessing,
+- grounded creativity posture for greenfield or taste-sensitive work: when to generate 2-3 bounded options and how to justify the chosen path.

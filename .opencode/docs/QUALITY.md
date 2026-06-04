@@ -31,6 +31,16 @@ Every material change must end with evidence, not just claims.
 
 If evidence is unavailable, write an explicit limitation note.
 
+## Reference trace minimum
+For material planning, implementation, review, or design claims, evidence should make the source basis legible:
+- key repo files or artifacts used,
+- authoritative docs/source URLs or identifiers when external behavior mattered,
+- reference screenshots/URLs when visual or UX choices mattered,
+- unresolved assumptions and why they were still necessary,
+- whether the final choice is reference-backed, repo-backed, or first-principles-driven.
+
+If no reliable source existed, say so explicitly and keep the claim level conservative.
+
 ## Replay bundle minimum
 - `task_id`
 - `timestamp`
@@ -96,6 +106,7 @@ For new app, MVP, SaaS/product build, blank repo, or major revamp work, evidence
 - selected mode: `Greenfield App Accelerator`;
 - product thesis and target user pain;
 - considered product/UX/architecture options plus tradeoff score or rationale;
+- key references, screenshots, docs, upstream examples, or first-principles basis for those options;
 - selected first vertical slice and why it is slice-safe;
 - journey-to-contract map: `user journey → data model → API/contracts → UI screens → tests`;
 - design readiness level (`MVP design enough`, `needs-polish`, `reference-ready`, or `blocked`);

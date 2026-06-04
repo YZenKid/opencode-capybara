@@ -1,10 +1,10 @@
 # Harness Eval Report
 
-- Timestamp: 2026-06-02T15:01:50.111Z
-- Harness version: e42a1b2c640ff133de4de019586bcc18e83b4be0
+- Timestamp: 2026-06-04T06:17:48.653Z
+- Harness version: 0f956e4d1f7b98990a606479e9e120538aab5e71
 - Task summary: Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.
 - Verdict: PASS
-- Fixture count: 25
+- Fixture count: 26
 - Failed: 0
 - Transcript fixture count: 13
 - Transcript average routing score: 3.54/5
@@ -59,6 +59,7 @@
   - capability-governance-negative
   - docs-system-of-record
   - evidence-verification-negative
+  - greenfield-maintenance-mode-routing
   - readonly-boundary-negative
   - runtime-plugin-removal
   - docs-policy-migration-roundtrip
@@ -81,6 +82,7 @@
   - routing-share-export-malformed-partial
   - routing-share-export-noisy-negative
 - Reason codes:
+  - unsupported-fixture-shape
   - final-output-raw-internal-passthrough
   - finish-first-premature-advisory-stop
   - routing-overreach-redundant-orchestrator-discovery
@@ -113,6 +115,10 @@
 - Status: PASS
 - Description: Negative fixture: plan verification evidence should explicitly record eval, harness check, and doctor commands.
 - .opencode/evidence/20260510-2140-harness-engineering-plan/verification.md: PASS
+## greenfield-maintenance-mode-routing
+- Status: SKIP
+- Description: Skipped non-text-rule fixture: greenfield-maintenance-mode-routing.json
+- scripts/evals/fixtures/greenfield-maintenance-mode-routing.json: SKIP (unsupported-fixture-shape)
 ## readonly-boundary-negative
 - Status: PASS
 - Description: Negative fixture: read-only reviewer agents should not regain write/patch permissions.

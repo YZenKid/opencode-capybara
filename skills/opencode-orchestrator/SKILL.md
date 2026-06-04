@@ -11,6 +11,14 @@ Canonical tool references:
 - `.opencode/docs/TOOL_USAGE.md` for when/why/how tool selection
 - `.opencode/docs/AGENT_TOOL_ACCESS.md` for available/preferred/permitted/fallback boundaries
 
+## Reference-first creativity contract
+- Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
+- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
+- If a reasonable source exists, use it or state why it was skipped.
+- For greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with explicit rationale.
+- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
+- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+
 ## Core routing
 
 Direct-work threshold (hard default):
@@ -46,9 +54,9 @@ Direct-work threshold (hard default):
 
 1. Is request tiny, reversible, and <=1 file with clear validation? Orchestrator may handle directly.
 2. Classify mode: Greenfield App Accelerator for new app/MVP/SaaS/product builds; Maintenance Stability Mode for bugfix/regression/refactor/dependency/small existing-app work.
-3. Is scope unclear or repo facts missing? Route `@explorer` for code facts; route `@librarian` for docs/API/source facts; route `@system-analyst` for requirements/flows/contracts.
+3. Is scope unclear or repo facts missing? Route `@explorer` for code facts; route `@librarian` for docs/API/source facts; route `@system-analyst` for requirements/flows/contracts. Also decide the source strategy early: repo, official docs, upstream source/examples, browser/screenshots, and current web evidence as needed.
 4. Does work need a durable plan, milestones, or evidence-heavy handoff? Route `@artifact-planner`; use `@project-manager` input for tickets/milestones.
-5. Is UX/visual direction, reference parity, motion direction, or design system unresolved? Route `@designer` before implementation.
+5. Is UX/visual direction, reference parity, motion direction, or design system unresolved? Route `@designer` before implementation. For greenfield or taste-sensitive work, expect 2-3 bounded options or an explicit reason to converge immediately.
 6. Is implementation clear and bounded?
    - general edits/tests/fixtures/refactor → `@fixer`
    - web UI/page/component work → `@frontend` when design exists; `@fixer` only for tiny UI fixes
@@ -95,7 +103,7 @@ Direct-work threshold (hard default):
    - Trivial, single-step, and easily reversible tasks may skip planner.
 3. Use local discovery before external docs when codebase patterns matter.
    - For multi-file/read-heavy discovery, do not keep discovery in orchestrator; route to `@explorer` and consume its output.
-4. Ask targeted questions for material ambiguity, but during active implementation prefer finish-first execution: resolve ambiguity via repo evidence, docs, and specialist subagents before interrupting the user.
+4. Ask targeted questions for material ambiguity, but during active implementation prefer finish-first execution: resolve ambiguity via repo evidence, docs, references, browser evidence, and specialist subagents before interrupting the user.
 5. Execute via the right specialist/tool path.
     - For implementation or plan execution requests, default to finishing as much work as safely possible before asking follow-up questions.
     - Treat phases, work packages, milestones, and plan gates as internal execution checkpoints, not approval checkpoints, unless the plan or user explicitly marks a `requires_user_decision` boundary.
@@ -194,3 +202,6 @@ Use same workflow for reference/current/final captures. Local resource notes: `r
 
 Include changed files, validation, evidence paths, and remaining risks. For implementation, include Red/Green/Refactor/Verification status.
 For substantial UI/reference work, final summaries must use a claim level: `draft`, `inspired by`, `style-equivalent`, or `close parity`; never imply close parity without evidence and designer approval.
+## skills.sh inspirations
+
+This skill folder absorbs selected practices from `skills.sh` while staying a single local skill folder for this agent. Do not split these inspirations into separate local skills here. Use curated notes in `references/skills-sh-curated.md` and adapt them through this lane's own contracts, boundaries, and evidence rules.

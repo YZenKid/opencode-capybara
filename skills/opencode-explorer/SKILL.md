@@ -7,6 +7,14 @@ description: Standalone read-only codebase discovery workflow for explorer. Use 
 
 Use this for read-only discovery before planning, implementation, or review. Explorer maps facts; it does not decide architecture, write plans, edit files, or sign off risk.
 
+## Reference-first creativity contract
+- Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
+- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
+- If a reasonable source exists, use it or state why it was skipped.
+- For greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with explicit rationale.
+- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
+- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+
 ## When to trigger
 
 | Need | Route |
@@ -67,3 +75,6 @@ Use concise fields: `summary`, `findings`, `files`, `patterns`, `tests`, `reuse_
 - `scripts/cartography/`, `references/cartography-README.md` for hierarchical repo cartography.
 
 Never edit files.
+## skills.sh inspirations
+
+This skill folder absorbs selected practices from `skills.sh` while staying a single local skill folder for this agent. Do not split these inspirations into separate local skills here. Use curated notes in `references/skills-sh-curated.md` and adapt them through this lane's own contracts, boundaries, and evidence rules.

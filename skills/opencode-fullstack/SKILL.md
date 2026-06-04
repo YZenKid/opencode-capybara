@@ -7,6 +7,14 @@ description: Senior narrow fullstack vertical-slice playbook for small tightly-c
 
 Use for small clear vertical slices spanning UI and API/data code where one agent can keep contract coherence. Detect actual frontend, backend, and data stacks from repo evidence first; local project conventions win; make no stack assumptions.
 
+## Reference-first creativity contract
+- Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
+- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
+- If a reasonable source exists, use it or state why it was skipped.
+- For greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with explicit rationale.
+- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
+- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+
 ## Trigger / skip
 - Trigger: tiny UI + endpoint change, form + validation + persistence, API contract test, integration regression, frontend route consuming backend data.
 - Skip: broad feature, unclear UX/API/data model, multi-service change, big migration, auth model redesign, devops/release work; split to domain lanes or `@architect`.
@@ -60,3 +68,6 @@ Return `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidenc
 - `.opencode/docs/SENIOR_SKILLS_REFERENCES.md`.
 - Relevant inspiration: framework/database best practices, TDD/diagnose references listed there, only when detected stack matches.
 - References guide checklists only; local docs/tests/contracts win.
+## skills.sh inspirations
+
+This skill folder absorbs selected practices from `skills.sh` while staying a single local skill folder for this agent. Do not split these inspirations into separate local skills here. Use curated notes in `references/skills-sh-curated.md` and adapt them through this lane's own contracts, boundaries, and evidence rules.

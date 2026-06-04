@@ -11,6 +11,14 @@ For canonical tool policy and boundaries, refer to:
 - `.opencode/docs/TOOL_USAGE.md`
 - `.opencode/docs/AGENT_TOOL_ACCESS.md`
 
+## Reference-first creativity contract
+- Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
+- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
+- If a reasonable source exists, use it or state why it was skipped.
+- For greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with explicit rationale.
+- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
+- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+
 ## Smart UI artifact workflow
 
 - Use an artifact-first design workflow that makes the agent behave like a senior product designer with a clear brief, design-system context, craft rules, and validation evidence.
@@ -25,6 +33,18 @@ For a fresh substantial design request, do not start with pixels or code when th
 
 Use an assumption-first path only when the missing details are reversible and low risk. Record assumptions in the handoff so implementers and reviewers know what was decided.
 
+### Required source pack for substantial work
+
+Before converging on a substantial UI/design direction, assemble and cite a source pack:
+
+- project `DESIGN.md` / `design-system/DESIGN.md` / repo-local style guidance,
+- current UI screenshots or current-state notes when editing an existing product,
+- reference screenshots/URLs when the user points to inspiration or parity,
+- component/token inventory and notable reusable patterns,
+- asset availability and image/legal constraints.
+
+If a source category is relevant but unavailable, record that explicitly and keep the resulting decision conservative.
+
 ## Quality bar
 
 - Pick a clear visual direction before coding or reviewing.
@@ -32,6 +52,8 @@ Use an assumption-first path only when the missing details are reversible and lo
 - Design typography, hierarchy, color, spacing, surfaces, motion, visual density, responsive behavior, and accessibility deliberately.
 - Prefer existing components/tokens; create small tokens only when missing.
 - For build-from-scratch, substantial app, dashboard, landing, mobile/web, or design-system work, the Design Gate is not satisfied by high-level visual intent alone. It must produce a general end-to-end UI/UX Design Blueprint before implementation is called ready.
+- For greenfield, revamp, or taste-sensitive work, do not settle on the first plausible design direction. Generate 2-3 bounded directions, section anatomies, or interaction approaches when that materially improves quality, then converge with explicit rationale.
+- Late polish is not a substitute for core design quality. If hierarchy, composition, density, imagery, or interaction model remain generic, return `needs-polish` or `blocked` instead of pretending the work is premium-ready.
 
 ## Open Design skill adaptation
 
@@ -139,12 +161,13 @@ If any required blueprint section is missing for substantial work, return `block
 
 ## Build/review workflow
 
-1. Inspect framework, styling, tokens, assets, components, and tests.
+1. Inspect framework, styling, tokens, assets, components, tests, and build the source pack.
 2. Define the full Design Readiness Gate blueprint for substantial work: experience direction, page map, section specs, component/visual systems, asset decisions, motion map, states, responsive rules, accessibility, and evidence plan.
-3. For substantial work, own motion direction/reduced-motion review directly and consume specialist handoffs from `@architect` as needed; final cross-cutting security/accessibility/visual-parity signoff is handled by `@quality-gate`.
-4. Implement/review section-by-section and component-by-component against the blueprint.
-5. Check accessibility: semantics, labels, focus-visible, alt text, touch targets, reduced motion.
-6. Validate with browser screenshots when runnable; for substantial UI/reference work, require reference/current/final captures and section-by-section comparison.
+3. When quality would benefit, generate 2-3 bounded directions or section strategies, compare them against the source pack, and record why one direction wins.
+4. For substantial work, own motion direction/reduced-motion review directly and consume specialist handoffs from `@architect` as needed; final cross-cutting security/accessibility/visual-parity signoff is handled by `@quality-gate`.
+5. Implement/review section-by-section and component-by-component against the blueprint.
+6. Check accessibility: semantics, labels, focus-visible, alt text, touch targets, reduced motion.
+7. Validate with browser screenshots when runnable; for substantial UI/reference work, require reference/current/final captures and section-by-section comparison.
 
 ## Artifact output contract
 
@@ -162,6 +185,11 @@ For substantial UI/reference/image-heavy work, return one of these statuses: `re
 - `needs-polish`: the structure is sound but the design still needs targeted refinement before implementation is called complete.
 
 Required deliverables for substantial work: experience direction, page-by-page UX blueprint, section-level visual spec matrix, component system plan, visual system, interaction/state design, responsive plan, accessibility gate notes, validation evidence plan, reference capture report when applicable, section anatomy table, motion storyboard, icon system matrix, visual density checklist, asset manifest, image generation decision, and final pass/fail comparison.
+
+Also include:
+- source pack summary,
+- chosen direction plus rejected alternatives when explored,
+- explicit note when the result is reference-backed versus first-principles-driven.
 
 ## Animation System Gate
 
@@ -234,3 +262,6 @@ Use wait-stabilize-scroll-settle for reference/current/final screenshots. Captur
 ## Output
 
 For reviews, provide concise findings with locations/sections. For implementation, include changed files, screenshots, validation commands, and remaining visual deltas.
+## skills.sh inspirations
+
+This skill folder absorbs selected practices from `skills.sh` while staying a single local skill folder for this agent. Do not split these inspirations into separate local skills here. Use curated notes in `references/skills-sh-curated.md` and adapt them through this lane's own contracts, boundaries, and evidence rules.

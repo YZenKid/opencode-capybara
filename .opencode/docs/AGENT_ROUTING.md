@@ -60,10 +60,10 @@ Use for bugfixes, regressions, refactors, dependency updates, small features in 
 - Ask only for material behavior, security, privacy, product, or irreversible decisions.
 
 ## Best Practice Readiness Contract
-Non-trivial work is not ready to implement until the handoff identifies the mode, goal, non-goals, constraints, acceptance criteria, owner/lane, validation path, evidence path, and blocker class. Fresh app/product work must also identify material product, data, auth, payment, privacy, RBAC, platform, UI, and release decisions as answered, deferred, slice-safe, or blocked.
+Non-trivial work is not ready to implement until the handoff identifies the mode, goal, non-goals, constraints, acceptance criteria, owner/lane, validation path, evidence path, blocker class, and source strategy. Fresh app/product work must also identify material product, data, auth, payment, privacy, RBAC, platform, UI, and release decisions as answered, deferred, slice-safe, or blocked.
 
 ## Creative Depth Contract
-For Greenfield App Accelerator work, plans must include: product thesis and target pain; 2-3 viable product/UX approaches before choosing one; architecture options with tradeoff scoring; first vertical slice options and chosen-slice rationale; `user journey → data model → API/contracts → UI screens → tests` mapping; design readiness summary; differentiation ideas bounded by MVP scope; and readiness status (`draft`, `blocked`, `ready-for-slice`, or `ready-for-implementation`). Plans missing this contract are not execution-ready.
+For Greenfield App Accelerator work, plans must include: product thesis and target pain; 2-3 viable product/UX approaches before choosing one; architecture options with tradeoff scoring; first vertical slice options and chosen-slice rationale; `user journey → data model → API/contracts → UI screens → tests` mapping; design readiness summary; differentiation ideas bounded by MVP scope; reference pack or explicit first-principles rationale for major choices; and readiness status (`draft`, `blocked`, `ready-for-slice`, or `ready-for-implementation`). Plans missing this contract are not execution-ready.
 
 ## Plan Quality Gate
 Before `@orchestrator` executes a non-trivial plan, classify readiness:
@@ -74,6 +74,27 @@ Before `@orchestrator` executes a non-trivial plan, classify readiness:
 - `BLOCKED`: material decision missing and no safe slice exists.
 
 Only `PASS` and `PASS_FOR_SLICE` may proceed to implementation. `NEEDS_DEPTH` goes back to planner/advisory lanes. `BLOCKED` asks the user or waits for required access/decision.
+
+## Reference-first execution contract
+Before planning, routing, implementation, or review on non-trivial work, explicitly decide which evidence sources are required:
+- local repo evidence,
+- official docs/versioned API references,
+- upstream source/examples/issues,
+- browser/screenshots/reference URLs,
+- current web research.
+
+Rules:
+- If a reasonable source exists for a material claim or decision, use it or state why it was skipped.
+- Do not present assumptions as facts.
+- Record assumptions as `assumed`, `source-missing`, or `user-approved` in evidence/handoff notes.
+- When references and repo/runtime evidence conflict, surface the conflict and prefer the most authoritative/current source rather than following the checklist mechanically.
+
+## Adaptive creativity contract
+Creativity is required for greenfield, ambiguous, or taste-sensitive work, but it must be grounded.
+- Generate 2-3 bounded product/UX/architecture/design options when doing so materially improves quality.
+- Score or compare options using references, constraints, and risks before converging.
+- Do not confuse creativity with inventing APIs, product requirements, assets, or technical facts.
+- If no reliable reference exists, say the output is first-principles-driven and keep the decision reversible.
 
 ## Direct-work thresholds for `@orchestrator`
 `@orchestrator` is a router/integrator first, not the default worker. Direct execution is allowed only for tiny tasks.
