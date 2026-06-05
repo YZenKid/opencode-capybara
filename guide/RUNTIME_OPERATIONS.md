@@ -27,9 +27,12 @@ node ~/.config/opencode/scripts/runtime/cli.mjs lease-status --project-root /pat
 node ~/.config/opencode/scripts/runtime/cli.mjs lease-cleanup --project-root /path/to/other-repo --run-id run-1 --worker-name backend-1 --force
 node ~/.config/opencode/scripts/runtime/cli.mjs lease-sweep --project-root /path/to/other-repo --run-id run-1 --force
 node ~/.config/opencode/scripts/runtime/cli.mjs diagnostics --project-root /path/to/other-repo --run-id run-1
+node ~/.config/opencode/scripts/runtime/cli.mjs diagnostics-snapshot --project-root /path/to/other-repo --run-id run-1 --snapshot-id snap-1
+node ~/.config/opencode/scripts/runtime/cli.mjs dashboard-export --project-root /path/to/other-repo --run-id run-1 --snapshot-id dash-1
 node ~/.config/opencode/scripts/runtime/cli.mjs tail-session-start --project-root /path/to/other-repo --run-id run-1 --execution-id exec-1 --session-id tail-1
 node ~/.config/opencode/scripts/runtime/cli.mjs tail-session-status --project-root /path/to/other-repo --run-id run-1 --session-id tail-1
 node ~/.config/opencode/scripts/runtime/cli.mjs tail-session-stop --project-root /path/to/other-repo --run-id run-1 --session-id tail-1
+node ~/.config/opencode/scripts/runtime/cli.mjs tail-session-gc --project-root /path/to/other-repo --run-id run-1 --max-age-ms 3600000 --include-stopped
 node ~/.config/opencode/scripts/runtime/cli.mjs supervise --project-root /path/to/other-repo --run-id run-1 --max-retries 3 --retry-base-ms 1000 --retry-multiplier 2 --retry-jitter-ratio 0.15 --renew-heartbeats
 ```
 
@@ -50,5 +53,8 @@ node ~/.config/opencode/scripts/runtime/cli.mjs supervise --project-root /path/t
 - supervisor bisa auto-renew heartbeat lease saat loop/tick berjalan
 - lease sweeper bisa membersihkan semua worker stale sekaligus
 - diagnostics report menggabungkan board + lease status dalam satu output
+- diagnostics snapshots bisa diarsipkan per run untuk audit/replay ringan
+- dashboard export menulis artifact text + HTML ke state run
+- tail session garbage collector bisa membersihkan sesi usang / stopped
 - board watch mode tetap bounded, bukan daemon permanen
 - runtime state ada di `.opencode/state/`, jadi source repo lain tetap terpisah dari file runtime

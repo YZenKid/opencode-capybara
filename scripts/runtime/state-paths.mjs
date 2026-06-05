@@ -116,3 +116,23 @@ export function tailSessionsRoot(projectRoot, runId) {
 export function tailSessionFile(projectRoot, runId, sessionId) {
   return join(tailSessionsRoot(projectRoot, runId), `${sessionId}.json`);
 }
+
+export function diagnosticsHistoryRoot(projectRoot, runId) {
+  return join(runDir(projectRoot, runId), "diagnostics-history");
+}
+
+export function diagnosticsSnapshotFile(projectRoot, runId, snapshotId) {
+  return join(diagnosticsHistoryRoot(projectRoot, runId), `${snapshotId}.json`);
+}
+
+export function dashboardRoot(projectRoot, runId) {
+  return join(runDir(projectRoot, runId), "dashboard");
+}
+
+export function dashboardTextFile(projectRoot, runId) {
+  return join(dashboardRoot(projectRoot, runId), "dashboard.txt");
+}
+
+export function dashboardHtmlFile(projectRoot, runId) {
+  return join(dashboardRoot(projectRoot, runId), "dashboard.html");
+}

@@ -1,9 +1,13 @@
+import { writeFileSync } from "node:fs";
+import { dirname } from "node:path";
+import { dashboardHtmlFile, dashboardTextFile, diagnosticsSnapshotFile } from "./state-paths.mjs";
 import { computeRunProgress } from "./verification-loop.mjs";
 import { getRun } from "./run-store.mjs";
 import { listTasks } from "./task-store.mjs";
 import { summarizeMailbox } from "./mailbox-store.mjs";
 import { listWorkerExecutions } from "./executor.mjs";
 import { listRunLeases } from "./locks.mjs";
+import { ensureDir, writeJsonAtomic } from "./state-io.mjs";
 
 function computeNextTasks(tasks = []) {
   const byId = new Map(tasks.map((task) => [task.task_id, task]));
@@ -17,6 +21,13 @@ function executionCounts(executions = []) {
     counts[key] = (counts[key] ?? 0) + 1;
   }
   return counts;
+}
+
+function escapeHtml(text = "") {
+  return String(text)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
 }
 
 export function renderRunBoard({ run, tasks = [], mailbox_summary = { pending: 0, acked: 0, workers: [] }, execution_counts = {}, next_tasks = [] }) {
@@ -70,14 +81,40 @@ export function buildRuntimeDiagnosticsReport(projectRoot, runId) {
   const board = buildRuntimeBoardSummary(projectRoot, runId);
   const leases = listRunLeases(projectRoot, runId);
   const leaseLines = leases.length === 0
-    ? ['lease summary: none']
+    ? ["lease summary: none"]
     : [
-        'lease summary:',
-        ...leases.map((lease) => `- ${lease.worker}: owner=${lease.lock?.owner ?? 'unknown'} expires=${lease.lock?.expires_at_ms ?? 'unknown'} heartbeat=${lease.lock?.heartbeat_count ?? 0}`),
+        "lease summary:",
+        ...leases.map((lease) => `- ${lease.worker}: owner=${lease.lock?.owner ?? "unknown"} expires=${lease.lock?.expires_at_ms ?? "unknown"} heartbeat=${lease.lock?.heartbeat_count ?? 0}`),
       ];
   return {
     ...board,
     leases,
-    text: `${board.board}\n\n${leaseLines.join('\n')}`,
+    text: `${board.board}\n\n${leaseLines.join("\n")}`,
+  };
+}
+
+export function writeDiagnosticsSnapshot(projectRoot, runId, { snapshot_id } = {}) {
+  const report = buildRuntimeDiagnosticsReport(projectRoot, runId);
+  const snapshot = {
+    snapshot_id: snapshot_id ?? `snapshot-${Date.now()}`,
+    created_at: new Date().toISOString(),
+    ...report,
+  };
+  writeJsonAtomic(diagnosticsSnapshotFile(projectRoot, runId, snapshot.snapshot_id), snapshot);
+  return snapshot;
+}
+
+export function exportRuntimeDashboard(projectRoot, runId, { snapshot_id } = {}) {
+  const snapshot = writeDiagnosticsSnapshot(projectRoot, runId, { snapshot_id });
+  const textPath = dashboardTextFile(projectRoot, runId);
+  const htmlPath = dashboardHtmlFile(projectRoot, runId);
+  ensureDir(dirname(textPath));
+  ensureDir(dirname(htmlPath));
+  writeFileSync(textPath, `${snapshot.text}\n`, "utf8");
+  writeFileSync(htmlPath, `<!doctype html><html><head><meta charset="utf-8"><title>Runtime Dashboard ${escapeHtml(runId)}</title></head><body><h1>Runtime Dashboard ${escapeHtml(runId)}</h1><pre>${escapeHtml(snapshot.text)}</pre></body></html>`, "utf8");
+  return {
+    snapshot,
+    text_path: textPath,
+    html_path: htmlPath,
   };
 }

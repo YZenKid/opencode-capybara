@@ -1,14 +1,14 @@
 #!/usr/bin/env node
-import { buildRuntimeBoardSummary, buildRuntimeDiagnosticsReport } from "./board.mjs";
+import { buildRuntimeBoardSummary, buildRuntimeDiagnosticsReport, exportRuntimeDashboard, writeDiagnosticsSnapshot } from "./board.mjs";
 import { continueRun, getRunStatusView } from "./continue-run.mjs";
 import { dispatchWorkerTask, executeDispatchedTask } from "./dispatcher.mjs";
 import { prepareWorkerExecution } from "./executor.mjs";
 import { cleanupStaleLease, readLeaseLock, renewLockHeartbeat, sweepRunLeases } from "./locks.mjs";
 import { consumeWorkerMailbox, followExecutionLog, followExecutionLogLive, pollRunExecutions, retryFailedTask, tailExecutionLog } from "./ops-loop.mjs";
 import { createRun } from "./run-store.mjs";
-import { tailSessionFile, workerLeaseLockFile } from "./state-paths.mjs";
+import { workerLeaseLockFile } from "./state-paths.mjs";
 import { supervisorLoop, supervisorTick, watchBoard } from "./supervisor.mjs";
-import { createTailSession, getTailSession, pollTailSession, stopTailSession } from "./tail-sessions.mjs";
+import { collectTailSessions, createTailSession, pollTailSession, stopTailSession } from "./tail-sessions.mjs";
 
 function parseArgs(argv) {
   const flags = {};
@@ -173,6 +173,24 @@ async function resultFor(command, projectRoot, flags) {
         diagnostics: buildRuntimeDiagnosticsReport(projectRoot, requireFlag(flags, "run_id")),
       };
     }
+    case "diagnostics-snapshot": {
+      return {
+        ok: true,
+        command,
+        snapshot: writeDiagnosticsSnapshot(projectRoot, requireFlag(flags, "run_id"), {
+          snapshot_id: flags.snapshot_id,
+        }),
+      };
+    }
+    case "dashboard-export": {
+      return {
+        ok: true,
+        command,
+        dashboard: exportRuntimeDashboard(projectRoot, requireFlag(flags, "run_id"), {
+          snapshot_id: flags.snapshot_id,
+        }),
+      };
+    }
     case "tail-session-start": {
       const runId = requireFlag(flags, "run_id");
       return {
@@ -199,6 +217,17 @@ async function resultFor(command, projectRoot, flags) {
         ok: true,
         command,
         session: stopTailSession(projectRoot, runId, requireFlag(flags, "session_id")),
+      };
+    }
+    case "tail-session-gc": {
+      const runId = requireFlag(flags, "run_id");
+      return {
+        ok: true,
+        command,
+        gc: collectTailSessions(projectRoot, runId, {
+          max_age_ms: asInt(flags.max_age_ms, 3600000),
+          include_stopped: flags.include_stopped === true,
+        }),
       };
     }
     case "tail": {

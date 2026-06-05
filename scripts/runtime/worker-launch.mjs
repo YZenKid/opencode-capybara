@@ -1,12 +1,24 @@
 import { pickDefaultBackend, validateWorkerSpec } from "./worker-contracts.mjs";
 
+function resolveOpencodeBinary() {
+  return process.env.OPENCHAMBER_OPENCODE_PATH || process.env.OPENCODE_RUNTIME_BIN || "opencode";
+}
+
+function maybeAttachArgs(spec) {
+  const attachUrl = spec.attach_url ?? process.env.OPENCODE_ATTACH_URL ?? null;
+  if (!attachUrl) return [];
+  return ["--attach", attachUrl, "--dir", spec.project_root];
+}
+
 function buildBackendCommand(spec, backend) {
   const prompt = spec.prompt;
+  const opencodeBin = resolveOpencodeBinary();
+  const attachArgs = maybeAttachArgs(spec);
   switch (backend) {
     case "opencode-subagent":
-      return { command: "opencode", args: ["run", "--agent", spec.lane, prompt] };
+      return { command: opencodeBin, args: ["run", ...attachArgs, "--agent", spec.lane, prompt] };
     case "opencode-session":
-      return { command: "opencode", args: ["--agent", spec.lane] };
+      return { command: opencodeBin, args: [...attachArgs, "--agent", spec.lane] };
     case "external-cli-codex":
       return { command: "codex", args: [prompt] };
     case "external-cli-claude":
@@ -42,6 +54,7 @@ export function buildWorkerLaunchPlan(spec = {}) {
       worktree_path: spec.worktree_path ?? null,
       worktree_branch: spec.worktree_branch ?? null,
       worktree_repo_root: spec.project_root,
+      attach_url: spec.attach_url ?? process.env.OPENCODE_ATTACH_URL ?? null,
     },
   };
 }

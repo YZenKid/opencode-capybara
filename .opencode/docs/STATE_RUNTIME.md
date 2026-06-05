@@ -46,9 +46,12 @@ Add first-class runtime primitives without pretending to modify OpenCode core in
 - `node scripts/runtime/cli.mjs lease-cleanup --run-id <id> --worker-name <worker> --force`
 - `node scripts/runtime/cli.mjs lease-sweep --run-id <id> --force`
 - `node scripts/runtime/cli.mjs diagnostics --run-id <id>`
+- `node scripts/runtime/cli.mjs diagnostics-snapshot --run-id <id> --snapshot-id snap-1`
+- `node scripts/runtime/cli.mjs dashboard-export --run-id <id> --snapshot-id dash-1`
 - `node scripts/runtime/cli.mjs tail-session-start --run-id <id> --execution-id <id> --session-id tail-1`
 - `node scripts/runtime/cli.mjs tail-session-status --run-id <id> --session-id tail-1`
 - `node scripts/runtime/cli.mjs tail-session-stop --run-id <id> --session-id tail-1`
+- `node scripts/runtime/cli.mjs tail-session-gc --run-id <id> --max-age-ms 3600000 --include-stopped`
 - `node scripts/runtime/cli.mjs board --run-id <id> --watch --ticks 5 --interval-ms 250`
 
 ## Minimum statuses
@@ -75,3 +78,6 @@ For material autonomous execution, final evidence should preserve:
 - validation outputs,
 - residual blocked or failed items,
 - worktree preservation notes when relevant.
+
+- Diagnostics history snapshots live under `.opencode/state/runs/<run-id>/diagnostics-history/`.
+- Dashboard export writes `.opencode/state/runs/<run-id>/dashboard/dashboard.txt` and `.html`.

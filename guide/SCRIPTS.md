@@ -38,14 +38,18 @@
 | `npm run runtime:lease-cleanup -- --run-id <id> --worker-name <worker> --force` | Bersihkan lease stale / paksa cleanup | Saat lock yatim menghalangi consumer |
 | `npm run runtime:lease-sweep -- --run-id <id> --force` | Sweep lease untuk semua worker pada run | Saat ingin bersihkan stale lock massal |
 | `npm run runtime:diagnostics -- --run-id <id>` | Tampilkan board + lease report gabungan | Saat butuh ringkasan operator penuh |
+| `npm run runtime:diagnostics-snapshot -- --run-id <id> --snapshot-id snap-1` | Simpan snapshot diagnostics ke history run | Saat perlu jejak audit ringan |
+| `npm run runtime:dashboard-export -- --run-id <id> --snapshot-id dash-1` | Export dashboard text + HTML | Saat perlu artifact shareable/operator report |
 | `npm run runtime:tail-session-start -- --run-id <id> --execution-id <id> --session-id tail-1` | Mulai sesi tail persisten | Saat ingin polling tail lintas command |
 | `npm run runtime:tail-session-status -- --run-id <id> --session-id tail-1` | Poll status sesi tail persisten | Saat lanjut memantau sesi tail |
 | `npm run runtime:tail-session-stop -- --run-id <id> --session-id tail-1` | Hentikan sesi tail persisten | Saat sesi tail tidak dibutuhkan lagi |
+| `npm run runtime:tail-session-gc -- --run-id <id> --max-age-ms 3600000 --include-stopped` | Bersihkan sesi tail usang/stopped | Saat state session mulai menumpuk |
 | `npm run runtime:supervise -- --run-id <id> --max-retries 3` | Jalankan supervisor tick/loop bounded | Saat ingin auto poll/consume/retry tanpa daemon |
 | `npm run test:runtime-phase7` | Validasi tail/watch/leases/backoff dan generic temp-repo flow | Setelah ubah runtime operator layer |
 | `npm run test:runtime-phase8` | Validasi tail follow, heartbeat, jitter, dan generic temp-repo flow | Setelah ubah follow/lease/backoff layer |
 | `npm run test:runtime-phase9` | Validasi live follow, auto-heartbeat renewal, lease diagnostics/cleanup, dan generic temp-repo flow | Setelah ubah lease/live-follow layer |
 | `npm run test:runtime-phase10` | Validasi tail session manager, lease sweeper, diagnostics report, dan generic temp-repo flow | Setelah ubah operator aggregation layer |
+| `npm run test:runtime-phase11` | Validasi diagnostics history, dashboard export, tail session GC, dan generic temp-repo flow | Setelah ubah reporting/cleanup layer |
 
 ## Validasi dan quality checks
 

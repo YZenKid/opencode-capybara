@@ -27,7 +27,7 @@
     "sync:openchamber:seed": "node scripts/sync-openchamber-settings.mjs --seed-approved-directories",
     "sync:openchamber:seed:check": "node scripts/sync-openchamber-settings.mjs --check --seed-approved-directories",
     "compare:openchamber-models": "node scripts/compare-openchamber-models.mjs",
-    "test:runtime-foundation": "node scripts/tests/runtime-state.test.mjs && node scripts/tests/runtime-task-queue.test.mjs && node scripts/tests/runtime-mailbox.test.mjs && node scripts/tests/runtime-worktree.test.mjs && node scripts/tests/runtime-verification-loop.test.mjs && node scripts/tests/runtime-worker-adapters.test.mjs && node scripts/tests/runtime-cli.test.mjs && node scripts/tests/runtime-dispatcher.test.mjs && node scripts/tests/runtime-ops.test.mjs && node scripts/tests/runtime-supervisor.test.mjs && node scripts/tests/runtime-cli-ops.test.mjs && node scripts/tests/runtime-phase7.test.mjs && node scripts/tests/runtime-phase8.test.mjs && node scripts/tests/runtime-phase9.test.mjs && node scripts/tests/runtime-phase10.test.mjs",
+    "test:runtime-foundation": "node scripts/tests/runtime-state.test.mjs && node scripts/tests/runtime-task-queue.test.mjs && node scripts/tests/runtime-mailbox.test.mjs && node scripts/tests/runtime-worktree.test.mjs && node scripts/tests/runtime-verification-loop.test.mjs && node scripts/tests/runtime-worker-adapters.test.mjs && node scripts/tests/runtime-cli.test.mjs && node scripts/tests/runtime-dispatcher.test.mjs && node scripts/tests/runtime-ops.test.mjs && node scripts/tests/runtime-supervisor.test.mjs && node scripts/tests/runtime-cli-ops.test.mjs && node scripts/tests/runtime-phase7.test.mjs && node scripts/tests/runtime-phase8.test.mjs && node scripts/tests/runtime-phase9.test.mjs && node scripts/tests/runtime-phase10.test.mjs && node scripts/tests/runtime-phase11.test.mjs",
     "test:runtime-cli": "node scripts/tests/runtime-cli.test.mjs && node scripts/tests/runtime-dispatcher.test.mjs",
     "test:runtime-ops": "node scripts/tests/runtime-ops.test.mjs",
     "test:runtime-supervisor": "node scripts/tests/runtime-supervisor.test.mjs",
@@ -50,10 +50,15 @@
     "runtime:tail-session-status": "node scripts/runtime/cli.mjs tail-session-status",
     "runtime:tail-session-stop": "node scripts/runtime/cli.mjs tail-session-stop",
     "runtime:lease-sweep": "node scripts/runtime/cli.mjs lease-sweep",
-    "runtime:diagnostics": "node scripts/runtime/cli.mjs diagnostics"
+    "runtime:diagnostics": "node scripts/runtime/cli.mjs diagnostics",
+    "test:runtime-phase11": "node scripts/tests/runtime-phase11.test.mjs",
+    "runtime:diagnostics-snapshot": "node scripts/runtime/cli.mjs diagnostics-snapshot",
+    "runtime:dashboard-export": "node scripts/runtime/cli.mjs dashboard-export",
+    "runtime:tail-session-gc": "node scripts/runtime/cli.mjs tail-session-gc"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
+    "@opencode-ai/plugin": "1.15.10",
     "openai": "^6.35.0",
     "sharp": "^0.34.5",
     "zod": "^4.4.1"
