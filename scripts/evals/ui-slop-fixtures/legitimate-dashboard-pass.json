@@ -1,0 +1,9 @@
+{
+  "id": "legitimate-dashboard-pass",
+  "description": "Good fixture: dashboard with real labels, states, accessibility, and source framing.",
+  "requestedAesthetic": "operational dashboard",
+  "surface": "dashboard",
+  "expectedStatus": "PASS",
+  "expectedReasonCodes": [],
+  "html": "<main><h1>Clinic intake dashboard</h1><p>Metrics reflect selected date range from synced appointment records.</p><section aria-label='Intake status'><article><h2>Queued cases</h2><p>12 from today's appointments</p></article><article><h2>Awaiting owner reply</h2><p>3 messages need follow-up</p></article><article><h2>Completed triage</h2><p>8 cases closed by care team</p></article></section><section aria-label='Empty state'><p>No emergency escalations in current filter.</p></section></main>"
+}

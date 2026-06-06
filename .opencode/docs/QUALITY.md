@@ -9,6 +9,8 @@
 ## Evidence contract
 Every material change must end with evidence, not just claims.
 
+Canonical task evidence path: `.opencode/evidence/<task-id>/`.
+
 ### Final summary template
 ```md
 ## Summary
@@ -30,6 +32,93 @@ Every material change must end with evidence, not just claims.
 ```
 
 If evidence is unavailable, write an explicit limitation note.
+
+## Plan compliance and diff-boundary evidence
+
+For non-trivial plan-bound work, verification evidence must include a Plan Compliance Checkpoint before any completion claim:
+- plan path and task id;
+- Plan Quality Gate value (`PASS` or `PASS_FOR_SLICE`); if `PASS_FOR_SLICE`, final claim must be slice-scoped only;
+- Execution Source of Truth conflicts and chosen resolution, or explicit `none`;
+- Non-negotiable Implementation Invariants preserved;
+- Do Not / Reject If checks passed or remediated;
+- worklist task status, including per-task exit criteria, `must_preserve`, `do_not_touch`, `evidence_update`, and `exit_verification` where present;
+- validation commands/results;
+- evidence paths updated;
+- quality-gate status and remediation/risk worklist status.
+
+Diff Boundary result evidence must list allowed file groups from the plan, actual changed files, generated-report exceptions, and out-of-boundary changes. Out-of-boundary changes require either revert or rationale in verification evidence before final quality gate.
+
+Quality gate non-`PASS` results must become Persistent remediation evidence before final user-facing completion claim. Copy remediation/risk items into `.opencode/evidence/<task-id>/verification.md` or a plan appendix, execute non-blocked required items, rerun targeted validation, then rerun `@quality-gate` when pursuing a full completion claim.
+
+## Quality gate remediation worklist contract
+
+`@quality-gate` is read-only. It must not edit files, fix issues, apply patches, commit, or execute remediation. When status is `NEEDS_FIX`, `BLOCKED`, or `PASS_WITH_RISKS`, it must return a structured remediation worklist that `@orchestrator` can copy into plan/evidence and execute through the correct lane.
+
+Each remediation item must use this shape:
+
+```md
+### Remediation item
+- finding: ...
+- blocker_or_risk_class: hard_stop | soft_blocker | required_before_PASS | non_blocking_follow_up
+- owner_lane: @orchestrator | @fixer | @designer | @frontend | @backend | @mobile | @devops | @librarian | user | other named lane
+- action: ...
+- validation: ...
+- exit_criteria: ...
+- requires_user_decision: yes | no
+```
+
+For `PASS_WITH_RISKS`, split work into:
+- `Required Before PASS`: items needed to upgrade to full `PASS`.
+- `Recommended Follow-ups`: non-blocking follow-ups that can remain residual risk.
+
+`@orchestrator` must transform non-`PASS` quality-gate output into plan/evidence sections named `Quality Gate Remediation` and/or `Risk Worklist`, execute every non-blocked item finish-first when `requires_user_decision: no`, rerun targeted validation, and rerun `@quality-gate`. Stop and ask only for `hard_stop` or `requires_user_decision: yes`.
+
+### Quality Gate Remediation / Risk Worklist section template
+
+```md
+## Quality Gate Remediation
+- Gate status: NEEDS_FIX | BLOCKED | PASS_WITH_RISKS
+- Gate evidence reviewed: ...
+
+### Worklist
+1. finding: ...
+   blocker_or_risk_class: ...
+   owner_lane: ...
+   action: ...
+   validation: ...
+   exit_criteria: ...
+   requires_user_decision: yes | no
+   execution_status: pending | in_progress | done | blocked | deferred_follow_up
+
+## Risk Worklist
+- Required Before PASS: ...
+- Recommended Follow-ups: ...
+
+## Remediation Validation
+- Command/check: ...
+- Result: ...
+- Rerun quality gate result: ...
+```
+
+## Evidence retention categories
+
+Use retention categories in task evidence and manifests so cleanup does not destroy gate-critical proof:
+
+- `keep`: concise artifacts that must remain for replay, audit, or future maintenance. Examples: `discovery.md`, `verification.md`, `index.json`, final screenshots that prove visual state, command summaries, and gate verdicts.
+- `summarize-and-delete`: bulky or noisy raw outputs after their key facts are copied into `discovery.md` or `verification.md`. Examples: long logs, exploratory scratch files, temporary browser traces, duplicate screenshots, and generated debug dumps.
+- `never-delete-until-gate`: artifacts required to complete review or final conformance. Examples: failing repro evidence, before/after screenshots for UI work, security/privacy review notes, raw validation logs for failing/flaky commands, and quality-gate input bundles.
+
+Do not delete `never-delete-until-gate` evidence until `@quality-gate` has recorded a verdict. After gate, either move it to `keep` if needed for replay or summarize it before deletion.
+
+## Exemplar bundle expectations
+
+Curated exemplar bundles should live under `.opencode/plans/` and `.opencode/evidence/<task-id>/` and include:
+- plan artifact with goal, scope/mode, validation commands, evidence requirements, and final planning summary;
+- `discovery.md` with source basis, mode, routing decision, and assumptions/deferred decisions;
+- `verification.md` with validation commands/results and quality-gate decision or simulated exemplar verdict;
+- `index.json` with `task_id`, `plan_file`, `evidence_dir`, `required_files`, `validation_commands`, retention notes, and final verdict.
+
+Each manifest `required_files` must include `discovery.md` and `verification.md`.
 
 ## Reference trace minimum
 For material planning, implementation, review, or design claims, evidence should make the source basis legible:
@@ -105,6 +194,7 @@ Only `PASS` and `PASS_FOR_SLICE` can proceed to implementation.
 
 ## Greenfield evidence minimum
 For new app, MVP, SaaS/product build, blank repo, or major revamp work, evidence must include:
+- starter matrix from [GREENFIELD_STARTER.md](./GREENFIELD_STARTER.md) with `answered`, `deferred`, `slice-safe`, or `blocked` state for material decisions;
 - selected mode: `Greenfield App Accelerator`;
 - product thesis and target user pain;
 - considered product/UX/architecture options plus tradeoff score or rationale;
@@ -123,6 +213,47 @@ For bugfix, regression, refactor, dependency update, small feature, or incident 
 - any behavior/security/product decision that was asked, assumed, or deferred.
 
 Maintenance work should not be forced through greenfield product thesis or creative alternatives unless the bug itself requires a product/UX decision.
+
+## Style fidelity and mechanical UI failure rules
+
+For substantial UI, explicit aesthetic requests are requirements, not optional taste. Evidence must include a Requested Aesthetic Fidelity Gate result when user asks for a style family such as `claymorphism`, `glassmorphism`, brutalism, luxury dark, cozy, editorial, playful, or similar.
+
+Required style evidence:
+- Material Grammar Translation: user phrase -> tokens -> surfaces -> layout rules -> reject_if.
+- Source basis: `DESIGN.md`, designer blueprint, reference screenshots/URLs, current UI evidence, or first-principles rationale.
+- Final evidence: screenshots/designer signoff or lowered claim (`draft`, `needs-polish`, `blocked`).
+
+Mechanical UI failure rules for substantial UI:
+- Explicit requested aesthetic mismatch = `NEEDS_FIX`, not pure taste.
+- Card Spam / Layout Repetition Gate: repeated card/grid anatomy across sections without purpose-specific hierarchy is `NEEDS_FIX` or `needs-polish`.
+- User-facing Copy Gate: debug/internal copy, port numbers, server labels, framework jargon, implementation notes, lorem, or review/status labels in user-facing UI are blockers unless the audience is explicitly technical and rationale is recorded.
+- Fake Metric / Debug Artifact Gate: arbitrary KPI numbers, fake dashboard metrics, demo counters, fake controls, placeholder charts, and local dev artifacts are blockers unless clearly demo/dev and labeled.
+- Hero Composition Gate: placeholder/abstract hero, floating cards, generic blobs, CSS glass panels, or style-only filler are `NEEDS_FIX` when imagery/product/domain composition matters.
+
+Tiny UI polish remains lightweight: if the task is reversible and does not change material visual direction, record existing design basis and skip full grammar.
+
+## UI Slop Evaluation Harness contract
+
+`npm run eval:ui-slop` runs deterministic fixture-based UI slop evaluation and writes replayable reports to `.opencode/evidence/ui-slop/latest/report.json` and `.opencode/evidence/ui-slop/latest/report.md`.
+
+`npm run check:ui-slop` enforces fixture `expectedStatus` and `expectedReasonCodes`. Expected failing fixtures pass the check only when expected remediation-oriented reason codes are detected. This check is wired into `check:harness:strict` only; normal `check:harness` intentionally stays lighter.
+
+Fixture source path: `scripts/evals/ui-slop-fixtures/`. Each fixture records `id`, `requestedAesthetic`, `surface`, `expectedStatus`, `expectedReasonCodes`, and `html`.
+
+Reason codes preserved by the harness:
+- `requested-aesthetic-mismatch`
+- `material-grammar-missing`
+- `card-spam-repetition`
+- `generic-neon-glass-overuse`
+- `fake-metric`
+- `debug-copy-user-facing`
+- `abstract-hero-filler`
+- `placeholder-visual`
+- `missing-state-evidence`
+- `missing-accessibility-evidence`
+- `missing-screenshot-evidence-for-visual-claim`
+
+Every finding must include `reason_code`, `severity`, `category`, `remediation`, and fixture/source id. Treat this harness as baseline deterministic evidence, not a complete visual proof. Browser, screenshot, computed-style, contrast, and visual-diff analysis remain follow-up evidence when visual completion claims are material.
 
 ## Minimal atomic migration rule
 Changes that move policy between `AGENTS.md`, `README.md`, `.opencode/docs/`, and scripts must land together with the related gate/doctor updates.

@@ -29,8 +29,25 @@ Mode-aware check: for Greenfield App Accelerator, verify Plan Quality Gate statu
 5. **Security and supply-chain review** — inspect secrets, `.env`, permission widening, auth/path drift, dependency risk, unsafe patterns, and security/privacy posture (PII, session/token, tenant isolation, payment/upload boundaries).
 6. **Tests/TDD evidence** — judge whether test evidence is sufficient, including regression, unit/integration/e2e coverage, and the rationale when no relevant tests exist.
 7. **Source trace gate** — for material factual, product, visual, and technical claims, verify whether they are repo-backed, reference-backed, docs-backed, runtime-backed, or explicitly first-principles-driven. Unsupported certainty is a finding.
-8. **UI/release gate** — if the change is UI/substantial visual, require designer signoff, accessibility evidence (semantics/focus/labels/contrast/motion), and visual parity evidence before strong parity claims; if it is release/config/runtime work, check deploy risk and rollback readiness.
-9. **Final call** — return a deterministic status.
+8. **Generator-first conformance** — for new framework artifacts, verify official CLI/scaffold/generator/MCP was used when available, or fallback evidence exists.
+9. **UI/release gate** — if the change is UI/substantial visual, require designer signoff, accessibility evidence (semantics/focus/labels/contrast/motion), and visual parity evidence before strong parity claims; if it is release/config/runtime work, check deploy risk and rollback readiness.
+10. **Final call** — return a deterministic status.
+
+## Remediation worklist contract
+
+For any status other than `PASS` (`NEEDS_FIX`, `BLOCKED`, or `PASS_WITH_RISKS`), include a structured remediation worklist. Quality gate stays read-only: prescribe fixes and validation, but do not edit, autofix, patch, commit, or execute remediation.
+
+Each remediation item must include:
+
+- `finding`: concise issue tied to evidence.
+- `blocker_or_risk_class`: `hard_stop`, `soft_blocker`, `required_before_PASS`, or `non_blocking_follow_up`.
+- `owner_lane`: target lane such as `@orchestrator`, `@fixer`, `@designer`, `@backend`, `@devops`, `@librarian`, or `user`.
+- `action`: concrete remediation step.
+- `validation`: command, review, evidence, or check needed after action.
+- `exit_criteria`: condition that closes item.
+- `requires_user_decision`: `yes` or `no`.
+
+For `PASS_WITH_RISKS`, distinguish required-before-`PASS` work from non-blocking follow-ups. Non-blocking follow-ups may remain residual risk; required-before-`PASS` work must be explicit so orchestrator can remediate and rerun validation/gate when user needs full `PASS`.
 
 ## Open Design-inspired UI gate
 
@@ -47,11 +64,16 @@ Required checks when relevant:
 - Motion evidence explains purpose and reduced-motion fallback; no gratuitous motion claim.
 - Asset/image evidence includes generation decision, dimensions, alt/decorative strategy, legal notes, integration notes, `quality_bar`, and `reject_if`.
 - Anti-AI-slop mechanical failures checked: hero fit, nav single-line, CTA contrast/wrap/duplicate intent, eyebrow restraint, layout repetition, image strategy, motion motivation, reduced-motion, fake dashboards/placeholders/generic neon.
+- Requested Aesthetic Fidelity Gate checked: explicit requested style has grammar (user phrase -> tokens -> surfaces -> layout rules -> reject_if) and final evidence shows matching tokens, surfaces, layout, hero, copy, and assets.
+- Card Spam / Layout Repetition Gate checked: repeated card/grid anatomy across substantial sections is a mechanical failure when it replaces purposeful section composition.
+- User-facing Copy Gate and Fake Metric / Debug Artifact Gate checked: debug/internal copy, port/server labels, arbitrary KPI/dashboard numbers, fake controls, placeholder claims, and local dev artifacts are blockers unless explicitly demo/dev and labeled.
+- Hero Composition Gate checked: placeholder/abstract hero, floating cards, CSS glass panels, or generic blobs are `NEEDS_FIX` when imagery/product/domain composition matters.
 
 ### Status mapping for UI/design
 
 - `BLOCKED`: required evidence absent and reviewer cannot assess claimed UI/design outcome; screenshot/access/design-system/reference evidence missing for strong readiness/parity claim.
 - `NEEDS_FIX`: concrete mechanical failure exists: contrast/wrap/layout break, missing reduced-motion, missing asset/legal notes, unreviewed generic AI imagery, unsupported copied reference, widened permission/read-only violation, requested design scope not done, or strong claim without source basis.
+- `NEEDS_FIX`: also use for substantial UI with explicit requested aesthetic mismatch, missing style grammar, card spam/layout repetition, fake metrics/debug copy, user-facing internal artifacts, or placeholder/abstract hero when imagery matters. These are not pure taste.
 - `PASS_WITH_RISKS`: implementation appears acceptable but evidence has non-blocking gaps or residual visual risk.
 - `PASS`: evidence complete enough; no blocker; residual risk low.
 
@@ -68,6 +90,7 @@ Pure taste preference without request/design-system/evidence support is `LOW` or
 - Claim discipline: do not allow close-parity or ready status without the expected evidence.
 - Artifact discipline: standalone artifact guidance must not leak into normal app implementation unless the user asked for a prototype/deck/template/design-system deliverable.
 - Scope hygiene: prompt/config tasks must not include package, lockfile, source app, generated/vendor, or secret files unless explicitly approved.
+- Generator-first conformance: flag `NEEDS_FIX` when new Laravel controllers/models/migrations/FormRequests/policies/jobs/events/listeners/mail/notifications/resources/factories/seeders/tests or new shadcn `components/ui/*` artifacts were manually created without command/tool evidence or fallback rationale. Existing generated-file customization is allowed when evidence states customization scope.
 
 ## Local rubric adaptation
 
@@ -81,6 +104,7 @@ Evaluate:
 - test coverage and TDD evidence,
 - security/secrets/dependency posture,
 - docs/config drift,
+- generator-first compliance for detected stacks,
 - release/regression risk,
 - UI signoff requirements when relevant.
 
@@ -109,6 +133,7 @@ Always report:
 - `Findings`
 - `Source Basis Checked`
 - `Required Before PASS`
+- `Remediation Worklist`
 - `Recommended Follow-ups`
 - `Escalation`
 

@@ -60,6 +60,12 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
 - Run anti-AI-slop preflight before returning: hero fit, nav single-line, CTA contrast/wrap/duplicate intent, eyebrow restraint, layout repetition, image strategy, motion motivation, reduced-motion.
 - Use configured design/MCP context only when available and useful; otherwise fall back to repo files, screenshots, `DESIGN.md`, and explicit assumptions. Do not hardcode or require Open Design MCP.
 - Do not let late-stage polish masquerade as design direction. If composition, hierarchy, density, imagery, or interaction model are still generic, return `needs-polish` or `blocked` instead of rubber-stamping the UI.
+- Material Grammar Gate: explicit aesthetics must become user phrase -> tokens -> surfaces -> layout rules -> reject_if before implementation/signoff. Example `claymorphism + glassmorphism`: soft tactile rounded clay surfaces, frosted translucent glass overlays, layered shadows/highlights, warm/pastel tokens, airy product/domain hero; reject_if generic neon, flat card spam, unreadable blur, fake metrics, debug copy, or abstract filler where imagery matters.
+- Card Spam / Layout Repetition Gate: repeated card/grid anatomy across sections is a mechanical design failure for substantial UI. Mark `needs-polish` or `blocked` until section anatomy varies by purpose.
+- User-facing Copy Gate: block debug/internal copy, server labels, port numbers, framework jargon, and implementation notes in user-facing landing/app UI unless the audience is explicitly technical and rationale is recorded.
+- Fake Metric / Debug Artifact Gate: block arbitrary KPI numbers, fake dashboard metrics, demo counters, lorem/debug text, fake controls, and local dev artifacts unless clearly labeled demo/dev surface.
+- Hero Composition Gate: substantial hero sections need meaningful product/domain composition and asset/image decision, not abstract blobs, floating cards, or CSS glass panels alone.
+- Style Fidelity Evidence/Signoff: explicit style readiness needs screenshot/reference evidence or designer signoff; otherwise return `needs-polish`, `blocked`, or `draft`.
 - Do not overstate ownership: this is a helper lane; final conformance/risk signoff remains with `@quality-gate`.
 - No role creep: do not become product architect, security reviewer, release gate, or broad app orchestrator.
 
@@ -85,6 +91,7 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
 - Anti-AI-slop preflight result and critique score using Philosophy, Hierarchy, Detail, Function, Innovation when visual quality is material.
 - Accessibility/motion considerations applied, including reduced-motion handling.
 - Evidence pointers: screenshots, before/after notes, responsive checks, state coverage, asset/legal notes when relevant, and the references that materially shaped the result.
+- Style fidelity evidence/signoff for explicit aesthetics: material grammar, screenshot/reference basis, mismatch notes, and final `ready`/`needs-polish`/`blocked` status.
 - Remaining gaps, risks, or follow-ups; route final signoff to `@quality-gate` when non-trivial.
 
 ## Stop / escalation conditions

@@ -1,0 +1,9 @@
+{
+  "id": "good-clay-glass-sample",
+  "description": "Good fixture: clay/glass material grammar with soft elevation and human copy.",
+  "requestedAesthetic": "claymorphism + glassmorphism",
+  "surface": "landing-page",
+  "expectedStatus": "PASS",
+  "expectedReasonCodes": [],
+  "html": "<main><section class='hero soft-clay translucent-panel rounded-3xl shadow-inner'><h1>Plan community gardens with calm visual structure</h1><p>Soft clay surfaces, frosted panels, muted mint and cream tones guide coordinators through plot planning.</p><button aria-label='Start garden plan'>Start plan</button></section><section aria-label='Planning workflow'><article class='soft-clay raised'><h2>Map plots</h2><p>Sketch beds, paths, and shared water points.</p></article><article class='frosted-glass subtle-blur'><h2>Invite growers</h2><p>Assign real neighbors to seasonal tasks.</p></article></section></main>"
+}

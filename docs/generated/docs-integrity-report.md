@@ -2,7 +2,7 @@
 
 Generated summary of the docs-integrity contract. This file is advisory and must not replace canonical policy in `.opencode/docs/index.md` and related canonical docs.
 
-- Canonical docs tracked: 23
+- Canonical docs tracked: 24
 - Generated docs tracked: 6
 - Reference mirror files tracked: 7
 - Primary implementation: `scripts/docs-integrity-check.mjs`
@@ -11,6 +11,7 @@ Generated summary of the docs-integrity contract. This file is advisory and must
 - `.opencode/docs/index.md`
 - `.opencode/docs/ARCHITECTURE.md`
 - `.opencode/docs/AGENT_ROUTING.md`
+- `.opencode/docs/GREENFIELD_STARTER.md`
 - `.opencode/docs/AGENT_LEGIBILITY.md`
 - `.opencode/docs/QUALITY.md`
 - `.opencode/docs/QUALITY_SCORE.md`

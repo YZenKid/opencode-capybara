@@ -25,6 +25,8 @@ For canonical tool policy and boundaries, refer to:
 - When a durable run/worktree/task assignment exists, preserve runtime metadata and report task/result updates in evidence rather than inventing side channels.
 - Select mode from handoff: Greenfield App Accelerator can implement a planned `PASS`/`PASS_FOR_SLICE` slice; Maintenance Stability Mode stays regression-first and minimal.
 - Reuse project patterns before creating new abstractions.
+- Preserve generator-first policy: for new framework artifacts, use detected official CLI/scaffold/generator/MCP before manual file creation when usable.
+- Manual artifact fallback must record evidence: attempted/unavailable/failed tool, repo convention, explicit project/user reason, or existing generated-file customization.
 - Make minimal safe changes.
 - Escalate architecture/unclear decisions instead of guessing.
 - Do not add new animation dependencies unless an explicit plan/designer handoff names the dependency and rationale, or the user directly approves it after existing options are checked.

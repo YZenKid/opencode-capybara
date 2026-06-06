@@ -1,7 +1,7 @@
 # Harness Eval Report
 
-- Timestamp: 2026-06-04T13:35:11.020Z
-- Harness version: 861399655a6f463dbb6ec18db22c1d200b4c633c
+- Timestamp: 2026-06-06T11:34:11.402Z
+- Harness version: cc9314f14a97861e12c3e1d0e4775e2f7b060062
 - Task summary: Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.
 - Verdict: PASS
 - Fixture count: 26
@@ -30,6 +30,8 @@
   - .opencode/evidence/20260512-1708-orchestrator-routing-hardening/index.json
   - .opencode/evidence/20260512-1708-orchestrator-routing-hardening/routing-decisions.md
   - .opencode/evidence/20260512-1708-orchestrator-routing-hardening/verification.md
+  - .opencode/evidence/exemplar-greenfield-first-slice/index.json
+  - .opencode/evidence/exemplar-maintenance-stability/index.json
   - .opencode/plans/20260510-2140-harness-engineering-plan.md
   - .opencode/plans/20260512-1708-orchestrator-routing-hardening.md
   - AGENTS.md
@@ -141,6 +143,8 @@
 - .opencode/plans/20260510-2140-harness-engineering-plan.md: PASS
 - .opencode/evidence/20260510-2140-harness-engineering-plan/index.json: PASS
 - .opencode/evidence/20260510-2140-harness-engineering-plan/verification.md: PASS
+- .opencode/evidence/exemplar-maintenance-stability/index.json: PASS
+- .opencode/evidence/exemplar-greenfield-first-slice/index.json: PASS
 ## init-harness-minimal-foreign-repo-scaffold
 - Status: PASS
 - Description: Replayable temp-repo scaffold proof for init-harness expectations on a minimal external-style repo: canonical .opencode/docs plus short AGENTS.md map. Limitation: this uses a narrow eval-only temp-repo scaffold adapter rather than the real /init-harness slash-command runtime.

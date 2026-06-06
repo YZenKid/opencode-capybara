@@ -55,6 +55,28 @@ If a source category is relevant but unavailable, record that explicitly and kee
 - For greenfield, revamp, or taste-sensitive work, do not settle on the first plausible design direction. Generate 2-3 bounded directions, section anatomies, or interaction approaches when that materially improves quality, then converge with explicit rationale.
 - Late polish is not a substitute for core design quality. If hierarchy, composition, density, imagery, or interaction model remain generic, return `needs-polish` or `blocked` instead of pretending the work is premium-ready.
 
+## Material Grammar Gate
+
+Explicit requested aesthetics are acceptance requirements. For substantial UI, translate style before implementation/review:
+
+- user phrase -> exact requested phrase and intent.
+- tokens -> color roles, typography feel, radius, shadow/elevation, blur/opacity, texture, spacing, motion tone.
+- surfaces -> buttons, cards, panels, hero layers, nav, forms, media frames, backgrounds.
+- layout rules -> section anatomy, density, rhythm variation, hero composition, responsive behavior.
+- reject_if -> concrete mismatch blockers.
+
+Example: `claymorphism + glassmorphism` -> soft warm/pastel tokens, rounded tactile clay surfaces with pressed/raised shadows, frosted translucent glass overlays with restrained blur, layered highlights, airy product/domain hero composition; reject_if generic neon SaaS, flat repeated card grids, unreadable blur, random abstract blobs, fake dashboard metrics, debug copy, CSS filler where imagery matters.
+
+If style grammar is missing or final screenshots visibly mismatch the requested aesthetic, return `needs-polish` or `blocked`; do not mark substantial UI `ready`.
+
+## Mechanical UI failure gates
+
+- Card Spam / Layout Repetition Gate: repeated card/grid anatomy across sections is a mechanical failure for substantial UI. Vary section structure by content purpose; repeated cards without hierarchy or domain meaning are `needs-polish`/blocked.
+- User-facing Copy Gate: no debug/internal copy, server labels, port numbers, framework jargon, implementation notes, lorem, or review/status labels in user-facing UI unless target audience is explicitly technical and rationale is recorded.
+- Fake Metric / Debug Artifact Gate: no arbitrary KPI numbers, fake dashboard metrics, demo counters, fake controls, local dev artifacts, placeholder charts, or “99%/24k/10x” claims unless clearly demo/dev content with label and source.
+- Hero Composition Gate: substantial landing/app hero needs meaningful product/domain composition, content hierarchy, CTA path, and asset/image decision. Abstract blobs, floating UI cards, CSS glass panels, or dashboard fragments alone are not enough when imagery matters.
+- Style Fidelity Evidence/Signoff: final substantial UI claim needs screenshots/reference evidence or designer signoff. Missing evidence lowers claim to `draft`, `needs-polish`, or `blocked`.
+
 ## Open Design skill adaptation
 
 Adapt useful Open Design patterns locally; do not paste upstream wholesale or claim upstream tools/scripts exist here.
@@ -98,6 +120,7 @@ Run before output or handoff. Treat context-aware failures as `needs-polish` or 
 - Motion motivation: every non-trivial motion explains meaning and chosen API/system.
 - Reduced-motion: support `prefers-reduced-motion` or platform equivalent.
 - AI tells: reject default purple/blue glow, fake dashboards, vague neon blobs, emoji icons, random serif/display type, placeholder frames, numeric-only service icons, and cloned reference visuals.
+- Explicit aesthetic fidelity: verify requested style grammar is visible in tokens, surfaces, layout, hero, copy, and assets; mismatch is not pure taste.
 
 ### Generation taste contract
 
@@ -183,6 +206,8 @@ For substantial UI/reference/image-heavy work, return one of these statuses: `re
 - `ready`: the plan/spec is sufficient for implementation and the visual direction is coherent.
 - `blocked`: missing reference evidence, motion storyboard, icon strategy, asset manifest, image generation decision, or other required visual spec.
 - `needs-polish`: the structure is sound but the design still needs targeted refinement before implementation is called complete.
+
+Repeated card/grid anatomy, fake metrics/debug artifacts, user-facing internal copy, placeholder/abstract hero where imagery matters, or explicit aesthetic mismatch must be `needs-polish` or `blocked` for substantial UI.
 
 Required deliverables for substantial work: experience direction, page-by-page UX blueprint, section-level visual spec matrix, component system plan, visual system, interaction/state design, responsive plan, accessibility gate notes, validation evidence plan, reference capture report when applicable, section anatomy table, motion storyboard, icon system matrix, visual density checklist, asset manifest, image generation decision, and final pass/fail comparison.
 

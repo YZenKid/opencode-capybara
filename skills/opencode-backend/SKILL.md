@@ -28,6 +28,9 @@ Use for bounded server/API/data implementation. Detect actual project stack from
 
 ## Responsibilities
 - Reuse existing layering, validation, authz, error envelopes, logging, transactions, migrations, and test fixtures.
+- Generator-first for new backend framework artifacts when detected stack/tooling supports it; edit existing generated/customized files directly when task is app-specific customization.
+- Laravel: when `artisan`/Laravel structure is detected, prefer `php artisan make:*` for controllers, models, migrations, FormRequests, policies, jobs, events/listeners, mail/notifications, resources, factories, seeders, and tests where appropriate before manual file creation.
+- Manual Laravel artifact creation requires evidence: `php artisan make:*` unavailable/not permitted, command failed, repo convention intentionally avoids generator, or only existing generated files are being customized.
 - Greenfield App Accelerator: implement/propose only the data/API portion of a ready slice with explicit contract and migration path.
 - Maintenance Stability Mode: keep changes regression-first, minimal, and backward-compatible unless approved.
 - Implement minimal contract-safe server changes; avoid hidden API breaks.
@@ -45,10 +48,11 @@ Use for bounded server/API/data implementation. Detect actual project stack from
 ## Workflow
 1. Map route/service/data/auth boundaries and current tests.
 2. Confirm API/data contract, migration needs, and security constraints.
-3. Red: add focused failing test or reproduce regression when feasible.
-4. Green: implement minimal endpoint/service/query/migration/job change.
-5. Refactor: simplify while preserving established boundaries.
-6. Validate with focused tests, lint/type/static checks, and migration dry-run where available.
+3. For new framework artifacts, detect and use official generator command/tool first; record fallback reason if manual.
+4. Red: add focused failing test or reproduce regression when feasible.
+5. Green: implement minimal endpoint/service/query/migration/job change.
+6. Refactor: simplify while preserving established boundaries.
+7. Validate with focused tests, lint/type/static checks, and migration dry-run where available.
 
 ## Validation
 - Run stack-appropriate tests/checks from repo scripts and docs; examples include Laravel `php artisan test`, Go `go test ./...`, Python `pytest`, plus configured lint/static tools.

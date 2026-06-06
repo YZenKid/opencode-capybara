@@ -1,0 +1,16 @@
+{
+  "id": "clay-glass-neon-card-spam",
+  "description": "Bad fixture: clay/glass request rendered as neon card spam with debug and fake metrics.",
+  "requestedAesthetic": "claymorphism + glassmorphism",
+  "surface": "landing-page",
+  "expectedStatus": "FAIL",
+  "expectedReasonCodes": [
+    "requested-aesthetic-mismatch",
+    "material-grammar-missing",
+    "card-spam-repetition",
+    "generic-neon-glass-overuse",
+    "fake-metric",
+    "debug-copy-user-facing"
+  ],
+  "html": "<main><section class='hero neon glass'><h1>Next Gen Platform</h1><p>localhost:3000 debug mode enabled</p></section><section class='grid'><div class='card neon border-cyan'><h3>Speed</h3><p>99%</p></div><div class='card neon border-cyan'><h3>Growth</h3><p>420%</p></div><div class='card neon border-cyan'><h3>Users</h3><p>10k+</p></div><div class='card neon border-cyan'><h3>Revenue</h3><p>$1M</p></div><div class='card neon border-cyan'><h3>Conversion</h3><p>87%</p></div><div class='card neon border-cyan'><h3>Magic</h3><p>24/7</p></div></section></main>"
+}

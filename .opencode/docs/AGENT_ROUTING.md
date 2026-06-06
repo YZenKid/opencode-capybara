@@ -26,16 +26,80 @@ Planner invocation expectation:
 - Planner handoff quality bar: non-trivial plans must include an explicit `Execution-ready Worklist / Handoff Contract` with ordered atomic tasks, dependencies, owner/lane, validation, exit criteria, blocking status, and a `start_with` first action for orchestrator.
 
 ## Plan-bound execution contract (orchestrator)
+- Before non-trivial plan-bound work, run a Plan Intake Protocol: read the primary plan and identify mode, Plan Quality Gate value, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, validation commands, evidence path, and Done Criteria.
+- Use Plan Execution Precedence Order when sections conflict: latest explicit user instruction; safety/security/permission rules; Non-negotiable Implementation Invariants; Execution-ready Worklist / Handoff Contract; Acceptance Criteria and Done Criteria; Implementation Steps; follow-ups/recommendations. Record conflicts in verification evidence.
 - If a primary plan includes `Execution-ready Worklist / Handoff Contract`, treat it as execution source of truth.
-- Start from `start_with` and run all non-blocked tasks in order using declared dependencies/lanes.
+- Start from `start_with` and run all non-blocked tasks in order using declared dependencies/lanes, one ready worklist task at a time.
+- Verify each task exit criteria before moving to the next task, including task `must_preserve`, `do_not_touch`, `evidence_update`, and `exit_verification` fields when present.
 - Treat milestones/phases as internal progress markers, not stop points.
 - Stop only for `hard_stop` conditions or explicit `requires_user_decision` boundaries.
 - Advisory/worklist labels using `blocked` must be normalized into the blocker taxonomy before orchestrator decides to stop.
-- Completion claim requires finishing every non-blocked task and satisfying plan done criteria.
+- Multi-file plan-bound implementation routes to `@fixer` or a domain lane by default. Orchestrator direct implementation remains tiny-only except explicit fallback with evidence.
+- Before final quality gate, run a Diff Boundary check against allowed file groups, generated-report exceptions, and evidence paths; revert or justify out-of-boundary diffs in verification evidence.
+- Completion claim requires finishing every non-blocked task and satisfying plan done criteria. For plan-bound work, completion also requires a Plan Compliance Checkpoint: Done Criteria satisfied, Non-negotiable Implementation Invariants preserved, Do Not / Reject If avoided or remediated, validation recorded, evidence updated, Diff Boundary checked, and quality-gate status recorded.
+- `PASS_FOR_SLICE` means slice completion only, not whole-system completion.
 
 ## Mode-aware execution contracts
 
 Before non-trivial routing, classify the request into one mode and record the mode in evidence or handoff notes.
+
+See [GREENFIELD_STARTER.md](./GREENFIELD_STARTER.md) for the canonical Greenfield App Accelerator starter matrix, first-slice template, first-slice claim rules, and blocking security/privacy rule.
+
+## Task-size rubric
+
+Use size before lane selection. Size does not override risk triggers.
+
+| Class | Shape | Default route | Completion claim |
+|---|---|---|---|
+| `tiny` | Single-step, easily reversible, <=1 edited file, <=3 files read, no unknown-scope discovery, no risk trigger | `@orchestrator` may do direct work | Local claim only; no material completion claim |
+| `small` | Bounded known-area edit, usually 1-3 files, clear acceptance criteria, no material ambiguity | `@fixer` or domain lane; `@explorer` only if local facts are missing | Claim scoped behavior and validation |
+| `material` | Multi-file/cross-area change, public behavior shift, security/privacy/accessibility/release impact, or non-trivial completion claim | `@artifact-planner` when planning depth needed, specialist implementation, then `@quality-gate` | Requires evidence and final gate before completion claim |
+| `greenfield` | New app, blank repo, MVP, SaaS/product build, or major product revamp | `@artifact-planner` first, then `@fullstack`/domain lanes from `PASS` or `PASS_FOR_SLICE` plan | Claim `MVP slice complete` unless whole product is truly complete |
+
+## Fast path
+
+Fast path exists for `tiny` work only. It cannot bypass:
+- any risk trigger in `AGENTS.md` or this routing doc;
+- multi-file thresholds, including code+test/docs pairs that make work `small` or `material`;
+- unknown-scope discovery or read-heavy investigation;
+- security/privacy/accessibility/release/destructive-action boundaries;
+- material completion claims or `@quality-gate` requirements.
+
+Allowed fast path sequence:
+1. Confirm `tiny` by rubric.
+2. Read only needed local file(s).
+3. Make smallest reversible edit.
+4. Run targeted validation when feasible.
+5. Report scoped result and limits.
+
+If scope grows beyond `tiny`, stop fast path and route to `@fixer`, domain lane, `@explorer`, or `@artifact-planner` as the new size/risk requires.
+
+## Maintenance quick contract
+
+Maintenance work defaults to regression-first and minimal:
+- classify as `Maintenance Stability Mode`;
+- start from repro, failing behavior, regression test, or targeted local evidence;
+- preserve existing architecture and UX unless evidence proves they are broken;
+- choose smallest safe diff, then validate the touched behavior;
+- ask only for material behavior, product, security/privacy, or irreversible decisions;
+- route material/risky completion through `@quality-gate`.
+
+Positive examples:
+- `tiny`: fix typo in one doc -> fast path okay if no policy/risk trigger.
+- `tiny`: rename one local heading in one docs file -> direct edit plus targeted `check:docs`.
+- `small maintenance`: update one parser and its unit test -> `@fixer`.
+- `small maintenance`: fix one failing evidence manifest field -> regression-first `@fixer` with `check:evidence`.
+- `material maintenance`: change routing policy plus docs checks -> plan-bound/specialist implementation and `@quality-gate`.
+- `greenfield`: create MVP SaaS first slice -> `@artifact-planner` and [GREENFIELD_STARTER.md](./GREENFIELD_STARTER.md).
+- `greenfield`: build public prototype explicitly labeled `prototype` -> may use slice plan/lightweight scaffold, but final claim must stay `prototype` or `MVP slice complete`.
+- `UI-heavy`: replicate a reference landing page -> inspect `DESIGN.md`, route UI direction to `@designer`, require browser/reference evidence before done claim.
+- `security/destructive`: deploy, rotate token, delete state, or touch PII/auth/payment/upload boundaries -> explicit approval or `hard_stop`; no fast path.
+
+Negative examples:
+- Do not use fast path for a 2-file code+test fix; route to `@fixer`.
+- Do not skip security/privacy review because first slice is small; risk triggers still apply.
+- Do not claim whole app complete from `PASS_FOR_SLICE`; claim only slice status.
+- Do not force bugfixes through greenfield product thesis unless the bug requires product/UX decisions.
 
 ### Greenfield App Accelerator
 Use for new apps, blank repos, MVPs, SaaS/product builds, or major product revamps.
@@ -61,6 +125,8 @@ Use for bugfixes, regressions, refactors, dependency updates, small features in 
 
 ## Best Practice Readiness Contract
 Non-trivial work is not ready to implement until the handoff identifies the mode, goal, non-goals, constraints, acceptance criteria, owner/lane, validation path, evidence path, blocker class, and source strategy. Fresh app/product work must also identify material product, data, auth, payment, privacy, RBAC, platform, UI, and release decisions as answered, deferred, slice-safe, or blocked.
+
+Generator-first readiness: if work creates new framework artifacts, handoff must identify detected stack, official CLI/scaffold/generator/MCP availability, intended generator command/tool path, or manual fallback reason. Use generator-first only when stack evidence supports it; existing generated/customized files may be edited directly for app-specific changes. Fallback evidence must name the unavailable/failed tool, repo convention, or explicit project/user reason.
 
 ## Creative Depth Contract
 For Greenfield App Accelerator work, plans must include: product thesis and target pain; 2-3 viable product/UX approaches before choosing one; architecture options with tradeoff scoring; first vertical slice options and chosen-slice rationale; `user journey → data model → API/contracts → UI screens → tests` mapping; design readiness summary; differentiation ideas bounded by MVP scope; reference pack or explicit first-principles rationale for major choices; and readiness status (`draft`, `blocked`, `ready-for-slice`, or `ready-for-implementation`). Plans missing this contract are not execution-ready.
@@ -109,6 +175,7 @@ Creativity is required for greenfield, ambiguous, or taste-sensitive work, but i
 `@orchestrator` must delegate by default when one of these is true:
 - discovery is unknown-scope, cross-area, or read-heavy (>3 files) → `@explorer`,
 - implementation is bounded but touches 2+ files (including code+test/docs pair) → `@fixer`,
+- work creates generator-backed framework artifacts → matching domain lane (`@backend`, `@frontend`, `@mobile`, `@devops`, or `@fullstack`) unless it only customizes existing files or generator is irrelevant,
 - work is multi-phase, spec-heavy, materially ambiguous, or evidence-heavy → `@artifact-planner`,
 - change is material and needs completion claim → final pass through `@quality-gate`.
 

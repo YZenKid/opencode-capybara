@@ -19,17 +19,61 @@ const quality = readFileSync(resolve(root, ".opencode/docs/QUALITY.md"), "utf8")
 const missingQualityHeadings = hasHeadings(quality, ["Evidence contract", "Replay bundle minimum"]);
 const required = ["## Evidence", "Command:", "Result:", "## Risks / Limitations", "## Next Steps"];
 const missing = required.filter((needle) => !quality.includes(needle));
-if (missing.length > 0 || missingQualityHeadings.length > 0) {
+const retentionCategories = ["keep", "summarize-and-delete", "never-delete-until-gate", ".opencode/evidence/<task-id>/"];
+const missingRetentionCategories = retentionCategories.filter((needle) => !quality.includes(needle));
+if (missing.length > 0 || missingQualityHeadings.length > 0 || missingRetentionCategories.length > 0) {
   fail(
     ".opencode/docs/QUALITY.md: evidence contract incomplete",
     [
       ...missing.map((item) => `missing: ${item}`),
       ...missingQualityHeadings.map((item) => `missing heading: ${item}`),
+      ...missingRetentionCategories.map((item) => `missing retention category/path: ${item}`),
     ],
   );
 } else {
   console.log("✓ .opencode/docs/QUALITY.md evidence contract");
 }
+
+function checkManifestRequiredFiles(taskId, manifest) {
+  if (!Array.isArray(manifest.required_files)) {
+    fail(`evidence manifest for ${taskId} has invalid required_files`, ["required_files must be an array"]);
+    return;
+  }
+  const missingRequiredFiles = ["discovery.md", "verification.md"].filter((file) => !manifest.required_files.includes(file));
+  if (missingRequiredFiles.length > 0) {
+    fail(
+      `evidence manifest for ${taskId} required_files is incomplete`,
+      missingRequiredFiles.map((file) => `missing: ${file}`),
+    );
+  } else {
+    console.log(`✓ evidence manifest for ${taskId} required_files includes discovery and verification`);
+  }
+}
+
+function checkExemplarBundle(taskId) {
+  const planPath = resolve(root, ".opencode", "plans", `${taskId}.md`);
+  const evidenceDir = resolve(root, ".opencode", "evidence", taskId);
+  const requiredFiles = ["discovery.md", "verification.md", "index.json"];
+  const missingFiles = [];
+  if (!existsSync(planPath)) missingFiles.push(`.opencode/plans/${taskId}.md`);
+  if (!existsSync(evidenceDir)) {
+    missingFiles.push(`.opencode/evidence/${taskId}/`);
+  } else {
+    for (const file of requiredFiles) {
+      if (!existsSync(resolve(evidenceDir, file))) missingFiles.push(`.opencode/evidence/${taskId}/${file}`);
+    }
+  }
+  if (missingFiles.length > 0) {
+    fail(`exemplar evidence bundle ${taskId} is incomplete`, missingFiles);
+    return;
+  }
+  const manifest = readJson(resolve(evidenceDir, "index.json"));
+  checkManifestRequiredFiles(taskId, manifest);
+  console.log(`✓ exemplar evidence bundle ${taskId} exists`);
+}
+
+checkExemplarBundle("exemplar-maintenance-stability");
+checkExemplarBundle("exemplar-greenfield-first-slice");
 
 const plansDir = resolve(root, ".opencode", "plans");
 const planFiles = readdirSync(plansDir).filter((file) => file.endsWith(".md")).sort();
@@ -73,6 +117,7 @@ if (planFiles.length === 0) {
         fail(`evidence manifest for ${taskId} is incomplete`, manifestMissing.map((item) => `missing: ${item}`));
       } else {
         console.log(`✓ evidence manifest for ${taskId} contains task-scoped lookup fields`);
+        checkManifestRequiredFiles(taskId, manifest);
       }
     }
   }

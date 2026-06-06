@@ -110,6 +110,10 @@ For substantial UI/reference/image-heavy work, reject manifests that omit Design
 
 Prompts must read like they were written by a professional art director, not as generic tags. Reject manifests that only say phrases like "modern tech dashboard", "futuristic", "cyberpunk", or "abstract UI" without domain-specific objects, composition, and visual meaning. No generic AI imagery, blank placeholders, fake dashboards, cloned references, or style-only filler.
 
+## Material Aesthetic Asset Gate
+
+When an explicit material aesthetic affects hero/image-heavy quality, require tactile, product-specific, and domain-specific prompts. `claymorphism`, `glassmorphism`, paper, chrome, textile, ceramic, luxury dark, or similar styles must be translated into material traits, real subject matter, props/environment, composition, lighting, texture, and reject_if. CSS abstract filler, floating cards, generic glass panels, neon dashboards, or style labels alone are not enough when imagery matters.
+
 ## Job Preparation Rules
 
 1. Create legal style-equivalent jobs. Never instruct copying copyrighted/reference assets directly unless the user explicitly confirms they are project-owned or licensed.
@@ -128,6 +132,7 @@ Prompts must read like they were written by a professional art director, not as 
 14. Use rich, section-specific color palettes by default. Maintain overall UI cohesion, but vary local palettes by section and asset purpose. Avoid repeated monochrome, black-white-only, cyan-only, generic cyberpunk, overly minimal, or placeholder-like tech visuals unless explicitly required by the user/reference.
 15. Negative prompts should explicitly block monochrome/cyan-only repetition, generic tech dashboards, placeholder aesthetics, readable text, logos, trademarks, watermarks, and copied reference assets when those risks apply.
 16. For project thumbnails, blog/news thumbnails, service illustrations, hero visuals, portraits, avatars, and background textures, include concrete objects, environmental details, and visual metaphors from the section description so the generated image communicates the actual section meaning instead of generic technology mood.
+16a. For clay/glass or similar material requests, prompts must include tactile material behavior and domain-specific subject matter; reject CSS abstract filler when imagery is part of the hero or core section.
 17. Require set consistency plus thumbnail distinction: the set should share a common art direction, but each asset must have a unique differentiator so the thumbnails do not look interchangeable.
 18. Run generation taste gate before any tool call: brief -> Design Read -> dials -> manifest/art direction -> quality_bar/reject_if -> 9router generation -> integration evidence -> quality gate.
 

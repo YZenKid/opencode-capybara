@@ -1,7 +1,7 @@
 {
   "task_id": "harness-evals-latest",
-  "timestamp": "2026-06-04T13:35:11.020Z",
-  "harness_version": "861399655a6f463dbb6ec18db22c1d200b4c633c",
+  "timestamp": "2026-06-06T11:34:11.402Z",
+  "harness_version": "cc9314f14a97861e12c3e1d0e4775e2f7b060062",
   "prompt_or_task_summary": "Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.",
   "tool_trace_summary": [
     "Read eval fixture JSON files from scripts/evals/fixtures/",
@@ -93,7 +93,7 @@
     "release_critical_average_score_0_to_5": 5
   },
   "drift_summary": {
-    "previous_timestamp": "2026-06-04T11:31:26.703Z",
+    "previous_timestamp": "2026-06-06T07:54:22.228Z",
     "previous_average_score_0_to_5": 3.54,
     "average_score_delta": 0,
     "failed_delta": 0,
@@ -119,6 +119,8 @@
     ".opencode/evidence/20260512-1708-orchestrator-routing-hardening/index.json",
     ".opencode/evidence/20260512-1708-orchestrator-routing-hardening/routing-decisions.md",
     ".opencode/evidence/20260512-1708-orchestrator-routing-hardening/verification.md",
+    ".opencode/evidence/exemplar-greenfield-first-slice/index.json",
+    ".opencode/evidence/exemplar-maintenance-stability/index.json",
     ".opencode/plans/20260510-2140-harness-engineering-plan.md",
     ".opencode/plans/20260512-1708-orchestrator-routing-hardening.md",
     "AGENTS.md",
@@ -276,6 +278,16 @@
         {
           "type": "verification",
           "file": ".opencode/evidence/20260510-2140-harness-engineering-plan/verification.md",
+          "status": "PASS"
+        },
+        {
+          "type": "manifest",
+          "file": ".opencode/evidence/exemplar-maintenance-stability/index.json",
+          "status": "PASS"
+        },
+        {
+          "type": "manifest",
+          "file": ".opencode/evidence/exemplar-greenfield-first-slice/index.json",
           "status": "PASS"
         }
       ],

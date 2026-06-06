@@ -16,10 +16,12 @@
     "check:skills": "node scripts/skill-contract-check.mjs",
     "check:evidence": "node scripts/evidence-contract-check.mjs",
     "check:harness": "npm run test:prompt-gates && npm run test:deterministic-edit-helper && npm run test:runtime-foundation && npm run check:docs && npm run check:capabilities && npm run check:agents && npm run check:skills && npm run check:evidence",
-    "check:harness:strict": "npm run check:harness && npm run eval:harness",
+    "check:harness:strict": "npm run check:harness && npm run check:ui-slop && npm run eval:harness",
     "check:routing-release": "node scripts/evals/release-gate-check.mjs",
     "check:release": "npm run check:harness:strict && npm run check:routing-release && npm run doctor",
     "eval:harness": "node scripts/evals/harness-eval-runner.mjs",
+    "eval:ui-slop": "node scripts/evals/ui-slop-eval.mjs eval",
+    "check:ui-slop": "node scripts/evals/ui-slop-eval.mjs check",
     "test:prompt-gates": "node scripts/prompt-gate-regression.mjs",
     "test:deterministic-edit-helper": "node scripts/tests/deterministic-edit-proposal.test.mjs",
     "sync:openchamber": "node scripts/sync-openchamber-settings.mjs",
@@ -58,7 +60,6 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
-    "@opencode-ai/plugin": "1.15.10",
     "openai": "^6.35.0",
     "sharp": "^0.34.5",
     "zod": "^4.4.1"

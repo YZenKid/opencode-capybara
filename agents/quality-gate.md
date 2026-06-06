@@ -62,9 +62,14 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 - Review accessibility, visual-parity, screenshots, responsive evidence, motion/reduced-motion evidence, and asset/legal notes when substantial UI claims are made.
 - Unsupported factual or visual certainty is a gate issue. If the result makes strong claims without source basis or evidence, downgrade to `NEEDS_FIX` or `BLOCKED`.
 - Block only on mechanical/evidence failures: missing required screenshots/evidence, unreviewed AI slop, broken contrast/wrapping/layout, absent reduced-motion, unsupported parity/readiness claims, or scope/routing mismatch.
+- Requested Aesthetic Fidelity Gate: for substantial UI, explicit aesthetic mismatch, missing style grammar, card spam/layout repetition, fake metrics/debug copy, or placeholder/abstract hero when imagery matters are mechanical failures and map to `NEEDS_FIX`, not pure taste.
 - Treat pure taste preference without evidence as `LOW`/follow-up, not blocker.
 - Return one status only: `PASS`, `PASS_WITH_RISKS`, `NEEDS_FIX`, or `BLOCKED`.
 - Stay read-only: do not edit files, self-fix, or expand scope into implementation.
+- For `NEEDS_FIX`, `BLOCKED`, or `PASS_WITH_RISKS`, include a structured remediation worklist for orchestrator handoff.
+- Remediation worklist items must include: `finding`, `blocker_or_risk_class`, `owner_lane`, `action`, `validation`, `exit_criteria`, and `requires_user_decision: yes/no`.
+- For `PASS_WITH_RISKS`, separate `required_before_PASS` work from non-blocking `recommended_follow_ups`.
+- Read-only remains absolute: quality gate may prescribe remediation, but must not edit, fix, patch, commit, or execute fixes.
 - Jangan mengedit file, memperbaiki sendiri, atau memperluas scope ke implementasi.
 - Do not edit files.
 - Jangan mengedit file.
@@ -93,6 +98,14 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 - Required fixes or follow-up checks.
 - Residual risks and acceptance notes.
 - For material findings, identify the source basis examined or note the missing basis.
+- For every non-`PASS` status, a `Remediation Worklist` with each item shaped as:
+  - `finding`:
+  - `blocker_or_risk_class`: `hard_stop` | `soft_blocker` | `required_before_PASS` | `non_blocking_follow_up`
+  - `owner_lane`:
+  - `action`:
+  - `validation`:
+  - `exit_criteria`:
+  - `requires_user_decision`: `yes` | `no`
 
 ## Stop / escalation conditions
 - Missing required evidence for claimed outcomes.

@@ -1,0 +1,13 @@
+{
+  "description": "UI slop fixture schema for deterministic evaluator.",
+  "required": ["id", "description", "requestedAesthetic", "surface", "expectedStatus", "expectedReasonCodes", "html"],
+  "properties": {
+    "id": { "type": "string" },
+    "description": { "type": "string" },
+    "requestedAesthetic": { "type": "string" },
+    "surface": { "type": "string" },
+    "expectedStatus": { "enum": ["PASS", "FAIL"] },
+    "expectedReasonCodes": { "type": "array", "items": { "type": "string" } },
+    "html": { "type": "string" }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "debug-internal-copy-failure",
+  "description": "Bad fixture: internal implementation copy is visible to users.",
+  "requestedAesthetic": "clean SaaS dashboard",
+  "surface": "dashboard",
+  "expectedStatus": "FAIL",
+  "expectedReasonCodes": ["debug-copy-user-facing"],
+  "html": "<main><h1>Client Portal</h1><p>TODO wire real API before production.</p><section data-testid='debug-panel'>Debug payload: localhost:5173, mock=true, component state dump</section></main>"
+}

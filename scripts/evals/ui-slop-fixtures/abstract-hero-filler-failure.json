@@ -1,0 +1,9 @@
+{
+  "id": "abstract-hero-filler-failure",
+  "description": "Bad fixture: abstract hero filler instead of product/domain composition.",
+  "requestedAesthetic": "specific product hero for veterinary triage",
+  "surface": "landing-page",
+  "expectedStatus": "FAIL",
+  "expectedReasonCodes": ["abstract-hero-filler", "placeholder-visual"],
+  "html": "<main><section class='hero'><h1>Transform your workflow</h1><div class='floating-card glass blob gradient-orb'>abstract visual placeholder</div><p>Beautiful tools for modern teams.</p></section></main>"
+}

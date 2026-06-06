@@ -33,7 +33,7 @@ Senior external reference map: `SENIOR_SKILLS_REFERENCES.md`. Marketplace skills
 
 ## Domain skill trigger notes
 - All active skills follow mode-aware execution: `Greenfield App Accelerator` for new app/MVP/product builds and `Maintenance Stability Mode` for bugfix/refactor/maintenance work.
-- Greenfield skills use the Creative Depth Contract and Plan Quality Gate; maintenance skills stay regression-first and minimal.
+- Greenfield skills use the Creative Depth Contract, Plan Quality Gate, and [GREENFIELD_STARTER.md](./GREENFIELD_STARTER.md); maintenance skills stay regression-first and minimal.
 - Use `opencode-frontend` only after `@designer` direction or project-local design guidance exists for substantial UI.
 - Use `opencode-mobile` for app implementation; escalate privacy/native permission/store/runtime boundaries.
 - Use `opencode-backend` for API/data code; require TDD for production/security-sensitive behavior.

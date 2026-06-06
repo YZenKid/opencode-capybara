@@ -1,0 +1,9 @@
+{
+  "id": "fake-metric-failure",
+  "description": "Bad fixture: arbitrary KPI numbers and demo counters.",
+  "requestedAesthetic": "professional analytics dashboard",
+  "surface": "dashboard",
+  "expectedStatus": "FAIL",
+  "expectedReasonCodes": ["fake-metric"],
+  "html": "<main><h1>Executive Overview</h1><article><h2>Revenue</h2><p>$999,999</p></article><article><h2>Conversion</h2><p>123%</p></article><article><h2>Active Users</h2><p>10,000+</p></article><p>Demo data placeholder.</p></main>"
+}

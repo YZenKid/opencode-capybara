@@ -33,6 +33,10 @@ For substantial UI/reference/image-heavy work, the manifest must also include an
 
 Prompts must be written like a professional art director, not as generic tags. Reject manifests that only say "modern tech dashboard", "futuristic", "cyberpunk", or "abstract UI" without domain-specific objects, composition, and meaning.
 
+## Material Aesthetic Asset Gate
+
+For explicit material aesthetics in hero/image-heavy work, require tactile/product-specific/domain-specific prompts. Translate styles such as `claymorphism + glassmorphism` into material behavior, subject matter, props/environment, composition, lighting, texture, palette, and reject_if. CSS abstract filler, floating UI cards, generic glass/neon panels, and style labels alone are not sufficient when imagery matters.
+
 ## Rules
 
 - Open Design influence: use `taste-skill` for Design Read/dials/anti-slop, `reference-design-contract` for `keep/change/do_not_copy`, and `frontend-design` for production-grade, section-meaningful visuals.
@@ -43,6 +47,7 @@ Prompts must be written like a professional art director, not as generic tags. R
 - For functional UI icons, prefer existing icon libraries over generated substitutes.
 - Require an explicit image-generation decision per section: `generate`, `use-provided-assets`, `licensed-existing-assets`, or `no-generation-needed`.
 - Make prompts section-aware and concrete.
+- For clay/glass or similar material requests, include tactile surface details plus real product/domain composition; reject abstract CSS filler where the section needs meaningful imagery.
 - Include a negative prompt that blocks generic AI aesthetics, placeholder visuals, fake text/logos, and copied reference assets when relevant.
 - Do not use CSS-only or blank placeholders when imagery is a material part of the section.
 - Keep generated sets cohesive, but ensure each asset has a unique differentiator so thumbnails and supporting visuals are not all the same-looking.

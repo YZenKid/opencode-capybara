@@ -74,8 +74,13 @@ Policy note: prefer local canonical capybara lanes for execution. Built-in OpenC
    - Anti-pattern: one-shot screenshot claims for animated/lazy pages
 
 5. **Choose least-risk write path.**
-   - Preferred: minimal file edits with `apply_patch`
-   - Anti-pattern: broad unrelated edits or bypassing repo conventions
+    - Preferred: minimal file edits with `apply_patch`
+    - Anti-pattern: broad unrelated edits or bypassing repo conventions
+
+6. **Use official generators before manual framework artifacts.**
+   - When detected stack has usable CLI/scaffold/generator/MCP support, run or request that generator before manually creating new framework artifacts.
+   - Examples: Laravel `php artisan make:*` for backend artifacts; detected package manager plus shadcn CLI or shadcn MCP for `shadcn init`/`shadcn add`.
+   - Manual fallback requires evidence: tool unavailable/not permitted, command failed, repo pattern intentionally avoids generator, or task only customizes existing generated files.
 
 ## Common workflows
 
@@ -100,6 +105,12 @@ Policy note: prefer local canonical capybara lanes for execution. Built-in OpenC
 2. Use matching viewport + wait/stabilize/scroll/settle across reference/current/final
 3. Record rendering-affecting console/network issues when material
 
+### E) Stack scaffold/generator workflow
+1. Detect stack and generator availability from repo files and tool inventory.
+2. Use official generator/CLI/MCP for new framework artifacts when usable.
+3. Edit generated files only for task-specific customization.
+4. If manual creation is used, record attempted command/tool, unavailable/failing tool, or repo-specific reason.
+
 ## Anti-patterns
 
 - Using external search when repo-local docs/code already answer the question.
@@ -107,6 +118,7 @@ Policy note: prefer local canonical capybara lanes for execution. Built-in OpenC
 - Dumping raw parameter schemas into canonical policy docs.
 - Doing destructive git/runtime actions without explicit user intent.
 - Claiming parity/quality without runnable evidence.
+- Manually creating new framework artifacts while official generator/CLI/MCP is usable and no fallback evidence exists.
 
 ## Fallback rules
 

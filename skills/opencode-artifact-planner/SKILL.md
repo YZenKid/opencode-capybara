@@ -21,6 +21,23 @@ Canonical tool references:
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
+## Reference Depth Gate
+- Tiny maintenance, local bugfixes, and prompt/config plans may rely on repo-local evidence when enough; do not force internet research or make external claims for low-risk local work.
+- For greenfield, substantial UI/UX, unfamiliar or version-sensitive library/API behavior, current external facts, reference UI, product/market-sensitive, or upstream-dependent work, define source strategy before convergence: repo evidence, official/library docs via `@librarian`/context when available, upstream source/examples or GitHub/web search when needed, and browser/reference screenshots for visual work.
+- Do not finalize substantial plans until reasonable references were checked or explicitly skipped with rationale. Missing current docs/API/source facts route to `@librarian`; do not invent library/API behavior, package capabilities, pricing, market facts, or upstream behavior from memory.
+- If a relevant source path is skipped, record why and lower the claim level (`draft`, `assumption`, `repo-local only`, or `first-principles`).
+- Greenfield plans must use `.opencode/docs/GREENFIELD_STARTER.md` or a repo-local equivalent as starter input unless explicitly prototype-only; if skipped, record why.
+
+## Anti-AI-slop quality bar
+- No generic UI/product plans. Require reference pack or explicit first-principles rationale plus distinctive direction and concrete page/component/state/motion/accessibility details for substantial UI.
+- Substantial UI needs page-by-page flows, section composition, component inventory, responsive behavior, empty/loading/error/success states, motion intent with reduced-motion handling, accessibility checks, and visual evidence plan.
+- Avoid bland defaults: centered gradient hero, fake metrics, vague dashboards, emoji/icon placeholders, unexplained cards, generic SaaS copy, and “modern clean” without source-backed or first-principles specifics.
+
+## Material Grammar Translation
+- Substantial UI plans with explicit aesthetic requests must include Material Grammar Translation before final readiness: user phrase -> tokens -> surfaces -> layout rules -> reject_if.
+- Example: `claymorphism + glassmorphism` -> soft warm/pastel tokens, rounded tactile clay surfaces, frosted translucent glass overlays, layered shadows/highlights, airy product/domain hero composition; reject_if: generic neon SaaS, repeated card/grid anatomy, unreadable blur, fake metrics, debug copy, abstract CSS filler where imagery matters.
+- Do not finalize `ready-for-implementation`, `PASS`, or `PASS_FOR_SLICE` if style grammar is missing; mark `blocked`/`NEEDS_DEPTH` and route to `@designer` advisory.
+
 ## Language
 
 - Use Indonesian for all user-facing communication, including chat, operational explanations, assumptions, question gates, planning summaries, and planning artifacts produced by this skill.
@@ -64,13 +81,25 @@ Do not call implementation/source-edit/generation subagents (for example `@fixer
 
 ## Required plan sections
 
-Goal, Non-goals, Scope, Requirements, Acceptance Criteria, Existing Patterns/Reuse, Constraints, Risks, Decisions/Assumptions, TDD/Test Plan, Implementation Steps, Expected Files to Change, Agent/Tool Routing, Execution-ready Worklist / Handoff Contract, Validation Commands, Evidence Requirements, Done Criteria, Final Planning Summary.
+Goal, Non-goals, Scope, Requirements, Acceptance Criteria, Existing Patterns/Reuse, Constraints, Risks, Decisions/Assumptions, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, TDD/Test Plan, Implementation Steps, Expected Files to Change, Agent/Tool Routing, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, Validation Commands, Evidence Requirements, Done Criteria, Final Planning Summary.
+
+For non-trivial plans, Execution Source of Truth must define precedence for implementation: latest explicit user instruction; safety/security/permission rules; Non-negotiable Implementation Invariants; Execution-ready Worklist / Handoff Contract; Acceptance Criteria and Done Criteria; Implementation Steps; follow-ups/recommendations. Conflicts must be recorded in verification evidence.
+
+Non-negotiable Implementation Invariants are required when plan semantics can be implemented incorrectly despite checklist compliance. Capture artifact-only planner posture, conditional planner use, tiny fast path lightweight behavior, owner/lane boundaries, evidence requirements, and claim scope when relevant.
+
+Do Not / Reject If must name concrete scope-creep, overclaiming, generated-weirdness, and risky-shortcut failures that should stop, revert, or remediate implementation before final claim.
+
+Diff Boundary must list allowed file groups, generated-report exceptions, and evidence paths. Any out-of-boundary change must be reverted or justified in verification evidence before final quality gate.
+
+Executor Handoff Prompt must be copyable for `@orchestrator` and implementation lanes with minimal translation. Include scope, must_preserve, do_not_touch, validation, return/evidence expectations, and plan-specific claim limits.
 
 For non-trivial plans, include a concise source-strategy note or equivalent under `Evidence Requirements`, `Decisions/Assumptions`, or `Final Planning Summary`: what sources were used, what was skipped, which major choices are repo-backed/reference-backed/docs-backed/first-principles-driven, and which assumptions remain.
 
-Execution-ready Worklist / Handoff Contract is mandatory for non-trivial plans and must allow `@orchestrator` to execute to completion without replanning. For each atomic ordered task include: dependencies (`depends_on`), owner/lane, validation, task exit criteria, blocking status (`ready`/`blocked`) with reason, `requires_user_decision` (`yes`/`no`), and a `start_with` pointer for the first non-blocked task.
+Execution-ready Worklist / Handoff Contract is mandatory for non-trivial plans and must allow `@orchestrator` to execute to completion without replanning. For each atomic ordered task include: dependencies (`depends_on`), owner/lane, validation, task exit criteria, blocking status (`ready`/`blocked`) with reason, `requires_user_decision` (`yes`/`no`), `must_preserve`, `do_not_touch`, `evidence_update`, `exit_verification`, and a `start_with` pointer for the first non-blocked task.
 
 For UI/reference work also include Visual Spec Summary, Asset Manifest Summary, Image Generation Decision, Reference Capture Requirements, and Visual Comparison Requirements.
+For substantial UI, require page, component, state, motion, responsive, and accessibility specifics plus reference pack or first-principles rationale; generic “modern dashboard/landing page” prose is not execution-ready.
+For explicit aesthetics, require Material Grammar Translation: user phrase -> tokens -> surfaces -> layout rules -> reject_if; no final plan readiness if missing.
 Keep one primary plan file as the durable source of truth; any visual artifacts or extra notes belong in draft/evidence only when operationally useful and should not compete as alternate primary plans.
 For substantial UI/reference/image-heavy work, require a Design Readiness Gate and add blockers for missing motion storyboard, icon matrix, visual density rubric, asset manifest, image generation decision, reference/current captures, and final designer review.
 For portfolio/reference/template work with hero art, portraits, project cards, thumbnails, testimonial/avatar clusters, blog cards, icon badges, or rich backgrounds, assume image-heavy until proven otherwise. The plan must decide `generate`, `use-provided-assets`, `licensed-existing-assets`, or `no-generation-needed` per section; if no licensed/provided assets exist, recommend legal style-equivalent generation instead of CSS placeholders.

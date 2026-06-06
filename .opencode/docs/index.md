@@ -5,6 +5,7 @@ This directory is the **system of record** for `opencode-capybara`.
 ## Canonical docs
 - [ARCHITECTURE.md](./ARCHITECTURE.md)
 - [AGENT_ROUTING.md](./AGENT_ROUTING.md)
+- [GREENFIELD_STARTER.md](./GREENFIELD_STARTER.md)
 - [AGENT_LEGIBILITY.md](./AGENT_LEGIBILITY.md)
 - [QUALITY.md](./QUALITY.md)
 - [QUALITY_SCORE.md](./QUALITY_SCORE.md)

@@ -35,6 +35,30 @@
         "npm run doctor"
       ],
       "reasonCode": "verification-evidence-gap"
+    },
+    {
+      "type": "manifest",
+      "file": ".opencode/evidence/exemplar-maintenance-stability/index.json",
+      "mustInclude": [
+        "task_id",
+        "required_files",
+        "discovery.md",
+        "verification.md",
+        "Maintenance Stability Mode"
+      ],
+      "reasonCode": "maintenance-exemplar-evidence-gap"
+    },
+    {
+      "type": "manifest",
+      "file": ".opencode/evidence/exemplar-greenfield-first-slice/index.json",
+      "mustInclude": [
+        "task_id",
+        "required_files",
+        "discovery.md",
+        "verification.md",
+        "PASS_FOR_SLICE"
+      ],
+      "reasonCode": "greenfield-exemplar-evidence-gap"
     }
   ]
 }

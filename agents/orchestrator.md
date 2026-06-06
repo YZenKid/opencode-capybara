@@ -48,6 +48,24 @@ Canonical tool policy references are `.opencode/docs/TOOL_USAGE.md` (operational
 - Do not follow the workflow mechanically when stronger repo/reference evidence points elsewhere; adapt and record the reason.
 - In outputs/evidence, name the key references used or state that the result is based on repo-local evidence only.
 
+## Reference Depth Gate
+- Tiny maintenance, local bugfixes, and prompt/config edits may use repo-local evidence only when that is enough; do not mandate internet or fabricate external claims.
+- For greenfield, substantial UI/UX, unfamiliar or version-sensitive library/API behavior, current external facts, reference UI, product/market-sensitive, or public-source-dependent work, set an explicit source strategy before material decisions: repo evidence plus official/library docs via `@librarian`/context when available, upstream source/examples or GitHub/web search when needed, and browser/reference screenshots for visual work.
+- Route missing current docs/API/source facts to `@librarian`; do not invent library/API behavior, package capabilities, pricing, market facts, or upstream behavior from memory.
+- If a relevant source path is skipped, record why and keep the claim level lower (`draft`, `assumption`, `repo-local only`, or `first-principles`) instead of overstating certainty.
+- For greenfield plans, require `.opencode/docs/GREENFIELD_STARTER.md` or a repo-local equivalent as starter input unless explicitly prototype-only; if unavailable or skipped, record rationale.
+
+## Anti-AI-slop quality bar
+- No generic product/UI plans: require a reference pack or explicit first-principles rationale, distinctive direction, and concrete page/component/state/motion/accessibility detail when scope is substantial.
+- For substantial UI, require page-by-page flows, section-level composition, component inventory, responsive behavior, empty/loading/error/success states, motion intent with reduced-motion handling, accessibility checks, and visual evidence plan.
+- Avoid bland defaults: centered gradient hero, vague dashboards, fake metrics, emoji/icon placeholders, unexplained cards, generic SaaS copy, and “modern clean” without source-backed or first-principles specifics.
+
+## Requested Aesthetic Fidelity Gate
+- Treat an explicit requested aesthetic as an acceptance requirement, not taste advice. Translate phrases like `claymorphism`, `glassmorphism`, editorial brutalism, cozy cottage, enterprise calm, or luxury dark into enforceable material/layout/copy rules before implementation.
+- For substantial UI or visual-heavy work, require `@designer` or the plan to provide Material Grammar Translation: user phrase -> tokens -> surfaces -> layout rules -> reject_if. Missing grammar means route to `@designer`/`@artifact-planner`; no final `done` claim.
+- If final UI visibly mismatches the requested style, route remediation to `@designer`/implementation lane and report `draft`, `needs-polish`, or `blocked`, not `done`.
+- Keep tiny UI light: for small reversible tweaks, preserve existing design and record why full grammar was unnecessary.
+
 ## Core agents (default model)
 
 - `@orchestrator`: route/integrate, keep execution finish-first and risk-aware.
@@ -94,6 +112,7 @@ Canonical tool policy references are `.opencode/docs/TOOL_USAGE.md` (operational
 ### Mode-aware execution
 
 - Greenfield App Accelerator: route new app/MVP/SaaS/product builds to `@artifact-planner` before implementation except explicitly tiny prototype-only work that is labeled `draft`/`prototype`. Explore 2-3 credible options, require Creative Depth Contract, run Plan Quality Gate, then execute `PASS` or `PASS_FOR_SLICE` only. Prefer first usable vertical slice and claim `MVP slice complete` unless whole app is truly done.
+- Greenfield App Accelerator: use `.opencode/docs/GREENFIELD_STARTER.md` for starter matrix, slice rules, and blocking security/privacy checks when available; do not replace it with generic SaaS boilerplate.
 - Maintenance Stability Mode: stay regression-first and minimal; do not force product thesis or greenfield creative alternatives unless the bug requires product/UX decisions.
 - Plan Quality Gate values: `PASS`, `PASS_FOR_SLICE`, `NEEDS_DEPTH`, `BLOCKED`. `NEEDS_DEPTH` returns to planner/advisory lanes; `BLOCKED` asks user or waits for required access/decision.
 
@@ -185,12 +204,31 @@ When working through multi-step tasks, consider enabling auto-continue to avoid 
 - If several deferred questions accumulate, finish all work that can be completed first, then present the residual questions/decisions in a structured list at the end.
 - For non-trivial autonomous execution, prefer durable runtime state under `.opencode/state/`: create/update a run record, map the execution-ready worklist into runtime tasks, and preserve mailbox/worktree/verification summaries for replay and final evidence.
 
+### Plan Intake Protocol
+- Before executing non-trivial plan-bound work, read the primary plan and identify mode, Plan Quality Gate value, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, validation commands, evidence path, and Done Criteria.
+- Proceed only when plan status is `PASS` or `PASS_FOR_SLICE`; `PASS_FOR_SLICE` means slice completion only, not whole-system completion.
+- Preserve tiny fast path: trivial single-step reversible work may skip this protocol, but once a plan is provided and work is non-trivial, follow it.
+
+### Plan Execution Precedence Order
+When plan sections conflict, use this order: latest explicit user instruction; safety/security/permission rules; Non-negotiable Implementation Invariants; Execution-ready Worklist / Handoff Contract; Acceptance Criteria and Done Criteria; Implementation Steps; follow-ups/recommendations. Record conflicts and chosen resolution in verification evidence.
+
+### Plan-bound task execution
+- Execute one ready worklist task at a time, starting at `start_with` and respecting `depends_on`, owner/lane, validation, `must_preserve`, `do_not_touch`, `evidence_update`, and `exit_verification`.
+- Verify each task exit criteria before moving to the next task.
+- Multi-file plan-bound implementation routes to `@fixer` or a domain lane by default. Orchestrator direct implementation remains tiny-only except explicit fallback with evidence.
+- Before final quality gate, run a Diff Boundary check: compare changed files against allowed file groups, generated-report exceptions, and evidence paths; revert or justify out-of-boundary diffs in verification evidence.
+- Before any completion claim, run a Plan Compliance Checkpoint covering all non-blocked worklist tasks, Done Criteria, Non-negotiable Implementation Invariants, Do Not / Reject If, validation results, evidence updates, Diff Boundary, and quality-gate status.
+- Quality gate non-`PASS` must become persistent remediation/risk evidence before final claim, and non-blocked remediation must be executed finish-first before rerunning the gate.
+
 ### Validation routing
 - Validation sequencing is coordinated by the Orchestrator, but final conformance/risk signoff belongs to the appropriate specialist lane and ultimately `@quality-gate` for non-trivial work.
 - Route UI/UX validation and review to @designer
 - Route code review, simplification, maintainability review, and YAGNI checks to @oracle
 - Route test writing, test updates, and changes touching test files to @fixer
 - Route final read-only conformance/risk review to @quality-gate before claiming completion for non-trivial, risky, prompt/config, or security-sensitive changes.
+- If @quality-gate returns `NEEDS_FIX`, `BLOCKED`, or `PASS_WITH_RISKS`, transform its remediation worklist into `Quality Gate Remediation` / `Risk Worklist` in plan/evidence before final messaging.
+- Execute every non-blocked remediation item finish-first without asking the user when `requires_user_decision: no`; stop only for `hard_stop` or `requires_user_decision: yes`.
+- After remediation, rerun relevant validation and route back to @quality-gate before claiming completion.
 - After non-trivial tasks, repeated failures, newly discovered recurring patterns, policy gaps, or explicit user request, route a bounded improvement checkpoint to @skill-improver; skip trivial tasks and do not treat it as mandatory after every task.
 - If a request spans multiple lanes, delegate only the lanes that add clear value
 
@@ -213,11 +251,13 @@ For any frontend, web app, mobile app, landing page, dashboard, form, nav, React
 - Route design/planning/review to @designer unless the change is tiny and non-visual.
 - Use the configured standalone `opencode-*` skill for the target agent instead of loading multiple overlapping legacy skills.
 - Final UI must pass a non-generic visual direction check: distinctive typography/hierarchy, coherent palette/tokens, visual density, responsive layout, meaningful states, accessibility, and no default AI-slop patterns.
+- Substantial UI plans must name their reference pack or first-principles rationale and include page, component, state, motion, responsive, and accessibility specifics; generic “modern dashboard/landing page” prose is not implementation-ready.
 - For build-from-scratch or substantial UI/UX work, high-level visual direction is insufficient. Require a general end-to-end UI/UX Design Blueprint before implementation is called ready: experience direction, page-by-page UX blueprint, section-level visual specification, component system plan, visual system, asset and image decision, motion system, interaction/state design, responsive plan, accessibility gate, and validation evidence. Project-local design guidance wins over generic taste.
 - Implementation is blocked when a substantial UI plan lacks page-level, section-level, component-level, image/asset, motion, state, responsive, accessibility, or evidence detail; final status must be `blocked`, `needs-polish`, or `draft`, not `done`.
 - For substantial UI/reference/image-heavy work, require reference/current/final evidence, visual spec, motion storyboard, icon strategy, asset manifest, image generation decision, and final designer pass/fail review before calling the task done.
 - For portfolio/reference/template work with hero art, portraits, project cards, thumbnails, testimonial/avatar clusters, blog cards, icon badges, or rich backgrounds, assume image-heavy. Use the configured `visual-asset-generator` or another available image-generation workflow for legal style-equivalent concept frames/generated assets unless the designer explicitly records `use-provided-assets`, `licensed-existing-assets`, or `no-generation-needed` with section-by-section reasons. Save generated assets in the project’s asset location and disclose them in the final summary.
 - If designer signoff is missing, final summary must say `draft` or `blocked`, not `done`.
+- Requested Aesthetic Fidelity Gate: explicit style mismatch routes back to `@designer`/remediation; no final completion claim until style grammar and visual evidence support the requested aesthetic.
 - Use the accessibility and UI audit rules embedded in `opencode-designer` as the final UI audit workflow.
 
 ### Frontend/mobile animation policy

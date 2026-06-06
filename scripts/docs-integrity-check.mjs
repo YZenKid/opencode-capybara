@@ -10,6 +10,7 @@ const canonicalDocs = [
   ".opencode/docs/index.md",
   ".opencode/docs/ARCHITECTURE.md",
   ".opencode/docs/AGENT_ROUTING.md",
+  ".opencode/docs/GREENFIELD_STARTER.md",
   ".opencode/docs/AGENT_LEGIBILITY.md",
   ".opencode/docs/QUALITY.md",
   ".opencode/docs/QUALITY_SCORE.md",
@@ -221,6 +222,60 @@ function checkMirrorPolicyBloat() {
   }
 }
 
+function checkRoutingRubricAndGreenfieldLink() {
+  const routing = read(".opencode/docs/AGENT_ROUTING.md");
+  const quality = read(".opencode/docs/QUALITY.md");
+  const skills = read(".opencode/docs/SKILLS.md");
+  const starter = read(".opencode/docs/GREENFIELD_STARTER.md");
+  if (routing === null || quality === null || skills === null || starter === null) return;
+
+  const requiredRoutingNeedles = [
+    "Task-size rubric",
+    "Fast path",
+    "Maintenance quick contract",
+    "`tiny`",
+    "`small`",
+    "`material`",
+    "`greenfield`",
+    "cannot bypass",
+    "risk trigger",
+    "multi-file",
+    "material completion claims",
+    "GREENFIELD_STARTER.md",
+  ];
+  const missingRouting = requiredRoutingNeedles.filter((needle) => !routing.includes(needle));
+  if (missingRouting.length > 0) {
+    failures += 1;
+    console.error("✗ .opencode/docs/AGENT_ROUTING.md missing routing rubric/fast-path contract:");
+    for (const item of missingRouting) console.error(`  - ${item}`);
+  } else {
+    console.log("✓ .opencode/docs/AGENT_ROUTING.md routing rubric and fast-path contract");
+  }
+
+  const linkedDocs = [
+    [".opencode/docs/QUALITY.md", quality],
+    [".opencode/docs/SKILLS.md", skills],
+  ];
+  const missingLinks = linkedDocs.filter(([, content]) => !content.includes("GREENFIELD_STARTER.md")).map(([file]) => file);
+  if (missingLinks.length > 0) {
+    failures += 1;
+    console.error("✗ greenfield starter link missing from related docs:");
+    for (const file of missingLinks) console.error(`  - ${file}`);
+  } else {
+    console.log("✓ greenfield starter linked from related docs");
+  }
+
+  const starterNeedles = ["answered", "deferred", "slice-safe", "blocked", "First-slice template", "Security/privacy blocking rule"];
+  const missingStarter = starterNeedles.filter((needle) => !starter.includes(needle));
+  if (missingStarter.length > 0) {
+    failures += 1;
+    console.error("✗ .opencode/docs/GREENFIELD_STARTER.md missing starter contract terms:");
+    for (const item of missingStarter) console.error(`  - ${item}`);
+  } else {
+    console.log("✓ .opencode/docs/GREENFIELD_STARTER.md starter contract terms");
+  }
+}
+
 function checkDecisionAdjacency() {
   try {
     const changed = execFileSync("git", ["diff", "--name-only", "HEAD"], {
@@ -265,6 +320,7 @@ checkGeneratedDocsLabel();
 checkGeneratedDocsFreshness();
 checkReferenceMirrorPosture();
 checkMirrorPolicyBloat();
+checkRoutingRubricAndGreenfieldLink();
 checkDecisionAdjacency();
 
 if (failures > 0) {
