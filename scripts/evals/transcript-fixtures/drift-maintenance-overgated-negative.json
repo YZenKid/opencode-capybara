@@ -1,0 +1,12 @@
+{
+  "id": "drift-maintenance-overgated-negative",
+  "category": "transcript-behavior",
+  "classification": "bad",
+  "description": "Drift sentinel: maintenance bugfix must not be forced through greenfield thesis or creative options.",
+  "expectedReasonCodes": ["routing-drift-maintenance-overgated"],
+  "events": [
+    { "agent": "orchestrator", "action": "delegate_plan", "delegatedTo": "artifact-planner", "taskType": "maintenance", "violationCodes": ["routing-drift-maintenance-overgated"], "notes": "maintenance bugfix forced through greenfield thesis and options" },
+    { "agent": "artifact-planner", "action": "plan", "fileCount": 1 },
+    { "agent": "orchestrator", "action": "complete", "material": false }
+  ]
+}

@@ -45,7 +45,7 @@ Use for bounded native or hybrid mobile implementation. Detect actual project st
 1. Detect stack, platforms, and build/test commands.
 2. Inspect navigation, state, config, permissions, native modules, and existing tests.
 3. Confirm user flow, API contract, offline/lifecycle needs, and platform impact.
-4. Red: add widget/unit/integration test or reproduce bug where feasible.
+4. TDD where relevant: Red by adding widget/unit/integration test or reproducing bug where feasible.
 5. Green: implement smallest app/native/config change.
 6. Refactor: align with project architecture and platform conventions.
 7. Validate with focused tests/build/analyzer/simulator checks.

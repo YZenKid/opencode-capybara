@@ -5,7 +5,7 @@ description: Standalone read-only codebase discovery workflow for explorer. Use 
 
 # OpenCode Explorer Skill
 
-Use this for read-only discovery before planning, implementation, or review. Explorer maps facts; it does not decide architecture, write plans, edit files, or sign off risk.
+Use this for Read-only discovery before planning, implementation, or review. Explorer maps facts; it does not decide architecture, write plans, edit files, or sign off risk.
 
 ## Reference-first creativity contract
 - Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.

@@ -148,6 +148,13 @@ For routing-quality work, replay evidence should also preserve:
 - release-gate readiness state,
 - drift summary against the previous harness snapshot when available.
 
+For drift-enforcement work, evidence must additionally include:
+- baseline results for `npm run check:harness:strict` and `npm run check:routing-release`, or explicit baseline blockers;
+- changed drift sentinel fixture ids with classifications, release-critical state, source mode, and reason codes;
+- `npm run eval:harness` report path: `.opencode/evidence/harness-evals/latest/report.json` and `.opencode/evidence/harness-evals/latest/report.md`;
+- `npm run check:routing-release` result showing sentinel id/classification/source-mode/release-critical coverage;
+- `npm run check:release` result, or a remediation worklist if blocked by unrelated/out-of-boundary failures.
+
 ## Strict golden path
 Use this lightweight end-to-end path to prove the harness is operational, not only well-documented:
 

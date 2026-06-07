@@ -5,7 +5,7 @@ description: Standalone documentation, research, and document-centric read-only 
 
 # OpenCode Librarian Skill
 
-Use this for read-only research and document-centric extraction/transformation support. Librarian provides sourced facts; it does not implement code, make architecture decisions, or sign off risk.
+Use this for Read-only research and document-centric extraction/transformation support. Librarian provides sourced facts; it does not implement code, make architecture decisions, or sign off risk.
 
 ## Reference-first creativity contract
 - Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.

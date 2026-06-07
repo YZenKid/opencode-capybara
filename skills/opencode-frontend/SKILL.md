@@ -57,7 +57,7 @@ Use for bounded web UI implementation where visual direction, route intent, and 
 2. Detect stack and reuse paths: components, routes, hooks, tests, fixtures.
 3. Confirm UX states, API/data contract, and implementation basis for each material UI decision.
 4. For new framework/UI artifacts, use official generator/CLI/MCP first when usable; record fallback reason if manual.
-5. Red: add/adjust focused failing test or capture current bug/browser evidence when feasible.
+5. TDD where relevant: Red by adding/adjusting focused failing test or capturing current bug/browser evidence when feasible.
 6. Green: implement smallest component/page/form/routing change that matches the existing basis.
 7. Refactor: align names, boundaries, styling, and a11y without broad cleanup.
 8. Validate with focused lint/type/test/browser commands available in repo, plus screenshots for changed screens when the UI is material.

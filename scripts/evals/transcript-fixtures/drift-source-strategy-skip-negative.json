@@ -1,0 +1,12 @@
+{
+  "id": "drift-source-strategy-skip-negative",
+  "category": "transcript-behavior",
+  "classification": "source-strategy",
+  "description": "Drift sentinel: version-sensitive library/API decisions need source lookup or skipped-source rationale.",
+  "expectedReasonCodes": ["source-strategy-missing-for-version-sensitive-work"],
+  "rawToolTrace": [
+    { "agent": "orchestrator", "action": "implement", "versionSensitive": true, "notes": "version-sensitive SDK API decision from memory" },
+    { "agent": "fixer", "action": "implement", "fileCount": 1 },
+    { "agent": "orchestrator", "action": "complete", "material": false }
+  ]
+}

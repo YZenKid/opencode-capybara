@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
@@ -36,11 +36,11 @@ function extractFrontmatterList(content, key) {
   return match[1].split("\n").map((line) => line.trim().replace(/^-\s*/, "")).filter(Boolean);
 }
 
-const activeAgents = [
-  "architect", "artifact-planner", "backend", "council", "designer", "devops", "explorer", "fixer",
-  "frontend", "fullstack", "librarian", "mobile", "oracle", "orchestrator", "project-manager",
-  "quality-gate", "skill-improver", "system-analyst", "visual-asset-generator",
-];
+const activeAgents = readdirSync(resolve(root, "agents"))
+  .filter((file) => file.endsWith(".md"))
+  .map((file) => file.replace(/\.md$/, ""))
+  .filter((name) => !["build", "general"].includes(name))
+  .sort();
 const activeSkills = activeAgents.map((agent) => `opencode-${agent}`);
 const configuredMcp = Object.entries(config.mcp ?? {}).filter(([, value]) => value.enabled !== false).map(([name]) => name).sort();
 
@@ -52,6 +52,7 @@ for (const agent of activeAgents) {
     const content = readFileSync(resolve(root, `agents/${agent}.md`), "utf8");
     const skills = extractFrontmatterList(content, "skills");
     if (row.skill && !skills.includes(row.skill)) fail(`agent ${agent}: registry skill ${row.skill} not in frontmatter`);
+    if (row.skill && row.skill !== `opencode-${agent}`) fail(`agent ${agent}: registry skill must preserve 1:1 mapping, found ${row.skill}`);
   }
 }
 pass("active agents checked against registry");

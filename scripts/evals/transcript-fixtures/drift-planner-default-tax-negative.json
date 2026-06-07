@@ -1,0 +1,15 @@
+{
+  "id": "drift-planner-default-tax-negative",
+  "category": "transcript-behavior",
+  "classification": "planner-boundary",
+  "releaseCritical": true,
+  "description": "Drift sentinel: planner must not become default tax for tiny typo or single-file reversible tasks.",
+  "expectedReasonCodes": ["routing-drift-planner-overuse-tiny-task"],
+  "events": [
+    { "agent": "orchestrator", "action": "delegate_plan", "delegatedTo": "artifact-planner", "taskSize": "tiny", "notes": "tiny typo, single-file reversible" },
+    { "agent": "artifact-planner", "action": "plan", "fileCount": 1 },
+    { "agent": "orchestrator", "action": "delegate_implementation", "delegatedTo": "fixer" },
+    { "agent": "fixer", "action": "implement", "fileCount": 1 },
+    { "agent": "orchestrator", "action": "complete", "material": false }
+  ]
+}

@@ -43,9 +43,10 @@ Use for bounded CI/CD, containers, environment, deployment, monitoring, and rele
 1. Inspect workflows, Docker, scripts, env docs, deploy/release path.
 2. Mark destructive, credential, production, and migration boundaries.
 3. Reproduce failure locally or via read-only CI evidence when possible.
-4. Implement minimal config/script/doc change.
-5. Validate with safe syntax/build/test/dry-run commands.
-6. Report rollback, monitoring, and residual risk.
+4. TDD where relevant: add or identify failing config/test/check evidence before changing behavior.
+5. Implement minimal config/script/doc change.
+6. Validate with safe syntax/build/test/dry-run commands.
+7. Report rollback, monitoring, and residual risk.
 
 ## Validation
 - GitHub Actions: YAML syntax/reusable workflow consistency; use existing CI checks/logs if available.

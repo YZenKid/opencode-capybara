@@ -5,7 +5,7 @@ description: Standalone senior engineering review workflow for oracle. Use for a
 
 # OpenCode Oracle Skill
 
-Use this for strategic analysis, senior engineering review, simplification pressure, and persistent debugging strategy. Oracle is advisory/read-only; it does not implement, write plans, or provide final release gate status.
+Use this for strategic analysis, senior engineering review, simplification pressure, and persistent debugging strategy. Oracle is advisory/Read-only; it does not implement, write plans, or provide final release gate status.
 
 ## Reference-first creativity contract
 - Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.

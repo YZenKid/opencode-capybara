@@ -13,8 +13,18 @@ for (const entry of readdirSync(skillsDir, { withFileTypes: true })) {
   if (!entry.isDirectory() || !entry.name.startsWith("opencode-") || intentionallyMissing.has(entry.name)) continue;
   const file = resolve(skillsDir, entry.name, "SKILL.md");
   const content = readFileSync(file, "utf8");
-  const requirements = content.startsWith("---") ? ["name:", "description:"] : ["## Workflow", "## Output contract"];
-  const missing = requirements.filter((needle) => !content.includes(needle));
+  const requirements = content.startsWith("---") ? ["name:", "description:"] : [];
+  requirements.push("Reference-first");
+  requirements.push(/assumptions? as (assumptions|facts)|avoid turning them into fake certainty/);
+  requirements.push("evidence");
+  if (["opencode-fixer", "opencode-frontend", "opencode-backend", "opencode-fullstack", "opencode-mobile", "opencode-devops"].includes(entry.name)) {
+    requirements.push("TDD");
+    requirements.push("Validation");
+  }
+  if (["opencode-architect", "opencode-council", "opencode-explorer", "opencode-librarian", "opencode-oracle", "opencode-project-manager", "opencode-quality-gate", "opencode-system-analyst"].includes(entry.name)) {
+    requirements.push("Read-only");
+  }
+  const missing = requirements.filter((needle) => needle instanceof RegExp ? !needle.test(content) : !content.includes(needle));
 
   const hasTitle = content.includes("# ");
   const hasContractMarker = /^##\s+.+/m.test(content);

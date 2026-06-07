@@ -46,10 +46,11 @@ For canonical tool policy and boundaries, refer to:
 
 ## Red → Green → Refactor
 
+- TDD is default for behavior changes when a practical test, fixture, or reproducible check exists.
 - Red: failing test/regression evidence or visual baseline.
 - Green: minimal implementation that passes.
 - Refactor: simplify after checks pass; avoid unrelated churn.
-- Verification: run relevant lint/build/test/browser checks.
+- Validation: run relevant lint/build/test/browser checks.
 - For maintenance, do not require product thesis or creative alternatives unless the bug requires a product/UX decision.
 
 ## UI/browser validation

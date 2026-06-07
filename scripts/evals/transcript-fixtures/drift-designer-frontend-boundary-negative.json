@@ -1,0 +1,13 @@
+{
+  "id": "drift-designer-frontend-boundary-negative",
+  "category": "transcript-behavior",
+  "classification": "domain-boundary",
+  "releaseCritical": true,
+  "description": "Drift sentinel: frontend implementation must not start before designer direction on substantial UI.",
+  "expectedReasonCodes": ["routing-drift-missing-designer-direction", "routing-overreach-missing-quality-gate"],
+  "events": [
+    { "agent": "orchestrator", "action": "delegate_implementation", "delegatedTo": "frontend", "violationCodes": ["routing-drift-missing-designer-direction"], "notes": "substantial UI starts before designer direction" },
+    { "agent": "frontend", "action": "implement", "fileCount": 5, "nonTrivial": true, "material": true },
+    { "agent": "orchestrator", "action": "complete", "material": true }
+  ]
+}

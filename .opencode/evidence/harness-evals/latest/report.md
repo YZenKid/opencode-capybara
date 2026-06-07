@@ -1,14 +1,14 @@
 # Harness Eval Report
 
-- Timestamp: 2026-06-06T11:34:11.402Z
-- Harness version: cc9314f14a97861e12c3e1d0e4775e2f7b060062
+- Timestamp: 2026-06-07T08:35:07.126Z
+- Harness version: 6cffe8ab4f6f40a0f03dce044885bdb786330f10
 - Task summary: Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.
 - Verdict: PASS
-- Fixture count: 26
+- Fixture count: 35
 - Failed: 0
-- Transcript fixture count: 13
-- Transcript average routing score: 3.54/5
-- Transcript score bands: usable=1, strong=2, excellent=6, weak=4
+- Transcript fixture count: 21
+- Transcript average routing score: 3.86/5
+- Transcript score bands: strong=7, excellent=9, usable=1, weak=4
 - Drift average delta: 0
 - Release gate ready: true
 - Tool trace:
@@ -39,6 +39,14 @@
   - agents/quality-gate.md
   - opencode.json
   - package.json
+  - scripts/evals/transcript-fixtures/drift-designer-frontend-boundary-negative.json
+  - scripts/evals/transcript-fixtures/drift-fullstack-catchall-negative.json
+  - scripts/evals/transcript-fixtures/drift-maintenance-overgated-negative.json
+  - scripts/evals/transcript-fixtures/drift-planner-default-tax-negative.json
+  - scripts/evals/transcript-fixtures/drift-quality-gate-remediation-positive.json
+  - scripts/evals/transcript-fixtures/drift-readonly-advisor-write-negative.json
+  - scripts/evals/transcript-fixtures/drift-source-strategy-skip-negative.json
+  - scripts/evals/transcript-fixtures/drift-visual-asset-boundary-negative.json
   - scripts/evals/transcript-fixtures/final-output-raw-subagent-language-negative.json
   - scripts/evals/transcript-fixtures/finish-first-advisory-veto-negative.json
   - scripts/evals/transcript-fixtures/finish-first-indonesian-final-positive.json
@@ -65,11 +73,20 @@
   - readonly-boundary-negative
   - runtime-plugin-removal
   - docs-policy-migration-roundtrip
+  - drift-planner-visual-asset-boundary
   - evidence-bundle-completion
   - init-harness-minimal-foreign-repo-scaffold
   - orchestrator-routing-discipline-20260512-1708
   - planner-and-mcp-state-contract
   - reviewer-boundary-routing
+  - drift-designer-frontend-boundary-negative
+  - drift-fullstack-catchall-negative
+  - drift-maintenance-overgated-negative
+  - drift-planner-default-tax-negative
+  - drift-quality-gate-remediation-positive
+  - drift-readonly-advisor-write-negative
+  - drift-source-strategy-skip-negative
+  - drift-visual-asset-boundary-negative
   - final-output-raw-subagent-language-negative
   - finish-first-advisory-veto-negative
   - finish-first-indonesian-final-positive
@@ -85,6 +102,11 @@
   - routing-share-export-noisy-negative
 - Reason codes:
   - unsupported-fixture-shape
+  - routing-overreach-missing-quality-gate
+  - routing-drift-fullstack-catchall
+  - routing-overreach-missing-quality-gate
+  - routing-drift-planner-overuse-tiny-task
+  - source-strategy-missing-for-version-sensitive-work
   - final-output-raw-internal-passthrough
   - finish-first-premature-advisory-stop
   - routing-overreach-redundant-orchestrator-discovery
@@ -137,6 +159,10 @@
 - AGENTS.md: PASS
 - .opencode/docs/AGENT_ROUTING.md: PASS
 - .opencode/docs/index.md: PASS
+## drift-planner-visual-asset-boundary
+- Status: PASS
+- Description: Task fixture: visual asset boundary sentinel exists with legal-style-equivalent reason code.
+- scripts/evals/transcript-fixtures/drift-visual-asset-boundary-negative.json: PASS
 ## evidence-bundle-completion
 - Status: PASS
 - Description: Behavioral eval: a non-trivial task should have a plan, evidence manifest, discovery artifact, and verification artifact with the expected command set.
@@ -176,6 +202,84 @@
 - agents/quality-gate.md: PASS
 - .opencode/docs/AGENT_ROUTING.md: PASS
 - skills/opencode-quality-gate/SKILL.md: PASS
+## drift-designer-frontend-boundary-negative
+- Status: PASS
+- Description: Drift sentinel: frontend implementation must not start before designer direction on substantial UI.
+- Transcript source mode: normalized-events
+- Routing score: 4/5
+- Routing score band: strong
+- Routing confidence: high
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=pass, final_gate_presence=fail
+- scripts/evals/transcript-fixtures/drift-designer-frontend-boundary-negative.json: PASS
+- scripts/evals/transcript-fixtures/drift-designer-frontend-boundary-negative.json: PASS (routing-overreach-missing-quality-gate)
+## drift-fullstack-catchall-negative
+- Status: PASS
+- Description: Drift sentinel: fullstack must not become catch-all for broad unknown FE/BE contract work.
+- Transcript source mode: normalized-events
+- Routing score: 4/5
+- Routing score band: strong
+- Routing confidence: high
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=pass, final_gate_presence=fail
+- scripts/evals/transcript-fixtures/drift-fullstack-catchall-negative.json: PASS
+- scripts/evals/transcript-fixtures/drift-fullstack-catchall-negative.json: PASS (routing-drift-fullstack-catchall)
+- scripts/evals/transcript-fixtures/drift-fullstack-catchall-negative.json: PASS (routing-overreach-missing-quality-gate)
+## drift-maintenance-overgated-negative
+- Status: PASS
+- Description: Drift sentinel: maintenance bugfix must not be forced through greenfield thesis or creative options.
+- Transcript source mode: normalized-events
+- Routing score: 5/5
+- Routing score band: excellent
+- Routing confidence: high
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=pass, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/drift-maintenance-overgated-negative.json: PASS
+## drift-planner-default-tax-negative
+- Status: PASS
+- Description: Drift sentinel: planner must not become default tax for tiny typo or single-file reversible tasks.
+- Transcript source mode: normalized-events
+- Routing score: 5/5
+- Routing score band: excellent
+- Routing confidence: high
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=pass, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/drift-planner-default-tax-negative.json: PASS
+- scripts/evals/transcript-fixtures/drift-planner-default-tax-negative.json: PASS (routing-drift-planner-overuse-tiny-task)
+## drift-quality-gate-remediation-positive
+- Status: PASS
+- Description: Drift sentinel: non-PASS quality-gate output becomes remediation worklist, is executed, revalidated, then rerun.
+- Transcript source mode: normalized-events
+- Routing score: 5/5
+- Routing score band: excellent
+- Routing confidence: high
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=pass, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/drift-quality-gate-remediation-positive.json: PASS
+- scripts/evals/transcript-fixtures/drift-quality-gate-remediation-positive.json: PASS
+## drift-readonly-advisor-write-negative
+- Status: PASS
+- Description: Drift sentinel: read-only advisors must not write source or config.
+- Transcript source mode: normalized-events
+- Routing score: 4/5
+- Routing score band: strong
+- Routing confidence: high
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=fail, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/drift-readonly-advisor-write-negative.json: PASS
+## drift-source-strategy-skip-negative
+- Status: PASS
+- Description: Drift sentinel: version-sensitive library/API decisions need source lookup or skipped-source rationale.
+- Transcript source mode: raw-tool-trace
+- Routing score: 4/5
+- Routing score band: strong
+- Routing confidence: low
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=fail, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/drift-source-strategy-skip-negative.json: PASS
+- scripts/evals/transcript-fixtures/drift-source-strategy-skip-negative.json: PASS (source-strategy-missing-for-version-sensitive-work)
+## drift-visual-asset-boundary-negative
+- Status: PASS
+- Description: Drift sentinel: planner must not directly generate images or copy restricted assets instead of visual-asset-generator handoff.
+- Transcript source mode: normalized-events
+- Routing score: 4/5
+- Routing score band: strong
+- Routing confidence: high
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=fail, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/drift-visual-asset-boundary-negative.json: PASS
 ## final-output-raw-subagent-language-negative
 - Status: PASS
 - Description: Transcript eval: detect raw internal/subagent fields leaked directly into final user-facing output.

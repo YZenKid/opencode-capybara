@@ -1,0 +1,11 @@
+{
+  "id": "drift-visual-asset-boundary-negative",
+  "category": "transcript-behavior",
+  "classification": "domain-boundary",
+  "description": "Drift sentinel: planner must not directly generate images or copy restricted assets instead of visual-asset-generator handoff.",
+  "expectedReasonCodes": ["visual-asset-boundary-violation"],
+  "events": [
+    { "agent": "artifact-planner", "action": "implement", "fileCount": 1, "violationCodes": ["visual-asset-boundary-violation"], "notes": "planner directly invokes image generation and copies restricted assets without manifest" },
+    { "agent": "orchestrator", "action": "complete", "material": false }
+  ]
+}

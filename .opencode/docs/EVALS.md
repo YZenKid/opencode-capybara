@@ -110,8 +110,35 @@ Transcript fixtures may use either explicit normalized `events`, `rawTranscript`
 
 Maintainer workflow for transcript fixtures:
 - Prefer adding a new fixture whenever a real workflow failure or ambiguity is discovered.
-- Label fixtures as `good`, `bad`, `borderline`, or `fallback-valid` via `classification`.
+- Label fixtures as `good`, `bad`, `borderline`, `fallback-valid`, `source-strategy`, `domain-boundary`, `quality-gate`, or `planner-boundary` via `classification`.
 - Mark fixtures with `releaseCritical: true` only when they should count toward release readiness.
 - Provide `expectedReasonCodes` and, when useful, `expectedScoreRange` so regressions stay explicit.
 - If the source is not already normalized, prefer `rawToolTrace` over free-form text when structured data is available.
 - Use `shareExport` for saved OpenCode share/session HTML or embedded payload snippets when the source is real but not already normalized. The adapter is intentionally heuristic: it extracts transcript-like quoted strings from script payloads, decodes common JS escapes, and only keeps candidates that look structurally like transcript lines (agent/action cues with transcript-style ordering) before normalizing them into replayable events.
+
+## Drift sentinel release suite
+
+`npm run check:routing-release` hardens transcript release readiness. It fails when critical drift coverage disappears, even if ordinary fixture averages still look healthy.
+
+Required drift sentinel ids:
+- `drift-planner-default-tax-negative` → `routing-drift-planner-overuse-tiny-task` (`planner-boundary`, release-critical)
+- `drift-maintenance-overgated-negative` → `routing-drift-maintenance-overgated` (`bad`, staged non-critical)
+- `drift-designer-frontend-boundary-negative` → `routing-drift-missing-designer-direction` (`domain-boundary`, release-critical)
+- `drift-fullstack-catchall-negative` → `routing-drift-fullstack-catchall` (`domain-boundary`, release-critical)
+- `drift-source-strategy-skip-negative` → `source-strategy-missing-for-version-sensitive-work` (`source-strategy`, staged non-critical)
+- `drift-quality-gate-remediation-positive` → no violation reason codes expected (`quality-gate`, release-critical)
+- `drift-visual-asset-boundary-negative` → `visual-asset-boundary-violation` (`domain-boundary`, staged non-critical)
+- `drift-readonly-advisor-write-negative` → `readonly-advisor-write-violation` (`bad`, release-critical)
+
+Option B staged rollout keeps core routing, domain split, read-only, and quality-gate remediation sentinels release-critical now. Source-style and visual-asset sentinels remain required but staged non-critical until more real transcripts exist.
+
+Release gate expectations:
+- minimum transcript fixture count covers current suite plus drift sentinels;
+- required sentinel ids all present;
+- required classifications all present: `good`, `bad`, `borderline`, `fallback-valid`, `source-strategy`, `domain-boundary`, `quality-gate`, `planner-boundary`;
+- source-mode diversity includes normalized events and raw tool trace coverage;
+- all transcript fixtures pass expected reason-code matching;
+- release-critical fixtures all pass;
+- transcript average and release-critical average stay at or above `4.5`.
+
+Task fixture `drift-planner-visual-asset-boundary` also guards that visual-asset boundary coverage remains connected to a legal-style-equivalent handoff sentinel.

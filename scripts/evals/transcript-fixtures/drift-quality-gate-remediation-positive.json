@@ -1,0 +1,22 @@
+{
+  "id": "drift-quality-gate-remediation-positive",
+  "category": "transcript-behavior",
+  "classification": "quality-gate",
+  "releaseCritical": true,
+  "description": "Drift sentinel: non-PASS quality-gate output becomes remediation worklist, is executed, revalidated, then rerun.",
+  "expectedReasonCodes": [],
+  "expectedScoreRange": [5, 5],
+  "events": [
+    { "agent": "orchestrator", "action": "delegate_plan", "delegatedTo": "artifact-planner" },
+    { "agent": "artifact-planner", "action": "plan", "fileCount": 1, "nonTrivial": true },
+    { "agent": "orchestrator", "action": "delegate_implementation", "delegatedTo": "fixer" },
+    { "agent": "fixer", "action": "implement", "fileCount": 3, "nonTrivial": true, "material": true },
+    { "agent": "orchestrator", "action": "delegate_review", "delegatedTo": "quality-gate" },
+    { "agent": "quality-gate", "action": "review", "material": true, "advisoryStatus": "NEEDS_FIX", "internalOnly": true },
+    { "agent": "orchestrator", "action": "delegate_implementation", "delegatedTo": "fixer", "notes": "quality gate remediation worklist executed" },
+    { "agent": "fixer", "action": "implement", "fileCount": 1, "material": true },
+    { "agent": "orchestrator", "action": "delegate_review", "delegatedTo": "quality-gate", "notes": "rerun after remediation" },
+    { "agent": "quality-gate", "action": "review", "material": true, "advisoryStatus": "PASS" },
+    { "agent": "orchestrator", "action": "complete", "material": true, "notes": "Ringkasan: validasi ulang lulus. Risiko: none. Langkah lanjut: none." }
+  ]
+}

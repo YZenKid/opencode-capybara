@@ -1,0 +1,14 @@
+{
+  "id": "drift-planner-visual-asset-boundary",
+  "category": "behavioral-task",
+  "description": "Task fixture: visual asset boundary sentinel exists with legal-style-equivalent reason code.",
+  "root": ".",
+  "artifacts": [
+    {
+      "file": "scripts/evals/transcript-fixtures/drift-visual-asset-boundary-negative.json",
+      "type": "sentinel-fixture",
+      "mustInclude": ["visual-asset-boundary-violation", "visual-asset-generator handoff", "restricted assets"],
+      "reasonCode": "visual-asset-boundary-fixture-missing"
+    }
+  ]
+}

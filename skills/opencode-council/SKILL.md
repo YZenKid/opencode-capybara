@@ -5,7 +5,7 @@ description: Standalone consensus workflow for council. Use for high-stakes arch
 
 # OpenCode Council Skill
 
-Use this for consensus on costly, ambiguous, or high-blast-radius decisions where one advisor is not enough. Council is read-only and expensive; do not use for normal implementation, routine review, or final release signoff.
+Use this for consensus on costly, ambiguous, or high-blast-radius decisions where one advisor is not enough. Council is Read-only and expensive; do not use for normal implementation, routine review, or final release signoff.
 
 ## Reference-first creativity contract
 - Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.

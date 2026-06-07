@@ -38,6 +38,18 @@ const checks = [
     file: "agents/project-manager.md",
     mustInclude: ["apply_patch: deny", "task: deny", "Read-only", "do not patch source files"],
   },
+  {
+    file: "agents/artifact-planner.md",
+    mustInclude: [".opencode/plans/**", ".opencode/draft/**", ".opencode/evidence/**", "artifact", "app source files"],
+  },
+  {
+    file: "agents/orchestrator.md",
+    mustInclude: ["tiny", "<=1 file", "delegate", "@fixer", "@quality-gate"],
+  },
+  {
+    file: "agents/quality-gate.md",
+    mustInclude: ["remediation worklist", "execute fixes", "read-only"],
+  },
 ];
 
 let failures = 0;

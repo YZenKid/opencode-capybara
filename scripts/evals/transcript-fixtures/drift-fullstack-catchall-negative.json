@@ -1,0 +1,13 @@
+{
+  "id": "drift-fullstack-catchall-negative",
+  "category": "transcript-behavior",
+  "classification": "domain-boundary",
+  "releaseCritical": true,
+  "description": "Drift sentinel: fullstack must not become catch-all for broad unknown FE/BE contract work.",
+  "expectedReasonCodes": ["routing-drift-fullstack-catchall", "routing-overreach-missing-quality-gate"],
+  "events": [
+    { "agent": "orchestrator", "action": "delegate_implementation", "delegatedTo": "fullstack", "broadUnknownScope": true, "notes": "broad unknown contract work routed as fullstack catch-all" },
+    { "agent": "fullstack", "action": "implement", "fileCount": 8, "nonTrivial": true, "material": true },
+    { "agent": "orchestrator", "action": "complete", "material": true }
+  ]
+}

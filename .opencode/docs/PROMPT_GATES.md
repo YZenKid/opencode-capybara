@@ -48,6 +48,13 @@ Routing hardening minimum:
 - Ensure maintenance work remains lightweight and regression-first rather than being forced through greenfield-heavy gates.
 - Enforce via `npm run test:prompt-gates` (and `npm run doctor` as a quick local policy sanity check).
 
+Drift sentinel adjacency minimum:
+- Routing/boundary changes must update transcript fixtures when they alter planner default-tax, maintenance over-gating, designer/frontend split, fullstack catch-all, read-only advisor, source-strategy, visual-asset, or quality-gate remediation behavior.
+- Release-critical sentinel fixtures use Option B staged rollout: core routing/domain/read-only/quality remediation blockers are critical now; source-style and visual-asset style-equivalent checks are required but staged non-critical until fixture history stabilizes.
+- Source-strategy changes must keep reference-first lookup or skipped-source rationale for version-sensitive/material work.
+- Creative-depth changes must not apply greenfield thesis/options burden to ordinary maintenance bugfixes.
+- Harness evidence changes must preserve fixture ids, classifications, source modes, release-critical flags, reason codes, and latest report paths in `.opencode/evidence/harness-evals/latest/`.
+
 ## Generated reports
 - Refresh advisory generated summaries with `npm run docs:generate`.
 - Validate freshness with `npm run docs:generate:check` or indirectly through `npm run check:docs`.

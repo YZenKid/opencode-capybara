@@ -430,6 +430,12 @@ function normalizeTranscriptEvents(events) {
     advisoryStatus: event.advisoryStatus ?? null,
     continuationClass: event.continuationClass ?? null,
     violationCodes: Array.isArray(event.violationCodes) ? event.violationCodes : [],
+    taskSize: event.taskSize ?? null,
+    taskType: event.taskType ?? null,
+    versionSensitive: Boolean(event.versionSensitive ?? false),
+    sourceLookedUp: Boolean(event.sourceLookedUp ?? false),
+    skippedSourceRationale: Boolean(event.skippedSourceRationale ?? false),
+    broadUnknownScope: Boolean(event.broadUnknownScope ?? false),
     notes: event.notes ?? "",
   }));
 }
@@ -506,6 +512,12 @@ function normalizeRawTranscriptEntry(entry, index) {
     advisoryStatus: typeof entry === "object" && entry !== null ? (entry.advisoryStatus ?? null) : null,
     continuationClass: typeof entry === "object" && entry !== null ? (entry.continuationClass ?? null) : null,
     violationCodes: typeof entry === "object" && entry !== null && Array.isArray(entry.violationCodes) ? entry.violationCodes : [],
+    taskSize: typeof entry === "object" && entry !== null ? (entry.taskSize ?? null) : null,
+    taskType: typeof entry === "object" && entry !== null ? (entry.taskType ?? null) : null,
+    versionSensitive: typeof entry === "object" && entry !== null ? Boolean(entry.versionSensitive ?? false) : false,
+    sourceLookedUp: typeof entry === "object" && entry !== null ? Boolean(entry.sourceLookedUp ?? false) : false,
+    skippedSourceRationale: typeof entry === "object" && entry !== null ? Boolean(entry.skippedSourceRationale ?? false) : false,
+    broadUnknownScope: typeof entry === "object" && entry !== null ? Boolean(entry.broadUnknownScope ?? false) : false,
     notes: typeof entry === "object" && entry !== null ? (entry.notes ?? text) : text,
   };
 }
@@ -669,6 +681,16 @@ export function evaluateTranscriptFixture(fixture) {
     violationChecks.push({ type: "transcript-semantics", status: "FAIL", reason_code: "routing-overreach-orchestrator-multifile-edit", detail: `orchestrator directly edited ${directMultiFileEdit.fileCount} files at event ${directMultiFileEdit.index}` });
   }
 
+  const tinyPlannerOveruse = events.find((event) => {
+    if (event.agent !== "orchestrator" || event.action !== "delegate_plan" || event.delegatedTo !== "artifact-planner") return false;
+    const note = String(event.notes ?? "").toLowerCase();
+    return event.taskSize === "tiny" || note.includes("tiny typo") || note.includes("single-file reversible") || note.includes("one-file reversible");
+  });
+  if (tinyPlannerOveruse) {
+    actualReasonCodes.add("routing-drift-planner-overuse-tiny-task");
+    violationChecks.push({ type: "transcript-semantics", status: "FAIL", reason_code: "routing-drift-planner-overuse-tiny-task", detail: `artifact-planner used for tiny reversible task at event ${tinyPlannerOveruse.index}` });
+  }
+
   const firstNonTrivialImplementationIndex = events.findIndex(
     (event) => ["orchestrator", "fixer"].includes(event.agent) && event.action === "implement" && (event.nonTrivial || event.fileCount >= 2),
   );
@@ -678,6 +700,27 @@ export function evaluateTranscriptFixture(fixture) {
   if (firstNonTrivialImplementationIndex !== -1 && (plannerIndex === -1 || plannerIndex > firstNonTrivialImplementationIndex)) {
     actualReasonCodes.add("routing-overreach-missing-planner-first");
     violationChecks.push({ type: "transcript-semantics", status: "FAIL", reason_code: "routing-overreach-missing-planner-first", detail: `non-trivial implementation started at event ${firstNonTrivialImplementationIndex} before planner-first routing` });
+  }
+
+  const broadFullstackCatchall = events.find((event) => {
+    if (!(event.agent === "orchestrator" && event.action === "delegate_implementation" && event.delegatedTo === "fullstack")) return false;
+    const note = String(event.notes ?? "").toLowerCase();
+    return event.broadUnknownScope || note.includes("broad") || note.includes("unknown contract") || note.includes("catch-all") || note.includes("multiple bounded slices");
+  });
+  if (broadFullstackCatchall) {
+    actualReasonCodes.add("routing-drift-fullstack-catchall");
+    violationChecks.push({ type: "transcript-semantics", status: "FAIL", reason_code: "routing-drift-fullstack-catchall", detail: `fullstack used as broad catch-all at event ${broadFullstackCatchall.index}` });
+  }
+
+  const versionSensitiveWithoutSource = events.find((event) => {
+    const note = String(event.notes ?? "").toLowerCase();
+    const versionSensitive = event.versionSensitive || note.includes("version-sensitive") || note.includes("current api") || note.includes("sdk version") || note.includes("library api");
+    const hasSource = event.sourceLookedUp || event.skippedSourceRationale || note.includes("source lookup") || note.includes("official docs") || note.includes("repo-local evidence") || note.includes("skipped-source rationale");
+    return versionSensitive && !hasSource;
+  });
+  if (versionSensitiveWithoutSource) {
+    actualReasonCodes.add("source-strategy-missing-for-version-sensitive-work");
+    violationChecks.push({ type: "transcript-semantics", status: "FAIL", reason_code: "source-strategy-missing-for-version-sensitive-work", detail: `version-sensitive decision without source strategy at event ${versionSensitiveWithoutSource.index}` });
   }
 
   const materialCompletionIndex = events.findIndex((event) => event.agent === "orchestrator" && event.action === "complete" && event.material);
