@@ -637,7 +637,7 @@ const checks = [
     mustInclude: [
       "mode: primary",
       "router/integrator",
-      "9router/medium",
+      "9router/high",
       "direct edits only when the change is tiny",
       "Finish-first execution default",
       "internal execution checkpoints rather than approval checkpoints",
@@ -817,7 +817,7 @@ const checks = [
       "mode: subagent",
       "hidden: false",
       "Final conformance and risk gate for non-trivial OpenCode work",
-      "model: 9router/low",
+      "model: 9router/medium",
       "opencode-quality-gate",
       "apply_patch: deny",
       "task: deny",
@@ -1501,7 +1501,7 @@ const checks = [
     mustInclude: [
       "mode: subagent",
       "description:",
-      "model: 9router/low",
+      "model: 9router/medium",
       "opencode-fixer",
       "apply_patch: allow",
       "task: deny",
