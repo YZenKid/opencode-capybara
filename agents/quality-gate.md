@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Final conformance and risk gate for non-trivial OpenCode work
-model: 9router/low
+model: 9router/medium
 skills:
   - opencode-quality-gate
 permission:
