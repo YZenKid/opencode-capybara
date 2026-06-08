@@ -2,7 +2,7 @@
 
 Generated from `.opencode/capabilities/registry.json`. Advisory only; configured does not mean usable/authenticated.
 
-- MCP entries: 11
+- MCP entries: 12
 
 | MCP | Transport | Owner | Auth | Data egress | Write | Allowed lanes | Denied lanes | Fallback | Evidence required | Secret surfaces |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -14,6 +14,7 @@ Generated from `.opencode/capabilities/registry.json`. Advisory only; configured
 | playwright | local | @designer | browser profile/session state | page URLs, forms, screenshots, network data | yes | @designer, @fixer, @orchestrator | @quality-gate, @council | static review or screenshots supplied by user | URL, action summary, screenshot/console/network result when used | browser cookies, local session |
 | postgres_local | local | @backend | LOCAL_POSTGRES_URL | local database schema/query content when enabled | yes | @backend, @quality-gate | @council | use migration files and local tests without MCP | explicit enablement and local DSN choice, query intent and read/write classification | LOCAL_POSTGRES_URL |
 | semgrep | local | @quality-gate | semgrep login/env optional | repository metadata/findings if app platform used | no | @quality-gate, @fixer, @oracle | @council | manual security review and targeted code search | scan scope and findings summary | Semgrep auth token if configured |
+| sequential-thinking | local | @orchestrator | none | none expected beyond local process | no | @architect, @artifact-planner, @backend, @council, @designer, @devops, @explorer, @fixer, @frontend, @fullstack, @librarian, @mobile, @oracle, @orchestrator, @project-manager, @quality-gate, @skill-improver, @system-analyst, @visual-asset-generator |  | use one brief local reasoning pass, record fallback in evidence, and continue with normal evidence-first workflow | summarize decisions/evidence only; do not expose raw thoughts, record fallback when the MCP is unavailable, keep tiny fast-path use to one brief thought, for non-trivial, ambiguous, or risky work, use at most 3 thought steps total, set or keep totalThoughts no higher than 3 when invoking sequential_thinking, this is a prompt-policy cap, not a claimed server-enforced cap unless separately evidenced | none |
 | shadcn | local | @designer | none | registry component names | yes | @designer, @frontend, @fixer | @quality-gate, @council | manual component implementation only when shadcn MCP/CLI is unavailable, fails with evidence, or repo pattern requires custom existing components | component names, shadcn MCP/CLI command or fallback result, audit checklist | none |
 | sqlite_local | local | @backend | LOCAL_SQLITE_PATH | local SQLite schema/query content when enabled | yes | @backend, @quality-gate | @council | inspect schema/files and run local tests without MCP | explicit enablement and local DB path, query intent and read/write classification | LOCAL_SQLITE_PATH |
 | time | local | @orchestrator | none | none expected beyond local process | no | @orchestrator, @librarian, @quality-gate | @council | use local system date from environment | record when date/time affects decision | none |

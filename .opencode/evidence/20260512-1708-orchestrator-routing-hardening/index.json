@@ -1,0 +1,7 @@
+{
+  "task_id": "20260512-1708-orchestrator-routing-hardening",
+  "plan_file": ".opencode/plans/20260512-1708-orchestrator-routing-hardening.md",
+  "evidence_dir": ".opencode/evidence/20260512-1708-orchestrator-routing-hardening/",
+  "required_files": ["routing-decisions.md", "verification.md"],
+  "validation_commands": ["npm run test:prompt-gates", "npm run check:harness"]
+}

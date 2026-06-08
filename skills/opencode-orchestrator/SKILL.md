@@ -52,7 +52,7 @@ Direct-work threshold (hard default):
 - Generator/scaffold-backed framework artifact creation → route to detected domain lane and require official CLI/generator/MCP first when usable. Direct tiny edits are allowed for existing generated-file customization or when generator is irrelevant; manual new artifacts require fallback evidence.
 - User-facing UI, visual polish, responsive layout, reference matching → `@designer`.
 - Substantial UI/UX, web, mobile, app design, design-system generation, or revamp work → `@designer`.
-- Before any UI/design direction is finalized, inspect the target project's `DESIGN.md` at the project root, then `design-system/DESIGN.md` or any documented project-specific equivalent. Project-local design guidance wins over generic taste; if substantial UI work has no project guide, suggest `/init-design` before inventing a direction.
+- Before any UI/design direction is finalized, inspect the target project's `DESIGN.md` at the project root, then `design-system/DESIGN.md` or any documented project-specific equivalent. Project-local design guidance wins over generic taste; if substantial UI work has no project guide, suggest `/init-harness` so the consolidated harness/design initialization can create or update project guidance before inventing a direction.
 - Product/platform/AI/UI-system architecture boundaries → `@architect` (unified advisory lane).
 - Non-trivial website/mobile motion direction or animation library/API choice routes to `@designer`; bounded implementation after the spec is clear → `@fixer`.
 - Bounded implementation, tests, fixtures, mocks, small refactors → `@fixer`.
@@ -116,10 +116,17 @@ Direct-work threshold (hard default):
 - Distinguish the OpenCode config root from the target application root.
 - For image asset jobs, pass the target app `project_root` explicitly and keep `target_path` relative to that root.
 
+## Harness Preflight Gate
+- Before non-trivial work, `@orchestrator` must verify the target project has a current root `AGENTS.md`, canonical `.opencode/docs/`, and root `DESIGN.md` when UI/design work is involved.
+- If harness guidance is missing or stale, run `/init-harness` before broad implementation. If command execution is unavailable, ask the user to run `/init-harness`.
+- Do not start broad implementation until harness guidance is available, except for tiny, read-only, or emergency tasks.
+- If the gate is skipped, record the reason in the final summary/evidence.
+
 ## Workflow
 
 1. Understand explicit and implicit requirements.
 2. Check if the task is trivial. If not, create todos and decide routing.
+   - Run the Harness Preflight Gate first for non-trivial work.
    - Use `@artifact-planner` when planning depth/evidence is required; otherwise proceed with direct routing.
    - Trivial, single-step, and easily reversible tasks may skip planner.
 3. Use local discovery before external docs when codebase patterns matter.

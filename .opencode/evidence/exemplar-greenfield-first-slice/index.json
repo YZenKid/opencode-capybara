@@ -1,0 +1,8 @@
+{
+  "task_id": "exemplar-greenfield-first-slice",
+  "plan_quality_gate": "PASS_FOR_SLICE",
+  "plan_file": ".opencode/plans/exemplar-greenfield-first-slice.md",
+  "evidence_dir": ".opencode/evidence/exemplar-greenfield-first-slice/",
+  "required_files": ["discovery.md", "verification.md"],
+  "validation_commands": ["project-specific first-slice build/test command"]
+}

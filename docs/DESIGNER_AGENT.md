@@ -19,7 +19,7 @@ Local adaptation uses ideas from Open Design without vendoring upstream or requi
 ## Default workflow
 
 1. Read project `DESIGN.md`; fallback to `design-system/DESIGN.md` or documented equivalent.
-2. If substantial design guidance is missing, use `/init-design` path to create project-local `DESIGN.md` before broad visual invention.
+2. If substantial design guidance is missing, use `/init-harness` to create or update project-local harness/design guidance before broad visual invention.
 3. Lock brief: surface, audience, brand/product constraints, platform, content, assets, references, acceptance criteria.
 4. Write `Design Read`: `Reading this as: <surface> for <audience>, with <vibe>, leaning toward <design system/aesthetic family>.`
 5. Set dials: `DESIGN_VARIANCE`, `MOTION_INTENSITY`, `VISUAL_DENSITY`.
@@ -62,9 +62,9 @@ Prompts must be art-directed and section-aware, not generic tags. Negative promp
 
 ## Commands
 
-- `/init-design`: create or update project-local `DESIGN.md`.
-- `/design-improve`: improve bounded UI/design surface with Design Read, dials, preflight, evidence, and critique score.
-- `/design-critique`: read-only critique by default with score, severity, mechanical checks, and next actions.
+- `/init-harness`: create or update project-local harness docs, including `DESIGN.md`.
+
+Design improvement and design critique remain valid workflows, but they are routed through the normal `@designer` or orchestrator → `@designer` flow rather than standalone slash commands.
 
 No `/design-from-open-design` command exists. Open Design MCP is optional context only when already configured and usable; no `mcp.open_design` config is added here.
 

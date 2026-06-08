@@ -204,6 +204,12 @@ When working through multi-step tasks, consider enabling auto-continue to avoid 
 - If several deferred questions accumulate, finish all work that can be completed first, then present the residual questions/decisions in a structured list at the end.
 - For non-trivial autonomous execution, prefer durable runtime state under `.opencode/state/`: create/update a run record, map the execution-ready worklist into runtime tasks, and preserve mailbox/worktree/verification summaries for replay and final evidence.
 
+### Harness Preflight Gate
+- Before non-trivial work, `@orchestrator` must verify the target project has a current root `AGENTS.md`, canonical `.opencode/docs/`, and root `DESIGN.md` when UI/design work is involved.
+- If harness guidance is missing or stale, run `/init-harness` before broad implementation. If command execution is unavailable, ask the user to run `/init-harness`.
+- Do not start broad implementation until harness guidance is available, except for tiny, read-only, or emergency tasks.
+- If the gate is skipped, record the reason in the final summary/evidence.
+
 ### Plan Intake Protocol
 - Before executing non-trivial plan-bound work, read the primary plan and identify mode, Plan Quality Gate value, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, validation commands, evidence path, and Done Criteria.
 - Proceed only when plan status is `PASS` or `PASS_FOR_SLICE`; `PASS_FOR_SLICE` means slice completion only, not whole-system completion.
@@ -236,7 +242,7 @@ When plan sections conflict, use this order: latest explicit user instruction; s
 - Keep `@orchestrator` as the default interface. `@artifact-planner` is triggered/conditional, not mandatory.
 - Helper lanes are conditional advisors, not mandatory hops.
 - Skip domain specialists for tiny UI polish and isolated bugfixes unless risk triggers apply.
-- Inspect the target project's `DESIGN.md` first, then `design-system/DESIGN.md` or equivalent; suggest `/init-design` if substantial UI direction is missing.
+- Inspect the target project's `DESIGN.md` first, then `design-system/DESIGN.md` or equivalent; suggest `/init-harness` if substantial UI direction is missing so consolidated harness/design initialization can create or update project guidance.
 - PRD/product docs needing MVP/flows/acceptance criteria and SaaS/multi-tenant/RBAC/billing decisions → `@architect`; if source is PDF/DOCX/XLSX, use `@librarian` first for document-centric extraction/research/transformation support.
 - PDF/DOCX/XLSX/PPT/Office inputs where the active model reports unsupported attachment input (for example `input.pdf:false`) are not a hard stop. Interpret that as “model cannot read the attachment directly”; check workspace file availability and route document extraction/Q&A/summarization to `@librarian` before asking the user to convert the document.
 - AI/LLM/RAG/embedding/tool-calling/evals/face-matching production decisions → `@architect`; route version-sensitive SDK behavior to `@librarian`.

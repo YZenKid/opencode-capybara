@@ -2,8 +2,8 @@
 
 Generated inventory of deterministic prompt-gate checks. This file is advisory and must not replace canonical policy in `.opencode/docs/PROMPT_GATES.md`.
 
-- Gate count: 122
-- Unique files covered: 52
+- Gate count: 121
+- Unique files covered: 50
 - Primary implementation: `scripts/prompt-gate-regression.mjs`
 
 ## Commands referenced
@@ -17,7 +17,7 @@ Generated inventory of deterministic prompt-gate checks. This file is advisory a
 
 ## Gate inventory
 1. **model routing env example gate** — `.env.example`
-2. **project design init command gate** — `commands/init-design.md`
+2. **project consolidated harness/design init command gate** — `commands/init-harness.md`
 3. **project harness init command gate** — `commands/init-harness.md`
 4. **local council subagent gate** — `agents/council.md`
 5. **agent architecture selection gate** — `opencode.json`
@@ -118,23 +118,22 @@ Generated inventory of deterministic prompt-gate checks. This file is advisory a
 100. **standalone identity gate** — `README.md`
 101. **artifact planner env routing gate** — `agents/artifact-planner.md`
 102. **package identity gate** — `package.json`
-103. **runtime plugin removal gate** — `opencode.json`
-104. **runtime dependency removal gate** — `package.json`
-105. **lockfile dependency removal gate** — `package-lock.json`
+103. **runtime plugin preset safety gate** — `opencode.json`
+104. **package dependency identity gate** — `package.json`
+105. **lockfile dependency identity gate** — `package-lock.json`
 106. **tui plugin removal gate** — `tui.json`
 107. **runtime plugin wording gate** — `README.md`
 108. **obsolete bun lockfile removed gate** — `bun.lock`
-109. **manual commit message format gate** — `commands/commit-message.md`
-110. **retired workflow command removed gate** — `commands/tdd.md`
-111. **retired UI workflow command removed gate** — `commands/replicate-ui.md`
-112. **retired revamp workflow command removed gate** — `commands/revamp-like.md`
-113. **quality-gate merged review lanes gate** — `skills/opencode-quality-gate/SKILL.md`
-114. **mode-aware greenfield maintenance routing gate** — `.opencode/docs/AGENT_ROUTING.md`
-115. **mode-aware quality evidence gate** — `.opencode/docs/QUALITY.md`
-116. **orchestrator mode selection gate** — `skills/opencode-orchestrator/SKILL.md`
-117. **artifact planner creative depth gate** — `skills/opencode-artifact-planner/SKILL.md`
-118. **fullstack greenfield slice gate** — `skills/opencode-fullstack/SKILL.md`
-119. **orchestrator quality remediation skill gate** — `skills/opencode-orchestrator/SKILL.md`
-120. **quality docs remediation worklist gate** — `.opencode/docs/QUALITY.md`
-121. **ui slop package script wiring gate** — `package.json`
-122. **ui slop quality contract gate** — `.opencode/docs/QUALITY.md`
+109. **retired workflow command removed gate** — `commands/tdd.md`
+110. **retired UI workflow command removed gate** — `commands/replicate-ui.md`
+111. **retired revamp workflow command removed gate** — `commands/revamp-like.md`
+112. **quality-gate merged review lanes gate** — `skills/opencode-quality-gate/SKILL.md`
+113. **mode-aware greenfield maintenance routing gate** — `.opencode/docs/AGENT_ROUTING.md`
+114. **mode-aware quality evidence gate** — `.opencode/docs/QUALITY.md`
+115. **orchestrator mode selection gate** — `skills/opencode-orchestrator/SKILL.md`
+116. **artifact planner creative depth gate** — `skills/opencode-artifact-planner/SKILL.md`
+117. **fullstack greenfield slice gate** — `skills/opencode-fullstack/SKILL.md`
+118. **orchestrator quality remediation skill gate** — `skills/opencode-orchestrator/SKILL.md`
+119. **quality docs remediation worklist gate** — `.opencode/docs/QUALITY.md`
+120. **ui slop package script wiring gate** — `package.json`
+121. **ui slop quality contract gate** — `.opencode/docs/QUALITY.md`

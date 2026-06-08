@@ -1,0 +1,272 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-08T04:19:51.805Z",
+  "mode": "check",
+  "fixture_count": 6,
+  "status": "PASS",
+  "failures": [],
+  "results": [
+    {
+      "id": "abstract-hero-filler-failure",
+      "description": "Bad fixture: abstract hero filler instead of product/domain composition.",
+      "requestedAesthetic": "specific product hero for veterinary triage",
+      "surface": "landing-page",
+      "expectedStatus": "FAIL",
+      "expectedReasonCodes": [
+        "abstract-hero-filler",
+        "placeholder-visual"
+      ],
+      "status": "FAIL",
+      "averageScore": 4.46,
+      "scoreByCategory": {
+        "style_fidelity": 5,
+        "layout_variety": 5,
+        "content_humanity": 5,
+        "debug_artifact_hygiene": 5,
+        "hero_specificity": 1.75,
+        "state_accessibility_evidence": 5
+      },
+      "findings": [
+        {
+          "fixture_id": "abstract-hero-filler-failure",
+          "source_id": "abstract-hero-filler-failure",
+          "reason_code": "abstract-hero-filler",
+          "severity": "BLOCKER",
+          "category": "hero_specificity",
+          "remediation": "Replace generic blobs/floating cards with product/domain-specific hero composition.",
+          "hint": "hero section",
+          "detail": "Hero relies on generic abstract composition rather than domain-specific content."
+        },
+        {
+          "fixture_id": "abstract-hero-filler-failure",
+          "source_id": "abstract-hero-filler-failure",
+          "reason_code": "placeholder-visual",
+          "severity": "HIGH",
+          "category": "hero_specificity",
+          "remediation": "Replace placeholder visual content with domain-specific imagery, illustration, or honest empty state.",
+          "hint": "visual placeholder",
+          "detail": "Placeholder visual/copy remains in UI."
+        }
+      ]
+    },
+    {
+      "id": "clay-glass-neon-card-spam",
+      "description": "Bad fixture: clay/glass request rendered as neon card spam with debug and fake metrics.",
+      "requestedAesthetic": "claymorphism + glassmorphism",
+      "surface": "landing-page",
+      "expectedStatus": "FAIL",
+      "expectedReasonCodes": [
+        "requested-aesthetic-mismatch",
+        "material-grammar-missing",
+        "card-spam-repetition",
+        "generic-neon-glass-overuse",
+        "fake-metric",
+        "debug-copy-user-facing"
+      ],
+      "status": "FAIL",
+      "averageScore": 3.58,
+      "scoreByCategory": {
+        "style_fidelity": 1.75,
+        "layout_variety": 3.75,
+        "content_humanity": 3,
+        "debug_artifact_hygiene": 3,
+        "hero_specificity": 5,
+        "state_accessibility_evidence": 5
+      },
+      "findings": [
+        {
+          "fixture_id": "clay-glass-neon-card-spam",
+          "source_id": "clay-glass-neon-card-spam",
+          "reason_code": "requested-aesthetic-mismatch",
+          "severity": "HIGH",
+          "category": "style_fidelity",
+          "remediation": "Translate requested aesthetic into concrete material tokens and remove conflicting style families.",
+          "hint": "style/class tokens",
+          "detail": "Requested clay/glass aesthetic is dominated by neon/glow language."
+        },
+        {
+          "fixture_id": "clay-glass-neon-card-spam",
+          "source_id": "clay-glass-neon-card-spam",
+          "reason_code": "material-grammar-missing",
+          "severity": "HIGH",
+          "category": "style_fidelity",
+          "remediation": "Add requested material grammar: surfaces, depth, translucency, shadows, and color roles.",
+          "hint": "style/class tokens",
+          "detail": "Requested material family lacks soft clay/glass grammar tokens."
+        },
+        {
+          "fixture_id": "clay-glass-neon-card-spam",
+          "source_id": "clay-glass-neon-card-spam",
+          "reason_code": "card-spam-repetition",
+          "severity": "HIGH",
+          "category": "layout_variety",
+          "remediation": "Replace repeated card-grid anatomy with purpose-specific hierarchy and section composition.",
+          "hint": "card grid",
+          "detail": "Repeated card anatomy count: 6."
+        },
+        {
+          "fixture_id": "clay-glass-neon-card-spam",
+          "source_id": "clay-glass-neon-card-spam",
+          "reason_code": "generic-neon-glass-overuse",
+          "severity": "MEDIUM",
+          "category": "style_fidelity",
+          "remediation": "Remove generic neon/glow/glass defaults unless requested and domain-relevant.",
+          "hint": "style/class tokens",
+          "detail": "Generic neon/glass token count: 15."
+        },
+        {
+          "fixture_id": "clay-glass-neon-card-spam",
+          "source_id": "clay-glass-neon-card-spam",
+          "reason_code": "debug-copy-user-facing",
+          "severity": "BLOCKER",
+          "category": "debug_artifact_hygiene",
+          "remediation": "Remove localhost, TODO, debug, mock, internal state, and implementation copy from user-facing UI.",
+          "hint": "text copy",
+          "detail": "Internal/debug copy appears in user-facing text."
+        },
+        {
+          "fixture_id": "clay-glass-neon-card-spam",
+          "source_id": "clay-glass-neon-card-spam",
+          "reason_code": "fake-metric",
+          "severity": "BLOCKER",
+          "category": "content_humanity",
+          "remediation": "Remove arbitrary metrics or label data as real source-backed/demo-only with context.",
+          "hint": "metrics text",
+          "detail": "Arbitrary metric or demo number appears without source framing."
+        }
+      ]
+    },
+    {
+      "id": "debug-internal-copy-failure",
+      "description": "Bad fixture: internal implementation copy is visible to users.",
+      "requestedAesthetic": "clean SaaS dashboard",
+      "surface": "dashboard",
+      "expectedStatus": "FAIL",
+      "expectedReasonCodes": [
+        "debug-copy-user-facing"
+      ],
+      "status": "FAIL",
+      "averageScore": 4.54,
+      "scoreByCategory": {
+        "style_fidelity": 5,
+        "layout_variety": 5,
+        "content_humanity": 5,
+        "debug_artifact_hygiene": 3,
+        "hero_specificity": 5,
+        "state_accessibility_evidence": 4.25
+      },
+      "findings": [
+        {
+          "fixture_id": "debug-internal-copy-failure",
+          "source_id": "debug-internal-copy-failure",
+          "reason_code": "debug-copy-user-facing",
+          "severity": "BLOCKER",
+          "category": "debug_artifact_hygiene",
+          "remediation": "Remove localhost, TODO, debug, mock, internal state, and implementation copy from user-facing UI.",
+          "hint": "text copy",
+          "detail": "Internal/debug copy appears in user-facing text."
+        },
+        {
+          "fixture_id": "debug-internal-copy-failure",
+          "source_id": "debug-internal-copy-failure",
+          "reason_code": "missing-state-evidence",
+          "severity": "MEDIUM",
+          "category": "state_accessibility_evidence",
+          "remediation": "Add visible loading/empty/error/success state evidence for substantial UI.",
+          "hint": "dashboard state copy",
+          "detail": "Dashboard lacks visible state or data-scope evidence."
+        }
+      ]
+    },
+    {
+      "id": "fake-metric-failure",
+      "description": "Bad fixture: arbitrary KPI numbers and demo counters.",
+      "requestedAesthetic": "professional analytics dashboard",
+      "surface": "dashboard",
+      "expectedStatus": "FAIL",
+      "expectedReasonCodes": [
+        "fake-metric"
+      ],
+      "status": "FAIL",
+      "averageScore": 4.33,
+      "scoreByCategory": {
+        "style_fidelity": 5,
+        "layout_variety": 5,
+        "content_humanity": 3,
+        "debug_artifact_hygiene": 5,
+        "hero_specificity": 3.75,
+        "state_accessibility_evidence": 4.25
+      },
+      "findings": [
+        {
+          "fixture_id": "fake-metric-failure",
+          "source_id": "fake-metric-failure",
+          "reason_code": "fake-metric",
+          "severity": "BLOCKER",
+          "category": "content_humanity",
+          "remediation": "Remove arbitrary metrics or label data as real source-backed/demo-only with context.",
+          "hint": "metrics text",
+          "detail": "Arbitrary metric or demo number appears without source framing."
+        },
+        {
+          "fixture_id": "fake-metric-failure",
+          "source_id": "fake-metric-failure",
+          "reason_code": "placeholder-visual",
+          "severity": "HIGH",
+          "category": "hero_specificity",
+          "remediation": "Replace placeholder visual content with domain-specific imagery, illustration, or honest empty state.",
+          "hint": "visual placeholder",
+          "detail": "Placeholder visual/copy remains in UI."
+        },
+        {
+          "fixture_id": "fake-metric-failure",
+          "source_id": "fake-metric-failure",
+          "reason_code": "missing-state-evidence",
+          "severity": "MEDIUM",
+          "category": "state_accessibility_evidence",
+          "remediation": "Add visible loading/empty/error/success state evidence for substantial UI.",
+          "hint": "dashboard state copy",
+          "detail": "Dashboard lacks visible state or data-scope evidence."
+        }
+      ]
+    },
+    {
+      "id": "good-clay-glass-sample",
+      "description": "Good fixture: clay/glass material grammar with soft elevation and human copy.",
+      "requestedAesthetic": "claymorphism + glassmorphism",
+      "surface": "landing-page",
+      "expectedStatus": "PASS",
+      "expectedReasonCodes": [],
+      "status": "PASS",
+      "averageScore": 5,
+      "scoreByCategory": {
+        "style_fidelity": 5,
+        "layout_variety": 5,
+        "content_humanity": 5,
+        "debug_artifact_hygiene": 5,
+        "hero_specificity": 5,
+        "state_accessibility_evidence": 5
+      },
+      "findings": []
+    },
+    {
+      "id": "legitimate-dashboard-pass",
+      "description": "Good fixture: dashboard with real labels, states, accessibility, and source framing.",
+      "requestedAesthetic": "operational dashboard",
+      "surface": "dashboard",
+      "expectedStatus": "PASS",
+      "expectedReasonCodes": [],
+      "status": "PASS",
+      "averageScore": 5,
+      "scoreByCategory": {
+        "style_fidelity": 5,
+        "layout_variety": 5,
+        "content_humanity": 5,
+        "debug_artifact_hygiene": 5,
+        "hero_specificity": 5,
+        "state_accessibility_evidence": 5
+      },
+      "findings": []
+    }
+  ]
+}

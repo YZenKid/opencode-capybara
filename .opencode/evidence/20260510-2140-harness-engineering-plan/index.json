@@ -1,0 +1,12 @@
+{
+  "task_id": "20260510-2140-harness-engineering-plan",
+  "plan_file": ".opencode/plans/20260510-2140-harness-engineering-plan.md",
+  "evidence_dir": ".opencode/evidence/20260510-2140-harness-engineering-plan/",
+  "required_files": ["discovery.md", "verification.md"],
+  "validation_commands": [
+    "npm run check:harness",
+    "npm run check:harness:strict",
+    "npm run eval:harness",
+    "npm run doctor"
+  ]
+}

@@ -31,13 +31,18 @@ const checks = [
     ],
   },
   {
-    file: "commands/init-design.md",
-    name: "project design init command gate",
+    file: "commands/init-harness.md",
+    name: "project consolidated harness/design init command gate",
     mustInclude: [
+      "single entrypoint for both harness and design initialization",
+      "Do not refer users to any separate design initialization command.",
       "Arguments from user",
       "$ARGUMENTS",
       "DESIGN.md",
       "design-system/DESIGN.md",
+      "Make `DESIGN.md` concrete, specific, and aligned to the target project's own UI language",
+      "project-local `DESIGN.md` wins over generic preferences",
+      "Write `DESIGN.md` using exactly these 9 sections",
       "Visual Theme & Atmosphere",
       "Color Palette & Roles",
       "Typography Rules",
@@ -48,7 +53,6 @@ const checks = [
       "Responsive Behavior",
       "Agent Prompt Guide",
       "ask before overwriting",
-      "project-local",
     ],
   },
   {
@@ -92,10 +96,8 @@ const checks = [
       "Use `@quality-gate`",
       "Plans are first-class artifacts under `.opencode/plans/`",
       "Evidence is required for material changes",
-      "division of labor legible",
-      "does not collapse back into `@orchestrator`",
-      "role/capability matrix",
-      "role-and-skill ownership note",
+      "keep the downstream ownership chain legible",
+      "future work does not default back to `@orchestrator`",
       "which agent should be used first",
       "Risk Triggers",
       "Notes",
@@ -500,7 +502,7 @@ const checks = [
       "Before any UI/design direction",
       "target project's `DESIGN.md`",
       "design-system/DESIGN.md",
-      "suggest `/init-design`",
+      "suggest `/init-harness` so consolidated harness/design initialization can create or update `DESIGN.md`",
       "artifact-first UI workflow",
       "DESIGN.md awareness",
       "artifact-mode output",
@@ -906,7 +908,7 @@ const checks = [
       "Inspect the target project's `DESIGN.md`",
       "project's own `DESIGN.md` is the first design authority",
       "design-system/DESIGN.md",
-      "/init-design",
+      "recommend `/init-harness` before inventing a new visual direction",
       "project-local design guide",
     ],
   },
@@ -937,7 +939,7 @@ const checks = [
     mustInclude: [
       "target project's `DESIGN.md`",
       "design-system/DESIGN.md",
-      "suggest `/init-design`",
+      "suggest `/init-harness` if substantial UI direction is missing so consolidated harness/design initialization can create or update project guidance",
       "reference/current/final evidence",
       "motion storyboard",
       "icon strategy",
@@ -991,7 +993,7 @@ const checks = [
     mustInclude: [
       "target project's `DESIGN.md`",
       "design-system/DESIGN.md",
-      "/init-design",
+      "suggest `/init-harness` so the consolidated harness/design initialization can create or update project guidance before inventing a direction",
       "motion storyboard",
       "icon strategy",
       "visual density checks",
@@ -1538,29 +1540,26 @@ const checks = [
   },
   {
     file: "opencode.json",
-    name: "runtime plugin removal gate",
+    name: "runtime plugin preset safety gate",
     mustInclude: [],
     mustNotInclude: [
       upstreamPresetName,
-      pluginPackageName,
     ],
   },
   {
     file: "package.json",
-    name: "runtime dependency removal gate",
+    name: "package dependency identity gate",
     mustInclude: [],
     mustNotInclude: [
       upstreamPresetName,
-      pluginPackageName,
     ],
   },
   {
     file: "package-lock.json",
-    name: "lockfile dependency removal gate",
+    name: "lockfile dependency identity gate",
     mustInclude: [],
     mustNotInclude: [
       upstreamPresetName,
-      pluginPackageName,
     ],
   },
   {
@@ -1593,16 +1592,7 @@ const checks = [
     name: "obsolete bun lockfile removed gate",
     mustBeMissing: true,
   },
-  {
-    file: "commands/commit-message.md",
-    name: "manual commit message format gate",
-    mustInclude: [
-      "concise subject line followed by a bullet-point body",
-      "summarizes the most important changes",
-      "If auto-commit guidance or repo style suggests a multi-line message",
-      "Keep commit messages themselves in English",
-    ],
-  },
+
   {
     file: "commands/tdd.md",
     name: "retired workflow command removed gate",

@@ -87,7 +87,7 @@ Adapt useful Open Design patterns locally; do not paste upstream wholesale or cl
 | `taste-skill` | Write `Design Read`; set `DESIGN_VARIANCE`, `MOTION_INTENSITY`, `VISUAL_DENSITY`; run mechanical anti-slop checks. |
 | `design-brief` | Convert vague ask into palette, accent, typography, display, layout, mood, density, assets, platform, constraints, and defaults. |
 | `reference-design-contract` | Split references into `Keep`, `Change`, `Do not copy`; preserve intent, not protected assets, exact CSS, logos, or exact layout. |
-| `design-md` | Treat project `DESIGN.md` as design source of truth and update/ask for it through `/init-design` when missing. |
+| `design-md` | Treat project `DESIGN.md` as design source of truth and create/update it through `/init-harness` when substantial guidance is missing. |
 | `web-design-guidelines` | Apply layout/type/color/motion/a11y basics before taste flourishes. |
 | `design-review` | Score critique with evidence; state what a 10/10 would require; flag AI slop. |
 | `plan-design-review` | Require before/after screenshot plan and viewport/state evidence for substantial visual work. |
@@ -128,7 +128,7 @@ For UI, image, mockup, hero, thumbnail, avatar, badge, or background generation:
 
 1. Brief lock: target surface, audience, brand, constraints, platform, assets, acceptance.
 2. Design Read and dials.
-3. Read `DESIGN.md` first; fallback `design-system/DESIGN.md`; suggest `/init-design` for substantial missing guidance.
+3. Read `DESIGN.md` first; fallback `design-system/DESIGN.md`; suggest `/init-harness` for substantial missing guidance so the consolidated harness/design initialization can create or update project-local guidance.
 4. Manifest/art direction: section title, semantic subject, composition, palette/light, medium, dimensions, alt/decorative strategy, legal notes, integration notes, `quality_bar`, `reject_if`.
 5. Reference contract when applicable: `keep`, `change`, `do_not_copy`.
 6. Execute generation only after manifest is art-directed; prefer visual-asset-generator/9router saved asset path.
@@ -170,7 +170,7 @@ Required blueprint sections:
 - The target project's own `DESIGN.md` is the first design authority; project-local guidance wins over generic taste.
 - Use a 9-section DESIGN.md mental model for design-system reasoning: visual atmosphere, color roles, typography rules, component styling, layout principles, depth/elevation, do/don't rules, responsive behavior, and agent prompt guidance.
 - Map design-system input to existing project tokens, components, and breakpoints first; extend only when gaps are real.
-- If substantial UI/design work has no project-local design guide, recommend `/init-design` before inventing a new visual direction.
+- If substantial UI/design work has no project-local design guide, recommend `/init-harness` before inventing a new visual direction so the consolidated harness/design initialization can create or update `DESIGN.md`.
 - Existing project design systems and tokens win over generic taste.
 
 If any required blueprint section is missing for substantial work, return `blocked` or `needs-polish`; do not mark the design `ready`.

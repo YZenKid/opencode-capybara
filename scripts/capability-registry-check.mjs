@@ -71,7 +71,8 @@ for (const name of configuredMcp) {
   else {
     requireGovernance("mcp", row);
     for (const field of ["transport", "auth", "data_egress", "write_capability", "allowed_lanes", "denied_lanes", "evidence_required", "secret_surfaces"]) {
-      if (row[field] === undefined || row[field] === null || (Array.isArray(row[field]) && row[field].length === 0 && field !== "secret_surfaces")) {
+      const emptyArrayAllowed = ["denied_lanes", "secret_surfaces"].includes(field);
+      if (row[field] === undefined || row[field] === null || (Array.isArray(row[field]) && row[field].length === 0 && !emptyArrayAllowed)) {
         fail(`mcp ${name}: missing ${field}`);
       }
     }

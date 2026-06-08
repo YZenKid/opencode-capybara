@@ -95,6 +95,6 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
 - Remaining gaps, risks, or follow-ups; route final signoff to `@quality-gate` when non-trivial.
 
 ## Stop / escalation conditions
-- Missing core design direction for substantial UI work -> request guidance or suggest `/init-design`.
+- Missing core design direction for substantial UI work -> request guidance or suggest `/init-harness` so consolidated harness/design initialization can create or update `DESIGN.md`.
 - Blocked asset/licensing/reference constraints -> escalate for decision.
 - Needs final release confidence -> route to `@quality-gate`.

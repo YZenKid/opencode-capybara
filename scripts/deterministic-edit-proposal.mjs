@@ -122,8 +122,8 @@ function main() {
   }
 
   const absPath = assertRepoRelativePath(repoRoot, path);
-  if (!existsSync(absPath)) fail(EXIT.UNSUPPORTED_FILE, "file-not-found", { path });
   if (!ALLOWED_EXT.has(extname(absPath))) fail(EXIT.UNSUPPORTED_FILE, "unsupported-file", { path });
+  if (!existsSync(absPath)) fail(EXIT.UNSUPPORTED_FILE, "file-not-found", { path });
 
   const before = readFileSync(absPath, "utf8");
   const actualSha = sha256(before);

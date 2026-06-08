@@ -23,6 +23,8 @@
 - Never commit secrets, tokens, or `.env` files.
 - Use `@orchestrator` for routing and integration.
 - Use `@quality-gate` for material changes, including non-trivial/risky work, prompt/config changes, and security-sensitive changes.
+- Harness Preflight Gate: before non-trivial work, `@orchestrator` must verify the target project has a current root `AGENTS.md`, canonical `.opencode/docs/`, and root `DESIGN.md` when UI/design work is involved.
+- If harness guidance is missing/stale, run `/init-harness` first, or ask the user to run `/init-harness` when command execution is unavailable. Skip only for tiny, read-only, or emergency tasks and record the skip reason in the final summary.
 - Prefer evidence over assertion.
 - Prefer references over assumptions. If repo files, official docs, upstream source, screenshots/reference URLs, or runtime evidence are reasonably available, use them before inventing details.
 - Creativity must stay grounded. For greenfield/product/UI work, generate 2-3 bounded options from evidence or explicit first principles when that materially improves quality, then choose and explain.

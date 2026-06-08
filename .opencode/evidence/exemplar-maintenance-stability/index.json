@@ -1,0 +1,8 @@
+{
+  "task_id": "exemplar-maintenance-stability",
+  "mode": "Maintenance Stability Mode",
+  "plan_file": ".opencode/plans/exemplar-maintenance-stability.md",
+  "evidence_dir": ".opencode/evidence/exemplar-maintenance-stability/",
+  "required_files": ["discovery.md", "verification.md"],
+  "validation_commands": ["targeted regression command for the maintenance surface"]
+}

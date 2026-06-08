@@ -6,6 +6,9 @@ Capability registry: `.opencode/capabilities/registry.json`. Generated advisory 
 User intent → `@orchestrator` → specialist agents → validation → `@quality-gate` → final summary.
 
 ## Execution posture
+- Harness Preflight Gate: before non-trivial work, `@orchestrator` must verify the target project has a current root `AGENTS.md`, canonical `.opencode/docs/`, and root `DESIGN.md` when UI/design work is involved.
+- If harness guidance is missing or stale, run `/init-harness` first, or ask the user to run `/init-harness` when command execution is unavailable.
+- Do not start broad implementation until harness guidance is available, except for tiny, read-only, or emergency tasks. If skipped, record the reason in the final summary/evidence.
 - For implementation requests or plan execution, `@orchestrator` should use a finish-first default: continue work as far as safely and feasibly possible before asking the user follow-up questions.
 - Treat gates, phases, work packages, and milestones in a plan as internal checkpoints rather than approval checkpoints, unless an explicit marker such as `requires_user_decision` is present.
 - When a blocker appears, investigate first through repo evidence, docs, tools, and the most capable subagent.
@@ -267,7 +270,7 @@ Global conditional specialist framing:
 ## UI and reference policy
 - First inspect the target project's `DESIGN.md`.
 - If missing, inspect `design-system/DESIGN.md` or equivalent.
-- Suggest `/init-design` for substantial UI work without project-local guidance.
+- Suggest `/init-harness` for substantial UI work without project-local guidance so consolidated harness/design initialization can create or update `DESIGN.md`.
 - Avoid generic UI, numeric-only service icons, and blank image frames.
 - Require visual density, production-like screenshots, designer signoff, and reference/current/final evidence for substantial UI/reference work.
 - Generic hover-only motion is not enough for substantial reference work.
