@@ -10,7 +10,7 @@
       },
       "models": {
         "high": {
-          "id": "cx/gpt-5.5",
+          "id": "high",
           "name": "High",
           "attachment": true,
           "reasoning": true,
@@ -52,7 +52,7 @@
           }
         },
         "medium": {
-          "id": "cx/gpt-5.5",
+          "id": "medium",
           "name": "Medium",
           "attachment": true,
           "reasoning": true,
@@ -94,7 +94,7 @@
           }
         },
         "low": {
-          "id": "cx/gpt-5.5",
+          "id": "low",
           "name": "Low",
           "attachment": true,
           "reasoning": true,
