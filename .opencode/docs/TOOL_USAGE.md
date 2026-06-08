@@ -46,6 +46,7 @@ See [MCP.md](./MCP.md) for the active inventory.
 
 Commonly used categories:
 - Official docs lookup (`context7`)
+- Sequential reasoning scaffold (`sequential-thinking` → `sequential_thinking`)
 - Web/current information (`9router` → `web_search`)
 - Web page extraction (`9router` → `web_fetch`)
 - GitHub APIs/search/PR workflows (`github`)
@@ -53,6 +54,16 @@ Commonly used categories:
 - Security scans/findings (`semgrep`)
 - Image-generation surfaces (`9router` → `generate_image`, `generate_image_asset`)
 - Time/locality helpers (`time`)
+
+## Sequential thinking scaffold
+
+- Use `sequential_thinking` after a skill is loaded and before material planning, routing, implementation, review, or final claims.
+- For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation.
+- Set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`.
+- For tiny fast-path work, keep it to one brief thought.
+- If the MCP tool is unavailable, record the fallback and continue with the role's normal evidence-first workflow.
+- It is a scaffold, not a replacement for repo evidence, official docs, tests, browser/runtime checks, or role boundaries.
+- Do not expose raw thoughts to the user; report decisions and evidence only.
 
 ## Selection heuristics
 Policy note: prefer local canonical capybara lanes for execution. Built-in OpenCode `build`/`plan`/`explore`/`general` are non-default comparator paths unless explicitly enabled.

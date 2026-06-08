@@ -27,6 +27,17 @@ Use MCP state terms from [MCP.md](./MCP.md) when discussing tool readiness.
 - Runtime use should require `authenticated + connected + role-permitted` for the needed capability.
 - If capability is unavailable by role/client/server limits, classify it as `read-only/unsupported constraints` and route to the documented fallback.
 
+## Cross-lane reasoning scaffold: `sequential_thinking`
+
+- All documented lanes may use `sequential_thinking` as a permitted reasoning scaffold when the MCP is available.
+- It does not grant write access, change role ownership, or bypass read-only posture.
+- Read-only lanes may use it for planning/review framing only; implementation lanes may use it before material edits and validation.
+- For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation.
+- Set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`.
+- Tiny fast path stays lightweight: one brief thought is enough.
+- If unavailable, record the fallback and continue with the normal role-specific evidence workflow.
+- Do not expose raw thoughts; summarize decisions and evidence only.
+
 ## Matrix (documented lanes and helpers)
 
 ### `@orchestrator`
