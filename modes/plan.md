@@ -1,5 +1,5 @@
 ---
-model: 9router/gpt-5.3-codex
+model: 9router/low
 tools:
   read: true
   grep: true
