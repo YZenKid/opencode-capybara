@@ -20,6 +20,40 @@
         "require 2-3 creative alternatives by default",
         "force greenfield gates by default"
       ]
+    },
+    {
+      "name": "creative brainstorm may stay in fast path",
+      "input": "Brainstorm tiga konsep landing page, draft saja dulu",
+      "expected_mode": "Creativity Fast Path",
+      "required_behavior": [
+        "natural-language opt-in",
+        "label output as draft/prototype/exploration",
+        "assumptions and confidence are explicit",
+        "promotion gate before production-ready claim"
+      ]
+    },
+    {
+      "name": "ship prototype must require promotion",
+      "input": "Prototype ini oke, sekarang ship ke production",
+      "expected_mode": "Creativity Fast Path",
+      "required_behavior": [
+        "exit fast path",
+        "promotion gate",
+        "normal implementation and quality review before strong claim"
+      ],
+      "forbidden_behavior": [
+        "claim done directly from prototype",
+        "skip quality gate for material release claim"
+      ]
+    },
+    {
+      "name": "risky prototype touching auth must not stay in fast path",
+      "input": "Bikin prototype login cepat dulu",
+      "expected_mode": "Creativity Fast Path",
+      "forbidden_behavior": [
+        "stay in fast path for auth/session work",
+        "bypass security/privacy hard rails"
+      ]
     }
   ]
 }

@@ -221,6 +221,28 @@ For bugfix, regression, refactor, dependency update, small feature, or incident 
 
 Maintenance work should not be forced through greenfield product thesis or creative alternatives unless the bug itself requires a product/UX decision.
 
+## Creativity Fast Path evidence minimum
+For explicit ideation/generate/prototype/draft work running in `Creativity Fast Path`, evidence may stay lightweight, but it must still include:
+- selected mode: `Creativity Fast Path`;
+- the natural-language trigger or explicit user intent that activated the mode;
+- delivered claim level: `draft`, `prototype`, or `exploration` only;
+- assumptions, confidence level, and why the result is reversible;
+- repo-local evidence used when cheap/relevant, or an explicit note that the output is first-principles-driven;
+- skipped heavy gates or validations, with reason;
+- the exact promotion condition if the user later wants production behavior.
+
+`Creativity Fast Path` lowers evidence burden only for reversible exploratory output. It does not lower the bar for security/privacy, destructive, release, prompt/config, or material UI completion claims.
+
+## Prototype Promotion Gate
+Before a `draft`, `prototype`, or `exploration` result can be presented as `done`, `ready`, `production-ready`, `close parity`, or release-ready, evidence must show:
+- the mode exited `Creativity Fast Path` and re-entered the normal routing flow;
+- required planning depth was added when the scope became multi-phase, material, or ambiguous;
+- implementation/validation evidence exists for the promoted behavior;
+- hard rails were re-checked if auth, PII, payments, uploads, privacy, destructive ops, deploy/release, or permission boundaries are involved;
+- `@quality-gate` reviewed the change whenever the usual material/risky/prompt/config/security/UI rules require it.
+
+If promotion evidence is missing, the highest allowed claim stays `draft`, `prototype`, or `exploration`.
+
 ## Style fidelity and mechanical UI failure rules
 
 For substantial UI, explicit aesthetic requests are requirements, not optional taste. Evidence must include a Requested Aesthetic Fidelity Gate result when user asks for a style family such as `claymorphism`, `glassmorphism`, brutalism, luxury dark, cozy, editorial, playful, or similar.

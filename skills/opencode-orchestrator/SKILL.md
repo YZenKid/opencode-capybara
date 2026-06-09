@@ -73,8 +73,9 @@ Direct-work threshold (hard default):
 ## Routing decision tree
 
 1. Is request tiny, reversible, and <=1 file with clear validation? Orchestrator may handle directly.
-2. Classify mode: Greenfield App Accelerator for new app/MVP/SaaS/product builds; Maintenance Stability Mode for bugfix/regression/refactor/dependency/small existing-app work.
-3. Is scope unclear or repo facts missing? Route `@explorer` for code facts; route `@librarian` for docs/API/source facts; route `@system-analyst` for requirements/flows/contracts. Also decide the source strategy early: repo, official docs, upstream source/examples, browser/screenshots, and current web evidence as needed.
+2. Classify mode: Greenfield App Accelerator for new app/MVP/SaaS/product builds; Maintenance Stability Mode for bugfix/regression/refactor/dependency/small existing-app work; Creativity Fast Path for explicit ideation/generate/prototype/draft requests that stay reversible.
+3. If Creativity Fast Path applies, keep the claim level at `draft`/`prototype`/`exploration`, avoid heavy plan tax while the scope stays reversible, and check hard rails immediately. If the user asks for permanent implementation or a strong completion claim, run the Promotion Gate and return to normal routing.
+4. Is scope unclear or repo facts missing? Route `@explorer` for code facts; route `@librarian` for docs/API/source facts; route `@system-analyst` for requirements/flows/contracts. Also decide the source strategy early: repo, official docs, upstream source/examples, browser/screenshots, and current web evidence as needed.
 4. Does work create new framework artifacts where stack generator/CLI/MCP is available? Route to domain lane and require generator-first path; allow manual only with evidence for unavailable/failed tool, repo convention, or existing-file customization.
 5. Does work need a durable plan, milestones, or evidence-heavy handoff? Route `@artifact-planner`; use `@project-manager` input for tickets/milestones.
 6. Is UX/visual direction, reference parity, motion direction, or design system unresolved? Route `@designer` before implementation. For greenfield or taste-sensitive work, expect 2-3 bounded options or an explicit reason to converge immediately.
@@ -94,6 +95,9 @@ Direct-work threshold (hard default):
 
 - Greenfield App Accelerator: for new app/MVP/SaaS/product builds. Route to `@artifact-planner` before implementation except explicitly tiny prototype-only work that is labeled `draft`/`prototype`. Require Creative Depth Contract, Plan Quality Gate, and first usable vertical slice. Execute only `PASS` or `PASS_FOR_SLICE`; claim `MVP slice complete` unless whole app is truly done.
 - Maintenance Stability Mode: for bugfix/regression/refactor/dependency/small existing-app work. Keep regression-first and minimal; do not force product thesis or 2-3 creative alternatives unless the bug requires product/UX decisions.
+- Creativity Fast Path: for explicit natural-language requests to brainstorm, explore options, generate ideas, sketch first, prototype quickly, or draft without claiming production readiness. Treat it as opt-in, reversible, and exploratory only: label outputs `draft`, `prototype`, or `exploration`; use repo-local evidence when cheap/relevant; record assumptions/confidence; skip heavy planning only while the work remains reversible.
+- Creativity Fast Path must not bypass hard rails for secrets, `.env`, credentials, PII, auth/session/token, RBAC/permission boundaries, payments, uploads, destructive ops, deploy/release, or permission widening. It also does not remove `@quality-gate` from material/risky/prompt/config/security/UI completion claims.
+- Promotion Gate: when the user asks to implement permanently, ship, commit, deploy, claim `done`/`ready`/`production-ready`/`close parity`, or otherwise keep the result as production behavior, exit Creativity Fast Path and return to normal routing. Invoke `@artifact-planner` if scope is now multi-phase/material/ambiguous, then validate and route to `@quality-gate` wherever normal rules require it.
 - Plan Quality Gate values: `PASS`, `PASS_FOR_SLICE`, `NEEDS_DEPTH`, `BLOCKED`. Return `NEEDS_DEPTH` to planner/advisory lanes and stop on true `BLOCKED`.
 
 ## Boundary quick table

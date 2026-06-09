@@ -70,6 +70,7 @@ failure → taxonomy → remediation → new regression/eval case → rerun
   - `agents-policy-bloat-negative`
   - `evidence-verification-negative`
   - `readonly-boundary-negative`
+  - `creativity-fast-path-routing`
 
 - current task-shaped behavioral fixtures:
   - `docs-policy-migration-roundtrip`
@@ -85,6 +86,9 @@ failure → taxonomy → remediation → new regression/eval case → rerun
   - `routing-raw-compliant-positive`
   - `routing-borderline-direct-tiny-task`
   - `routing-fallback-valid-specialist-unavailable`
+  - `creativity-fast-path-positive`
+  - `prototype-promotion-required-positive`
+  - `creativity-fast-path-risky-negative`
 
 ## Strict validation lane
 - `npm run check:harness:strict`
@@ -115,6 +119,7 @@ Maintainer workflow for transcript fixtures:
 - Provide `expectedReasonCodes` and, when useful, `expectedScoreRange` so regressions stay explicit.
 - If the source is not already normalized, prefer `rawToolTrace` over free-form text when structured data is available.
 - Use `shareExport` for saved OpenCode share/session HTML or embedded payload snippets when the source is real but not already normalized. The adapter is intentionally heuristic: it extracts transcript-like quoted strings from script payloads, decodes common JS escapes, and only keeps candidates that look structurally like transcript lines (agent/action cues with transcript-style ordering) before normalizing them into replayable events.
+- For `Creativity Fast Path`, keep at least four coverage shapes live: creative-positive, prototype-positive, risky-negative, and promotion-required behavior. Positive fixtures must stay labeled `draft`/`prototype`/`exploration`; risky negatives must prove the mode exits when hard rails are touched.
 
 ## Drift sentinel release suite
 

@@ -1,14 +1,14 @@
 # Harness Eval Report
 
-- Timestamp: 2026-06-08T04:19:51.940Z
-- Harness version: a545d1b68f80426c6bbec02267898566c106f699
+- Timestamp: 2026-06-09T01:13:25.249Z
+- Harness version: 5894ec90be3272b7cd9982f5fe5a12fb461fcf62
 - Task summary: Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.
 - Verdict: PASS
-- Fixture count: 35
+- Fixture count: 39
 - Failed: 0
-- Transcript fixture count: 21
-- Transcript average routing score: 3.86/5
-- Transcript score bands: strong=7, excellent=9, usable=1, weak=4
+- Transcript fixture count: 24
+- Transcript average routing score: 3.88/5
+- Transcript score bands: excellent=11, weak=5, strong=7, usable=1
 - Drift average delta: 0
 - Release gate ready: true
 - Tool trace:
@@ -24,6 +24,7 @@
   - .opencode/docs/EVALS.md
   - .opencode/docs/MCP.md
   - .opencode/docs/QUALITY.md
+  - .opencode/docs/SECURITY.md
   - .opencode/docs/index.md
   - .opencode/evidence/20260510-2140-harness-engineering-plan/index.json
   - .opencode/evidence/20260510-2140-harness-engineering-plan/verification.md
@@ -39,6 +40,8 @@
   - agents/quality-gate.md
   - opencode.json
   - package.json
+  - scripts/evals/transcript-fixtures/creativity-fast-path-positive.json
+  - scripts/evals/transcript-fixtures/creativity-fast-path-risky-negative.json
   - scripts/evals/transcript-fixtures/drift-designer-frontend-boundary-negative.json
   - scripts/evals/transcript-fixtures/drift-fullstack-catchall-negative.json
   - scripts/evals/transcript-fixtures/drift-maintenance-overgated-negative.json
@@ -50,6 +53,7 @@
   - scripts/evals/transcript-fixtures/final-output-raw-subagent-language-negative.json
   - scripts/evals/transcript-fixtures/finish-first-advisory-veto-negative.json
   - scripts/evals/transcript-fixtures/finish-first-indonesian-final-positive.json
+  - scripts/evals/transcript-fixtures/prototype-promotion-required-positive.json
   - scripts/evals/transcript-fixtures/routing-borderline-direct-tiny-task.json
   - scripts/evals/transcript-fixtures/routing-compliant-positive.json
   - scripts/evals/transcript-fixtures/routing-fallback-valid-specialist-unavailable.json
@@ -67,6 +71,7 @@
 - Fixture IDs:
   - agents-policy-bloat-negative
   - capability-governance-negative
+  - creativity-fast-path-routing
   - docs-system-of-record
   - evidence-verification-negative
   - greenfield-maintenance-mode-routing
@@ -79,6 +84,8 @@
   - orchestrator-routing-discipline-20260512-1708
   - planner-and-mcp-state-contract
   - reviewer-boundary-routing
+  - creativity-fast-path-positive
+  - creativity-fast-path-risky-negative
   - drift-designer-frontend-boundary-negative
   - drift-fullstack-catchall-negative
   - drift-maintenance-overgated-negative
@@ -90,6 +97,7 @@
   - final-output-raw-subagent-language-negative
   - finish-first-advisory-veto-negative
   - finish-first-indonesian-final-positive
+  - prototype-promotion-required-positive
   - routing-borderline-direct-tiny-task
   - routing-compliant-positive
   - routing-fallback-valid-specialist-unavailable
@@ -102,6 +110,8 @@
   - routing-share-export-noisy-negative
 - Reason codes:
   - unsupported-fixture-shape
+  - routing-overreach-missing-planner-first
+  - routing-overreach-missing-quality-gate
   - routing-overreach-missing-quality-gate
   - routing-drift-fullstack-catchall
   - routing-overreach-missing-quality-gate
@@ -130,6 +140,14 @@
 - Status: PASS
 - Description: Negative fixture: capability governance must block external overreach, MCP auth ambiguity, quality-gate bypass, routing ambiguity, and prompt bloat.
 - .opencode/capabilities/registry.json: PASS
+## creativity-fast-path-routing
+- Status: PASS
+- Description: Executable fixture: Creativity Fast Path must stay exploratory, require promotion for strong claims, and refuse risky auth/security bypass prompts.
+- .opencode/docs/AGENT_ROUTING.md: PASS
+- .opencode/docs/QUALITY.md: PASS
+- .opencode/docs/SECURITY.md: PASS
+- skills/opencode-orchestrator/SKILL.md: PASS
+- skills/opencode-quality-gate/SKILL.md: PASS
 ## docs-system-of-record
 - Status: PASS
 - Description: Validates that AGENTS.md maps to canonical docs and the canonical docs index exposes the system-of-record entrypoints.
@@ -202,6 +220,28 @@
 - agents/quality-gate.md: PASS
 - .opencode/docs/AGENT_ROUTING.md: PASS
 - skills/opencode-quality-gate/SKILL.md: PASS
+## creativity-fast-path-positive
+- Status: PASS
+- Description: Positive transcript: explicit brainstorm request stays in Creativity Fast Path, remains exploratory, and avoids production claims.
+- Transcript source mode: normalized-events
+- Routing score: 5/5
+- Routing score band: excellent
+- Routing confidence: high
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=pass, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/creativity-fast-path-positive.json: PASS
+- scripts/evals/transcript-fixtures/creativity-fast-path-positive.json: PASS
+## creativity-fast-path-risky-negative
+- Status: PASS
+- Description: Negative transcript: a risky auth prototype request incorrectly stays in Creativity Fast Path, skips planner/quality review, and overclaims completion.
+- Transcript source mode: normalized-events
+- Routing score: 2/5
+- Routing score band: weak
+- Routing confidence: high
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=fail, evidence_legibility_proxy=fail, final_gate_presence=fail
+- scripts/evals/transcript-fixtures/creativity-fast-path-risky-negative.json: PASS
+- scripts/evals/transcript-fixtures/creativity-fast-path-risky-negative.json: PASS (routing-overreach-missing-planner-first)
+- scripts/evals/transcript-fixtures/creativity-fast-path-risky-negative.json: PASS (routing-overreach-missing-quality-gate)
+- scripts/evals/transcript-fixtures/creativity-fast-path-risky-negative.json: PASS
 ## drift-designer-frontend-boundary-negative
 - Status: PASS
 - Description: Drift sentinel: frontend implementation must not start before designer direction on substantial UI.
@@ -310,6 +350,16 @@
 - Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=pass, final_gate_presence=pass
 - scripts/evals/transcript-fixtures/finish-first-indonesian-final-positive.json: PASS
 - scripts/evals/transcript-fixtures/finish-first-indonesian-final-positive.json: PASS
+## prototype-promotion-required-positive
+- Status: PASS
+- Description: Positive transcript: prototype starts in Creativity Fast Path, then exits through a Promotion Gate before material completion claim.
+- Transcript source mode: normalized-events
+- Routing score: 5/5
+- Routing score band: excellent
+- Routing confidence: high
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=pass, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/prototype-promotion-required-positive.json: PASS
+- scripts/evals/transcript-fixtures/prototype-promotion-required-positive.json: PASS
 ## routing-borderline-direct-tiny-task
 - Status: PASS
 - Description: Transcript eval: a tiny direct orchestrator task can be valid but should not score perfect if delegation legibility is absent.

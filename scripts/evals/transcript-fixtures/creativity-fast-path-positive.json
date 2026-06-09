@@ -1,0 +1,16 @@
+{
+  "id": "creativity-fast-path-positive",
+  "category": "transcript-behavior",
+  "classification": "good",
+  "releaseCritical": false,
+  "description": "Positive transcript: explicit brainstorm request stays in Creativity Fast Path, remains exploratory, and avoids production claims.",
+  "expectedReasonCodes": [],
+  "expectedScoreRange": [5, 5],
+  "events": [
+    { "agent": "orchestrator", "action": "classify_mode", "taskType": "creative", "notes": "Creativity Fast Path from explicit brainstorm request; draft exploration only" },
+    { "agent": "orchestrator", "action": "read", "fileCount": 2, "notes": "repo-local evidence only because it is cheap and relevant" },
+    { "agent": "orchestrator", "action": "delegate_design", "delegatedTo": "designer", "notes": "draft concept exploration only" },
+    { "agent": "designer", "action": "discover", "fileCount": 1, "notes": "produce 3 draft concepts with assumptions and confidence" },
+    { "agent": "orchestrator", "action": "complete", "material": false, "notes": "Ringkasan: ini draft exploration dengan asumsi eksplisit. Risiko: belum promotion gate. Langkah lanjut: promosi ke implementasi normal bila dipilih." }
+  ]
+}

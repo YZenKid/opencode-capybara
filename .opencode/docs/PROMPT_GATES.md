@@ -29,10 +29,12 @@ Prompt gates convert important repository invariants into deterministic checks.
 - Document fallback routing: unsupported model attachment input (for example `input.pdf:false`) must trigger workspace-file check plus `@librarian` extraction before asking the user to convert PDF/DOCX/XLSX/PPT/Office files.
 - Indonesian-first user-facing orchestrator language with technical-literal exceptions
 - Subagent internal-schema normalization before user-facing final output
-- Mode-aware execution: Greenfield App Accelerator for new app/MVP/product builds and Maintenance Stability Mode for bugfix/maintenance work.
+- Mode-aware execution: Greenfield App Accelerator for new app/MVP/product builds, Maintenance Stability Mode for bugfix/maintenance work, and Creativity Fast Path for explicit ideation/generate/prototype/draft requests.
 - Creative Depth Contract for greenfield plans: alternatives, tradeoff scoring, first-slice rationale, journey-to-contract mapping, readiness status, and `PASS_FOR_SLICE` support.
+- Creativity Fast Path invariant: natural-language opt-in only, exploratory/reversible only, must label outputs `draft`/`prototype`/`exploration`, and must use a Promotion Gate before any strong completion claim.
 - Plan Quality Gate before non-trivial implementation with `PASS`, `PASS_FOR_SLICE`, `NEEDS_DEPTH`, and `BLOCKED`.
 - Over-gating prevention: maintenance/bugfix work must not require greenfield product thesis or 2-3 creative alternatives by default.
+- Non-bypass rule: Creativity Fast Path must not bypass hard security/privacy/destructive/release rails, planner triggers for material ambiguity, or `@quality-gate` on material/risky/prompt/config/security/UI completion claims.
 
 ## Change adjacency rule
 If you change policy or docs guarded by a gate:
@@ -53,6 +55,7 @@ Drift sentinel adjacency minimum:
 - Release-critical sentinel fixtures use Option B staged rollout: core routing/domain/read-only/quality remediation blockers are critical now; source-style and visual-asset style-equivalent checks are required but staged non-critical until fixture history stabilizes.
 - Source-strategy changes must keep reference-first lookup or skipped-source rationale for version-sensitive/material work.
 - Creative-depth changes must not apply greenfield thesis/options burden to ordinary maintenance bugfixes.
+- Creativity Fast Path changes must add or update both positive and negative coverage: creative-positive, prototype-positive, risky-negative, and promotion-required behavior.
 - Harness evidence changes must preserve fixture ids, classifications, source modes, release-critical flags, reason codes, and latest report paths in `.opencode/evidence/harness-evals/latest/`.
 
 ## Generated reports

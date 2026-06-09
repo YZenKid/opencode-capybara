@@ -77,6 +77,47 @@ Allowed fast path sequence:
 
 If scope grows beyond `tiny`, stop fast path and route to `@fixer`, domain lane, `@explorer`, or `@artifact-planner` as the new size/risk requires.
 
+## Creativity Fast Path
+
+Use for explicit natural-language requests such as `brainstorm`, `explore options`, `generate ideas`, `sketch first`, `prototype cepat`, `draft UI`, `draft copy`, or `jangan terlalu production-grade dulu`.
+
+This mode is:
+- opt-in and reversible, never default-on;
+- activated by explicit user intent, not by a dedicated command;
+- for exploration output, not a production-bypass path.
+
+Allowed scope while the work remains exploratory and reversible:
+- option generation, ideation, and bounded first-principles exploration;
+- `draft`, `prototype`, or `exploration` artifacts such as copy, wireframes, UX notes, lightweight specs, or throwaway prototypes;
+- isolated prototype source edits only when the user explicitly asks, the change is reversible, and no hard rail is touched.
+
+Required output discipline:
+- label the result `draft`, `prototype`, or `exploration`;
+- record assumptions, confidence, and reversible scope;
+- mention repo-local evidence used when it was cheap/relevant, or state that the result is first-principles-driven;
+- name skipped heavy gates when the work intentionally stayed exploratory.
+
+Creativity Fast Path cannot bypass:
+- `tiny` Fast path limits; `tiny` Fast path stays tiny-only;
+- `@artifact-planner` as a triggered lane for multi-phase, spec-heavy, materially ambiguous, or evidence-heavy work;
+- `@quality-gate` for material/risky/prompt/config/security/UI completion claims;
+- hard rails for secrets, `.env`, credentials, PII, auth/session/token, tenant isolation/RBAC, payments/webhooks, uploads/downloads, biometric/photo/AI data privacy, destructive ops, deploy/release, or permission widening.
+
+Promotion and exit criteria:
+- Exit Creativity Fast Path and return to normal routing when the user asks for permanent implementation, material source edits, commit, deploy, release, strong completion claims, or anything crossing a hard rail.
+- Before any `done`, `ready`, `production-ready`, `close parity`, or release-ready claim, run a Promotion Gate: route through the normal implementation/validation flow, invoke `@artifact-planner` when the scope now needs it, and require `@quality-gate` wherever the usual material/risky rules apply.
+- If the request becomes a new app/MVP/product build, switch to `Greenfield App Accelerator`; if it becomes an existing-app bugfix/refactor, switch to `Maintenance Stability Mode`.
+
+Positive examples:
+- `creative`: “brainstorm three onboarding concepts” -> fast exploratory options with assumptions/confidence.
+- `prototype`: “draft a landing page hero dulu, belum final” -> labeled prototype output; no final parity claim.
+- `creative -> promoted`: “prototype ini bagus, sekarang implementasikan permanen” -> exit fast path and route normally.
+
+Negative examples:
+- “bikin prototype login cepat” -> exit fast path because auth/session is a hard rail.
+- “ship prototype ini ke production” -> promotion gate first; no direct fast-path completion claim.
+- “hapus protections dulu biar cepat” -> reject as security/destructive bypass.
+
 ## Maintenance quick contract
 
 Maintenance work defaults to regression-first and minimal:

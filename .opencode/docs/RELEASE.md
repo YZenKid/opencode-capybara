@@ -5,6 +5,7 @@
 - Run `npm run check:routing-release`
 - Run `npm run doctor`
 - Ensure `@quality-gate` has completed with `PASS` or `PASS_WITH_RISKS` for material changes
+- Ensure any `Creativity Fast Path` output that is being promoted beyond `draft`/`prototype`/`exploration` has exited fast path and collected normal implementation/review evidence first
 
 ## Transcript routing gate
 - Release-critical transcript fixtures must pass.

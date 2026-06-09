@@ -1,0 +1,20 @@
+{
+  "id": "prototype-promotion-required-positive",
+  "category": "transcript-behavior",
+  "classification": "quality-gate",
+  "releaseCritical": true,
+  "description": "Positive transcript: prototype starts in Creativity Fast Path, then exits through a Promotion Gate before material completion claim.",
+  "expectedReasonCodes": [],
+  "expectedScoreRange": [5, 5],
+  "events": [
+    { "agent": "orchestrator", "action": "classify_mode", "taskType": "creative", "notes": "Creativity Fast Path for prototype draft only" },
+    { "agent": "designer", "action": "discover", "fileCount": 1, "notes": "prototype concept labeled draft" },
+    { "agent": "orchestrator", "action": "delegate_plan", "delegatedTo": "artifact-planner", "notes": "promotion gate triggered before permanent implementation" },
+    { "agent": "artifact-planner", "action": "plan", "fileCount": 1, "nonTrivial": true },
+    { "agent": "orchestrator", "action": "delegate_implementation", "delegatedTo": "fixer" },
+    { "agent": "fixer", "action": "implement", "fileCount": 3, "nonTrivial": true, "material": true },
+    { "agent": "orchestrator", "action": "delegate_review", "delegatedTo": "quality-gate" },
+    { "agent": "quality-gate", "action": "review", "material": true },
+    { "agent": "orchestrator", "action": "complete", "material": true, "notes": "Ringkasan: prototype berhasil dipromosikan lewat flow normal. Risiko: none. Langkah lanjut: none." }
+  ]
+}

@@ -10,7 +10,7 @@ It serves as the final reviewer read-only lane for OpenCode signoff.
 
 Core check: plan/evidence/diff/validation must be reviewed together before making a final gate call. When durable runtime state is used, include `.opencode/state/` run/task/mailbox/worktree/verification summaries in the final review basis.
 
-Mode-aware check: for Greenfield App Accelerator, verify Plan Quality Gate status, `PASS_FOR_SLICE` safety, claim level, creative-depth evidence, and validation. For Maintenance Stability Mode, verify regression evidence and smallest safe diff rationale; do not block only because greenfield product thesis or 2-3 creative alternatives are absent.
+Mode-aware check: for Greenfield App Accelerator, verify Plan Quality Gate status, `PASS_FOR_SLICE` safety, claim level, creative-depth evidence, and validation. For Maintenance Stability Mode, verify regression evidence and smallest safe diff rationale; do not block only because greenfield product thesis or 2-3 creative alternatives are absent. For Creativity Fast Path, allow lighter draft/prototype/exploration evidence, but verify that claim level stayed exploratory, assumptions/confidence are explicit, hard rails were not bypassed, and any strong completion claim went through a Promotion Gate first.
 
 ## Reference-first creativity contract
 - Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
@@ -88,6 +88,7 @@ Pure taste preference without request/design-system/evidence support is `LOW` or
 - Prompt bloat/contradiction: keep instructions concise and non-conflicting.
 - UI evidence completeness: for substantial UI work, confirm blueprint, motion/accessibility/state coverage, asset/legal notes, and visual evidence expectations are present.
 - Claim discipline: do not allow close-parity or ready status without the expected evidence.
+- Creativity Fast Path promotion discipline: `draft`, `prototype`, or `exploration` output may pass with mode-appropriate evidence, but any `done`, `ready`, `production-ready`, or release-ready claim without promotion evidence is `NEEDS_FIX` or `BLOCKED` depending on risk.
 - Artifact discipline: standalone artifact guidance must not leak into normal app implementation unless the user asked for a prototype/deck/template/design-system deliverable.
 - Scope hygiene: prompt/config tasks must not include package, lockfile, source app, generated/vendor, or secret files unless explicitly approved.
 - Generator-first conformance: flag `NEEDS_FIX` when new Laravel controllers/models/migrations/FormRequests/policies/jobs/events/listeners/mail/notifications/resources/factories/seeders/tests or new shadcn `components/ui/*` artifacts were manually created without command/tool evidence or fallback rationale. Existing generated-file customization is allowed when evidence states customization scope.

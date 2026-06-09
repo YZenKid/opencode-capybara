@@ -1049,6 +1049,8 @@ const checks = [
     mustInclude: [
       "final reviewer read-only",
       "plan/evidence/diff/validation",
+      "Creativity Fast Path",
+      "promotion evidence",
       "Project design-guide conformance",
       "security/secrets/dependency",
       "docs/config drift",
@@ -1339,6 +1341,8 @@ const checks = [
       "Replay bundle minimum",
       "Failure taxonomy",
       "failure → taxonomy → remediation → new regression/eval case → rerun",
+      "creativity-fast-path-routing",
+      "creative-positive, prototype-positive, risky-negative, and promotion-required behavior",
     ],
   },
   {
@@ -1624,12 +1628,15 @@ const checks = [
     mustInclude: [
       "Greenfield App Accelerator",
       "Maintenance Stability Mode",
+      "Creativity Fast Path",
       "Best Practice Readiness Contract",
       "Creative Depth Contract",
       "Plan Quality Gate",
       "PASS_FOR_SLICE",
       "user journey → data model → API/contracts → UI screens → tests",
       "Maintenance work should not be forced through greenfield product thesis",
+      "natural-language",
+      "Promotion Gate",
     ],
   },
   {
@@ -1639,6 +1646,8 @@ const checks = [
       "Mode-aware Plan Quality Gate",
       "Greenfield evidence minimum",
       "Maintenance evidence minimum",
+      "Creativity Fast Path evidence minimum",
+      "Prototype Promotion Gate",
       "MVP slice complete",
       "smallest safe diff rationale",
       "Only `PASS` and `PASS_FOR_SLICE` can proceed to implementation",
@@ -1650,8 +1659,11 @@ const checks = [
     mustInclude: [
       "Classify mode: Greenfield App Accelerator",
       "Maintenance Stability Mode",
+      "Creativity Fast Path",
+      "Promotion Gate",
       "Plan Quality Gate values: `PASS`, `PASS_FOR_SLICE`, `NEEDS_DEPTH`, `BLOCKED`",
       "do not force product thesis or 2-3 creative alternatives",
+      "draft`, `prototype`, or `exploration`",
     ],
   },
   {
@@ -1660,6 +1672,9 @@ const checks = [
     mustInclude: [
       "Greenfield App Accelerator",
       "Creative Depth Contract",
+      "Creativity Fast Path",
+      "planner is not the default tax",
+      "lightweight draft-only artifact",
       "tradeoff scoring",
       "ready-for-slice",
       "ready-for-implementation",
@@ -1757,6 +1772,23 @@ const modeBehaviorChecks = [
       orchestratorSkill.includes("do not force product thesis or 2-3 creative alternatives") &&
       routingDoc.includes("Maintenance work should not be forced through greenfield product thesis") &&
       modeFixture.includes("maintenance bugfix must stay lightweight"),
+  },
+  {
+    name: "creativity fast path stays exploratory with promotion gate",
+    pass:
+      orchestratorSkill.includes("Creativity Fast Path") &&
+      orchestratorSkill.includes("Promotion Gate") &&
+      routingDoc.includes("Creativity Fast Path") &&
+      routingDoc.includes("Promotion Gate") &&
+      modeFixture.includes("creative brainstorm may stay in fast path") &&
+      modeFixture.includes("ship prototype must require promotion"),
+  },
+  {
+    name: "creativity fast path risky prompts stay blocked from fast path",
+    pass:
+      routingDoc.includes("bikin prototype login cepat") &&
+      modeFixture.includes("risky prototype touching auth must not stay in fast path") &&
+      modeFixture.includes("forbidden_behavior"),
   },
 ];
 

@@ -1,0 +1,53 @@
+{
+  "id": "creativity-fast-path-routing",
+  "description": "Executable fixture: Creativity Fast Path must stay exploratory, require promotion for strong claims, and refuse risky auth/security bypass prompts.",
+  "rules": [
+    {
+      "file": ".opencode/docs/AGENT_ROUTING.md",
+      "mustInclude": [
+        "## Creativity Fast Path",
+        "natural-language",
+        "draft`, `prototype`, or `exploration`",
+        "Promotion Gate",
+        "bikin prototype login cepat"
+      ],
+      "reasonCode": "creativity-fast-path-routing-doc-gap"
+    },
+    {
+      "file": ".opencode/docs/QUALITY.md",
+      "mustInclude": [
+        "Creativity Fast Path evidence minimum",
+        "Prototype Promotion Gate",
+        "If promotion evidence is missing, the highest allowed claim stays `draft`, `prototype`, or `exploration`."
+      ],
+      "reasonCode": "creativity-fast-path-quality-gap"
+    },
+    {
+      "file": ".opencode/docs/SECURITY.md",
+      "mustInclude": [
+        "Creativity Fast Path hard-rail note",
+        "never a security bypass",
+        "Prototype wording such as “cepat”, “draft”, atau “sekadar contoh” does not relax these boundaries."
+      ],
+      "reasonCode": "creativity-fast-path-security-gap"
+    },
+    {
+      "file": "skills/opencode-orchestrator/SKILL.md",
+      "mustInclude": [
+        "Creativity Fast Path",
+        "Promotion Gate",
+        "draft`, `prototype`, or `exploration`"
+      ],
+      "reasonCode": "creativity-fast-path-orchestrator-gap"
+    },
+    {
+      "file": "skills/opencode-quality-gate/SKILL.md",
+      "mustInclude": [
+        "For Creativity Fast Path",
+        "promotion evidence",
+        "`done`, `ready`, `production-ready`, or release-ready claim without promotion evidence"
+      ],
+      "reasonCode": "creativity-fast-path-quality-gate-gap"
+    }
+  ]
+}

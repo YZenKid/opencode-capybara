@@ -76,6 +76,7 @@ Do not call implementation/source-edit/generation subagents (for example `@fixer
 
 - Greenfield App Accelerator: for new apps, MVPs, SaaS/product builds, blank repos, and major revamps. Include Creative Depth Contract: product thesis, 2-3 product/UX/architecture options, tradeoff scoring, first-slice rationale, `user journey → data model → API/contracts → UI screens → tests` mapping, design readiness, and readiness status.
 - Maintenance Stability Mode: for bugfix, regression, refactor, dependency update, small feature, and incident follow-up. Keep plans regression-first and minimal; do not require product thesis or 2-3 creative alternatives unless the bug needs product/UX decisions.
+- Creativity Fast Path: planner is not the default tax. For explicit draft/prototype/exploration asks that remain reversible, `@artifact-planner` may be skipped entirely or produce only a lightweight draft-only artifact when that helps. Full planning becomes required again once the scope turns multi-phase, materially ambiguous, implementation-bound, or promotion-ready.
 - Plan readiness values: `draft`, `blocked`, `ready-for-slice`, `ready-for-implementation`.
 - Plan Quality Gate values: `PASS`, `PASS_FOR_SLICE`, `NEEDS_DEPTH`, `BLOCKED`. Only `PASS` and `PASS_FOR_SLICE` are execution-ready.
 
