@@ -56,7 +56,11 @@ All UI/image/artifact generation surfaces use this contract:
 
 ### 9router image generation
 
-For saved project assets, prefer `generate_image_asset` or `generate_image_assets_batch` through the visual-asset-generator contract. Jobs must include explicit `project_root`, relative `target_path`, dimensions, format/output format, background, prompt, negative prompt, alt text, legal note, `quality_bar`, `reject_if`, and integration notes.
+For saved project assets, prefer `generate_image_asset` or `generate_image_assets_batch` through the visual-asset-generator contract. Jobs must include explicit `project_root`, relative `target_path`, dimensions, format/output format, background, quality, prompt, negative prompt, alt text, legal note, `quality_bar`, `reject_if`, and integration notes.
+
+When generation is required, preflight `9router` first: run `health_check_9router`, list image models, and inspect `get_9router_model_info` for the chosen model. Choose a model that supports the needed params or adapt params before generation.
+
+Default content imagery to raster outputs (`webp`, `png`, `jpeg`/`jpg`), validate dimensions and pixel budget, retry dimension errors with a provider-supported size/aspect, and retry pixel-budget errors with a provider-supported size that stays within budget before fallback. Deterministic SVG/CSS/local placeholders do not satisfy required generated image assets; if the endpoint fails, downgrade the claim to demo/draft or route back for a real generation pass.
 
 Prompts must be art-directed and section-aware, not generic tags. Negative prompts must block fake text/logos/watermarks, copied reference assets, placeholder UI, and generic cyberpunk/neon when relevant.
 

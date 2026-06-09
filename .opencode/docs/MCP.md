@@ -48,6 +48,14 @@ Use `web_fetch` for URL-to-markdown/text/html extraction.
 Use `generate_image_asset` for project assets that must be saved to disk.
 Use `generate_image` for direct image generation without project file output.
 
+Operational image rules:
+- For saved assets, prefer `generate_image_asset` or `generate_image_assets_batch` with explicit `project_root` and a `target_path` relative to that root.
+- Before required image generation, run `health_check_9router`, list image models, and inspect `get_9router_model_info` for the chosen model. Verify capability for requested `output_format`, `background`, `quality`, and dimensions, or adapt params before calling the generator.
+- Default content imagery to raster outputs (`webp`, `png`, `jpeg`/`jpg`). Use transparent backgrounds only with alpha-capable formats.
+- Validate width/height, aspect ratio, and pixel budget before generation. Use provider-valid dimensions.
+- If the provider rejects dimensions, retry with a provider-supported size/aspect. If it rejects pixel budget, retry with a provider-supported size that stays within budget before fallback or failure.
+- Do not claim an asset was generated if the endpoint failed. Deterministic SVG/CSS/local placeholder fallback is placeholder/demo output, not generated imagery.
+
 ## MCP state terminology
 
 Use this lightweight state model consistently across docs/prompt surfaces:

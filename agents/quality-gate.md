@@ -63,6 +63,7 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 - Unsupported factual or visual certainty is a gate issue. If the result makes strong claims without source basis or evidence, downgrade to `NEEDS_FIX` or `BLOCKED`.
 - Block only on mechanical/evidence failures: missing required screenshots/evidence, unreviewed AI slop, broken contrast/wrapping/layout, absent reduced-motion, unsupported parity/readiness claims, or scope/routing mismatch.
 - Requested Aesthetic Fidelity Gate: for substantial UI, explicit aesthetic mismatch, missing style grammar, card spam/layout repetition, fake metrics/debug copy, or placeholder/abstract hero when imagery matters are mechanical failures and map to `NEEDS_FIX`, not pure taste.
+- For image-heavy claims, deterministic SVG/CSS placeholders or local template scripts count as placeholders unless the user explicitly requested SVG/icons. If real image generation failed and fallback was used, status must be `NEEDS_FIX` or the claim must be downgraded to draft/demo-only; never `PASS` for generated-image claims.
 - Treat pure taste preference without evidence as `LOW`/follow-up, not blocker.
 - Return one status only: `PASS`, `PASS_WITH_RISKS`, `NEEDS_FIX`, or `BLOCKED`.
 - Stay read-only: do not edit files, self-fix, or expand scope into implementation.
