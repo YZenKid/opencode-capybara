@@ -121,7 +121,7 @@ User intent → `@orchestrator` → specialist agents → validation → `@quali
 ## Notes
 - For substantial UI work, inspect the target project's `DESIGN.md` first, then `design-system/DESIGN.md` or a documented equivalent.
 - `@designer` owns UI direction/review and may implement only when directly routed/requested; `@artifact-planner` may use designer only as read-only advisory input.
-- For image-heavy or reference UI work, require evidence, asset decisions, and legal style-equivalent handling; `@visual-asset-generator` is invoked by `@orchestrator`/`@designer` from an asset manifest/image-heavy plan, not by planner.
+- For image-heavy or reference UI work, require evidence, asset decisions, and direct reuse / style-equivalent fallback handling; `@visual-asset-generator` is invoked by `@orchestrator`/`@designer` from an asset manifest/image-heavy plan, not by planner.
 - Substantial UI requires screenshots/evidence/reduced-motion/accessibility checks and `@quality-gate` before completion claim.
 - If the project has many agents/subagents, document the role and primary skill ownership clearly enough that future work does not default back to `@orchestrator` for planning, implementation, review, or research.
 - If many agents are available, future operators should read `.opencode/docs/AGENT_ROUTING.md` and `.opencode/docs/SKILLS.md` first to understand who owns discovery, implementation, review, design, and domain-specific risk.

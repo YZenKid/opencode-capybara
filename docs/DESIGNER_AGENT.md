@@ -11,7 +11,7 @@ Local adaptation uses ideas from Open Design without vendoring upstream or requi
 | `frontend-design` | Clear point of view, real states, production-grade frontend, responsive/a11y, no generic AI UI. |
 | `taste-skill` | `Design Read`, craft dials, anti-slop mechanical preflight. |
 | `design-brief` | Convert vague requests into concrete palette, type, layout, density, motion, asset, and constraint decisions. |
-| `reference-design-contract` | Use `Keep`, `Change`, `Do not copy` for legal style-equivalent reference work. |
+| `reference-design-contract` | Use `Keep`, `Change`, `Do not copy` for reference work; allow user-directed direct reuse with source/permission inventory, and use style-equivalent fallback only when direct reuse is not requested, not allowed, unavailable, or unsafe. |
 | `design-md` / `web-design-guidelines` | Treat project `DESIGN.md` as source of truth for type, color, layout, motion, a11y. |
 | `design-review` / `plan-design-review` | Score critique with evidence and require before/after responsive screenshots for substantial work. |
 | `ui-ux-pro-max` | Inspiration only; do not claim upstream assets/scripts/pattern library are installed. |

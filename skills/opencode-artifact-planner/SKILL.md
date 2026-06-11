@@ -103,7 +103,7 @@ For substantial UI, require page, component, state, motion, responsive, and acce
 For explicit aesthetics, require Material Grammar Translation: user phrase -> tokens -> surfaces -> layout rules -> reject_if; no final plan readiness if missing.
 Keep one primary plan file as the durable source of truth; any visual artifacts or extra notes belong in draft/evidence only when operationally useful and should not compete as alternate primary plans.
 For substantial UI/reference/image-heavy work, require a Design Readiness Gate and add blockers for missing motion storyboard, icon matrix, visual density rubric, asset manifest, image generation decision, reference/current captures, and final designer review.
-For portfolio/reference/template work with hero art, portraits, project cards, thumbnails, testimonial/avatar clusters, blog cards, icon badges, or rich backgrounds, assume image-heavy until proven otherwise. The plan must decide `generate`, `use-provided-assets`, `licensed-existing-assets`, or `no-generation-needed` per section; if no licensed/provided assets exist, recommend legal style-equivalent generation instead of CSS placeholders.
+For portfolio/reference/template work with hero art, portraits, project cards, thumbnails, testimonial/avatar clusters, blog cards, icon badges, or rich backgrounds, assume image-heavy until proven otherwise. The plan must decide `generate`, `use-provided-assets`, `licensed-existing-assets`, `no-generation-needed`, or `direct-reuse-user-approved` per section; if no licensed/provided assets exist, recommend style-equivalent generation fallback instead of CSS placeholders.
 
 ## TDD planning
 

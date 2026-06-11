@@ -17,7 +17,7 @@ Senior external reference map: `SENIOR_SKILLS_REFERENCES.md`. Marketplace skills
 - `opencode-designer` — owned by `@designer`; handles UI/UX, reference, design-system workflow, and motion direction/reduced-motion review
 - `opencode-explorer` — owned by `@explorer`; discovers codebase structure and reuse
 - `opencode-council` — owned by `@council`; provides multi-LLM consensus for high-stakes or ambiguous decisions
-- `opencode-visual-asset-generator` — owned by `@visual-asset-generator`; plans legal style-equivalent visual asset generation jobs
+- `opencode-visual-asset-generator` — owned by `@visual-asset-generator`; plans style-equivalent fallback visual asset generation jobs
 
 ## Triggered planning lane
 - `opencode-artifact-planner` — owned by `@artifact-planner`; used only for multi-phase, spec-heavy, materially ambiguous, or evidence-heavy planning.

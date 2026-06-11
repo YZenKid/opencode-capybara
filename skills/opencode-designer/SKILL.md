@@ -246,9 +246,13 @@ Designer output for non-trivial motion should state the chosen animation level/l
 
 ## Reference replication
 
-Capture reference/current, extract visual spec, inventory assets, classify licensing, preserve user content, implement for section density/composition, then compare final screenshots. Do not copy restricted assets; use legal icon libraries, existing assets, or generated/provided replacements.
+Permissive/Public Source Reuse
+User-directed Direct Reuse
+Asset/Source Inventory
+
+Capture reference/current, extract visual spec, inventory assets, classify licensing, preserve user content, implement for section density/composition, then compare final screenshots. Do not silently copy restricted assets; if the user explicitly directs reuse of provided/public/user-approved assets, record the source, permission/license status when known, and risk. Otherwise use legal icon libraries, existing assets, or generated/style-equivalent replacements.
 - Fail UI when screenshots show dev overlays, dummy text, fake controls, blank image frames, numeric-only service icons, or missing planned sections.
-- For portfolio/reference/template work with hero art, portraits, project cards, thumbnails, testimonial/avatar clusters, blog cards, icon badges, or rich backgrounds, assume image-heavy until proven otherwise. Designer must return an image generation decision per section: `generate`, `use-provided-assets`, `licensed-existing-assets`, or `no-generation-needed`. If no licensed/provided assets exist, require legal style-equivalent generation by default instead of blank frames, CSS-only placeholders, or generic gradients.
+- For portfolio/reference/template work with hero art, portraits, project cards, thumbnails, testimonial/avatar clusters, blog cards, icon badges, or rich backgrounds, assume image-heavy until proven otherwise. Designer must return an image generation decision per section: `generate`, `use-provided-assets`, `licensed-existing-assets`, `no-generation-needed`, or `direct-reuse-user-approved`. If no licensed/provided assets exist, require style-equivalent generation fallback instead of blank frames, CSS-only placeholders, or generic gradients.
 
 ## Generated asset art direction gate
 

@@ -39,7 +39,7 @@ npm run post:update
 | `OPENCODE_MODEL_ORCHESTRATOR` | `9router/medium` | `@orchestrator` primary routing/integration | Use a balanced lane for delegation, coordination, and synthesis. |
 | `OPENCODE_MODEL_PLANNER` | `9router/high` | `@artifact-planner`, `modes/plan.md`, `agents-disabled/plan.md` | Keep planning on the strongest lane for higher-accuracy specs and execution handoffs. |
 | `OPENCODE_MODEL_DESIGN` | `9router/high` | `@designer` | Keep substantial UI/design reasoning, motion, and accessibility work on the high lane. |
-| `OPENCODE_MODEL_VISUAL_ASSET` | `9router/medium` | `@visual-asset-generator` | Keep visual asset manifest prep and legal style-equivalent generation routing on medium while leaving designer on high. |
+| `OPENCODE_MODEL_VISUAL_ASSET` | `9router/medium` | `@visual-asset-generator` | Keep visual asset manifest prep and style-equivalent fallback generation routing on medium while leaving designer on high. |
 | `OPENCODE_MODEL_REVIEW` | `9router/medium` | `@oracle`, `@council` | Keep advisory/review reasoning on a balanced lane without degrading high-confidence review paths. |
 | `OPENCODE_MODEL_QUALITY_GATE` | `9router/low` | `@quality-gate` | Final conformance gate stays cheap and explicit without forcing `@oracle`/`@council` down. |
 | `OPENCODE_MODEL_ADVISORY` | `9router/medium` | `@architect` | Use a balanced lane for advisory and architecture guidance. |

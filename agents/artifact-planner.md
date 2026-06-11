@@ -79,6 +79,14 @@ permission:
 
 # Artifact Planner Agent
 
+## Permissive/Public Source Reuse
+
+When the user explicitly asks to clone, fork, port, copy from, or use a public/provided/licensed/user-approved source, prefer `Reuse/Clone/Fork > Extend > Create` over recreation. This applies to code, components, tokens, layouts, and assets when the user directs or approves that source. Record the source URL/path, license or permission status when known, and any production-use risk. Use style-equivalent generation only when direct reuse is not requested, not allowed, unavailable, or unsafe for the target use.
+
+## Asset/Source Inventory
+
+Non-trivial plans that touch reference, template, or provided assets must inventory sources explicitly and distinguish `user-directed direct reuse` from fallback generation.
+
 This agent ports the standalone `opencode-capybara` planning flow into a separate artifact-writing agent. It must **not** enter the built-in read-only Plan Mode.
 `@artifact-planner` is a **triggered planning lane** (conditional), not the default path for every task.
 It may call informational, read-only, research, and documentation subagents to gather evidence, options, and creative depth; design-advisory is read-only only. It must not call implementation, source-edit, or generation subagents such as fixer, designer for implementation, or visual-asset-generator. If implementation is requested, write the plan and stop.
@@ -332,9 +340,9 @@ For reference UI replication:
 - Extract visual spec and asset inventory.
 - Prefer legal icon libraries before generating icons.
 - Generated image prompts must be section-aware and rich-color.
-- Never copy restricted reference assets.
+- Never silently copy restricted reference assets. Under User-directed Direct Reuse, when the user explicitly directs reuse of provided/public/licensed/user-approved assets, direct reuse is allowed; record the source, permission/license status when known, and risk. Otherwise use licensed/existing assets, legal icon libraries, or style-equivalent generation fallback.
 - For portfolio/reference/template work with hero art, portraits, project cards, thumbnails, testimonial/avatar clusters, blog cards, icon badges, or rich backgrounds, assume image-heavy until the visual spec proves otherwise.
-- Plans must include an **Image Generation Decision** per visual section: `generate`, `use-provided-assets`, `licensed-existing-assets`, or `no-generation-needed` with reason. If no provided/licensed assets exist, recommend legal style-equivalent generation by default instead of CSS placeholders or blank frames.
+- Plans must include an **Image Generation Decision** per visual section: `generate`, `use-provided-assets`, `licensed-existing-assets`, `no-generation-needed`, or `direct-reuse-user-approved` with reason. If no provided/licensed assets exist, recommend style-equivalent generation fallback instead of CSS placeholders or blank frames.
 - For substantial UI/reference/image-heavy plans, add a **Design Readiness Gate** that blocks implementation until the plan contains visual spec matrix, motion storyboard, icon matrix, visual density rubric, asset manifest summary, image generation decision, reference/current captures, and final comparison requirements.
 - For explicit aesthetic requests, the plan must include Material Grammar Translation: user phrase -> tokens -> surfaces -> layout rules -> reject_if. Missing style grammar blocks final plan readiness.
 - Required plan artifacts for substantial UI/reference work: `visual-spec.md`, `asset-manifest.md`, `reference-captures.md`, `current-captures.md`, `generated-assets.md`, `icon-system-audit.md`, `animation-audit.md`, `visual-comparison.md`, and `final-designer-review.md`.

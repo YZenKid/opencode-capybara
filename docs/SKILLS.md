@@ -8,7 +8,7 @@
 - `opencode-quality-gate` — final conformance gate
 - `opencode-designer` — UI/UX, reference, and motion/reduced-motion workflow
 - `opencode-council` — multi-LLM consensus workflow
-- `opencode-visual-asset-generator` — legal style-equivalent visual asset planning workflow
+- `opencode-visual-asset-generator` — style-equivalent fallback visual asset planning workflow
 
 ## Discovery and references
 - `opencode-explorer`

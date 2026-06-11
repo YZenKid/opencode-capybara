@@ -70,7 +70,7 @@ Default operating model:
 
 ## Notes
 - For substantial UI work, inspect the target project's `DESIGN.md` first, then `design-system/DESIGN.md` or a documented equivalent.
-- For image-heavy or reference UI work, require evidence, asset decisions, and legal style-equivalent handling.
+- For image-heavy or reference UI work, require evidence, asset decisions, direct reuse inventory, and style-equivalent fallback handling.
 - If the project has many agents/subagents, document the role and primary skill ownership clearly enough that future work does not default back to `@orchestrator` for planning, implementation, review, or research.
 - If many agents are available, read `.opencode/docs/AGENT_ROUTING.md` and `.opencode/docs/SKILLS.md` first to understand who owns discovery, implementation, review, design, and domain-specific risk.
 - For full operational details, follow the linked docs rather than expanding this file.

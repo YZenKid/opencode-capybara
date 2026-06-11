@@ -1,11 +1,11 @@
 ---
 name: opencode-visual-asset-generator
-description: Standalone visual asset generation workflow for visual-asset-generator. Use for legal style-equivalent hero art, portraits, badges, mockups, avatars, thumbnails, product visuals, and rich backgrounds from an asset manifest.
+description: Standalone visual asset generation workflow for visual-asset-generator. Use for style-equivalent fallback hero art, portraits, badges, mockups, avatars, thumbnails, product visuals, and rich backgrounds from an asset manifest.
 ---
 
 # OpenCode Visual Asset Generator Skill
 
-Use this to transform asset manifests into legal generation jobs and integration notes.
+Use this to transform asset manifests into generation jobs and integration notes, including direct-reuse awareness when the user has already approved a source.
 
 ## Reference-first creativity contract
 - Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
@@ -40,12 +40,13 @@ For explicit material aesthetics in hero/image-heavy work, require tactile/produ
 ## Rules
 
 - Open Design influence: use `taste-skill` for Design Read/dials/anti-slop, `reference-design-contract` for `keep/change/do_not_copy`, and `frontend-design` for production-grade, section-meaningful visuals.
-- Never copy restricted/reference assets without license/proof.
-- Preserve visual qualities as legal style-equivalent: palette, crop, mood, density, lighting, placement intent.
+- Never silently copy restricted/reference assets without license/proof.
+- If the user explicitly directs reuse of provided/public/user-approved assets, record the source, permission/license status when known, and risk instead of generating a substitute by default.
+- Preserve visual qualities as style-equivalent fallback when generation is needed: palette, crop, mood, density, lighting, placement intent.
 - Avoid readable text, watermarks, trademarks, and logo lookalikes.
 - Prefer legal icon libraries for brand/tech marks.
 - For functional UI icons, prefer existing icon libraries over generated substitutes.
-- Require an explicit image-generation decision per section: `generate`, `use-provided-assets`, `licensed-existing-assets`, or `no-generation-needed`.
+- Require an explicit image-generation decision per section: `generate`, `use-provided-assets`, `licensed-existing-assets`, `no-generation-needed`, or `direct-reuse-user-approved`.
 - Make prompts section-aware and concrete.
 - For clay/glass or similar material requests, include tactile surface details plus real product/domain composition; reject abstract CSS filler where the section needs meaningful imagery.
 - Include a negative prompt that blocks generic AI aesthetics, placeholder visuals, fake text/logos, and copied reference assets when relevant.
