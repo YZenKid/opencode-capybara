@@ -10,3 +10,5 @@ bun.lock
 *.log
 .DS_Store
 .playwright-mcp/
+
+.cache
