@@ -1,5 +1,12 @@
 # Decisions
 
+## 2026-06-11 — User-directed direct reuse policy (Option B)
+- The preset intentionally allows user-directed direct reuse of public/provided/licensed/user-approved code, components, layouts, tokens, and assets.
+- When a user explicitly asks to clone, fork, port, copy from, or use a source, agents should prefer `Reuse/Clone/Fork > Extend > Create` instead of recreating from scratch.
+- Style-equivalent generation is now a fallback when direct reuse is not requested, not allowed, unavailable, or unsafe.
+- Agents must not silently copy assets; direct reuse requires explicit user direction/approval and final notes should record source, license/permission status when known, and production-use risk.
+- Users/projects remain responsible for license, trademark, and production-use compliance for directly reused assets.
+
 ## 2026-05-30 — 9Router primary migration
 - Provider default switched from `cliproxyapi` to `9router` in `opencode.json` and model routing env defaults.
 - Unified MCP `9router` enabled via `bin/9router-mcp.mjs` for web search, fetch, and image surfaces.
