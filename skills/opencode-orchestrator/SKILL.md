@@ -49,7 +49,7 @@ Direct-work threshold (hard default):
 
 - Unknown codebase, broad search, symbol discovery, test/helper discovery → `@explorer`.
 - Current library/API/docs behavior → `@librarian` (supporting helper); prefer official docs/context first, then GitHub/web when needed.
-- Generator/scaffold-backed framework artifact creation → route to detected domain lane and require official CLI/generator/MCP first when usable. Direct tiny edits are allowed for existing generated-file customization or when generator is irrelevant; manual new artifacts require fallback evidence.
+- Generator/scaffold-backed framework artifact creation → read project stack/command/playbook docs first when present, then route to detected domain lane and require official CLI/generator/MCP first when usable. Direct tiny edits are allowed for existing generated-file customization or when generator is irrelevant; manual new artifacts require fallback evidence.
 - User-facing UI, visual polish, responsive layout, reference matching → `@designer`.
 - Substantial UI/UX, web, mobile, app design, design-system generation, or revamp work → `@designer`.
 - Before any UI/design direction is finalized, inspect the target project's `DESIGN.md` at the project root, then `design-system/DESIGN.md` or any documented project-specific equivalent. Project-local design guidance wins over generic taste; if substantial UI work has no project guide, suggest `/init-harness` so the consolidated harness/design initialization can create or update project guidance before inventing a direction.
@@ -78,10 +78,12 @@ Direct-work threshold (hard default):
 3. If Creativity Fast Path applies, keep the claim level at `draft`/`prototype`/`exploration`, avoid heavy plan tax while the scope stays reversible, and check hard rails immediately. If the user asks for permanent implementation or a strong completion claim, run the Promotion Gate and return to normal routing.
 4. Detect Source-approved 1:1 Porting / Literal Porting Contract early: `1:1`, `clone`, `port`, `copy`, `copy from`, `make exactly like`, or a source URL/repo/file plus explicit reuse approval means literal direct reuse is the default expectation, not redesign. Route `@explorer` for upstream/source inventory and `@artifact-planner` for copy/adapt/prune/create mapping unless the task is truly tiny.
 5. Is scope unclear or repo facts missing? Route `@explorer` for code facts; route `@librarian` for docs/API/source facts; route `@system-analyst` for requirements/flows/contracts. Also decide the source strategy early: repo, official docs, upstream source/examples, browser/screenshots, and current web evidence as needed.
-6. Does work create new framework artifacts where stack generator/CLI/MCP is available? Route to domain lane and require generator-first path; allow manual only with evidence for unavailable/failed tool, repo convention, or existing-file customization.
-7. Does work need a durable plan, milestones, or evidence-heavy handoff? Route `@artifact-planner`; use `@project-manager` input for tickets/milestones. For source-approved 1:1 tasks, require source maps, forbidden deviations, and parity debt in the plan.
-8. Is UX/visual direction, reference parity, motion direction, or design system unresolved? Route `@designer` before implementation. For source-approved 1:1 visual work, route with exact layout/component/token anatomy expectation rather than inspiration-only restyling. For greenfield or taste-sensitive work, expect 2-3 bounded options or an explicit reason to converge immediately.
-9. Is implementation clear and bounded?
+6. Before framework-managed edits in existing or greenfield apps, read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present. If they are missing or stale for non-trivial work, run or suggest `/init-harness` before broad implementation.
+7. Does work create new framework artifacts where stack generator/CLI/MCP is available? Route to domain lane and require generator-first path; allow manual only with evidence for unavailable/failed tool, repo convention, existing-file customization, or explicit user request.
+8. If generator behavior is version-sensitive and project-local docs do not already settle it, route to `@librarian` for official docs/context7 before implementation.
+9. Does work need a durable plan, milestones, or evidence-heavy handoff? Route `@artifact-planner`; use `@project-manager` input for tickets/milestones. For source-approved 1:1 tasks, require source maps, forbidden deviations, and parity debt in the plan.
+10. Is UX/visual direction, reference parity, motion direction, or design system unresolved? Route `@designer` before implementation. For source-approved 1:1 visual work, route with exact layout/component/token anatomy expectation rather than inspiration-only restyling. For greenfield or taste-sensitive work, expect 2-3 bounded options or an explicit reason to converge immediately.
+11. Is implementation clear and bounded?
    - general edits/tests/fixtures/refactor → `@fixer`
    - web UI/page/component work → `@frontend` when design exists; `@fixer` only for tiny UI fixes
    - API/service/auth/data/job/migration work → `@backend`
@@ -124,7 +126,9 @@ Direct-work threshold (hard default):
 
 ## Harness Preflight Gate
 - Before non-trivial work, `@orchestrator` must verify the target project has a current root `AGENTS.md`, canonical `.opencode/docs/`, and root `DESIGN.md` when UI/design work is involved.
+- For framework-managed artifacts in existing or greenfield apps, also verify `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
 - If harness guidance is missing or stale, run `/init-harness` before broad implementation. If command execution is unavailable, ask the user to run `/init-harness`.
+- `/init-harness` should default to stack/tool detection and conservative creation or update of the project stack/command/playbook docs; there is no optional stack-aware mode.
 - Do not start broad implementation until harness guidance is available, except for tiny, read-only, or emergency tasks.
 - If the gate is skipped, record the reason in the final summary/evidence.
 

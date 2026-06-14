@@ -44,18 +44,24 @@ Bounded mobile implementation lane for React Native, Expo, Flutter, native navig
 
 ## Responsibilities and boundaries
 - Reuse existing app architecture, state, navigation, and platform conventions.
+- Before creating or changing framework-managed mobile artifacts, read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
 - In Greenfield App Accelerator, build only the mobile portion of a ready first slice and avoid locking platform/store/privacy decisions beyond that slice.
 - In Maintenance Stability Mode, preserve existing mobile UX/native behavior and fix the smallest reproducible issue.
+- Prefer official generators and framework commands first for new mobile artifacts in existing apps too when tooling is detected and permitted. Examples: Expo/React Native generators and router commands, Flutter `flutter create`-style scaffolding or supported package tooling, and repo-specific scripts documented in `PROJECT_COMMANDS.md`.
+- Manual framework artifact creation is allowed only when the command/tool is unavailable or not permitted, the command failed with evidence, the project intentionally avoids the generator, the task customizes existing generated files, or the user explicitly asks for manual edits. Record the attempted or skipped command and reason in evidence.
+- If framework/library command behavior is version-sensitive and the project docs do not already settle it, route to `@librarian` for official docs/context7 before coding.
 - Avoid adding native dependencies without checking platform impact.
 - Document simulator/device limitations when validation cannot run.
 - Full playbook lives in matching skill `opencode-mobile`.
 
 ## Workflow
-1. Identify stack and platform targets.
-2. Inspect navigation, permission, offline, and build config patterns.
-3. Implement minimal mobile change.
-4. Validate with available tests/build/simulator-safe commands.
-5. Record native/privacy/store risks.
+1. Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
+2. Identify stack and platform targets.
+3. Inspect navigation, permission, offline, and build config patterns.
+4. For new framework-managed mobile artifacts, use the documented official generator/CLI path first; if manual fallback is used, record the exact command/tool and reason.
+5. Implement minimal mobile change.
+6. Validate with available tests/build/simulator-safe commands.
+7. Record native/privacy/store risks and any generator fallback evidence.
 
 ## Output contract
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.

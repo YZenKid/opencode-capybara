@@ -89,9 +89,13 @@ Policy note: prefer local canonical capybara lanes for execution. Built-in OpenC
     - Anti-pattern: broad unrelated edits or bypassing repo conventions
 
 6. **Use official generators before manual framework artifacts.**
+   - This applies to existing app development as well as greenfield work.
+   - Before creating or changing framework-managed artifacts, read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
+   - When those docs are missing or stale for non-trivial work, run or suggest `/init-harness` before broad implementation so stack/tool guidance is refreshed.
    - When detected stack has usable CLI/scaffold/generator/MCP support, run or request that generator before manually creating new framework artifacts.
-   - Examples: Laravel `php artisan make:*` for backend artifacts; detected package manager plus shadcn CLI or shadcn MCP for `shadcn init`/`shadcn add`.
-   - Manual fallback requires evidence: tool unavailable/not permitted, command failed, repo pattern intentionally avoids generator, or task only customizes existing generated files.
+   - Examples: Laravel `php artisan make:*`, `php artisan test`, `php artisan route:list`; goose `goose create <name> sql`, `goose status`, `goose up`, `goose down`; detected package manager plus shadcn CLI or shadcn MCP for `shadcn init`/`shadcn add`; Prisma/Drizzle migrate/generate; Rails/Nest/Expo/Flutter generators; `sqlc`, `buf`, and `oapi-codegen`.
+   - If command behavior is version-sensitive and project docs do not already settle it, route to `@librarian` for official docs/context7 before coding.
+   - Manual fallback requires evidence: tool unavailable/not permitted, command failed, repo pattern intentionally avoids generator, task only customizes existing generated files, or user explicitly requested manual edits.
 
 ## Common workflows
 
@@ -117,10 +121,11 @@ Policy note: prefer local canonical capybara lanes for execution. Built-in OpenC
 3. Record rendering-affecting console/network issues when material
 
 ### E) Stack scaffold/generator workflow
-1. Detect stack and generator availability from repo files and tool inventory.
-2. Use official generator/CLI/MCP for new framework artifacts when usable.
-3. Edit generated files only for task-specific customization.
-4. If manual creation is used, record attempted command/tool, unavailable/failing tool, or repo-specific reason.
+1. Detect stack and generator availability from repo files, `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
+2. If those docs are missing or stale for non-trivial work, run or suggest `/init-harness` before broad implementation.
+3. Use official generator/CLI/MCP for new framework artifacts when usable, including changes inside existing apps.
+4. Edit generated files directly only for task-specific customization or project-documented exceptions.
+5. If manual creation is used, record the attempted or skipped command/tool plus the unavailable/failing tool, project convention, or explicit user reason.
 
 ## Anti-patterns
 
@@ -129,7 +134,8 @@ Policy note: prefer local canonical capybara lanes for execution. Built-in OpenC
 - Dumping raw parameter schemas into canonical policy docs.
 - Doing destructive git/runtime actions without explicit user intent.
 - Claiming parity/quality without runnable evidence.
-- Manually creating new framework artifacts while official generator/CLI/MCP is usable and no fallback evidence exists.
+- Manually creating new framework artifacts in an existing or greenfield app while official generator/CLI/MCP is usable and no fallback evidence exists.
+- Skipping project stack/command/playbook docs before framework-managed edits when those docs are present.
 
 ## Fallback rules
 

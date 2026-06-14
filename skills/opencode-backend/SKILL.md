@@ -46,13 +46,15 @@ Use for bounded server/API/data implementation. Detect actual project stack from
 - Runtime-specific: apply detected language/runtime idioms for context/timeouts, typed errors, dependency injection boundaries, structured logging, and concurrency hazards.
 
 ## Workflow
-1. Map route/service/data/auth boundaries and current tests.
-2. Confirm API/data contract, migration needs, and security constraints.
-3. For new framework artifacts, detect and use official generator command/tool first; record fallback reason if manual.
-4. Red: add focused failing test or reproduce regression when feasible.
-5. Green: implement minimal endpoint/service/query/migration/job change.
-6. Refactor: simplify while preserving established boundaries.
-7. Validate with focused tests, lint/type/static checks, and migration dry-run where available.
+1. Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
+2. Map route/service/data/auth boundaries and current tests.
+3. Confirm API/data contract, migration needs, and security constraints.
+4. For new framework artifacts, detect and use the documented official generator command/tool first; record the exact fallback reason and skipped/attempted command if manual.
+5. If generator, migration, or codegen behavior is version-sensitive and project docs do not already settle it, route to `@librarian` for official docs/context7 before coding.
+6. Red: add focused failing test or reproduce regression when feasible.
+7. Green: implement minimal endpoint/service/query/migration/job change.
+8. Refactor: simplify while preserving established boundaries.
+9. Validate with focused tests, lint/type/static checks, and migration dry-run where available.
 
 ## Validation
 - Run stack-appropriate tests/checks from repo scripts and docs; examples include Laravel `php artisan test`, Go `go test ./...`, Python `pytest`, plus configured lint/static tools.

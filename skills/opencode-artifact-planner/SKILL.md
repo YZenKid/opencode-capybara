@@ -27,6 +27,7 @@ Canonical tool references:
 - Do not finalize substantial plans until reasonable references were checked or explicitly skipped with rationale. Missing current docs/API/source facts route to `@librarian`; do not invent library/API behavior, package capabilities, pricing, market facts, or upstream behavior from memory.
 - If a relevant source path is skipped, record why and lower the claim level (`draft`, `assumption`, `repo-local only`, or `first-principles`).
 - Greenfield plans must use `.opencode/docs/GREENFIELD_STARTER.md` or a repo-local equivalent as starter input unless explicitly prototype-only; if skipped, record why.
+- For framework-managed work in existing or greenfield apps, inspect `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present so the plan defaults to project-specific command/generator workflows before manual edits.
 
 ## Anti-AI-slop quality bar
 - No generic UI/product plans. Require reference pack or explicit first-principles rationale plus distinctive direction and concrete page/component/state/motion/accessibility details for substantial UI.
@@ -96,7 +97,7 @@ Diff Boundary must list allowed file groups, generated-report exceptions, and ev
 
 Executor Handoff Prompt must be copyable for `@orchestrator` and implementation lanes with minimal translation. Include scope, must_preserve, do_not_touch, validation, return/evidence expectations, and plan-specific claim limits.
 
-For non-trivial plans, include a concise source-strategy note or equivalent under `Evidence Requirements`, `Decisions/Assumptions`, or `Final Planning Summary`: what sources were used, what was skipped, which major choices are repo-backed/reference-backed/docs-backed/first-principles-driven, and which assumptions remain.
+For non-trivial plans, include a concise source-strategy note or equivalent under `Evidence Requirements`, `Decisions/Assumptions`, or `Final Planning Summary`: what sources were used, what was skipped, which major choices are repo-backed/reference-backed/docs-backed/first-principles-driven, which assumptions remain, and for framework-managed work the intended official CLI/generator/codegen command path plus the explicit manual fallback condition when no generator path will be used.
 
 Execution-ready Worklist / Handoff Contract is mandatory for non-trivial plans and must allow `@orchestrator` to execute to completion without replanning. For each atomic ordered task include: dependencies (`depends_on`), owner/lane, validation, task exit criteria, blocking status (`ready`/`blocked`) with reason, `requires_user_decision` (`yes`/`no`), `must_preserve`, `do_not_touch`, `evidence_update`, `exit_verification`, and a `start_with` pointer for the first non-blocked task.
 

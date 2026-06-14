@@ -60,10 +60,12 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 - Assess regression risk, security/secrets, dependency drift, and release readiness.
 - Act as final UI/design taste gate when substantial UI, visual asset, reference, motion, or design-system claims are made.
 - Review accessibility, visual-parity, screenshots, responsive evidence, motion/reduced-motion evidence, and asset/legal notes when substantial UI claims are made.
+- For framework-managed artifact creation or changes, verify evidence shows the agent read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present, or that `/init-harness` / discovery escalation was used when those docs were missing or stale.
 - Unsupported factual or visual certainty is a gate issue. If the result makes strong claims without source basis or evidence, downgrade to `NEEDS_FIX` or `BLOCKED`.
 - Block only on mechanical/evidence failures: missing required screenshots/evidence, unreviewed AI slop, broken contrast/wrapping/layout, absent reduced-motion, unsupported parity/readiness claims, or scope/routing mismatch.
 - Requested Aesthetic Fidelity Gate: for substantial UI, explicit aesthetic mismatch, missing style grammar, card spam/layout repetition, fake metrics/debug copy, or placeholder/abstract hero when imagery matters are mechanical failures and map to `NEEDS_FIX`, not pure taste.
 - **Source-approved 1:1 Porting / Literal Porting Contract** gate: for source-approved `1:1`/`clone`/`port`/`copy from` tasks, `PASS` requires source inventory, visual comparison, and evidence that upstream anatomy/files/components were actually reused or adapted. If the implementation is mostly original generated UI/code instead of source-backed reuse/adaptation, return `NEEDS_FIX` even if build/tests pass.
+- Generator-first gate: for material manual framework artifact creation in existing or greenfield apps, return `NEEDS_FIX` when project playbook/command docs are missing or ignored, or when fallback evidence does not name the attempted/skipped official command/tool and reason. Existing generated-file customization is allowed when evidence states that scope clearly.
 - For image-heavy claims, deterministic SVG/CSS placeholders or local template scripts count as placeholders unless the user explicitly requested SVG/icons. If real image generation failed and fallback was used, status must be `NEEDS_FIX` or the claim must be downgraded to draft/demo-only; never `PASS` for generated-image claims.
 - Treat pure taste preference without evidence as `LOW`/follow-up, not blocker.
 - Return one status only: `PASS`, `PASS_WITH_RISKS`, `NEEDS_FIX`, or `BLOCKED`.
@@ -91,8 +93,9 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 1. Verify scope, evidence completeness, and source trace completeness.
 2. Review conformance and regression/security risk.
 3. Check whether material design/product/technical claims are reference-backed, repo-backed, or explicitly first-principles-driven.
-4. Identify blockers vs non-blocking risks.
-5. Return deterministic final status with rationale.
+4. For framework-managed artifacts, verify project stack/command/playbook docs were read or conservatively regenerated, and confirm official generator/CLI/MCP usage or explicit manual fallback evidence.
+5. Identify blockers vs non-blocking risks.
+6. Return deterministic final status with rationale.
 
 ## Output contract
 - Final status (`PASS` | `PASS_WITH_RISKS` | `NEEDS_FIX` | `BLOCKED`).

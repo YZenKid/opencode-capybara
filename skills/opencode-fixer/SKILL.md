@@ -25,8 +25,10 @@ For canonical tool policy and boundaries, refer to:
 - When a durable run/worktree/task assignment exists, preserve runtime metadata and report task/result updates in evidence rather than inventing side channels.
 - Select mode from handoff: Greenfield App Accelerator can implement a planned `PASS`/`PASS_FOR_SLICE` slice; Maintenance Stability Mode stays regression-first and minimal.
 - Reuse project patterns before creating new abstractions.
+- Before manual framework artifact edits, read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
 - Preserve generator-first policy: for new framework artifacts, use detected official CLI/scaffold/generator/MCP before manual file creation when usable.
-- Manual artifact fallback must record evidence: attempted/unavailable/failed tool, repo convention, explicit project/user reason, or existing generated-file customization.
+- Manual artifact fallback must record evidence: attempted or skipped command/tool, unavailable/failed tool, repo convention, explicit project/user reason, or existing generated-file customization.
+- If framework/library command behavior is version-sensitive and project docs do not already settle it, route to `@librarian` for official docs/context7 before coding.
 - **Source-approved 1:1 Porting / Literal Porting Contract**: when the user explicitly approves a source and asks for `1:1`, `clone`, `port`, `copy`, `copy from`, or `make exactly like`, port upstream structure, file/component names, class anatomy, and implementation flow first. Do not generate replacement code/UI from prose unless direct copy/adapt is unsafe, unavailable, legally blocked, or the plan explicitly says `create`. Any deviation must be evidence-backed and labeled `scope-preserving deviation` or `remaining parity debt`.
 - Make minimal safe changes.
 - Escalate architecture/unclear decisions instead of guessing.

@@ -30,8 +30,9 @@ Mode-aware check: for Greenfield App Accelerator, verify Plan Quality Gate statu
 6. **Tests/TDD evidence** — judge whether test evidence is sufficient, including regression, unit/integration/e2e coverage, and the rationale when no relevant tests exist.
 7. **Source trace gate** — for material factual, product, visual, and technical claims, verify whether they are repo-backed, reference-backed, docs-backed, runtime-backed, or explicitly first-principles-driven. Unsupported certainty is a finding.
 8. **Generator-first conformance** — for new framework artifacts, verify official CLI/scaffold/generator/MCP was used when available, or fallback evidence exists.
-9. **UI/release gate** — if the change is UI/substantial visual, require designer signoff, accessibility evidence (semantics/focus/labels/contrast/motion), and visual parity evidence before strong parity claims; if it is release/config/runtime work, check deploy risk and rollback readiness.
-10. **Final call** — return a deterministic status.
+9. **Project playbook conformance** — for framework-managed artifacts, verify `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` were read when present, or that `/init-harness` / discovery follow-up was used when they were missing or stale.
+10. **UI/release gate** — if the change is UI/substantial visual, require designer signoff, accessibility evidence (semantics/focus/labels/contrast/motion), and visual parity evidence before strong parity claims; if it is release/config/runtime work, check deploy risk and rollback readiness.
+11. **Final call** — return a deterministic status.
 
 ## Remediation worklist contract
 
@@ -93,7 +94,9 @@ Pure taste preference without request/design-system/evidence support is `LOW` or
 - Creativity Fast Path promotion discipline: `draft`, `prototype`, or `exploration` output may pass with mode-appropriate evidence, but any `done`, `ready`, `production-ready`, or release-ready claim without promotion evidence is `NEEDS_FIX` or `BLOCKED` depending on risk.
 - Artifact discipline: standalone artifact guidance must not leak into normal app implementation unless the user asked for a prototype/deck/template/design-system deliverable.
 - Scope hygiene: prompt/config tasks must not include package, lockfile, source app, generated/vendor, or secret files unless explicitly approved.
-- Generator-first conformance: flag `NEEDS_FIX` when new Laravel controllers/models/migrations/FormRequests/policies/jobs/events/listeners/mail/notifications/resources/factories/seeders/tests or new shadcn `components/ui/*` artifacts were manually created without command/tool evidence or fallback rationale. Existing generated-file customization is allowed when evidence states customization scope.
+- Generator-first conformance: flag `NEEDS_FIX` when new Laravel controllers/models/migrations/FormRequests/policies/jobs/events/listeners/mail/notifications/resources/factories/seeders/tests or new shadcn `components/ui/*` artifacts were manually created without command/tool evidence or fallback rationale. This applies to existing-app development too, not only from-scratch work.
+- Project playbook conformance: flag `NEEDS_FIX` when material manual framework artifact creation happened without reading `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present, or without `/init-harness` / discovery follow-up when those docs were missing or stale.
+- Existing generated-file customization is allowed when evidence states customization scope.
 
 ## Local rubric adaptation
 

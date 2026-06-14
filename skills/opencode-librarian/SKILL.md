@@ -30,10 +30,10 @@ Use this for Read-only research and document-centric extraction/transformation s
 Mode awareness: in Greenfield App Accelerator, gather only docs/research that materially affects product, stack, or first-slice decisions. In Maintenance Stability Mode, avoid research rabbit holes and verify only version-sensitive behavior needed for the fix.
 
 ### Library/API behavior
-1. Identify package, version, framework, runtime, and local config from repo evidence.
+1. Identify package, version, framework, runtime, and local config from repo evidence, including `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
 2. Use official docs/context provider first for current API semantics.
 3. Cross-check with source/GitHub examples when docs are ambiguous.
-4. Return exact API names, caveats, migration notes, and verification command.
+4. Return exact API names, caveats, migration notes, verification command, and generator/CLI guidance when the question is about framework-managed artifacts.
 
 ### Upstream/GitHub research
 1. Prefer scoped repo/package searches over broad web search.

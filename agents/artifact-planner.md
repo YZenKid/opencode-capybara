@@ -194,6 +194,7 @@ It may call informational, read-only, research, and documentation subagents to g
 - Canonical tool policy references live in `.opencode/docs/TOOL_USAGE.md` and `.opencode/docs/AGENT_TOOL_ACCESS.md`; use local role instructions here only as planner-specific constraints.
 - Do not rely on memory when current external/library/repository information materially affects the plan.
 - For stack/library behavior, verify with official docs through @librarian/context7 when available.
+- For existing-app and greenfield framework-managed work, inspect `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present so the plan defaults to project-specific command/generator workflows before manual edits.
 - Use GitHub search/API when planning depends on GitHub repositories, issues, PRs, Actions, package source, examples, or upstream implementation details.
 - Use `9router` `web_search` when external, current, competitive, reference, post-2025, or broad web information is needed and official/local sources are insufficient.
 - Use browser/reference tooling for visual references, deployed apps, screenshots, flows, forms, or interactive web behavior.
@@ -218,7 +219,8 @@ For non-trivial plans, include a concise source strategy or equivalent notes cov
 - which source types were used,
 - which were intentionally skipped and why,
 - which major decisions are repo-backed, reference-backed, docs-backed, or first-principles-driven,
-- which assumptions remain and whether they are slice-safe or blocking.
+- which assumptions remain and whether they are slice-safe or blocking,
+- for framework-managed work, the intended official CLI/generator/codegen command path from project docs or discovery, plus the exact manual fallback condition when no generator path will be used.
 
 ## Playwright / Browser Evidence Planning
 

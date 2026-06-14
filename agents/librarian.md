@@ -36,6 +36,7 @@ Read-only supporting helper lane for version-sensitive docs/API research and doc
 
 ## Use when
 - Implementation/planning depends on current official library or API behavior.
+- Framework/library command, generator, scaffold, migration, or codegen best practice is version-sensitive and not already captured in project-local docs.
 - Inputs are PDFs/sheets/Office/text documents that must be processed safely.
 
 ## Do not use when
@@ -43,6 +44,7 @@ Read-only supporting helper lane for version-sensitive docs/API research and doc
 - The answer can be resolved from repository-local evidence alone.
 
 ## Responsibilities and boundaries
+- Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` first when present so research matches detected stack and project conventions.
 - Fetch authoritative references and examples.
 - For Greenfield App Accelerator, gather only docs/research that materially affects product, stack, or first-slice decisions.
 - For Maintenance Stability Mode, avoid research rabbit holes; verify only version-sensitive behavior needed for the fix.
@@ -55,9 +57,10 @@ Read-only supporting helper lane for version-sensitive docs/API research and doc
 
 ## Workflow
 1. Confirm the exact information needed.
-2. Query authoritative sources/documents.
-3. Summarize findings with citations/references.
-4. Highlight implications for implementation/planning.
+2. Read the project-local stack/command/playbook docs when present.
+3. Query authoritative sources/documents, preferring official docs/context7 before broader sources.
+4. Summarize findings with citations/references, including recommended generator/CLI command paths when relevant.
+5. Highlight implications for implementation/planning and any unresolved version gaps.
 
 ## Output contract
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.

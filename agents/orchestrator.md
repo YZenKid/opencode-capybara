@@ -104,9 +104,10 @@ Canonical tool policy references are `.opencode/docs/TOOL_USAGE.md` (operational
 2. Classify mode: Greenfield App Accelerator for new app/MVP/SaaS/product builds; Maintenance Stability Mode for bugfix/regression/refactor/dependency/small existing-app work.
 3. Detect **Source-approved 1:1 Porting / Literal Porting Contract** early: phrases like `1:1`, `clone`, `port`, `copy`, `copy from`, `make exactly like`, or a source URL/repo/file plus explicit reuse approval mean literal direct reuse is the default expectation, not redesign. Route `@explorer` for upstream/source inventory and `@artifact-planner` for copy/adapt/prune/create mapping unless the task is truly tiny.
 4. Missing repo facts? `@explorer`. Missing current docs/API/source facts? `@librarian`. Missing requirements/flows/contracts? `@system-analyst`.
-5. Need durable `.opencode` plan/evidence handoff? `@artifact-planner`; use `@project-manager` input for milestones/tickets. For source-approved 1:1 tasks, require the planner to define source maps, forbidden deviations, and parity debt explicitly.
-6. UX/visual/reference/motion direction missing? `@designer` first. For source-approved 1:1 visual work, route with exact layout/component/token anatomy expectation rather than inspiration-only restyling.
-7. Clear implementation? Route by dominant surface: general/tests → `@fixer`; web UI → `@frontend`; API/data/jobs → `@backend`; native/hybrid → `@mobile`; CI/CD/deploy/env → `@devops`; small FE+BE vertical slice → `@fullstack`. For source-approved 1:1 tasks, implementation lanes should port upstream structure/class/component names first and treat deviations as evidence-backed exceptions.
+5. Before framework-managed edits in existing or greenfield apps, read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present. If they are missing or stale for non-trivial work, run or suggest `/init-harness` before broad implementation.
+6. Need durable `.opencode` plan/evidence handoff? `@artifact-planner`; use `@project-manager` input for milestones/tickets. For source-approved 1:1 tasks, require the planner to define source maps, forbidden deviations, and parity debt explicitly.
+7. UX/visual/reference/motion direction missing? `@designer` first. For source-approved 1:1 visual work, route with exact layout/component/token anatomy expectation rather than inspiration-only restyling.
+8. Clear implementation? Route by dominant surface: general/tests → `@fixer`; web UI → `@frontend`; API/data/jobs → `@backend`; native/hybrid → `@mobile`; CI/CD/deploy/env → `@devops`; small FE+BE vertical slice → `@fullstack`. For source-approved 1:1 tasks, implementation lanes should port upstream structure/class/component names first and treat deviations as evidence-backed exceptions.
 8. Product/platform/AI/UI-system tradeoff changes architecture/risk? `@architect`.
 9. Need senior critique/simplification/persistent debugging strategy? `@oracle`.
 10. High-stakes ambiguity still unresolved? `@council`.
@@ -210,6 +211,8 @@ When working through multi-step tasks, consider enabling auto-continue to avoid 
 ### Harness Preflight Gate
 - Before non-trivial work, `@orchestrator` must verify the target project has a current root `AGENTS.md`, canonical `.opencode/docs/`, and root `DESIGN.md` when UI/design work is involved.
 - If harness guidance is missing or stale, run `/init-harness` before broad implementation. If command execution is unavailable, ask the user to run `/init-harness`.
+- `/init-harness` default behavior should detect stack/tooling and conservatively create or update `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md`.
+- For existing-app and greenfield framework-managed work, do not start broad implementation until those project docs are available or their absence is explicitly justified for a tiny/read-only/emergency path.
 - Do not start broad implementation until harness guidance is available, except for tiny, read-only, or emergency tasks.
 - If the gate is skipped, record the reason in the final summary/evidence.
 
@@ -249,6 +252,7 @@ When plan sections conflict, use this order: latest explicit user instruction; s
 - PRD/product docs needing MVP/flows/acceptance criteria and SaaS/multi-tenant/RBAC/billing decisions → `@architect`; if source is PDF/DOCX/XLSX, use `@librarian` first for document-centric extraction/research/transformation support.
 - PDF/DOCX/XLSX/PPT/Office inputs where the active model reports unsupported attachment input (for example `input.pdf:false`) are not a hard stop. Interpret that as “model cannot read the attachment directly”; check workspace file availability and route document extraction/Q&A/summarization to `@librarian` before asking the user to convert the document.
 - AI/LLM/RAG/embedding/tool-calling/evals/face-matching production decisions → `@architect`; route version-sensitive SDK behavior to `@librarian`.
+- If framework/library command, generator, migration, or codegen behavior is version-sensitive and project-local docs do not already settle it, route to `@librarian` for official docs/context7 before implementation.
 - PII/auth/session/payments/webhooks/uploads/tenant isolation/biometric/privacy/AI data risk architecture decisions → `@architect`; final security/privacy signoff remains in `@quality-gate`.
 - Deployment/CI/CD/env/migration/monitoring/rollback/production readiness and native mobile/hybrid/PWA/offline/push/deep-link/camera/QR/app-store constraints → `@architect`.
 - Accessibility and visual-parity are reviewed at final gate by `@quality-gate`; `@designer` still owns UI direction and implementation.

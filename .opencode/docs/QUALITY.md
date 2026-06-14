@@ -172,6 +172,8 @@ The curated exemplar task bundles in `.opencode/plans/` and `.opencode/evidence/
 ## Standard agent loop
 Validation ladder baseline: plan/handoff check → discovery/research evidence → implementation/docs change → diff review → targeted validation commands → final `@quality-gate` for non-trivial/risky completion claims.
 
+Generator-first quality rule: material manual framework artifact creation without project playbook/command docs or without fallback evidence is a gate failure even if tests pass. Existing generated-file customization remains allowed when the evidence clearly states that the task only customized an existing generated artifact.
+
 Typed output baseline for active lanes (non-trivial work): `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
 This schema is internal/non-user-facing. Final user-facing messaging must be normalized by orchestrator into natural Bahasa Indonesia prose, with technical literals kept exact.
 
@@ -218,6 +220,12 @@ For bugfix, regression, refactor, dependency update, small feature, or incident 
 - smallest safe diff rationale;
 - validation commands/results;
 - any behavior/security/product decision that was asked, assumed, or deferred.
+
+If the work creates or changes framework-managed artifacts, evidence must also include:
+- whether `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` were present and read;
+- whether `/init-harness` was run or recommended when those docs were missing or stale;
+- official generator/CLI/MCP command path used, or manual fallback evidence naming the attempted/skipped command and reason;
+- version-sensitive docs lookup via `@librarian` when project docs did not already settle the behavior.
 
 Maintenance work should not be forced through greenfield product thesis or creative alternatives unless the bug itself requires a product/UX decision.
 

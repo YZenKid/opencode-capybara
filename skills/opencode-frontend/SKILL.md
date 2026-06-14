@@ -55,13 +55,15 @@ Use for bounded web UI implementation where visual direction, route intent, and 
 
 ## Workflow
 1. Read local docs: `AGENTS.md`, `.opencode/docs/`, `DESIGN.md` when present.
-2. Detect stack and reuse paths: components, routes, hooks, tests, fixtures.
-3. Confirm UX states, API/data contract, and implementation basis for each material UI decision.
-4. For new framework/UI artifacts, use official generator/CLI/MCP first when usable; record fallback reason if manual.
-5. TDD where relevant: Red by adding/adjusting focused failing test or capturing current bug/browser evidence when feasible.
-6. Green: implement smallest component/page/form/routing change that matches the existing basis.
-7. Refactor: align names, boundaries, styling, and a11y without broad cleanup.
-8. Validate with focused lint/type/test/browser commands available in repo, plus screenshots for changed screens when the UI is material.
+2. Before framework-managed edits, read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
+3. Detect stack and reuse paths: components, routes, hooks, tests, fixtures.
+4. Confirm UX states, API/data contract, and implementation basis for each material UI decision.
+5. For new framework/UI artifacts, use official generator/CLI/MCP first when usable, including existing apps; record the exact fallback reason and skipped/attempted command if manual.
+6. If generator behavior is version-sensitive and project docs do not already settle it, route to `@librarian` for official docs/context7 before coding.
+7. TDD where relevant: Red by adding/adjusting focused failing test or capturing current bug/browser evidence when feasible.
+8. Green: implement smallest component/page/form/routing change that matches the existing basis.
+9. Refactor: align names, boundaries, styling, and a11y without broad cleanup.
+10. Validate with focused lint/type/test/browser commands available in repo, plus screenshots for changed screens when the UI is material.
 
 ## Validation
 - Prefer existing commands: `npm|pnpm|yarn test`, `test:unit`, `test:e2e`, `lint`, `typecheck`, Storybook checks.

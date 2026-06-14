@@ -27,8 +27,12 @@ Use for bounded native or hybrid mobile implementation. Detect actual project st
 
 ## Responsibilities
 - Reuse navigation, state, theming, localization, platform services, build flavors, test patterns, and error handling.
+- Before framework-managed mobile edits, read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
 - Greenfield App Accelerator: build the mobile part of a ready first slice without locking unresolved platform/store/privacy decisions.
 - Maintenance Stability Mode: preserve existing mobile UX/native behavior and fix the smallest reproducible issue.
+- Prefer official generators and framework commands first for new mobile artifacts in existing apps too when tooling is detected and permitted.
+- Manual framework artifact creation is allowed only when the command/tool is unavailable or not permitted, the command failed with evidence, the project intentionally avoids the generator, the task customizes existing generated files, or the user explicitly asks for manual edits. Record the attempted or skipped command and reason in evidence.
+- If framework/library command behavior is version-sensitive and the project docs do not already settle it, route to `@librarian` for official docs/context7 before coding.
 - Keep native changes minimal and explicit; document permission/store/build impact.
 - Preserve offline, lifecycle, back navigation, deep-link, and accessibility behavior.
 - Validate on safe simulator/emulator/unit commands when available; record device limits.
@@ -42,13 +46,15 @@ Use for bounded native or hybrid mobile implementation. Detect actual project st
 - Releases: app identifiers, signing, build numbers, store review sensitive APIs.
 
 ## Workflow
-1. Detect stack, platforms, and build/test commands.
-2. Inspect navigation, state, config, permissions, native modules, and existing tests.
-3. Confirm user flow, API contract, offline/lifecycle needs, and platform impact.
-4. TDD where relevant: Red by adding widget/unit/integration test or reproducing bug where feasible.
-5. Green: implement smallest app/native/config change.
-6. Refactor: align with project architecture and platform conventions.
-7. Validate with focused tests/build/analyzer/simulator checks.
+1. Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
+2. Detect stack, platforms, and build/test commands.
+3. Inspect navigation, state, config, permissions, native modules, and existing tests.
+4. Confirm user flow, API contract, offline/lifecycle needs, and platform impact.
+5. For new framework-managed mobile artifacts, use the documented official generator/CLI path first; if manual fallback is used, record the exact command/tool and reason.
+6. TDD where relevant: Red by adding widget/unit/integration test or reproducing bug where feasible.
+7. Green: implement smallest app/native/config change.
+8. Refactor: align with project architecture and platform conventions.
+9. Validate with focused tests/build/analyzer/simulator checks.
 
 ## Validation
 - Run detected-stack validation from repo scripts/docs; examples include Flutter `flutter analyze`/`flutter test`, RN/Expo `test`/`lint`/`typecheck`, native iOS/Android build/test commands when configured.

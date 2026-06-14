@@ -6,6 +6,8 @@
 - Quality and evidence: `.opencode/docs/QUALITY.md`
 - Harness evals and replayability: `.opencode/docs/EVALS.md`
 - Runtime execution state: `.opencode/docs/STATE_RUNTIME.md`, `.opencode/docs/DURABLE_EXECUTION.md`, `.opencode/docs/WORKTREE_RUNTIME.md`, `.opencode/docs/VERIFY_FIX_LOOP.md`, `.opencode/docs/WORKER_BACKENDS.md`, `.opencode/docs/DETERMINISTIC_EDIT_RUNTIME.md`
+- Project stack and tool detection: `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present
+- Project framework commands/playbook: `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md` when present
 - Security policy: `.opencode/docs/SECURITY.md`
 - Prompt gates: `.opencode/docs/PROMPT_GATES.md`
 - Skills index: `.opencode/docs/SKILLS.md`
@@ -24,6 +26,7 @@
 - Use `@orchestrator` for routing and integration.
 - Use `@quality-gate` for material changes, including non-trivial/risky work, prompt/config changes, and security-sensitive changes.
 - Harness Preflight Gate: before non-trivial work, `@orchestrator` must verify the target project has a current root `AGENTS.md`, canonical `.opencode/docs/`, and root `DESIGN.md` when UI/design work is involved.
+- For framework-managed artifacts, follow project-local `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before manual edits when those docs are present.
 - If harness guidance is missing/stale, run `/init-harness` first, or ask the user to run `/init-harness` when command execution is unavailable. Skip only for tiny, read-only, or emergency tasks and record the skip reason in the final summary.
 - Prefer evidence over assertion.
 - Prefer references over assumptions. If repo files, official docs, upstream source, screenshots/reference URLs, or runtime evidence are reasonably available, use them before inventing details.
@@ -70,6 +73,7 @@ Default operating model:
 
 ## Notes
 - For substantial UI work, inspect the target project's `DESIGN.md` first, then `design-system/DESIGN.md` or a documented equivalent.
+- For framework-managed artifacts in existing apps or greenfield work, inspect `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` first when present; follow project framework playbook/commands before manual edits.
 - For image-heavy or reference UI work, require evidence, asset decisions, direct reuse inventory, and style-equivalent fallback handling.
 - Asset reuse is globally loosened (Option B, see `.opencode/docs/DECISIONS.md`): user-directed direct reuse is allowed, but users/projects own license/trademark/production-use risk and direct reuse must never be silent.
 - If the project has many agents/subagents, document the role and primary skill ownership clearly enough that future work does not default back to `@orchestrator` for planning, implementation, review, or research.

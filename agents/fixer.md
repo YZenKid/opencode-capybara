@@ -44,10 +44,14 @@ Bounded implementation helper lane for code changes, tests, fixtures, and TDD ex
 
 ## Responsibilities and boundaries
 - Implement requested changes with minimal blast radius.
+- Before manually creating or changing framework-managed artifacts, read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
 - In Maintenance Stability Mode, stay regression-first, minimal, and preserve existing architecture/UX unless the bug proves they are broken.
 - In Greenfield App Accelerator, implement only a planned `PASS`/`PASS_FOR_SLICE` ready slice; scaffolding is allowed when bounded by the plan.
 - Add/update tests and fixtures where behavior changes.
 - Reuse existing project patterns before introducing new ones.
+- Use official CLI/generator/codegen/MCP workflows first for new framework artifacts in existing apps too when the stack docs or repo evidence show they are usable. Route to the matching domain lane when framework expertise materially reduces risk.
+- Manual framework artifact creation is allowed only when the command/tool is unavailable or not permitted, the command failed with evidence, the project intentionally avoids the generator, the task customizes existing generated files, or the user explicitly asks for manual edits. Record the attempted or skipped command and reason in evidence.
+- If framework/library command behavior is version-sensitive and the project docs do not already settle it, route to `@librarian` for official docs/context7 before coding.
 - **Source-approved 1:1 Porting / Literal Porting Contract**: when the user explicitly approves a source and asks for `1:1`, `clone`, `port`, `copy`, `copy from`, or `make exactly like`, port upstream structure, file/component names, class anatomy, and implementation flow first. Do not generate replacement code/UI from prose unless direct copy/adapt is unsafe, unavailable, legally blocked, or the plan explicitly says `create`. Any deviation must be evidence-backed and labeled `scope-preserving deviation` or `remaining parity debt`.
 - Do not add new animation dependencies unless explicit approved handoff exists; reuse existing system or platform primitives.
 - Do not claim final risk signoff; that belongs to `@quality-gate`.
@@ -64,9 +68,11 @@ Bounded implementation helper lane for code changes, tests, fixtures, and TDD ex
 
 ## Workflow
 1. Confirm scope and identify reuse paths.
-2. Write/adjust failing tests where applicable.
-3. Implement minimal fix/feature.
-4. Run validation and refactor for clarity/safety.
+2. Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present before manual framework artifact edits.
+3. Write/adjust failing tests where applicable.
+4. Use the documented generator/CLI/codegen path first when new framework artifacts are needed; if manual fallback is used, record the exact command/tool and reason.
+5. Implement minimal fix/feature.
+6. Run validation and refactor for clarity/safety.
 
 ## Output contract
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.

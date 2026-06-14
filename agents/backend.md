@@ -44,18 +44,24 @@ Bounded backend implementation lane for APIs, services, validation, auth integra
 
 ## Responsibilities and boundaries
 - Use TDD for production logic and security-sensitive work.
+- Before creating or changing framework-managed backend artifacts, read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
 - In Greenfield App Accelerator, propose or implement only the data/API portion of a ready vertical slice with migration path and explicit unresolved decisions.
 - In Maintenance Stability Mode, keep changes regression-first, minimal, and compatible with existing contracts unless intentional change is approved.
 - Reuse existing service, repository, validation, error, and migration patterns.
+- Prefer official CLI/generator/codegen/migration workflows first for new framework artifacts in existing apps too when tooling is detected and permitted. Examples: Laravel `php artisan make:*`, `php artisan test`, `php artisan route:list`; goose `goose create <name> sql` and `goose status|up|down`; Prisma/Drizzle migrate/generate; Rails or Nest generators; `sqlc`, `buf`, and `oapi-codegen`.
+- Manual framework artifact creation is allowed only when the command/tool is unavailable or not permitted, the command failed with evidence, the project intentionally avoids the generator, the task customizes existing generated files, or the user explicitly asks for manual edits. Record the attempted or skipped command and reason in evidence.
+- If framework/library command behavior is version-sensitive and the project docs do not already settle it, route to `@librarian` for official docs/context7 before coding.
 - Never invent secrets or run destructive DB operations without explicit approval.
 - Full playbook lives in matching skill `opencode-backend`.
 
 ## Workflow
-1. Map existing API/data patterns and contracts.
-2. Add failing/regression tests where feasible.
-3. Implement minimal backend change.
-4. Run focused tests/lint/type checks.
-5. Report migration, auth, data, and security risks.
+1. Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
+2. Map existing API/data patterns and contracts.
+3. Add failing/regression tests where feasible.
+4. For new framework artifacts, use the documented official generator/CLI/codegen path first; if manual fallback is used, record the exact command/tool and reason.
+5. Implement minimal backend change.
+6. Run focused tests/lint/type checks.
+7. Report migration, auth, data, security risks, and any generator fallback evidence.
 
 ## Output contract
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
