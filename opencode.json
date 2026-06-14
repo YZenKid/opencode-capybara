@@ -189,7 +189,7 @@
     "context7": {
       "type": "local",
       "command": [
-        "npx",
+        "bunx",
         "-y",
         "@upstash/context7-mcp",
         "--api-key",
@@ -199,7 +199,7 @@
     "sequential-thinking": {
       "type": "local",
       "command": [
-        "npx",
+        "bunx",
         "-y",
         "@modelcontextprotocol/server-sequential-thinking"
       ],
@@ -227,7 +227,7 @@
     "shadcn": {
       "type": "local",
       "command": [
-        "npx",
+        "bunx",
         "shadcn@latest",
         "mcp"
       ],
