@@ -48,6 +48,7 @@ Bounded implementation helper lane for code changes, tests, fixtures, and TDD ex
 - In Greenfield App Accelerator, implement only a planned `PASS`/`PASS_FOR_SLICE` ready slice; scaffolding is allowed when bounded by the plan.
 - Add/update tests and fixtures where behavior changes.
 - Reuse existing project patterns before introducing new ones.
+- **Source-approved 1:1 Porting / Literal Porting Contract**: when the user explicitly approves a source and asks for `1:1`, `clone`, `port`, `copy`, `copy from`, or `make exactly like`, port upstream structure, file/component names, class anatomy, and implementation flow first. Do not generate replacement code/UI from prose unless direct copy/adapt is unsafe, unavailable, legally blocked, or the plan explicitly says `create`. Any deviation must be evidence-backed and labeled `scope-preserving deviation` or `remaining parity debt`.
 - Do not add new animation dependencies unless explicit approved handoff exists; reuse existing system or platform primitives.
 - Do not claim final risk signoff; that belongs to `@quality-gate`.
 

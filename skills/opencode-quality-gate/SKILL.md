@@ -60,6 +60,7 @@ Required checks when relevant:
 - Project `DESIGN.md` or `design-system/DESIGN.md` was read, followed, or absence/fallback recorded.
 - Reference basis is explicit: repo/current UI, external references, or first-principles rationale for visual choices.
 - Screenshot evidence supports readiness/parity claims: before/current/final and key responsive viewports when runnable.
+- For source-approved 1:1 tasks, require source inventory plus evidence that upstream file/component/layout anatomy was reused/adapted, not merely reinterpreted.
 - Accessibility evidence covers contrast, semantics, focus, labels, keyboard/touch, alt text, and reduced-motion.
 - Motion evidence explains purpose and reduced-motion fallback; no gratuitous motion claim.
 - Asset/image evidence includes generation decision, dimensions, alt/decorative strategy, legal notes, integration notes, `quality_bar`, and `reject_if`.
@@ -74,6 +75,7 @@ Required checks when relevant:
 - `BLOCKED`: required evidence absent and reviewer cannot assess claimed UI/design outcome; screenshot/access/design-system/reference evidence missing for strong readiness/parity claim.
 - `NEEDS_FIX`: concrete mechanical failure exists: contrast/wrap/layout break, missing reduced-motion, missing asset/legal notes, unreviewed generic AI imagery, unsupported copied reference, widened permission/read-only violation, requested design scope not done, or strong claim without source basis.
 - `NEEDS_FIX`: also use for substantial UI with explicit requested aesthetic mismatch, missing style grammar, card spam/layout repetition, fake metrics/debug copy, user-facing internal artifacts, or placeholder/abstract hero when imagery matters. These are not pure taste.
+- `NEEDS_FIX`: for source-approved `1:1`/`clone`/`port`/`copy from` tasks when source inventory, visual comparison, or evidence of actual upstream anatomy/file/component reuse/adaptation is missing, or when the result is mostly original generated UI/code even if build/tests pass.
 - `PASS_WITH_RISKS`: implementation appears acceptable but evidence has non-blocking gaps or residual visual risk.
 - `PASS`: evidence complete enough; no blocker; residual risk low.
 

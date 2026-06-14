@@ -63,6 +63,7 @@ Read-only helper lane for codebase discovery, symbol mapping, and reuse candidat
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
 - Findings with concrete file references.
 - Reuse candidates and notable constraints.
+- For reference clone/source-approved 1:1 tasks, include upstream/source file/component/asset map and recommended `copy`/`adapt`/`prune`/`create` decisions.
 - Unresolved questions requiring another lane.
 
 ## Stop / escalation conditions

@@ -59,6 +59,12 @@ Use this for Read-only discovery before planning, implementation, or review. Exp
 2. Compare naming, error handling, styling, validation, and dependency patterns.
 3. Return reuse candidates ranked by fit.
 
+### Reference clone / source-approved 1:1 search
+1. Build an upstream/source file/component/asset inventory from the approved reference.
+2. Map likely local target files/components/asset destinations.
+3. Recommend `copy`, `adapt`, `prune`, or `create` per source item with concise evidence/rationale.
+4. Call out missing sources, restricted assets, or parity-risk areas that planner/implementer must track as remaining parity debt.
+
 ## Evidence rules
 
 - Every claim should include path + line or explicit search evidence.

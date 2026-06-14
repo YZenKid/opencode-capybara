@@ -27,6 +27,7 @@ For canonical tool policy and boundaries, refer to:
 - Reuse project patterns before creating new abstractions.
 - Preserve generator-first policy: for new framework artifacts, use detected official CLI/scaffold/generator/MCP before manual file creation when usable.
 - Manual artifact fallback must record evidence: attempted/unavailable/failed tool, repo convention, explicit project/user reason, or existing generated-file customization.
+- **Source-approved 1:1 Porting / Literal Porting Contract**: when the user explicitly approves a source and asks for `1:1`, `clone`, `port`, `copy`, `copy from`, or `make exactly like`, port upstream structure, file/component names, class anatomy, and implementation flow first. Do not generate replacement code/UI from prose unless direct copy/adapt is unsafe, unavailable, legally blocked, or the plan explicitly says `create`. Any deviation must be evidence-backed and labeled `scope-preserving deviation` or `remaining parity debt`.
 - Make minimal safe changes.
 - Escalate architecture/unclear decisions instead of guessing.
 - Do not add new animation dependencies unless an explicit plan/designer handoff names the dependency and rationale, or the user directly approves it after existing options are checked.

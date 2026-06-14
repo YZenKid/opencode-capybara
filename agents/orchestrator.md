@@ -79,7 +79,8 @@ Canonical tool policy references are `.opencode/docs/TOOL_USAGE.md` (operational
 
 - `@artifact-planner`: **triggered planning lane**, not default-first. Use when scope is multi-phase/spec-heavy/ambiguous or evidence-heavy; create `.opencode` artifacts, then hand off to implementation lanes.
 - `@librarian`: supporting docs/API research helper plus document-centric read-only extraction/research/transformation support, not a core or specialist routing lane.
-- `@visual-asset-generator`: generate style-equivalent fallback image assets from designer/orchestrator manifest when direct reuse is not requested, not allowed, unavailable, or unsafe.
+- `@visual-asset-generator`: generate style-equivalent fallback image assets from designer/orchestrator manifest only when direct asset reuse is not requested, not allowed, unavailable, or unsafe.
+- **Source-approved 1:1 Porting / Literal Porting Contract**: when a user explicitly asks for `1:1`, `clone`, `port`, `copy`, `copy from`, `make exactly like`, or provides a source URL/repo/file plus explicit approval to reuse it, default to literal copy/adapt/prune/direct reuse rather than redesign or style-equivalent recreation. Route `@explorer` for source inventory, `@artifact-planner` for copy/adapt/prune/create mapping, `@designer` for exact UI anatomy when visual, `@frontend`/`@fixer` for literal implementation, and `@quality-gate` for parity/reuse evidence. Keep legal/security/scope safeguards: restricted assets, secrets, unsafe code, incompatible licenses, privacy hazards, fake testimonials/claims, logos/trademarks, and out-of-scope behavior still require blocking, pruning, or substitution with documented rationale.
 - Permissive/Public Source Reuse: when a user explicitly asks to clone, fork, port, copy from, or use a public/provided/licensed/user-approved source, prefer Reuse/Clone/Fork > Extend > Create for code, components, layouts, tokens, and assets. Record the source, license or permission status when known, and risk. Use style-equivalent generation only when direct reuse is not requested, not allowed, unavailable, or unsafe.
 - `@council`: expensive consensus lane for high-stakes ambiguity only.
 - `@architect`: unified read-only advisory lane for product/SaaS, platform/runtime/release/mobile, AI/LLM/RAG/evals, and UI-system architecture boundaries.
@@ -101,14 +102,15 @@ Canonical tool policy references are `.opencode/docs/TOOL_USAGE.md` (operational
 
 1. Tiny, reversible, <=1 file, clear validation? Orchestrator may do directly.
 2. Classify mode: Greenfield App Accelerator for new app/MVP/SaaS/product builds; Maintenance Stability Mode for bugfix/regression/refactor/dependency/small existing-app work.
-3. Missing repo facts? `@explorer`. Missing current docs/API/source facts? `@librarian`. Missing requirements/flows/contracts? `@system-analyst`.
-4. Need durable `.opencode` plan/evidence handoff? `@artifact-planner`; use `@project-manager` input for milestones/tickets.
-5. UX/visual/reference/motion direction missing? `@designer` first.
-6. Clear implementation? Route by dominant surface: general/tests → `@fixer`; web UI → `@frontend`; API/data/jobs → `@backend`; native/hybrid → `@mobile`; CI/CD/deploy/env → `@devops`; small FE+BE vertical slice → `@fullstack`.
-7. Product/platform/AI/UI-system tradeoff changes architecture/risk? `@architect`.
-8. Need senior critique/simplification/persistent debugging strategy? `@oracle`.
-9. High-stakes ambiguity still unresolved? `@council`.
-10. Non-trivial/risky/prompt/config/security/UI claim finalization? `@quality-gate`.
+3. Detect **Source-approved 1:1 Porting / Literal Porting Contract** early: phrases like `1:1`, `clone`, `port`, `copy`, `copy from`, `make exactly like`, or a source URL/repo/file plus explicit reuse approval mean literal direct reuse is the default expectation, not redesign. Route `@explorer` for upstream/source inventory and `@artifact-planner` for copy/adapt/prune/create mapping unless the task is truly tiny.
+4. Missing repo facts? `@explorer`. Missing current docs/API/source facts? `@librarian`. Missing requirements/flows/contracts? `@system-analyst`.
+5. Need durable `.opencode` plan/evidence handoff? `@artifact-planner`; use `@project-manager` input for milestones/tickets. For source-approved 1:1 tasks, require the planner to define source maps, forbidden deviations, and parity debt explicitly.
+6. UX/visual/reference/motion direction missing? `@designer` first. For source-approved 1:1 visual work, route with exact layout/component/token anatomy expectation rather than inspiration-only restyling.
+7. Clear implementation? Route by dominant surface: general/tests → `@fixer`; web UI → `@frontend`; API/data/jobs → `@backend`; native/hybrid → `@mobile`; CI/CD/deploy/env → `@devops`; small FE+BE vertical slice → `@fullstack`. For source-approved 1:1 tasks, implementation lanes should port upstream structure/class/component names first and treat deviations as evidence-backed exceptions.
+8. Product/platform/AI/UI-system tradeoff changes architecture/risk? `@architect`.
+9. Need senior critique/simplification/persistent debugging strategy? `@oracle`.
+10. High-stakes ambiguity still unresolved? `@council`.
+11. Non-trivial/risky/prompt/config/security/UI claim finalization? `@quality-gate`. For source-approved 1:1 tasks, require source inventory, reuse evidence, and parity evidence before `PASS`.
 
 ### Mode-aware execution
 

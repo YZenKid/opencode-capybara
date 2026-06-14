@@ -42,6 +42,7 @@ For explicit material aesthetics in hero/image-heavy work, require tactile/produ
 - Open Design influence: use `taste-skill` for Design Read/dials/anti-slop, `reference-design-contract` for `keep/change/do_not_copy`, and `frontend-design` for production-grade, section-meaningful visuals.
 - Never silently copy restricted/reference assets without license/proof.
 - If the user explicitly directs reuse of provided/public/user-approved assets, record the source, permission/license status when known, and risk instead of generating a substitute by default.
+- Do not generate style-equivalent fallback when direct asset reuse is explicitly user-approved and safe; generate only for unavailable, unlicensed, restricted, or unsafe-to-copy assets.
 - Preserve visual qualities as style-equivalent fallback when generation is needed: palette, crop, mood, density, lighting, placement intent.
 - Avoid readable text, watermarks, trademarks, and logo lookalikes.
 - Prefer legal icon libraries for brand/tech marks.

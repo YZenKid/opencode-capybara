@@ -60,7 +60,8 @@ Direct-work threshold (hard default):
 - Architecture, senior review, simplification, security/scalability/data tradeoffs → `@oracle`.
 - Final conformance/risk review after non-trivial implementation, prompt/config changes, security-sensitive changes, or before commit/PR → `@quality-gate`.
 - Auto-commit default is ON for local commits only; never push automatically.
-- Image-heavy legal replacements → designer asset manifest and image generation decision, then `@visual-asset-generator` or available image tool.
+- Image-heavy legal replacements → designer asset manifest and image generation decision, then `@visual-asset-generator` or available image tool. Style-equivalent generation is fallback only when direct reuse is not requested, not allowed, unavailable, or unsafe.
+- **Source-approved 1:1 Porting / Literal Porting Contract**: if the user says `1:1`, `clone`, `port`, `copy`, `copy from`, `make exactly like`, or provides a source URL/repo/file plus explicit approval to reuse, default to literal copy/adapt/prune/direct reuse instead of redesign. Route `@explorer` for source inventory, `@artifact-planner` for copy/adapt/prune/create mapping, `@designer` for exact UI anatomy when visual, `@frontend`/`@fixer` for literal implementation, and `@quality-gate` for parity/reuse evidence. Keep legal/security/scope safeguards active: restricted assets, secrets, unsafe code, incompatible licenses, privacy hazards, fake testimonials/claims, logos/trademarks, and out-of-scope behavior still require block, prune, or substitution with rationale.
 - High-stakes ambiguous decisions → `@council` only when consensus is worth cost/time; keep this as the local council subagent, while plugin-generated council duplicates are disabled separately.
 - Artifact-writing plans → `@artifact-planner`; never use built-in read-only Plan Mode for artifact writing.
 - AI/LLM/RAG/embedding/tool-calling/evals/face-matching production behavior and product/platform architecture ambiguity → `@architect`; use `@librarian` for version-sensitive SDK docs.
@@ -75,21 +76,22 @@ Direct-work threshold (hard default):
 1. Is request tiny, reversible, and <=1 file with clear validation? Orchestrator may handle directly.
 2. Classify mode: Greenfield App Accelerator for new app/MVP/SaaS/product builds; Maintenance Stability Mode for bugfix/regression/refactor/dependency/small existing-app work; Creativity Fast Path for explicit ideation/generate/prototype/draft requests that stay reversible.
 3. If Creativity Fast Path applies, keep the claim level at `draft`/`prototype`/`exploration`, avoid heavy plan tax while the scope stays reversible, and check hard rails immediately. If the user asks for permanent implementation or a strong completion claim, run the Promotion Gate and return to normal routing.
-4. Is scope unclear or repo facts missing? Route `@explorer` for code facts; route `@librarian` for docs/API/source facts; route `@system-analyst` for requirements/flows/contracts. Also decide the source strategy early: repo, official docs, upstream source/examples, browser/screenshots, and current web evidence as needed.
-4. Does work create new framework artifacts where stack generator/CLI/MCP is available? Route to domain lane and require generator-first path; allow manual only with evidence for unavailable/failed tool, repo convention, or existing-file customization.
-5. Does work need a durable plan, milestones, or evidence-heavy handoff? Route `@artifact-planner`; use `@project-manager` input for tickets/milestones.
-6. Is UX/visual direction, reference parity, motion direction, or design system unresolved? Route `@designer` before implementation. For greenfield or taste-sensitive work, expect 2-3 bounded options or an explicit reason to converge immediately.
-7. Is implementation clear and bounded?
+4. Detect Source-approved 1:1 Porting / Literal Porting Contract early: `1:1`, `clone`, `port`, `copy`, `copy from`, `make exactly like`, or a source URL/repo/file plus explicit reuse approval means literal direct reuse is the default expectation, not redesign. Route `@explorer` for upstream/source inventory and `@artifact-planner` for copy/adapt/prune/create mapping unless the task is truly tiny.
+5. Is scope unclear or repo facts missing? Route `@explorer` for code facts; route `@librarian` for docs/API/source facts; route `@system-analyst` for requirements/flows/contracts. Also decide the source strategy early: repo, official docs, upstream source/examples, browser/screenshots, and current web evidence as needed.
+6. Does work create new framework artifacts where stack generator/CLI/MCP is available? Route to domain lane and require generator-first path; allow manual only with evidence for unavailable/failed tool, repo convention, or existing-file customization.
+7. Does work need a durable plan, milestones, or evidence-heavy handoff? Route `@artifact-planner`; use `@project-manager` input for tickets/milestones. For source-approved 1:1 tasks, require source maps, forbidden deviations, and parity debt in the plan.
+8. Is UX/visual direction, reference parity, motion direction, or design system unresolved? Route `@designer` before implementation. For source-approved 1:1 visual work, route with exact layout/component/token anatomy expectation rather than inspiration-only restyling. For greenfield or taste-sensitive work, expect 2-3 bounded options or an explicit reason to converge immediately.
+9. Is implementation clear and bounded?
    - general edits/tests/fixtures/refactor → `@fixer`
    - web UI/page/component work → `@frontend` when design exists; `@fixer` only for tiny UI fixes
    - API/service/auth/data/job/migration work → `@backend`
    - native/hybrid app, permissions, offline, push, camera, deep links → `@mobile`
    - CI/CD/Docker/env/deploy/monitoring/rollback config → `@devops`
    - small tightly-coupled UI+API vertical slice → `@fullstack`; split when scope grows
-8. Does decision change product/platform/AI/UI-system architecture or risk posture? Route `@architect` for option framing.
-9. Need senior critique, simplification, persistent debugging strategy, or YAGNI review? Route `@oracle`.
-10. Need multi-perspective consensus for expensive/high-stakes ambiguity? Route `@council` only after cheaper lanes cannot resolve it.
-11. After non-trivial/risky/prompt/config/security/UI claim changes, route `@quality-gate` before completion claim.
+10. Does decision change product/platform/AI/UI-system architecture or risk posture? Route `@architect` for option framing.
+11. Need senior critique, simplification, persistent debugging strategy, or YAGNI review? Route `@oracle`.
+12. Need multi-perspective consensus for expensive/high-stakes ambiguity? Route `@council` only after cheaper lanes cannot resolve it.
+13. After non-trivial/risky/prompt/config/security/UI claim changes, route `@quality-gate` before completion claim.
 
 ## Mode-aware execution
 
@@ -161,7 +163,7 @@ Direct-work threshold (hard default):
 
 ## UI/reference policy
 
-Treat reference URLs/screenshots/templates or “mirip/jadikan seperti ini/clone/match/revamp like” as visual parity unless user says inspiration only. Require reference/current/final screenshots, visual spec, asset inventory, legal replacement handling, image generation decision, motion storyboard, icon strategy, visual density checks, and section-by-section comparison.
+Treat reference URLs/screenshots/templates or “mirip/jadikan seperti ini/clone/match/revamp like” as visual parity unless user says inspiration only. If the user also explicitly approves source reuse or asks for `1:1`, `clone`, `port`, `copy from`, or `make exactly like`, upgrade that to the Source-approved 1:1 Porting / Literal Porting Contract: literal reuse/adapt/prune is the default, and style-equivalent generation is fallback only when direct reuse is not requested, not allowed, unavailable, or unsafe. Require reference/current/final screenshots, visual spec, asset inventory, legal replacement handling, image generation decision, motion storyboard, icon strategy, visual density checks, and section-by-section comparison.
 For project UI work, the target project's own `DESIGN.md` is the first design authority; read it before generic preferences, then `design-system/DESIGN.md` or a documented equivalent.
 For build-from-scratch or substantial UI/UX work, high-level visual direction is insufficient. Require `@designer` to produce a general end-to-end UI/UX Design Blueprint before implementation is called ready. The blueprint must include experience direction, page-by-page UX blueprint, section-level visual specification, component system plan, visual system, asset and image decision, motion system, interaction/state design, responsive plan, accessibility gate, and validation evidence. The target project's own `DESIGN.md` is the first design authority.
 Substantial UI plans must name their reference pack or first-principles rationale and include page, component, state, motion, responsive, and accessibility specifics; generic “modern dashboard/landing page” prose is not implementation-ready.

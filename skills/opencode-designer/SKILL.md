@@ -70,6 +70,10 @@ Example: `claymorphism + glassmorphism` -> soft warm/pastel tokens, rounded tact
 
 If style grammar is missing or final screenshots visibly mismatch the requested aesthetic, return `needs-polish` or `blocked`; do not mark substantial UI `ready`.
 
+## Source-approved 1:1 Porting / Literal Porting Contract
+
+When the user explicitly says `1:1`, `clone`, `port`, `copy`, `copy from`, `make exactly like`, or provides a source URL/repo/file plus explicit approval to reuse it, literal porting overrides inspiration-only reinterpretation. Prefer exact layout/component/class anatomy, tokens, spacing, DOM structure, and section composition from the approved source for code/layout/tokens. Preserve legal/security/scope safeguards: do not copy restricted assets, fake testimonials/claims, logos/trademarks without approval, privacy/security hazards, secrets, or unsafe behavior. Any deviation must be documented as a scope-preserving deviation or remaining parity debt.
+
 ## Mechanical UI failure gates
 
 - Card Spam / Layout Repetition Gate: repeated card/grid anatomy across sections is a mechanical failure for substantial UI. Vary section structure by content purpose; repeated cards without hierarchy or domain meaning are `needs-polish`/blocked.
@@ -87,7 +91,7 @@ Adapt useful Open Design patterns locally; do not paste upstream wholesale or cl
 | `frontend-design` | Establish point of view, real states, responsive/a11y, production-grade UI, no generic gradients/cards/blobs, self-review before final. |
 | `taste-skill` | Write `Design Read`; set `DESIGN_VARIANCE`, `MOTION_INTENSITY`, `VISUAL_DENSITY`; run mechanical anti-slop checks. |
 | `design-brief` | Convert vague ask into palette, accent, typography, display, layout, mood, density, assets, platform, constraints, and defaults. |
-| `reference-design-contract` | Split references into `Keep`, `Change`, `Do not copy`; preserve intent, not protected assets, exact CSS, logos, or exact layout. |
+| `reference-design-contract` | Split references into `Keep`, `Change`, `Do not copy`; preserve intent by default, but under Source-approved 1:1 Porting / Literal Porting Contract exact layout/component/class anatomy, tokens, and code structure may be preferred when the user explicitly approved/licensed the source. Protected assets, fake testimonials/claims, restricted logos/trademarks, privacy/security hazards, and unsafe copied behavior still remain blocked. |
 | `design-md` | Treat project `DESIGN.md` as design source of truth and create/update it through `/init-harness` when substantial guidance is missing. |
 | `web-design-guidelines` | Apply layout/type/color/motion/a11y basics before taste flourishes. |
 | `design-review` | Score critique with evidence; state what a 10/10 would require; flag AI slop. |

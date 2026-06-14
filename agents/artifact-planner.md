@@ -83,6 +83,10 @@ permission:
 
 When the user explicitly asks to clone, fork, port, copy from, or use a public/provided/licensed/user-approved source, prefer `Reuse/Clone/Fork > Extend > Create` over recreation. This applies to code, components, tokens, layouts, and assets when the user directs or approves that source. Record the source URL/path, license or permission status when known, and any production-use risk. Use style-equivalent generation only when direct reuse is not requested, not allowed, unavailable, or unsafe for the target use.
 
+## Source-approved 1:1 Porting / Literal Porting Contract
+
+When the user explicitly asks for `1:1`, `clone`, `port`, `copy`, `copy from`, `make exactly like`, or provides a source URL/repo/file plus explicit approval to reuse it, plan for literal copy/adapt/prune/direct reuse by default, not redesign. The plan must preserve legal/security/scope safeguards: restricted assets, incompatible licenses, secrets, privacy hazards, unsafe code, fake testimonials/claims, logos/trademarks, and out-of-scope behavior still require block, prune, or substitution with rationale.
+
 ## Asset/Source Inventory
 
 Non-trivial plans that touch reference, template, or provided assets must inventory sources explicitly and distinguish `user-directed direct reuse` from fallback generation.
@@ -273,6 +277,7 @@ Use this mode when the user provides PRD/product docs or asks to turn product do
   - `.opencode/draft/<task-id>/decisions.md`
   - `.opencode/draft/<task-id>/open-questions.md`
 - The single primary plan file must include these sections: Goal, Non-goals, Scope, Requirements, Acceptance Criteria, Existing Patterns/Reuse, Constraints, Risks, Decisions/Assumptions, **Execution Source of Truth**, **Non-negotiable Implementation Invariants** when plan semantics can be implemented incorrectly, **Do Not / Reject If**, **Diff Boundary**, TDD/Test Plan, Implementation Steps, Expected Files to Change, Agent/Tool Routing, **Executor Handoff Prompt**, **Execution-ready Worklist / Handoff Contract**, Validation Commands, Evidence Requirements, Done Criteria, and Final Planning Summary.
+- For **Source-approved 1:1 Porting / Literal Porting Contract** tasks, the primary plan must also include: **Upstream/Source File Map**, **Local Target Map**, **Copy/Adapt/Prune/Create Decision** for every source file/component/asset, **License/Attribution Note**, **Forbidden Deviations**, and **Remaining Parity Debt** for every non-copied or intentionally diverged section. Do not use vague grammar/style parity alone as acceptance criteria.
 - **Execution Source of Truth** must define precedence for implementation, normally: latest explicit user instruction; safety/security/permission rules; Non-negotiable Implementation Invariants; Execution-ready Worklist / Handoff Contract; Acceptance Criteria and Done Criteria; Implementation Steps; follow-ups/recommendations. If conflicts exist, require executor to follow the higher source and record the conflict in verification evidence.
 - **Non-negotiable Implementation Invariants** must capture semantics the executor must preserve, such as artifact-only planner posture, conditional planner use, tiny fast path lightweight behavior, owner/lane boundaries, evidence requirements, and claim scope. Include this section for non-trivial plans whenever a reasonable executor could satisfy checklist text while violating intended behavior.
 - **Do Not / Reject If** must list concrete scope-creep, overclaiming, generated-weirdness, and risky-shortcut failures that should cause implementation to stop, revert, or remediate before final claim.
@@ -340,7 +345,8 @@ For reference UI replication:
 - Extract visual spec and asset inventory.
 - Prefer legal icon libraries before generating icons.
 - Generated image prompts must be section-aware and rich-color.
-- Never silently copy restricted reference assets. Under User-directed Direct Reuse, when the user explicitly directs reuse of provided/public/licensed/user-approved assets, direct reuse is allowed; record the source, permission/license status when known, and risk. Otherwise use licensed/existing assets, legal icon libraries, or style-equivalent generation fallback.
+- Never silently copy restricted reference assets. Under User-directed Direct Reuse, when the user explicitly directs reuse of provided/public/licensed/user-approved assets, direct reuse is allowed and preferred for source-approved 1:1 tasks; record the source, permission/license status when known, and risk. Otherwise use licensed/existing assets, legal icon libraries, or style-equivalent generation fallback.
+- For source-approved 1:1 reference work, require a file/component/asset inventory with recommended `copy`, `adapt`, `prune`, or `create` decision per item, plus `remaining parity debt` for every non-copied section.
 - For portfolio/reference/template work with hero art, portraits, project cards, thumbnails, testimonial/avatar clusters, blog cards, icon badges, or rich backgrounds, assume image-heavy until the visual spec proves otherwise.
 - Plans must include an **Image Generation Decision** per visual section: `generate`, `use-provided-assets`, `licensed-existing-assets`, `no-generation-needed`, or `direct-reuse-user-approved` with reason. If no provided/licensed assets exist, recommend style-equivalent generation fallback instead of CSS placeholders or blank frames.
 - For substantial UI/reference/image-heavy plans, add a **Design Readiness Gate** that blocks implementation until the plan contains visual spec matrix, motion storyboard, icon matrix, visual density rubric, asset manifest summary, image generation decision, reference/current captures, and final comparison requirements.
