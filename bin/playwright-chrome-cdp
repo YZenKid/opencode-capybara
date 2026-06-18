@@ -9,16 +9,28 @@ START_URL="${1:-about:blank}"
 DEVTOOLS_FILE="$PROFILE_DIR/DevToolsActivePort"
 
 print_ready() {
-  local detected_port detected_path
-  {
-    IFS= read -r detected_port || true
-    IFS= read -r detected_path || true
-  } < "$DEVTOOLS_FILE"
+  local detected_port detected_path ws_url
 
-  if [[ -n "${detected_port:-}" && -n "${detected_path:-}" ]]; then
+  if [[ -f "$DEVTOOLS_FILE" ]]; then
+    {
+      IFS= read -r detected_port || true
+      IFS= read -r detected_path || true
+    } < "$DEVTOOLS_FILE"
+
+    if [[ -n "${detected_port:-}" && -n "${detected_path:-}" ]]; then
+      printf 'Playwright CDP ready\n'
+      printf '  HTTP: http://127.0.0.1:%s\n' "$detected_port"
+      printf '  WS:   ws://127.0.0.1:%s%s\n' "$detected_port" "$detected_path"
+      printf '  Profile: %s\n' "$PROFILE_DIR"
+      return 0
+    fi
+  fi
+
+  ws_url="$(curl -fsS "http://127.0.0.1:${PORT}/json/version" | python3 -c 'import json, sys; print(json.load(sys.stdin).get("webSocketDebuggerUrl", ""))' 2>/dev/null || true)"
+  if [[ -n "$ws_url" ]]; then
     printf 'Playwright CDP ready\n'
-    printf '  HTTP: http://127.0.0.1:%s\n' "$detected_port"
-    printf '  WS:   ws://127.0.0.1:%s%s\n' "$detected_port" "$detected_path"
+    printf '  HTTP: http://127.0.0.1:%s\n' "$PORT"
+    printf '  WS:   %s\n' "$ws_url"
     printf '  Profile: %s\n' "$PROFILE_DIR"
     return 0
   fi

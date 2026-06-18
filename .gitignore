@@ -12,3 +12,4 @@ bun.lock
 .playwright-mcp/
 
 .cache
+.tmp

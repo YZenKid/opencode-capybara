@@ -217,9 +217,9 @@
     "playwright": {
       "type": "local",
       "command": [
-        "npx",
-        "@playwright/mcp@latest",
-        "--cdp-endpoint=http://127.0.0.1:9333"
+        "bash",
+        "-lc",
+        "\"$HOME/.config/opencode/bin/playwright-chrome-cdp\" >/tmp/playwright-cdp-bootstrap.log 2>&1 && exec npx @playwright/mcp@latest --cdp-endpoint=http://127.0.0.1:9333"
       ],
       "enabled": true,
       "timeout": 30000
