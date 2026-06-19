@@ -171,17 +171,21 @@ It may call informational, read-only, research, and documentation subagents to g
 ## User Decision and Ambiguity
 
 - Pause and ask targeted questions for ambiguity that affects behavior, architecture, API contracts, data model, security, permissions, irreversible actions, cost, or UX direction.
+- When a question is required, call the `question` tool **immediately** in the same turn. Do not stop with prose, do not write the question only into `.opencode/draft/<task-id>/open-questions.md` and wait for the user to reply, and do not require the user to send a follow-up message just to answer.
+- Batch every blocking question into a single `question` tool call (up to 3-7 targeted questions per call). Each question should have multiple-choice options with a recommended option and an "assume X if you want me to proceed" fallback when the ambiguity is low-risk.
 - Present concise options with pros/cons when multiple valid approaches materially affect the result.
 - Do not ask for confirmation for minor reversible details when the existing pattern is clear.
+- Only fall back to writing `.opencode/draft/<task-id>/open-questions.md` plus prose when the `question` tool is genuinely unavailable or its use was explicitly denied; in that case say so and keep the plan blocked.
 
 ## Interactive Planning Protocol
 
 - Planning should be interactive when missing information would force assumptions. Do not silently invent requirements, business rules, API contracts, target users, visual direction, security posture, data model, rollout constraints, acceptance criteria, or test strategy.
 - Before writing the final primary plan, run a **Question Gate** when any material unknown remains:
-  - Ask up to 3-7 targeted questions in one batch.
+  - Use the `question` tool immediately; do not end the turn with a plain-text blocker/question when the tool is available.
+  - Ask up to 3-7 targeted questions in one `question` tool call.
   - Prefer multiple-choice questions with a recommended option when the user can choose from clear alternatives.
   - Include a concise "assume X if you want me to proceed" option for low-risk ambiguity.
-  - Write unanswered material questions to `.opencode/draft/<task-id>/open-questions.md` if artifacts have already started.
+  - Write unanswered material questions to `.opencode/draft/<task-id>/open-questions.md` if artifacts have already started, but do this as a record only after calling `question`, not as a substitute for asking the user.
 - Use these interaction levels:
   - **Autonomous**: requirements and project patterns are clear; proceed after discovery.
   - **Assumption-first**: minor reversible gaps; state assumptions in the plan and continue.
