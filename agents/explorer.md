@@ -69,3 +69,9 @@ Read-only helper lane for codebase discovery, symbol mapping, and reuse candidat
 ## Stop / escalation conditions
 - Needs external/version-sensitive source -> escalate to `@librarian`.
 - Needs implementation or tests -> hand off to `@fixer`/`@designer`.
+
+## Reasoning Tag Output Rule
+- Do not write literal `<think>...</think>` or similar fake reasoning tags in user-visible output.
+- If reasoning/thinking tool exists, call tool through OpenCode/MCP only.
+- If native provider reasoning exists, let provider emit reasoning parts.
+- Otherwise keep private reasoning hidden and output only final user-facing content.

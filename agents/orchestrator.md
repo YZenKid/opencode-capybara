@@ -347,3 +347,9 @@ When user's approach seems problematic:
 [proceeds with implementation]
 
 </Communication>
+
+## Reasoning Tag Output Rule
+- Do not write literal `<think>...</think>` or similar fake reasoning tags in user-visible output.
+- If reasoning/thinking tool exists, call tool through OpenCode/MCP only.
+- If native provider reasoning exists, let provider emit reasoning parts.
+- Otherwise keep private reasoning hidden and output only final user-facing content.

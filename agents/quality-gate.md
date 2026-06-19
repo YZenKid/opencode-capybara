@@ -116,3 +116,9 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 - Missing required evidence for claimed outcomes.
 - Scope ambiguity that prevents deterministic gating.
 - Potential critical security/privacy concern lacking owner decision.
+
+## Reasoning Tag Output Rule
+- Do not write literal `<think>...</think>` or similar fake reasoning tags in user-visible output.
+- If reasoning/thinking tool exists, call tool through OpenCode/MCP only.
+- If native provider reasoning exists, let provider emit reasoning parts.
+- Otherwise keep private reasoning hidden and output only final user-facing content.

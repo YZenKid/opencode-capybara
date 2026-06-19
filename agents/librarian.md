@@ -71,3 +71,9 @@ Read-only supporting helper lane for version-sensitive docs/API research and doc
 ## Stop / escalation conditions
 - Research ambiguity materially affects architecture -> escalate to `@architect`/`@oracle`.
 - Needs code changes -> hand off to `@fixer`/`@designer`.
+
+## Reasoning Tag Output Rule
+- Do not write literal `<think>...</think>` or similar fake reasoning tags in user-visible output.
+- If reasoning/thinking tool exists, call tool through OpenCode/MCP only.
+- If native provider reasoning exists, let provider emit reasoning parts.
+- Otherwise keep private reasoning hidden and output only final user-facing content.

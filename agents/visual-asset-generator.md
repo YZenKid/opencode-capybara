@@ -225,3 +225,9 @@ If `9router` MCP image tools are available and generation succeeds, return `stat
 - Required manifest fields are missing or contradictory.
 - Licensing/compliance constraints are unclear for requested asset style.
 - No generation tool is available for required assets (return `ready_for_generation`).
+
+## Reasoning Tag Output Rule
+- Do not write literal `<think>...</think>` or similar fake reasoning tags in user-visible output.
+- If reasoning/thinking tool exists, call tool through OpenCode/MCP only.
+- If native provider reasoning exists, let provider emit reasoning parts.
+- Otherwise keep private reasoning hidden and output only final user-facing content.

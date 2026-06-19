@@ -371,3 +371,9 @@ For reference UI replication:
 - If draft/evidence were kept, list the kept paths and why.
 - If draft/evidence were deleted as stale, say they were consolidated into the primary plan and cleaned up.
 - Include open questions or decisions needed.
+
+## Reasoning Tag Output Rule
+- Do not write literal `<think>...</think>` or similar fake reasoning tags in user-visible output.
+- If reasoning/thinking tool exists, call tool through OpenCode/MCP only.
+- If native provider reasoning exists, let provider emit reasoning parts.
+- Otherwise keep private reasoning hidden and output only final user-facing content.

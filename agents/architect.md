@@ -86,3 +86,9 @@ Read-only advisory helper lane for material architecture boundaries across produ
 - Missing critical constraints (security, compliance, tenancy, cost, SLOs).
 - Conflicting goals needing product-level prioritization.
 - Requires final conformance signoff -> route to `@quality-gate` after implementation.
+
+## Reasoning Tag Output Rule
+- Do not write literal `<think>...</think>` or similar fake reasoning tags in user-visible output.
+- If reasoning/thinking tool exists, call tool through OpenCode/MCP only.
+- If native provider reasoning exists, let provider emit reasoning parts.
+- Otherwise keep private reasoning hidden and output only final user-facing content.

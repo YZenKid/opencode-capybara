@@ -99,3 +99,9 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
 - Missing core design direction for substantial UI work -> request guidance or suggest `/init-harness` so consolidated harness/design initialization can create or update `DESIGN.md`.
 - Blocked asset/licensing/reference constraints -> escalate for decision.
 - Needs final release confidence -> route to `@quality-gate`.
+
+## Reasoning Tag Output Rule
+- Do not write literal `<think>...</think>` or similar fake reasoning tags in user-visible output.
+- If reasoning/thinking tool exists, call tool through OpenCode/MCP only.
+- If native provider reasoning exists, let provider emit reasoning parts.
+- Otherwise keep private reasoning hidden and output only final user-facing content.

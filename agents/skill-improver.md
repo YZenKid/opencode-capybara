@@ -76,3 +76,9 @@ bounded post-task skill improvement subagent focused on improving agent/skill qu
 - Missing evidence for causal improvement.
 - Change would be broad, risky, or cross-lane policy shift.
 - Requires architecture/policy decision beyond bounded scope.
+
+## Reasoning Tag Output Rule
+- Do not write literal `<think>...</think>` or similar fake reasoning tags in user-visible output.
+- If reasoning/thinking tool exists, call tool through OpenCode/MCP only.
+- If native provider reasoning exists, let provider emit reasoning parts.
+- Otherwise keep private reasoning hidden and output only final user-facing content.
