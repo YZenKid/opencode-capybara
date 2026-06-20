@@ -272,6 +272,20 @@ Cross-lane contract baseline (non-trivial work):
 - `@librarian` — supporting docs/API research helper and document-centric read-only extraction/research/transformation support.
 - `@skill-improver` — prompt/skill/routing improvements after repeated failure or evidence.
 
+## Visual context extraction
+- `@visual-context-extractor` is mandatory first lane for visual understanding from screenshots, images, mockups, diagrams, and other visual files.
+- No agent except `@visual-context-extractor` may self-infer visual context from image input. Agents needing visual understanding must route/request extractor first, then continue with their own lane-specific decisions.
+- Callable by all agents via `@orchestrator`. Direct call allowed only when caller `task` permission allows delegation to `visual-context-extractor`.
+- Returns structured JSON (`visual_context_extractor.v1`) only. No design critique, no parity claim, no image generation, no source edits.
+- If no vision input is available, helper must return `status: "unavailable"` with `fallback_suggestion`; it must not fabricate understanding.
+- Downstream interpretation and decisions still belong to the receiving lane such as `@designer`, `@fixer`, `@frontend`, `@quality-gate`, or other relevant specialist.
+
+| Caller | Callable? | Notes |
+|---|---|---|
+| All agents | via `@orchestrator` | Default supported path |
+| `@orchestrator` | direct | Primary router/integrator |
+| `@artifact-planner`, `@fixer`, `@designer`, `@frontend`, `@backend`, `@mobile`, `@fullstack`, `@oracle`, `@quality-gate`, `@system-analyst`, `@project-manager`, `@librarian`, `@skill-improver`, `@architect`, `@visual-asset-generator`, `@council`, `@explorer` | direct only if caller task permission allows | Otherwise route via `@orchestrator` |
+
 ## Domain subagents (triggered only)
 
 These agents are `mode: subagent`. `@orchestrator` remains default. `@artifact-planner` remains triggered, not default-first.

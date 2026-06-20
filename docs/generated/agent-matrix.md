@@ -2,7 +2,7 @@
 
 Generated summary of local agent metadata. This file is advisory and must not replace canonical policy in `.opencode/docs/`.
 
-- Agent count: 19
+- Agent count: 20
 - Source: `agents/*.md` frontmatter
 
 | Agent | Mode | Model | Skills | Description |
@@ -26,3 +26,4 @@ Generated summary of local agent metadata. This file is advisory and must not re
 | skill-improver | subagent | 9router/fast | opencode-skill-improver | Bounded post-task skill improvement subagent for prompt, routing, and eval refinement. |
 | system-analyst | subagent | 9router/low | opencode-system-analyst | Read-only requirements, user-flow, API contract, data-flow, edge-case, NFR, and acceptance-criteria analyst |
 | visual-asset-generator | subagent | 9router/medium | opencode-visual-asset-generator | Plans and prepares style-equivalent fallback visual asset generation jobs for image-heavy UI, reference replication, hero art, icon badges, product mockups, thumbnails, avatars, and background textures. If image-generation tools are available in-session, it may execute generation; otherwise generation is executed by the orchestrator via an image generation tool/endpoint. |
+| visual-context-extractor | subagent | 9router/vision | opencode-visual-context-extractor | Read-only extraction of observable visual context (layout, text, components, color, state, errors, flows) from images, screenshots, diagrams, and other visual files. Returns structured JSON for caller agents. Does not generate images, give design direction, or edit source. |

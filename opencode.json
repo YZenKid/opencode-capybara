@@ -100,8 +100,7 @@
           "reasoning": true,
           "modalities": {
             "input": [
-              "text",
-              "image"
+              "text"
             ],
             "output": [
               "text"
@@ -138,6 +137,23 @@
         "fast": {
           "id": "cx/gpt-5.4-mini",
           "name": "Fast",
+          "attachment": true,
+          "modalities": {
+            "input": [
+              "text"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          }
+        },
+        "vision": {
+          "id": "vision",
+          "name": "Vision",
           "attachment": true,
           "modalities": {
             "input": [

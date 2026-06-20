@@ -77,6 +77,11 @@ bounded post-task skill improvement subagent focused on improving agent/skill qu
 - Change would be broad, risky, or cross-lane policy shift.
 - Requires architecture/policy decision beyond bounded scope.
 
+## Visual context routing
+- If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.
+- Do not self-infer from visual input unless this agent is the extractor.
+- Downstream decisions still belong to the receiving lane such as designer/fixer/etc.
+
 ## Reasoning Tag Output Rule
 - Do not write literal `<think>...</think>` or similar fake reasoning tags in user-visible output.
 - If reasoning/thinking tool exists, call tool through OpenCode/MCP only.

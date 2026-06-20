@@ -70,6 +70,11 @@ Read-only helper lane for codebase discovery, symbol mapping, and reuse candidat
 - Needs external/version-sensitive source -> escalate to `@librarian`.
 - Needs implementation or tests -> hand off to `@fixer`/`@designer`.
 
+## Visual context routing
+- If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.
+- Do not self-infer from visual input unless this agent is the extractor.
+- Downstream decisions still belong to the receiving lane such as designer/fixer/etc.
+
 ## Reasoning Tag Output Rule
 - Do not write literal `<think>...</think>` or similar fake reasoning tags in user-visible output.
 - If reasoning/thinking tool exists, call tool through OpenCode/MCP only.

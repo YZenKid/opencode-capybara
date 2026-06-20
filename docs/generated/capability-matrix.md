@@ -2,8 +2,8 @@
 
 Generated from `.opencode/capabilities/registry.json`. Advisory only; canonical policy remains in `.opencode/docs/`.
 
-- Agents: 19
-- Skills: 19
+- Agents: 20
+- Skills: 20
 
 | Type | Name | Owner lane | Status | Risk | Fallback |
 | --- | --- | --- | --- | --- | --- |
@@ -26,6 +26,7 @@ Generated from `.opencode/capabilities/registry.json`. Advisory only; canonical 
 | agent | skill-improver | @skill-improver | active | prompt-change, routing-drift | document finding without prompt edits |
 | agent | system-analyst | @system-analyst | active | read-only-boundary, requirements-ambiguity, contract-drift | @project-manager for delivery breakdown or implementation lane after handoff |
 | agent | visual-asset-generator | @visual-asset-generator | active | image-generation, legal-style-equivalent, asset-write | asset manifest only; orchestrator executes image endpoint |
+| agent | visual-context-extractor | @visual-context-extractor | active | read-only-boundary, pii-handling, overclaim | return status:unavailable when no vision input; orchestrator routes critique to @designer and source edits to @fixer |
 | skill | opencode-architect | @architect | active | architecture-advice | @oracle review |
 | skill | opencode-artifact-planner | @artifact-planner | active | plan-artifact-write | @orchestrator routing |
 | skill | opencode-backend | @backend | active | api-change, data-change, auth-integration | @system-analyst or @architect |
@@ -45,3 +46,4 @@ Generated from `.opencode/capabilities/registry.json`. Advisory only; canonical 
 | skill | opencode-skill-improver | @skill-improver | active | prompt-change, routing-drift | record improvement note only |
 | skill | opencode-system-analyst | @system-analyst | active | requirements-ambiguity, read-only-boundary | implementation handoff only |
 | skill | opencode-visual-asset-generator | @visual-asset-generator | active | image-generation, legal-style-equivalent | asset manifest only |
+| skill | opencode-visual-context-extractor | @visual-context-extractor | active | read-only-boundary, pii-handling, overclaim | orchestrator routes critique to @designer and source edits to @fixer |

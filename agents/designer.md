@@ -100,6 +100,11 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
 - Blocked asset/licensing/reference constraints -> escalate for decision.
 - Needs final release confidence -> route to `@quality-gate`.
 
+## Visual context routing
+- If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.
+- Do not self-infer from visual input unless this agent is the extractor.
+- Downstream decisions still belong to the receiving lane such as designer/fixer/etc.
+
 ## Reasoning Tag Output Rule
 - Do not write literal `<think>...</think>` or similar fake reasoning tags in user-visible output.
 - If reasoning/thinking tool exists, call tool through OpenCode/MCP only.

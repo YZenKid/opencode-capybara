@@ -35,6 +35,7 @@
 - Prefer repo-local docs over chat memory.
 - Do not modify files from read-only reviewer agents.
 - Keep `AGENTS.md` short; detailed policy belongs in `.opencode/docs/` and mechanical checks.
+- Visual understanding from screenshots/images/mockups/diagrams must route to `@visual-context-extractor` first. No agent except the extractor may self-infer from visual input. Downstream decisions remain with designer/fixer/etc.
 
 ## Default Flow
 User intent → `@orchestrator` → specialist agents → validation → `@quality-gate` → final summary.

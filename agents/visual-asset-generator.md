@@ -226,6 +226,11 @@ If `9router` MCP image tools are available and generation succeeds, return `stat
 - Licensing/compliance constraints are unclear for requested asset style.
 - No generation tool is available for required assets (return `ready_for_generation`).
 
+## Visual context routing
+- If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.
+- Do not self-infer from visual input unless this agent is the extractor.
+- Downstream decisions still belong to the receiving lane such as designer/fixer/etc.
+
 ## Reasoning Tag Output Rule
 - Do not write literal `<think>...</think>` or similar fake reasoning tags in user-visible output.
 - If reasoning/thinking tool exists, call tool through OpenCode/MCP only.

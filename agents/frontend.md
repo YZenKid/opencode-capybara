@@ -73,6 +73,11 @@ Bounded web frontend implementation lane for components, pages, state, forms, ro
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
 - Include the implementation basis for material UI decisions (`DESIGN.md`, blueprint section, reference screen, or existing component pattern).
 
+## Visual context routing
+- If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.
+- Do not self-infer from visual input unless this agent is the extractor.
+- Downstream decisions still belong to the receiving lane such as designer/fixer/etc.
+
 ## Reasoning Tag Output Rule
 - Do not write literal `<think>...</think>` or similar fake reasoning tags in user-visible output.
 - If reasoning/thinking tool exists, call tool through OpenCode/MCP only.

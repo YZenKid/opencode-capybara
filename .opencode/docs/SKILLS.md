@@ -30,6 +30,7 @@ Senior external reference map: `SENIOR_SKILLS_REFERENCES.md`. Marketplace skills
 - `opencode-system-analyst` — owned by `@system-analyst`; read-only requirements, PRD, user-flow, API contract, data-flow, edge-case, NFR, and acceptance-criteria analysis
 - `opencode-project-manager` — owned by `@project-manager`; read-only milestones, backlog, issue breakdown, dependency/risk register, release checklist, and handoff planning
 - `opencode-skill-improver` — owned by `@skill-improver`; improves prompts/skills/routing after real evidence
+- `opencode-visual-context-extractor` — owned by `@visual-context-extractor`; mandatory first lane for visual understanding from image, screenshot, mockup, and diagram inputs. No other agent may self-infer from visual input; all agents needing visual context must route here first (returns `visual_context_extractor.v1` JSON; no design critique, no parity claim, no image generation). Downstream decisions remain with the receiving lane.
 
 ## Domain skill trigger notes
 - All active skills follow mode-aware execution: `Greenfield App Accelerator` for new app/MVP/product builds and `Maintenance Stability Mode` for bugfix/refactor/maintenance work.
