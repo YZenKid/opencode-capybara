@@ -91,11 +91,20 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 
 ## Workflow
 1. Verify scope, evidence completeness, and source trace completeness.
-2. Review conformance and regression/security risk.
-3. Check whether material design/product/technical claims are reference-backed, repo-backed, or explicitly first-principles-driven.
-4. For framework-managed artifacts, verify project stack/command/playbook docs were read or conservatively regenerated, and confirm official generator/CLI/MCP usage or explicit manual fallback evidence.
-5. Identify blockers vs non-blocking risks.
-6. Return deterministic final status with rationale.
+2. **Plan depth audit** — before reviewing implementation, verify plan meets minimum depth requirements:
+   - Total plan lines >= 5000
+   - Requirements >= 10 items, >= 500 words
+   - Acceptance Criteria >= 8 items, >= 300 words
+   - UI pages >= 3 (greenfield), >= 1000 words per page
+   - Components >= 20 with full state coverage (empty/loading/error/success)
+   - Implementation steps >= 50
+   - Validation commands >= 10
+   If plan is shallow, return `NEEDS_FIX` with specific depth failures. Do not proceed to implementation review.
+3. Review conformance and regression/security risk.
+4. Check whether material design/product/technical claims are reference-backed, repo-backed, or explicitly first-principles-driven.
+5. For framework-managed artifacts, verify project stack/command/playbook docs were read or conservatively regenerated, and confirm official generator/CLI/MCP usage or explicit manual fallback evidence.
+6. Identify blockers vs non-blocking risks.
+7. Return deterministic final status with rationale.
 
 ## Output contract
 - Final status (`PASS` | `PASS_WITH_RISKS` | `NEEDS_FIX` | `BLOCKED`).

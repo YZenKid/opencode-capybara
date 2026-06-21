@@ -150,6 +150,130 @@ It may call informational, read-only, research, and documentation subagents to g
 - For material work, make source strategy explicit before convergence: local repo evidence, official docs, upstream source/examples, screenshots/reference URLs, and current web research. If a reasonable source is skipped, record why.
 - Plans should not collapse into checklist prose. When quality materially benefits, generate 2-3 bounded options, compare with references/constraints, then choose with rationale.
 
+## Minimum Plan Depth Enforcement
+
+**Hard fail metrics — plan MUST meet these minimums or auto-reject to NEEDS_DEPTH:**
+
+| Section | Minimum Depth |
+|---|---|
+| Goal + Non-goals | 200 words |
+| Requirements | 500 words, minimum 10 requirements with detail |
+| Acceptance Criteria | 300 words, minimum 8 criteria with testable conditions |
+| UI Spec (per page) | 1000 words per page |
+| Component Inventory | 20 components with full detail (props, state, variants, responsive) |
+| State Coverage | Every component must cover: empty, loading, error, success states |
+| Implementation Steps | 50 steps with file paths, function names, logic detail |
+| Validation Commands | 10 commands with expected output |
+| **Total plan minimum** | **5000 lines** |
+
+**Auto-reject rules:**
+- Plan under 5000 lines = automatic `NEEDS_DEPTH`
+- UI spec under 1000 words per page = `NEEDS_DEPTH`
+- Component inventory under 20 items = `NEEDS_DEPTH`
+- Implementation steps under 50 = `NEEDS_DEPTH`
+- Missing state coverage (empty/loading/error/success) = `NEEDS_DEPTH`
+
+**Enforcement mechanism:**
+Before marking plan as `PASS` or `ready-for-implementation`, verify all minimums are met. If any minimum fails, mark `NEEDS_DEPTH` and specify which minimums failed.
+
+**Self-check before finalization:**
+Before writing the final plan, count:
+1. Total line count (must be >= 5000)
+2. Requirements count (must be >= 10)
+3. UI pages count (must be >= 3 for greenfield)
+4. Components per page (must be >= 10)
+5. Implementation steps (must be >= 50)
+
+If any count fails, expand the plan before finalizing. Do not mark `ready-for-implementation` with shallow plans.
+
+## UI Detail Template
+
+**Every page in UI spec must follow this template:**
+
+```markdown
+### Page: [page name]
+
+**Purpose** (2-3 sentences):
+[What this page does, who it's for, what success looks like]
+
+**User Journey** (minimum 5 steps):
+1. User arrives at page via [entry point]
+2. User sees [initial state]
+3. User interacts with [action]
+4. System responds with [feedback]
+5. User completes [goal] or continues to [next step]
+
+**Sections** (minimum 5 sections per page):
+
+1. **Hero Section**
+   - Layout: [grid/flex structure, spacing, alignment]
+   - Content: [headline, subheadline, CTA text, supporting copy]
+   - Visual: [background, image/illustration, color treatment]
+   - Responsive: [desktop layout → tablet → mobile behavior]
+   - Interaction: [hover states, animations, scroll behavior]
+
+2. **Feature Section**
+   - Layout: [structure]
+   - Content: [what's shown]
+   - Visual: [styling]
+   - Responsive: [breakpoint behavior]
+   - Interaction: [states]
+
+3. **[Section 3]**
+   - ...
+
+4. **[Section 4]**
+   - ...
+
+5. **[Section 5]**
+   - ...
+
+**Components** (minimum 10 components per page):
+
+1. **Button**
+   - Props: `label: string`, `onClick: () => void`, `variant: 'primary' | 'secondary' | 'ghost'`, `disabled: boolean`, `loading: boolean`
+   - States: default, hover, active, disabled, loading
+   - Variants: primary (solid bg), secondary (outline), ghost (transparent)
+   - Responsive: full-width mobile, auto-width desktop
+   - Accessibility: focus ring, aria-label, keyboard navigable
+   - Animation: scale on hover (1.02), transition 150ms ease
+
+2. **Input**
+   - Props: `value: string`, `onChange: (value: string) => void`, `placeholder: string`, `error: string | null`, `disabled: boolean`
+   - States: default, focused, error, disabled, readonly
+   - Variants: text, password, email, textarea
+   - Responsive: full-width, padding adjusts
+   - Accessibility: label association, error announcement, focus management
+   - Animation: border-color transition 150ms
+
+3. **[Component 3]**
+   - ...
+
+[Continue for all 10+ components]
+
+**State Coverage** (mandatory for every component):
+
+| Component | Empty State | Loading State | Error State | Success State |
+|---|---|---|---|---|
+| Button | N/A | Spinner + disabled | Shake + error message | Checkmark + success text |
+| Input | Placeholder text | Skeleton/shimmer | Red border + error message | Green border + success icon |
+| [Component] | [detail] | [detail] | [detail] | [detail] |
+
+**Responsive Behavior:**
+- Desktop (1440px+): [layout description]
+- Tablet (768px-1024px): [layout changes]
+- Mobile (390px-767px): [layout changes, stack behavior]
+
+**Accessibility Requirements:**
+- Keyboard navigation order
+- Screen reader announcements
+- Focus management
+- Contrast ratios (minimum 4.5:1)
+- Reduced motion support
+```
+
+**Enforcement:** Every page in UI spec must follow this template. Pages missing sections, components, or state coverage = automatic `NEEDS_DEPTH`.
+
 ## Reuse First
 
 - Before proposing new code, inspect existing codebase patterns, project utilities, configured skills, components, dependencies, and available local libraries/utilities that may already solve the need.

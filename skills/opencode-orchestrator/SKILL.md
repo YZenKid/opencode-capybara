@@ -210,6 +210,28 @@ Use same workflow for reference/current/final captures. Local resource notes: `r
 - Before non-trivial implementation, look for `.opencode/plans/<task-id>.md`; follow it and write evidence under `.opencode/evidence/<task-id>/`.
 - Plan Intake Protocol: before executing non-trivial plan-bound work, read the primary plan and identify mode, Plan Quality Gate value, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, validation commands, evidence path, and Done Criteria.
 - Proceed only when plan status is `PASS` or `PASS_FOR_SLICE`; `PASS_FOR_SLICE` means slice completion only, not whole-system completion. Tiny fast path stays lightweight for trivial single-step reversible work, but non-trivial plan-bound work follows the plan protocol.
+
+## Plan Quality Checklist (mandatory before execution)
+
+Before accepting any plan as execution-ready, orchestrator MUST verify all of these:
+
+- [ ] Total plan length >= 5000 lines
+- [ ] Goal + Non-goals >= 200 words
+- [ ] Requirements >= 10 detailed items and >= 500 words
+- [ ] Acceptance Criteria >= 8 testable criteria and >= 300 words
+- [ ] For greenfield/UI work: >= 3 pages with >= 1000 words per page
+- [ ] Component inventory >= 20 components with props/state/variants/responsive detail
+- [ ] Every component has state coverage: empty/loading/error/success
+- [ ] Implementation steps >= 50 detailed steps with file paths and logic
+- [ ] Validation commands >= 10 with expected output
+- [ ] Source strategy is explicit: repo/docs/reference/first-principles basis recorded
+
+**Hard fail rule:**
+If any checklist item fails, orchestrator MUST reject the plan as `NEEDS_DEPTH` and send it back to `@artifact-planner`. Do not continue implementation with shallow plans, even if all section headings exist.
+
+**No checklist compliance theater:**
+A plan that contains all required section names but lacks depth/detail is NOT execution-ready. Section presence alone is insufficient.
+
 - Plan Execution Precedence Order: latest explicit user instruction; safety/security/permission rules; Non-negotiable Implementation Invariants; Execution-ready Worklist / Handoff Contract; Acceptance Criteria and Done Criteria; Implementation Steps; follow-ups/recommendations. Record conflicts and chosen resolution in verification evidence.
 - When a plan includes an `Execution-ready Worklist / Handoff Contract`, treat it as the execution source of truth:
   - Start with the declared `start_with` first non-blocked task.

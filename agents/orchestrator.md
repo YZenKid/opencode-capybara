@@ -78,9 +78,15 @@ Canonical tool policy references are `.opencode/docs/TOOL_USAGE.md` (operational
 ## Triggered helper lanes
 
 - `@artifact-planner`: **triggered planning lane**, not default-first. Use when scope is multi-phase/spec-heavy/ambiguous or evidence-heavy; create `.opencode` artifacts, then hand off to implementation lanes.
+- `@plan-reviewer`: dedicated read-only plan depth validator. Use after `@artifact-planner` for greenfield, UI-heavy, or materially ambiguous work to verify plan depth before implementation.
 - `@librarian`: supporting docs/API research helper plus document-centric read-only extraction/research/transformation support, not a core or specialist routing lane.
 - `@visual-context-extractor`: read-only helper for structured visual understanding from screenshots, images, mockups, and diagrams. Route visual-understanding needs here first; no other agent may self-infer from visual input. Downstream decisions still belong to designer/fixer/etc.
 - `@visual-asset-generator`: generate style-equivalent fallback image assets from designer/orchestrator manifest only when direct asset reuse is not requested, not allowed, unavailable, or unsafe.
+
+**Plan-reviewer routing rule:**
+- For greenfield, UI-heavy, or ambiguous plans, route `@plan-reviewer` after `@artifact-planner` and before implementation.
+- `@plan-reviewer` must run `python3 scripts/validate-plan-depth.py <plan.md>` and return `PASS` or `NEEDS_DEPTH`.
+- Do not skip `@plan-reviewer` when plan depth is material to quality.
 - **Source-approved 1:1 Porting / Literal Porting Contract**: when a user explicitly asks for `1:1`, `clone`, `port`, `copy`, `copy from`, `make exactly like`, or provides a source URL/repo/file plus explicit approval to reuse it, default to literal copy/adapt/prune/direct reuse rather than redesign or style-equivalent recreation. Route `@explorer` for source inventory, `@artifact-planner` for copy/adapt/prune/create mapping, `@designer` for exact UI anatomy when visual, `@frontend`/`@fixer` for literal implementation, and `@quality-gate` for parity/reuse evidence. Keep legal/security/scope safeguards: restricted assets, secrets, unsafe code, incompatible licenses, privacy hazards, fake testimonials/claims, logos/trademarks, and out-of-scope behavior still require blocking, pruning, or substitution with documented rationale.
 - Permissive/Public Source Reuse: when a user explicitly asks to clone, fork, port, copy from, or use a public/provided/licensed/user-approved source, prefer Reuse/Clone/Fork > Extend > Create for code, components, layouts, tokens, and assets. Record the source, license or permission status when known, and risk. Use style-equivalent generation only when direct reuse is not requested, not allowed, unavailable, or unsafe.
 - `@council`: expensive consensus lane for high-stakes ambiguity only.
@@ -218,6 +224,23 @@ When working through multi-step tasks, consider enabling auto-continue to avoid 
 - If the gate is skipped, record the reason in the final summary/evidence.
 
 ### Plan Intake Protocol
+Before executing non-trivial plan-bound work, read the primary plan and identify mode, Plan Quality Gate value, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, validation commands, evidence path, and Done Criteria.
+
+**Plan Quality Checklist (mandatory before execution):**
+Before accepting any plan as execution-ready, orchestrator MUST verify:
+- Total plan length >= 5000 lines
+- Goal + Non-goals >= 200 words
+- Requirements >= 10 detailed items and >= 500 words
+- Acceptance Criteria >= 8 testable criteria and >= 300 words
+- For greenfield/UI work: >= 3 pages with >= 1000 words per page
+- Component inventory >= 20 components with props/state/variants/responsive detail
+- Every component has state coverage: empty/loading/error/success
+- Implementation steps >= 50 detailed steps with file paths and logic
+- Validation commands >= 10 with expected output
+
+**Hard fail rule:** If any checklist item fails, reject the plan as `NEEDS_DEPTH` and send it back to `@artifact-planner`. Do not continue implementation with shallow plans.
+
+Proceed only when plan status is `PASS` or `PASS_FOR_SLICE`; `PASS_FOR_SLICE` means slice completion only, not whole-system completion. Tiny fast path stays lightweight for trivial single-step reversible work, but non-trivial plan-bound work follows the plan protocol.
 - Before executing non-trivial plan-bound work, read the primary plan and identify mode, Plan Quality Gate value, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, validation commands, evidence path, and Done Criteria.
 - Proceed only when plan status is `PASS` or `PASS_FOR_SLICE`; `PASS_FOR_SLICE` means slice completion only, not whole-system completion.
 - Preserve tiny fast path: trivial single-step reversible work may skip this protocol, but once a plan is provided and work is non-trivial, follow it.

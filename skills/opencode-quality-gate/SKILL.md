@@ -24,15 +24,48 @@ Mode-aware check: for Greenfield App Accelerator, verify Plan Quality Gate statu
 
 1. **Intake** — read the plan, evidence, diff, validation status, and task summary.
 2. **Scope snapshot** — confirm what was requested, what changed, and what did not change.
-3. **Plan/evidence conformance** — check alignment with acceptance criteria, scope, priority instructions, and source strategy.
-4. **Diff review** — look for bug risk, regression risk, scope creep, and docs/config mismatches.
-5. **Security and supply-chain review** — inspect secrets, `.env`, permission widening, auth/path drift, dependency risk, unsafe patterns, and security/privacy posture (PII, session/token, tenant isolation, payment/upload boundaries).
-6. **Tests/TDD evidence** — judge whether test evidence is sufficient, including regression, unit/integration/e2e coverage, and the rationale when no relevant tests exist.
-7. **Source trace gate** — for material factual, product, visual, and technical claims, verify whether they are repo-backed, reference-backed, docs-backed, runtime-backed, or explicitly first-principles-driven. Unsupported certainty is a finding.
-8. **Generator-first conformance** — for new framework artifacts, verify official CLI/scaffold/generator/MCP was used when available, or fallback evidence exists.
-9. **Project playbook conformance** — for framework-managed artifacts, verify `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` were read when present, or that `/init-harness` / discovery follow-up was used when they were missing or stale.
-10. **UI/release gate** — if the change is UI/substantial visual, require designer signoff, accessibility evidence (semantics/focus/labels/contrast/motion), and visual parity evidence before strong parity claims; if it is release/config/runtime work, check deploy risk and rollback readiness.
-11. **Final call** — return a deterministic status.
+3. **Plan depth audit** — verify plan meets minimum depth requirements (see Plan Depth Gate below). If plan is shallow, return `NEEDS_FIX` with specific depth failures.
+4. **Plan/evidence conformance** — check alignment with acceptance criteria, scope, priority instructions, and source strategy.
+5. **Diff review** — look for bug risk, regression risk, scope creep, and docs/config mismatches.
+6. **Security and supply-chain review** — inspect secrets, `.env`, permission widening, auth/path drift, dependency risk, unsafe patterns, and security/privacy posture (PII, session/token, tenant isolation, payment/upload boundaries).
+7. **Tests/TDD evidence** — judge whether test evidence is sufficient, including regression, unit/integration/e2e coverage, and the rationale when no relevant tests exist.
+8. **Source trace gate** — for material factual, product, visual, and technical claims, verify whether they are repo-backed, reference-backed, docs-backed, runtime-backed, or explicitly first-principles-driven. Unsupported certainty is a finding.
+9. **Generator-first conformance** — for new framework artifacts, verify official CLI/scaffold/generator/MCP was used when available, or fallback evidence exists.
+10. **Project playbook conformance** — for framework-managed artifacts, verify `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` were read when present, or that `/init-harness` / discovery follow-up was used when they were missing or stale.
+11. **UI/release gate** — if the change is UI/substantial visual, require designer signoff, accessibility evidence (semantics/focus/labels/contrast/motion), and visual parity evidence before strong parity claims; if it is release/config/runtime work, check deploy risk and rollback readiness.
+12. **Final call** — return a deterministic status.
+
+## Plan Depth Gate
+
+Before reviewing implementation, quality-gate MUST verify plan depth. If plan is shallow, return `NEEDS_FIX` immediately.
+
+**Minimum depth requirements:**
+
+| Metric | Minimum |
+|---|---|
+| Total plan lines | 5000 |
+| Goal + Non-goals words | 200 |
+| Requirements count | 10 |
+| Requirements words | 500 |
+| Acceptance Criteria count | 8 |
+| Acceptance Criteria words | 300 |
+| UI pages (greenfield) | 3 |
+| Words per UI page | 1000 |
+| Components in inventory | 20 |
+| Implementation steps | 50 |
+| Validation commands | 10 |
+
+**State coverage requirement:**
+Every component in the inventory must have state coverage: empty, loading, error, success. Missing state coverage = `NEEDS_FIX`.
+
+**Enforcement:**
+If any metric fails, return `NEEDS_FIX` with specific failures listed. Do not proceed to implementation review until plan depth is adequate.
+
+**Status mapping for plan depth:**
+- `NEEDS_FIX`: Plan under 5000 lines, or any metric below minimum
+- `NEEDS_FIX`: Missing state coverage for components
+- `NEEDS_FIX`: UI spec under 1000 words per page
+- `NEEDS_FIX`: Implementation steps under 50
 
 ## Remediation worklist contract
 

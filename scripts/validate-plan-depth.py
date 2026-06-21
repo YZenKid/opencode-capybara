@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+import re
+import sys
+from pathlib import Path
+
+MIN_TOTAL_LINES = 5000
+MIN_GOAL_WORDS = 200
+MIN_REQUIREMENTS_WORDS = 500
+MIN_REQUIREMENTS_COUNT = 10
+MIN_ACCEPTANCE_WORDS = 300
+MIN_ACCEPTANCE_COUNT = 8
+MIN_UI_PAGES = 3
+MIN_UI_PAGE_WORDS = 1000
+MIN_COMPONENTS = 20
+MIN_IMPLEMENTATION_STEPS = 50
+MIN_VALIDATION_COMMANDS = 10
+REQUIRED_STATES = ["empty", "loading", "error", "success"]
+
+SECTION_HEADERS = {
+    "goal": ["## Goal", "# Goal"],
+    "non_goals": ["## Non-goals", "## Non Goals", "# Non-goals"],
+    "requirements": ["## Requirements", "# Requirements"],
+    "acceptance": ["## Acceptance Criteria", "# Acceptance Criteria"],
+    "components": ["## Component Inventory", "## Components", "# Component Inventory"],
+    "implementation": ["## Implementation Steps", "# Implementation Steps"],
+    "validation": ["## Validation Commands", "# Validation Commands"],
+}
+
+
+def word_count(text: str) -> int:
+    return len(re.findall(r"\b\w+\b", text))
+
+
+def section_body(text: str, headers: list[str]) -> str:
+    lines = text.splitlines()
+    start = None
+    for i, line in enumerate(lines):
+        if line.strip() in headers:
+            start = i + 1
+            break
+    if start is None:
+        return ""
+    end = len(lines)
+    for j in range(start, len(lines)):
+        if lines[j].startswith("#"):
+            end = j
+            break
+    return "\n".join(lines[start:end]).strip()
+
+
+def count_bullets_or_ordered(text: str) -> int:
+    count = 0
+    for line in text.splitlines():
+        s = line.strip()
+        if re.match(r"^[-*]\s+", s) or re.match(r"^\d+[.)]\s+", s):
+            count += 1
+    return count
+
+
+def extract_ui_pages(text: str) -> list[str]:
+    blocks = []
+    current = []
+    in_page = False
+    for line in text.splitlines():
+        if re.match(r"^###\s+Page:", line.strip()):
+            if current:
+                blocks.append("\n".join(current).strip())
+            current = [line]
+            in_page = True
+        elif in_page:
+            if line.startswith("## ") and not line.startswith("### "):
+                blocks.append("\n".join(current).strip())
+                current = []
+                in_page = False
+            else:
+                current.append(line)
+    if current:
+        blocks.append("\n".join(current).strip())
+    return blocks
+
+
+def count_components(text: str) -> int:
+    count = 0
+    for line in text.splitlines():
+        if re.match(r"^\d+[.)]\s+\*\*.*\*\*", line.strip()) or re.match(r"^\d+[.)]\s+[A-Za-z]", line.strip()):
+            count += 1
+    return count
+
+
+def state_coverage_present(text: str) -> bool:
+    lower = text.lower()
+    return all(state in lower for state in REQUIRED_STATES)
+
+
+def main() -> int:
+    if len(sys.argv) != 2:
+        print("Usage: validate-plan-depth.py <plan.md>")
+        return 2
+
+    path = Path(sys.argv[1])
+    if not path.exists():
+        print(f"ERROR: file not found: {path}")
+        return 2
+
+    text = path.read_text(encoding="utf-8")
+    total_lines = len(text.splitlines())
+
+    goal_text = section_body(text, SECTION_HEADERS["goal"]) + "\n" + section_body(text, SECTION_HEADERS["non_goals"])
+    requirements_text = section_body(text, SECTION_HEADERS["requirements"])
+    acceptance_text = section_body(text, SECTION_HEADERS["acceptance"])
+    components_text = section_body(text, SECTION_HEADERS["components"])
+    implementation_text = section_body(text, SECTION_HEADERS["implementation"])
+    validation_text = section_body(text, SECTION_HEADERS["validation"])
+    ui_pages = extract_ui_pages(text)
+
+    checks = []
+    checks.append(("total_lines", total_lines, MIN_TOTAL_LINES, total_lines >= MIN_TOTAL_LINES))
+    checks.append(("goal_words", word_count(goal_text), MIN_GOAL_WORDS, word_count(goal_text) >= MIN_GOAL_WORDS))
+    checks.append(("requirements_words", word_count(requirements_text), MIN_REQUIREMENTS_WORDS, word_count(requirements_text) >= MIN_REQUIREMENTS_WORDS))
+    checks.append(("requirements_count", count_bullets_or_ordered(requirements_text), MIN_REQUIREMENTS_COUNT, count_bullets_or_ordered(requirements_text) >= MIN_REQUIREMENTS_COUNT))
+    checks.append(("acceptance_words", word_count(acceptance_text), MIN_ACCEPTANCE_WORDS, word_count(acceptance_text) >= MIN_ACCEPTANCE_WORDS))
+    checks.append(("acceptance_count", count_bullets_or_ordered(acceptance_text), MIN_ACCEPTANCE_COUNT, count_bullets_or_ordered(acceptance_text) >= MIN_ACCEPTANCE_COUNT))
+    checks.append(("ui_pages", len(ui_pages), MIN_UI_PAGES, len(ui_pages) >= MIN_UI_PAGES))
+    min_ui_words_actual = min((word_count(page) for page in ui_pages), default=0)
+    checks.append(("ui_page_min_words", min_ui_words_actual, MIN_UI_PAGE_WORDS, min_ui_words_actual >= MIN_UI_PAGE_WORDS))
+    checks.append(("components_count", count_components(components_text), MIN_COMPONENTS, count_components(components_text) >= MIN_COMPONENTS))
+    checks.append(("implementation_steps", count_bullets_or_ordered(implementation_text), MIN_IMPLEMENTATION_STEPS, count_bullets_or_ordered(implementation_text) >= MIN_IMPLEMENTATION_STEPS))
+    checks.append(("validation_commands", count_bullets_or_ordered(validation_text), MIN_VALIDATION_COMMANDS, count_bullets_or_ordered(validation_text) >= MIN_VALIDATION_COMMANDS))
+    checks.append(("state_coverage", int(state_coverage_present(components_text)), 1, state_coverage_present(components_text)))
+
+    failed = [c for c in checks if not c[3]]
+
+    print("PLAN DEPTH REPORT")
+    print(f"file: {path}")
+    for name, actual, minimum, ok in checks:
+        status = "PASS" if ok else "FAIL"
+        print(f"- {name}: {actual} / {minimum} => {status}")
+
+    if failed:
+        print("\nRESULT: NEEDS_DEPTH")
+        return 1
+
+    print("\nRESULT: PASS")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
