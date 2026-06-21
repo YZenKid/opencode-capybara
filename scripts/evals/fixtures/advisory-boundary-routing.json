@@ -1,0 +1,46 @@
+{
+  "fixtures": [
+    {
+      "id": "architect-boundary-product-platform-ai-ui",
+      "prompt": "Need product/SaaS/platform/AI/UI-system architecture boundary decision for multi-tenant billing app.",
+      "expected_lane": "@architect",
+      "forbidden_lanes": ["@oracle", "@fixer", "@fullstack"],
+      "reason": "Architecture boundary work should route to @architect, not generic review or implementation lanes."
+    },
+    {
+      "id": "oracle-boundary-deep-review-simplification",
+      "prompt": "Need deep maintainability review and simplification of existing abstraction after repeated confusion.",
+      "expected_lane": "@oracle",
+      "forbidden_lanes": ["@architect", "@fixer"],
+      "reason": "Deep review/simplification should route to @oracle, not architecture boundary lane or implementation lane."
+    },
+    {
+      "id": "system-analyst-boundary-contract-clarity",
+      "prompt": "Need API contract, user flow, edge cases, acceptance criteria clarified before implementation.",
+      "expected_lane": "@system-analyst",
+      "forbidden_lanes": ["@project-manager", "@fixer", "@fullstack"],
+      "reason": "Requirements/contracts clarification should route to @system-analyst, not project planning or implementation."
+    },
+    {
+      "id": "project-manager-boundary-delivery-breakdown",
+      "prompt": "Need milestones, issue breakdown, risk register, release checklist after scope is understood.",
+      "expected_lane": "@project-manager",
+      "forbidden_lanes": ["@system-analyst", "@fixer"],
+      "reason": "Delivery planning should route to @project-manager, not requirements analysis or implementation."
+    },
+    {
+      "id": "fullstack-boundary-small-vertical-slice-only",
+      "prompt": "Need small tightly-coupled FE/BE vertical slice with known contract and bounded scope.",
+      "expected_lane": "@fullstack",
+      "forbidden_lanes": ["@architect", "@artifact-planner"],
+      "reason": "Only small bounded FE/BE vertical slices should route to @fullstack."
+    },
+    {
+      "id": "fullstack-forbidden-catchall",
+      "prompt": "Need broad multi-subsystem app build with unclear contracts across frontend, backend, and infra.",
+      "expected_lane": "@artifact-planner",
+      "forbidden_lanes": ["@fullstack"],
+      "reason": "@fullstack must not become catch-all for broad unclear scope."
+    }
+  ]
+}

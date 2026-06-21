@@ -1849,7 +1849,43 @@ const checks = [
     name: "plan validation package script wiring gate",
     mustInclude: [
       '"test:plan-validation": "node scripts/tests/plan-validation-fixtures.test.mjs"',
-      "npm run test:plan-validation && npm run test:deterministic-edit-helper",
+      "npm run test:plan-validation && npm run test:advisory-boundaries && npm run test:deterministic-edit-helper",
+    ],
+  },
+  {
+    file: ".opencode/docs/SHARED_POLICIES.md",
+    name: "shared policies document gate",
+    mustInclude: [
+      "Reference-first creativity contract",
+      "Anti-generic UI rules",
+      "Reference pack requirement",
+      "Design depth requirements",
+      "Plan depth requirements",
+      "Evidence contract",
+      "Remediation worklist contract",
+      "Source-approved 1:1 porting contract",
+      "Mode-aware execution",
+    ],
+  },
+  {
+    file: "agents/orchestrator.md",
+    name: "orchestrator references shared policies gate",
+    mustInclude: [
+      "See `.opencode/docs/SHARED_POLICIES.md`",
+    ],
+  },
+  {
+    file: "agents/designer.md",
+    name: "designer references shared policies gate",
+    mustInclude: [
+      "See `.opencode/docs/SHARED_POLICIES.md`",
+    ],
+  },
+  {
+    file: "agents/quality-gate.md",
+    name: "quality-gate references shared policies gate",
+    mustInclude: [
+      "See `.opencode/docs/SHARED_POLICIES.md`",
     ],
   },
 ];
