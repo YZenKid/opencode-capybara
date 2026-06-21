@@ -1820,6 +1820,38 @@ const checks = [
       "abstract-hero-filler",
     ],
   },
+  {
+    file: "agents/plan-reviewer.md",
+    name: "plan reviewer phase 3 gate",
+    mustInclude: [
+      "Check anti-generic patterns",
+      "Check reference pack",
+      "Check design depth",
+      "Anti-generic patterns (mechanical failures)",
+      "Reference pack requirement",
+      "Design depth keywords",
+      "reference screenshots/URLs",
+      "first-principles rationale",
+    ],
+  },
+  {
+    file: "skills/opencode-plan-reviewer/SKILL.md",
+    name: "plan reviewer skill phase 3 gate",
+    mustInclude: [
+      "depth, anti-generic, reference pack, design depth",
+      "Anti-generic patterns (mechanical failures)",
+      "Reference pack requirement",
+      "Design depth keywords",
+    ],
+  },
+  {
+    file: "package.json",
+    name: "plan validation package script wiring gate",
+    mustInclude: [
+      '"test:plan-validation": "node scripts/tests/plan-validation-fixtures.test.mjs"',
+      "npm run test:plan-validation && npm run test:deterministic-edit-helper",
+    ],
+  },
 ];
 
 const state = { failures: 0 };

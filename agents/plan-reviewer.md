@@ -44,8 +44,11 @@ Dedicated plan depth reviewer that validates plan meets minimum depth requiremen
 ## Workflow
 1. **Locate plan file** — find primary plan at `.opencode/plans/<task-id>.md`
 2. **Run validation script** — execute `python3 scripts/validate-plan-depth.py <plan.md>`
-3. **Manual spot-check** — verify UI spec follows template, state coverage is complete
-4. **Return status** — `PASS` if all metrics met, `NEEDS_DEPTH` with specific failures if not
+3. **Check anti-generic patterns** — verify plan doesn't contain mechanical failures
+4. **Check reference pack** — verify plan has 3+ references or first-principles rationale
+5. **Check design depth** — verify plan has all design depth keywords
+6. **Manual spot-check** — verify UI spec follows template, state coverage is complete
+7. **Return status** — `PASS` if all metrics met, `NEEDS_DEPTH` with specific failures if not
 
 ## Validation metrics
 
@@ -62,6 +65,53 @@ Dedicated plan depth reviewer that validates plan meets minimum depth requiremen
 | Components in inventory | 20 |
 | Implementation steps | 50 |
 | Validation commands | 10 |
+
+## Anti-generic patterns (mechanical failures)
+
+The validator checks for these patterns and fails if any are found:
+- centered gradient hero
+- generic "modern clean"
+- fake dashboard metrics / arbitrary KPI
+- emoji icons / numeric-only icons
+- placeholder imagery / blank image frames
+- repeated card/grid anatomy (card spam)
+- abstract blobs / floating UI cards / CSS glass panels
+- vague neon blobs / default purple/blue glow
+- debug/internal copy / server labels / port numbers
+- lorem text / placeholder copy
+- missing hero composition
+- missing image strategy
+- missing motion motivation
+- missing reduced-motion support
+
+## Reference pack requirement
+
+Plan must include:
+- Minimum 3 reference screenshots/URLs, OR
+- Explicit first-principles rationale
+
+Reference pack must cover:
+1. Visual direction / aesthetic family
+2. Layout / composition patterns
+3. Component / interaction patterns
+4. Asset / image style
+5. Motion / transition style
+
+## Design depth keywords
+
+Plan must contain these keywords:
+- design read
+- design_variance
+- motion_intensity
+- visual_density
+- page-by-page
+- section-level
+- component inventory
+- asset/image decision
+- motion system
+- reduced-motion
+- accessibility gate
+- validation evidence
 
 ## State coverage requirement
 Every component must have: empty, loading, error, success states documented.

@@ -188,11 +188,13 @@ def check_reference_pack(text: str) -> tuple[bool, list[str]]:
 
 
 def main() -> int:
-    if len(sys.argv) != 2:
-        print("Usage: validate-plan-depth.py <plan.md>")
+    if len(sys.argv) < 2 or len(sys.argv) > 3:
+        print("Usage: validate-plan-depth.py <plan.md> [--score]")
         return 2
 
     path = Path(sys.argv[1])
+    score_mode = "--score" in sys.argv
+    
     if not path.exists():
         print(f"ERROR: file not found: {path}")
         return 2
@@ -254,6 +256,26 @@ def main() -> int:
     if not has_reference_pack:
         print("\nREFERENCE PACK MISSING:")
         print("  - No reference screenshots/URLs or first-principles rationale found")
+
+    if score_mode:
+        # Calculate score
+        total_checks = len(checks)
+        passed_checks = total_checks - len(failed)
+        score = (passed_checks / total_checks) * 100
+        
+        print(f"\nSCORE: {score:.1f}% ({passed_checks}/{total_checks} checks passed)")
+        
+        # Quality tiers
+        if score == 100:
+            print("TIER: EXECUTION_READY")
+        elif score >= 80:
+            print("TIER: NEARLY_READY")
+        elif score >= 60:
+            print("TIER: NEEDS_WORK")
+        elif score >= 40:
+            print("TIER: SHALLOW")
+        else:
+            print("TIER: INADEQUATE")
 
     if failed:
         print("\nRESULT: NEEDS_DEPTH")
