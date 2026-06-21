@@ -31,6 +31,68 @@ permission:
 - Do not follow the workflow mechanically when stronger repo/reference evidence points elsewhere; adapt and record the reason.
 - In outputs/evidence, name the key references used or state that the result is based on repo-local evidence only.
 
+## Design Depth Enforcement
+
+**Hard fail metrics — design spec MUST meet these minimums or auto-reject to `needs-polish`/`blocked`:**
+
+| Metric | Minimum |
+|---|---|
+| Design Read statement | Required for substantial work |
+| Craft dials documented | DESIGN_VARIANCE, MOTION_INTENSITY, VISUAL_DENSITY |
+| Reference pack | Minimum 3 reference screenshots/URLs or explicit first-principles rationale |
+| Page-by-page UX blueprint | Minimum 3 pages with full detail |
+| Section-level visual spec | Minimum 5 sections per page with layout/hierarchy/spacing/typography/color/interaction/motion/responsive |
+| Component system plan | Minimum 20 components with variants/states/accessibility/responsive/motion |
+| Visual system | Palette roles, typography scale, spacing scale, radius, border, elevation, icon style, image style, grid, breakpoints, focus states |
+| Asset/image decision | Per visual area: generate/use-provided/licensed/no-generation-needed with reason |
+| Motion system | Purpose, API/library choice, per-page motion map, interaction motion, reduced-motion fallback |
+| Interaction/state design | Default/hover/focus/active/disabled/loading/empty/error/success/permission/unauthenticated/offline/partial/skeleton/validation |
+| Responsive plan | Mobile/tablet/desktop layout rules, nav changes, CTA placement, sticky behavior, data display adaptation |
+| Accessibility gate | Semantic headings, keyboard support, visible focus, form labels, contrast, screen-reader, touch targets, reduced motion |
+| Validation evidence | Screenshots by viewport and key states, interaction checks, motion/reduced-motion checks, accessibility notes |
+
+**Auto-reject rules:**
+- Missing Design Read = `blocked`
+- Missing craft dials = `needs-polish`
+- Missing reference pack (3+ references or first-principles rationale) = `blocked`
+- Missing page-by-page blueprint (3+ pages) = `blocked`
+- Missing section-level spec (5+ sections per page) = `needs-polish`
+- Missing component system (20+ components) = `needs-polish`
+- Missing visual system = `needs-polish`
+- Missing asset/image decision = `blocked`
+- Missing motion system = `needs-polish`
+- Missing interaction/state design = `needs-polish`
+- Missing responsive plan = `needs-polish`
+- Missing accessibility gate = `needs-polish`
+- Missing validation evidence = `blocked`
+
+**Enforcement mechanism:**
+Before marking design as `ready`, verify all minimums are met. If any minimum fails, mark `needs-polish` or `blocked` and specify which minimums failed.
+
+## Anti-Generic Landing Page Gate
+
+**Hard fail rules — these are mechanical failures, not taste preferences:**
+
+| Failure | Status |
+|---|---|
+| Centered gradient hero without product/domain composition | `blocked` |
+| Generic "modern clean" without source-backed specifics | `blocked` |
+| Fake dashboard metrics (arbitrary KPI numbers, 99%/24k/10x claims) | `needs-polish` |
+| Emoji icons or numeric-only service icons | `needs-polish` |
+| Placeholder imagery or blank image frames | `needs-polish` |
+| Repeated card/grid anatomy across sections (card spam) | `needs-polish` |
+| Abstract blobs, floating UI cards, CSS glass panels as hero | `blocked` |
+| Vague neon blobs or default purple/blue glow | `needs-polish` |
+| Debug/internal copy, server labels, port numbers in UI | `needs-polish` |
+| Lorem text or placeholder copy in user-facing UI | `needs-polish` |
+| Missing hero composition (no meaningful product/domain content) | `blocked` |
+| Missing image strategy per visual section | `blocked` |
+| Missing motion motivation (no explanation for non-trivial motion) | `needs-polish` |
+| Missing reduced-motion support | `needs-polish` |
+
+**Enforcement:**
+These are mechanical failures, not taste preferences. If any failure is present, return `needs-polish` or `blocked`. Do not mark substantial UI `ready` when these failures exist.
+
 ## Role
 One-agent design ownership lane for substantial UI/UX implementation, review, polish, motion direction, reduced-motion handling, accessibility-aware critique, and visual evidence.
 

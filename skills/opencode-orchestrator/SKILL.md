@@ -178,6 +178,56 @@ Requested Aesthetic Fidelity Gate applies to explicit aesthetics: final summarie
 For portfolio/reference/template work with hero art, portraits, project cards, thumbnails, testimonial/avatar clusters, blog cards, icon badges, or rich backgrounds, assume image-heavy and route to `@visual-asset-generator` unless the designer explicitly records `use-provided-assets`, `licensed-existing-assets`, or `no-generation-needed` with section-by-section reasons.
 Keep tiny UI fixes lightweight: if the task is clearly bounded and reversible, route to `@fixer` without forcing the full design-readiness gate.
 
+## Reference Pack Requirement
+
+For greenfield/UI-heavy/substantial visual work, the plan MUST include a reference pack with:
+- minimum 3 reference screenshots/URLs, OR
+- explicit first-principles rationale explaining why reference-based design is not used.
+
+Reference pack must cover:
+1. Visual direction / aesthetic family
+2. Layout / composition patterns
+3. Component / interaction patterns
+4. Asset / image style
+5. Motion / transition style
+
+Missing reference pack = automatic `NEEDS_DEPTH` or `BLOCKED`.
+
+## Anti-Generic Landing Page Hard Fail Rules
+
+These are mechanical failures, not taste preferences. A plan with these patterns is NOT execution-ready:
+- centered gradient hero without product/domain composition
+- generic “modern clean” without source-backed specifics
+- fake dashboard metrics or arbitrary KPI numbers
+- emoji icons or numeric-only service icons
+- placeholder imagery or blank image frames
+- repeated card/grid anatomy across sections (card spam)
+- abstract blobs, floating UI cards, CSS glass panels as hero
+- vague neon blobs or default purple/blue glow
+- debug/internal copy, server labels, port numbers in UI
+- lorem text or placeholder copy in user-facing UI
+- missing hero composition
+- missing image strategy per visual section
+- missing motion motivation
+- missing reduced-motion support
+
+If any hard fail pattern is present, mark `NEEDS_DEPTH` or `BLOCKED` and require planner/designer revision.
+
+## Design Depth Handoff Requirement
+
+Before handing off to implementation, the plan must explicitly state:
+- Design Read
+- craft dials (`DESIGN_VARIANCE`, `MOTION_INTENSITY`, `VISUAL_DENSITY`)
+- page-by-page UX blueprint (minimum 3 pages)
+- section-level visual spec (minimum 5 sections per page)
+- component inventory (minimum 20 components)
+- asset/image decision per visual area
+- motion system and reduced-motion strategy
+- accessibility gate
+- validation evidence plan
+
+Missing any of these = `NEEDS_DEPTH`.
+
 ## Animation System Gate
 
 For website, frontend, mobile app, React/Next, React Native/Expo, Flutter, landing page, dashboard, or reference UI work, require platform-aware animation consideration. Agents must inspect existing animation dependencies/patterns before adding new ones and prefer: reuse existing system → CSS/native primitives → existing dependency → justified new dependency.

@@ -67,6 +67,63 @@ If any metric fails, return `NEEDS_FIX` with specific failures listed. Do not pr
 - `NEEDS_FIX`: UI spec under 1000 words per page
 - `NEEDS_FIX`: Implementation steps under 50
 
+## Reference Pack Gate
+
+For greenfield/UI-heavy/substantial visual work, quality-gate MUST verify plan includes a reference pack.
+
+**Minimum reference pack requirements:**
+- Minimum 3 reference screenshots/URLs, OR explicit first-principles rationale
+- Reference pack must cover:
+  1. Visual direction / aesthetic family
+  2. Layout / composition patterns
+  3. Component / interaction patterns
+  4. Asset / image style
+  5. Motion / transition style
+
+**Enforcement:**
+If reference pack is missing, return `NEEDS_FIX`. Do not proceed to implementation review until reference pack is adequate.
+
+## Anti-Generic Landing Page Gate
+
+For greenfield/UI-heavy/substantial visual work, quality-gate MUST check plan for mechanical failures.
+
+**Hard fail patterns (mechanical failures, not taste preferences):**
+- Centered gradient hero without product/domain composition
+- Generic "modern clean" without source-backed specifics
+- Fake dashboard metrics or arbitrary KPI numbers
+- Emoji icons or numeric-only service icons
+- Placeholder imagery or blank image frames
+- Repeated card/grid anatomy across sections (card spam)
+- Abstract blobs, floating UI cards, CSS glass panels as hero
+- Vague neon blobs or default purple/blue glow
+- Debug/internal copy, server labels, port numbers in UI
+- Lorem text or placeholder copy in user-facing UI
+- Missing hero composition
+- Missing image strategy per visual section
+- Missing motion motivation
+- Missing reduced-motion support
+
+**Enforcement:**
+If any hard fail pattern is present, return `NEEDS_FIX`. These are mechanical failures, not taste preferences.
+
+## Design Depth Gate
+
+For greenfield/UI-heavy/substantial visual work, quality-gate MUST verify plan explicitly states design depth items.
+
+**Minimum design depth requirements:**
+- Design Read
+- Craft dials (`DESIGN_VARIANCE`, `MOTION_INTENSITY`, `VISUAL_DENSITY`)
+- Page-by-page UX blueprint (minimum 3 pages)
+- Section-level visual spec (minimum 5 sections per page)
+- Component inventory (minimum 20 components)
+- Asset/image decision per visual area
+- Motion system and reduced-motion strategy
+- Accessibility gate
+- Validation evidence plan
+
+**Enforcement:**
+If any design depth item is missing, return `NEEDS_FIX`. Do not proceed to implementation review until design depth is adequate.
+
 ## Remediation worklist contract
 
 For any status other than `PASS` (`NEEDS_FIX`, `BLOCKED`, or `PASS_WITH_RISKS`), include a structured remediation worklist. Quality gate stays read-only: prescribe fixes and validation, but do not edit, autofix, patch, commit, or execute remediation.

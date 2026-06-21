@@ -100,11 +100,42 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
    - Implementation steps >= 50
    - Validation commands >= 10
    If plan is shallow, return `NEEDS_FIX` with specific depth failures. Do not proceed to implementation review.
-3. Review conformance and regression/security risk.
-4. Check whether material design/product/technical claims are reference-backed, repo-backed, or explicitly first-principles-driven.
-5. For framework-managed artifacts, verify project stack/command/playbook docs were read or conservatively regenerated, and confirm official generator/CLI/MCP usage or explicit manual fallback evidence.
-6. Identify blockers vs non-blocking risks.
-7. Return deterministic final status with rationale.
+3. **Reference pack audit** — for greenfield/UI-heavy/substantial visual work, verify plan includes:
+   - Minimum 3 reference screenshots/URLs, OR explicit first-principles rationale
+   - Reference pack covers: visual direction, layout patterns, component patterns, asset/image style, motion style
+   If reference pack is missing, return `NEEDS_FIX`.
+4. **Anti-generic landing page audit** — check plan for mechanical failures:
+   - Centered gradient hero without product/domain composition
+   - Generic "modern clean" without source-backed specifics
+   - Fake dashboard metrics or arbitrary KPI numbers
+   - Emoji icons or numeric-only service icons
+   - Placeholder imagery or blank image frames
+   - Repeated card/grid anatomy across sections (card spam)
+   - Abstract blobs, floating UI cards, CSS glass panels as hero
+   - Vague neon blobs or default purple/blue glow
+   - Debug/internal copy, server labels, port numbers in UI
+   - Lorem text or placeholder copy in user-facing UI
+   - Missing hero composition
+   - Missing image strategy per visual section
+   - Missing motion motivation
+   - Missing reduced-motion support
+   If any hard fail pattern is present, return `NEEDS_FIX`.
+5. **Design depth audit** — verify plan explicitly states:
+   - Design Read
+   - Craft dials (DESIGN_VARIANCE, MOTION_INTENSITY, VISUAL_DENSITY)
+   - Page-by-page UX blueprint (minimum 3 pages)
+   - Section-level visual spec (minimum 5 sections per page)
+   - Component inventory (minimum 20 components)
+   - Asset/image decision per visual area
+   - Motion system and reduced-motion strategy
+   - Accessibility gate
+   - Validation evidence plan
+   If any design depth item is missing, return `NEEDS_FIX`.
+6. Review conformance and regression/security risk.
+7. Check whether material design/product/technical claims are reference-backed, repo-backed, or explicitly first-principles-driven.
+8. For framework-managed artifacts, verify project stack/command/playbook docs were read or conservatively regenerated, and confirm official generator/CLI/MCP usage or explicit manual fallback evidence.
+9. Identify blockers vs non-blocking risks.
+10. Return deterministic final status with rationale.
 
 ## Output contract
 - Final status (`PASS` | `PASS_WITH_RISKS` | `NEEDS_FIX` | `BLOCKED`).

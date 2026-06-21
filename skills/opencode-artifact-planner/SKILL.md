@@ -219,9 +219,60 @@ For UI/reference work also include Visual Spec Summary, Asset Manifest Summary, 
 For source-approved 1:1 UI/reference work, the visual spec must distinguish `copy`, `adapt`, `prune`, and `create` per section/component/asset and record `remaining parity debt` for every non-copied section.
 For substantial UI, require page, component, state, motion, responsive, and accessibility specifics plus reference pack or first-principles rationale; generic “modern dashboard/landing page” prose is not execution-ready.
 For explicit aesthetics, require Material Grammar Translation: user phrase -> tokens -> surfaces -> layout rules -> reject_if; no final plan readiness if missing.
+
+## Reference Pack Requirement
+
+For greenfield/UI-heavy/substantial visual work, the plan MUST include a reference pack with:
+- minimum 3 reference screenshots/URLs, OR
+- explicit first-principles rationale explaining why reference-based design is not used.
+
+Reference pack must cover:
+1. Visual direction / aesthetic family
+2. Layout / composition patterns
+3. Component / interaction patterns
+4. Asset / image style
+5. Motion / transition style
+
+Missing reference pack = automatic `NEEDS_DEPTH` or `BLOCKED`.
+
+## Anti-Generic Landing Page Hard Fail Rules
+
+These are mechanical failures, not taste preferences. A plan with these patterns is NOT execution-ready:
+- centered gradient hero without product/domain composition
+- generic “modern clean” without source-backed specifics
+- fake dashboard metrics or arbitrary KPI numbers
+- emoji icons or numeric-only service icons
+- placeholder imagery or blank image frames
+- repeated card/grid anatomy across sections (card spam)
+- abstract blobs, floating UI cards, CSS glass panels as hero
+- vague neon blobs or default purple/blue glow
+- debug/internal copy, server labels, port numbers in UI
+- lorem text or placeholder copy in user-facing UI
+- missing hero composition
+- missing image strategy per visual section
+- missing motion motivation
+- missing reduced-motion support
+
+If any hard fail pattern is present, mark `NEEDS_DEPTH` or `BLOCKED` and require planner/designer revision.
+
 Keep one primary plan file as the durable source of truth; any visual artifacts or extra notes belong in draft/evidence only when operationally useful and should not compete as alternate primary plans.
 For substantial UI/reference/image-heavy work, require a Design Readiness Gate and add blockers for missing motion storyboard, icon matrix, visual density rubric, asset manifest, image generation decision, reference/current captures, and final designer review.
 For portfolio/reference/template work with hero art, portraits, project cards, thumbnails, testimonial/avatar clusters, blog cards, icon badges, or rich backgrounds, assume image-heavy until proven otherwise. The plan must decide `generate`, `use-provided-assets`, `licensed-existing-assets`, `no-generation-needed`, or `direct-reuse-user-approved` per section; if the user explicitly approved direct reuse and it is safe/allowed, prefer direct reuse over fallback generation. If no licensed/provided/direct-reuse-safe assets exist, recommend style-equivalent generation fallback instead of CSS placeholders.
+
+## Design Depth Handoff Requirement
+
+Before handing off to implementation, the plan must explicitly state:
+- Design Read
+- craft dials (`DESIGN_VARIANCE`, `MOTION_INTENSITY`, `VISUAL_DENSITY`)
+- page-by-page UX blueprint (minimum 3 pages)
+- section-level visual spec (minimum 5 sections per page)
+- component inventory (minimum 20 components)
+- asset/image decision per visual area
+- motion system and reduced-motion strategy
+- accessibility gate
+- validation evidence plan
+
+Missing any of these = `NEEDS_DEPTH`.
 
 ## TDD planning
 

@@ -26,6 +26,61 @@ SECTION_HEADERS = {
     "validation": ["## Validation Commands", "# Validation Commands"],
 }
 
+# Anti-generic patterns that indicate mechanical failures
+ANTI_GENERIC_PATTERNS = [
+    r"centered gradient hero",
+    r"generic.*modern clean",
+    r"fake.*dashboard.*metric",
+    r"arbitrary.*KPI",
+    r"emoji.*icon",
+    r"numeric-only.*icon",
+    r"placeholder.*imag",
+    r"blank.*image.*frame",
+    r"repeated.*card.*grid",
+    r"card.*spam",
+    r"abstract.*blob",
+    r"floating.*UI.*card",
+    r"CSS.*glass.*panel",
+    r"vague.*neon.*blob",
+    r"default.*purple.*blue.*glow",
+    r"debug.*internal.*copy",
+    r"server.*label",
+    r"port.*number.*UI",
+    r"lorem.*text",
+    r"placeholder.*copy",
+]
+
+# Design depth keywords that must be present
+DESIGN_DEPTH_KEYWORDS = [
+    "design read",
+    "design_variance",
+    "motion_intensity",
+    "visual_density",
+    "page-by-page",
+    "section-level",
+    "component inventory",
+    "asset/image decision",
+    "motion system",
+    "reduced-motion",
+    "accessibility gate",
+    "validation evidence",
+]
+
+# Reference pack keywords
+REFERENCE_PACK_KEYWORDS = [
+    "reference",
+    "screenshot",
+    "url",
+    "visual direction",
+    "aesthetic family",
+    "layout pattern",
+    "component pattern",
+    "asset style",
+    "image style",
+    "motion style",
+    "first-principles",
+]
+
 
 def word_count(text: str) -> int:
     return len(re.findall(r"\b\w+\b", text))
@@ -92,6 +147,46 @@ def state_coverage_present(text: str) -> bool:
     return all(state in lower for state in REQUIRED_STATES)
 
 
+def check_anti_generic_patterns(text: str) -> list[str]:
+    """Check for anti-generic patterns. Returns list of matched patterns."""
+    lower = text.lower()
+    matches = []
+    for pattern in ANTI_GENERIC_PATTERNS:
+        if re.search(pattern, lower):
+            matches.append(pattern)
+    return matches
+
+
+def check_design_depth_keywords(text: str) -> list[str]:
+    """Check for design depth keywords. Returns list of missing keywords."""
+    lower = text.lower()
+    missing = []
+    for keyword in DESIGN_DEPTH_KEYWORDS:
+        if keyword not in lower:
+            missing.append(keyword)
+    return missing
+
+
+def check_reference_pack(text: str) -> tuple[bool, list[str]]:
+    """Check for reference pack presence. Returns (has_reference_pack, missing_keywords)."""
+    lower = text.lower()
+    has_reference = False
+    missing = []
+    
+    # Check if any reference keyword is present
+    for keyword in REFERENCE_PACK_KEYWORDS:
+        if keyword in lower:
+            has_reference = True
+            break
+    
+    # Check which reference keywords are missing
+    for keyword in REFERENCE_PACK_KEYWORDS:
+        if keyword not in lower:
+            missing.append(keyword)
+    
+    return has_reference, missing
+
+
 def main() -> int:
     if len(sys.argv) != 2:
         print("Usage: validate-plan-depth.py <plan.md>")
@@ -127,6 +222,16 @@ def main() -> int:
     checks.append(("implementation_steps", count_bullets_or_ordered(implementation_text), MIN_IMPLEMENTATION_STEPS, count_bullets_or_ordered(implementation_text) >= MIN_IMPLEMENTATION_STEPS))
     checks.append(("validation_commands", count_bullets_or_ordered(validation_text), MIN_VALIDATION_COMMANDS, count_bullets_or_ordered(validation_text) >= MIN_VALIDATION_COMMANDS))
     checks.append(("state_coverage", int(state_coverage_present(components_text)), 1, state_coverage_present(components_text)))
+    
+    # Phase 2 checks
+    anti_generic_matches = check_anti_generic_patterns(text)
+    checks.append(("anti_generic_patterns", len(anti_generic_matches), 0, len(anti_generic_matches) == 0))
+    
+    design_depth_missing = check_design_depth_keywords(text)
+    checks.append(("design_depth_keywords", len(DESIGN_DEPTH_KEYWORDS) - len(design_depth_missing), len(DESIGN_DEPTH_KEYWORDS), len(design_depth_missing) == 0))
+    
+    has_reference_pack, reference_missing = check_reference_pack(text)
+    checks.append(("reference_pack", int(has_reference_pack), 1, has_reference_pack))
 
     failed = [c for c in checks if not c[3]]
 
@@ -135,6 +240,20 @@ def main() -> int:
     for name, actual, minimum, ok in checks:
         status = "PASS" if ok else "FAIL"
         print(f"- {name}: {actual} / {minimum} => {status}")
+
+    if anti_generic_matches:
+        print("\nANTI-GENERIC PATTERNS DETECTED:")
+        for pattern in anti_generic_matches:
+            print(f"  - {pattern}")
+
+    if design_depth_missing:
+        print("\nDESIGN DEPTH KEYWORDS MISSING:")
+        for keyword in design_depth_missing:
+            print(f"  - {keyword}")
+
+    if not has_reference_pack:
+        print("\nREFERENCE PACK MISSING:")
+        print("  - No reference screenshots/URLs or first-principles rationale found")
 
     if failed:
         print("\nRESULT: NEEDS_DEPTH")

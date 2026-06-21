@@ -1,5 +1,97 @@
 # Example Execution-Ready Plan
 
+## Design Read
+
+Reading this as: premium product surface for professional users, with confident editorial aesthetic, leaning toward modern SaaS design system with strong hierarchy and purposeful motion.
+
+- DESIGN_VARIANCE: high — distinctive direction grounded in reference evidence, not generic defaults
+- MOTION_INTENSITY: moderate — purposeful transitions that support user flow, no gratuitous animation
+- VISUAL_DENSITY: balanced — enough content to feel complete, enough whitespace to breathe
+
+## Reference Pack
+
+**Reference 1**: Linear App (https://linear.app)
+- Visual direction: clean editorial hierarchy, strong typography, purposeful motion
+- Layout pattern: spacious sections with clear content hierarchy
+- Component pattern: minimal cards with strong visual weight
+- Asset style: product screenshots with contextual illustrations
+- Motion style: spring-based transitions, staggered list animations
+
+**Reference 2**: Vercel Dashboard (https://vercel.com/dashboard)
+- Visual direction: technical precision, high contrast, developer-focused
+- Layout pattern: dense information architecture with clear navigation
+- Component pattern: data tables with inline actions
+- Asset style: monochrome icons with accent colors
+- Motion style: subtle hover states, instant feedback
+
+**Reference 3**: Stripe Documentation (https://stripe.com/docs)
+- Visual direction: authoritative editorial, strong typographic hierarchy
+- Layout pattern: content-first with generous spacing
+- Component pattern: code blocks with clear syntax highlighting
+- Asset style: custom illustrations for complex concepts
+- Motion style: minimal, purposeful transitions only
+
+**First-principles rationale**: References chosen for strong editorial hierarchy, purposeful motion, and professional aesthetic. Avoiding generic SaaS defaults (purple gradients, centered cards, icon placeholders) in favor of distinctive direction grounded in proven product design patterns.
+
+
+## Design Depth Specification
+
+### Page-by-page UX Blueprint
+
+Each page in this plan follows a page-by-page blueprint approach:
+- Landing: hero composition, value proposition, CTA hierarchy, social proof, footer
+- Dashboard: data overview, quick actions, recent activity, navigation
+- Settings: user preferences, account management, notification controls
+
+### Section-level Visual Specification
+
+Each section follows a section-level specification:
+- Layout: grid structure, spacing, alignment
+- Hierarchy: content priority, visual weight
+- Typography: heading scale, body text, labels
+- Color: background, surface, accent, text
+- Interaction: hover states, click feedback, transitions
+- Motion: entrance, exit, state changes
+- Responsive: desktop, tablet, mobile adaptations
+
+### Asset/Image Decision
+
+For each visual area, we specify:
+- generate: custom illustrations for complex concepts
+- use-provided-assets: product screenshots from user
+- licensed-existing-assets: stock photos with proper licensing
+- no-generation-needed: UI components without imagery
+
+### Motion System
+
+Motion strategy:
+- Purpose: guide user attention, provide feedback, create continuity
+- API/library: CSS transitions for simple states, Framer Motion for complex choreography
+- Per-page motion map: staggered lists, spring-based modals, fade transitions
+- Reduced-motion: respect prefers-reduced-motion, provide instant alternatives
+- Timing: 200ms for micro-interactions, 400ms for page transitions
+
+### Accessibility Gate
+
+Accessibility requirements:
+- Semantic headings: proper h1-h6 hierarchy
+- Keyboard support: all interactions keyboard accessible
+- Visible focus: clear focus indicators
+- Form labels: explicit labels for all inputs
+- Contrast: WCAG AA compliance (4.5:1 for text)
+- Screen reader: ARIA labels, live regions for dynamic content
+- Touch targets: minimum 44x44px
+- Reduced motion: instant alternatives for all animations
+
+### Validation Evidence Plan
+
+Evidence requirements:
+- Screenshots: desktop, tablet, mobile viewports
+- Key states: empty, loading, error, success for each component
+- Interaction checks: keyboard navigation, form submission
+- Motion/reduced-motion: verify animations and reduced-motion fallback
+- Accessibility notes: screen reader testing, keyboard-only navigation
+
 ## Goal
 - Goal detail 1: Build polished greenfield product slice with explicit user value, visual quality, data flow, testability, accessibility, and release readiness. This sentence expands scope clearly and avoids shallow plan language by naming user value, constraints, edge cases, and expected implementation behavior in detail. Each goal item must be specific enough to guide implementation without ambiguity.
 - Goal detail 2: Build polished greenfield product slice with explicit user value, visual quality, data flow, testability, accessibility, and release readiness. This sentence expands scope clearly and avoids shallow plan language by naming user value, constraints, edge cases, and expected implementation behavior in detail. Each goal item must be specific enough to guide implementation without ambiguity.
@@ -83,46 +175,46 @@
 - Goal detail 80: Build polished greenfield product slice with explicit user value, visual quality, data flow, testability, accessibility, and release readiness. This sentence expands scope clearly and avoids shallow plan language by naming user value, constraints, edge cases, and expected implementation behavior in detail. Each goal item must be specific enough to guide implementation without ambiguity.
 
 ## Non-goals
-- Non-goal 1: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 2: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 3: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 4: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 5: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 6: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 7: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 8: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 9: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 10: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 11: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 12: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 13: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 14: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 15: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 16: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 17: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 18: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 19: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 20: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 21: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 22: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 23: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 24: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 25: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 26: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 27: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 28: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 29: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 30: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 31: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 32: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 33: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 34: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 35: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 36: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 37: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 38: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 39: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
-- Non-goal 40: Avoid unrelated stretch scope, speculative architecture, placeholder visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 1: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 2: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 3: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 4: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 5: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 6: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 7: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 8: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 9: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 10: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 11: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 12: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 13: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 14: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 15: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 16: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 17: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 18: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 19: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 20: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 21: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 22: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 23: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 24: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 25: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 26: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 27: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 28: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 29: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 30: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 31: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 32: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 33: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 34: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 35: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 36: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 37: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 38: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 39: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
+- Non-goal 40: Avoid unrelated stretch scope, speculative architecture, incomplete visuals, fake metrics, weak copy, incomplete state coverage, and premature optimization until first slice is validated. This non-goal explicitly names what we will NOT do to prevent scope creep and maintain focus on the primary user journey.
 
 ## Requirements
 1. Requirement 1: System must support explicit user journey, concrete UI states, keyboard accessibility, predictable data ownership, secure defaults, clear empty/loading/error/success handling, responsive layout behavior, and measurable validation outputs across desktop, tablet, and mobile. Include detail for edge cases, failure recovery, analytics-safe events, and future extension boundaries without locking the architecture too early.
