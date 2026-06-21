@@ -2,7 +2,41 @@
 set -euo pipefail
 
 ENV_FILE="${OPENCODE_ENV_FILE:-$HOME/.config/opencode/.env}"
-REAL_OPENCODE_BIN="${OPENCODE_REAL_BIN:-/opt/homebrew/bin/opencode}"
+
+detect_default_binary() {
+  case "$(uname -s)" in
+    Darwin*)
+      if [ -x /opt/homebrew/bin/opencode ]; then
+        printf '%s\n' '/opt/homebrew/bin/opencode'
+      elif [ -x /usr/local/bin/opencode ]; then
+        printf '%s\n' '/usr/local/bin/opencode'
+      else
+        printf '%s\n' 'opencode'
+      fi
+      ;;
+    Linux*)
+      if [ -x "$HOME/.hermes/node/lib/node_modules/opencode-ai/bin/opencode.exe" ]; then
+        printf '%s\n' "$HOME/.hermes/node/lib/node_modules/opencode-ai/bin/opencode.exe"
+      elif [ -x /usr/local/bin/opencode ]; then
+        printf '%s\n' '/usr/local/bin/opencode'
+      else
+        printf '%s\n' 'opencode'
+      fi
+      ;;
+    MINGW*|MSYS*|CYGWIN*)
+      if [ -x "$HOME/.hermes/node/lib/node_modules/opencode-ai/bin/opencode.exe" ]; then
+        printf '%s\n' "$HOME/.hermes/node/lib/node_modules/opencode-ai/bin/opencode.exe"
+      else
+        printf '%s\n' 'opencode.exe'
+      fi
+      ;;
+    *)
+      printf '%s\n' 'opencode'
+      ;;
+  esac
+}
+
+REAL_OPENCODE_BIN="${OPENCODE_REAL_BIN:-$(detect_default_binary)}"
 
 if [ -f "$ENV_FILE" ]; then
   set -a
@@ -11,7 +45,7 @@ if [ -f "$ENV_FILE" ]; then
   set +a
 fi
 
-if [ ! -x "$REAL_OPENCODE_BIN" ]; then
+if ! command -v "$REAL_OPENCODE_BIN" >/dev/null 2>&1 && [ ! -x "$REAL_OPENCODE_BIN" ]; then
   printf 'opencode real binary not found: %s\n' "$REAL_OPENCODE_BIN" >&2
   exit 1
 fi

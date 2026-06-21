@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+import { realpathSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import process from 'node:process'
@@ -397,6 +399,6 @@ export async function startServer() {
   await server.connect(transport)
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1] && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
   await startServer()
 }

@@ -4,9 +4,41 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PORT="${OPENCODE_PLAYWRIGHT_CDP_PORT:-9333}"
 PROFILE_DIR="${OPENCODE_PLAYWRIGHT_PROFILE_DIR:-$ROOT_DIR/.tmp/playwright-chrome-cdp-profile}"
-CHROME_APP="${OPENCODE_PLAYWRIGHT_CHROME_APP:-Google Chrome}"
 START_URL="${1:-about:blank}"
 DEVTOOLS_FILE="$PROFILE_DIR/DevToolsActivePort"
+
+detect_chrome() {
+  case "$(uname -s)" in
+    Darwin*)
+      printf '%s\n' "${OPENCODE_PLAYWRIGHT_CHROME_APP:-Google Chrome}"
+      ;;
+    Linux*)
+      if [ -x "$HOME/.agent-browser/browsers/chrome-148.0.7778.97/chrome" ]; then
+        printf '%s\n' "$HOME/.agent-browser/browsers/chrome-148.0.7778.97/chrome"
+      elif [ -x /usr/bin/google-chrome ]; then
+        printf '%s\n' '/usr/bin/google-chrome'
+      elif [ -x /usr/bin/chromium ]; then
+        printf '%s\n' '/usr/bin/chromium'
+      else
+        printf '%s\n' 'chrome'
+      fi
+      ;;
+    MINGW*|MSYS*|CYGWIN*)
+      if [ -x "$ProgramFiles/Google/Chrome/Application/chrome.exe" ]; then
+        printf '%s\n' "$ProgramFiles/Google/Chrome/Application/chrome.exe"
+      elif [ -x "$ProgramFiles(x86)/Google/Chrome/Application/chrome.exe" ]; then
+        printf '%s\n' "$ProgramFiles(x86)/Google/Chrome/Application/chrome.exe"
+      else
+        printf '%s\n' 'chrome.exe'
+      fi
+      ;;
+    *)
+      printf '%s\n' 'chrome'
+      ;;
+  esac
+}
+
+CHROME_APP="${OPENCODE_PLAYWRIGHT_CHROME_APP:-$(detect_chrome)}"
 
 print_ready() {
   local detected_port detected_path ws_url
@@ -49,18 +81,41 @@ fi
 
 mkdir -p "$PROFILE_DIR"
 
-open -na "$CHROME_APP" --args \
-  "--remote-debugging-port=${PORT}" \
-  "--user-data-dir=${PROFILE_DIR}" \
-  "$START_URL"
+case "$(uname -s)" in
+  Darwin*)
+    open -na "$CHROME_APP" --args \
+      "--remote-debugging-port=${PORT}" \
+      "--user-data-dir=${PROFILE_DIR}" \
+      "$START_URL"
+    ;;
+  *)
+    "$CHROME_APP" \
+      --remote-debugging-port="${PORT}" \
+      --user-data-dir="${PROFILE_DIR}" \
+      --no-first-run \
+      --no-default-browser-check \
+      --disable-background-networking \
+      --disable-component-update \
+      --disable-renderer-backgrounding \
+      --disable-dev-shm-usage \
+      --headless=new \
+      --noerrdialogs \
+      --ozone-platform=headless \
+      --ozone-override-screen-size=800,600 \
+      --use-angle=swiftshader-webgl \
+      --password-store=basic \
+      --no-sandbox \
+      "$START_URL" & sleep 2
+    disown || true
+    ;;
+esac
 
-for _ in {1..20}; do
-  if curl -fsS "http://127.0.0.1:${PORT}/json/version" >/dev/null 2>&1 && [[ -f "$DEVTOOLS_FILE" ]]; then
+for _ in {1..40}; do
+  if curl -fsS "http://127.0.0.1:${PORT}/json/version" >/dev/null 2>&1; then
     print_ready && exit 0
   fi
   sleep 1
 done
 
 printf 'Chrome launched, but CDP endpoint not ready yet.\n' >&2
-printf 'Check Chrome window, then retry this script.\n' >&2
 exit 1
