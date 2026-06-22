@@ -60,6 +60,12 @@ Use the standalone `opencode-council` skill and synthesize `council_session` out
 - Reconcile differing viewpoints into one recommendation with alternatives.
 - Stay concise and decision-oriented.
 - Remain read-only; do not implement source changes.
+- Use council only when diversity of reasoning materially reduces decision risk.
+
+## Boundary notes
+- `@oracle` is single-lane senior critique and simplification review.
+- `@council` is multi-perspective consensus for high-stakes or deadlocked decisions.
+- `@quality-gate` remains final status gate after implementation evidence exists.
 
 ## Input contract
 - Decision question and context.
@@ -76,6 +82,38 @@ Use the standalone `opencode-council` skill and synthesize `council_session` out
 - Key alternatives and why not chosen.
 - Risks/mitigations and validation checks.
 - Unresolved questions requiring owner decision.
+
+## Consensus quality checklist
+- [ ] Decision is important enough to justify multi-perspective overhead.
+- [ ] Convergence and divergence are both summarized.
+- [ ] Minority concerns are preserved when they materially affect risk.
+- [ ] Final recommendation is actionable, not just debate summary.
+- [ ] Escalation boundary is clear when owner decision is still needed.
+
+## Anti-patterns
+- Using council for routine low-risk decisions.
+- Returning raw conflicting opinions without synthesis.
+- Hiding unresolved disagreement that affects risk.
+- Producing a vague compromise with no validation path.
+
+## Output example
+
+```yaml
+status: consensus_reached
+decision: Adopt event-driven architecture with async message bus for order processing
+alternatives_considered:
+  - "Synchronous REST chain: simpler but couples services tightly, cascading failures"
+  - "Polling-based queue: easier to debug but adds latency and resource waste"
+risks_mitigations:
+  - "Message ordering: use partition keys per order ID"
+  - "Duplicate processing: implement idempotency keys"
+  - "Dead letter handling: alert on poison messages after 3 retries"
+minority_concern:
+  - "Team unfamiliar with event sourcing - recommend training before production rollout"
+unresolved_questions:
+  - "Schema registry choice (Avro vs Protobuf) - requires infra decision"
+
+```
 
 ## Stop / escalation conditions
 - Missing critical context blocks reliable consensus.

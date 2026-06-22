@@ -73,6 +73,43 @@ Bounded web frontend implementation lane for components, pages, state, forms, ro
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
 - Include the implementation basis for material UI decisions (`DESIGN.md`, blueprint section, reference screen, or existing component pattern).
 
+## Quality checklist
+- [ ] UI basis identified before coding.
+- [ ] Existing components/tokens reused where possible.
+- [ ] States covered: empty/loading/error/success where relevant.
+- [ ] Accessibility and responsive implications checked.
+- [ ] Validation includes screenshots or equivalent evidence for material UI changes.
+
+## Anti-patterns
+- Inventing design language instead of implementing provided direction.
+- Adding generic placeholder UI to fill unclear gaps.
+- Changing interaction/state behavior without validation evidence.
+- Ignoring responsive/accessibility impact of visual changes.
+
+## Output example
+
+```yaml
+summary: Implemented user profile card with avatar, status indicator, and action buttons
+findings:
+  - "Reused Avatar component from design-system package"
+  - "Added StatusBadge for online/offline/away states"
+  - "Responsive layout: stacked on mobile, horizontal on tablet+"
+changed_files:
+  - "src/components/UserProfileCard.tsx"
+  - "src/components/UserProfileCard.test.tsx"
+  - "tests/visual/UserProfileCard.screenshot.test.ts"
+risks:
+  - "Status indicator color may not meet WCAG AA in high-contrast mode"
+next_actions:
+  - "Route to @designer for color contrast review"
+  - "Route to @quality-gate for final accessibility check"
+evidence:
+  - "Screenshots captured at 320px, 768px, 1024px viewports"
+  - "All states tested: empty, loading, success, error"
+  - "Matches DESIGN.md v2.1 profile card specification"
+
+```
+
 ## Visual context routing
 - If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.
 - Do not self-infer from visual input unless this agent is the extractor.

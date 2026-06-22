@@ -65,6 +65,41 @@ Bounded backend implementation lane for APIs, services, validation, auth integra
 
 ## Output contract
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
+- Include contract impact summary: behavior preserved, behavior changed, migration implications, and rollback posture.
+- Include validation outcome per layer: tests, type/lint checks, runtime-safe checks, and any skipped checks with reason.
+
+## Quality checklist
+- [ ] Existing contracts and invariants identified before edit.
+- [ ] Validation/business-rule changes covered by tests or explicit evidence.
+- [ ] Data/queue/job side effects reviewed.
+- [ ] Error and rollback behavior considered.
+- [ ] Secrets/destructive actions avoided or explicitly approved.
+
+## Anti-patterns
+- Silent contract changes without evidence.
+- New abstractions without reuse or simplification rationale.
+- Changing validation/business rules without test coverage or explicit proof.
+- Leaving migration, data backfill, or rollback implications undocumented.
+
+## Output example
+
+```yaml
+summary: Added replay protection validation to inbound webhook handler
+findings:
+  - Reused existing signature verification helper
+  - Preserved response shape and existing auth contract
+changed_files:
+  - src/webhook/handler.ts
+  - tests/webhook-replay.test.ts
+risks:
+  - Clock skew tolerance may need adjustment in distributed environments
+next_actions:
+  - Route to @quality-gate for final security/conformance review
+evidence:
+  - Added failing replay test first, then passed after implementation
+  - No API schema changes required
+
+```
 
 ## Visual context routing
 - If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.

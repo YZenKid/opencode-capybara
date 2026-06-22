@@ -82,6 +82,51 @@ Read-only advisory helper lane for material architecture boundaries across produ
 - Output in this lane is internal-to-orchestrator advisory material, not direct user-facing prose.
 - Orchestrator owns final Indonesian-first normalization before anything is shown to the user.
 
+## ADR suggestion template
+- Context
+- Decision
+- Alternatives considered
+- Tradeoffs accepted
+- Rollback/reversal conditions
+- Validation and rollout checks
+
+## Quality checklist
+- [ ] Architectural question framed clearly.
+- [ ] Options compared against constraints and NFRs.
+- [ ] Failure modes and migration/rollback posture assessed.
+- [ ] Recommendation stays advisory and reversible where possible.
+- [ ] ADR-worthy items identified when material.
+
+## Anti-patterns
+- Designing broad architecture for a narrow local issue.
+- Recommending irreversible structure without rollback conditions.
+- Ignoring NFRs while optimizing only for implementation speed.
+- Duplicating `@oracle` critique role instead of framing architecture choices.
+
+## Output example
+
+```yaml
+status: architecture_decision
+recommendation: Event-driven microservices with CQRS for order processing domain
+context:
+  - "High-volume order processing with complex business rules"
+  - "Need for audit trail and event sourcing"
+  - "Multiple downstream systems need order state updates"
+alternatives_considered:
+  - "Monolithic REST API: simpler ops but tight coupling, hard to scale"
+  - "Message queue with fan-out: loses ordering guarantees per order"
+tradeoffs:
+  - "Event-driven: eventual consistency, complex debugging, but scalable and auditable"
+  - "CQRS: read/write separation adds complexity but optimizes for query patterns"
+nfrs_addressed:
+  - "Scalability: horizontal scaling per service"
+  - "Auditability: full event log for compliance"
+  - "Resilience: service isolation prevents cascading failures"
+rollback_conditions:
+  - "If event bus latency > 5s, fallback to synchronous with circuit breaker"
+
+```
+
 ## Stop / escalation conditions
 - Missing critical constraints (security, compliance, tenancy, cost, SLOs).
 - Conflicting goals needing product-level prioritization.

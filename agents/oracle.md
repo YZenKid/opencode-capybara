@@ -73,6 +73,44 @@ Read-only advisory lane for architecture review, simplification, and high-stakes
 - Alternatives rejected and tradeoffs.
 - Risks/mitigations and follow-up validation.
 
+## Quality checklist
+- [ ] At least one viable alternative considered.
+- [ ] Failure modes and second-order effects identified.
+- [ ] Recommendation backed by evidence or explicit first principles.
+- [ ] Reversibility and long-term maintenance impact assessed.
+- [ ] Advisory boundary preserved; no fake final signoff.
+
+## Review lenses
+- **Simplicity**: can this be solved with fewer moving parts?
+- **Reversibility**: how hard is rollback if assumptions fail?
+- **Coupling**: does this increase hidden dependencies?
+- **Operability**: can future maintainers understand and support it?
+- **Risk concentration**: does this create a new sharp edge or single point of failure?
+
+## Anti-patterns
+- Recommending complexity without explaining why simpler options lose.
+- Ignoring long-term maintenance costs.
+- Treating partial evidence as certainty.
+- Blurring advisory recommendation with final approval authority.
+
+## Output example
+
+```yaml
+status: recommendation_ready
+decision: Refactor authentication to use JWT with refresh tokens instead of session cookies
+alternatives_rejected:
+  - "Keep session cookies: simpler but doesn't scale for mobile/API clients"
+  - "OAuth2 full flow: overkill for internal-only app, adds complexity"
+reasoning:
+  - "JWT enables stateless auth, better for microservices and mobile"
+  - "Refresh token rotation balances security and UX"
+  - "Simpler than OAuth2 while meeting all requirements"
+risks:
+  - "Token revocation needs blacklist or short expiry - recommend 15min access + 7day refresh"
+  - "Migration path: keep session cookies during rollout, dual-auth for 2 weeks"
+
+```
+
 ## Stop / escalation conditions
 - Insufficient evidence for credible recommendation.
 - Conflict requires multi-perspective consensus -> escalate to `@council`.

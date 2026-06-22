@@ -80,6 +80,39 @@ Bounded implementation helper lane for code changes, tests, fixtures, and TDD ex
 - Tests/validation run and outcomes.
 - Risks, follow-ups, or assumptions.
 
+## Quality checklist
+- [ ] Scope stayed bounded to accepted change.
+- [ ] Failing behavior reproduced or equivalent evidence captured first.
+- [ ] Validation updated for behavior changes.
+- [ ] Reuse considered before introducing new patterns.
+- [ ] Residual risks and assumptions recorded.
+
+## Anti-patterns
+- Editing beyond bounded scope because nearby code looked improvable.
+- Shipping behavior changes without validation evidence.
+- Replacing established project patterns with personal preference.
+- Claiming completion while known failing checks remain unexplained.
+
+## Output example
+
+```yaml
+summary: Fixed token expiry comparison bug in auth middleware
+findings:
+  - Expiry check used < instead of <=
+  - Existing middleware and token utilities reused
+changed_files:
+  - src/auth/middleware.ts
+  - tests/auth-expiry.test.ts
+risks:
+  - None beyond standard auth regression surface
+next_actions:
+  - Run final conformance review if task is part of larger auth change
+evidence:
+  - Reproduced failure with regression test before patch
+  - Auth expiry tests now pass
+
+```
+
 ## Execution policy
 - Validation ladder: plan/handoff check -> discovery evidence -> implementation -> diff review -> validation commands -> route non-trivial/risky completion to `@quality-gate`.
 - LSP-first for rename/refactor/navigation/diagnostic-driven edits when available; fallback path must be recorded in evidence.

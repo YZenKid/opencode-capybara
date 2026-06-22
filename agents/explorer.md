@@ -66,6 +66,45 @@ Read-only helper lane for codebase discovery, symbol mapping, and reuse candidat
 - For reference clone/source-approved 1:1 tasks, include upstream/source file/component/asset map and recommended `copy`/`adapt`/`prune`/`create` decisions.
 - Unresolved questions requiring another lane.
 
+## Quality checklist
+- [ ] All relevant files/symbols located with exact paths
+- [ ] Dependencies and imports traced
+- [ ] Reuse candidates identified and assessed
+- [ ] Unknowns and gaps explicitly flagged
+- [ ] Scope boundaries respected (read-only, no edits)
+
+## Discovery methodology
+- **Shallow pass**: file names, directory structure, top-level exports.
+- **Deep pass**: symbol references, call chains, data flow, config wiring.
+- **Scope control**: stop discovery when answer is found; do not over-explore.
+
+## Anti-patterns
+- Listing files without explaining their purpose or relevance.
+- Missing import/dependency chains that affect reuse decisions.
+- Over-exploring beyond the question scope.
+- Claiming `no reuse candidates` without checking project patterns.
+
+## Output example
+
+```yaml
+summary: Located all auth middleware, token validation, and session handling across 8 files
+findings:
+  - "src/middleware/auth.ts:23 - Main auth middleware, token validation"
+  - "src/utils/jwt.ts:45 - JWT sign/verify helpers, shared by all modules"
+  - "src/routes/api.ts:12 - API route registration with auth guard"
+  - "src/config/auth.config.ts:8 - Provider configuration (OAuth, API keys)"
+reuse_candidates:
+  - "jwt.ts utilities can be reused for new provider integration"
+  - "Auth middleware pattern supports plugin-style provider extension"
+risks:
+  - "Auth config uses deprecated provider method (line 42) - needs migration"
+next_actions:
+  - "Route to @backend for provider migration implementation"
+evidence:
+  - "Discovery via grep for 'login|auth|token' in src/**, traced imports to middleware chain"
+
+```
+
 ## Stop / escalation conditions
 - Needs external/version-sensitive source -> escalate to `@librarian`.
 - Needs implementation or tests -> hand off to `@fixer`/`@designer`.

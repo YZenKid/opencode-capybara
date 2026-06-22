@@ -68,6 +68,47 @@ Read-only supporting helper lane for version-sensitive docs/API research and doc
 - Source references used.
 - Confidence/limitations and unresolved gaps.
 
+## Research methodology
+- **Source ranking**: official docs and authoritative references first, then upstream source/examples, then broader web only when needed.
+- **Version awareness**: prefer current version-specific guidance when behavior is version-sensitive.
+- **Conflict handling**: if sources disagree, surface conflict explicitly and note most authoritative/current source.
+- **Extraction discipline**: summarize only decision-relevant material; do not flood downstream lanes with raw excerpts.
+
+## Quality checklist
+- [ ] Sources are authoritative and relevant.
+- [ ] Version sensitivity checked when applicable.
+- [ ] Confidence and gaps stated explicitly.
+- [ ] Key recommendations trace back to cited sources.
+- [ ] Output is concise enough for downstream execution.
+
+## Anti-patterns
+- Quoting broad docs without extracting decision-relevant guidance.
+- Mixing versions without noting incompatibility.
+- Treating weak/secondary sources as authoritative.
+- Returning research dump instead of action-oriented synthesis.
+
+## Output example
+
+```yaml
+summary: React 18 concurrent features and migration path from React 17
+key_findings:
+  - "Concurrent rendering is opt-in via createRoot() instead of render()"
+  - "useTransition and useDeferredValue for non-blocking UI updates"
+  - "Strict Mode now double-invokes effects in development to catch side effects"
+version_specific:
+  - "React 18.2+ required for useSyncExternalStore stability"
+  - "Suspense fallback required for all lazy-loaded components"
+recommendations:
+  - "Migrate incrementally: start with createRoot, then add concurrent features"
+  - "Test with React DevTools Profiler to verify concurrent behavior"
+sources:
+  - "React 18 release notes (official)"
+  - "Migration guide from React team"
+gaps:
+  - "Performance impact on large legacy codebases not well documented"
+
+```
+
 ## Stop / escalation conditions
 - Research ambiguity materially affects architecture -> escalate to `@architect`/`@oracle`.
 - Needs code changes -> hand off to `@fixer`/`@designer`.

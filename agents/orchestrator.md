@@ -41,12 +41,13 @@ Canonical tool policy references are `.opencode/docs/TOOL_USAGE.md` (operational
 <Agents>
 
 ## Reference-first creativity contract
-
-See `.opencode/docs/SHARED_POLICIES.md` for the full contract. Key points:
-- Prefer repo-local evidence, official docs, upstream source/examples before inventing material details
-- Treat creativity as grounded option generation with tradeoff rationale
-- Do not present assumptions as facts; label them explicitly
-- Name key references used in outputs/evidence
+See `.opencode/docs/SHARED_POLICIES.md` for full contract.
+- Prefer repo-local evidence, official docs, upstream source/examples, screenshots/references, and runtime/browser evidence before inventing material details.
+- If a reasonable source exists, use it or explicitly record why it was skipped.
+- Treat creativity as grounded option generation: for greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with tradeoff rationale.
+- Do not present assumptions as facts. Label assumptions explicitly, keep them reversible, and route/ask when they affect architecture, product behavior, UX direction, data, security, or release risk.
+- Do not follow the workflow mechanically when stronger repo/reference evidence points elsewhere; adapt and record the reason.
+- In outputs/evidence, name the key references used or state that the result is based on repo-local evidence only.
 
 ## Reference Depth Gate
 - Tiny maintenance, local bugfixes, and prompt/config edits may use repo-local evidence only when that is enough; do not mandate internet or fabricate external claims.
@@ -78,15 +79,9 @@ See `.opencode/docs/SHARED_POLICIES.md` for the full contract. Key points:
 ## Triggered helper lanes
 
 - `@artifact-planner`: **triggered planning lane**, not default-first. Use when scope is multi-phase/spec-heavy/ambiguous or evidence-heavy; create `.opencode` artifacts, then hand off to implementation lanes.
-- `@plan-reviewer`: dedicated read-only plan depth validator. Use after `@artifact-planner` for greenfield, UI-heavy, or materially ambiguous work to verify plan depth before implementation.
 - `@librarian`: supporting docs/API research helper plus document-centric read-only extraction/research/transformation support, not a core or specialist routing lane.
 - `@visual-context-extractor`: read-only helper for structured visual understanding from screenshots, images, mockups, and diagrams. Route visual-understanding needs here first; no other agent may self-infer from visual input. Downstream decisions still belong to designer/fixer/etc.
 - `@visual-asset-generator`: generate style-equivalent fallback image assets from designer/orchestrator manifest only when direct asset reuse is not requested, not allowed, unavailable, or unsafe.
-
-**Plan-reviewer routing rule:**
-- For greenfield, UI-heavy, or ambiguous plans, route `@plan-reviewer` after `@artifact-planner` and before implementation.
-- `@plan-reviewer` must run `python3 scripts/validate-plan-depth.py <plan.md>` and return `PASS` or `NEEDS_DEPTH`.
-- Do not skip `@plan-reviewer` when plan depth is material to quality.
 - **Source-approved 1:1 Porting / Literal Porting Contract**: when a user explicitly asks for `1:1`, `clone`, `port`, `copy`, `copy from`, `make exactly like`, or provides a source URL/repo/file plus explicit approval to reuse it, default to literal copy/adapt/prune/direct reuse rather than redesign or style-equivalent recreation. Route `@explorer` for source inventory, `@artifact-planner` for copy/adapt/prune/create mapping, `@designer` for exact UI anatomy when visual, `@frontend`/`@fixer` for literal implementation, and `@quality-gate` for parity/reuse evidence. Keep legal/security/scope safeguards: restricted assets, secrets, unsafe code, incompatible licenses, privacy hazards, fake testimonials/claims, logos/trademarks, and out-of-scope behavior still require blocking, pruning, or substitution with documented rationale.
 - Permissive/Public Source Reuse: when a user explicitly asks to clone, fork, port, copy from, or use a public/provided/licensed/user-approved source, prefer Reuse/Clone/Fork > Extend > Create for code, components, layouts, tokens, and assets. Record the source, license or permission status when known, and risk. Use style-equivalent generation only when direct reuse is not requested, not allowed, unavailable, or unsafe.
 - `@council`: expensive consensus lane for high-stakes ambiguity only.
@@ -114,7 +109,7 @@ See `.opencode/docs/SHARED_POLICIES.md` for the full contract. Key points:
 5. Before framework-managed edits in existing or greenfield apps, read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present. If they are missing or stale for non-trivial work, run or suggest `/init-harness` before broad implementation.
 6. Need durable `.opencode` plan/evidence handoff? `@artifact-planner`; use `@project-manager` input for milestones/tickets. For source-approved 1:1 tasks, require the planner to define source maps, forbidden deviations, and parity debt explicitly.
 7. UX/visual/reference/motion direction missing? `@designer` first. For source-approved 1:1 visual work, route with exact layout/component/token anatomy expectation rather than inspiration-only restyling.
-8. Clear implementation? Route by dominant surface: general/tests → `@fixer`; web UI → `@frontend`; API/data/jobs → `@backend`; native/hybrid → `@mobile`; CI/CD/deploy/env → `@devops`; small FE+BE vertical slice → `@fullstack`. For source-approved 1:1 tasks, implementation lanes should port upstream structure/class/component names first and treat deviations as evidence-backed exceptions.
+8. Clear implementation? Route by dominant surface: general/tests -> `@fixer`; web UI -> `@frontend`; API/data/jobs -> `@backend`; native/hybrid -> `@mobile`; CI/CD/deploy/env -> `@devops`; small FE+BE vertical slice -> `@fullstack`. For source-approved 1:1 tasks, implementation lanes should port upstream structure/class/component names first and treat deviations as evidence-backed exceptions.
 8. Product/platform/AI/UI-system tradeoff changes architecture/risk? `@architect`.
 9. Need senior critique/simplification/persistent debugging strategy? `@oracle`.
 10. High-stakes ambiguity still unresolved? `@council`.
@@ -224,23 +219,6 @@ When working through multi-step tasks, consider enabling auto-continue to avoid 
 - If the gate is skipped, record the reason in the final summary/evidence.
 
 ### Plan Intake Protocol
-Before executing non-trivial plan-bound work, read the primary plan and identify mode, Plan Quality Gate value, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, validation commands, evidence path, and Done Criteria.
-
-**Plan Quality Checklist (mandatory before execution):**
-Before accepting any plan as execution-ready, orchestrator MUST verify:
-- Total plan length >= 5000 lines
-- Goal + Non-goals >= 200 words
-- Requirements >= 10 detailed items and >= 500 words
-- Acceptance Criteria >= 8 testable criteria and >= 300 words
-- For greenfield/UI work: >= 3 pages with >= 1000 words per page
-- Component inventory >= 20 components with props/state/variants/responsive detail
-- Every component has state coverage: empty/loading/error/success
-- Implementation steps >= 50 detailed steps with file paths and logic
-- Validation commands >= 10 with expected output
-
-**Hard fail rule:** If any checklist item fails, reject the plan as `NEEDS_DEPTH` and send it back to `@artifact-planner`. Do not continue implementation with shallow plans.
-
-Proceed only when plan status is `PASS` or `PASS_FOR_SLICE`; `PASS_FOR_SLICE` means slice completion only, not whole-system completion. Tiny fast path stays lightweight for trivial single-step reversible work, but non-trivial plan-bound work follows the plan protocol.
 - Before executing non-trivial plan-bound work, read the primary plan and identify mode, Plan Quality Gate value, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, validation commands, evidence path, and Done Criteria.
 - Proceed only when plan status is `PASS` or `PASS_FOR_SLICE`; `PASS_FOR_SLICE` means slice completion only, not whole-system completion.
 - Preserve tiny fast path: trivial single-step reversible work may skip this protocol, but once a plan is provided and work is non-trivial, follow it.
@@ -273,15 +251,14 @@ When plan sections conflict, use this order: latest explicit user instruction; s
 - Helper lanes are conditional advisors, not mandatory hops.
 - Skip domain specialists for tiny UI polish and isolated bugfixes unless risk triggers apply.
 - Inspect the target project's `DESIGN.md` first, then `design-system/DESIGN.md` or equivalent; suggest `/init-harness` if substantial UI direction is missing so consolidated harness/design initialization can create or update project guidance.
-- PRD/product docs needing MVP/flows/acceptance criteria and SaaS/multi-tenant/RBAC/billing decisions → `@architect`; if source is PDF/DOCX/XLSX, use `@librarian` first for document-centric extraction/research/transformation support.
+- PRD/product docs needing MVP/flows/acceptance criteria and SaaS/multi-tenant/RBAC/billing decisions -> `@architect`; if source is PDF/DOCX/XLSX, use `@librarian` first for document-centric extraction/research/transformation support.
 - PDF/DOCX/XLSX/PPT/Office inputs where the active model reports unsupported attachment input (for example `input.pdf:false`) are not a hard stop. Interpret that as “model cannot read the attachment directly”; check workspace file availability and route document extraction/Q&A/summarization to `@librarian` before asking the user to convert the document.
-- AI/LLM/RAG/embedding/tool-calling/evals/face-matching production decisions → `@architect`; route version-sensitive SDK behavior to `@librarian`.
+- AI/LLM/RAG/embedding/tool-calling/evals/face-matching production decisions -> `@architect`; route version-sensitive SDK behavior to `@librarian`.
 - If framework/library command, generator, migration, or codegen behavior is version-sensitive and project-local docs do not already settle it, route to `@librarian` for official docs/context7 before implementation.
-- PII/auth/session/payments/webhooks/uploads/tenant isolation/biometric/privacy/AI data risk architecture decisions → `@architect`; final security/privacy signoff remains in `@quality-gate`.
-- Deployment/CI/CD/env/migration/monitoring/rollback/production readiness and native mobile/hybrid/PWA/offline/push/deep-link/camera/QR/app-store constraints → `@architect`.
+- PII/auth/session/payments/webhooks/uploads/tenant isolation/biometric/privacy/AI data risk architecture decisions -> `@architect`; final security/privacy signoff remains in `@quality-gate`.
+- Deployment/CI/CD/env/migration/monitoring/rollback/production readiness and native mobile/hybrid/PWA/offline/push/deep-link/camera/QR/app-store constraints -> `@architect`.
 - Accessibility and visual-parity are reviewed at final gate by `@quality-gate`; `@designer` still owns UI direction and implementation.
 - Domain specialists do not replace @designer for UI direction, @fixer for implementation, @oracle for deep tradeoff review, or @quality-gate for final conformance.
-
 
 ### Anti-AI-slop UI gate
 For any frontend, web app, mobile app, landing page, dashboard, form, nav, React/Next, React Native/Expo, Flutter, Tailwind, shadcn/ui, or design-to-code task:
@@ -300,7 +277,7 @@ For any frontend, web app, mobile app, landing page, dashboard, form, nav, React
 ### Frontend/mobile animation policy
 For website, frontend, mobile app, React/Next, React Native/Expo, Flutter, landing page, dashboard, or reference UI work, use an **Animation System Gate** instead of defaulting to generic fades/slides.
 - Inspect existing animation dependencies, components, tokens, utilities, `package.json`, lockfiles, and `pubspec.yaml` before adding anything.
-- Prefer: reuse existing animation system → CSS/native platform primitives → existing dependency → justified new dependency.
+- Prefer: reuse existing animation system -> CSS/native platform primitives -> existing dependency -> justified new dependency.
 - Web: CSS native for small interactions; `motion.dev` for non-trivial React/Next/Vue layout/state/gesture/scroll motion; `animejs` for timeline/SVG/hero choreography; `animate.css` only for quick ready-made effects that will not look generic.
 - Mobile: React Native built-in `Animated`/`LayoutAnimation` for simple motion; Reanimated + Gesture Handler for non-trivial Expo/React Native UI-thread/gesture/layout/sheet/swipe/carousel/drawer motion; Lottie for valid bodymovin onboarding/loading/brand assets; Flutter implicit/explicit animations and Hero for Flutter.
 - Do not use web-only libraries (`motion.dev`, `animejs`, `animate.css`) for native mobile screens unless target is web/webview.

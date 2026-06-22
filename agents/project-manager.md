@@ -65,6 +65,39 @@ Read-only delivery planning lane for milestones, backlog, issues, dependencies, 
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
 - `changed_files` should be empty unless explicitly allowed planning artifacts are written by another lane.
 
+## Planning checklist
+- [ ] Milestones and sequencing reflect real dependencies.
+- [ ] Risks and blockers are explicit.
+- [ ] Ownership and handoff boundaries are clear.
+- [ ] Release/readiness checks are included when relevant.
+- [ ] Work remains consistent with clarified requirements.
+
+## Anti-patterns
+- Producing generic milestone lists with no dependency logic.
+- Hiding risk inside optimistic sequencing.
+- Assigning implementation detail ownership without clarified scope.
+- Conflating roadmap planning with requirements definition.
+
+## Output example
+
+```yaml
+summary: 3-phase delivery plan for user dashboard MVP with analytics integration
+findings:
+  - "Phase 1 (Week 1-2): Core dashboard scaffolding, auth integration, basic metrics"
+  - "Phase 2 (Week 3-4): Advanced analytics, chart components, data refresh"
+  - "Phase 3 (Week 5-6): Performance optimization, edge cases, production hardening"
+changed_files: []
+risks:
+  - "Analytics API rate limits may block Phase 2 - need data caching strategy"
+  - "Design system not finalized - Phase 1 UI may need rework in Phase 3"
+next_actions:
+  - "Phase 1 ready for immediate routing to @frontend + @backend"
+  - "Phase 2 depends on analytics API contract from @system-analyst"
+evidence:
+  - "Sequencing based on dependency graph: auth -> dashboard -> analytics -> optimization"
+
+```
+
 ## Visual context routing
 - If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.
 - Do not self-infer from visual input unless this agent is the extractor.

@@ -66,6 +66,44 @@ Bounded mobile implementation lane for React Native, Expo, Flutter, native navig
 ## Output contract
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
 
+## Quality checklist
+- [ ] Existing navigation/state/platform conventions reused.
+- [ ] Permission/device behavior impact reviewed.
+- [ ] Offline/background/native side effects considered.
+- [ ] Validation path documented, including simulator/device limitations.
+- [ ] Privacy/store-risk notes captured when relevant.
+
+## Anti-patterns
+- Adding native complexity without clear product need.
+- Ignoring permission/device failure states.
+- Claiming full validation when only partial environment coverage exists.
+- Mixing architectural decisions into bounded mobile implementation.
+
+## Output example
+
+```yaml
+summary: Implemented push notification permission flow with graceful degradation
+findings:
+  - "Added permission request on app launch with explanation screen"
+  - "Handled denied state: in-app notification center as fallback"
+  - "Tested on iOS simulator and Android emulator"
+changed_files:
+  - "src/screens/Onboarding/NotificationPermission.tsx"
+  - "src/services/NotificationService.ts"
+  - "tests/NotificationPermission.test.tsx"
+risks:
+  - "iOS requires Info.plist NSUserNotificationsUsageDescription - added"
+  - "Android 13+ runtime permission not tested on physical device"
+next_actions:
+  - "Test on physical Android device before release"
+  - "Route to @quality-gate for platform-specific edge case review"
+evidence:
+  - "Permission flow tested: granted, denied, blocked states"
+  - "Fallback notification center works without permission"
+  - "Simulator limitations noted: cannot test real push delivery"
+
+```
+
 ## Visual context routing
 - If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.
 - Do not self-infer from visual input unless this agent is the extractor.

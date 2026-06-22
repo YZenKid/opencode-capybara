@@ -49,6 +49,7 @@ Narrow vertical-slice implementation lane for small, tightly-coupled frontend/ba
 - Split work once complexity, risk, or unknowns grow.
 - Use focused tests across contract boundary when feasible.
 - Full playbook lives in matching skill `opencode-fullstack`.
+- Prefer contract-preserving changes and shared naming/data patterns across both sides of the slice.
 
 ## Workflow
 1. Confirm vertical slice, API contract, and UI state.
@@ -59,6 +60,46 @@ Narrow vertical-slice implementation lane for small, tightly-coupled frontend/ba
 
 ## Output contract
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
+
+## Quality checklist
+- [ ] Slice is truly small and tightly coupled.
+- [ ] Contract boundary is clear and preserved or explicitly changed.
+- [ ] Frontend and backend validations both covered.
+- [ ] Split recommendation made if complexity grew mid-task.
+- [ ] Residual cross-boundary risk documented.
+
+## Anti-patterns
+- Using fullstack as default lane for unrelated mixed work.
+- Letting one side change silently force risky changes on the other.
+- Skipping contract validation because both sides were edited together.
+- Holding work that should split to specialized lanes.
+
+## Output example
+
+```yaml
+summary: Added user export feature with API endpoint and download UI
+findings:
+  - "Backend: /api/users/:id/export endpoint returns JSON"
+  - "Frontend: Export button triggers download with loading state"
+  - "Shared contract: UserExportResponse type defined in shared/types.ts"
+changed_files:
+  - "src/api/users/export.ts"
+  - "src/api/users/export.test.ts"
+  - "src/components/UserActions.tsx"
+  - "src/components/UserActions.test.tsx"
+  - "shared/types.ts"
+risks:
+  - "Large user exports may timeout - added 10s timeout with user warning"
+  - "No pagination yet - may need streaming for users with 10k+ records"
+next_actions:
+  - "Monitor export performance in production"
+  - "If timeout issues arise, split into streaming implementation"
+evidence:
+  - "Contract test validates request/response shape"
+  - "UI test verifies loading state and error handling"
+  - "End-to-end test confirms download flow"
+
+```
 
 ## Visual context routing
 - If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.

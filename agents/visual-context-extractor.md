@@ -99,6 +99,7 @@ Return JSON conforming to `visual_context_extractor.v1`:
     "model used for vision"
   ]
 }
+
 ```
 
 Fallback when vision is unavailable:
@@ -118,6 +119,7 @@ Fallback when vision is unavailable:
   "next_actions": ["..."],
   "evidence": ["..."]
 }
+
 ```
 
 ## Workflow

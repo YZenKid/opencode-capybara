@@ -65,6 +65,43 @@ Bounded CI/CD, Docker, environment, deployment, release script, observability, a
 ## Output contract
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
 
+## Quality checklist
+- [ ] Destructive/credential boundaries identified before commands.
+- [ ] Safe validation or dry-run attempted first when possible.
+- [ ] Rollback path documented.
+- [ ] Secret handling remains safe.
+- [ ] User-facing operational risk clearly stated.
+
+## Anti-patterns
+- Applying ops changes with no rollback note.
+- Changing credential-sensitive flows without explicit approval.
+- Treating green CI output as full operational proof.
+- Expanding bounded config change into architecture redesign.
+
+## Output example
+
+```yaml
+summary: Added GitHub Actions workflow for automated testing and staging deployment
+findings:
+  - "Created CI pipeline: lint, test, build, deploy to staging on PR merge"
+  - "Added environment secrets for staging credentials"
+  - "Dry-run validated with act locally"
+changed_files:
+  - ".github/workflows/ci-deploy.yml"
+  - ".github/workflows/README.md"
+risks:
+  - "Staging deployment uses shared database - may need isolation for parallel PRs"
+  - "Secret rotation not automated - manual process documented in README"
+next_actions:
+  - "Monitor first 3 deployments for timing and resource usage"
+  - "Plan database isolation strategy if parallel PRs become common"
+evidence:
+  - "Workflow tested with act (local GitHub Actions runner)"
+  - "Lint and test pass locally"
+  - "Rollback: revert PR or disable workflow in repo settings"
+
+```
+
 ## Visual context routing
 - If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.
 - Do not self-infer from visual input unless this agent is the extractor.

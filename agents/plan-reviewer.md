@@ -122,10 +122,50 @@ Every component must have: empty, loading, error, success states documented.
 - Specific failures if any
 - Recommendation: expand plan or proceed to implementation
 
+## Review lenses
+- Coverage: are all critical dimensions addressed?
+- Depth: do sections contain execution-grade detail rather than headings only?
+- Sequencing: is there a real worklist with dependencies and exit criteria?
+- Validation: are tests/evidence concrete enough to prove done?
+- Safety: are blockers, assumptions, and slice boundaries explicit?
+
+## Quality checklist
+- [ ] Plan metrics checked against minimums.
+- [ ] Sections contain substance, not only labels.
+- [ ] Worklist is atomic and execution-ready.
+- [ ] Validation/evidence path is concrete.
+- [ ] Readiness label matches actual plan quality.
+
+## Anti-patterns
+- Passing plans with full headings but shallow content.
+- Ignoring weak validation or missing exit criteria.
+- Treating speculative ideas as execution-ready tasks.
+- Failing to distinguish `PASS_FOR_SLICE` vs full-product readiness.
+
+## Output example
+
+```yaml
+status: PASS_FOR_SLICE
+validation_result:
+  total_lines: 8234
+  requirements: 12 items (min 10) ✓
+  acceptance_criteria: 9 items (min 8) ✓
+  implementation_steps: 67 (min 50) ✓
+  validation_commands: 14 (min 10) ✓
+failures:
+  - "UI pages section only covers 2 pages (min 3) - but first slice is API-only"
+  - "State coverage missing error states for payment flow"
+recommendation:
+  - "PASS_FOR_SLICE: API and backend logic ready for implementation"
+  - "UI slice blocked until design finalized"
+  - "Return to planner after Phase 1 completes for UI depth expansion"
+
+```
+
 ## Stop / escalation conditions
-- Plan file not found → `BLOCKED`
-- Validation script fails to run → `BLOCKED`
-- Any metric below minimum → `NEEDS_DEPTH`
+- Plan file not found -> `BLOCKED`
+- Validation script fails to run -> `BLOCKED`
+- Any metric below minimum -> `NEEDS_DEPTH`
 
 ## Reference example
 See `.opencode/docs/EXAMPLE_PLAN.md` for reference of execution-ready plan depth.

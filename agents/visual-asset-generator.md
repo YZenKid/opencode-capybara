@@ -187,6 +187,7 @@ Return concise structured metadata for the orchestrator:
     "Set explicit width and height to avoid layout shift."
   ]
 }
+
 ```
 
 If `9router` MCP image tools are available and generation succeeds, return `status: "generated"` or `"partial"` with generated asset metadata from the tool. If generation is unavailable in your session, return:
@@ -200,6 +201,7 @@ If `9router` MCP image tools are available and generation succeeds, return `stat
   "failed": [],
   "warnings": ["No image generation tool is available inside this subagent session."]
 }
+
 ```
 
 ## Accessibility and Integration Notes
