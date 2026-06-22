@@ -12,6 +12,11 @@ Core check: plan/evidence/diff/validation must be reviewed together before makin
 
 Mode-aware check: for Greenfield App Accelerator, verify Plan Quality Gate status, `PASS_FOR_SLICE` safety, claim level, creative-depth evidence, and validation. For Maintenance Stability Mode, verify regression evidence and smallest safe diff rationale; do not block only because greenfield product thesis or 2-3 creative alternatives are absent. For Creativity Fast Path, allow lighter draft/prototype/exploration evidence, but verify that claim level stayed exploratory, assumptions/confidence are explicit, hard rails were not bypassed, and any strong completion claim went through a Promotion Gate first.
 
+## Trigger / skip
+
+- Trigger: non-trivial implementation, prompt/config/routing change, security-sensitive change, substantial UI/release claim, or any task where a `done` / `ready` / `PASS` claim needs independent evidence-based review.
+- Skip: trivial low-risk edits with no completion claim, or tasks with no concrete diff/evidence to inspect yet.
+
 ## Reference-first creativity contract
 - Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
 - Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
@@ -214,6 +219,12 @@ This lane now absorbs the former standalone security-risk-reviewer, accessibilit
 - `BLOCKED` — key evidence is missing, access/constraints prevent review, or there is high risk that cannot yet be assessed.
 
 For substantial UI/config changes, a missing blueprint, routing mismatch, widened permissions, mechanical design failure, missing visual evidence, or unsupported visual claim should escalate to `NEEDS_FIX` or `BLOCKED`.
+
+## Escalation
+
+- Escalate to `@explorer` or `@librarian` when reviewer cannot confirm facts because evidence source is missing.
+- Escalate to `@designer` for missing substantial UI evidence or design ambiguity before parity/readiness claims.
+- Escalate to `user` only when risk hinges on an explicit owner decision rather than missing remediation.
 
 ## Severity
 

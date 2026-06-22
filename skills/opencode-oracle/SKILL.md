@@ -25,6 +25,11 @@ Use this for strategic analysis, senior engineering review, simplification press
 | Final conformance/risk status after changes | `@quality-gate` |
 | Bounded code edits/tests | `@fixer` or domain agent |
 
+## Trigger / skip
+
+- Trigger: simplification review, diff critique, hidden risk analysis, persistent debugging strategy, test strategy review, or senior challenge to an existing approach.
+- Skip: initial architecture framing -> `@architect`; routine implementation -> implementation lane; final signoff -> `@quality-gate`; expensive consensus -> `@council`.
+
 ## Use cases
 
 - Code/diff review for correctness, complexity, coupling, hidden failure modes.
@@ -60,6 +65,14 @@ Understand behavior first. Preserve behavior exactly. Reduce nesting, duplicatio
 
 Check Red/Green/Refactor evidence, missing regressions, flaky validation, CI/release risk, and unverified assumptions.
 
+## Workflow
+
+1. Define the exact question: review, simplification, debugging strategy, or risk critique.
+2. Gather repo/diff/runtime evidence and identify strongest unknowns.
+3. Evaluate alternatives through simplicity, reversibility, maintainability, and operational risk.
+4. Reject unnecessary complexity and propose the smallest robust path.
+5. Return prioritized findings, rationale, and the next best action.
+
 ## Local resources
 
 - `references/senior-architect/`, `scripts/senior-architect/` for architecture/dependency analysis.
@@ -73,6 +86,12 @@ Check Red/Green/Refactor evidence, missing regressions, flaky validation, CI/rel
 ## Output
 
 Use prioritized findings: `BLOCKER`, `HIGH`, `MEDIUM`, `LOW`, plus recommendation. Include evidence paths/lines, reasoning, rejected alternatives, validation gaps, and next best action. Keep output internal-to-orchestrator unless user explicitly asks for raw review.
+
+## Escalation
+
+- Escalate to `@council` when the recommendation remains high-stakes and genuinely contested.
+- Escalate to `@architect` when the task turns into architecture option design instead of critique.
+- Escalate to implementation lanes only after the review question is settled.
 ## Sequential Thinking MCP Gate
 
 After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.

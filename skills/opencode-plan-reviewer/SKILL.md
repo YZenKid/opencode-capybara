@@ -7,8 +7,20 @@ description: Dedicated plan depth validation workflow for execution-ready plans.
 
 Use this skill to validate that a plan is deep enough before implementation.
 
+## Reference-first creativity contract
+- Use this lane creatively, but never fictionally: sharper validation and clearer failure reporting are good; invented evidence or fake compliance are not.
+- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
+- If a reasonable source exists, use it or state why it was skipped.
+- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
+- In output/evidence, include key references or repo artifacts that materially shaped the verdict.
+
 ## Purpose
 Prevent shallow plans from reaching implementation even when they contain all required section headings.
+
+## Trigger / skip
+
+- Trigger: before execution of non-trivial plans, when planner quality is in doubt, or when user explicitly asks whether a plan is implementation-ready.
+- Skip: tiny maintenance or single-file fixes where full planning depth is intentionally unnecessary.
 
 ## Workflow
 1. Locate primary plan file at `.opencode/plans/<task-id>.md`
@@ -91,6 +103,21 @@ Every component must document: empty, loading, error, success states.
 - Validation script output
 - Specific failures if any
 - Recommendation: expand plan or proceed
+
+## Escalation
+
+- Escalate to `@artifact-planner` when plan needs deeper detail, evidence, or worklist structure.
+- Escalate to `@designer` when UI/design depth is the main failing dimension.
+- Escalate to `@system-analyst` when requirements/acceptance criteria are too weak to support deeper planning.
+
+## Sequential Thinking MCP Gate
+
+After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.
+
+## Local resources
+
+- `scripts/validate-plan-depth.py`
+- `.opencode/docs/EXAMPLE_PLAN.md`
 
 ## Reference
 - Validation script: `scripts/validate-plan-depth.py`

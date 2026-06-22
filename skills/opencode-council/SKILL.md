@@ -26,6 +26,12 @@ Use council only when at least one condition holds:
 
 Do not use when `@architect` or `@oracle` can answer cheaply, when code discovery is missing (`@explorer` first), or when final evidence gate is needed (`@quality-gate`).
 
+## Trigger / skip
+
+- Trigger: irreversible architecture/security/product decisions, unresolved disagreement between advisory lanes, high-blast-radius migration choices, or multi-option decisions with materially different risk/cost profiles.
+- Skip: routine review, ordinary implementation, local debugging with clear evidence, repo discovery without facts, or final release signoff.
+- Use only when extra deliberation is worth the coordination cost.
+
 ## Evaluate
 
 Correctness, risk, maintainability, simplicity, performance, scalability, security, privacy, data integrity, testability, migration, rollback, cost, and operational burden.
@@ -56,6 +62,12 @@ Correctness, risk, maintainability, simplicity, performance, scalability, securi
 ## Output
 
 Return `summary`, `decision`, `rationale`, `alternatives`, `consensus`, `dissent`, `risks`, `mitigations`, `validation_plan`, `rollback_plan`, `open_questions`, `evidence`. Do not implement. Mark whether recommendation is `strong`, `conditional`, or `defer`.
+
+## Escalation
+
+- Escalate back to `@explorer` / `@librarian` when core facts are still missing.
+- Escalate to `@quality-gate` after implementation when the decision needs real-world conformance/risk proof.
+- Escalate to `user` when the remaining choice is a policy/product-owner call rather than an engineering judgment call.
 ## Sequential Thinking MCP Gate
 
 After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.

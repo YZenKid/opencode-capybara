@@ -136,6 +136,10 @@ Fallback shapes:
 - If the image is too small/blurry to confidently detect PII, list the region in `pii_detected[]` with `kind: "unknown"` and `redacted_to: "***"`, and add a matching `uncertainty[]` entry.
 - If redaction cannot be performed safely, set `redaction_failed: true` and halt before returning. Do not emit any field that may carry the unredacted value.
 
+## Sequential Thinking MCP Gate
+
+After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.
+
 ## Workflow
 1. Validate the input: image present, format supported, host model vision available.
 2. If validation fails, return the appropriate fallback (`unavailable` or `error`) and stop.
@@ -159,10 +163,20 @@ Fallback shapes:
 - Vision disabled on host model -> `status: "unavailable"` with a `fallback_suggestion` naming a vision-capable model or asking for OCR/text.
 - Caller requests design recommendation -> return `status: "error"` with `error_detail` describing the refusal and `next_actions[]` pointing to `@designer`.
 
+## Escalation
+
+- Escalate to `@designer` when the caller wants critique, design direction, or parity judgment.
+- Escalate to `@visual-asset-generator` when the caller wants new image assets or transformation planning.
+- Escalate to `@fixer` only after visual facts are extracted and implementation action is clear.
+
 ## Source strategy
 - Repo-local evidence: the image itself plus any project docs the caller attached.
 - No external web research is required for visual extraction itself.
 - If a UI library / design system is referenced, defer to caller-provided docs; this lane does not run extra research.
+
+## Local resources
+
+- Caller-provided images and repo-local design docs only. No extra external research by default.
 
 ## Reasoning Tag Output Rule
 - Do not write literal `<think>...</think>` or similar fake reasoning tags in user-visible output.

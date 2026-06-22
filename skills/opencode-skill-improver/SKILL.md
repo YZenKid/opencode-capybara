@@ -7,6 +7,11 @@ description: Skill improvement workflow for OpenCode agents and skills. Use afte
 
 Use this skill for small, evidence-based improvements to agents, skills, routing, and evals.
 
+## Trigger / skip
+
+- Trigger: repeated failures, routing friction, policy gaps, stale prompts, unclear instructions, eval drift, or explicit user request to improve skill/agent behavior.
+- Skip: trivial one-off tasks, speculative improvements with no evidence, or broad rewrites that should become a proposal first.
+
 ## Reference-first creativity contract
 - Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
 - Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
@@ -64,6 +69,12 @@ Short reference: `skill-creator` is used as a working pattern, not as a source o
 ## Output
 
 Provide a short summary: intent, evidence, changed/proposed files, baseline vs with-skill evaluation results, and any remaining follow-up.
+
+## Escalation
+
+- Escalate to `@architect` / `@oracle` when a proposed improvement changes lane boundaries or policy meaning.
+- Escalate to `user` when improvement would rewrite behavior broadly instead of applying a bounded correction.
+- Escalate to `@quality-gate` only when the improvement itself changes signoff/governance expectations.
 ## Sequential Thinking MCP Gate
 
 After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.
