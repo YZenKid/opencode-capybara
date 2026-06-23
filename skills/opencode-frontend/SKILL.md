@@ -54,16 +54,25 @@ Use for bounded web UI implementation where visual direction, route intent, and 
 - Security: escape/sanitize untrusted HTML, avoid token exposure, preserve auth/CSRF assumptions.
 
 ## Workflow
-1. Read local docs: `AGENTS.md`, `.opencode/docs/`, `DESIGN.md` when present.
-2. Before framework-managed edits, read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
+1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial implementation. If missing or stale, run `/init-harness` or route to `@librarian` for current stack docs — do not implement blind.
+2. Read local docs: `AGENTS.md`, `.opencode/docs/`, `DESIGN.md` when present.
 3. Detect stack and reuse paths: components, routes, hooks, tests, fixtures.
 4. Confirm UX states, API/data contract, and implementation basis for each material UI decision.
-5. For new framework/UI artifacts, use official generator/CLI/MCP first when usable, including existing apps; record the exact fallback reason and skipped/attempted command if manual.
-6. If generator behavior is version-sensitive and project docs do not already settle it, route to `@librarian` for official docs/context7 before coding.
+5. For new framework/UI artifacts, use official generator/CLI/MCP first when usable, including existing apps; record the exact fallback reason and skipped/attempted command if manual. **This is mandatory — do not manually create components that a generator can produce (e.g. hand-building shadcn components instead of `shadcn add`).**
+6. If generator behavior is version-sensitive and project docs do not already settle it, route to `@librarian` for official docs/context7 before coding. **This is mandatory — do not rely on memory for version-sensitive behavior.**
 7. TDD where relevant: Red by adding/adjusting focused failing test or capturing current bug/browser evidence when feasible.
 8. Green: implement smallest component/page/form/routing change that matches the existing basis.
 9. Refactor: align names, boundaries, styling, and a11y without broad cleanup.
-10. Validate with focused lint/type/test/browser commands available in repo, plus screenshots for changed screens when the UI is material.
+10. **Anti-AI-slop gate** (mandatory before returning output):
+    - No card spam / repeated grid anatomy across sections
+    - No fake metrics, arbitrary KPIs, debug copy, server labels, or port numbers in UI
+    - No placeholder imagery, lorem text, or blank image frames
+    - No generic "modern clean" without source-backed specifics
+    - No centered gradient hero without product/domain composition
+    - Section anatomy varies by purpose, not copy-pasted layout
+    - States covered: empty/loading/error/success where relevant
+    - If any slop pattern present, fix before returning
+11. Validate with focused lint/type/test/browser commands available in repo, plus screenshots for changed screens when the UI is material.
 
 ## Validation
 - Prefer existing commands: `npm|pnpm|yarn test`, `test:unit`, `test:e2e`, `lint`, `typecheck`, Storybook checks.
