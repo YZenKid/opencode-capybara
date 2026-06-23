@@ -67,7 +67,8 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 - Block only on mechanical/evidence failures: missing required screenshots/evidence, unreviewed AI slop, broken contrast/wrapping/layout, absent reduced-motion, unsupported parity/readiness claims, or scope/routing mismatch.
 - Requested Aesthetic Fidelity Gate: for substantial UI, explicit aesthetic mismatch, missing style grammar, card spam/layout repetition, fake metrics/debug copy, or placeholder/abstract hero when imagery matters are mechanical failures and map to `NEEDS_FIX`, not pure taste.
 - **Source-approved 1:1 Porting / Literal Porting Contract** gate: for source-approved `1:1`/`clone`/`port`/`copy from` tasks, `PASS` requires source inventory, visual comparison, and evidence that upstream anatomy/files/components were actually reused or adapted. If the implementation is mostly original generated UI/code instead of source-backed reuse/adaptation, return `NEEDS_FIX` even if build/tests pass.
-- Generator-first gate: for material manual framework artifact creation in existing or greenfield apps, return `NEEDS_FIX` when project playbook/command docs are missing or ignored, or when fallback evidence does not name the attempted/skipped official command/tool and reason. Existing generated-file customization is allowed when evidence states that scope clearly.
+- Generator-first gate: for material manual framework artifact creation in existing or greenfield apps, return `NEEDS_FIX` when project playbook/command docs are missing or ignored, or when fallback evidence does not name the attempted/skipped official command/tool and reason. **Manually creating components that a generator/CLI can produce (e.g. hand-building shadcn components instead of `shadcn add`) is a mechanical failure and maps to `NEEDS_FIX`.** Existing generated-file customization is allowed when evidence states that scope clearly.
+- AI-slop gate: for substantial UI, the following are mechanical failures that map to `NEEDS_FIX`, not taste preferences: card spam / repeated grid anatomy, fake metrics or arbitrary KPIs, debug/internal copy or port numbers in UI, placeholder imagery or blank image frames, centered gradient hero without product/domain composition, generic "modern clean" without source-backed specifics, abstract blobs or CSS glass panels as hero, lorem text, missing reduced-motion support, missing state coverage (empty/loading/error/success). **If any slop pattern is present in shipped UI, return `NEEDS_FIX` — do not allow `PASS` or `PASS_WITH_RISKS` for slop-containing UI.**
 - For image-heavy claims, deterministic SVG/CSS placeholders or local template scripts count as placeholders unless the user explicitly requested SVG/icons. If real image generation failed and fallback was used, status must be `NEEDS_FIX` or the claim must be downgraded to draft/demo-only; never `PASS` for generated-image claims.
 - Treat pure taste preference without evidence as `LOW`/follow-up, not blocker.
 - Return one status only: `PASS`, `PASS_WITH_RISKS`, `NEEDS_FIX`, or `BLOCKED`.
@@ -120,6 +121,8 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 - [ ] Security/privacy/secrets reviewed where relevant.
 - [ ] Regression and rollback posture assessed.
 - [ ] Claim level matches actual proof (`draft`, `partial`, `PASS`, etc.).
+- [ ] For UI work: generator-first compliance verified — no manual creation of generator-available components.
+- [ ] For UI work: anti-AI-slop gate passed — no card spam, fake metrics, generic hero, placeholder imagery, debug copy, or missing state coverage.
 
 ## Anti-patterns
 - Passing with incomplete evidence.

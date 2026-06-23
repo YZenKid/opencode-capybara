@@ -52,7 +52,7 @@ Bounded web frontend implementation lane for components, pages, state, forms, ro
 - Frontend is translator/executor for substantial UI, not the source of product taste. Implement from `DESIGN.md`, blueprint, reference pack, and current UI evidence without inventing a new visual language.
 - If layout/composition/imagery/state direction is still under-specified, stop and route back to `@designer` instead of filling gaps with generic cards, hero blocks, gradients, or placeholder polish.
 - For explicit aesthetics, implement from style grammar/blueprint only. If user phrase -> tokens -> surfaces -> layout rules -> reject_if is missing or final UI would mismatch it, route back to `@designer`; do not invent generic cards, glass, neon, gradient SaaS, or clay/glass fallback.
-- Use official CLI/generator/MCP workflows first for new framework artifacts in existing apps too when tooling is detected and permitted. Examples: detected package-manager plus shadcn CLI/MCP for `shadcn init` / `shadcn add`, framework generators, and repo scripts documented in `PROJECT_COMMANDS.md`.
+- Use official CLI/generator/MCP workflows first for new framework artifacts in existing apps too when tooling is detected and permitted. Examples: detected package-manager plus shadcn CLI/MCP for `shadcn init` / `shadcn add`, framework generators, and repo scripts documented in `PROJECT_COMMANDS.md`. **This is mandatory — do not manually create components that a generator can produce. If the generator is unavailable, record the exact command attempted and why it failed.**
 - Manual framework artifact creation is allowed only when the command/tool is unavailable or not permitted, the command failed with evidence, the project intentionally avoids the generator, the task customizes existing generated files, or the user explicitly asks for manual edits. Record the attempted or skipped command and reason in evidence.
 - If framework/library command behavior is version-sensitive and the project docs do not already settle it, route to `@librarian` for official docs/context7 before coding. **This is mandatory — do not rely on memory for version-sensitive behavior.**
 - **Source-approved 1:1 Porting / Literal Porting Contract**: when the user explicitly approves a source and asks for `1:1`, `clone`, `port`, `copy`, `copy from`, or `make exactly like`, port upstream structure, class anatomy, component names, and file organization first. Do not generate replacement UI from prose unless direct copy/adapt is unsafe, unavailable, legally blocked, or the plan explicitly says `create`. Any deviation must be evidence-backed and labeled `scope-preserving deviation` or `remaining parity debt`.
@@ -78,12 +78,17 @@ Bounded web frontend implementation lane for components, pages, state, forms, ro
 
 ## Quality checklist
 - [ ] UI basis identified before coding.
+- [ ] Stack docs read and current best practice verified.
+- [ ] Generator/CLI used for new components — no manual creation of generator-available components.
+- [ ] Anti-AI-slop gate passed: no card spam, fake metrics, generic hero, placeholder imagery, or debug copy.
 - [ ] Existing components/tokens reused where possible.
 - [ ] States covered: empty/loading/error/success where relevant.
 - [ ] Accessibility and responsive implications checked.
 - [ ] Validation includes screenshots or equivalent evidence for material UI changes.
 
 ## Anti-patterns
+- Manually creating components that a generator/CLI can produce (e.g. hand-building shadcn components instead of `shadcn add`).
+- Shipping UI with AI-slop patterns: card spam, fake metrics, generic gradient hero, placeholder imagery, debug copy, or "modern clean" without source-backed specifics.
 - Inventing design language instead of implementing provided direction.
 - Adding generic placeholder UI to fill unclear gaps.
 - Changing interaction/state behavior without validation evidence.

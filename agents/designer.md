@@ -78,12 +78,24 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
 - Reference screenshots/URLs when relevant.
 
 ## Workflow
-1. Discover current UI patterns and build the source pack: design docs, current screenshots/states, references, tokens/components, and asset constraints.
-2. Write `Design Read`, lock assumptions, set `DESIGN_VARIANCE`/`MOTION_INTENSITY`/`VISUAL_DENSITY`.
-3. For substantial or ambiguous work, generate 2-3 bounded directions or section approaches, compare them against references/constraints, and choose one explicitly.
-4. Define/confirm visual direction, section anatomy, image strategy, motion purpose, and interaction states.
-5. Implement/refine UI and motion with reduced-motion support.
-6. Validate with screenshots/evidence for substantial visual changes, including what references were used and what changed versus current UI.
+1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial UI work. If missing or stale, run `/init-harness` or route to `@librarian` for current stack docs — do not implement blind.
+2. Discover current UI patterns and build the source pack: design docs, current screenshots/states, references, tokens/components, and asset constraints.
+3. Write `Design Read`, lock assumptions, set `DESIGN_VARIANCE`/`MOTION_INTENSITY`/`VISUAL_DENSITY`.
+4. For substantial or ambiguous work, generate 2-3 bounded directions or section approaches, compare them against references/constraints, and choose one explicitly.
+5. Define/confirm visual direction, section anatomy, image strategy, motion purpose, and interaction states.
+6. **Generator-first implementation**: For new UI components, use the documented official generator/CLI/MCP path first (e.g. `shadcn add`, framework generators, repo scripts from `PROJECT_COMMANDS.md`). **Do not manually create components that a generator can produce.** If manual fallback is used, record the exact command attempted and why it failed.
+7. Implement/refine UI and motion with reduced-motion support.
+8. **Anti-AI-slop gate** (mandatory before returning output):
+   - Hero composition has meaningful product/domain content, not abstract blobs or CSS glass panels
+   - No card spam / repeated grid anatomy across sections
+   - No fake metrics, arbitrary KPIs, debug copy, server labels, or port numbers in UI
+   - No placeholder imagery, lorem text, or blank image frames
+   - No generic "modern clean" without source-backed specifics
+   - No centered gradient hero without product/domain composition
+   - Motion has purpose, not decoration; reduced-motion handled
+   - Section anatomy varies by purpose, not copy-pasted layout
+   - If any slop pattern present, fix before returning. Do not ship `needs-polish` as if it were `done`.
+9. Validate with screenshots/evidence for substantial visual changes, including what references were used and what changed versus current UI.
 
 ## Output contract
 - `Design Read` and chosen dials for substantial design work.
@@ -98,14 +110,20 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
 
 ## Quality checklist
 - [ ] Scope stayed bounded to accepted change.
-- [ ] Evidence captured before implementation.
-- [ ] Validation updated for behavior changes.
-- [ ] Reuse considered before introducing new patterns.
+- [ ] Stack docs read and current best practice verified.
+- [ ] Generator/CLI used for new components — no manual creation of generator-available components.
+- [ ] Anti-AI-slop gate passed: no card spam, fake metrics, generic hero, placeholder imagery, or debug copy.
+- [ ] Existing components/tokens reused where possible.
+- [ ] States covered: empty/loading/error/success where relevant.
+- [ ] Accessibility and reduced-motion checked.
+- [ ] Validation includes screenshots or equivalent evidence for material UI changes.
 - [ ] Residual risks and assumptions recorded.
 
 ## Anti-patterns
-- Expanding scope beyond the accepted change because nearby code looked improvable.
-- Shipping behavior changes without validation evidence.
+- Manually creating components that a generator/CLI can produce (e.g. hand-building shadcn components instead of `shadcn add`).
+- Shipping UI with AI-slop patterns: card spam, fake metrics, generic gradient hero, placeholder imagery, debug copy, or "modern clean" without source-backed specifics.
+- Inventing design language instead of implementing provided direction.
+- Adding generic placeholder UI to fill unclear gaps.
 - Replacing established project patterns with personal preference.
 - Claiming completion while known failing checks remain unexplained.
 
