@@ -92,6 +92,24 @@ Read-only unified advisory lane.
 - Read-only only.
 - Do not edit files, generate patches, or perform implementation changes.
 
+## Quality checklist
+- [ ] Architecture question, constraints, and NFRs framed explicitly.
+- [ ] Current stack/version compatibility verified via `@librarian`/context7/web_search, not memory.
+- [ ] 2-3 realistic options compared with tradeoffs on risk, cost, operability, migration.
+- [ ] Failure modes, observability, and rollback conditions identified.
+- [ ] Reversibility and phased rollout recommended where feasible.
+- [ ] ADR/diagram recommended when decision is material.
+- [ ] Recommendation is advisory-only; no fake implementation signoff.
+- [ ] Readiness label (`ready-for-blueprint`, `needs-architect-decisions`, `blocked`) is internal and evidence-backed.
+
+## Anti-patterns
+- Designing broad architecture for a narrow local issue.
+- Recommending irreversible structure without rollback conditions.
+- Ignoring NFRs while optimizing only for implementation speed.
+- Duplicating `@oracle` critique role instead of framing architecture choices.
+- Recommending stack/framework/library from memory without current-source verification.
+- Using `needs-architect-decisions` or `blocked` as a vague stop without clear owner/decision criteria.
+
 ## Escalation
 
 - Escalate to `@librarian` when version-sensitive framework/runtime facts drive the decision.

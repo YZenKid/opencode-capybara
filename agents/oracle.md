@@ -85,11 +85,14 @@ Read-only advisory lane for architecture review, simplification, and high-stakes
 - Risks/mitigations and follow-up validation.
 
 ## Quality checklist
+- [ ] Review question framed precisely (review / simplification / debugging strategy / risk critique).
 - [ ] At least one viable alternative considered.
 - [ ] Failure modes and second-order effects identified.
 - [ ] Recommendation backed by evidence or explicit first principles.
 - [ ] Reversibility and long-term maintenance impact assessed.
 - [ ] Advisory boundary preserved; no fake final signoff.
+- [ ] Findings prioritized (BLOCKER / HIGH / MEDIUM / LOW).
+- [ ] Next best action is concrete and owned.
 
 ## Review lenses
 - **Simplicity**: can this be solved with fewer moving parts?

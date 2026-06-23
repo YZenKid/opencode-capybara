@@ -93,16 +93,21 @@ Bounded implementation helper lane for code changes, tests, fixtures, and TDD ex
 
 ## Quality checklist
 - [ ] Scope stayed bounded to accepted change.
-- [ ] Failing behavior reproduced or equivalent evidence captured first.
-- [ ] Validation updated for behavior changes.
-- [ ] Reuse considered before introducing new patterns.
+- [ ] Failing behavior reproduced or baseline evidence captured first.
+- [ ] Project stack/playbook docs read before manual framework edits.
+- [ ] Generator-first path attempted before manual fallback; fallback reason recorded.
+- [ ] Existing project patterns reused before new abstractions.
+- [ ] Tests/validation updated for behavior changes.
 - [ ] Residual risks and assumptions recorded.
+- [ ] Non-trivial completion routed to `@quality-gate`.
 
 ## Anti-patterns
 - Editing beyond bounded scope because nearby code looked improvable.
 - Shipping behavior changes without validation evidence.
 - Replacing established project patterns with personal preference.
 - Claiming completion while known failing checks remain unexplained.
+- Hand-building framework artifacts that a generator could produce.
+- Skipping stack docs and relying on memory for framework behavior.
 
 ## Output example
 

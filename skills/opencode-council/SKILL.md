@@ -63,6 +63,53 @@ Correctness, risk, maintainability, simplicity, performance, scalability, securi
 
 Return `summary`, `decision`, `rationale`, `alternatives`, `consensus`, `dissent`, `risks`, `mitigations`, `validation_plan`, `rollback_plan`, `open_questions`, `evidence`. Do not implement. Mark whether recommendation is `strong`, `conditional`, or `defer`.
 
+## Quality checklist
+- [ ] Decision is expensive/high-risk enough to justify council overhead.
+- [ ] Convergence and divergence are both summarized.
+- [ ] Minority concerns are preserved when they materially affect risk.
+- [ ] Recommendation is actionable, not just a debate summary.
+- [ ] Validation and rollback plans are concrete.
+- [ ] Remaining owner/user decisions are explicit.
+- [ ] Evidence basis is named for material claims.
+
+## Anti-patterns
+- Using council for routine low-risk choices.
+- Returning raw conflicting opinions without synthesis.
+- Hiding disagreement that materially affects risk.
+- Producing a vague compromise with no validation path.
+- Treating council output as final release signoff.
+
+## Output example
+
+```yaml
+summary: Multi-perspective review favors event-driven order processing with staged rollout
+decision: adopt async event-driven path with synchronous fallback
+rationale:
+  - "better blast-radius isolation than sync chain"
+  - "keeps rollback path open during rollout"
+alternatives:
+  - option: synchronous REST chain
+    verdict: rejected
+    reason: tighter coupling and cascading failure risk
+consensus:
+  - "async decoupling is worth the operational cost"
+dissent:
+  - "team onboarding cost for event tooling is non-trivial"
+risks:
+  - "ordering guarantees"
+mitigations:
+  - "partition by order id"
+validation_plan:
+  - "staging load test"
+rollback_plan:
+  - "feature flag + sync fallback"
+open_questions:
+  - "schema registry owner decision"
+evidence:
+  - "repo: services/order"
+  - "docs: queue best practices"
+```
+
 ## Escalation
 
 - Escalate back to `@explorer` / `@librarian` when core facts are still missing.

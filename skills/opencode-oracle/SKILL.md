@@ -87,6 +87,24 @@ Check Red/Green/Refactor evidence, missing regressions, flaky validation, CI/rel
 
 Use prioritized findings: `BLOCKER`, `HIGH`, `MEDIUM`, `LOW`, plus recommendation. Include evidence paths/lines, reasoning, rejected alternatives, validation gaps, and next best action. Keep output internal-to-orchestrator unless user explicitly asks for raw review.
 
+## Quality checklist
+- [ ] Review question framed precisely (review / simplification / debugging strategy / risk critique).
+- [ ] At least one viable alternative considered.
+- [ ] Failure modes and second-order effects identified.
+- [ ] Recommendation backed by evidence or explicit first principles.
+- [ ] Reversibility and long-term maintenance impact assessed.
+- [ ] Advisory boundary preserved; no fake final signoff.
+- [ ] Findings prioritized (BLOCKER / HIGH / MEDIUM / LOW).
+- [ ] Next best action is concrete and owned.
+
+## Anti-patterns
+- Recommending complexity without explaining why simpler options lose.
+- Ignoring long-term maintenance costs.
+- Treating partial evidence as certainty.
+- Blurring advisory recommendation with final approval authority.
+- Skipping evidence and relying on generic senior intuition.
+- Returning a long essay instead of prioritized findings and next action.
+
 ## Escalation
 
 - Escalate to `@council` when the recommendation remains high-stakes and genuinely contested.

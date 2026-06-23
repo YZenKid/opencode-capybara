@@ -70,6 +70,40 @@ Short reference: `skill-creator` is used as a working pattern, not as a source o
 
 Provide a short summary: intent, evidence, changed/proposed files, baseline vs with-skill evaluation results, and any remaining follow-up.
 
+## Quality checklist
+- [ ] Improvement is tied to concrete evidence, not speculation.
+- [ ] Scope is bounded and reversible.
+- [ ] Trigger description stays conservative, not over-eager.
+- [ ] Validation compares baseline vs changed behavior when possible.
+- [ ] No hidden cross-lane policy drift introduced.
+- [ ] Rollback path is clear.
+- [ ] Secrets/credentials were not touched.
+
+## Anti-patterns
+- Broad prompt rewrites for one isolated incident.
+- Speculative improvements with no measured pain point.
+- Silent policy changes affecting multiple lanes.
+- Expanding permissions beyond what the fix needs.
+- Rewriting many files when one small change solves the problem.
+
+## Output example
+
+```yaml
+intent: reduce repeated auth-check omissions in backend tasks
+evidence:
+  - "3 recent backend tasks missed auth edge-case coverage"
+changed_files:
+  - "agents/backend.md"
+  - "skills/opencode-backend/SKILL.md"
+baseline_vs_with_skill:
+  - "before: auth middleware often omitted from checklist"
+  - "after: auth checklist item is explicit"
+expected_effect:
+  - "fewer auth-related rework loops"
+follow_up:
+  - "monitor next 10 backend tasks for auth completeness"
+```
+
 ## Escalation
 
 - Escalate to `@architect` / `@oracle` when a proposed improvement changes lane boundaries or policy meaning.

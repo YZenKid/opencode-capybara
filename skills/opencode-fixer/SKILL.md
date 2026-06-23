@@ -115,6 +115,24 @@ Semantic links/buttons, labels, alt text, explicit image dimensions, visible foc
 
 Report files changed plus Red, Green, Refactor, Verification. For UI animation work, include the animation library/API choice and why it was chosen or avoided.
 
+## Quality checklist
+- [ ] Scope stayed bounded to accepted change.
+- [ ] Failing behavior reproduced or baseline evidence captured first.
+- [ ] Project stack/playbook docs read before manual framework edits.
+- [ ] Generator-first path attempted before manual fallback; fallback reason recorded.
+- [ ] Existing project patterns reused before new abstractions.
+- [ ] Tests/validation updated for behavior changes.
+- [ ] Residual risks and assumptions recorded.
+- [ ] Non-trivial completion routed to `@quality-gate`.
+
+## Anti-patterns
+- Editing beyond bounded scope because nearby code looked improvable.
+- Shipping behavior changes without validation evidence.
+- Replacing established project patterns with personal preference.
+- Claiming completion while known failing checks remain unexplained.
+- Hand-building framework artifacts that a generator could produce.
+- Skipping stack docs and relying on memory for framework behavior.
+
 ## Escalation
 
 - Escalate to `@explorer` when repo facts, tests, or ownership are still unclear.

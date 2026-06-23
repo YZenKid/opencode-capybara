@@ -150,6 +150,55 @@ After loading this skill, call `sequential_thinking` before material planning, r
 7. Suggest concrete `next_actions[]` for the caller (no design critique, no source edit).
 8. Emit JSON only. No prose preamble, no closing prose.
 
+## Quality checklist
+- [ ] Response conforms to `visual_context_extractor.v1`.
+- [ ] `observable_only: true` is set.
+- [ ] `status` is `ok`, `partial`, `unavailable`, or `error` with reason.
+- [ ] Visible text is redacted when PII/secrets appear.
+- [ ] `uncertainty[]` is populated for blurry, cropped, or inferred regions.
+- [ ] No design critique or implementation recommendation leaked into output.
+- [ ] Output is JSON only, no prose wrapper.
+
+## Anti-patterns
+- Inferring hidden UI behavior or backend state from a screenshot.
+- Returning unredacted emails, names, tokens, or private URLs.
+- Giving design critique or parity judgment instead of observable facts.
+- Emitting prose summary instead of structured JSON.
+- Claiming text certainty from blurry or cropped regions.
+
+## Output example
+
+```json
+{
+  "schema": "visual_context_extractor.v1",
+  "status": "ok",
+  "image_type": "screenshot",
+  "observable_only": true,
+  "summary": "Dashboard screenshot with left sidebar, top metrics row, and error toast at top-right.",
+  "visible_text": ["Revenue", "Orders", "***@example.com"],
+  "layout_summary": "Left navigation rail, header row, four metric cards, main chart region, floating toast top-right.",
+  "components": [
+    { "name": "sidebar-nav", "kind": "navigation", "notes": "vertical icon + label stack" },
+    { "name": "error-toast", "kind": "feedback", "notes": "red toast with dismiss icon" }
+  ],
+  "color_palette": ["#0f172a", "#f8fafc", "#ef4444"],
+  "ui_state": "error",
+  "issues_observed": [
+    { "type": "other", "region": "top-right", "description": "Error toast overlaps page header." }
+  ],
+  "uncertainty": [
+    { "claim": "chart legend labels", "reason": "blurry", "region": "center" }
+  ],
+  "pii_detected": [
+    { "kind": "email", "region": "header", "redacted_to": "***@example.com" }
+  ],
+  "redaction_applied": true,
+  "redaction_failed": false,
+  "next_actions": ["Route to @designer if visual critique is needed."],
+  "evidence": ["/tmp/dashboard.png", "9router/vision"]
+}
+```
+
 ## Validation
 - Confirm `schema: "visual_context_extractor.v1"` and `status` present on every response.
 - Confirm `observable_only: true` and `redaction_applied: true` when status is `ok` or `partial`.
