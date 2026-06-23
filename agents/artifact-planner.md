@@ -207,6 +207,11 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 - Canonical tool policy references live in `.opencode/docs/TOOL_USAGE.md` and `.opencode/docs/AGENT_TOOL_ACCESS.md`; use local role instructions here only as planner-specific constraints.
 - Do not rely on memory when current external/library/repository information materially affects the plan. **This is mandatory for stack/library recommendations — do not recommend frameworks, libraries, or patterns from memory without verifying current deprecation status, version compatibility, and ecosystem best practice via `@librarian`/context7/web_search.**
 - For stack/library behavior, verify with official docs through @librarian/context7 when available.
+- **Open Source Reuse Policy**: when the user provides an open source reference (repo, package, component, pattern), do not reject it and plan a replacement from scratch. Verify the license first:
+  - **Permissive (MIT, BSD, Apache-2.0, ISC, Unlicense, CC0, MPL-2.0)**: plan to reuse and adapt. Prefer source anatomy/components/code over reinventing. Record source URL + license in plan evidence.
+  - **Copyleft / caution (LGPL, GPL, AGPL, SSPL, custom/nonstandard)**: escalate to user with license class and risk note before planning reuse. Do not auto-plan replacement either — ask.
+  - **No license / unclear**: ask user for direction. Do not assume blocked.
+  - Fallback to self-generate only when: license is genuinely unclear AND user cannot clarify, scope genuinely diverges, or reuse would introduce incompatible dependencies. Record why reuse was skipped.
 - For existing-app and greenfield framework-managed work, inspect `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before planning so the plan defaults to project-specific command/generator workflows before manual edits. **If these docs are missing or stale, run `/init-harness` or route to `@librarian` before planning — do not plan blind.**
 - Use GitHub search/API when planning depends on GitHub repositories, issues, PRs, Actions, package source, examples, or upstream implementation details.
 - Use `9router` `web_search` when external, current, competitive, reference, post-2025, or broad web information is needed and official/local sources are insufficient.

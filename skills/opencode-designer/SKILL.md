@@ -143,6 +143,15 @@ If style grammar is missing or final screenshots visibly mismatch the requested 
 
 When the user explicitly says `1:1`, `clone`, `port`, `copy`, `copy from`, `make exactly like`, or provides a source URL/repo/file plus explicit approval to reuse it, literal porting overrides inspiration-only reinterpretation. Prefer exact layout/component/class anatomy, tokens, spacing, DOM structure, and section composition from the approved source for code/layout/tokens. Preserve legal/security/scope safeguards: do not copy restricted assets, fake testimonials/claims, logos/trademarks without approval, privacy/security hazards, secrets, or unsafe behavior. Any deviation must be documented as a scope-preserving deviation or remaining parity debt.
 
+### Open Source Reuse Policy
+
+When the user provides an open source reference (repo, package, component, pattern), do not reject it and invent a replacement from scratch. Verify the license first:
+
+- **Permissive (MIT, BSD, Apache-2.0, ISC, Unlicense, CC0, MPL-2.0)**: reuse and adapt freely. Prefer source anatomy/components/code over reinventing. Record source URL + license in evidence.
+- **Copyleft / caution (LGPL, GPL, AGPL, SSPL, custom/nonstandard)**: escalate to user with license class and risk note before reuse. Do not auto-generate replacement either — ask.
+- **No license / unclear**: ask user for direction. Do not assume blocked.
+- Fallback to self-generate only when: license is genuinely unclear AND user cannot clarify, scope genuinely diverges, or reuse would introduce incompatible dependencies. Record why reuse was skipped.
+
 ## Mechanical UI failure gates
 
 - Card Spam / Layout Repetition Gate: repeated card/grid anatomy across sections is a mechanical failure for substantial UI. Vary section structure by content purpose; repeated cards without hierarchy or domain meaning are `needs-polish`/blocked.
