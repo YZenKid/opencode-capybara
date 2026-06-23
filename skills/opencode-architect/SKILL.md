@@ -110,6 +110,29 @@ Read-only unified advisory lane.
 - Recommending stack/framework/library from memory without current-source verification.
 - Using `needs-architect-decisions` or `blocked` as a vague stop without clear owner/decision criteria.
 
+## Output example
+
+```yaml
+status: decision_needed
+scope: product/backend/migration
+questions:
+  - "Multi-tenant isolation model: row-level vs schema-per-tenant?"
+  - "Migration strategy: blue-green vs rolling?"
+options:
+  - name: "Option A: Schema-per-tenant"
+    tradeoffs:
+      - "Stronger isolation, higher infra cost"
+      - "Simpler rollback per tenant"
+  - name: "Option B: Row-level isolation"
+    tradeoffs:
+      - "Lower cost, complex query logic"
+      - "Harder rollback for single tenant"
+risks:
+  - severity: high
+    area: migration
+    description: "Zero-downtime migration needs dual-write strategy"
+```
+
 ## Escalation
 
 - Escalate to `@librarian` when version-sensitive framework/runtime facts drive the decision.

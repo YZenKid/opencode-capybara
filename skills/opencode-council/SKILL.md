@@ -36,7 +36,7 @@ Do not use when `@architect` or `@oracle` can answer cheaply, when code discover
 
 Correctness, risk, maintainability, simplicity, performance, scalability, security, privacy, data integrity, testability, migration, rollback, cost, and operational burden.
 
-## Consensus workflow
+## Workflow
 
 1. Frame decision, non-goals, constraints, and success criteria.
 2. Summarize known evidence and gaps; request more discovery if core facts are missing.

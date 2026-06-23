@@ -84,6 +84,25 @@ Use for bounded web UI implementation where visual direction, route intent, and 
 - Browser-test interactive flows when UI behavior changes; include viewport and console/network evidence when relevant.
 - Include framework-appropriate build/type checks if routing/server-client boundaries changed and cost acceptable.
 
+## Output example
+
+```yaml
+status: PASS
+files_changed:
+  - src/components/Dashboard.tsx
+  - src/styles/dashboard.module.css
+validation:
+  commands:
+    - "npm run typecheck"
+    - "npm run test -- Dashboard"
+  results: "typecheck pass, all tests pass"
+visual_evidence:
+  screenshots:
+    - "dashboard-desktop.png"
+    - "dashboard-mobile.png"
+  accessibility: "axe-core scan: 0 violations"
+```
+
 ## Escalation
 - Route `@designer` for visual language, animation systems, reference parity, or design ambiguity.
 - Route `@backend` for API/schema/auth changes; `@fullstack` for tiny clear vertical slices.

@@ -55,6 +55,23 @@ Use for small clear vertical slices spanning UI and API/data code where one agen
 - Run browser/API integration check when user flow changed and tooling exists.
 - Document skipped checks with reason and risk.
 
+## Output example
+
+```yaml
+status: PASS
+files_changed:
+  - src/api/users.ts
+  - src/components/UserList.tsx
+validation:
+  commands:
+    - "npm run test -- users"
+    - "npm run test -- UserList"
+  results: "integration + component tests pass"
+evidence:
+  contract_test: "tests/api/users.integration.test.ts validates request/response shape"
+  ui_test: "tests/components/UserList.test.tsx validates empty/error/success states"
+```
+
 ## Escalation
 - Route `@frontend`, `@backend`, `@mobile`, or `@devops` when scope exceeds narrow slice.
 - Route `@system-analyst` for unclear contract/acceptance criteria.

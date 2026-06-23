@@ -133,6 +133,22 @@ Report files changed plus Red, Green, Refactor, Verification. For UI animation w
 - Hand-building framework artifacts that a generator could produce.
 - Skipping stack docs and relying on memory for framework behavior.
 
+## Output example
+
+```yaml
+status: PASS
+files_changed:
+  - src/utils/parser.ts
+  - tests/parser.test.ts
+validation:
+  commands:
+    - "npm run test -- parser"
+  results: "all tests pass including new edge cases"
+evidence:
+  repro: "original bug reproduced in tests/parser.test.ts:15"
+  fix: "added null check at parser.ts:42"
+```
+
 ## Escalation
 
 - Escalate to `@explorer` when repo facts, tests, or ownership are still unclear.

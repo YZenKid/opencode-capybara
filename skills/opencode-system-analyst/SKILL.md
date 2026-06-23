@@ -52,6 +52,23 @@ Use for requirements and contract clarification before implementation. Read-only
 - Ensure acceptance criteria are observable and testable.
 - Flag missing evidence rather than filling gaps.
 
+## Output example
+
+```yaml
+status: requirements_clear
+requirements:
+  - "User can create account with email/password"
+  - "User can reset password via email link"
+acceptance_criteria:
+  - "Registration completes within 2s on 3G network"
+  - "Password reset link expires after 1 hour"
+edge_cases:
+  - "Email already registered shows error"
+  - "Invalid email format prevents submission"
+open_questions:
+  - "Should password reset support SMS too?"
+```
+
 ## Escalation
 - Route `@architect` for multi-tenant/RBAC/billing, data architecture, AI/platform/mobile strategy, or risky tradeoffs.
 - Route `@project-manager` when scope is clear but sequencing/ownership/release planning is needed.

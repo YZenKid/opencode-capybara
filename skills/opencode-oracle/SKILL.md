@@ -105,6 +105,22 @@ Use prioritized findings: `BLOCKER`, `HIGH`, `MEDIUM`, `LOW`, plus recommendatio
 - Skipping evidence and relying on generic senior intuition.
 - Returning a long essay instead of prioritized findings and next action.
 
+## Output example
+
+```yaml
+status: PASS_WITH_RISKS
+findings:
+  - severity: MEDIUM
+    area: auth
+    description: "JWT refresh rotation lacks audit log"
+  - severity: LOW
+    area: logging
+    description: "Production errors still expose stack context"
+recommendations:
+  - "Add audit log for token refresh events"
+  - "Sanitize error responses in production"
+```
+
 ## Escalation
 
 - Escalate to `@council` when the recommendation remains high-stakes and genuinely contested.

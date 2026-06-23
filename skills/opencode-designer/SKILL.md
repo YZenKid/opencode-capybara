@@ -383,6 +383,39 @@ For reviews, provide concise findings with locations/sections. For implementatio
 - Escalate to `@artifact-planner` when the work needs a durable execution plan before implementation.
 - Escalate to `@visual-asset-generator` when the asset/image strategy requires generation jobs.
 - Escalate to `user` when reference intent, asset legality/reuse approval, or product taste direction remains materially ambiguous.
+## Quality checklist
+- [ ] Design Read and craft dials are explicit for substantial work.
+- [ ] Source pack is complete or missing inputs are recorded conservatively.
+- [ ] Requested style grammar is translated into tokens, surfaces, layout rules, and reject_if.
+- [ ] Anti-AI-slop gate passed.
+- [ ] Asset/image decision exists per visual area.
+- [ ] Motion and reduced-motion behavior are specified.
+- [ ] Accessibility and responsive evidence are part of readiness.
+- [ ] Strong parity/ready claims are backed by screenshots or signoff.
+
+## Anti-patterns
+- Generic dashboard/landing direction with no source-backed character.
+- Placeholder imagery or abstract hero filler where imagery matters.
+- Repeated card/grid anatomy across substantial sections.
+- Claiming premium/polished without evidence.
+- Ignoring explicit requested aesthetic grammar.
+
+## Output example
+
+```yaml
+status: needs-polish
+design_read: "Reading this as wellness journaling app for reflective solo users, soft tactile editorial mood."
+craft_dials:
+  DESIGN_VARIANCE: medium
+  MOTION_INTENSITY: subtle
+  VISUAL_DENSITY: airy
+finding:
+  - "Hero composition still generic and image strategy missing for reflection deck section"
+required_before_ready:
+  - "Add section-level image decision and motion rationale"
+```
+
+
 ## Sequential Thinking MCP Gate
 
 After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.

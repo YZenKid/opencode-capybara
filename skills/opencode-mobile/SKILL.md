@@ -60,6 +60,23 @@ Use for bounded native or hybrid mobile implementation. Detect actual project st
 - Run detected-stack validation from repo scripts/docs; examples include Flutter `flutter analyze`/`flutter test`, RN/Expo `test`/`lint`/`typecheck`, native iOS/Android build/test commands when configured.
 - Device validation: state simulator/emulator/device used; if unavailable, document limitation and remaining risk.
 
+## Output example
+
+```yaml
+status: PASS
+files_changed:
+  - src/screens/HomeScreen.tsx
+  - src/hooks/useLocation.ts
+validation:
+  commands:
+    - "npm run test -- HomeScreen"
+    - "npm run test -- useLocation"
+  results: "all tests pass"
+evidence:
+  platform_test: "iOS 16 + Android 13 simulators tested"
+  permission_flow: "granted/denied flows verified"
+```
+
 ## Escalation
 - Route `@architect` for new native dependency strategy, offline architecture, push/deep-link platform design, or store-release strategy.
 - Route `@quality-gate` for biometric, privacy, permissions, production release, or security-sensitive changes.

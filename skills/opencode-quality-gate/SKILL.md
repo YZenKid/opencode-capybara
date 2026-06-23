@@ -253,6 +253,50 @@ Always report:
 - Do not read `.env` files or secrets.
 - Do not expand scope without relevant new evidence.
 - If evidence is insufficient, request evidence or mark `BLOCKED`/`NEEDS_FIX` based on the gap.
+## Quality checklist
+- [ ] Plan, diff, validation, and evidence reviewed together.
+- [ ] Plan-depth gate uses proportional execution-grade depth, not arbitrary line inflation.
+- [ ] Generator-first, playbook, and source-trace conformance checked when relevant.
+- [ ] UI/design claims are backed by evidence, not taste.
+- [ ] Remediation worklist is concrete and lane-owned for every non-PASS status.
+- [ ] Final status matches actual evidence completeness and residual risk.
+
+## Anti-patterns
+- Blocking solely on missing arbitrary depth metrics.
+- Returning taste-based UI critique as blocker without evidence.
+- Mixing fixes into a read-only gate.
+- Giving PASS when evidence or validation path is incomplete.
+- Returning vague remediation with no owner or exit criteria.
+
+## Output example
+
+```yaml
+Status: NEEDS_FIX
+Scope Checked:
+  - auth middleware diff
+  - regression tests
+  - plan + evidence
+Decision: Plan adequate, implementation incomplete for rollback evidence
+Findings:
+  - severity: HIGH
+    issue: "Refresh-token rollback note missing"
+Source Basis Checked:
+  - repo diff
+  - test output
+  - plan worklist
+Required Before PASS:
+  - "Add rollback note in evidence and rerun quality gate"
+Remediation Worklist:
+  - finding: "Missing rollback note"
+    owner_lane: "@fixer"
+    action: "Document rollback behavior in evidence"
+    validation: "quality-gate rerun"
+    exit_criteria: "rollback note present"
+    requires_user_decision: no
+Escalation: none
+```
+
+
 ## Sequential Thinking MCP Gate
 
 After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.

@@ -52,6 +52,29 @@ Use for delivery planning, sequencing, backlog shaping, issue breakdown, and rel
 - Verify dependencies do not conflict and critical path is explicit.
 - Ensure no source edits/tracker mutations occur without approval.
 
+## Output example
+
+```yaml
+milestones:
+  - name: "M1: Core auth"
+    dependencies: []
+    deliverables:
+      - "User registration flow"
+      - "Login/logout"
+  - name: "M2: Dashboard"
+    dependencies: ["M1"]
+    deliverables:
+      - "Dashboard UI"
+      - "Data visualization"
+risks:
+  - severity: MEDIUM
+    description: "Third-party API rate limits may delay M2"
+    mitigation: "Implement caching layer in M1"
+release_gates:
+  - "All tests pass"
+  - "Security review signoff"
+```
+
 ## Escalation
 - Route `@system-analyst` for missing requirements or ambiguous acceptance criteria.
 - Route `@architect` for architecture/product/platform tradeoffs.

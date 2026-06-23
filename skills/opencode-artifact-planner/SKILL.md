@@ -312,6 +312,41 @@ Add or reference `.opencode/evidence/<task-id>/reference-captures.md`, `current-
 - Escalate to `@designer` when substantial UI/UX direction, motion grammar, or reference parity is still unresolved.
 - Escalate to `@architect` or `@oracle` when architecture/risk tradeoffs remain material.
 - Escalate to `user` only when there is a true product/policy decision or missing approval that cannot be resolved through evidence.
+## Quality checklist
+- [ ] Scope/risk mode selected correctly: greenfield, maintenance, or creativity fast path.
+- [ ] Source strategy is explicit and evidence-backed.
+- [ ] Required plan sections are present and non-shallow.
+- [ ] Plan depth is proportional to scope/risk, not inflated mechanically.
+- [ ] Execution-ready worklist includes owner, depends_on, validation, boundaries, and evidence updates.
+- [ ] Handoff prompt is copy-pasteable for `@orchestrator`.
+- [ ] UI-heavy plans include reference pack or first-principles rationale, design depth, and asset decisions.
+- [ ] Planner stops after artifact writing; no implementation leakage.
+
+## Anti-patterns
+- Treating planner as default tax for tiny reversible work.
+- Approving shallow plans because headings exist.
+- Enforcing arbitrary line counts instead of execution-grade depth.
+- Writing handoff tasks too broad for worker execution.
+- Mixing implementation output into planner artifacts.
+
+## Output example
+
+```yaml
+status: PASS_FOR_SLICE
+plan_file: .opencode/plans/20260623-auth-hardening.md
+mode: maintenance-stability
+source_strategy:
+  - repo-local evidence
+  - official auth library docs
+summary:
+  - "Auth hardening split into 6 atomic tasks with backend owner and quality-gate signoff"
+worklist_ready: true
+blocking_items:
+  - none
+next_owner: @orchestrator
+```
+
+
 ## Sequential Thinking MCP Gate
 
 After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.

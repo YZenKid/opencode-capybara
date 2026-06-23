@@ -60,6 +60,23 @@ Use for bounded CI/CD, containers, environment, deployment, monitoring, and rele
 - App builds: run targeted build checks per repo conventions and detected stack.
 - Secrets: confirm no `.env`, keys, tokens, or credentials added to diff.
 
+## Output example
+
+```yaml
+status: PASS
+files_changed:
+  - docker-compose.yml
+  - .github/workflows/deploy.yml
+validation:
+  commands:
+    - "docker compose config"
+    - "yamllint docker-compose.yml"
+  results: "valid config, no lint errors"
+evidence:
+  approval: "user approved deployment changes"
+  rollback_plan: "git revert + docker compose down"
+```
+
 ## Escalation
 - Ask explicit approval before deploy, prod migration, delete, credential rotation, public release, or external service mutation.
 - Route `@architect` for platform topology, IaC strategy, scaling, multi-env redesign.

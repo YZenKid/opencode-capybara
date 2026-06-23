@@ -100,6 +100,20 @@ Every component must document: empty, loading, error, success states.
 - Specific failures if any
 - Recommendation: expand plan or proceed
 
+## Output example
+
+```yaml
+status: PASS
+validation_script_output:
+  plan_lines: 2847
+  requirements_count: 12
+  acceptance_criteria_count: 9
+  implementation_steps: 45
+  validation_commands: 8
+proportional_depth_check: "PASS - scope is medium complexity, depth is appropriate"
+worklist_quality: "PASS - tasks are atomic, owners assigned, dependencies clear"
+```
+
 ## Escalation
 
 - Escalate to `@artifact-planner` when plan needs deeper detail, evidence, or worklist structure.

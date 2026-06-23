@@ -20,7 +20,7 @@ Use this skill for small, evidence-based improvements to agents, skills, routing
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
-## Progressive workflow
+## Workflow
 
 1. **Capture intent** — summarize the last task, the problems that appeared, and the smallest valuable improvement opportunity.
 2. **Research / interview** — read relevant local files, ask only when context is still insufficient, and gather verifiable evidence.

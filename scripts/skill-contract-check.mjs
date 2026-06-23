@@ -9,6 +9,14 @@ let failures = 0;
 
 const intentionallyMissing = new Set(["opencode-build", "opencode-general"]);
 
+// Core structural sections required in every skill
+const coreStructuralSections = [
+  "## Workflow",
+  "## Quality checklist",
+  "## Anti-patterns",
+  "## Output example"
+];
+
 for (const entry of readdirSync(skillsDir, { withFileTypes: true })) {
   if (!entry.isDirectory() || !entry.name.startsWith("opencode-") || intentionallyMissing.has(entry.name)) continue;
   const file = resolve(skillsDir, entry.name, "SKILL.md");
@@ -32,11 +40,21 @@ for (const entry of readdirSync(skillsDir, { withFileTypes: true })) {
   if (!hasTitle) missing.push("# <title>");
   if (!hasContractMarker) missing.push("contract-section-marker");
 
+  // Check for core structural sections (9.5+ quality standard)
+  for (const section of coreStructuralSections) {
+    if (!content.includes(section)) {
+      missing.push(`${section} section`);
+    }
+  }
+
   if (missing.length > 0) {
     failures += 1;
     console.error(`✗ skills/${entry.name}/SKILL.md: missing contract fields`);
     for (const item of missing) console.error(`  - missing: ${item}`);
     console.error("  Remediation: add minimal frontmatter contract before expanding workflow prose.");
+    if (missing.some(m => m.includes("section"))) {
+      console.error("  Structural requirement: All skills must include Workflow, Quality checklist, Anti-patterns, and Output example sections (9.5+ quality standard).");
+    }
   } else {
     console.log(`✓ skills/${entry.name}/SKILL.md`);
   }

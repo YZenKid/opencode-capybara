@@ -60,6 +60,23 @@ Use for bounded server/API/data implementation. Detect actual project stack from
 - Run stack-appropriate tests/checks from repo scripts and docs; examples include Laravel `php artisan test`, Go `go test ./...`, Python `pytest`, plus configured lint/static tools.
 - DB: verify migrations, constraints, indexes, seed/fixture impact; no prod mutation without approval.
 
+## Output example
+
+```yaml
+status: PASS
+files_changed:
+  - src/services/auth.service.ts
+  - src/controllers/auth.controller.ts
+validation:
+  commands:
+    - "npm run test -- auth"
+    - "npm run lint"
+  results: "all tests pass, no lint errors"
+evidence:
+  plan_reference: ".opencode/plans/20260623-auth-hardening.md"
+  tests_added: 3
+```
+
 ## Escalation
 - Route `@architect` for auth model, multi-tenant/RBAC, billing, large migrations, eventing, or scalability decisions.
 - Route `@quality-gate` for security/privacy/payment/auth-sensitive completion.

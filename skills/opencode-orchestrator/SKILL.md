@@ -361,12 +361,85 @@ A plan that contains all required section names but lacks depth/detail is NOT ex
 Include changed files, validation, evidence paths, and remaining risks. For implementation, include Red/Green/Refactor/Verification status.
 For substantial UI/reference work, final summaries must use a claim level: `draft`, `inspired by`, `style-equivalent`, or `close parity`; never imply close parity without evidence and designer approval.
 
+## Output example
+
+```yaml
+status: PASS_WITH_RISKS
+mode: maintenance-stability
+plan_source: .opencode/plans/20260623-auth-hardening.md
+execution_tracking:
+  completed:
+    - T1-backend-regression-test
+    - T2-backend-fix
+    - T3-validation
+  blocked: []
+quality_gate:
+  status: PASS_WITH_RISKS
+  residual_risks:
+    - "Monitor refresh-token skew in distributed env"
+final_claim_scope: slice complete
+next_actions:
+  - "Report residual risk to user"
+```
+
+## Quality checklist
+- [ ] Plan-first rule enforced: non-trivial work went through `@artifact-planner` or an existing `PASS`/`PASS_FOR_SLICE` plan.
+- [ ] Harness preflight passed: `AGENTS.md`, `.opencode/docs/`, and `DESIGN.md` (if UI) available or explicit tiny/emergency skip recorded.
+- [ ] Stack docs and current best practice verified before implementation.
+- [ ] Primary plan loaded and respected as execution source of truth.
+- [ ] Execution tracking maintained per task: status, owner, depends_on, validation, evidence_update.
+- [ ] Worker contract enforced: workers received scoped tasks, did not reroute/delegate, and reported back to orchestrator.
+- [ ] Task order respected `start_with`, `depends_on`, `must_preserve`, `do_not_touch`, and `exit_verification`.
+- [ ] Parallelization used only for truly independent tasks.
+- [ ] Blockers classified correctly: `hard_stop`, `soft_blocker`, `deferred_question`, `follow_up`.
+- [ ] Diff Boundary check passed: out-of-boundary changes reverted or justified.
+- [ ] Plan Compliance Checkpoint passed before completion claim.
+- [ ] Quality gate remediation loop completed for non-trivial work.
+- [ ] Validation routed correctly: tests via `@fixer`, UI review via `@designer`, final conformance via `@quality-gate`.
+- [ ] Residual risks, deferred questions, and follow-ups recorded.
+- [ ] Final claim scope matches actual completion (`slice complete` vs whole system done).
+
+## Anti-patterns
+- Orchestrator doing multi-file implementation instead of routing to specialists.
+- Ignoring plan-first rule and jumping straight to implementation.
+- Skipping harness preflight or stack verification.
+- Not tracking execution status per task.
+- Letting workers route to other agents instead of reporting back.
+- Parallelizing dependent tasks and causing conflicts.
+- Misclassifying blockers and stopping unnecessarily or continuing unsafely.
+- Ignoring diff boundary and making out-of-scope changes.
+- Skipping plan compliance checkpoint before final claim.
+- Not running quality gate remediation loop for non-PASS status.
+- Claiming full completion when only slice is done.
+
 ## Escalation
 
 - Escalate to `@artifact-planner` when work becomes multi-phase, materially ambiguous, or evidence-heavy enough that execution without a durable plan would be risky.
 - Escalate to `@designer`, `@architect`, `@oracle`, or `@council` when domain uncertainty remains material after repo/local evidence checks.
 - Escalate to `@quality-gate` before final completion claims on non-trivial, risky, prompt/config, security-sensitive, or substantial UI work.
 - Escalate to `user` only for true approval boundaries, contradictory requirements, destructive actions, or unresolved product/policy choices.
+## Output example
+
+```yaml
+status: PASS_WITH_RISKS
+mode: maintenance-stability
+plan_source: .opencode/plans/20260623-auth-hardening.md
+execution_tracking:
+  completed:
+    - T1-backend-regression-test
+    - T2-backend-fix
+    - T3-validation
+  blocked: []
+quality_gate:
+  status: PASS_WITH_RISKS
+  residual_risks:
+    - "Monitor refresh-token skew in distributed env"
+final_claim_scope: slice complete
+next_actions:
+  - "Report residual risk to user"
+```
+
+
 ## Sequential Thinking MCP Gate
 
 After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.
