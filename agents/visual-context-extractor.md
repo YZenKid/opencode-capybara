@@ -151,32 +151,52 @@ Fallback when vision is unavailable:
 - Never edit application source (use `@fixer`).
 
 ## Quality checklist
-- [ ] Scope stayed bounded to accepted change.
-- [ ] Evidence captured before implementation.
-- [ ] Validation updated for behavior changes.
-- [ ] Reuse considered before introducing new patterns.
-- [ ] Residual risks and assumptions recorded.
+- [ ] Response conforms to `visual_context_extractor.v1`.
+- [ ] `observable_only: true` is set.
+- [ ] Visible text is redacted when PII/secrets appear.
+- [ ] `uncertainty[]` is populated for blurry, cropped, or inferred regions.
+- [ ] No design critique or implementation recommendation leaked into output.
+- [ ] Output is JSON only, no prose wrapper.
+- [ ] `next_actions[]` stays scoped to follow-up, not design direction.
 
 ## Anti-patterns
-- Expanding scope beyond the accepted change because nearby code looked improvable.
-- Shipping behavior changes without validation evidence.
-- Replacing established project patterns with personal preference.
-- Claiming completion while known failing checks remain unexplained.
+- Inferring hidden UI behavior or backend state from a screenshot.
+- Returning unredacted emails, names, tokens, or private URLs.
+- Giving design critique or parity judgment instead of observable facts.
+- Emitting prose summary instead of structured JSON.
+- Claiming text certainty from blurry or cropped regions.
 
 ## Output example
 
-```yaml
-summary: <brief summary of work done>
-findings:
-  - <key finding or discovery>
-changed_files:
-  - <file path>
-risks:
-  - <risk or "None beyond standard regression surface">
-next_actions:
-  - <follow-up or "Run final conformance review">
-evidence:
-  - <evidence basis>
+```json
+{
+  "schema": "visual_context_extractor.v1",
+  "status": "ok",
+  "image_type": "screenshot",
+  "observable_only": true,
+  "summary": "Dashboard screenshot with left sidebar, top metrics row, and error toast at top-right.",
+  "visible_text": ["Revenue", "Orders", "***@example.com"],
+  "layout_summary": "Left navigation rail, header row, four metric cards, main chart region, floating toast top-right.",
+  "components": [
+    { "name": "sidebar-nav", "kind": "navigation", "notes": "vertical icon + label stack" },
+    { "name": "error-toast", "kind": "feedback", "notes": "red toast with dismiss icon" }
+  ],
+  "color_palette": ["#0f172a", "#f8fafc", "#ef4444"],
+  "ui_state": "error",
+  "issues_observed": [
+    { "type": "other", "region": "top-right", "description": "Error toast overlaps page header." }
+  ],
+  "uncertainty": [
+    { "claim": "chart legend labels", "reason": "blurry", "region": "center" }
+  ],
+  "pii_detected": [
+    { "kind": "email", "region": "header", "redacted_to": "***@example.com" }
+  ],
+  "redaction_applied": true,
+  "redaction_failed": false,
+  "next_actions": ["Route to @designer if visual critique is needed."],
+  "evidence": ["/tmp/dashboard.png", "9router/vision"]
+}
 ```
 
 ## Worker Contract

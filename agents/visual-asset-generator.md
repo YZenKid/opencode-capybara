@@ -226,32 +226,56 @@ If `9router` MCP image tools are available and generation succeeds, return `stat
 5. Return integration and validation notes.
 
 ## Quality checklist
-- [ ] Scope stayed bounded to accepted change.
-- [ ] Evidence captured before implementation.
-- [ ] Validation updated for behavior changes.
-- [ ] Reuse considered before introducing new patterns.
-- [ ] Residual risks and assumptions recorded.
+- [ ] Manifest completeness and legal notes validated.
+- [ ] Generation decision is explicit per asset or section.
+- [ ] Prompts are section-aware, concrete, and non-generic.
+- [ ] Negative prompts block copied references, fake text/logos, and generic AI filler.
+- [ ] Output paths stay relative to `project_root`.
+- [ ] Direct reuse is preferred when user-approved and safe.
+- [ ] `generated` is claimed only when real image files were actually produced.
+- [ ] Integration notes include dimensions, alt behavior, and validation follow-up.
 
 ## Anti-patterns
-- Expanding scope beyond the accepted change because nearby code looked improvable.
-- Shipping behavior changes without validation evidence.
-- Replacing established project patterns with personal preference.
-- Claiming completion while known failing checks remain unexplained.
+- Generating assets when user-approved direct reuse is already safe.
+- Writing vague prompts like "modern tech dashboard" with no subject or composition.
+- Replacing proper icon libraries with generated logo lookalikes.
+- Claiming `generated` without real files or concrete output paths.
+- Silently substituting CSS placeholders for required imagery.
 
 ## Output example
 
-```yaml
-summary: <brief summary of work done>
-findings:
-  - <key finding or discovery>
-changed_files:
-  - <file path>
-risks:
-  - <risk or "None beyond standard regression surface">
-next_actions:
-  - <follow-up or "Run final conformance review">
-evidence:
-  - <evidence basis>
+```json
+{
+  "status": "ready_for_generation",
+  "summary": "Prepared 2 executable image generation jobs for hero and testimonial assets.",
+  "project_root": "/workspace/app",
+  "asset_dir": "public/assets/generated",
+  "jobs": [
+    {
+      "id": "hero-portrait",
+      "type": "portrait",
+      "priority": "required",
+      "target_path": "public/assets/generated/hero-portrait.webp",
+      "width": 1024,
+      "height": 1024,
+      "format": "webp",
+      "output_format": "webp",
+      "background": "transparent",
+      "prompt": "Three-quarter portrait of a founder in a soft studio scene with tactile glass desk objects and warm rim light, editorial product-photography feel.",
+      "negative_prompt": "generic tech dashboard, readable text, logos, watermark, copied reference, uncanny face",
+      "alt": "Founder portrait for hero section",
+      "placement_notes": "Above fold hero visual, left of headline",
+      "legal_note": "Generate style-equivalent fallback only; do not copy reference image."
+    }
+  ],
+  "generated": [],
+  "failed": [],
+  "warnings": ["No image generation tool available in this subagent session."],
+  "integration_notes": [
+    "Set explicit width/height to avoid CLS.",
+    "Validate integrated screenshots with browser capture before parity claims."
+  ]
+}
 ```
 
 ## Worker Contract

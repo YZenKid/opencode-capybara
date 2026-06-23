@@ -86,12 +86,17 @@ bounded post-task skill improvement subagent focused on improving agent/skill qu
 - [ ] Expected effect is explicit and testable.
 - [ ] No cross-lane policy drift introduced accidentally.
 - [ ] Rollback path is clear.
+- [ ] Skill/agent trigger description stays conservative and unambiguous.
+- [ ] Change validated through 2–3 realistic evaluation prompts when possible.
+- [ ] No secrets, `.env`, or credentials touched.
 
 ## Anti-patterns
 - Broad prompt rewrites for one isolated incident.
 - Speculative "improvements" with no measured pain point.
 - Silent policy changes that affect multiple lanes.
 - Fixing symptoms while leaving recurring cause undocumented.
+- Expanding skill permissions beyond what the fix needs.
+- Rewriting many agents/skills when one small change already solves the problem.
 
 ## Output example
 

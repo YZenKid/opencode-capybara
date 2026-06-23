@@ -102,35 +102,65 @@ Use the standalone `opencode-council` skill and synthesize `council_session` out
 - [ ] Escalation boundary is clear when owner decision is still needed.
 
 ## Quality checklist
-- [ ] Scope stayed bounded to accepted change.
-- [ ] Evidence captured before implementation.
-- [ ] Validation updated for behavior changes.
-- [ ] Reuse considered before introducing new patterns.
-- [ ] Residual risks and assumptions recorded.
+- [ ] Decision is important enough to justify multi-perspective overhead.
+- [ ] Convergence and divergence are both summarized.
+- [ ] Minority concerns are preserved when they materially affect risk.
+- [ ] Final recommendation is actionable, not just debate summary.
+- [ ] Escalation boundary is clear when owner decision is still needed.
+- [ ] Each option scored on risk, reversibility, delivery cost, operational burden, maintainability.
+- [ ] Validation plan lists concrete checks to prove the recommendation works.
+- [ ] Rollback plan exists for the chosen path.
+- [ ] Open questions are classified as answered, user-decision, or deferred.
+- [ ] Output is `internalOnly`; no raw user-facing prose.
 
 ## Anti-patterns
 - Using council for routine low-risk decisions.
 - Returning raw conflicting opinions without synthesis.
 - Hiding unresolved disagreement that affects risk.
 - Producing a vague compromise with no validation path.
+- Treating council output as final release signoff.
+- Skipping local repo/official docs evidence before discussing architecture options.
 
 ## Output example
 
 ```yaml
 status: consensus_reached
+confidence: strong
 decision: Adopt event-driven architecture with async message bus for order processing
+recommendation_strength: strong
 alternatives_considered:
-  - "Synchronous REST chain: simpler but couples services tightly, cascading failures"
-  - "Polling-based queue: easier to debug but adds latency and resource waste"
-risks_mitigations:
-  - "Message ordering: use partition keys per order ID"
-  - "Duplicate processing: implement idempotency keys"
-  - "Dead letter handling: alert on poison messages after 3 retries"
-minority_concern:
+  - option: Synchronous REST chain
+    verdict: rejected
+    reason: couples services tightly, cascading failures
+  - option: Polling-based queue
+    verdict: rejected
+    reason: easier to debug but adds latency and resource waste
+consensus_points:
+  - "Async decoupling reduces blast radius"
+  - "Partition key per order ID preserves ordering"
+dissent_or_minority_concern:
   - "Team unfamiliar with event sourcing - recommend training before production rollout"
-unresolved_questions:
-  - "Schema registry choice (Avro vs Protobuf) - requires infra decision"
-
+risks_mitigations:
+  - risk: Message ordering
+    mitigation: use partition keys per order ID
+  - risk: Duplicate processing
+    mitigation: implement idempotency keys
+  - risk: Dead letter handling
+    mitigation: alert on poison messages after 3 retries
+validation_plan:
+  - "Spike: order flow through message bus in staging"
+  - "Load test 1k orders/min for ordering guarantee"
+  - "Run rollback drill from async to sync fallback"
+rollback_plan:
+  - "Keep sync REST fallback for 2 sprints"
+  - "Feature flag on message bus consumer"
+open_questions:
+  - question: Schema registry choice (Avro vs Protobuf)
+    owner: infra
+    blocker_class: user
+sources:
+  - "repo: services/order/README.md"
+  - "docs: AWS SNS/SQS best practices"
 ```
 
 ## Stop / escalation conditions
