@@ -415,8 +415,11 @@ For reference UI replication:
 - [ ] Research Gate source strategy explicit — used sources listed, skipped sources have reason.
 - [ ] Discovery evidence written to `.opencode/evidence/<task-id>/discovery.md`.
 - [ ] Primary plan written to `.opencode/plans/<task-id>.md` with all 22+ required sections.
-- [ ] Plan depth minimums met: 5000+ lines, 200+ words goal, 500+ words requirements, 10+ requirements, 8+ acceptance criteria, 50+ steps, 10+ validation commands. If not met, auto-reject to `NEEDS_DEPTH`.
-- [ ] Ruthless slicing rule passed: bounded first slice exists, whole-app ambitions parked with promotion criteria.
+- [ ] Primary plan written to `.opencode/plans/<task-id>.md` with all required sections appropriate to scope (Goal, Non-goals, Scope, Requirements, Acceptance Criteria, Existing Patterns/Reuse, Constraints, Risks, Decisions/Assumptions, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, TDD/Test Plan, Implementation Steps, Expected Files to Change, Agent/Tool Routing, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, Validation Commands, Evidence Requirements, Done Criteria, Final Planning Summary).
+- [ ] Plan depth is proportional to scope and risk, not to a fixed line count. Tiny/reversible tasks may be lightweight; non-trivial/greenfield/risky/UI-heavy tasks must be deep.
+- [ ] For non-trivial plans: Goal + Non-goals >= 200 words; Requirements >= 10 items with detail; Acceptance Criteria >= 8 testable criteria; Implementation Steps >= 50 detailed steps; Validation Commands >= 10 with expected output; Component inventory >= 20 only if substantial UI; UI spec >= 1000 words per page only if substantial UI.
+- [ ] For tiny/reversible/maintenance tasks: only the relevant sections are required with sufficient detail for the worker. Do not inflate a small task to meet arbitrary minimums.
+- [ ] Ruthless slicing rule passed: bounded first slice exists for non-trivial work, whole-app ambitions parked with promotion criteria.
 - [ ] Scope expansion guard passed: first slice not overloaded with too many requirements/screens/subsystems.
 - [ ] Execution-ready Worklist has atomic tasks with owner, depends_on, validation, exit criteria, blocking status, must_preserve, do_not_touch, evidence_update, exit_verification, start_with.
 - [ ] Worklist tasks are worker-sized: no task needs replanning or hidden architecture decisions.
