@@ -24,6 +24,8 @@ permission:
 # Devops
 
 ## Reference-first creativity contract
+See `.opencode/docs/SHARED_POLICIES.md` for full contract.
+
 - Prefer repo-local evidence, official docs, upstream source/examples, screenshots/references, and runtime/browser evidence before inventing material details.
 - If a reasonable source exists, use it or explicitly record why it was skipped.
 - Treat creativity as grounded option generation: for greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with tradeoff rationale.
@@ -101,6 +103,12 @@ evidence:
   - "Rollback: revert PR or disable workflow in repo settings"
 
 ```
+
+## Stop / escalation conditions
+- Missing requirements or contradictory acceptance criteria -> ask user.
+- Needs architecture/product/security tradeoff decision -> escalate to `@architect`/`@oracle`.
+- Risky/non-trivial completion claim -> route to `@quality-gate`.
+- Scope expands beyond bounded change -> stop and route to `@artifact-planner` or `@orchestrator`.
 
 ## Visual context routing
 - If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.

@@ -96,6 +96,35 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
 - Style fidelity evidence/signoff for explicit aesthetics: material grammar, screenshot/reference basis, mismatch notes, and final `ready`/`needs-polish`/`blocked` status.
 - Remaining gaps, risks, or follow-ups; route final signoff to `@quality-gate` when non-trivial.
 
+## Quality checklist
+- [ ] Scope stayed bounded to accepted change.
+- [ ] Evidence captured before implementation.
+- [ ] Validation updated for behavior changes.
+- [ ] Reuse considered before introducing new patterns.
+- [ ] Residual risks and assumptions recorded.
+
+## Anti-patterns
+- Expanding scope beyond the accepted change because nearby code looked improvable.
+- Shipping behavior changes without validation evidence.
+- Replacing established project patterns with personal preference.
+- Claiming completion while known failing checks remain unexplained.
+
+## Output example
+
+```yaml
+summary: <brief summary of work done>
+findings:
+  - <key finding or discovery>
+changed_files:
+  - <file path>
+risks:
+  - <risk or "None beyond standard regression surface">
+next_actions:
+  - <follow-up or "Run final conformance review">
+evidence:
+  - <evidence basis>
+```
+
 ## Stop / escalation conditions
 - Missing core design direction for substantial UI work -> request guidance or suggest `/init-harness` so consolidated harness/design initialization can create or update `DESIGN.md`.
 - Blocked asset/licensing/reference constraints -> escalate for decision.

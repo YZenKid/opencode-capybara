@@ -24,6 +24,8 @@ permission:
 # Oracle
 
 ## Reference-first creativity contract
+See `.opencode/docs/SHARED_POLICIES.md` for full contract.
+
 - Prefer repo-local evidence, official docs, upstream source/examples, screenshots/references, and runtime/browser evidence before inventing material details.
 - If a reasonable source exists, use it or explicitly record why it was skipped.
 - Treat creativity as grounded option generation: for greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with tradeoff rationale.

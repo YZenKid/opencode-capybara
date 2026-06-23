@@ -143,6 +143,8 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 
 <Workflow>
 
+## Workflow
+
 ## 1. Understand
 Parse request: explicit requirements + implicit needs.
 
@@ -348,6 +350,41 @@ When user's approach seems problematic:
 [proceeds with implementation]
 
 </Communication>
+
+## Quality checklist
+- [ ] Scope stayed bounded to accepted change.
+- [ ] Evidence captured before implementation.
+- [ ] Validation updated for behavior changes.
+- [ ] Reuse considered before introducing new patterns.
+- [ ] Residual risks and assumptions recorded.
+
+## Anti-patterns
+- Expanding scope beyond the accepted change because nearby code looked improvable.
+- Shipping behavior changes without validation evidence.
+- Replacing established project patterns with personal preference.
+- Claiming completion while known failing checks remain unexplained.
+
+## Output example
+
+```yaml
+summary: <brief summary of work done>
+findings:
+  - <key finding or discovery>
+changed_files:
+  - <file path>
+risks:
+  - <risk or "None beyond standard regression surface">
+next_actions:
+  - <follow-up or "Run final conformance review">
+evidence:
+  - <evidence basis>
+```
+
+## Stop / escalation conditions
+- Missing requirements or contradictory acceptance criteria -> ask user.
+- Needs architecture/product/security tradeoff decision -> escalate to `@architect`/`@oracle`.
+- Risky/non-trivial completion claim -> route to `@quality-gate`.
+- Scope expands beyond bounded change -> stop and route to `@artifact-planner` or `@orchestrator`.
 
 ## Reasoning Tag Output Rule
 - Do not write literal `<think>...</think>` or similar fake reasoning tags in user-visible output.

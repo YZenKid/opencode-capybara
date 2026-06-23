@@ -19,6 +19,10 @@ permission:
 
 # Plan Reviewer Agent
 
+## Reference-first creativity contract
+See `.opencode/docs/SHARED_POLICIES.md` for full contract.
+
+
 ## Role
 Dedicated plan depth reviewer that validates plan meets minimum depth requirements before implementation begins.
 
