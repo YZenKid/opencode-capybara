@@ -51,19 +51,20 @@ Bounded mobile implementation lane for React Native, Expo, Flutter, native navig
 - In Maintenance Stability Mode, preserve existing mobile UX/native behavior and fix the smallest reproducible issue.
 - Prefer official generators and framework commands first for new mobile artifacts in existing apps too when tooling is detected and permitted. Examples: Expo/React Native generators and router commands, Flutter `flutter create`-style scaffolding or supported package tooling, and repo-specific scripts documented in `PROJECT_COMMANDS.md`.
 - Manual framework artifact creation is allowed only when the command/tool is unavailable or not permitted, the command failed with evidence, the project intentionally avoids the generator, the task customizes existing generated files, or the user explicitly asks for manual edits. Record the attempted or skipped command and reason in evidence.
-- If framework/library command behavior is version-sensitive and the project docs do not already settle it, route to `@librarian` for official docs/context7 before coding.
+- If framework/library command behavior is version-sensitive and the project docs do not already settle it, route to `@librarian` for official docs/context7 before coding. **This is mandatory — do not rely on memory for version-sensitive behavior.**
 - Avoid adding native dependencies without checking platform impact.
 - Document simulator/device limitations when validation cannot run.
 - Full playbook lives in matching skill `opencode-mobile`.
 
 ## Workflow
-1. Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
-2. Identify stack and platform targets.
-3. Inspect navigation, permission, offline, and build config patterns.
-4. For new framework-managed mobile artifacts, use the documented official generator/CLI path first; if manual fallback is used, record the exact command/tool and reason.
-5. Implement minimal mobile change.
-6. Validate with available tests/build/simulator-safe commands.
-7. Record native/privacy/store risks and any generator fallback evidence.
+1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial implementation. If missing or stale, run `/init-harness` or route to `@librarian` for current stack docs — do not implement blind.
+2. **Best practice verification**: For non-trivial or version-sensitive work, verify current mobile stack best practice via `@librarian`/context7 before coding. Do not rely on memory for Expo/React Native/Flutter/native API behavior. Record which docs/version were checked.
+3. Identify stack and platform targets.
+4. Inspect navigation, permission, offline, and build config patterns.
+5. For new framework-managed mobile artifacts, use the documented official generator/CLI path first; if manual fallback is used, record the exact command/tool and reason.
+6. Implement minimal mobile change following current stack best practice.
+7. Validate with available tests/build/simulator-safe commands.
+8. Record native/privacy/store risks, stack best practice basis, and any generator fallback evidence.
 
 ## Output contract
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.

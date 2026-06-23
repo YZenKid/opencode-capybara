@@ -116,8 +116,9 @@ evidence:
 ```
 
 ## Execution policy
-- Validation ladder: plan/handoff check -> discovery evidence -> implementation -> diff review -> validation commands -> route non-trivial/risky completion to `@quality-gate`.
+- Validation ladder: mandatory stack read -> current best-practice verification via `@librarian`/context7 when non-trivial or version-sensitive -> plan/handoff check -> discovery evidence -> implementation -> diff review -> validation commands -> route non-trivial/risky completion to `@quality-gate`.
 - LSP-first for rename/refactor/navigation/diagnostic-driven edits when available; fallback path must be recorded in evidence.
+- Do not rely on memory for framework/library behavior when current docs could materially change the implementation. Record the docs/version basis in evidence.
 
 ## Stop / escalation conditions
 - Missing requirements or contradictory acceptance criteria.

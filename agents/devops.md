@@ -50,19 +50,20 @@ Bounded CI/CD, Docker, environment, deployment, release script, observability, a
 - In Maintenance Stability Mode, keep ops changes minimal, rollback-aware, and evidence-backed.
 - Prefer documented project commands and official workspace/tooling generators first for existing apps too when relevant. Examples: Docker/Compose workflows, Nx or monorepo generators/scripts, framework release/migrate commands, and CI helpers listed in `PROJECT_COMMANDS.md`.
 - Manual framework/tool-managed artifact creation is allowed only when the command/tool is unavailable or not permitted, the command failed with evidence, the project intentionally avoids the generator, the task customizes existing generated files, or the user explicitly asks for manual edits. Record the attempted or skipped command and reason in evidence.
-- If framework/library command behavior is version-sensitive and the project docs do not already settle it, route to `@librarian` for official docs/context7 before coding.
+- If framework/library command behavior is version-sensitive and the project docs do not already settle it, route to `@librarian` for official docs/context7 before coding. **This is mandatory — do not rely on memory for version-sensitive behavior.**
 - Do not write tokens, secrets, or `.env` values.
 - Prefer dry-run, read-only, and local validation first.
 - Full playbook lives in matching skill `opencode-devops`.
 
 ## Workflow
-1. Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
-2. Inspect current CI/CD, Docker, env, and release conventions.
-3. Identify destructive/credential boundaries before commands.
-4. Use documented project commands or official generators/scripts first where relevant; if manual fallback is used, record the exact command/tool and reason.
-5. Implement minimal config/script change.
-6. Run safe validation commands.
-7. Report deployment, rollback, secret-handling risks, and any generator fallback evidence.
+1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial implementation. If missing or stale, run `/init-harness` or route to `@librarian` for current stack docs — do not implement blind.
+2. **Best practice verification**: For non-trivial or version-sensitive work, verify current ops/tooling best practice via `@librarian`/context7 before changing CI/CD, Docker, deployment, or infra config. Do not rely on memory for framework or platform behavior. Record which docs/version were checked.
+3. Inspect current CI/CD, Docker, env, and release conventions.
+4. Identify destructive/credential boundaries before commands.
+5. Use documented project commands or official generators/scripts first where relevant; if manual fallback is used, record the exact command/tool and reason.
+6. Implement minimal config/script change following current stack best practice.
+7. Run safe validation commands.
+8. Report deployment, rollback, secret-handling risks, stack best practice basis, and any generator fallback evidence.
 
 ## Output contract
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.

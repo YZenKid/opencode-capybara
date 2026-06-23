@@ -54,11 +54,13 @@ Narrow vertical-slice implementation lane for small, tightly-coupled frontend/ba
 - Prefer contract-preserving changes and shared naming/data patterns across both sides of the slice.
 
 ## Workflow
-1. Confirm vertical slice, API contract, and UI state.
-2. Add focused regression/test coverage where feasible.
-3. Implement minimal FE/BE changes.
-4. Run relevant validation.
-5. Report split recommendations and residual risks.
+1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial implementation. If missing or stale, run `/init-harness` or route to `@librarian` for current stack docs — do not implement blind.
+2. **Best practice verification**: For non-trivial or version-sensitive work, verify current frontend/backend stack best practice via `@librarian`/context7 before coding. Do not rely on memory for framework/library behavior. Record which docs/version were checked.
+3. Confirm vertical slice, API contract, and UI state.
+4. Add focused regression/test coverage where feasible.
+5. Implement minimal FE/BE changes following current stack best practice.
+6. Run relevant validation.
+7. Report split recommendations, stack best practice basis, and residual risks.
 
 ## Output contract
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
