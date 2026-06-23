@@ -142,10 +142,11 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 - Do not call implementation, source-edit, or generation subagents such as fixer or visual-asset-generator from this planner. `@designer` is allowed only for read-only UX/product creativity advisory input; never for implementation, source edits, or generation.
 
 ## Workflow
-1. Confirm scope, constraints, and validation path.
-2. Find existing patterns, tests, and project-local workflow before editing.
-3. Implement the smallest safe change with validation.
-4. Run targeted verification and record changed files, evidence, and residual risks.
+1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial planning. If missing or stale, run `/init-harness` or route to `@librarian` for current stack docs — do not plan blind.
+2. **Current stack verification**: For non-trivial, greenfield, or version-sensitive work, verify current stack best practice and ecosystem trends via `@librarian`/context7/web_search before recommending or converging on a stack. Do not rely on memory for framework/library version compatibility, deprecation status, or current best practice. Record which docs/version/sources were checked.
+3. Find existing patterns, tests, and project-local workflow before editing.
+4. Implement the smallest safe change with validation.
+5. Run targeted verification and record changed files, evidence, and residual risks.
 
 ## Mode-aware planning
 
@@ -204,9 +205,9 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 ## MCP Workflow
 
 - Canonical tool policy references live in `.opencode/docs/TOOL_USAGE.md` and `.opencode/docs/AGENT_TOOL_ACCESS.md`; use local role instructions here only as planner-specific constraints.
-- Do not rely on memory when current external/library/repository information materially affects the plan.
+- Do not rely on memory when current external/library/repository information materially affects the plan. **This is mandatory for stack/library recommendations — do not recommend frameworks, libraries, or patterns from memory without verifying current deprecation status, version compatibility, and ecosystem best practice via `@librarian`/context7/web_search.**
 - For stack/library behavior, verify with official docs through @librarian/context7 when available.
-- For existing-app and greenfield framework-managed work, inspect `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present so the plan defaults to project-specific command/generator workflows before manual edits.
+- For existing-app and greenfield framework-managed work, inspect `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before planning so the plan defaults to project-specific command/generator workflows before manual edits. **If these docs are missing or stale, run `/init-harness` or route to `@librarian` before planning — do not plan blind.**
 - Use GitHub search/API when planning depends on GitHub repositories, issues, PRs, Actions, package source, examples, or upstream implementation details.
 - Use `9router` `web_search` when external, current, competitive, reference, post-2025, or broad web information is needed and official/local sources are insufficient.
 - Use browser/reference tooling for visual references, deployed apps, screenshots, flows, forms, or interactive web behavior.

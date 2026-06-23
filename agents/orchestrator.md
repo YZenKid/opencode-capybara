@@ -117,7 +117,7 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 
 ### Mode-aware execution
 
-- Greenfield App Accelerator: route new app/MVP/SaaS/product builds to `@artifact-planner` before implementation except explicitly tiny prototype-only work that is labeled `draft`/`prototype`. Explore 2-3 credible options, require Creative Depth Contract, run Plan Quality Gate, then execute `PASS` or `PASS_FOR_SLICE` only. Prefer first usable vertical slice and claim `MVP slice complete` unless whole app is truly done.
+- Greenfield App Accelerator: for new app/MVP/SaaS/product builds, route to `@artifact-planner` before implementation except explicitly tiny prototype-only work that is labeled `draft`/`prototype`. Explore 2-3 credible options, require Creative Depth Contract, run Plan Quality Gate, then execute `PASS` or `PASS_FOR_SLICE` only. Prefer first usable vertical slice and claim `MVP slice complete` unless whole app is truly done. **Stack recommendations must be verified current via `@librarian`/context7/web_search before convergence — do not let planner or architect recommend outdated/deprecated stacks from memory.**
 - Greenfield App Accelerator: use `.opencode/docs/GREENFIELD_STARTER.md` for starter matrix, slice rules, and blocking security/privacy checks when available; do not replace it with generic SaaS boilerplate.
 - Maintenance Stability Mode: stay regression-first and minimal; do not force product thesis or greenfield creative alternatives unless the bug requires product/UX decisions.
 - Plan Quality Gate values: `PASS`, `PASS_FOR_SLICE`, `NEEDS_DEPTH`, `BLOCKED`. `NEEDS_DEPTH` returns to planner/advisory lanes; `BLOCKED` asks user or waits for required access/decision.
