@@ -160,6 +160,10 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 
 - For Greenfield App Accelerator work, create enough creative depth before convergence: 2-3 product/UX/architecture options, tradeoff scoring, first-slice rationale, and `user journey -> data model -> API/contracts -> UI screens -> tests` mapping.
 - For Greenfield App Accelerator work, use `.opencode/docs/GREENFIELD_STARTER.md` for starter matrix, slice rules, and blocking security/privacy checks when available; do not substitute generic greenfield boilerplate.
+- **Ruthless slicing rule**: a plan cannot be `PASS` or `PASS_FOR_SLICE` unless it defines a first slice that is demonstrably buildable and verifiable with the resources/time/complexity at hand. Whole-app-only plans without a bounded first slice must be marked `NEEDS_DEPTH`. Big features that are not in the first slice must be explicitly parked under `Out of scope (next slice)` with clear promotion criteria.
+- **Default first-slice ceiling**: unless the user explicitly asks for all-in-one and accepts the risk, first slice should contain at most: 1 core happy-path user flow, 1 persistence layer, 1 AI/server integration, 1 primary UI screen family, and the tests/validation needed to make it shippable. Everything else is next-slice.
+- **Scope expansion guard**: if the plan accumulates more than 12 functional requirements, more than 7 UI screens/pages, or more than 4 distinct subsystems in the first slice, it must be split. `PASS_FOR_SLICE` is the right tool for this; do not pretend the whole app fits v1.0.
+- **Feature parking format**: every parked feature must state why it is not in first slice, what slice it belongs to, and what precondition unlocks it.
 - For Maintenance Stability Mode work, stay lightweight: repro/regression evidence, smallest safe fix plan, validation, and no greenfield product thesis unless the bug itself requires product/UX decisions.
 - Mark plan readiness as `draft`, `blocked`, `ready-for-slice`, or `ready-for-implementation`.
 - Use `PASS_FOR_SLICE` when whole-product decisions remain open but a bounded first slice is safe and does not lock unresolved decisions.
@@ -247,6 +251,8 @@ For non-trivial plans, include a concise source strategy or equivalent notes cov
 - which major decisions are repo-backed, reference-backed, docs-backed, or first-principles-driven,
 - which assumptions remain and whether they are slice-safe or blocking,
 - for framework-managed work, the intended official CLI/generator/codegen command path from project docs or discovery, plus the exact manual fallback condition when no generator path will be used.
+- **Source Anatomy Breakdown**: for each major subsystem or layer, list concrete references used: official docs page/section, upstream code pattern, or repo file. Do not allow a subsystem to be described only by framework name. Example: "Auth layer uses Auth.js v5 PrismaAdapter pattern from `/websites/authjs_dev`, with JWT session from docs section X, implemented in `app/api/auth/[...nextauth]/route.ts` following Next.js App Router handler docs."
+- **Reference Map per Feature**: for every non-trivial feature, name the source or precedent. If first-principles, explicitly state the rationale and constraints.
 
 ## Playwright / Browser Evidence Planning
 
@@ -315,17 +321,22 @@ Use this mode when the user provides PRD/product docs or asks to turn product do
   - ordered task id/sequence,
   - task action (single concrete outcome),
   - dependencies (`depends_on`: prior task ids or `none`),
-  - owner/lane (`@fixer`, `@designer`, `@explorer`, `@quality-gate`, etc.),
+  - owner/lane (`@fixer`, `@designer`, `@explorer`, `@quality-gate`, etc.);
+    - for implementation work, prefer domain lanes: `@frontend`, `@backend`, `@fullstack`, `@devops`, `@mobile` when the task is clearly in one domain; use `@fixer` only for cross-cutting or tiny bounded edits;
+    - do not assign `@orchestrator` as owner of implementation tasks — orchestrator coordinates;
   - validation command/check for that task,
-   - task-level exit criteria,
-   - blocking status (`ready`, `blocked`) plus blocker reason,
-   - `requires_user_decision: yes/no` (default `no`),
-   - `must_preserve` invariants relevant to the task,
-   - `do_not_touch` file/scope boundaries relevant to the task,
-   - `evidence_update` required for replay,
-   - `exit_verification` command/check/evidence required before the next task,
-   - first action for orchestrator (`start_with`) pointing to the first non-blocked task id.
+  - task-level exit criteria,
+  - blocking status (`ready`, `blocked`) plus blocker reason,
+  - `requires_user_decision: yes/no` (default `no`),
+  - `must_preserve` invariants relevant to the task,
+  - `do_not_touch` file/scope boundaries relevant to the task,
+  - `evidence_update` required for replay,
+  - `exit_verification` command/check/evidence required before the next task,
+  - first action for orchestrator (`start_with`) pointing to the first non-blocked task id.
+- Every worklist task must be small enough that a worker can complete it without needing to replan or ask clarifying questions. If a task still feels ambiguous, split it before finalizing.
 - Keep the worklist finish-first friendly: represent optional branches explicitly, but ensure all non-blocked tasks are executable in order until completion criteria are met.
+- **Execution ownership table**: for non-trivial plans, include a table that maps each major subsystem/area to its implementation owner lane (`@frontend`, `@backend`, `@designer`, etc.) and review gate owner (`@quality-gate`). Do not let a single `@fixer` own the entire app.
+- **Handoff prompt contract**: the Executor Handoff Prompt must be copy-pasteable and include: plan task id, scope one-liner, all `must_preserve` invariants, all `do_not_touch` boundaries, exact acceptance criteria to verify, expected evidence files, and a reminder that workers execute only and report back to `@orchestrator`.
 - The TDD/Test Plan section must include: whether TDD is required, reason, existing test patterns, first failing/regression test, Green step, Refactor step, edge cases, and commands. If TDD is exempt, document the exemption reason and useful validation instead.
 - The discovery evidence artifact must include: files inspected, project patterns found, reuse candidates, commands/docs checked, constraints, and risks.
 - For UI/reference/image-heavy tasks, keep visual spec and asset manifest summaries inside `.opencode/plans/<task-id>.md`; write expanded exploration, captures, generated asset notes, and comparisons under draft/evidence when relevant:
@@ -404,10 +415,16 @@ For reference UI replication:
 - [ ] Research Gate source strategy explicit — used sources listed, skipped sources have reason.
 - [ ] Discovery evidence written to `.opencode/evidence/<task-id>/discovery.md`.
 - [ ] Primary plan written to `.opencode/plans/<task-id>.md` with all 22+ required sections.
-- [ ] Plan depth minimums met: 5000+ lines, 200+ words goal, 500+ words requirements, 10+ requirements, 8+ acceptance criteria, 50+ steps, 10+ validation commands.
+- [ ] Plan depth minimums met: 5000+ lines, 200+ words goal, 500+ words requirements, 10+ requirements, 8+ acceptance criteria, 50+ steps, 10+ validation commands. If not met, auto-reject to `NEEDS_DEPTH`.
+- [ ] Ruthless slicing rule passed: bounded first slice exists, whole-app ambitions parked with promotion criteria.
+- [ ] Scope expansion guard passed: first slice not overloaded with too many requirements/screens/subsystems.
 - [ ] Execution-ready Worklist has atomic tasks with owner, depends_on, validation, exit criteria, blocking status, must_preserve, do_not_touch, evidence_update, exit_verification, start_with.
-- [ ] Executor Handoff Prompt is copyable for orchestrator with minimal translation.
+- [ ] Worklist tasks are worker-sized: no task needs replanning or hidden architecture decisions.
+- [ ] Execution ownership table exists: subsystem -> implementation owner lane -> review gate owner.
+- [ ] Executor Handoff Prompt is copyable for orchestrator with minimal translation and includes task id, invariants, boundaries, evidence expectations, and worker contract reminder.
 - [ ] Reference Pack Gate passed: 3+ references or first-principles rationale.
+- [ ] Source Anatomy Breakdown exists for each major subsystem; no subsystem described only by framework name.
+- [ ] Reference Map per Feature exists for non-trivial features.
 - [ ] Anti-Generic Gate passed: no card spam, fake metrics, generic hero, placeholder imagery, debug copy, or "modern clean" without specifics.
 - [ ] Design Depth Handoff passed: Design Read, craft dials, page blueprint (3+ pages), section spec (5+ per page), component inventory (20+), asset decisions, motion, a11y, evidence plan.
 - [ ] Material Grammar Translation included if explicit aesthetic requested.
