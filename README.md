@@ -12,6 +12,21 @@ Internally, this repo uses local Markdown agents, standalone `opencode-*` skills
 
 This repository is also positioned as a **local harness engineering system**.
 
+## What's new in the latest release
+
+The `2026.06.23-1` release hardens planning, execution, and policy across the entire agent + skill layer:
+
+- **Plan-first execution** — non-trivial work must go through `@artifact-planner` first; `@orchestrator` executes only `PASS` or `PASS_FOR_SLICE` plans.
+- **Execution handoff confidence** — plans now require an execution ownership table, worker-sized atomic tasks, a copy-pasteable handoff prompt, source anatomy breakdown per subsystem, and a reference map per feature.
+- **Orchestrator execution tracking** — task-level tracking, worker contract enforcement, finish-first blocker taxonomy, plan compliance checkpoint, and quality-gate remediation loop.
+- **Worker contract** — all 19 worker agents now execute scoped tasks and report back to `@orchestrator`; they do not reroute or delegate on their own.
+- **Open source reuse policy** — permissive licenses (MIT, BSD, Apache-2.0, ISC, Unlicense, CC0, MPL-2.0) are preferred for reuse/adapt; no auto-replacement without license check.
+- **Generator-first UI + anti-AI-slop gates** — shadcn/ui components must be fetched via CLI command (`npx shadcn@latest add <component>`), and generic AI-slop patterns are mechanically blocked.
+- **Mandatory stack verification** — no stack recommendations from memory; planners and agents must verify current docs and best practices before converging.
+- **Plan artifacts are first-class** — durable plans under `.opencode/plans/`, evidence under `.opencode/evidence/`, and runtime state under `.opencode/state/`.
+
+See the full release notes at https://github.com/YZenKid/opencode-capybara/releases/tag/2026.06.23-1.
+
 ## Start here
 
 If you are seeing this repo for the first time, treat it as:
@@ -23,13 +38,32 @@ This repo is best suited for:
 
 - users who work with OpenCode regularly, including through OpenChamber,
 - people who want stricter agent-based workflows,
-- maintainers who need structured docs, quality gates, and evidence.
+- maintainers who need structured docs, quality gates, plans, and evidence.
 
 This repo is **less suitable** if you expect:
 
 - a visual application opened directly in the browser,
 - a simple frontend/backend boilerplate,
 - setup without API keys or additional tools.
+
+## How work flows
+
+```
+User intent
+  → @orchestrator
+      → @artifact-planner (non-trivial work)
+          → plan artifact: .opencode/plans/<task-id>.md
+      → @orchestrator executes the plan
+          → delegate atomic tasks to worker agents
+          → track status per task
+          → run validation + @quality-gate
+      → final summary
+```
+
+- `@orchestrator` + `@artifact-planner` are the brain: routing, planning, coordination.
+- Worker agents (`@fixer`, `@frontend`, `@backend`, `@designer`, `@explorer`, etc.) execute scoped tasks and report back.
+- `@quality-gate` is the final signoff for non-trivial / risky / UI / security work.
+- Plans live in `.opencode/plans/`, evidence in `.opencode/evidence/`, runtime state in `.opencode/state/`.
 
 ## Quick start for beginners
 
@@ -143,10 +177,22 @@ Use `npm run compare:openchamber-models` to print the current OpenCode vs OpenCh
 Domain helper/advisory lanes are conditional.
 Tiny UI polish still goes to `@designer`, and isolated bugfixes still go to `@fixer`.
 
+Current operating model:
+
+- `@artifact-planner` is the required planning lane for non-trivial work.
+- `@orchestrator` executes only from a plan (`PASS` / `PASS_FOR_SLICE`) and tracks progress per task.
+- Worker agents execute only bounded tasks and report back; they do not reroute or delegate on their own.
+- `@quality-gate` returns statuses such as `PASS`, `PASS_WITH_RISKS`, `NEEDS_FIX`, and `BLOCKED`, and its remediation items are executed finish-first before final claim.
 - `@skill-improver` is used for non-trivial follow-up, repeated failures, policy gaps, or explicit requests.
-- no blind external updates.
-- `@quality-gate` returns statuses such as `PASS_WITH_RISKS`, `NEEDS_FIX`, and `BLOCKED`.
+- No blind external updates.
 - Redundant `build` and `general` local agents have been removed.
+
+UI / design policy:
+
+- `@designer` owns substantial UI direction, motion, accessibility, and anti-slop review.
+- `@frontend` implements web UI when design is clear.
+- shadcn/ui follows generator-first rules: use `npx shadcn@latest add <component>` when the component exists in the registry.
+- Generic AI-slop UI patterns (fake metrics, card spam, gradient-hero defaults, placeholder imagery, debug copy) are blocked by planner/designer/quality-gate rules.
 
 ## Important scripts
 
@@ -177,7 +223,17 @@ npm run test:prompt-gates
 npm run check:harness
 ```
 
-Additional harness checks:
+Plan quality checks:
+
+```bash
+npm run check:plans          # verify plan depth, sections, and handoff contract
+npm run check:agents
+npm run check:skills
+npm run check:docs
+npm run check:evidence
+```
+
+Runtime harness checks:
 
 ```bash
 npm run test:runtime-foundation
@@ -186,15 +242,13 @@ npm run test:runtime-ops
 npm run test:runtime-supervisor
 npm run test:runtime-cli-ops
 npm run test:runtime-phase7
-npm run check:docs
-npm run check:agents
-npm run check:skills
-npm run check:evidence
 ```
 
 ## Validation and auto-commit summary
 
 Auto-commit defaults to ON for local commits only; never push automatically.
+
+Rules:
 
 - Run only after a **plan-bound non-trivial task is complete**, **validation passes**, and `@quality-gate` returns `PASS` or `PASS_WITH_RISKS` without a blocker.
 - Review `git status`/`git diff`, then **stage only relevant files**.
@@ -205,11 +259,14 @@ Auto-commit defaults to ON for local commits only; never push automatically.
 
 ## Internal workflow summary
 
+- `@artifact-planner` writes durable `.opencode/plans/<task-id>.md` artifacts before implementation.
+- `@orchestrator` loads the plan, tracks execution, enforces worker contract, and runs quality-gate remediation finish-first.
+- Worker agents receive scoped tasks and report back to `@orchestrator`.
+- `@quality-gate` is the final signoff for non-trivial/risky/UI/security work.
+- `@skill-improver` handles non-trivial follow-up, repeated failures, policy gaps, or explicit requests.
 - Redundant `build` and `general` local agents have been removed.
-- `@skill-improver` is used for non-trivial follow-up, repeated failures, policy gaps, or explicit requests.
-- `@quality-gate` returns statuses such as `PASS_WITH_RISKS`, `NEEDS_FIX`, and `BLOCKED`.
 
-Full details remain in `.opencode/docs/` and the related agent/skill files.
+Full details remain in `.opencode/docs/`, the related agent/skill files, and the latest release notes at https://github.com/YZenKid/opencode-capybara/releases/tag/2026.06.23-1.
 
 ## References
 
