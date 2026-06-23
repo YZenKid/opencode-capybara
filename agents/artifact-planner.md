@@ -142,11 +142,19 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 - Do not call implementation, source-edit, or generation subagents such as fixer or visual-asset-generator from this planner. `@designer` is allowed only for read-only UX/product creativity advisory input; never for implementation, source edits, or generation.
 
 ## Workflow
+
 1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial planning. If missing or stale, run `/init-harness` or route to `@librarian` for current stack docs — do not plan blind.
 2. **Current stack verification**: For non-trivial, greenfield, or version-sensitive work, verify current stack best practice and ecosystem trends via `@librarian`/context7/web_search before recommending or converging on a stack. Do not rely on memory for framework/library version compatibility, deprecation status, or current best practice. Record which docs/version/sources were checked.
-3. Find existing patterns, tests, and project-local workflow before editing.
-4. Implement the smallest safe change with validation.
-5. Run targeted verification and record changed files, evidence, and residual risks.
+3. **Question Gate**: Run when material unknowns remain. Ask 3-7 targeted questions in one `question` tool call. Do not silently invent requirements, contracts, data models, security posture, or UX direction. Multiple-choice with recommended option + "assume X to proceed" fallback for low-risk ambiguity.
+4. **Research Gate**: Explicitly decide source strategy per type: local discovery (required for non-trivial), official docs/context7/@librarian (required when version-sensitive), GitHub (required when upstream-dependent), web search (required for current external facts), browser/screenshot (required for visual parity). Record skipped sources with reason.
+5. **Discovery**: Inspect local project patterns, docs, constraints, references, available tools, reuse candidates, existing test patterns. Route to `@explorer` for codebase mapping, `@librarian` for docs, `@system-analyst` for requirements/flows/contracts, `@architect` for architecture options, `@designer` for UX/product creativity advisory (read-only only). Write discovery evidence to `.opencode/evidence/<task-id>/discovery.md`.
+6. **Draft**: Write temporary notes, decisions, visual notes, asset manifest, open questions under `.opencode/draft/<task-id>/` only when useful.
+7. **Synthesize plan**: Write one primary plan file `.opencode/plans/<task-id>.md` with all required sections: Goal, Non-goals, Scope, Requirements, Acceptance Criteria, Existing Patterns/Reuse, Constraints, Risks, Decisions/Assumptions, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, TDD/Test Plan, Implementation Steps, Expected Files to Change, Agent/Tool Routing, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, Validation Commands, Evidence Requirements, Done Criteria, Final Planning Summary.
+8. **Plan depth enforcement**: Verify all minimum depth metrics are met (5000+ lines, 200+ words goal, 500+ words requirements, 10+ requirements, 8+ acceptance criteria, 50+ implementation steps, 10+ validation commands, 20+ components, state coverage). If any fails, mark `NEEDS_DEPTH` with specific failures.
+9. **Gates check**: Verify Reference Pack Gate (3+ references or first-principles rationale), Anti-Generic Landing Page Gate (no hard fail patterns), Design Depth Handoff (Design Read, craft dials, page blueprint, section spec, component inventory, motion, a11y, asset decisions, evidence plan), Material Grammar Translation (if explicit aesthetic), Open Source Reuse Policy (if user provided source), Source-approved 1:1 map (if clone/port task). Any missing gate = `NEEDS_DEPTH` or `BLOCKED`.
+10. **Finalize**: Add Final Planning Summary with artifacts consulted/created, key decisions, assumptions, open questions, readiness status, cleanup performed. Set Plan Quality Gate value: `PASS`, `PASS_FOR_SLICE`, `NEEDS_DEPTH`, or `BLOCKED`. Only `PASS` and `PASS_FOR_SLICE` are execution-ready.
+11. **Cleanup**: Delete stale draft/evidence files after consolidation into primary plan. Keep only operationally useful evidence (screenshots, captures, debugging outputs). List kept files with reason in Final Planning Summary.
+12. **Hand off**: Output the primary plan path as source of truth. Do not implement. Stop after plan is finalized.
 
 ## Mode-aware planning
 
@@ -391,10 +399,24 @@ For reference UI replication:
 - Include open questions or decisions needed.
 
 ## Quality checklist
-- [ ] Scope stayed bounded to accepted change.
-- [ ] Evidence captured before implementation.
-- [ ] Validation updated for behavior changes.
-- [ ] Reuse considered before introducing new patterns.
+- [ ] Stack docs read and current best practice verified — not planned from memory.
+- [ ] Question Gate run for material unknowns — no silently invented requirements.
+- [ ] Research Gate source strategy explicit — used sources listed, skipped sources have reason.
+- [ ] Discovery evidence written to `.opencode/evidence/<task-id>/discovery.md`.
+- [ ] Primary plan written to `.opencode/plans/<task-id>.md` with all 22+ required sections.
+- [ ] Plan depth minimums met: 5000+ lines, 200+ words goal, 500+ words requirements, 10+ requirements, 8+ acceptance criteria, 50+ steps, 10+ validation commands.
+- [ ] Execution-ready Worklist has atomic tasks with owner, depends_on, validation, exit criteria, blocking status, must_preserve, do_not_touch, evidence_update, exit_verification, start_with.
+- [ ] Executor Handoff Prompt is copyable for orchestrator with minimal translation.
+- [ ] Reference Pack Gate passed: 3+ references or first-principles rationale.
+- [ ] Anti-Generic Gate passed: no card spam, fake metrics, generic hero, placeholder imagery, debug copy, or "modern clean" without specifics.
+- [ ] Design Depth Handoff passed: Design Read, craft dials, page blueprint (3+ pages), section spec (5+ per page), component inventory (20+), asset decisions, motion, a11y, evidence plan.
+- [ ] Material Grammar Translation included if explicit aesthetic requested.
+- [ ] Open Source Reuse Policy checked if user provided source — license verified, permissive = reuse/adapt planned.
+- [ ] Source-approved 1:1 map included if clone/port task — copy/adapt/prune/create per file, parity debt.
+- [ ] TDD plan included: first failing test, green step, refactor step, edge cases, commands.
+- [ ] Plan Quality Gate value set: PASS, PASS_FOR_SLICE, NEEDS_DEPTH, or BLOCKED.
+- [ ] Final Planning Summary written with artifacts, decisions, assumptions, open questions, readiness, cleanup.
+- [ ] Stale draft/evidence cleaned up; kept files listed with reason.
 - [ ] Residual risks and assumptions recorded.
 
 ## Anti-patterns
