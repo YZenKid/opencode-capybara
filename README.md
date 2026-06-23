@@ -184,7 +184,7 @@ Current operating model:
 - Worker agents execute only bounded tasks and report back; they do not reroute or delegate on their own.
 - `@quality-gate` returns statuses such as `PASS`, `PASS_WITH_RISKS`, `NEEDS_FIX`, and `BLOCKED`, and its remediation items are executed finish-first before final claim.
 - `@skill-improver` is used for non-trivial follow-up, repeated failures, policy gaps, or explicit requests.
-- No blind external updates.
+- no blind external updates.
 - Redundant `build` and `general` local agents have been removed.
 
 UI / design policy:

@@ -2,7 +2,7 @@
 
 Generated summary of local agent metadata. This file is advisory and must not replace canonical policy in `.opencode/docs/`.
 
-- Agent count: 20
+- Agent count: 21
 - Source: `agents/*.md` frontmatter
 
 | Agent | Mode | Model | Skills | Description |
@@ -21,6 +21,7 @@ Generated summary of local agent metadata. This file is advisory and must not re
 | mobile | subagent | 9router/low | opencode-mobile | Mobile app implementation specialist for React Native, Expo, Flutter, and native-capability workflows |
 | oracle | subagent | 9router/medium | opencode-oracle | Read-only architecture and risk review advisor for complex decisions |
 | orchestrator | primary | 9router/high | opencode-orchestrator | AI coding orchestrator that routes tasks to specialist agents |
+| plan-reviewer | subagent | 9router/medium | opencode-plan-reviewer | Dedicated plan depth reviewer that validates plan meets minimum depth requirements before implementation |
 | project-manager | subagent | 9router/low | opencode-project-manager | Read-only milestone, backlog, issue breakdown, dependency, risk register, release checklist, and handoff planner |
 | quality-gate | subagent | 9router/medium | opencode-quality-gate | Final conformance and risk gate for non-trivial OpenCode work |
 | skill-improver | subagent | 9router/fast | opencode-skill-improver | Bounded post-task skill improvement subagent for prompt, routing, and eval refinement. |

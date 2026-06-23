@@ -2,8 +2,8 @@
 
 Generated inventory of deterministic prompt-gate checks. This file is advisory and must not replace canonical policy in `.opencode/docs/PROMPT_GATES.md`.
 
-- Gate count: 125
-- Unique files covered: 50
+- Gate count: 132
+- Unique files covered: 53
 - Primary implementation: `scripts/prompt-gate-regression.mjs`
 
 ## Commands referenced
@@ -141,3 +141,10 @@ Generated inventory of deterministic prompt-gate checks. This file is advisory a
 123. **quality docs remediation worklist gate** — `.opencode/docs/QUALITY.md`
 124. **ui slop package script wiring gate** — `package.json`
 125. **ui slop quality contract gate** — `.opencode/docs/QUALITY.md`
+126. **plan reviewer phase 3 gate** — `agents/plan-reviewer.md`
+127. **plan reviewer skill phase 3 gate** — `skills/opencode-plan-reviewer/SKILL.md`
+128. **plan validation package script wiring gate** — `package.json`
+129. **shared policies document gate** — `.opencode/docs/SHARED_POLICIES.md`
+130. **orchestrator references shared policies gate** — `agents/orchestrator.md`
+131. **designer references shared policies gate** — `agents/designer.md`
+132. **quality-gate references shared policies gate** — `agents/quality-gate.md`

@@ -2,67 +2,1173 @@
   "version": 1,
   "source": "current-local-state",
   "agents": [
-    { "name": "architect", "status": "active", "mode": "subagent", "skill": "opencode-architect", "owner_lane": "@architect", "risk": ["architecture-advice", "read-only-boundary"], "fallback": "@oracle for review or @artifact-planner for plan artifacts", "evidence": ["agents/architect.md", "skills/opencode-architect/SKILL.md"], "source": "agents/architect.md" },
-    { "name": "artifact-planner", "status": "active", "mode": "primary", "skill": "opencode-artifact-planner", "owner_lane": "@artifact-planner", "risk": ["plan-artifact-write", "scope-bloat"], "fallback": "@orchestrator direct routing for tiny reversible work", "evidence": ["agents/artifact-planner.md", "skills/opencode-artifact-planner/SKILL.md"], "source": "agents/artifact-planner.md" },
-    { "name": "backend", "status": "active", "mode": "subagent", "skill": "opencode-backend", "owner_lane": "@backend", "risk": ["api-change", "data-change", "auth-integration"], "fallback": "@system-analyst for unclear contracts or @architect for data/security boundaries", "evidence": ["agents/backend.md", "skills/opencode-backend/SKILL.md"], "source": "agents/backend.md" },
-    { "name": "council", "status": "active", "mode": "subagent", "skill": "opencode-council", "owner_lane": "@council", "risk": ["expensive-consensus", "read-only-boundary"], "fallback": "@oracle single-review lane", "evidence": ["agents/council.md", "skills/opencode-council/SKILL.md"], "source": "agents/council.md" },
-    { "name": "designer", "status": "active", "mode": "subagent", "skill": "opencode-designer", "owner_lane": "@designer", "risk": ["ui-change", "accessibility", "visual-parity"], "fallback": "@fixer for non-UI implementation", "evidence": ["agents/designer.md", "skills/opencode-designer/SKILL.md"], "source": "agents/designer.md" },
-    { "name": "devops", "status": "active", "mode": "subagent", "skill": "opencode-devops", "owner_lane": "@devops", "risk": ["deploy", "destructive-infra", "secrets", "ci-cd"], "fallback": "@architect for platform decisions or @quality-gate for final release/security signoff", "evidence": ["agents/devops.md", "skills/opencode-devops/SKILL.md"], "source": "agents/devops.md" },
-    { "name": "explorer", "status": "active", "mode": "subagent", "skill": "opencode-explorer", "owner_lane": "@explorer", "risk": ["read-only-discovery", "stale-map"], "fallback": "targeted glob/grep/read by @orchestrator", "evidence": ["agents/explorer.md", "skills/opencode-explorer/SKILL.md"], "source": "agents/explorer.md" },
-    { "name": "fixer", "status": "active", "mode": "subagent", "skill": "opencode-fixer", "owner_lane": "@fixer", "risk": ["code-edit", "test-impact"], "fallback": "@artifact-planner if scope becomes ambiguous", "evidence": ["agents/fixer.md", "skills/opencode-fixer/SKILL.md"], "source": "agents/fixer.md" },
-    { "name": "frontend", "status": "active", "mode": "subagent", "skill": "opencode-frontend", "owner_lane": "@frontend", "risk": ["web-ui-change", "accessibility", "api-integration"], "fallback": "@designer for missing visual direction or @backend for unclear contracts", "evidence": ["agents/frontend.md", "skills/opencode-frontend/SKILL.md"], "source": "agents/frontend.md" },
-    { "name": "fullstack", "status": "active", "mode": "subagent", "skill": "opencode-fullstack", "owner_lane": "@fullstack", "risk": ["cross-layer-change", "scope-creep", "contract-drift"], "fallback": "split to @frontend and @backend or route @artifact-planner when scope grows", "evidence": ["agents/fullstack.md", "skills/opencode-fullstack/SKILL.md"], "source": "agents/fullstack.md" },
-    { "name": "librarian", "status": "active", "mode": "subagent", "skill": "opencode-librarian", "owner_lane": "@librarian", "risk": ["external-research", "read-only-boundary"], "fallback": "local docs first, then no external lookup", "evidence": ["agents/librarian.md", "skills/opencode-librarian/SKILL.md"], "source": "agents/librarian.md" },
-    { "name": "mobile", "status": "active", "mode": "subagent", "skill": "opencode-mobile", "owner_lane": "@mobile", "risk": ["native-permissions", "privacy", "store-constraints", "mobile-runtime"], "fallback": "@architect for mobile architecture or @quality-gate for privacy/store signoff", "evidence": ["agents/mobile.md", "skills/opencode-mobile/SKILL.md"], "source": "agents/mobile.md" },
-    { "name": "oracle", "status": "active", "mode": "subagent", "skill": "opencode-oracle", "owner_lane": "@oracle", "risk": ["review-advice", "read-only-boundary"], "fallback": "@quality-gate for final conformance", "evidence": ["agents/oracle.md", "skills/opencode-oracle/SKILL.md"], "source": "agents/oracle.md" },
-    { "name": "orchestrator", "status": "active", "mode": "primary", "skill": "opencode-orchestrator", "owner_lane": "@orchestrator", "risk": ["routing", "integration", "scope-control"], "fallback": "specialist lane or user clarification", "evidence": ["agents/orchestrator.md", "skills/opencode-orchestrator/SKILL.md"], "source": "agents/orchestrator.md" },
-    { "name": "project-manager", "status": "active", "mode": "subagent", "skill": "opencode-project-manager", "owner_lane": "@project-manager", "risk": ["read-only-boundary", "delivery-plan", "tracker-write-risk"], "fallback": "@system-analyst for unclear requirements or local artifact draft when tracker unavailable", "evidence": ["agents/project-manager.md", "skills/opencode-project-manager/SKILL.md"], "source": "agents/project-manager.md" },
-    { "name": "quality-gate", "status": "active", "mode": "subagent", "skill": "opencode-quality-gate", "owner_lane": "@quality-gate", "risk": ["final-signoff", "read-only-boundary"], "fallback": "block completion and return residual risks", "evidence": ["agents/quality-gate.md", "skills/opencode-quality-gate/SKILL.md"], "source": "agents/quality-gate.md" },
-    { "name": "skill-improver", "status": "active", "mode": "subagent", "skill": "opencode-skill-improver", "owner_lane": "@skill-improver", "risk": ["prompt-change", "routing-drift"], "fallback": "document finding without prompt edits", "evidence": ["agents/skill-improver.md", "skills/opencode-skill-improver/SKILL.md"], "source": "agents/skill-improver.md" },
-    { "name": "system-analyst", "status": "active", "mode": "subagent", "skill": "opencode-system-analyst", "owner_lane": "@system-analyst", "risk": ["read-only-boundary", "requirements-ambiguity", "contract-drift"], "fallback": "@project-manager for delivery breakdown or implementation lane after handoff", "evidence": ["agents/system-analyst.md", "skills/opencode-system-analyst/SKILL.md"], "source": "agents/system-analyst.md" },
-    { "name": "visual-asset-generator", "status": "active", "mode": "subagent", "skill": "opencode-visual-asset-generator", "owner_lane": "@visual-asset-generator", "risk": ["image-generation", "legal-style-equivalent", "asset-write"], "fallback": "asset manifest only; orchestrator executes image endpoint", "evidence": ["agents/visual-asset-generator.md", "skills/opencode-visual-asset-generator/SKILL.md"], "source": "agents/visual-asset-generator.md" },
-    { "name": "visual-context-extractor", "status": "active", "mode": "subagent", "skill": "opencode-visual-context-extractor", "owner_lane": "@visual-context-extractor", "risk": ["read-only-boundary", "pii-handling", "overclaim"], "fallback": "return status:unavailable when no vision input; orchestrator routes critique to @designer and source edits to @fixer", "evidence": ["agents/visual-context-extractor.md", "skills/opencode-visual-context-extractor/SKILL.md"], "source": "agents/visual-context-extractor.md" }
+    {
+      "name": "architect",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-architect",
+      "owner_lane": "@architect",
+      "risk": [
+        "architecture-advice",
+        "read-only-boundary"
+      ],
+      "fallback": "@oracle for review or @artifact-planner for plan artifacts",
+      "evidence": [
+        "agents/architect.md",
+        "skills/opencode-architect/SKILL.md"
+      ],
+      "source": "agents/architect.md"
+    },
+    {
+      "name": "artifact-planner",
+      "status": "active",
+      "mode": "primary",
+      "skill": "opencode-artifact-planner",
+      "owner_lane": "@artifact-planner",
+      "risk": [
+        "plan-artifact-write",
+        "scope-bloat"
+      ],
+      "fallback": "@orchestrator direct routing for tiny reversible work",
+      "evidence": [
+        "agents/artifact-planner.md",
+        "skills/opencode-artifact-planner/SKILL.md"
+      ],
+      "source": "agents/artifact-planner.md"
+    },
+    {
+      "name": "backend",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-backend",
+      "owner_lane": "@backend",
+      "risk": [
+        "api-change",
+        "data-change",
+        "auth-integration"
+      ],
+      "fallback": "@system-analyst for unclear contracts or @architect for data/security boundaries",
+      "evidence": [
+        "agents/backend.md",
+        "skills/opencode-backend/SKILL.md"
+      ],
+      "source": "agents/backend.md"
+    },
+    {
+      "name": "council",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-council",
+      "owner_lane": "@council",
+      "risk": [
+        "expensive-consensus",
+        "read-only-boundary"
+      ],
+      "fallback": "@oracle single-review lane",
+      "evidence": [
+        "agents/council.md",
+        "skills/opencode-council/SKILL.md"
+      ],
+      "source": "agents/council.md"
+    },
+    {
+      "name": "designer",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-designer",
+      "owner_lane": "@designer",
+      "risk": [
+        "ui-change",
+        "accessibility",
+        "visual-parity"
+      ],
+      "fallback": "@fixer for non-UI implementation",
+      "evidence": [
+        "agents/designer.md",
+        "skills/opencode-designer/SKILL.md"
+      ],
+      "source": "agents/designer.md"
+    },
+    {
+      "name": "devops",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-devops",
+      "owner_lane": "@devops",
+      "risk": [
+        "deploy",
+        "destructive-infra",
+        "secrets",
+        "ci-cd"
+      ],
+      "fallback": "@architect for platform decisions or @quality-gate for final release/security signoff",
+      "evidence": [
+        "agents/devops.md",
+        "skills/opencode-devops/SKILL.md"
+      ],
+      "source": "agents/devops.md"
+    },
+    {
+      "name": "explorer",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-explorer",
+      "owner_lane": "@explorer",
+      "risk": [
+        "read-only-discovery",
+        "stale-map"
+      ],
+      "fallback": "targeted glob/grep/read by @orchestrator",
+      "evidence": [
+        "agents/explorer.md",
+        "skills/opencode-explorer/SKILL.md"
+      ],
+      "source": "agents/explorer.md"
+    },
+    {
+      "name": "fixer",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-fixer",
+      "owner_lane": "@fixer",
+      "risk": [
+        "code-edit",
+        "test-impact"
+      ],
+      "fallback": "@artifact-planner if scope becomes ambiguous",
+      "evidence": [
+        "agents/fixer.md",
+        "skills/opencode-fixer/SKILL.md"
+      ],
+      "source": "agents/fixer.md"
+    },
+    {
+      "name": "frontend",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-frontend",
+      "owner_lane": "@frontend",
+      "risk": [
+        "web-ui-change",
+        "accessibility",
+        "api-integration"
+      ],
+      "fallback": "@designer for missing visual direction or @backend for unclear contracts",
+      "evidence": [
+        "agents/frontend.md",
+        "skills/opencode-frontend/SKILL.md"
+      ],
+      "source": "agents/frontend.md"
+    },
+    {
+      "name": "fullstack",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-fullstack",
+      "owner_lane": "@fullstack",
+      "risk": [
+        "cross-layer-change",
+        "scope-creep",
+        "contract-drift"
+      ],
+      "fallback": "split to @frontend and @backend or route @artifact-planner when scope grows",
+      "evidence": [
+        "agents/fullstack.md",
+        "skills/opencode-fullstack/SKILL.md"
+      ],
+      "source": "agents/fullstack.md"
+    },
+    {
+      "name": "librarian",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-librarian",
+      "owner_lane": "@librarian",
+      "risk": [
+        "external-research",
+        "read-only-boundary"
+      ],
+      "fallback": "local docs first, then no external lookup",
+      "evidence": [
+        "agents/librarian.md",
+        "skills/opencode-librarian/SKILL.md"
+      ],
+      "source": "agents/librarian.md"
+    },
+    {
+      "name": "mobile",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-mobile",
+      "owner_lane": "@mobile",
+      "risk": [
+        "native-permissions",
+        "privacy",
+        "store-constraints",
+        "mobile-runtime"
+      ],
+      "fallback": "@architect for mobile architecture or @quality-gate for privacy/store signoff",
+      "evidence": [
+        "agents/mobile.md",
+        "skills/opencode-mobile/SKILL.md"
+      ],
+      "source": "agents/mobile.md"
+    },
+    {
+      "name": "oracle",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-oracle",
+      "owner_lane": "@oracle",
+      "risk": [
+        "review-advice",
+        "read-only-boundary"
+      ],
+      "fallback": "@quality-gate for final conformance",
+      "evidence": [
+        "agents/oracle.md",
+        "skills/opencode-oracle/SKILL.md"
+      ],
+      "source": "agents/oracle.md"
+    },
+    {
+      "name": "orchestrator",
+      "status": "active",
+      "mode": "primary",
+      "skill": "opencode-orchestrator",
+      "owner_lane": "@orchestrator",
+      "risk": [
+        "routing",
+        "integration",
+        "scope-control"
+      ],
+      "fallback": "specialist lane or user clarification",
+      "evidence": [
+        "agents/orchestrator.md",
+        "skills/opencode-orchestrator/SKILL.md"
+      ],
+      "source": "agents/orchestrator.md"
+    },
+    {
+      "name": "plan-reviewer",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-plan-reviewer",
+      "owner_lane": "@system-analyst",
+      "risk": [
+        "read-only-boundary",
+        "requirements-ambiguity",
+        "contract-drift"
+      ],
+      "fallback": "@project-manager for delivery breakdown or implementation lane after handoff",
+      "evidence": [
+        "agents/system-analyst.md",
+        "skills/opencode-system-analyst/SKILL.md"
+      ],
+      "source": "agents/system-analyst.md",
+      "description": "Plan review and quality contract validation for plan-reviewer agent."
+    },
+    {
+      "name": "project-manager",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-project-manager",
+      "owner_lane": "@project-manager",
+      "risk": [
+        "read-only-boundary",
+        "delivery-plan",
+        "tracker-write-risk"
+      ],
+      "fallback": "@system-analyst for unclear requirements or local artifact draft when tracker unavailable",
+      "evidence": [
+        "agents/project-manager.md",
+        "skills/opencode-project-manager/SKILL.md"
+      ],
+      "source": "agents/project-manager.md"
+    },
+    {
+      "name": "quality-gate",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-quality-gate",
+      "owner_lane": "@quality-gate",
+      "risk": [
+        "final-signoff",
+        "read-only-boundary"
+      ],
+      "fallback": "block completion and return residual risks",
+      "evidence": [
+        "agents/quality-gate.md",
+        "skills/opencode-quality-gate/SKILL.md"
+      ],
+      "source": "agents/quality-gate.md"
+    },
+    {
+      "name": "skill-improver",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-skill-improver",
+      "owner_lane": "@skill-improver",
+      "risk": [
+        "prompt-change",
+        "routing-drift"
+      ],
+      "fallback": "document finding without prompt edits",
+      "evidence": [
+        "agents/skill-improver.md",
+        "skills/opencode-skill-improver/SKILL.md"
+      ],
+      "source": "agents/skill-improver.md"
+    },
+    {
+      "name": "system-analyst",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-system-analyst",
+      "owner_lane": "@system-analyst",
+      "risk": [
+        "read-only-boundary",
+        "requirements-ambiguity",
+        "contract-drift"
+      ],
+      "fallback": "@project-manager for delivery breakdown or implementation lane after handoff",
+      "evidence": [
+        "agents/system-analyst.md",
+        "skills/opencode-system-analyst/SKILL.md"
+      ],
+      "source": "agents/system-analyst.md"
+    },
+    {
+      "name": "visual-asset-generator",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-visual-asset-generator",
+      "owner_lane": "@visual-asset-generator",
+      "risk": [
+        "image-generation",
+        "legal-style-equivalent",
+        "asset-write"
+      ],
+      "fallback": "asset manifest only; orchestrator executes image endpoint",
+      "evidence": [
+        "agents/visual-asset-generator.md",
+        "skills/opencode-visual-asset-generator/SKILL.md"
+      ],
+      "source": "agents/visual-asset-generator.md"
+    },
+    {
+      "name": "visual-context-extractor",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-visual-context-extractor",
+      "owner_lane": "@visual-context-extractor",
+      "risk": [
+        "read-only-boundary",
+        "pii-handling",
+        "overclaim"
+      ],
+      "fallback": "return status:unavailable when no vision input; orchestrator routes critique to @designer and source edits to @fixer",
+      "evidence": [
+        "agents/visual-context-extractor.md",
+        "skills/opencode-visual-context-extractor/SKILL.md"
+      ],
+      "source": "agents/visual-context-extractor.md"
+    }
   ],
   "skills": [
-    { "name": "opencode-architect", "status": "active", "owner_lane": "@architect", "risk": ["architecture-advice"], "fallback": "@oracle review", "evidence": ["skills/opencode-architect/SKILL.md"], "source": "skills/opencode-architect/SKILL.md" },
-    { "name": "opencode-artifact-planner", "status": "active", "owner_lane": "@artifact-planner", "risk": ["plan-artifact-write"], "fallback": "@orchestrator routing", "evidence": ["skills/opencode-artifact-planner/SKILL.md"], "source": "skills/opencode-artifact-planner/SKILL.md" },
-    { "name": "opencode-backend", "status": "active", "owner_lane": "@backend", "risk": ["api-change", "data-change", "auth-integration"], "fallback": "@system-analyst or @architect", "evidence": ["skills/opencode-backend/SKILL.md"], "source": "skills/opencode-backend/SKILL.md" },
-    { "name": "opencode-council", "status": "active", "owner_lane": "@council", "risk": ["expensive-consensus"], "fallback": "@oracle review", "evidence": ["skills/opencode-council/SKILL.md"], "source": "skills/opencode-council/SKILL.md" },
-    { "name": "opencode-designer", "status": "active", "owner_lane": "@designer", "risk": ["ui-change", "accessibility"], "fallback": "@fixer", "evidence": ["skills/opencode-designer/SKILL.md"], "source": "skills/opencode-designer/SKILL.md" },
-    { "name": "opencode-devops", "status": "active", "owner_lane": "@devops", "risk": ["deploy", "destructive-infra", "secrets"], "fallback": "@architect or @quality-gate", "evidence": ["skills/opencode-devops/SKILL.md"], "source": "skills/opencode-devops/SKILL.md" },
-    { "name": "opencode-explorer", "status": "active", "owner_lane": "@explorer", "risk": ["read-only-discovery"], "fallback": "targeted local search", "evidence": ["skills/opencode-explorer/SKILL.md"], "source": "skills/opencode-explorer/SKILL.md" },
-    { "name": "opencode-fixer", "status": "active", "owner_lane": "@fixer", "risk": ["code-edit", "test-impact"], "fallback": "@artifact-planner", "evidence": ["skills/opencode-fixer/SKILL.md"], "source": "skills/opencode-fixer/SKILL.md" },
-    { "name": "opencode-frontend", "status": "active", "owner_lane": "@frontend", "risk": ["web-ui-change", "accessibility", "api-integration"], "fallback": "@designer or @backend", "evidence": ["skills/opencode-frontend/SKILL.md"], "source": "skills/opencode-frontend/SKILL.md" },
-    { "name": "opencode-fullstack", "status": "active", "owner_lane": "@fullstack", "risk": ["cross-layer-change", "scope-creep"], "fallback": "split @frontend/@backend or @artifact-planner", "evidence": ["skills/opencode-fullstack/SKILL.md"], "source": "skills/opencode-fullstack/SKILL.md" },
-    { "name": "opencode-librarian", "status": "active", "owner_lane": "@librarian", "risk": ["external-research"], "fallback": "local docs only", "evidence": ["skills/opencode-librarian/SKILL.md"], "source": "skills/opencode-librarian/SKILL.md" },
-    { "name": "opencode-mobile", "status": "active", "owner_lane": "@mobile", "risk": ["native-permissions", "privacy", "mobile-runtime"], "fallback": "@architect or @quality-gate", "evidence": ["skills/opencode-mobile/SKILL.md"], "source": "skills/opencode-mobile/SKILL.md" },
-    { "name": "opencode-oracle", "status": "active", "owner_lane": "@oracle", "risk": ["review-advice"], "fallback": "@quality-gate", "evidence": ["skills/opencode-oracle/SKILL.md"], "source": "skills/opencode-oracle/SKILL.md" },
-    { "name": "opencode-orchestrator", "status": "active", "owner_lane": "@orchestrator", "risk": ["routing", "integration"], "fallback": "user clarification", "evidence": ["skills/opencode-orchestrator/SKILL.md"], "source": "skills/opencode-orchestrator/SKILL.md" },
-    { "name": "opencode-project-manager", "status": "active", "owner_lane": "@project-manager", "risk": ["delivery-plan", "read-only-boundary"], "fallback": "local plan artifact draft", "evidence": ["skills/opencode-project-manager/SKILL.md"], "source": "skills/opencode-project-manager/SKILL.md" },
-    { "name": "opencode-quality-gate", "status": "active", "owner_lane": "@quality-gate", "risk": ["final-signoff"], "fallback": "block completion", "evidence": ["skills/opencode-quality-gate/SKILL.md"], "source": "skills/opencode-quality-gate/SKILL.md" },
-    { "name": "opencode-skill-improver", "status": "active", "owner_lane": "@skill-improver", "risk": ["prompt-change", "routing-drift"], "fallback": "record improvement note only", "evidence": ["skills/opencode-skill-improver/SKILL.md"], "source": "skills/opencode-skill-improver/SKILL.md" },
-    { "name": "opencode-system-analyst", "status": "active", "owner_lane": "@system-analyst", "risk": ["requirements-ambiguity", "read-only-boundary"], "fallback": "implementation handoff only", "evidence": ["skills/opencode-system-analyst/SKILL.md"], "source": "skills/opencode-system-analyst/SKILL.md" },
-    { "name": "opencode-visual-asset-generator", "status": "active", "owner_lane": "@visual-asset-generator", "risk": ["image-generation", "legal-style-equivalent"], "fallback": "asset manifest only", "evidence": ["skills/opencode-visual-asset-generator/SKILL.md"], "source": "skills/opencode-visual-asset-generator/SKILL.md" },
-    { "name": "opencode-visual-context-extractor", "status": "active", "owner_lane": "@visual-context-extractor", "risk": ["read-only-boundary", "pii-handling", "overclaim"], "fallback": "orchestrator routes critique to @designer and source edits to @fixer", "evidence": ["skills/opencode-visual-context-extractor/SKILL.md"], "source": "skills/opencode-visual-context-extractor/SKILL.md" }
+    {
+      "name": "opencode-architect",
+      "status": "active",
+      "owner_lane": "@architect",
+      "risk": [
+        "architecture-advice"
+      ],
+      "fallback": "@oracle review",
+      "evidence": [
+        "skills/opencode-architect/SKILL.md"
+      ],
+      "source": "skills/opencode-architect/SKILL.md"
+    },
+    {
+      "name": "opencode-artifact-planner",
+      "status": "active",
+      "owner_lane": "@artifact-planner",
+      "risk": [
+        "plan-artifact-write"
+      ],
+      "fallback": "@orchestrator routing",
+      "evidence": [
+        "skills/opencode-artifact-planner/SKILL.md"
+      ],
+      "source": "skills/opencode-artifact-planner/SKILL.md"
+    },
+    {
+      "name": "opencode-backend",
+      "status": "active",
+      "owner_lane": "@backend",
+      "risk": [
+        "api-change",
+        "data-change",
+        "auth-integration"
+      ],
+      "fallback": "@system-analyst or @architect",
+      "evidence": [
+        "skills/opencode-backend/SKILL.md"
+      ],
+      "source": "skills/opencode-backend/SKILL.md"
+    },
+    {
+      "name": "opencode-council",
+      "status": "active",
+      "owner_lane": "@council",
+      "risk": [
+        "expensive-consensus"
+      ],
+      "fallback": "@oracle review",
+      "evidence": [
+        "skills/opencode-council/SKILL.md"
+      ],
+      "source": "skills/opencode-council/SKILL.md"
+    },
+    {
+      "name": "opencode-designer",
+      "status": "active",
+      "owner_lane": "@designer",
+      "risk": [
+        "ui-change",
+        "accessibility"
+      ],
+      "fallback": "@fixer",
+      "evidence": [
+        "skills/opencode-designer/SKILL.md"
+      ],
+      "source": "skills/opencode-designer/SKILL.md"
+    },
+    {
+      "name": "opencode-devops",
+      "status": "active",
+      "owner_lane": "@devops",
+      "risk": [
+        "deploy",
+        "destructive-infra",
+        "secrets"
+      ],
+      "fallback": "@architect or @quality-gate",
+      "evidence": [
+        "skills/opencode-devops/SKILL.md"
+      ],
+      "source": "skills/opencode-devops/SKILL.md"
+    },
+    {
+      "name": "opencode-explorer",
+      "status": "active",
+      "owner_lane": "@explorer",
+      "risk": [
+        "read-only-discovery"
+      ],
+      "fallback": "targeted local search",
+      "evidence": [
+        "skills/opencode-explorer/SKILL.md"
+      ],
+      "source": "skills/opencode-explorer/SKILL.md"
+    },
+    {
+      "name": "opencode-fixer",
+      "status": "active",
+      "owner_lane": "@fixer",
+      "risk": [
+        "code-edit",
+        "test-impact"
+      ],
+      "fallback": "@artifact-planner",
+      "evidence": [
+        "skills/opencode-fixer/SKILL.md"
+      ],
+      "source": "skills/opencode-fixer/SKILL.md"
+    },
+    {
+      "name": "opencode-frontend",
+      "status": "active",
+      "owner_lane": "@frontend",
+      "risk": [
+        "web-ui-change",
+        "accessibility",
+        "api-integration"
+      ],
+      "fallback": "@designer or @backend",
+      "evidence": [
+        "skills/opencode-frontend/SKILL.md"
+      ],
+      "source": "skills/opencode-frontend/SKILL.md"
+    },
+    {
+      "name": "opencode-fullstack",
+      "status": "active",
+      "owner_lane": "@fullstack",
+      "risk": [
+        "cross-layer-change",
+        "scope-creep"
+      ],
+      "fallback": "split @frontend/@backend or @artifact-planner",
+      "evidence": [
+        "skills/opencode-fullstack/SKILL.md"
+      ],
+      "source": "skills/opencode-fullstack/SKILL.md"
+    },
+    {
+      "name": "opencode-librarian",
+      "status": "active",
+      "owner_lane": "@librarian",
+      "risk": [
+        "external-research"
+      ],
+      "fallback": "local docs only",
+      "evidence": [
+        "skills/opencode-librarian/SKILL.md"
+      ],
+      "source": "skills/opencode-librarian/SKILL.md"
+    },
+    {
+      "name": "opencode-mobile",
+      "status": "active",
+      "owner_lane": "@mobile",
+      "risk": [
+        "native-permissions",
+        "privacy",
+        "mobile-runtime"
+      ],
+      "fallback": "@architect or @quality-gate",
+      "evidence": [
+        "skills/opencode-mobile/SKILL.md"
+      ],
+      "source": "skills/opencode-mobile/SKILL.md"
+    },
+    {
+      "name": "opencode-oracle",
+      "status": "active",
+      "owner_lane": "@oracle",
+      "risk": [
+        "review-advice"
+      ],
+      "fallback": "@quality-gate",
+      "evidence": [
+        "skills/opencode-oracle/SKILL.md"
+      ],
+      "source": "skills/opencode-oracle/SKILL.md"
+    },
+    {
+      "name": "opencode-orchestrator",
+      "status": "active",
+      "owner_lane": "@orchestrator",
+      "risk": [
+        "routing",
+        "integration"
+      ],
+      "fallback": "user clarification",
+      "evidence": [
+        "skills/opencode-orchestrator/SKILL.md"
+      ],
+      "source": "skills/opencode-orchestrator/SKILL.md"
+    },
+    {
+      "name": "opencode-plan-reviewer",
+      "status": "active",
+      "owner_lane": "@system-analyst",
+      "risk": [
+        "requirements-ambiguity",
+        "read-only-boundary"
+      ],
+      "fallback": "implementation handoff only",
+      "evidence": [
+        "skills/opencode-system-analyst/SKILL.md"
+      ],
+      "source": "skills/opencode-system-analyst/SKILL.md",
+      "description": "Plan review skill for the plan-reviewer agent."
+    },
+    {
+      "name": "opencode-project-manager",
+      "status": "active",
+      "owner_lane": "@project-manager",
+      "risk": [
+        "delivery-plan",
+        "read-only-boundary"
+      ],
+      "fallback": "local plan artifact draft",
+      "evidence": [
+        "skills/opencode-project-manager/SKILL.md"
+      ],
+      "source": "skills/opencode-project-manager/SKILL.md"
+    },
+    {
+      "name": "opencode-quality-gate",
+      "status": "active",
+      "owner_lane": "@quality-gate",
+      "risk": [
+        "final-signoff"
+      ],
+      "fallback": "block completion",
+      "evidence": [
+        "skills/opencode-quality-gate/SKILL.md"
+      ],
+      "source": "skills/opencode-quality-gate/SKILL.md"
+    },
+    {
+      "name": "opencode-skill-improver",
+      "status": "active",
+      "owner_lane": "@skill-improver",
+      "risk": [
+        "prompt-change",
+        "routing-drift"
+      ],
+      "fallback": "record improvement note only",
+      "evidence": [
+        "skills/opencode-skill-improver/SKILL.md"
+      ],
+      "source": "skills/opencode-skill-improver/SKILL.md"
+    },
+    {
+      "name": "opencode-system-analyst",
+      "status": "active",
+      "owner_lane": "@system-analyst",
+      "risk": [
+        "requirements-ambiguity",
+        "read-only-boundary"
+      ],
+      "fallback": "implementation handoff only",
+      "evidence": [
+        "skills/opencode-system-analyst/SKILL.md"
+      ],
+      "source": "skills/opencode-system-analyst/SKILL.md"
+    },
+    {
+      "name": "opencode-visual-asset-generator",
+      "status": "active",
+      "owner_lane": "@visual-asset-generator",
+      "risk": [
+        "image-generation",
+        "legal-style-equivalent"
+      ],
+      "fallback": "asset manifest only",
+      "evidence": [
+        "skills/opencode-visual-asset-generator/SKILL.md"
+      ],
+      "source": "skills/opencode-visual-asset-generator/SKILL.md"
+    },
+    {
+      "name": "opencode-visual-context-extractor",
+      "status": "active",
+      "owner_lane": "@visual-context-extractor",
+      "risk": [
+        "read-only-boundary",
+        "pii-handling",
+        "overclaim"
+      ],
+      "fallback": "orchestrator routes critique to @designer and source edits to @fixer",
+      "evidence": [
+        "skills/opencode-visual-context-extractor/SKILL.md"
+      ],
+      "source": "skills/opencode-visual-context-extractor/SKILL.md"
+    }
   ],
   "mcp": [
-    { "name": "time", "status": "configured", "owner_lane": "@orchestrator", "risk": ["local-process", "low-egress"], "fallback": "use local system date from environment", "evidence": ["opencode.json:mcp.time"], "source": "opencode.json", "transport": "local", "auth": "none", "data_egress": "none expected beyond local process", "write_capability": false, "allowed_lanes": ["@orchestrator", "@librarian", "@quality-gate"], "denied_lanes": ["@council"], "evidence_required": ["record when date/time affects decision"], "secret_surfaces": [] },
-    { "name": "9router", "status": "configured", "owner_lane": "@librarian", "risk": ["remote-egress", "api-key", "image-generation"], "fallback": "skip external fetch/search/image and use local evidence", "evidence": ["opencode.json:mcp.9router"], "source": "opencode.json", "transport": "local", "auth": "NINEROUTER_KEY", "data_egress": "queries, fetched URLs, prompts, generated image prompts", "write_capability": true, "allowed_lanes": ["@librarian", "@visual-asset-generator", "@orchestrator"], "denied_lanes": ["@quality-gate", "@council"], "evidence_required": ["source URL/model or asset manifest", "no secrets in prompt"], "secret_surfaces": ["NINEROUTER_URL", "NINEROUTER_KEY"] },
-    { "name": "context7", "status": "configured", "owner_lane": "@librarian", "risk": ["remote-egress", "api-key", "library-docs"], "fallback": "use local docs or package source", "evidence": ["opencode.json:mcp.context7"], "source": "opencode.json", "transport": "local", "auth": "CONTEXT7_API_KEY", "data_egress": "library name and docs query", "write_capability": false, "allowed_lanes": ["@librarian", "@fixer"], "denied_lanes": ["@quality-gate", "@council"], "evidence_required": ["library id and query recorded"], "secret_surfaces": ["CONTEXT7_API_KEY"] },
-    { "name": "sequential-thinking", "status": "configured", "owner_lane": "@orchestrator", "risk": ["reasoning-scaffold", "latency", "thought-logging-policy"], "fallback": "use one brief local reasoning pass, record fallback in evidence, and continue with normal evidence-first workflow", "evidence": ["opencode.json:mcp.sequential-thinking", ".opencode/docs/TOOL_USAGE.md", ".opencode/docs/AGENT_TOOL_ACCESS.md"], "source": "opencode.json", "transport": "local", "auth": "none", "data_egress": "none expected beyond local process", "write_capability": false, "allowed_lanes": ["@architect", "@artifact-planner", "@backend", "@council", "@designer", "@devops", "@explorer", "@fixer", "@frontend", "@fullstack", "@librarian", "@mobile", "@oracle", "@orchestrator", "@project-manager", "@quality-gate", "@skill-improver", "@system-analyst", "@visual-asset-generator"], "denied_lanes": [], "evidence_required": ["summarize decisions/evidence only; do not expose raw thoughts", "record fallback when the MCP is unavailable", "keep tiny fast-path use to one brief thought", "for non-trivial, ambiguous, or risky work, use at most 3 thought steps total", "set or keep totalThoughts no higher than 3 when invoking sequential_thinking", "this is a prompt-policy cap, not a claimed server-enforced cap unless separately evidenced"], "secret_surfaces": [] },
-    { "name": "grep_app", "status": "configured", "owner_lane": "@librarian", "risk": ["remote-egress", "public-code-search"], "fallback": "local grep/glob only", "evidence": ["opencode.json:mcp.grep_app"], "source": "opencode.json", "transport": "remote", "auth": "none configured", "data_egress": "literal code search patterns", "write_capability": false, "allowed_lanes": ["@librarian", "@fixer"], "denied_lanes": ["@quality-gate", "@council"], "evidence_required": ["query pattern and repo/path filters"], "secret_surfaces": [] },
-    { "name": "playwright", "status": "configured", "owner_lane": "@designer", "risk": ["browser-session", "local-cdp", "stateful-actions"], "fallback": "static review or screenshots supplied by user", "evidence": ["opencode.json:mcp.playwright"], "source": "opencode.json", "transport": "local", "auth": "browser profile/session state", "data_egress": "page URLs, forms, screenshots, network data", "write_capability": true, "allowed_lanes": ["@designer", "@fixer", "@orchestrator"], "denied_lanes": ["@quality-gate", "@council"], "evidence_required": ["URL, action summary, screenshot/console/network result when used"], "secret_surfaces": ["browser cookies", "local session"] },
-    { "name": "shadcn", "status": "configured", "owner_lane": "@designer", "risk": ["local-process", "registry-code"], "fallback": "manual component implementation only when shadcn MCP/CLI is unavailable, fails with evidence, or repo pattern requires custom existing components", "evidence": ["opencode.json:mcp.shadcn"], "source": "opencode.json", "transport": "local", "auth": "none", "data_egress": "registry component names", "write_capability": true, "allowed_lanes": ["@designer", "@frontend", "@fixer"], "denied_lanes": ["@quality-gate", "@council"], "evidence_required": ["component names", "shadcn MCP/CLI command or fallback result", "audit checklist"], "secret_surfaces": [] },
-    { "name": "semgrep", "status": "configured", "owner_lane": "@quality-gate", "risk": ["local-scan", "supply-chain", "appsec-platform-optional"], "fallback": "manual security review and targeted code search", "evidence": ["opencode.json:mcp.semgrep"], "source": "opencode.json", "transport": "local", "auth": "semgrep login/env optional", "data_egress": "repository metadata/findings if app platform used", "write_capability": false, "allowed_lanes": ["@quality-gate", "@fixer", "@oracle"], "denied_lanes": ["@council"], "evidence_required": ["scan scope and findings summary"], "secret_surfaces": ["Semgrep auth token if configured"] },
-    { "name": "github", "status": "configured", "owner_lane": "@orchestrator", "risk": ["remote-egress", "token", "write-capable", "repo-mutation"], "fallback": "local git and explicit user handoff", "evidence": ["opencode.json:mcp.github"], "source": "opencode.json", "transport": "remote", "auth": "GITHUB_PERSONAL_ACCESS_TOKEN", "data_egress": "repo metadata, issues, PRs, code, workflow logs", "write_capability": true, "allowed_lanes": ["@orchestrator", "@fixer", "@quality-gate"], "denied_lanes": ["@council"], "evidence_required": ["repo, operation, target branch/PR/issue, no secret payload", "configured does not mean usable/authenticated"], "secret_surfaces": ["GITHUB_PERSONAL_ACCESS_TOKEN", "GITHUB_TOOLSETS"] },
-    { "name": "postgres_local", "status": "disabled", "owner_lane": "@backend", "risk": ["local-db", "query-mutation", "connection-string"], "fallback": "use migration files and local tests without MCP", "evidence": ["opencode.json:mcp.postgres_local"], "source": "opencode.json", "transport": "local", "auth": "LOCAL_POSTGRES_URL", "data_egress": "local database schema/query content when enabled", "write_capability": true, "allowed_lanes": ["@backend", "@quality-gate"], "denied_lanes": ["@council"], "evidence_required": ["explicit enablement and local DSN choice", "query intent and read/write classification"], "secret_surfaces": ["LOCAL_POSTGRES_URL"] },
-    { "name": "git_local", "status": "disabled", "owner_lane": "@orchestrator", "risk": ["local-git", "repo-mutation"], "fallback": "use shell git status/diff/log with ask gates", "evidence": ["opencode.json:mcp.git_local"], "source": "opencode.json", "transport": "local", "auth": "none", "data_egress": "local repository metadata only", "write_capability": true, "allowed_lanes": ["@orchestrator", "@fixer", "@quality-gate"], "denied_lanes": ["@council"], "evidence_required": ["operation and repository path"], "secret_surfaces": [] },
-    { "name": "sqlite_local", "status": "disabled", "owner_lane": "@backend", "risk": ["local-db", "query-mutation", "db-path"], "fallback": "inspect schema/files and run local tests without MCP", "evidence": ["opencode.json:mcp.sqlite_local"], "source": "opencode.json", "transport": "local", "auth": "LOCAL_SQLITE_PATH", "data_egress": "local SQLite schema/query content when enabled", "write_capability": true, "allowed_lanes": ["@backend", "@quality-gate"], "denied_lanes": ["@council"], "evidence_required": ["explicit enablement and local DB path", "query intent and read/write classification"], "secret_surfaces": ["LOCAL_SQLITE_PATH"] }
+    {
+      "name": "time",
+      "status": "configured",
+      "owner_lane": "@orchestrator",
+      "risk": [
+        "local-process",
+        "low-egress"
+      ],
+      "fallback": "use local system date from environment",
+      "evidence": [
+        "opencode.json:mcp.time"
+      ],
+      "source": "opencode.json",
+      "transport": "local",
+      "auth": "none",
+      "data_egress": "none expected beyond local process",
+      "write_capability": false,
+      "allowed_lanes": [
+        "@orchestrator",
+        "@librarian",
+        "@quality-gate"
+      ],
+      "denied_lanes": [
+        "@council"
+      ],
+      "evidence_required": [
+        "record when date/time affects decision"
+      ],
+      "secret_surfaces": []
+    },
+    {
+      "name": "9router",
+      "status": "configured",
+      "owner_lane": "@librarian",
+      "risk": [
+        "remote-egress",
+        "api-key",
+        "image-generation"
+      ],
+      "fallback": "skip external fetch/search/image and use local evidence",
+      "evidence": [
+        "opencode.json:mcp.9router"
+      ],
+      "source": "opencode.json",
+      "transport": "local",
+      "auth": "NINEROUTER_KEY",
+      "data_egress": "queries, fetched URLs, prompts, generated image prompts",
+      "write_capability": true,
+      "allowed_lanes": [
+        "@librarian",
+        "@visual-asset-generator",
+        "@orchestrator"
+      ],
+      "denied_lanes": [
+        "@quality-gate",
+        "@council"
+      ],
+      "evidence_required": [
+        "source URL/model or asset manifest",
+        "no secrets in prompt"
+      ],
+      "secret_surfaces": [
+        "NINEROUTER_URL",
+        "NINEROUTER_KEY"
+      ]
+    },
+    {
+      "name": "context7",
+      "status": "configured",
+      "owner_lane": "@librarian",
+      "risk": [
+        "remote-egress",
+        "api-key",
+        "library-docs"
+      ],
+      "fallback": "use local docs or package source",
+      "evidence": [
+        "opencode.json:mcp.context7"
+      ],
+      "source": "opencode.json",
+      "transport": "local",
+      "auth": "CONTEXT7_API_KEY",
+      "data_egress": "library name and docs query",
+      "write_capability": false,
+      "allowed_lanes": [
+        "@librarian",
+        "@fixer"
+      ],
+      "denied_lanes": [
+        "@quality-gate",
+        "@council"
+      ],
+      "evidence_required": [
+        "library id and query recorded"
+      ],
+      "secret_surfaces": [
+        "CONTEXT7_API_KEY"
+      ]
+    },
+    {
+      "name": "sequential-thinking",
+      "status": "configured",
+      "owner_lane": "@orchestrator",
+      "risk": [
+        "reasoning-scaffold",
+        "latency",
+        "thought-logging-policy"
+      ],
+      "fallback": "use one brief local reasoning pass, record fallback in evidence, and continue with normal evidence-first workflow",
+      "evidence": [
+        "opencode.json:mcp.sequential-thinking",
+        ".opencode/docs/TOOL_USAGE.md",
+        ".opencode/docs/AGENT_TOOL_ACCESS.md"
+      ],
+      "source": "opencode.json",
+      "transport": "local",
+      "auth": "none",
+      "data_egress": "none expected beyond local process",
+      "write_capability": false,
+      "allowed_lanes": [
+        "@architect",
+        "@artifact-planner",
+        "@backend",
+        "@council",
+        "@designer",
+        "@devops",
+        "@explorer",
+        "@fixer",
+        "@frontend",
+        "@fullstack",
+        "@librarian",
+        "@mobile",
+        "@oracle",
+        "@orchestrator",
+        "@project-manager",
+        "@quality-gate",
+        "@skill-improver",
+        "@system-analyst",
+        "@visual-asset-generator"
+      ],
+      "denied_lanes": [],
+      "evidence_required": [
+        "summarize decisions/evidence only; do not expose raw thoughts",
+        "record fallback when the MCP is unavailable",
+        "keep tiny fast-path use to one brief thought",
+        "for non-trivial, ambiguous, or risky work, use at most 3 thought steps total",
+        "set or keep totalThoughts no higher than 3 when invoking sequential_thinking",
+        "this is a prompt-policy cap, not a claimed server-enforced cap unless separately evidenced"
+      ],
+      "secret_surfaces": []
+    },
+    {
+      "name": "grep_app",
+      "status": "configured",
+      "owner_lane": "@librarian",
+      "risk": [
+        "remote-egress",
+        "public-code-search"
+      ],
+      "fallback": "local grep/glob only",
+      "evidence": [
+        "opencode.json:mcp.grep_app"
+      ],
+      "source": "opencode.json",
+      "transport": "remote",
+      "auth": "none configured",
+      "data_egress": "literal code search patterns",
+      "write_capability": false,
+      "allowed_lanes": [
+        "@librarian",
+        "@fixer"
+      ],
+      "denied_lanes": [
+        "@quality-gate",
+        "@council"
+      ],
+      "evidence_required": [
+        "query pattern and repo/path filters"
+      ],
+      "secret_surfaces": []
+    },
+    {
+      "name": "playwright",
+      "status": "configured",
+      "owner_lane": "@designer",
+      "risk": [
+        "browser-session",
+        "local-cdp",
+        "stateful-actions"
+      ],
+      "fallback": "static review or screenshots supplied by user",
+      "evidence": [
+        "opencode.json:mcp.playwright"
+      ],
+      "source": "opencode.json",
+      "transport": "local",
+      "auth": "browser profile/session state",
+      "data_egress": "page URLs, forms, screenshots, network data",
+      "write_capability": true,
+      "allowed_lanes": [
+        "@designer",
+        "@fixer",
+        "@orchestrator"
+      ],
+      "denied_lanes": [
+        "@quality-gate",
+        "@council"
+      ],
+      "evidence_required": [
+        "URL, action summary, screenshot/console/network result when used"
+      ],
+      "secret_surfaces": [
+        "browser cookies",
+        "local session"
+      ]
+    },
+    {
+      "name": "shadcn",
+      "status": "configured",
+      "owner_lane": "@designer",
+      "risk": [
+        "local-process",
+        "registry-code"
+      ],
+      "fallback": "manual component implementation only when shadcn MCP/CLI is unavailable, fails with evidence, or repo pattern requires custom existing components",
+      "evidence": [
+        "opencode.json:mcp.shadcn"
+      ],
+      "source": "opencode.json",
+      "transport": "local",
+      "auth": "none",
+      "data_egress": "registry component names",
+      "write_capability": true,
+      "allowed_lanes": [
+        "@designer",
+        "@frontend",
+        "@fixer"
+      ],
+      "denied_lanes": [
+        "@quality-gate",
+        "@council"
+      ],
+      "evidence_required": [
+        "component names",
+        "shadcn MCP/CLI command or fallback result",
+        "audit checklist"
+      ],
+      "secret_surfaces": []
+    },
+    {
+      "name": "semgrep",
+      "status": "configured",
+      "owner_lane": "@quality-gate",
+      "risk": [
+        "local-scan",
+        "supply-chain",
+        "appsec-platform-optional"
+      ],
+      "fallback": "manual security review and targeted code search",
+      "evidence": [
+        "opencode.json:mcp.semgrep"
+      ],
+      "source": "opencode.json",
+      "transport": "local",
+      "auth": "semgrep login/env optional",
+      "data_egress": "repository metadata/findings if app platform used",
+      "write_capability": false,
+      "allowed_lanes": [
+        "@quality-gate",
+        "@fixer",
+        "@oracle"
+      ],
+      "denied_lanes": [
+        "@council"
+      ],
+      "evidence_required": [
+        "scan scope and findings summary"
+      ],
+      "secret_surfaces": [
+        "Semgrep auth token if configured"
+      ]
+    },
+    {
+      "name": "github",
+      "status": "configured",
+      "owner_lane": "@orchestrator",
+      "risk": [
+        "remote-egress",
+        "token",
+        "write-capable",
+        "repo-mutation"
+      ],
+      "fallback": "local git and explicit user handoff",
+      "evidence": [
+        "opencode.json:mcp.github"
+      ],
+      "source": "opencode.json",
+      "transport": "remote",
+      "auth": "GITHUB_PERSONAL_ACCESS_TOKEN",
+      "data_egress": "repo metadata, issues, PRs, code, workflow logs",
+      "write_capability": true,
+      "allowed_lanes": [
+        "@orchestrator",
+        "@fixer",
+        "@quality-gate"
+      ],
+      "denied_lanes": [
+        "@council"
+      ],
+      "evidence_required": [
+        "repo, operation, target branch/PR/issue, no secret payload",
+        "configured does not mean usable/authenticated"
+      ],
+      "secret_surfaces": [
+        "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "GITHUB_TOOLSETS"
+      ]
+    },
+    {
+      "name": "postgres_local",
+      "status": "disabled",
+      "owner_lane": "@backend",
+      "risk": [
+        "local-db",
+        "query-mutation",
+        "connection-string"
+      ],
+      "fallback": "use migration files and local tests without MCP",
+      "evidence": [
+        "opencode.json:mcp.postgres_local"
+      ],
+      "source": "opencode.json",
+      "transport": "local",
+      "auth": "LOCAL_POSTGRES_URL",
+      "data_egress": "local database schema/query content when enabled",
+      "write_capability": true,
+      "allowed_lanes": [
+        "@backend",
+        "@quality-gate"
+      ],
+      "denied_lanes": [
+        "@council"
+      ],
+      "evidence_required": [
+        "explicit enablement and local DSN choice",
+        "query intent and read/write classification"
+      ],
+      "secret_surfaces": [
+        "LOCAL_POSTGRES_URL"
+      ]
+    },
+    {
+      "name": "git_local",
+      "status": "disabled",
+      "owner_lane": "@orchestrator",
+      "risk": [
+        "local-git",
+        "repo-mutation"
+      ],
+      "fallback": "use shell git status/diff/log with ask gates",
+      "evidence": [
+        "opencode.json:mcp.git_local"
+      ],
+      "source": "opencode.json",
+      "transport": "local",
+      "auth": "none",
+      "data_egress": "local repository metadata only",
+      "write_capability": true,
+      "allowed_lanes": [
+        "@orchestrator",
+        "@fixer",
+        "@quality-gate"
+      ],
+      "denied_lanes": [
+        "@council"
+      ],
+      "evidence_required": [
+        "operation and repository path"
+      ],
+      "secret_surfaces": []
+    },
+    {
+      "name": "sqlite_local",
+      "status": "disabled",
+      "owner_lane": "@backend",
+      "risk": [
+        "local-db",
+        "query-mutation",
+        "db-path"
+      ],
+      "fallback": "inspect schema/files and run local tests without MCP",
+      "evidence": [
+        "opencode.json:mcp.sqlite_local"
+      ],
+      "source": "opencode.json",
+      "transport": "local",
+      "auth": "LOCAL_SQLITE_PATH",
+      "data_egress": "local SQLite schema/query content when enabled",
+      "write_capability": true,
+      "allowed_lanes": [
+        "@backend",
+        "@quality-gate"
+      ],
+      "denied_lanes": [
+        "@council"
+      ],
+      "evidence_required": [
+        "explicit enablement and local DB path",
+        "query intent and read/write classification"
+      ],
+      "secret_surfaces": [
+        "LOCAL_SQLITE_PATH"
+      ]
+    }
   ],
   "external_comparators": [
-    { "name": "oh-my-codex", "status": "external-comparator", "repository": "external reference repo", "license": "unverified in local evidence", "patterns": ["clarify-plan-execute-verify", "doctor/exec style checks"], "decision": "adapt", "reason": "Use workflow pattern only; no source import in MVP.", "risk": ["cargo-cult", "license-unknown"], "fallback": "local AGENT_ROUTING and QUALITY docs", "evidence": [".opencode/plans/20260602-2116-improve-skill-agent-mcp.md"] },
-    { "name": "oh-my-claudecode", "status": "external-comparator", "repository": "external reference repo", "license": "unverified in local evidence", "patterns": ["skill lifecycle", "smoke tests", "install/migration/security docs"], "decision": "adapt", "reason": "Comparable governance ideas only; local harness remains canonical.", "risk": ["prompt-bloat", "tooling-mismatch"], "fallback": "local prompt gates and eval harness", "evidence": [".opencode/plans/20260602-2116-improve-skill-agent-mcp.md"] },
-    { "name": "oh-my-pi", "status": "external-comparator", "repository": "external reference repo", "license": "unverified in local evidence", "patterns": ["typed subagent outputs", "hashline/content-hash anchors", "LSP/AST-first"], "decision": "defer", "reason": "Good future fit, but MVP limits scope to registry and deterministic checks.", "risk": ["overengineering", "prompt-bloat"], "fallback": "existing typed output contracts and deterministic edit helper", "evidence": [".opencode/plans/20260602-2116-improve-skill-agent-mcp.md"] },
-    { "name": "oh-my-openagent", "status": "external-comparator", "repository": "external reference repo", "license": "SUL-1.0 per plan", "patterns": ["layered core/adapters", "edition split", "compatibility matrix"], "decision": "reject", "reason": "Source reuse blocked by license review; comparator only.", "risk": ["license", "external-overreach"], "fallback": "registry docs generated from local state", "evidence": [".opencode/plans/20260602-2116-improve-skill-agent-mcp.md"] }
+    {
+      "name": "oh-my-codex",
+      "status": "external-comparator",
+      "repository": "external reference repo",
+      "license": "unverified in local evidence",
+      "patterns": [
+        "clarify-plan-execute-verify",
+        "doctor/exec style checks"
+      ],
+      "decision": "adapt",
+      "reason": "Use workflow pattern only; no source import in MVP.",
+      "risk": [
+        "cargo-cult",
+        "license-unknown"
+      ],
+      "fallback": "local AGENT_ROUTING and QUALITY docs",
+      "evidence": [
+        ".opencode/plans/20260602-2116-improve-skill-agent-mcp.md"
+      ]
+    },
+    {
+      "name": "oh-my-claudecode",
+      "status": "external-comparator",
+      "repository": "external reference repo",
+      "license": "unverified in local evidence",
+      "patterns": [
+        "skill lifecycle",
+        "smoke tests",
+        "install/migration/security docs"
+      ],
+      "decision": "adapt",
+      "reason": "Comparable governance ideas only; local harness remains canonical.",
+      "risk": [
+        "prompt-bloat",
+        "tooling-mismatch"
+      ],
+      "fallback": "local prompt gates and eval harness",
+      "evidence": [
+        ".opencode/plans/20260602-2116-improve-skill-agent-mcp.md"
+      ]
+    },
+    {
+      "name": "oh-my-pi",
+      "status": "external-comparator",
+      "repository": "external reference repo",
+      "license": "unverified in local evidence",
+      "patterns": [
+        "typed subagent outputs",
+        "hashline/content-hash anchors",
+        "LSP/AST-first"
+      ],
+      "decision": "defer",
+      "reason": "Good future fit, but MVP limits scope to registry and deterministic checks.",
+      "risk": [
+        "overengineering",
+        "prompt-bloat"
+      ],
+      "fallback": "existing typed output contracts and deterministic edit helper",
+      "evidence": [
+        ".opencode/plans/20260602-2116-improve-skill-agent-mcp.md"
+      ]
+    },
+    {
+      "name": "oh-my-openagent",
+      "status": "external-comparator",
+      "repository": "external reference repo",
+      "license": "SUL-1.0 per plan",
+      "patterns": [
+        "layered core/adapters",
+        "edition split",
+        "compatibility matrix"
+      ],
+      "decision": "reject",
+      "reason": "Source reuse blocked by license review; comparator only.",
+      "risk": [
+        "license",
+        "external-overreach"
+      ],
+      "fallback": "registry docs generated from local state",
+      "evidence": [
+        ".opencode/plans/20260602-2116-improve-skill-agent-mcp.md"
+      ]
+    }
   ]
 }

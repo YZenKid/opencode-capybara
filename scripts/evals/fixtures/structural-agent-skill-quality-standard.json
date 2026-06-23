@@ -1,0 +1,426 @@
+{
+  "id": "structural-agent-skill-quality-standard",
+  "description": "All active agents and skills must include Workflow, Quality checklist, Anti-patterns, and Output example sections (9.5+ quality standard).",
+  "rules": [
+    {
+      "file": "agents/architect.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-architect-missing-quality-sections"
+    },
+    {
+      "file": "agents/artifact-planner.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-artifact-planner-missing-quality-sections"
+    },
+    {
+      "file": "agents/backend.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-backend-missing-quality-sections"
+    },
+    {
+      "file": "agents/council.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-council-missing-quality-sections"
+    },
+    {
+      "file": "agents/designer.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-designer-missing-quality-sections"
+    },
+    {
+      "file": "agents/devops.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-devops-missing-quality-sections"
+    },
+    {
+      "file": "agents/explorer.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-explorer-missing-quality-sections"
+    },
+    {
+      "file": "agents/fixer.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-fixer-missing-quality-sections"
+    },
+    {
+      "file": "agents/frontend.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-frontend-missing-quality-sections"
+    },
+    {
+      "file": "agents/fullstack.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-fullstack-missing-quality-sections"
+    },
+    {
+      "file": "agents/librarian.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-librarian-missing-quality-sections"
+    },
+    {
+      "file": "agents/mobile.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-mobile-missing-quality-sections"
+    },
+    {
+      "file": "agents/oracle.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-oracle-missing-quality-sections"
+    },
+    {
+      "file": "agents/orchestrator.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-orchestrator-missing-quality-sections"
+    },
+    {
+      "file": "agents/plan-reviewer.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-plan-reviewer-missing-quality-sections"
+    },
+    {
+      "file": "agents/project-manager.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-project-manager-missing-quality-sections"
+    },
+    {
+      "file": "agents/quality-gate.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-quality-gate-missing-quality-sections"
+    },
+    {
+      "file": "agents/skill-improver.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-skill-improver-missing-quality-sections"
+    },
+    {
+      "file": "agents/system-analyst.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-system-analyst-missing-quality-sections"
+    },
+    {
+      "file": "agents/visual-asset-generator.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-visual-asset-generator-missing-quality-sections"
+    },
+    {
+      "file": "agents/visual-context-extractor.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "agent-visual-context-extractor-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-architect/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-architect-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-artifact-planner/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-artifact-planner-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-backend/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-backend-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-council/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-council-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-designer/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-designer-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-devops/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-devops-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-explorer/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-explorer-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-fixer/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-fixer-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-frontend/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-frontend-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-fullstack/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-fullstack-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-librarian/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-librarian-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-mobile/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-mobile-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-oracle/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-oracle-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-orchestrator/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-orchestrator-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-plan-reviewer/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-plan-reviewer-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-project-manager/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-project-manager-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-quality-gate/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-quality-gate-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-skill-improver/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-skill-improver-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-system-analyst/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-system-analyst-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-visual-asset-generator/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-visual-asset-generator-missing-quality-sections"
+    },
+    {
+      "file": "skills/opencode-visual-context-extractor/SKILL.md",
+      "mustInclude": [
+        "## Workflow",
+        "## Quality checklist",
+        "## Anti-patterns",
+        "## Output example"
+      ],
+      "reasonCode": "skill-opencode-visual-context-extractor-missing-quality-sections"
+    }
+  ]
+}

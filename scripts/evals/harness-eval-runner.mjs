@@ -254,7 +254,8 @@ writeFileSync(resolve(historyDir, `${historySafeTimestamp}.json`), JSON.stringif
 writeFileSync(resolve(historyDir, `${historySafeTimestamp}.md`), readFileSync(resolve(reportDir, "report.md"), "utf8"));
 
 for (const result of results) {
-  console.log(`${result.status === "PASS" ? "✓" : "✗"} ${result.id}`);
+  const symbol = result.status === "PASS" ? "✓" : result.status === "SKIP" ? "-" : "✗";
+  console.log(`${symbol} ${result.id}`);
 }
 
 if (failed > 0) {

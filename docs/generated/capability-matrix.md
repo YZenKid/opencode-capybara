@@ -2,8 +2,8 @@
 
 Generated from `.opencode/capabilities/registry.json`. Advisory only; canonical policy remains in `.opencode/docs/`.
 
-- Agents: 20
-- Skills: 20
+- Agents: 21
+- Skills: 21
 
 | Type | Name | Owner lane | Status | Risk | Fallback |
 | --- | --- | --- | --- | --- | --- |
@@ -21,6 +21,7 @@ Generated from `.opencode/capabilities/registry.json`. Advisory only; canonical 
 | agent | mobile | @mobile | active | native-permissions, privacy, store-constraints, mobile-runtime | @architect for mobile architecture or @quality-gate for privacy/store signoff |
 | agent | oracle | @oracle | active | review-advice, read-only-boundary | @quality-gate for final conformance |
 | agent | orchestrator | @orchestrator | active | routing, integration, scope-control | specialist lane or user clarification |
+| agent | plan-reviewer | @system-analyst | active | read-only-boundary, requirements-ambiguity, contract-drift | @project-manager for delivery breakdown or implementation lane after handoff |
 | agent | project-manager | @project-manager | active | read-only-boundary, delivery-plan, tracker-write-risk | @system-analyst for unclear requirements or local artifact draft when tracker unavailable |
 | agent | quality-gate | @quality-gate | active | final-signoff, read-only-boundary | block completion and return residual risks |
 | agent | skill-improver | @skill-improver | active | prompt-change, routing-drift | document finding without prompt edits |
@@ -41,6 +42,7 @@ Generated from `.opencode/capabilities/registry.json`. Advisory only; canonical 
 | skill | opencode-mobile | @mobile | active | native-permissions, privacy, mobile-runtime | @architect or @quality-gate |
 | skill | opencode-oracle | @oracle | active | review-advice | @quality-gate |
 | skill | opencode-orchestrator | @orchestrator | active | routing, integration | user clarification |
+| skill | opencode-plan-reviewer | @system-analyst | active | requirements-ambiguity, read-only-boundary | implementation handoff only |
 | skill | opencode-project-manager | @project-manager | active | delivery-plan, read-only-boundary | local plan artifact draft |
 | skill | opencode-quality-gate | @quality-gate | active | final-signoff | block completion |
 | skill | opencode-skill-improver | @skill-improver | active | prompt-change, routing-drift | record improvement note only |

@@ -50,9 +50,12 @@ Canonical tool references:
 Direct-work threshold (hard default):
 - `@orchestrator` may execute directly only for tiny, reversible tasks (typically 1 edited file and <=3 file reads for verification).
 - Non-trivial work should route through `@artifact-planner` first when planning depth/evidence is required.
+- route through `@artifact-planner` first for non-trivial work.
 - If discovery becomes unknown-scope, cross-area, or read-heavy (>3 files), route to `@explorer` instead of continuing direct reads.
 - If implementation touches 2+ files, route bounded implementation to `@fixer` by default.
+- route bounded implementation to `@fixer` by default.
 - `@artifact-planner` is a triggered/conditional planning lane, not default-first. Trigger it for multi-phase/spec-heavy/materially ambiguous/evidence-heavy work.
+- final review pass to `@quality-gate` is required before material completion claims.
 
 - Unknown codebase, broad search, symbol discovery, test/helper discovery → `@explorer`.
 - Current library/API/docs behavior → `@librarian` (supporting helper); prefer official docs/context first, then GitHub/web when needed.
@@ -109,6 +112,7 @@ Direct-work threshold (hard default):
 - Creativity Fast Path: for explicit natural-language requests to brainstorm, explore options, generate ideas, sketch first, prototype quickly, or draft without claiming production readiness. Treat it as opt-in, reversible, and exploratory only: label outputs `draft`, `prototype`, or `exploration`; use repo-local evidence when cheap/relevant; record assumptions/confidence; skip heavy planning only while the work remains reversible.
 - Creativity Fast Path must not bypass hard rails for secrets, `.env`, credentials, PII, auth/session/token, RBAC/permission boundaries, payments, uploads, destructive ops, deploy/release, or permission widening. It also does not remove `@quality-gate` from material/risky/prompt/config/security/UI completion claims.
 - Promotion Gate: when the user asks to implement permanently, ship, commit, deploy, claim `done`/`ready`/`production-ready`/`close parity`, or otherwise keep the result as production behavior, exit Creativity Fast Path and return to normal routing. Invoke `@artifact-planner` if scope is now multi-phase/material/ambiguous, then validate and route to `@quality-gate` wherever normal rules require it.
+- Rerun targeted validation and reroute to `@quality-gate` after remediation work is complete when a non-`PASS` quality gate result created a remediation worklist.
 - Plan Quality Gate values: `PASS`, `PASS_FOR_SLICE`, `NEEDS_DEPTH`, `BLOCKED`. Return `NEEDS_DEPTH` to planner/advisory lanes and stop on true `BLOCKED`.
 
 ## Boundary quick table
@@ -164,7 +168,7 @@ Direct-work threshold (hard default):
    - Run Plan Compliance Checkpoint before any completion claim: verify all non-blocked tasks, Done Criteria, Non-negotiable Implementation Invariants, Do Not / Reject If, validation results, evidence updates, Diff Boundary, and claim scope.
    - Route non-trivial/risky final review to `@quality-gate`. If result is `NEEDS_FIX`, `BLOCKED`, or `PASS_WITH_RISKS`, convert findings into remediation tasks, execute all non-blocked remediation items finish-first, rerun targeted validation, and route back to `@quality-gate`.
    - Do not do multi-file bounded implementation directly in orchestrator unless specialist routing is unavailable; if fallback is used, record explicit limitation and rationale in evidence.
-   - Use auto-commit for local commits only after a plan-bound non-trivial task completes, validation has passed, and `@quality-gate` returns `PASS` or `PASS_WITH_RISKS` with no blocker.
+   - Use auto-commit for local commits only after a plan-bound non-trivial task completes, validation has passed, and @quality-gate returns `PASS` or `PASS_WITH_RISKS` with no blocker.
    - Auto-commit must stage only relevant files, generate a concise subject plus bullet-point body from the diff and recent repo style, create a local `git commit`, and never push automatically.
    - Never stage `.env`, secrets, tokens, credentials, unrelated untracked files, or generated/vendor files unless the plan or user explicitly approved them.
    - Never use `--no-verify`, `--no-gpg-sign`, `amend`, force push, or destructive git commands; if a pre-commit hook fails, fix the issue and make a new commit only after the tree is clean.
@@ -294,8 +298,10 @@ A plan that contains all required section names but lacks depth/detail is NOT ex
 
 - Plan Execution Precedence Order: latest explicit user instruction; safety/security/permission rules; Non-negotiable Implementation Invariants; Execution-ready Worklist / Handoff Contract; Acceptance Criteria and Done Criteria; Implementation Steps; follow-ups/recommendations. Record conflicts and chosen resolution in verification evidence.
 - When a plan includes an `Execution-ready Worklist / Handoff Contract`, treat it as the execution source of truth:
+  - Trivial, single-step, and easily reversible tasks may skip planner.
+  - Non-trivial work should route through `@artifact-planner` first.
   - Start with the declared `start_with` first non-blocked task.
-  - Execute all ordered non-blocked tasks finish-first until plan done criteria are met, one ready task at a time.
+  - Execute all ordered non-blocked tasks finish-first until plan done criteria are met.
   - Respect `depends_on`, owner/lane routing, validation, per-task exit criteria, `must_preserve`, `do_not_touch`, `evidence_update`, and `exit_verification`.
   - Verify each task exit criteria before moving to the next task.
   - Do not stop at internal milestones/phases unless a task is explicitly `blocked` or `requires_user_decision: yes`.

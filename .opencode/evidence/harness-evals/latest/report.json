@@ -1,7 +1,7 @@
 {
   "task_id": "harness-evals-latest",
-  "timestamp": "2026-06-19T02:55:09.667Z",
-  "harness_version": "de9657dc949f420a8a6b762e64be929d43bcbcbe",
+  "timestamp": "2026-06-23T13:19:13.102Z",
+  "harness_version": "10bb542cfb3b5b51760a6b2554a44ce37580ca0b",
   "prompt_or_task_summary": "Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.",
   "tool_trace_summary": [
     "Read eval fixture JSON files from scripts/evals/fixtures/",
@@ -18,9 +18,10 @@
     }
   ],
   "verdict": "PASS",
-  "fixture_count": 39,
+  "fixture_count": 41,
   "failed": 0,
   "fixture_ids": [
+    "advisory-boundary-routing",
     "agents-policy-bloat-negative",
     "capability-governance-negative",
     "creativity-fast-path-routing",
@@ -29,6 +30,7 @@
     "greenfield-maintenance-mode-routing",
     "readonly-boundary-negative",
     "runtime-plugin-removal",
+    "structural-agent-skill-quality-standard",
     "docs-policy-migration-roundtrip",
     "drift-planner-visual-asset-boundary",
     "evidence-bundle-completion",
@@ -117,7 +119,7 @@
     "release_critical_average_score_0_to_5": 4.57
   },
   "drift_summary": {
-    "previous_timestamp": "2026-06-11T10:55:09.444Z",
+    "previous_timestamp": "2026-06-23T11:59:12.992Z",
     "previous_average_score_0_to_5": 3.88,
     "average_score_delta": 0,
     "failed_delta": 0,
@@ -149,8 +151,27 @@
     ".opencode/plans/20260510-2140-harness-engineering-plan.md",
     ".opencode/plans/20260512-1708-orchestrator-routing-hardening.md",
     "AGENTS.md",
+    "agents/architect.md",
+    "agents/artifact-planner.md",
+    "agents/backend.md",
+    "agents/council.md",
+    "agents/designer.md",
+    "agents/devops.md",
+    "agents/explorer.md",
+    "agents/fixer.md",
+    "agents/frontend.md",
+    "agents/fullstack.md",
+    "agents/librarian.md",
+    "agents/mobile.md",
     "agents/oracle.md",
+    "agents/orchestrator.md",
+    "agents/plan-reviewer.md",
+    "agents/project-manager.md",
     "agents/quality-gate.md",
+    "agents/skill-improver.md",
+    "agents/system-analyst.md",
+    "agents/visual-asset-generator.md",
+    "agents/visual-context-extractor.md",
     "opencode.json",
     "package.json",
     "scripts/evals/transcript-fixtures/creativity-fast-path-positive.json",
@@ -177,10 +198,41 @@
     "scripts/evals/transcript-fixtures/routing-share-export-keyword-noise-boundary.json",
     "scripts/evals/transcript-fixtures/routing-share-export-malformed-partial.json",
     "scripts/evals/transcript-fixtures/routing-share-export-noisy-negative.json",
+    "skills/opencode-architect/SKILL.md",
+    "skills/opencode-artifact-planner/SKILL.md",
+    "skills/opencode-backend/SKILL.md",
+    "skills/opencode-council/SKILL.md",
+    "skills/opencode-designer/SKILL.md",
+    "skills/opencode-devops/SKILL.md",
+    "skills/opencode-explorer/SKILL.md",
+    "skills/opencode-fixer/SKILL.md",
+    "skills/opencode-frontend/SKILL.md",
+    "skills/opencode-fullstack/SKILL.md",
+    "skills/opencode-librarian/SKILL.md",
+    "skills/opencode-mobile/SKILL.md",
+    "skills/opencode-oracle/SKILL.md",
     "skills/opencode-orchestrator/SKILL.md",
-    "skills/opencode-quality-gate/SKILL.md"
+    "skills/opencode-plan-reviewer/SKILL.md",
+    "skills/opencode-project-manager/SKILL.md",
+    "skills/opencode-quality-gate/SKILL.md",
+    "skills/opencode-skill-improver/SKILL.md",
+    "skills/opencode-system-analyst/SKILL.md",
+    "skills/opencode-visual-asset-generator/SKILL.md",
+    "skills/opencode-visual-context-extractor/SKILL.md"
   ],
   "results": [
+    {
+      "id": "advisory-boundary-routing",
+      "description": "Skipped non-text-rule fixture: advisory-boundary-routing.json",
+      "status": "SKIP",
+      "checks": [
+        {
+          "file": "scripts/evals/fixtures/advisory-boundary-routing.json",
+          "status": "SKIP",
+          "reason_code": "unsupported-fixture-shape"
+        }
+      ]
+    },
     {
       "id": "agents-policy-bloat-negative",
       "description": "Negative fixture: AGENTS.md should stay map-like and avoid re-absorbing long-form policy language that belongs in docs.",
@@ -258,15 +310,9 @@
     },
     {
       "id": "greenfield-maintenance-mode-routing",
-      "description": "Skipped non-text-rule fixture: greenfield-maintenance-mode-routing.json",
-      "status": "SKIP",
-      "checks": [
-        {
-          "file": "scripts/evals/fixtures/greenfield-maintenance-mode-routing.json",
-          "status": "SKIP",
-          "reason_code": "unsupported-fixture-shape"
-        }
-      ]
+      "description": "Prompt-gate mode behavior fixture text source for greenfield, maintenance, and creativity fast path routing expectations.",
+      "status": "PASS",
+      "checks": []
     },
     {
       "id": "readonly-boundary-negative",
@@ -294,6 +340,181 @@
         },
         {
           "file": "opencode.json",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "structural-agent-skill-quality-standard",
+      "description": "All active agents and skills must include Workflow, Quality checklist, Anti-patterns, and Output example sections (9.5+ quality standard).",
+      "status": "PASS",
+      "checks": [
+        {
+          "file": "agents/architect.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/artifact-planner.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/backend.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/council.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/designer.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/devops.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/explorer.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/fixer.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/frontend.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/fullstack.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/librarian.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/mobile.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/oracle.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/orchestrator.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/plan-reviewer.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/project-manager.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/quality-gate.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/skill-improver.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/system-analyst.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/visual-asset-generator.md",
+          "status": "PASS"
+        },
+        {
+          "file": "agents/visual-context-extractor.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-architect/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-artifact-planner/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-backend/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-council/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-designer/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-devops/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-explorer/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-fixer/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-frontend/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-fullstack/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-librarian/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-mobile/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-oracle/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-orchestrator/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-plan-reviewer/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-project-manager/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-quality-gate/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-skill-improver/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-system-analyst/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-visual-asset-generator/SKILL.md",
+          "status": "PASS"
+        },
+        {
+          "file": "skills/opencode-visual-context-extractor/SKILL.md",
           "status": "PASS"
         }
       ]

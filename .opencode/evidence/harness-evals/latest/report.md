@@ -1,10 +1,10 @@
 # Harness Eval Report
 
-- Timestamp: 2026-06-19T02:55:09.667Z
-- Harness version: de9657dc949f420a8a6b762e64be929d43bcbcbe
+- Timestamp: 2026-06-23T13:19:13.102Z
+- Harness version: 10bb542cfb3b5b51760a6b2554a44ce37580ca0b
 - Task summary: Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.
 - Verdict: PASS
-- Fixture count: 39
+- Fixture count: 41
 - Failed: 0
 - Transcript fixture count: 24
 - Transcript average routing score: 3.88/5
@@ -36,8 +36,27 @@
   - .opencode/plans/20260510-2140-harness-engineering-plan.md
   - .opencode/plans/20260512-1708-orchestrator-routing-hardening.md
   - AGENTS.md
+  - agents/architect.md
+  - agents/artifact-planner.md
+  - agents/backend.md
+  - agents/council.md
+  - agents/designer.md
+  - agents/devops.md
+  - agents/explorer.md
+  - agents/fixer.md
+  - agents/frontend.md
+  - agents/fullstack.md
+  - agents/librarian.md
+  - agents/mobile.md
   - agents/oracle.md
+  - agents/orchestrator.md
+  - agents/plan-reviewer.md
+  - agents/project-manager.md
   - agents/quality-gate.md
+  - agents/skill-improver.md
+  - agents/system-analyst.md
+  - agents/visual-asset-generator.md
+  - agents/visual-context-extractor.md
   - opencode.json
   - package.json
   - scripts/evals/transcript-fixtures/creativity-fast-path-positive.json
@@ -64,11 +83,31 @@
   - scripts/evals/transcript-fixtures/routing-share-export-keyword-noise-boundary.json
   - scripts/evals/transcript-fixtures/routing-share-export-malformed-partial.json
   - scripts/evals/transcript-fixtures/routing-share-export-noisy-negative.json
+  - skills/opencode-architect/SKILL.md
+  - skills/opencode-artifact-planner/SKILL.md
+  - skills/opencode-backend/SKILL.md
+  - skills/opencode-council/SKILL.md
+  - skills/opencode-designer/SKILL.md
+  - skills/opencode-devops/SKILL.md
+  - skills/opencode-explorer/SKILL.md
+  - skills/opencode-fixer/SKILL.md
+  - skills/opencode-frontend/SKILL.md
+  - skills/opencode-fullstack/SKILL.md
+  - skills/opencode-librarian/SKILL.md
+  - skills/opencode-mobile/SKILL.md
+  - skills/opencode-oracle/SKILL.md
   - skills/opencode-orchestrator/SKILL.md
+  - skills/opencode-plan-reviewer/SKILL.md
+  - skills/opencode-project-manager/SKILL.md
   - skills/opencode-quality-gate/SKILL.md
+  - skills/opencode-skill-improver/SKILL.md
+  - skills/opencode-system-analyst/SKILL.md
+  - skills/opencode-visual-asset-generator/SKILL.md
+  - skills/opencode-visual-context-extractor/SKILL.md
 - Validation outputs:
   - npm run eval:harness → PASS
 - Fixture IDs:
+  - advisory-boundary-routing
   - agents-policy-bloat-negative
   - capability-governance-negative
   - creativity-fast-path-routing
@@ -77,6 +116,7 @@
   - greenfield-maintenance-mode-routing
   - readonly-boundary-negative
   - runtime-plugin-removal
+  - structural-agent-skill-quality-standard
   - docs-policy-migration-roundtrip
   - drift-planner-visual-asset-boundary
   - evidence-bundle-completion
@@ -132,6 +172,10 @@
   - routing-overreach-missing-planner-first
   - routing-overreach-missing-quality-gate
 
+## advisory-boundary-routing
+- Status: SKIP
+- Description: Skipped non-text-rule fixture: advisory-boundary-routing.json
+- scripts/evals/fixtures/advisory-boundary-routing.json: SKIP (unsupported-fixture-shape)
 ## agents-policy-bloat-negative
 - Status: PASS
 - Description: Negative fixture: AGENTS.md should stay map-like and avoid re-absorbing long-form policy language that belongs in docs.
@@ -158,9 +202,8 @@
 - Description: Negative fixture: plan verification evidence should explicitly record eval, harness check, and doctor commands.
 - .opencode/evidence/20260510-2140-harness-engineering-plan/verification.md: PASS
 ## greenfield-maintenance-mode-routing
-- Status: SKIP
-- Description: Skipped non-text-rule fixture: greenfield-maintenance-mode-routing.json
-- scripts/evals/fixtures/greenfield-maintenance-mode-routing.json: SKIP (unsupported-fixture-shape)
+- Status: PASS
+- Description: Prompt-gate mode behavior fixture text source for greenfield, maintenance, and creativity fast path routing expectations.
 ## readonly-boundary-negative
 - Status: PASS
 - Description: Negative fixture: read-only reviewer agents should not regain write/patch permissions.
@@ -171,6 +214,51 @@
 - Description: Validates that the standalone harness no longer depends on the removed upstream preset path.
 - package.json: PASS
 - opencode.json: PASS
+## structural-agent-skill-quality-standard
+- Status: PASS
+- Description: All active agents and skills must include Workflow, Quality checklist, Anti-patterns, and Output example sections (9.5+ quality standard).
+- agents/architect.md: PASS
+- agents/artifact-planner.md: PASS
+- agents/backend.md: PASS
+- agents/council.md: PASS
+- agents/designer.md: PASS
+- agents/devops.md: PASS
+- agents/explorer.md: PASS
+- agents/fixer.md: PASS
+- agents/frontend.md: PASS
+- agents/fullstack.md: PASS
+- agents/librarian.md: PASS
+- agents/mobile.md: PASS
+- agents/oracle.md: PASS
+- agents/orchestrator.md: PASS
+- agents/plan-reviewer.md: PASS
+- agents/project-manager.md: PASS
+- agents/quality-gate.md: PASS
+- agents/skill-improver.md: PASS
+- agents/system-analyst.md: PASS
+- agents/visual-asset-generator.md: PASS
+- agents/visual-context-extractor.md: PASS
+- skills/opencode-architect/SKILL.md: PASS
+- skills/opencode-artifact-planner/SKILL.md: PASS
+- skills/opencode-backend/SKILL.md: PASS
+- skills/opencode-council/SKILL.md: PASS
+- skills/opencode-designer/SKILL.md: PASS
+- skills/opencode-devops/SKILL.md: PASS
+- skills/opencode-explorer/SKILL.md: PASS
+- skills/opencode-fixer/SKILL.md: PASS
+- skills/opencode-frontend/SKILL.md: PASS
+- skills/opencode-fullstack/SKILL.md: PASS
+- skills/opencode-librarian/SKILL.md: PASS
+- skills/opencode-mobile/SKILL.md: PASS
+- skills/opencode-oracle/SKILL.md: PASS
+- skills/opencode-orchestrator/SKILL.md: PASS
+- skills/opencode-plan-reviewer/SKILL.md: PASS
+- skills/opencode-project-manager/SKILL.md: PASS
+- skills/opencode-quality-gate/SKILL.md: PASS
+- skills/opencode-skill-improver/SKILL.md: PASS
+- skills/opencode-system-analyst/SKILL.md: PASS
+- skills/opencode-visual-asset-generator/SKILL.md: PASS
+- skills/opencode-visual-context-extractor/SKILL.md: PASS
 ## docs-policy-migration-roundtrip
 - Status: PASS
 - Description: Behavioral eval: policy should live in canonical docs while AGENTS stays map-like and README stays onboarding-oriented.
