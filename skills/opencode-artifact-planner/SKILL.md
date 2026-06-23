@@ -9,6 +9,13 @@ Use this as the planner’s only workflow. Write planning artifacts only under `
 Inside `.opencode/evidence/<task-id>/`, include `index.json` when repo evidence checks require a task-scoped evidence manifest.
 `@artifact-planner` is a triggered/conditional planning lane, not a default-first lane for every task.
 
+## Trigger / skip
+
+- Trigger: multi-phase work, spec-heavy implementation, materially ambiguous scope, evidence-heavy execution, greenfield builds, revamps, migration plans, or any task that needs a durable `.opencode/plans/<task-id>.md` artifact.
+- Trigger: when implementation should not begin until requirements, depth, worklist order, validation, and handoff contract are explicit.
+- Skip: tiny reversible maintenance, isolated one-file fixes, narrow prompt/config tweaks, or requests that are clearly draft-only and do not need durable planning artifacts.
+- Skip: implementation itself. This lane writes plan artifacts and stops.
+
 Canonical tool references:
 - `.opencode/docs/TOOL_USAGE.md` (operational tool selection)
 - `.opencode/docs/AGENT_TOOL_ACCESS.md` (role boundaries and fallback)
@@ -44,7 +51,7 @@ Canonical tool references:
 - Use Indonesian for all user-facing communication, including chat, operational explanations, assumptions, question gates, planning summaries, and planning artifacts produced by this skill.
 - Do not mix Indonesian and English in the same prose block except for exact technical names, paths, commands, APIs, quoted text, or errors.
 
-## Lifecycle
+## Workflow
 
 1. Discover local project patterns, docs, constraints, references, and available tools.
 2. Run a question gate for material unknowns; ask 3–7 targeted questions when assumptions would affect architecture, UX, security, cost, data, or acceptance criteria.
@@ -295,9 +302,16 @@ For visual/reference/browser tasks, require wait-stabilize-scroll-settle screens
 
 Add or reference `.opencode/evidence/<task-id>/reference-captures.md`, `current-captures.md`, `generated-assets.md`, `visual-comparison.md`, and `final-designer-review.md`. If evidence is missing, the plan must mark implementation as blocked.
 
-## Finalization
+## Output
 
 `Final Planning Summary` must list artifacts created/kept/deleted, key decisions, assumptions, open questions, readiness, and cleanup performed.
+
+## Escalation
+
+- Escalate to `@librarian` when current docs/API/source facts are needed before the plan can make reliable claims.
+- Escalate to `@designer` when substantial UI/UX direction, motion grammar, or reference parity is still unresolved.
+- Escalate to `@architect` or `@oracle` when architecture/risk tradeoffs remain material.
+- Escalate to `user` only when there is a true product/policy decision or missing approval that cannot be resolved through evidence.
 ## Sequential Thinking MCP Gate
 
 After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.

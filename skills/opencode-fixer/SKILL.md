@@ -7,6 +7,13 @@ description: Standalone bounded implementation workflow for fixer. Use for code 
 
 Use this for scoped execution after requirements or a plan are clear.
 
+## Trigger / skip
+
+- Trigger: bounded implementation, code edits, tests, fixtures, UI/runtime fixes, accessibility fixes, Red-Green-Refactor execution, and small maintainability refactors after scope is already clear.
+- Trigger: when the safest next step is to make concrete source changes with validation, not to keep discovering, designing, or debating architecture.
+- Skip: unclear scope, missing requirements, unresolved UX/visual direction, or architecture/product/security tradeoffs that need advisory lanes first.
+- Skip: broad multi-phase planning or final risk signoff. This lane implements a bounded change and verifies it.
+
 For canonical tool policy and boundaries, refer to:
 - `.opencode/docs/TOOL_USAGE.md`
 - `.opencode/docs/AGENT_TOOL_ACCESS.md`
@@ -46,6 +53,15 @@ For canonical tool policy and boundaries, refer to:
 | Missing UX/visual/motion direction | `@designer` first |
 | Architecture/product/security tradeoff | `@architect`/`@oracle` |
 | Final conformance/risk decision | `@quality-gate` |
+
+## Workflow
+
+1. Confirm scope, plan/handoff, constraints, and validation path.
+2. Find existing patterns, tests, and generator-first/project-local workflow before editing.
+3. Reproduce Red state with a failing test, regression proof, or baseline evidence when practical.
+4. Make the smallest safe change that can get to Green.
+5. Refactor only after checks pass and avoid unrelated churn.
+6. Run targeted verification and record changed files, evidence, and residual risks.
 
 ## Red → Green → Refactor
 
@@ -95,9 +111,16 @@ For website, frontend, or mobile app animation work, follow the plan/designer mo
 
 Semantic links/buttons, labels, alt text, explicit image dimensions, visible focus, reduced motion, no `transition: all`, no mobile overflow, project style consistency.
 
-## Final response
+## Output
 
 Report files changed plus Red, Green, Refactor, Verification. For UI animation work, include the animation library/API choice and why it was chosen or avoided.
+
+## Escalation
+
+- Escalate to `@explorer` when repo facts, tests, or ownership are still unclear.
+- Escalate to `@designer` when substantial UI/motion direction is missing or conflicts with project design guidance.
+- Escalate to `@architect` or `@oracle` when the change stops being bounded and becomes an architecture/risk tradeoff.
+- Escalate to `@quality-gate` after non-trivial completion claims or when security/privacy/risk posture must be rechecked.
 ## Sequential Thinking MCP Gate
 
 After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.

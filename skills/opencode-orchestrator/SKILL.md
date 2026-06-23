@@ -7,6 +7,13 @@ description: Standalone orchestration workflow for OpenCode. Use for any coding,
 
 Use this as the orchestrator’s single operating manual.
 
+## Trigger / skip
+
+- Trigger: any non-trivial coding, planning, UI, testing, review, documentation, routing, delegation, artifact, or validation request that needs lane selection, evidence strategy, and finish-first coordination.
+- Trigger: when multiple specialists, validation steps, or decision gates must be sequenced into one coherent execution flow.
+- Skip: tiny reversible one-file work with obvious validation, where direct execution is cheaper than orchestration overhead.
+- Skip: specialized work that already has a clear owner and no routing ambiguity; in that case route immediately and stay thin.
+
 Canonical tool references:
 - `.opencode/docs/TOOL_USAGE.md` for when/why/how tool selection
 - `.opencode/docs/AGENT_TOOL_ACCESS.md` for available/preferred/permitted/fallback boundaries
@@ -328,10 +335,17 @@ A plan that contains all required section names but lacks depth/detail is NOT ex
 - Do not paste raw internal fields such as `task_result`, `summary`, `findings`, `changed_files`, `next_actions`, `risks`, `evidence`, `needs-architect-decisions`, or similar internal status labels into user-facing output.
 - Before final output, the orchestrator must normalize: paraphrase into natural Bahasa Indonesia, merge cross-lane results, and show only user-relevant information.
 
-## Final summary
+## Output
 
 Include changed files, validation, evidence paths, and remaining risks. For implementation, include Red/Green/Refactor/Verification status.
 For substantial UI/reference work, final summaries must use a claim level: `draft`, `inspired by`, `style-equivalent`, or `close parity`; never imply close parity without evidence and designer approval.
+
+## Escalation
+
+- Escalate to `@artifact-planner` when work becomes multi-phase, materially ambiguous, or evidence-heavy enough that execution without a durable plan would be risky.
+- Escalate to `@designer`, `@architect`, `@oracle`, or `@council` when domain uncertainty remains material after repo/local evidence checks.
+- Escalate to `@quality-gate` before final completion claims on non-trivial, risky, prompt/config, security-sensitive, or substantial UI work.
+- Escalate to `user` only for true approval boundaries, contradictory requirements, destructive actions, or unresolved product/policy choices.
 ## Sequential Thinking MCP Gate
 
 After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.

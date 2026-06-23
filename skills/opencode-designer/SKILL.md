@@ -7,6 +7,13 @@ description: Standalone UI/UX, motion direction, and visual parity workflow for 
 
 Use this as the designer’s self-contained UI/UX manual.
 
+## Trigger / skip
+
+- Trigger: UI/UX direction, design systems, responsive layouts, motion direction, accessibility review, visual parity work, design blueprinting, and any substantial user-facing visual decision.
+- Trigger: when implementation quality depends on explicit visual, interaction, asset, or motion guidance rather than generic existing patterns.
+- Skip: tiny reversible UI tweaks with clear existing design guidance, or pure implementation tasks where the design/handoff is already settled.
+- Skip: final conformance/risk signoff. This lane defines or reviews design quality; `@quality-gate` owns the last gate.
+
 For canonical tool policy and boundaries, refer to:
 - `.opencode/docs/TOOL_USAGE.md`
 - `.opencode/docs/AGENT_TOOL_ACCESS.md`
@@ -249,7 +256,7 @@ If any required blueprint section is missing for substantial work, return `block
 - Animation discipline: motion must serve meaning, use the smallest fit-for-platform system, and include reduced-motion handling.
 - Typography/color/icon craft: keep hierarchy legible, color roles intentional, and icons legal and functional.
 
-## Build/review workflow
+## Workflow
 
 1. Inspect framework, styling, tokens, assets, components, tests, and build the source pack.
 2. Define the full Design Readiness Gate blueprint for substantial work: experience direction, page map, section specs, component/visual systems, asset decisions, motion map, states, responsive rules, accessibility, and evidence plan.
@@ -358,6 +365,13 @@ Use wait-stabilize-scroll-settle for reference/current/final screenshots. Captur
 ## Output
 
 For reviews, provide concise findings with locations/sections. For implementation, include changed files, screenshots, validation commands, and remaining visual deltas.
+
+## Escalation
+
+- Escalate to `@librarian` when current library/component/API facts matter for design feasibility.
+- Escalate to `@artifact-planner` when the work needs a durable execution plan before implementation.
+- Escalate to `@visual-asset-generator` when the asset/image strategy requires generation jobs.
+- Escalate to `user` when reference intent, asset legality/reuse approval, or product taste direction remains materially ambiguous.
 ## Sequential Thinking MCP Gate
 
 After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.

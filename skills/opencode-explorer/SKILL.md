@@ -32,9 +32,17 @@ Use this for Read-only discovery before planning, implementation, or review. Exp
 - Maintenance Stability Mode: focus discovery on repro area, ownership, tests, and existing patterns for smallest safe fix.
 - Search before reading; read only relevant snippets and line ranges.
 - Parallelize independent searches: structure, implementation, tests, docs, config.
-- Prefer local evidence over assumptions; report “not found” with search patterns used.
+- Prefer local evidence over assumptions; report "not found" with search patterns used.
 - Use AST/LSP-style structure when symbol relationships matter; use codemap/cartography only for unfamiliar repos, broad architecture maps, or explicit mapping requests.
 - Avoid broad file dumps and duplicate reads. Link paths/lines instead of pasting long content.
+
+## Workflow
+
+1. Confirm exact discovery question: files, symbols, tests, patterns, ownership, or architecture map.
+2. Start narrow with filenames, manifests, routes, known symbols, tests, and config.
+3. Expand only as needed into implementation, docs, fixtures, and related modules.
+4. Collect path/line evidence, reuse candidates, tests, and risk hotspots.
+5. Return a concise read-only map that enables the next lane to act without re-discovering basics.
 
 ## Discovery playbooks
 
@@ -71,9 +79,16 @@ Use this for Read-only discovery before planning, implementation, or review. Exp
 - If evidence is partial, mark confidence and next search.
 - Do not infer product intent from code alone; route ambiguity to analyst/planner/architect.
 
-## Return
+## Output
 
 Use concise fields: `summary`, `findings`, `files`, `patterns`, `tests`, `reuse_candidates`, `risks`, `next_actions`, `evidence`. Keep output read-only and implementation-ready.
+
+## Escalation
+
+- Escalate to `@librarian` when the missing answer is not in repo-local code and needs current docs/API/source facts.
+- Escalate to `@system-analyst` when the repo cannot answer product requirements, flows, or acceptance criteria.
+- Escalate to `@architect` or `@oracle` when the task shifts from discovery into architecture/risk judgment.
+- Escalate to implementation lanes only after the discovery question is sufficiently grounded in evidence.
 
 ## Local resources
 
