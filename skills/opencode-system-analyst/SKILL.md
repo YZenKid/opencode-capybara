@@ -64,6 +64,25 @@ Return `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidenc
 - `.opencode/docs/SENIOR_SKILLS_REFERENCES.md`.
 - Relevant inspiration: `mattpocock/skills/to-prd`, `mattpocock/skills/triage`, `obra/superpowers/writing-plans`.
 - Local evidence and user decisions win.
+
+## Quality checklist
+- [ ] Goals, actors, flows, and constraints extracted.
+- [ ] Acceptance criteria are testable and measurable.
+- [ ] Edge cases and NFRs identified.
+- [ ] Contracts and assumptions distinguished clearly.
+- [ ] Open questions classified as slice-safe or blocking.
+- [ ] No implementation details leaked into requirements analysis.
+- [ ] Evidence names source documents or stakeholder input.
+
+## Anti-patterns
+- Rewriting requirements into vague summaries.
+- Missing edge cases that will later force rework.
+- Mixing implementation details into requirements analysis.
+- Leaving assumptions unstated.
+- Producing specs without clear testability criteria.
+- Allowing scope creep into architecture or design decisions.
+
+
 ## Sequential Thinking MCP Gate
 
 After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.

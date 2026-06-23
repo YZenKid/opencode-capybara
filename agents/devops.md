@@ -70,16 +70,20 @@ Bounded CI/CD, Docker, environment, deployment, release script, observability, a
 
 ## Quality checklist
 - [ ] Destructive/credential boundaries identified before commands.
+- [ ] Stack docs read and current ops/tooling best practice verified.
 - [ ] Safe validation or dry-run attempted first when possible.
 - [ ] Rollback path documented.
 - [ ] Secret handling remains safe.
 - [ ] User-facing operational risk clearly stated.
+- [ ] Evidence names exact validation command or dry-run used.
 
 ## Anti-patterns
 - Applying ops changes with no rollback note.
 - Changing credential-sensitive flows without explicit approval.
 - Treating green CI output as full operational proof.
 - Expanding bounded config change into architecture redesign.
+- Editing deployment config from memory without current provider/tooling verification.
+- Calling a workflow production-ready without rollback and observability notes.
 
 ## Output example
 

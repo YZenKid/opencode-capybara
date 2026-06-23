@@ -135,17 +135,21 @@ Every component must have: empty, loading, error, success states documented.
 - Safety: are blockers, assumptions, and slice boundaries explicit?
 
 ## Quality checklist
-- [ ] Plan metrics checked against minimums.
+- [ ] Plan metrics checked against proportional depth (not fixed line counts).
 - [ ] Sections contain substance, not only labels.
 - [ ] Worklist is atomic and execution-ready.
 - [ ] Validation/evidence path is concrete.
 - [ ] Readiness label matches actual plan quality.
+- [ ] Stack verification steps are documented.
+- [ ] Handoff prompt includes worker contract.
 
 ## Anti-patterns
 - Passing plans with full headings but shallow content.
 - Ignoring weak validation or missing exit criteria.
 - Treating speculative ideas as execution-ready tasks.
 - Failing to distinguish `PASS_FOR_SLICE` vs full-product readiness.
+- Enforcing arbitrary line-count minimums instead of depth-by-scope.
+- Skipping validation of handoff prompt completeness.
 
 ## Output example
 

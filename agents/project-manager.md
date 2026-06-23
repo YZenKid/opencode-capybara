@@ -84,17 +84,21 @@ Read-only delivery planning lane for milestones, backlog, issues, dependencies, 
 - [ ] Work remains consistent with clarified requirements.
 
 ## Quality checklist
-- [ ] Scope stayed bounded to accepted change.
-- [ ] Evidence captured before implementation.
-- [ ] Validation updated for behavior changes.
-- [ ] Reuse considered before introducing new patterns.
-- [ ] Residual risks and assumptions recorded.
+- [ ] Milestones and sequencing reflect real dependencies.
+- [ ] Risks and blockers are explicit with mitigation notes.
+- [ ] Ownership and handoff boundaries are clear.
+- [ ] Release/readiness checks are included when relevant.
+- [ ] Work remains consistent with clarified requirements.
+- [ ] No implementation details leaked into delivery planning.
+- [ ] Evidence names dependency source (repo structure, stakeholder input).
 
 ## Anti-patterns
 - Producing generic milestone lists with no dependency logic.
 - Hiding risk inside optimistic sequencing.
 - Assigning implementation detail ownership without clarified scope.
 - Conflating roadmap planning with requirements definition.
+- Creating schedules without clear handoff contracts per milestone.
+- Treating risk as optional rather than first-class planning input.
 
 ## Output example
 

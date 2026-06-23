@@ -36,17 +36,13 @@ Prevent shallow plans from reaching implementation even when they contain all re
 
 | Metric | Minimum |
 |---|---|
-| Total plan lines | 5000 |
-| Goal + Non-goals words | 200 |
-| Requirements count | 10 |
-| Requirements words | 500 |
-| Acceptance Criteria count | 8 |
-| Acceptance Criteria words | 300 |
-| UI pages (greenfield) | 3 |
-| Words per UI page | 1000 |
-| Components in inventory | 20 |
-| Implementation steps | 50 |
-| Validation commands | 10 |
+| Goal + Non-goals words | apply when task is non-trivial |
+| Requirements count | apply when task is non-trivial |
+| Acceptance Criteria count | apply when task is non-trivial |
+| UI pages (greenfield) | proportional to scope |
+| Components in inventory | proportional to UI surface |
+| Implementation steps | enough for execution-ready worklist |
+| Validation commands | enough to verify claimed scope |
 
 ## Anti-generic patterns (mechanical failures)
 
@@ -109,6 +105,25 @@ Every component must document: empty, loading, error, success states.
 - Escalate to `@artifact-planner` when plan needs deeper detail, evidence, or worklist structure.
 - Escalate to `@designer` when UI/design depth is the main failing dimension.
 - Escalate to `@system-analyst` when requirements/acceptance criteria are too weak to support deeper planning.
+
+
+## Quality checklist
+- [ ] Plan metrics checked against proportional depth (not fixed line counts).
+- [ ] Sections contain substance, not only labels.
+- [ ] Worklist is atomic and execution-ready.
+- [ ] Validation/evidence path is concrete.
+- [ ] Readiness label matches actual plan quality.
+- [ ] Stack verification steps are documented.
+- [ ] Handoff prompt includes worker contract.
+
+## Anti-patterns
+- Passing plans with full headings but shallow content.
+- Ignoring weak validation or missing exit criteria.
+- Treating speculative ideas as execution-ready tasks.
+- Failing to distinguish `PASS_FOR_SLICE` vs full-product readiness.
+- Enforcing arbitrary line-count minimums instead of depth-by-scope.
+- Skipping validation of handoff prompt completeness.
+
 
 ## Sequential Thinking MCP Gate
 

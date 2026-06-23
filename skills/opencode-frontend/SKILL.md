@@ -96,6 +96,27 @@ Return `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidenc
 - `.opencode/docs/SENIOR_SKILLS_REFERENCES.md`.
 - Relevant inspiration: `vercel-labs/agent-skills/vercel-react-best-practices`, `vercel-labs/next-skills/next-best-practices`, `anthropics/skills/webapp-testing`, `vercel-labs/agent-skills/web-design-guidelines`.
 - Use references only when detected stack matches; local docs/tests/design win.
+
+## Quality checklist
+- [ ] UI basis identified before coding.
+- [ ] Stack docs read and current best practice verified.
+- [ ] Generator/CLI used for new components — no manual creation of generator-available components.
+- [ ] Anti-AI-slop gate passed: no card spam, fake metrics, generic hero, placeholder imagery, or debug copy.
+- [ ] Existing components/tokens reused where possible.
+- [ ] States covered: empty/loading/error/success where relevant.
+- [ ] Accessibility and responsive implications checked.
+- [ ] Validation includes screenshots or equivalent evidence for material UI changes.
+- [ ] Framework/library version-sensitive behavior verified via `@librarian`/context7 when non-trivial.
+
+## Anti-patterns
+- Manually creating components that a generator/CLI can produce.
+- Shipping UI with AI-slop patterns.
+- Inventing design language instead of implementing provided direction.
+- Adding generic placeholder UI to fill unclear gaps.
+- Changing interaction/state behavior without validation evidence.
+- Ignoring responsive/accessibility impact of visual changes.
+
+
 ## Sequential Thinking MCP Gate
 
 After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.

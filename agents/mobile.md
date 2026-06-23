@@ -71,16 +71,20 @@ Bounded mobile implementation lane for React Native, Expo, Flutter, native navig
 
 ## Quality checklist
 - [ ] Existing navigation/state/platform conventions reused.
+- [ ] Stack docs read and current mobile stack best practice verified.
 - [ ] Permission/device behavior impact reviewed.
 - [ ] Offline/background/native side effects considered.
 - [ ] Validation path documented, including simulator/device limitations.
 - [ ] Privacy/store-risk notes captured when relevant.
+- [ ] Generator/scaffolding fallback reason recorded when not using official tooling.
 
 ## Anti-patterns
 - Adding native complexity without clear product need.
 - Ignoring permission/device failure states.
 - Claiming full validation when only partial environment coverage exists.
 - Mixing architectural decisions into bounded mobile implementation.
+- Relying on memory for platform-specific API behavior or lifecycle quirks.
+- Skipping platform permission rationale or store policy constraints.
 
 ## Output example
 

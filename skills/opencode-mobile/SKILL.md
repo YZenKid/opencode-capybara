@@ -71,6 +71,25 @@ Return `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidenc
 - `.opencode/docs/SENIOR_SKILLS_REFERENCES.md`.
 - Relevant inspiration: `vercel-labs/agent-skills/vercel-react-native-skills` for RN/Expo only when detected stack matches.
 - For Flutter/native, prefer project-local and official docs; no external install.
+
+## Quality checklist
+- [ ] Existing navigation/state/platform conventions reused.
+- [ ] Stack docs read and current mobile stack best practice verified.
+- [ ] Permission/device behavior impact reviewed.
+- [ ] Offline/background/native side effects considered.
+- [ ] Validation path documented, including simulator/device limitations.
+- [ ] Privacy/store-risk notes captured when relevant.
+- [ ] Generator/scaffolding fallback reason recorded when not using official tooling.
+
+## Anti-patterns
+- Adding native complexity without clear product need.
+- Ignoring permission/device failure states.
+- Claiming full validation when only partial environment coverage exists.
+- Mixing architectural decisions into bounded mobile implementation.
+- Relying on memory for platform-specific API behavior or lifecycle quirks.
+- Skipping platform permission rationale or store policy constraints.
+
+
 ## Sequential Thinking MCP Gate
 
 After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.

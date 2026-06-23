@@ -72,6 +72,25 @@ Return `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidenc
 - `.opencode/docs/SENIOR_SKILLS_REFERENCES.md`.
 - Relevant inspiration: `xixu-me/skills/github-actions-docs` for GitHub Actions syntax/checklists.
 - Local workflows, approval gates, and secrets policy win.
+
+## Quality checklist
+- [ ] Destructive/credential boundaries identified before commands.
+- [ ] Stack docs read and current ops/tooling best practice verified.
+- [ ] Safe validation or dry-run attempted first when possible.
+- [ ] Rollback path documented.
+- [ ] Secret handling remains safe.
+- [ ] User-facing operational risk clearly stated.
+- [ ] Evidence names exact validation command or dry-run used.
+
+## Anti-patterns
+- Applying ops changes with no rollback note.
+- Changing credential-sensitive flows without explicit approval.
+- Treating green CI output as full operational proof.
+- Expanding bounded config change into architecture redesign.
+- Editing deployment config from memory without current provider/tooling verification.
+- Calling a workflow production-ready without rollback and observability notes.
+
+
 ## Sequential Thinking MCP Gate
 
 After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.

@@ -84,17 +84,21 @@ Read-only analysis lane for requirements, user flows, API contracts, data flows,
 - [ ] Open questions classified as slice-safe or blocking.
 
 ## Quality checklist
-- [ ] Scope stayed bounded to accepted change.
-- [ ] Evidence captured before implementation.
-- [ ] Validation updated for behavior changes.
-- [ ] Reuse considered before introducing new patterns.
-- [ ] Residual risks and assumptions recorded.
+- [ ] Goals, actors, flows, and constraints extracted.
+- [ ] Acceptance criteria are testable and measurable.
+- [ ] Edge cases and NFRs identified.
+- [ ] Contracts and assumptions distinguished clearly.
+- [ ] Open questions classified as slice-safe or blocking.
+- [ ] No implementation details leaked into requirements analysis.
+- [ ] Evidence names source documents or stakeholder input.
 
 ## Anti-patterns
 - Rewriting requirements into vague summaries.
 - Missing edge cases that will later force rework.
 - Mixing implementation details into requirements analysis.
 - Leaving assumptions unstated.
+- Producing specs without clear testability criteria.
+- Allowing scope creep into architecture or design decisions.
 
 ## Output example
 

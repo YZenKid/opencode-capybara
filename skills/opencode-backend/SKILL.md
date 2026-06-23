@@ -71,6 +71,25 @@ Return `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidenc
 - `.opencode/docs/SENIOR_SKILLS_REFERENCES.md`.
 - Relevant inspiration: `supabase/agent-skills/supabase-postgres-best-practices`, `supabase/agent-skills/supabase` only when detected stack matches, `mattpocock/skills/tdd`.
 - Local schema/tests/docs win; do not assume Supabase.
+
+## Quality checklist
+- [ ] Existing contracts and invariants identified before edit.
+- [ ] Stack docs read and current backend best practice verified.
+- [ ] Validation/business-rule changes covered by tests or explicit evidence.
+- [ ] Data/queue/job side effects reviewed.
+- [ ] Migration, backfill, and rollback implications documented.
+- [ ] Secrets/destructive actions avoided or explicitly approved.
+- [ ] Generator/codegen fallback reason recorded when not using official tooling.
+
+## Anti-patterns
+- Silent contract changes without evidence.
+- New abstractions without reuse or simplification rationale.
+- Changing validation/business rules without test coverage or explicit proof.
+- Leaving migration, data backfill, or rollback implications undocumented.
+- Relying on memory for version-sensitive ORM/framework behavior.
+- Skipping queue/job/idempotency failure-state review.
+
+
 ## Sequential Thinking MCP Gate
 
 After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.

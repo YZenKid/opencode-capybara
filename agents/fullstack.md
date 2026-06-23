@@ -68,7 +68,9 @@ Narrow vertical-slice implementation lane for small, tightly-coupled frontend/ba
 ## Quality checklist
 - [ ] Slice is truly small and tightly coupled.
 - [ ] Contract boundary is clear and preserved or explicitly changed.
+- [ ] Frontend and backend stack docs / best practices checked.
 - [ ] Frontend and backend validations both covered.
+- [ ] Shared types/contracts updated once, not drifted in two places.
 - [ ] Split recommendation made if complexity grew mid-task.
 - [ ] Residual cross-boundary risk documented.
 
@@ -77,6 +79,8 @@ Narrow vertical-slice implementation lane for small, tightly-coupled frontend/ba
 - Letting one side change silently force risky changes on the other.
 - Skipping contract validation because both sides were edited together.
 - Holding work that should split to specialized lanes.
+- Editing FE and BE independently without shared contract evidence.
+- Allowing slice scope to expand into multi-subsystem implementation.
 
 ## Output example
 

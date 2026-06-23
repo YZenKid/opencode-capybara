@@ -73,16 +73,20 @@ Bounded backend implementation lane for APIs, services, validation, auth integra
 
 ## Quality checklist
 - [ ] Existing contracts and invariants identified before edit.
+- [ ] Stack docs read and current backend best practice verified.
 - [ ] Validation/business-rule changes covered by tests or explicit evidence.
 - [ ] Data/queue/job side effects reviewed.
-- [ ] Error and rollback behavior considered.
+- [ ] Migration, backfill, and rollback implications documented.
 - [ ] Secrets/destructive actions avoided or explicitly approved.
+- [ ] Generator/codegen fallback reason recorded when not using official tooling.
 
 ## Anti-patterns
 - Silent contract changes without evidence.
 - New abstractions without reuse or simplification rationale.
 - Changing validation/business rules without test coverage or explicit proof.
 - Leaving migration, data backfill, or rollback implications undocumented.
+- Relying on memory for version-sensitive ORM/framework behavior.
+- Skipping queue/job/idempotency failure-state review.
 
 ## Output example
 
