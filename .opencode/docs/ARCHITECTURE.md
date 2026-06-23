@@ -6,11 +6,21 @@
 User Intent
 → `@orchestrator`
 → task classification
-→ specialist lane
-→ mechanical gates
-→ evidence collection
+→ `@artifact-planner` for non-trivial work
+→ execution-ready plan artifact
+→ specialist implementation lanes / worker tasks
+→ mechanical gates + evidence collection
 → `@quality-gate`
 → final summary / local commit / follow-up plan
+
+## Brain vs worker model
+- **Brain lanes**: `@orchestrator` + `@artifact-planner`
+  - `@orchestrator` routes, decomposes, integrates, tracks execution, and runs remediation loops.
+  - `@artifact-planner` writes durable plans and execution handoff contracts before non-trivial implementation.
+- **Worker lanes**: `@fixer`, `@frontend`, `@backend`, `@fullstack`, `@mobile`, `@devops`, `@designer`, `@explorer`, and other specialists.
+  - Workers execute scoped tasks only.
+  - Workers do not reroute or delegate on their own.
+  - Workers report back to `@orchestrator`.
 
 ## Primary repository layers
 - **Root config** — `opencode.json`, `tui.json`, `AGENTS.md`

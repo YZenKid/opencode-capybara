@@ -174,6 +174,20 @@ Validation ladder baseline: plan/handoff check â†’ discovery/research evidence â
 
 Generator-first quality rule: material manual framework artifact creation without project playbook/command docs or without fallback evidence is a gate failure even if tests pass. Existing generated-file customization remains allowed when the evidence clearly states that the task only customized an existing generated artifact.
 
+## Open source reuse quality rule
+- Permissive licenses (MIT, BSD, Apache-2.0, ISC, Unlicense, CC0, MPL-2.0): prefer reuse/adapt over reinvention when the user provides or approves the source.
+- Copyleft / caution licenses (LGPL, GPL, AGPL, SSPL, custom): escalate with risk note before reuse.
+- No license / unclear: ask, do not assume blocked.
+- If reuse is skipped, verification evidence must record why.
+
+## Planning handoff quality rule
+For non-trivial plans, quality review should expect:
+- Execution Ownership Table mapping subsystem -> implementation owner lane -> review gate owner
+- Source Anatomy Breakdown per major subsystem
+- Reference Map per Feature for non-trivial features
+- Executor Handoff Prompt that is copy-pasteable for `@orchestrator`
+- Worklist tasks small enough for a worker to execute without replanning or hidden architecture decisions.
+
 Typed output baseline for active lanes (non-trivial work): `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
 This schema is internal/non-user-facing. Final user-facing messaging must be normalized by orchestrator into natural Bahasa Indonesia prose, with technical literals kept exact.
 

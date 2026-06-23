@@ -124,6 +124,8 @@ const initHarnessGeneratedAgents = `# AGENTS.md
 - Architecture: \`.opencode/docs/ARCHITECTURE.md\`
 - Quality and evidence: \`.opencode/docs/QUALITY.md\`
 - Harness evals and replayability: \`.opencode/docs/EVALS.md\`
+- Project stack and tool detection: \`.opencode/docs/PROJECT_STACK.md\`, \`.opencode/docs/PROJECT_DETECTED_TOOLS.md\` when present
+- Project framework commands/playbook: \`.opencode/docs/PROJECT_COMMANDS.md\`, \`.opencode/docs/FRAMEWORK_PLAYBOOK.md\` when present
 - Security policy: \`.opencode/docs/SECURITY.md\`
 - Prompt gates: \`.opencode/docs/PROMPT_GATES.md\`
 - Skills index: \`.opencode/docs/SKILLS.md\`
@@ -136,8 +138,12 @@ const initHarnessGeneratedAgents = `# AGENTS.md
 
 ## Non-negotiable Rules
 - Use \`@orchestrator\` for routing and integration.
-- Use \`@quality-gate\` for material changes.
+- Use \`@quality-gate\` for material changes, including non-trivial/risky work, prompt/config changes, and security-sensitive changes.
+- Harness Preflight Gate: before non-trivial work, \`@orchestrator\` must verify the target project has a current root \`AGENTS.md\`, canonical \`.opencode/docs/\`, and root \`DESIGN.md\` when UI/design work is involved.
+- For framework-managed artifacts, follow project-local \`.opencode/docs/PROJECT_STACK.md\`, \`.opencode/docs/PROJECT_COMMANDS.md\`, \`.opencode/docs/FRAMEWORK_PLAYBOOK.md\`, and \`.opencode/docs/PROJECT_DETECTED_TOOLS.md\` before manual edits when those docs are present.
+- If harness guidance is missing/stale, run \`/init-harness\` first, or ask the user to run \`/init-harness\` when command execution is unavailable. Skip only for tiny, read-only, or emergency tasks and record the skip reason in the final summary.
 - Prefer evidence over assertion.
+- Prefer references over assumptions.
 - Prefer repo-local docs over chat memory.
 - Keep this file short and map-like.
 
@@ -148,12 +154,15 @@ User intent → \`@orchestrator\` → specialist agents → validation → \`@qu
 - \`.opencode/docs/\` is the repository knowledge system of record.
 - \`AGENTS.md\` is the map, not the encyclopedia.
 - Plans are first-class artifacts under \`.opencode/plans/\`.
+- Runtime state lives under \`.opencode/state/\` for durable runs, task queues, mailbox, memory, and worktree metadata.
 - Evidence is required for material changes.
+- \`@orchestrator\` routes, decomposes, and integrates; do not let all implementation collapse into direct orchestrator execution.
 
 ## Risk Triggers
 - Product/SaaS/platform/AI/UI-system architecture ambiguity → \`@architect\`
 - Security/privacy/accessibility/visual-parity final signoff → \`@quality-gate\`
 - User-facing UI/reference/animation/accessibility/design-system work → \`@designer\`
+- Current library/API docs lookup when local context is insufficient → supporting \`@librarian\` research lane
 
 ## Notes
 - Future operators should read \`.opencode/docs/index.md\` first, then follow the canonical docs by concern.

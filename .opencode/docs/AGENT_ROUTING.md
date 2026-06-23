@@ -26,8 +26,15 @@ Planner invocation expectation:
 - `@artifact-planner` is a **triggered lane**, not default-first.
 - Invoke it for multi-phase, spec-heavy, materially ambiguous, or evidence-heavy work.
 - Trivial, single-step, and easily reversible tasks may execute directly without planner.
-- Non-trivial tasks should route through `@artifact-planner` first when planning depth/evidence is required.
+- **Plan-first rule**: non-trivial tasks should route through `@artifact-planner` first before implementation.
 - Planner handoff quality bar: non-trivial plans must include an explicit `Execution-ready Worklist / Handoff Contract` with ordered atomic tasks, dependencies, owner/lane, validation, exit criteria, blocking status, and a `start_with` first action for orchestrator.
+- Handoff confidence bar: worklist tasks must be worker-sized, lane-owned, and executable without replanning; plans must include an execution ownership table, a copy-pasteable Executor Handoff Prompt, Source Anatomy Breakdown per major subsystem, and Reference Map per Feature.
+
+## Worker contract
+- Worker agents execute only scoped tasks from `@orchestrator` / plan worklists.
+- Workers do not reroute to other agents except explicit final signoff routing.
+- Workers do not delegate subtasks.
+- Workers report back to `@orchestrator` when done or blocked.
 
 ## Plan-bound execution contract (orchestrator)
 - Before non-trivial plan-bound work, run a Plan Intake Protocol: read the primary plan and identify mode, Plan Quality Gate value, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, validation commands, evidence path, and Done Criteria.
