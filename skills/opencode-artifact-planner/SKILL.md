@@ -92,31 +92,30 @@ Do not call implementation/source-edit/generation subagents (for example `@fixer
 
 Goal, Non-goals, Scope, Requirements, Acceptance Criteria, Existing Patterns/Reuse, Constraints, Risks, Decisions/Assumptions, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, TDD/Test Plan, Implementation Steps, Expected Files to Change, Agent/Tool Routing, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, Validation Commands, Evidence Requirements, Done Criteria, Final Planning Summary.
 
-## Minimum Plan Depth Enforcement
+## Proportional plan depth enforcement
 
-**Hard fail metrics — plan MUST meet these minimums or auto-reject to NEEDS_DEPTH:**
+Depth must scale with scope and risk. Do not use arbitrary fixed line-count rules. Tiny/reversible tasks may use lightweight plans; multi-phase, greenfield, UI-heavy, or high-risk tasks need deep plans with concrete requirements, validation, evidence, and handoff detail.
 
-| Section | Minimum Depth |
-|---|---|
-| Goal + Non-goals | 200 words |
-| Requirements | 500 words, minimum 10 requirements with detail |
-| Acceptance Criteria | 300 words, minimum 8 criteria with testable conditions |
-| UI Spec (per page) | 1000 words per page |
-| Component Inventory | 20 components with full detail (props, state, variants, responsive) |
-| State Coverage | Every component must cover: empty, loading, error, success states |
-| Implementation Steps | 50 steps with file paths, function names, logic detail |
-| Validation Commands | 10 commands with expected output |
-| **Total plan minimum** | **5000 lines** |
+Use these proportional checks instead of magic numbers:
+- enough requirements to cover all material behavior in scope,
+- enough acceptance criteria to test all promised outcomes,
+- enough implementation steps to execute without guessing,
+- enough validation commands/checks to verify each core subsystem,
+- enough page/component/state detail when UI is material,
+- explicit evidence paths per slice.
 
-**Auto-reject rules:**
-- Plan under 5000 lines = automatic `NEEDS_DEPTH`
-- UI spec under 1000 words per page = `NEEDS_DEPTH`
-- Component inventory under 20 items = `NEEDS_DEPTH`
-- Implementation steps under 50 = `NEEDS_DEPTH`
-- Missing state coverage (empty/loading/error/success) = `NEEDS_DEPTH`
+A plan is `NEEDS_DEPTH` when execution would still require guessing, not because it missed a universal line target.
 
-**Enforcement mechanism:**
-Before marking plan as `PASS` or `ready-for-implementation`, verify all minimums are met. If any minimum fails, mark `NEEDS_DEPTH` and specify which minimums failed.
+## Stack and evidence verification before PASS
+
+Before marking a plan `PASS` or `PASS_FOR_SLICE`, verify:
+- planned dependency versions/API contracts are actually compatible or route to `@librarian`,
+- required slice evidence reports are present in the plan,
+- real asset requirements are specified as non-zero/loadable/legal when applicable,
+- env-dependent features include env presence/config checks,
+- primary surfaces are not allowed to be empty/tagline-only if the slice claims usable MVP.
+
+If these checks fail, mark `NEEDS_DEPTH` or `BLOCKED`.
 
 ## UI Detail Template
 

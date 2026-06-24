@@ -143,6 +143,18 @@ Direct-work threshold (hard default):
 - Do not start broad implementation until harness guidance is available, except for tiny, read-only, or emergency tasks.
 - If the gate is skipped, record the reason in the final summary/evidence.
 
+## Functional evidence rule
+
+Mechanical checks alone (build/lint/grep/test counts) are never enough for a strong completion claim. Before reporting `done`, `ready`, `MVP complete`, or `PASS`, require functional evidence per core subsystem in scope: real route/endpoint checks, real asset existence and non-zero size, real manifest/icon resolution, and real env presence for env-dependent features.
+
+## MVP surface rule
+
+Do not report MVP completion when the homepage or primary surface is empty, tagline-only, placeholder, or lacks a meaningful first-slice interaction.
+
+## Stack-drift rule
+
+If implemented stack/API/asset format diverges materially from the plan or project docs, resolve or escalate before completion. A documentation note about drift is not enough.
+
 ## Workflow
 
 1. Understand explicit and implicit requirements.

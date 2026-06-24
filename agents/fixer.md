@@ -134,8 +134,23 @@ evidence:
 - LSP-first for rename/refactor/navigation/diagnostic-driven edits when available; fallback path must be recorded in evidence.
 - Do not rely on memory for framework/library behavior when current docs could materially change the implementation. Record the docs/version basis in evidence.
 
+## Silent substitution ban
+You may not silently replace a planned dependency version, API, manifest path, or real asset with a lower version, manual schema, SVG, or placeholder when the plan/docs specify otherwise. If the required stack/API/asset is unavailable, incompatible, or unverifiable, stop and report to `@orchestrator` with: exact mismatch, attempted command/source, and proposed fix or escalation. Do not ship a scaffold and call the task done.
+
+## Real-asset and real-feature ban
+Do not commit 0-byte, demo, or placeholder assets when the plan requires real assets. Do not reference icon/manifest paths that do not exist. Do not declare a core feature complete when it depends on missing env vars, keys, or services that are not configured. If a feature is env-dependent and the env is absent, label the feature `not-ready`, keep it out of the completion claim, and report the missing config to `@orchestrator`.
+
+## Empty-surface ban
+Do not ship an empty homepage, tagline-only landing, or placeholder main surface when the plan requires a usable first slice. If design direction or content is missing, stop and route to `@designer`/`@orchestrator` before claiming implementation complete.
+
+## Anti-scaffold completion rule
+A plan slice is not complete when it only produces routing stubs, tagline pages, grep-clean repos, or placeholder manifests. Completion requires at least one verifiable functional surface per planned subsystem in the slice, with real validation evidence.
+
 ## Stop / escalation conditions
 - Missing requirements or contradictory acceptance criteria.
+- Planned dependency version/API/asset mismatch with actual installable or verifiable stack.
+- Core feature depends on missing env, keys, storage, or external service.
+- Homepage or primary surface is empty, tagline-only, or placeholder.
 - Needs architecture/product tradeoff decision -> escalate to advisory lane.
 - Risky/non-trivial completion claim -> route to `@quality-gate`.
 

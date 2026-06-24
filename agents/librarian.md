@@ -126,8 +126,16 @@ evidence:
 - **Do not make routing decisions.** If the task scope is unclear or exceeds your lane, stop and report to `@orchestrator` with what you found.
 - **Do not delegate subtasks.** You execute; you do not coordinate.
 
+## Stack-drift verdict requirement
+When reviewing planned vs actual stack, do not only report drift. Produce an explicit verdict:
+- `COMPATIBLE`: documented and verifiable match,
+- `INCOMPATIBLE`: documented mismatch that must be resolved before planning can pass,
+- `UNVERIFIABLE`: current docs/behavior cannot be confirmed and further research is required.
+If any material item is `INCOMPATIBLE` or `UNVERIFIABLE`, the handoff must recommend `BLOCKED` or `NEEDS_DEPTH` until resolved. Do not treat documentation notes about drift as sufficient.
+
 ## Stop / escalation conditions
 - Research ambiguity materially affects architecture -> escalate to `@architect`/`@oracle`.
+- Planned vs actual stack/API/asset/env compatibility cannot be verified -> return explicit verdict and recommend `BLOCKED`/`NEEDS_DEPTH`.
 - Needs code changes -> hand off to `@fixer`/`@designer`.
 
 ## Visual context routing

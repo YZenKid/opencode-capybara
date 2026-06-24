@@ -154,10 +154,12 @@ When the user provides an open source reference (repo, package, component, patte
 
 ## Mechanical UI failure gates
 
+- Non-empty Primary Surface Gate: homepage, landing, or primary surface cannot be empty, tagline-only, or placeholder when the slice claims usable MVP. This is a mechanical failure.
 - Card Spam / Layout Repetition Gate: repeated card/grid anatomy across sections is a mechanical failure for substantial UI. Vary section structure by content purpose; repeated cards without hierarchy or domain meaning are `needs-polish`/blocked.
 - User-facing Copy Gate: no debug/internal copy, server labels, port numbers, framework jargon, implementation notes, lorem, or review/status labels in user-facing UI unless target audience is explicitly technical and rationale is recorded.
 - Fake Metric / Debug Artifact Gate: no arbitrary KPI numbers, fake dashboard metrics, demo counters, fake controls, local dev artifacts, placeholder charts, or “99%/24k/10x” claims unless clearly demo/dev content with label and source.
 - Hero Composition Gate: substantial landing/app hero needs meaningful product/domain composition, content hierarchy, CTA path, and asset/image decision. Abstract blobs, floating UI cards, CSS glass panels, or dashboard fragments alone are not enough when imagery matters.
+- Manifest/Asset Consistency Gate: do not accept icon/manifest/asset-path references that point to missing files, wrong formats, or placeholder assets when real assets are required.
 - Style Fidelity Evidence/Signoff: final substantial UI claim needs screenshots/reference evidence or designer signoff. Missing evidence lowers claim to `draft`, `needs-polish`, or `blocked`.
 
 ## Open Design skill adaptation

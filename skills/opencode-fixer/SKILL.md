@@ -149,12 +149,25 @@ evidence:
   fix: "added null check at parser.ts:42"
 ```
 
+## Silent substitution ban
+
+Do not silently replace planned dependency versions, APIs, manifest paths, or real assets with lower versions, manual schemas, SVGs, or placeholders when the plan/docs specify otherwise. If the required stack/API/asset is unavailable, incompatible, or unverifiable, stop and report the exact mismatch, attempted command/source, and proposed fix or escalation.
+
+## Real-asset and real-feature ban
+
+Do not commit 0-byte, demo, or placeholder assets when the plan requires real assets. Do not reference icon/manifest paths that do not exist. Do not declare a core feature complete when it depends on missing env vars, keys, or external services that are not configured. Mark those features `not-ready` and keep them out of the completion claim.
+
+## Empty-surface ban
+
+Do not ship an empty homepage, tagline-only landing, or placeholder main surface when the plan requires a usable first slice. If design direction or content is missing, stop and escalate instead of padding with scaffolding.
+
 ## Escalation
 
 - Escalate to `@explorer` when repo facts, tests, or ownership are still unclear.
 - Escalate to `@designer` when substantial UI/motion direction is missing or conflicts with project design guidance.
 - Escalate to `@architect` or `@oracle` when the change stops being bounded and becomes an architecture/risk tradeoff.
 - Escalate to `@quality-gate` after non-trivial completion claims or when security/privacy/risk posture must be rechecked.
+- Escalate immediately when planned vs actual stack/API/asset/env requirements diverge materially.
 ## Sequential Thinking MCP Gate
 
 After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.

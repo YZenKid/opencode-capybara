@@ -132,6 +132,15 @@ next_actions:
   - "implement using existing app router pattern"
 ```
 
+## Stack-drift verdict requirement
+
+When reviewing planned vs actual stack, do not only list drift. Return an explicit verdict per material item:
+- `COMPATIBLE` — documented and verifiable match
+- `INCOMPATIBLE` — documented mismatch that must be resolved before planning/implementation can pass
+- `UNVERIFIABLE` — current docs/behavior cannot be confirmed and more research is required
+
+If any material item is `INCOMPATIBLE` or `UNVERIFIABLE`, recommend `BLOCKED` or `NEEDS_DEPTH` in the handoff. Documentation notes alone are not sufficient.
+
 ## Escalation
 
 - Escalate to `@architect` or `@oracle` when research reveals multiple materially different design paths.

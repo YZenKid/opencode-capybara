@@ -157,6 +157,12 @@ evidence:
 - **Do not make routing decisions.** If the task scope is unclear or exceeds your lane, stop and report to `@orchestrator` with what you found.
 - **Do not delegate subtasks.** You execute; you do not coordinate.
 
+## Non-empty primary surface rule
+Do not accept a homepage, landing, or primary surface that is empty, tagline-only, or placeholder when the plan requires a usable first slice. Treat empty primary surfaces as mechanical failures that block readiness. Require meaningful first-slice interaction, CTA, or content before returning `ready`, `reference-ready`, or `MVP design enough`.
+
+## Real-asset and manifest consistency rule
+Do not accept design/manifest references that point to missing files, wrong formats, or placeholder assets when real assets are required. Treat icon/manifest/asset-path mismatches as mechanical failures requiring remediation.
+
 ## Stop / escalation conditions
 - Missing core design direction for substantial UI work -> request guidance or suggest `/init-harness` so consolidated harness/design initialization can create or update `DESIGN.md`.
 - Blocked asset/licensing/reference constraints -> escalate for decision.

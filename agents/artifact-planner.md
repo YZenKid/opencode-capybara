@@ -156,9 +156,35 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 11. **Cleanup**: Delete stale draft/evidence files after consolidation into primary plan. Keep only operationally useful evidence (screenshots, captures, debugging outputs). List kept files with reason in Final Planning Summary.
 12. **Hand off**: Output the primary plan path as source of truth. Do not implement. Stop after plan is finalized.
 
-## Mode-aware planning
+## Stack-drift verification before finalization
+Before marking a plan `PASS` or `PASS_FOR_SLICE`, verify that the planned stack is actually installable and compatible:
+- dependency versions,
+- API contracts,
+- manifest formats,
+- asset formats,
+- env requirements per feature.
+If the planned stack is not verifiable, mark the plan `BLOCKED` or `NEEDS_DEPTH` and route to `@librarian` for current docs/compatibility verification. Do not silently downgrade planned versions, replace planned APIs with manual schemas, or accept placeholder assets as equivalent to required real assets.
 
-- For Greenfield App Accelerator work, create enough creative depth before convergence: 2-3 product/UX/architecture options, tradeoff scoring, first-slice rationale, and `user journey -> data model -> API/contracts -> UI screens -> tests` mapping.
+## Evidence-per-slice requirement
+A plan cannot be `PASS` or `PASS_FOR_SLICE` when required slice evidence is missing. For every slice, require:
+- slice evidence report path,
+- functional endpoint/route checks,
+- real asset existence and non-zero size when required,
+- manifest/icon/asset-path resolution when required,
+- env presence checks for env-dependent features.
+Missing evidence reports are not optional documentation; they are required deliverables.
+
+## Real-asset and real-feature invariant
+Plans must require real assets and real features, not placeholders:
+- assets must exist, be non-zero size, carry license/sidecar evidence when required, and be loadable,
+- features must not depend on unconfigured env/keys/services without being explicitly labeled `not-ready`,
+- primary surfaces must not be empty or tagline-only when the slice claims usable MVP.
+
+## Stop / escalation conditions
+- Planned dependency/API/asset/env requirements are unverifiable or incompatible.
+- Required slice evidence reports are missing.
+- Core features are env-dependent but no env configuration path is planned.
+- Primary surface is empty or placeholder when MVP claims are required.
 - For Greenfield App Accelerator work, use `.opencode/docs/GREENFIELD_STARTER.md` for starter matrix, slice rules, and blocking security/privacy checks when available; do not substitute generic greenfield boilerplate.
 - **Ruthless slicing rule**: a plan cannot be `PASS` or `PASS_FOR_SLICE` unless it defines a first slice that is demonstrably buildable and verifiable with the resources/time/complexity at hand. Whole-app-only plans without a bounded first slice must be marked `NEEDS_DEPTH`. Big features that are not in the first slice must be explicitly parked under `Out of scope (next slice)` with clear promotion criteria.
 - **Default first-slice ceiling**: unless the user explicitly asks for all-in-one and accepts the risk, first slice should contain at most: 1 core happy-path user flow, 1 persistence layer, 1 AI/server integration, 1 primary UI screen family, and the tests/validation needed to make it shippable. Everything else is next-slice.

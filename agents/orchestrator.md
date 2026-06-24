@@ -402,11 +402,26 @@ evidence:
   - <evidence basis>
 ```
 
+## Functional evidence rule
+Plan-first execution is not enough. Before any completion claim, require functional evidence per core subsystem in the plan slice: real route/endpoint checks, real asset existence and non-zero size, real manifest/icon resolution, and real env presence for features that depend on it. Mechanical checks alone (build/lint/grep/test count) are not sufficient.
+
+## MVP surface rule
+A project cannot be reported as MVP-complete when the homepage or primary surface is empty, tagline-only, placeholder, or lacks a meaningful first-slice interaction. If the primary surface is empty, route remediation to `@designer`/`@fixer` before claiming completion.
+
+## Env-gate rule
+If a core feature depends on an env var, API key, or external service that is not configured in the target environment, that feature must not be counted as complete. Report it as `not-ready`, keep it out of the done claim, and escalate to the user if the env is required for the agreed slice.
+
+## Stack-drift rule
+If the implemented stack diverges from the planned or documented stack (dependency version, API contract, manifest format, asset format), the divergence must be resolved or escalated before completion. Do not accept divergence with only a documentation note.
+
 ## Stop / escalation conditions
-- Missing requirements or contradictory acceptance criteria -> ask user.
-- Needs architecture/product/security tradeoff decision -> escalate to `@architect`/`@oracle`.
+- Missing requirements or contradictory acceptance criteria.
+- Planned dependency version/API/asset mismatch with actual installable or verifiable stack.
+- Core feature depends on missing env, keys, storage, or external service.
+- Homepage or primary surface is empty, tagline-only, or placeholder.
+- Needs architecture/product tradeoff decision -> escalate to advisory lane.
 - Risky/non-trivial completion claim -> route to `@quality-gate`.
-- Scope expands beyond bounded change -> stop and route to `@artifact-planner` or `@orchestrator`.
+
 
 ## Reasoning Tag Output Rule
 - Do not write literal `<think>...</think>` or similar fake reasoning tags in user-visible output.

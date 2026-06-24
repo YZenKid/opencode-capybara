@@ -213,6 +213,26 @@ Evaluate:
 
 This lane now absorbs the former standalone security-risk-reviewer, accessibility-reviewer, and visual-parity-auditor responsibilities at final gate time.
 
+## Functional evidence gate
+
+Do not return `PASS` or `PASS_WITH_RISKS` from mechanical checks alone. Require functional evidence for each core subsystem in scope:
+- real endpoint/route status,
+- real asset existence and non-zero size when assets are required,
+- real manifest/icon/asset-path resolution when installability/PWA is claimed,
+- real env presence for env-dependent features.
+
+## Placeholder and empty-surface gate
+
+These are mechanical failures and map to `NEEDS_FIX`:
+- 0-byte, demo, or placeholder assets when real assets are required,
+- manifest referencing missing files,
+- empty homepage, tagline-only landing, or placeholder primary surface when the slice claims usable MVP,
+- core feature claimed complete while required env/keys/services are not configured.
+
+## Stack-drift gate
+
+If implemented stack/API/asset format materially diverges from the plan or project stack docs, do not allow `PASS` based only on a documentation note. Require resolution or explicit escalation.
+
 ## Final statuses
 
 - `PASS` — all required evidence is present, residual risk is low, and there is no blocker.

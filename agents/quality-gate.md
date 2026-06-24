@@ -173,6 +173,23 @@ residual_risks:
 
 ```
 
+## Functional evidence gate
+Final gating cannot rely only on mechanical checks (build/lint/grep/test counts). Before returning `PASS` or `PASS_WITH_RISKS`, require functional evidence for every core subsystem in the reviewed scope:
+- real endpoint/route status for declared core surfaces,
+- real asset existence and non-zero size when assets are required,
+- real manifest/icon/manifest-path resolution when PWA/installability is claimed,
+- real env presence when features depend on external services.
+
+## Placeholder and empty-surface gate
+These are mechanical failures and must be `NEEDS_FIX`, not follow-ups:
+- 0-byte, demo, or placeholder assets when real assets are required,
+- manifest referencing missing files,
+- empty homepage, tagline-only landing, or placeholder primary surface when the plan requires a usable first slice,
+- core feature claimed complete while its required env/keys/service are not configured.
+
+## Stack-drift gate
+If the implemented stack, API contract, or asset format materially diverges from the plan or project stack docs, do not allow `PASS` based only on a documentation note. Require resolution or escalation to the user.
+
 ## Stop / escalation conditions
 - Missing required evidence for claimed outcomes.
 - Scope ambiguity that prevents deterministic gating.
