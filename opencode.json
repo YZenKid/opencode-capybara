@@ -205,17 +205,19 @@
     "context7": {
       "type": "local",
       "command": [
-        "bunx",
+        "npx",
         "-y",
         "@upstash/context7-mcp",
         "--api-key",
         "{env:CONTEXT7_API_KEY}"
-      ]
+      ],
+      "timeout": 180000,
+      "enabled": true
     },
     "sequential-thinking": {
       "type": "local",
       "command": [
-        "bunx",
+        "npx",
         "-y",
         "@modelcontextprotocol/server-sequential-thinking"
       ],
@@ -243,12 +245,13 @@
     "shadcn": {
       "type": "local",
       "command": [
-        "bunx",
+        "npx",
+        "-y",
         "shadcn@latest",
         "mcp"
       ],
       "enabled": true,
-      "timeout": 30000
+      "timeout": 120000
     },
     "semgrep": {
       "type": "local",

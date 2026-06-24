@@ -161,8 +161,8 @@ Use `npm run compare:openchamber-models` to print the current OpenCode vs OpenCh
 | `OPENCODE_MODEL_DEFAULT` | `9router/low` | Top-level default model and general fallback | Keep the baseline lane low-cost for broad default routing. |
 | `OPENCODE_MODEL_ORCHESTRATOR` | `9router/medium` | `@orchestrator` primary routing/integration | Use a balanced lane for delegation, coordination, and synthesis. |
 | `OPENCODE_MODEL_PLANNER` | `9router/high` | `@artifact-planner`, `modes/plan.md`, `agents-disabled/plan.md` | Keep planning on the strongest lane for higher-accuracy specs and execution handoffs. |
-| `OPENCODE_MODEL_DESIGN` | `9router/high` | `@designer` | Keep substantial UI/design reasoning, motion, and accessibility work on the high lane. |
-| `OPENCODE_MODEL_VISUAL_ASSET` | `9router/medium` | `@visual-asset-generator` | Keep visual asset manifest prep and style-equivalent fallback generation routing on medium while leaving designer on high. |
+| `OPENCODE_MODEL_DESIGN` | `9router/high` | `@designer`, `@design-system-engineer` | Keep substantial UI/design-system reasoning, motion, accessibility, token, and primitive work on the high lane. |
+| `OPENCODE_MODEL_VISUAL_ASSET` | `9router/medium` | `@visual-asset-generator` | Keep visual asset manifest prep and style-equivalent fallback generation routing on medium while leaving designer/design-system on high. |
 | `OPENCODE_MODEL_REVIEW` | `9router/medium` | `@oracle`, `@council` | Keep advisory/review reasoning on a balanced lane without degrading high-confidence review paths. |
 | `OPENCODE_MODEL_QUALITY_GATE` | `9router/low` | `@quality-gate` | Final conformance gate stays cheap and explicit without forcing `@oracle`/`@council` down. |
 | `OPENCODE_MODEL_ADVISORY` | `9router/medium` | `@architect` | Use a balanced lane for advisory and architecture guidance. |
@@ -189,10 +189,13 @@ Current operating model:
 
 UI / design policy:
 
-- `@designer` owns substantial UI direction, motion, accessibility, and anti-slop review.
-- `@frontend` implements web UI when design is clear.
+- `@designer` owns UI/UX direction, visual grammar, reference parity, motion strategy, accessibility requirements, and design-ready handoff.
+- `@design-system-engineer` owns shared tokens, primitives, theme variables, component APIs, and reusable UI foundations.
+- `@frontend` implements web screens/pages from a clear design handoff.
+- `@mobile` implements native/hybrid mobile screens from a clear design handoff.
 - shadcn/ui follows generator-first rules: use `npx shadcn@latest add <component>` when the component exists in the registry.
 - Generic AI-slop UI patterns (fake metrics, card spam, gradient-hero defaults, placeholder imagery, debug copy) are blocked by planner/designer/quality-gate rules.
+- Design handoff is required before `@frontend` or `@mobile` implement substantial UI.
 
 ## Important scripts
 

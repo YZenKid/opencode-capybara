@@ -17,7 +17,7 @@ User Intent
 - **Brain lanes**: `@orchestrator` + `@artifact-planner`
   - `@orchestrator` routes, decomposes, integrates, tracks execution, and runs remediation loops.
   - `@artifact-planner` writes durable plans and execution handoff contracts before non-trivial implementation.
-- **Worker lanes**: `@fixer`, `@frontend`, `@backend`, `@fullstack`, `@mobile`, `@devops`, `@designer`, `@explorer`, and other specialists.
+- **Worker lanes**: `@fixer`, `@frontend`, `@backend`, `@fullstack`, `@mobile`, `@devops`, `@designer`, `@design-system-engineer`, `@explorer`, and other specialists.
   - Workers execute scoped tasks only.
   - Workers do not reroute or delegate on their own.
   - Workers report back to `@orchestrator`.

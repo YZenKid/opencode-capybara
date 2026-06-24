@@ -7,6 +7,13 @@ description: Reusable design-system implementation workflow for tokens, primitiv
 
 Use for shared UI foundations. This lane sits between `@designer` and `@frontend`/`@mobile`.
 
+## Reference-first creativity contract
+- Use this lane creatively, but never fictionally: better reusable system options are good; invented requirements, fake compatibility, and made-up token semantics are not.
+- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current runtime evidence when materially relevant.
+- If a reasonable source exists, use it or state why it was skipped.
+- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
+- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+
 ## Trigger / skip
 - Trigger: design tokens, theme variables, shared primitives, component APIs, typography/spacing scales, icon systems, dark/light modes, cross-screen reusable building blocks.
 - Skip: page-level UX direction -> `@designer`; bounded screen implementation -> `@frontend`/`@mobile`; final gate -> `@quality-gate`.
@@ -47,3 +54,23 @@ Include: translated design grammar, affected consumers, migration notes if any.
 - `@designer` for missing grammar.
 - `@frontend` / `@mobile` for screen consumption.
 - `@quality-gate` for broad risk signoff.
+
+## Output example
+
+```yaml
+summary: Introduced shared input spacing tokens and field primitive states
+findings:
+  - "Translated DESIGN.md form spacing grammar into reusable spacing tokens"
+  - "Added shared error/disabled field primitive states"
+changed_files:
+  - "src/design/spacing.ts"
+  - "src/components/ui/field.tsx"
+risks:
+  - "Legacy checkout field still bypasses shared primitive"
+next_actions:
+  - "Route checkout screen follow-up to @frontend"
+  - "Consider @quality-gate for broad rollout"
+evidence:
+  - "Mapped DESIGN.md form rules into token and primitive API"
+  - "Checked impacted consumers in profile and settings forms"
+```

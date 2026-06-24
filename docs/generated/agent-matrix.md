@@ -2,7 +2,7 @@
 
 Generated summary of local agent metadata. This file is advisory and must not replace canonical policy in `.opencode/docs/`.
 
-- Agent count: 21
+- Agent count: 22
 - Source: `agents/*.md` frontmatter
 
 | Agent | Mode | Model | Skills | Description |
@@ -11,6 +11,7 @@ Generated summary of local agent metadata. This file is advisory and must not re
 | artifact-planner | primary | 9router/high | opencode-artifact-planner | Artifact-writing SDD/TDD planner using the standalone opencode-capybara plan flow without entering built-in read-only Plan Mode. |
 | backend | subagent | 9router/low | opencode-backend | Backend API, services, validation, auth integration, jobs, queues, migrations, and data tests specialist |
 | council | subagent | 9router/medium | opencode-council | Multi-LLM consensus engine for high-confidence answers |
+| design-system-engineer | subagent | 9router/low | opencode-design-system-engineer | Design-system implementation specialist for tokens, primitives, component APIs, theming, DESIGN.md alignment, and reusable UI foundations |
 | designer | subagent | 9router/high | opencode-designer | UI/UX implementation and review lane for polished visuals, motion direction/reduced-motion review, accessibility, and visual polish |
 | devops | subagent | 9router/low | opencode-devops | CI/CD, Docker, environment, deploy, monitoring, rollback, and infrastructure configuration specialist |
 | explorer | subagent | 9router/low | opencode-explorer | Local codebase discovery and search specialist for unfamiliar or broad scopes |

@@ -161,7 +161,8 @@ User intent → \`@orchestrator\` → specialist agents → validation → \`@qu
 ## Risk Triggers
 - Product/SaaS/platform/AI/UI-system architecture ambiguity → \`@architect\`
 - Security/privacy/accessibility/visual-parity final signoff → \`@quality-gate\`
-- User-facing UI/reference/animation/accessibility/design-system work → \`@designer\`
+- User-facing UI/reference/animation/accessibility/design-system design direction → \`@designer\`
+- Shared tokens/primitives/themes/component APIs → \`@design-system-engineer\`
 - Current library/API docs lookup when local context is insufficient → supporting \`@librarian\` research lane
 
 ## Notes

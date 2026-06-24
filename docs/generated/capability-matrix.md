@@ -2,8 +2,8 @@
 
 Generated from `.opencode/capabilities/registry.json`. Advisory only; canonical policy remains in `.opencode/docs/`.
 
-- Agents: 21
-- Skills: 21
+- Agents: 22
+- Skills: 22
 
 | Type | Name | Owner lane | Status | Risk | Fallback |
 | --- | --- | --- | --- | --- | --- |
@@ -11,7 +11,8 @@ Generated from `.opencode/capabilities/registry.json`. Advisory only; canonical 
 | agent | artifact-planner | @artifact-planner | active | plan-artifact-write, scope-bloat | @orchestrator direct routing for tiny reversible work |
 | agent | backend | @backend | active | api-change, data-change, auth-integration | @system-analyst for unclear contracts or @architect for data/security boundaries |
 | agent | council | @council | active | expensive-consensus, read-only-boundary | @oracle single-review lane |
-| agent | designer | @designer | active | ui-change, accessibility, visual-parity | @fixer for non-UI implementation |
+| agent | design-system-engineer | @design-system-engineer | active | shared-ui-foundation, token-primitive-api-change, theme-grammar | @designer for missing design grammar; @frontend/@mobile for screen consumption |
+| agent | designer | @designer | active | ui-change, accessibility, visual-parity | @frontend or @mobile for screen implementation; @design-system-engineer for shared primitives |
 | agent | devops | @devops | active | deploy, destructive-infra, secrets, ci-cd | @architect for platform decisions or @quality-gate for final release/security signoff |
 | agent | explorer | @explorer | active | read-only-discovery, stale-map | targeted glob/grep/read by @orchestrator |
 | agent | fixer | @fixer | active | code-edit, test-impact | @artifact-planner if scope becomes ambiguous |
@@ -32,7 +33,8 @@ Generated from `.opencode/capabilities/registry.json`. Advisory only; canonical 
 | skill | opencode-artifact-planner | @artifact-planner | active | plan-artifact-write | @orchestrator routing |
 | skill | opencode-backend | @backend | active | api-change, data-change, auth-integration | @system-analyst or @architect |
 | skill | opencode-council | @council | active | expensive-consensus | @oracle review |
-| skill | opencode-designer | @designer | active | ui-change, accessibility | @fixer |
+| skill | opencode-design-system-engineer | @design-system-engineer | active | shared-ui-foundation, token-primitive-api-change | @designer for missing grammar; @frontend/@mobile for consumers |
+| skill | opencode-designer | @designer | active | ui-change, accessibility | @frontend/@mobile/@design-system-engineer for implementation |
 | skill | opencode-devops | @devops | active | deploy, destructive-infra, secrets | @architect or @quality-gate |
 | skill | opencode-explorer | @explorer | active | read-only-discovery | targeted local search |
 | skill | opencode-fixer | @fixer | active | code-edit, test-impact | @artifact-planner |

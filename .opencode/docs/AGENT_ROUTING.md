@@ -273,7 +273,8 @@ Cross-lane contract baseline (non-trivial work):
 - `@orchestrator` — router, integrator, final coordinator
 - `@explorer` — codebase discovery and reuse mapping
 - `@fixer` — bounded implementation, tests, Red/Green/Refactor
-- `@designer` — UI/UX, visual polish, reference work, design-system direction
+- `@designer` — UI/UX direction, blueprint, reference parity, motion strategy, accessibility expectations, and design handoff
+- `@design-system-engineer` — tokens, primitives, theming, component APIs, and reusable UI foundations
 - `@oracle` — architecture, maintainability, simplification, deep review
 - `@quality-gate` — final conformance and risk review
 
@@ -307,8 +308,9 @@ These agents are `mode: subagent`. `@orchestrator` remains default. `@artifact-p
 
 | Agent | Owns | Route when | Do not route when |
 |---|---|---|---|
-| `@frontend` | Web UI implementation | React/Next/Vue/Svelte components, pages, forms, state, routing, API integration, component tests, accessibility implementation | Read project stack/command/playbook docs first for framework-managed artifacts; visual direction or design-system choices are missing -> `@designer`; backend contract unclear -> `@backend`/`@system-analyst` |
-| `@mobile` | Mobile implementation | React Native, Expo, Flutter, navigation, native permissions, offline, push, camera, deep links, mobile performance | Read project stack/command/playbook docs first for framework-managed artifacts; mobile architecture/privacy/store boundary needs decision -> `@architect`/`@quality-gate` |
+| `@design-system-engineer` | Shared UI foundation | tokens, primitives, theme variables, reusable component APIs, icon grammar, `DESIGN.md`-aligned design-system implementation | Missing design grammar or visual direction -> `@designer`; app-screen implementation belongs downstream in `@frontend`/`@mobile` |
+| `@frontend` | Web UI implementation | React/Next/Vue/Svelte components, pages, forms, state, routing, API integration, component tests, accessibility implementation | Read project stack/command/playbook docs first for framework-managed artifacts; visual direction is missing -> `@designer`; shared primitives/theme work -> `@design-system-engineer`; backend contract unclear -> `@backend`/`@system-analyst` |
+| `@mobile` | Mobile implementation | React Native, Expo, Flutter, navigation, native permissions, offline, push, camera, deep links, mobile performance | Read project stack/command/playbook docs first for framework-managed artifacts; visual direction is missing -> `@designer`; shared primitives/theme work -> `@design-system-engineer`; mobile architecture/privacy/store boundary needs decision -> `@architect`/`@quality-gate` |
 | `@backend` | API/server/data implementation | Endpoints, services, validation, auth integration, DB queries, migrations, jobs, queues, backend tests | Read project stack/command/playbook docs first for framework-managed artifacts; requirements/API contract unclear -> `@system-analyst`; major data/security architecture -> `@architect`/`@quality-gate` |
 | `@devops` | CI/CD, Docker, env, deploy, monitoring | GitHub Actions, Dockerfile, compose, release scripts, observability config, rollback plans | Read project stack/command/playbook docs first for framework-managed artifacts; deploy/destructive/credential action lacks explicit approval; architecture/release boundary -> `@architect`/`@quality-gate` |
 | `@system-analyst` | Read-only requirements/contracts | PRD, user flows, API contracts, data flows, edge cases, NFRs, acceptance criteria | Source edits or tests are requested -> implementation lane |
@@ -316,7 +318,8 @@ These agents are `mode: subagent`. `@orchestrator` remains default. `@artifact-p
 | `@fullstack` | Small vertical slice | Tight, clear FE/BE change with small scope and known contract | Broad scope, unknown contracts, or multi-subsystem work -> split `@frontend` + `@backend` or plan first |
 
 Domain anti-overlap rules:
-- UI/UX direction stays with `@designer`; `@frontend` implements from direction.
+- UI/UX direction stays with `@designer`; `@frontend` and `@mobile` implement from direction.
+- Shared tokens/primitives/themes/component APIs stay with `@design-system-engineer` before screen-level implementation.
 - `@fullstack` is never catch-all/default. Split once scope grows or contracts are unclear.
 - Read-only agents (`@system-analyst`, `@project-manager`) must not edit source.
 - `@devops` must ask before deploy, destructive infra, credential, or production mutation commands.
@@ -328,11 +331,12 @@ Helper lanes are conditional. Tiny UI polish still routes to `@designer`; isolat
 
 Global conditional specialist framing:
 - PRD/product blueprint work, SaaS architecture, AI system design, Security/privacy review, Release/ops readiness, and Mobile/hybrid architecture can trigger `@architect`.
-- Tiny UI polish still goes to `@designer`.
+- Tiny UI polish and design ambiguity still go to `@designer`.
+- Shared design-system/token/primitive/theme work goes to `@design-system-engineer`.
 - Isolated bugfixes still go to `@fixer`.
 - Web implementation with existing design direction can route to `@frontend`.
 - Backend/API/data implementation can route to `@backend`.
-- Mobile app implementation can route to `@mobile`.
+- Mobile app implementation with existing design direction can route to `@mobile`.
 - CI/CD/Docker/env/deploy work can route to `@devops` with approval gates.
 - Requirements/contract clarification can route to `@system-analyst`.
 - Milestone/backlog/release planning can route to `@project-manager`.
@@ -368,5 +372,5 @@ If the blueprint is incomplete, status must be `blocked`, `needs-polish`, or `dr
 ## Risk triggers
 - auth, PII, tenant isolation, payment, upload, secrets, token/session handling, biometric data, permission/RBAC → final security/privacy assessment in `@quality-gate`; use `@architect` for upstream architecture decisions
 - architecture boundary, new abstraction, large refactor, dependency direction, data model change → oracle
-- visual layout change, animation/motion direction, design token, screenshot/reference parity, responsive behavior → `@designer` for design direction (including reduced-motion review) and `@quality-gate` for final accessibility/visual-parity signoff when material
+- visual layout change, animation/motion direction, design token, screenshot/reference parity, responsive behavior → `@designer` for design direction; shared tokens/primitives/component APIs → `@design-system-engineer`; final accessibility/visual-parity signoff when material → `@quality-gate`
 - CI/CD, deployment, env var, migration, monitoring, rollback, mobile/offline/push/deep-links/platform runtime constraints → `@architect`
