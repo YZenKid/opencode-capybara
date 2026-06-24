@@ -190,6 +190,18 @@ function prepareInitHarnessTempRepo(root, fixture) {
     copyFileSync(resolve(root, ".opencode", "docs", file), resolve(docsTargetDir, file));
   }
 
+  const designTemplate = resolve(root, "skills", "opencode-designer", "references", "DESIGN-MD-TEMPLATE.md");
+  const registryTemplate = resolve(root, "skills", "opencode-design-system-engineer", "references", "DESIGN-SYSTEM-REGISTRY-TEMPLATE.md");
+  const designTarget = resolve(tempRoot, "DESIGN.md");
+  const registryTarget = resolve(tempRoot, ".opencode", "design-system", "registry.md");
+  if (!existsSync(designTarget) && existsSync(designTemplate)) {
+    copyFileSync(designTemplate, designTarget);
+  }
+  if (!existsSync(registryTarget) && existsSync(registryTemplate)) {
+    ensureDir(resolve(tempRoot, ".opencode", "design-system"));
+    copyFileSync(registryTemplate, registryTarget);
+  }
+
   writeFileSync(resolve(tempRoot, "AGENTS.md"), initHarnessGeneratedAgents);
 
   return {
@@ -327,6 +339,48 @@ function validateTranscriptFixtureSchema(fixture) {
   return errors;
 }
 
+function prepareScriptRunTempRepo(root, fixture) {
+  const seedRoot = resolve(root, fixture.execute.seedRoot);
+  const tempRoot = mkdtempSync(join(tmpdir(), "opencode-script-run-"));
+  copyTree(seedRoot, tempRoot);
+  const command = fixture.execute.command;
+  let stdout = "";
+  let stderr = "";
+  let exit_code = 0;
+  try {
+    stdout = execFileSync("sh", ["-lc", command], {
+      cwd: tempRoot,
+      encoding: "utf8",
+      stdio: "pipe",
+      timeout: fixture.execute.timeoutMs ?? 20000,
+    });
+  } catch (error) {
+    stdout = error.stdout ?? "";
+    stderr = error.stderr ?? "";
+    exit_code = error.status ?? 1;
+    const allowed = fixture.execute.allowedExitCodes ?? [0, 1];
+    if (!allowed.includes(exit_code)) {
+      throw error;
+    }
+  }
+  return {
+    fixtureRoot: tempRoot,
+    execution: {
+      mode: fixture.execute.mode,
+      seed_root: fixture.execute.seedRoot,
+      command,
+      stdout,
+      stderr,
+      exit_code,
+      generated_files: listFilesRecursive(tempRoot),
+      limitation: "Eval-only temp-repo script execution; uses local scripts and seed fixture files.",
+    },
+    cleanup() {
+      rmSync(tempRoot, { recursive: true, force: true });
+    },
+  };
+}
+
 export function evaluateTaskFixture(root, fixture) {
   let fixtureRoot = fixture.root ? resolve(root, fixture.root) : root;
   let execution = null;
@@ -338,6 +392,11 @@ export function evaluateTaskFixture(root, fixture) {
     cleanup = prepared.cleanup;
   } else if (fixture.execute?.mode === "opencode-runtime-init-harness") {
     const prepared = prepareInitHarnessRuntimeTempRepo(root, fixture);
+    fixtureRoot = prepared.fixtureRoot;
+    execution = prepared.execution;
+    cleanup = prepared.cleanup;
+  } else if (fixture.execute?.mode === "script-run") {
+    const prepared = prepareScriptRunTempRepo(root, fixture);
     fixtureRoot = prepared.fixtureRoot;
     execution = prepared.execution;
     cleanup = prepared.cleanup;

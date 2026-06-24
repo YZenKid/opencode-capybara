@@ -281,7 +281,8 @@ If any required blueprint section is missing for substantial work, return `block
 ## Workflow
 
 1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial UI work. If missing or stale, run `/init-harness` or route to `@librarian` for current stack docs — do not implement blind.
-2. Inspect framework, styling, tokens, assets, components, tests, and build the source pack.
+2. Inspect target project's `DESIGN.md` first. If absent, run `python3 ~/.config/opencode/scripts/init-design-system.py --project-root .` to seed `DESIGN.md` and `.opencode/design-system/registry.md` from templates.
+3. Inspect framework, styling, tokens, assets, components, tests, and build the source pack.
 3. **DESIGN.md reference**: If creating or updating `DESIGN.md`, use `references/DESIGN-MD-TEMPLATE.md` as the canonical structure to ensure all 9 sections are covered.
 4. Define the full Design Readiness Gate blueprint for substantial work: experience direction, page map, section specs, component/visual systems, asset decisions, motion map, states, responsive rules, accessibility, and evidence plan.
 5. When quality would benefit, generate 2-3 bounded directions or section strategies, compare them against the source pack, and record why one direction wins.

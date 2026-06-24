@@ -1581,7 +1581,7 @@ const checks = [
     mustInclude: [
       "mode: subagent",
       "description:",
-      "model: 9router/medium",
+      "model: 9router/low",
       "opencode-fixer",
       "apply_patch: allow",
       "task: deny",

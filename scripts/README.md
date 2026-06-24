@@ -248,6 +248,20 @@ Runs technical design audit checks for accessibility/theming/reduced-motion/toke
 python3 ~/.config/opencode/scripts/design-audit.py --project-root .
 ```
 
+### init-design-system.py
+Seeds `DESIGN.md` and `.opencode/design-system/registry.md` into a project from canonical templates.
+
+```bash
+python3 ~/.config/opencode/scripts/init-design-system.py --project-root .
+```
+
+### design-debt-tracker.py
+Builds a longitudinal design debt report from `.opencode/memory/knowledge.json`.
+
+```bash
+python3 ~/.config/opencode/scripts/design-debt-tracker.py --project-root .
+```
+
 ---
 
 ## Consuming agents and skills
@@ -271,5 +285,7 @@ python3 ~/.config/opencode/scripts/<script>.py --project-root . [script-specific
 | `design-token-generator.py` | `@design-system-engineer` |
 | `component-spec-generator.py` | `@design-system-engineer` |
 | `design-audit.py` | `@designer`, `@quality-gate` |
+| `init-design-system.py` | `@designer`, `@orchestrator` |
+| `design-debt-tracker.py` | `@designer`, `@quality-gate` |
 
 When adding a new governance script, also update this README and wire the relevant agent/skill prompts with a concrete command example.

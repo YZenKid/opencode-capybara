@@ -1,7 +1,7 @@
 {
   "task_id": "harness-evals-latest",
-  "timestamp": "2026-06-23T13:19:13.102Z",
-  "harness_version": "10bb542cfb3b5b51760a6b2554a44ce37580ca0b",
+  "timestamp": "2026-06-24T10:37:56.044Z",
+  "harness_version": "9cc97d5808dfe550ce12882051e79b7e4bb402af",
   "prompt_or_task_summary": "Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.",
   "tool_trace_summary": [
     "Read eval fixture JSON files from scripts/evals/fixtures/",
@@ -18,7 +18,7 @@
     }
   ],
   "verdict": "PASS",
-  "fixture_count": 41,
+  "fixture_count": 44,
   "failed": 0,
   "fixture_ids": [
     "advisory-boundary-routing",
@@ -31,13 +31,16 @@
     "readonly-boundary-negative",
     "runtime-plugin-removal",
     "structural-agent-skill-quality-standard",
+    "design-audit-detects-a11y-gaps",
     "docs-policy-migration-roundtrip",
     "drift-planner-visual-asset-boundary",
     "evidence-bundle-completion",
     "init-harness-minimal-foreign-repo-scaffold",
+    "init-harness-seeds-design-system",
     "orchestrator-routing-discipline-20260512-1708",
     "planner-and-mcp-state-contract",
     "reviewer-boundary-routing",
+    "ui-polish-audit-detects-slop",
     "creativity-fast-path-positive",
     "creativity-fast-path-risky-negative",
     "drift-designer-frontend-boundary-negative",
@@ -119,7 +122,7 @@
     "release_critical_average_score_0_to_5": 4.57
   },
   "drift_summary": {
-    "previous_timestamp": "2026-06-23T11:59:12.992Z",
+    "previous_timestamp": "2026-06-24T10:33:04.625Z",
     "previous_average_score_0_to_5": 3.88,
     "average_score_delta": 0,
     "failed_delta": 0,
@@ -134,6 +137,7 @@
   },
   "files_changed": [
     ".opencode/capabilities/registry.json",
+    ".opencode/design-system/registry.md",
     ".opencode/docs/AGENT_ROUTING.md",
     ".opencode/docs/ARCHITECTURE.md",
     ".opencode/docs/EVALS.md",
@@ -146,11 +150,14 @@
     ".opencode/evidence/20260512-1708-orchestrator-routing-hardening/index.json",
     ".opencode/evidence/20260512-1708-orchestrator-routing-hardening/routing-decisions.md",
     ".opencode/evidence/20260512-1708-orchestrator-routing-hardening/verification.md",
+    ".opencode/evidence/design-audit.md",
     ".opencode/evidence/exemplar-greenfield-first-slice/index.json",
     ".opencode/evidence/exemplar-maintenance-stability/index.json",
+    ".opencode/evidence/polish-audit.md",
     ".opencode/plans/20260510-2140-harness-engineering-plan.md",
     ".opencode/plans/20260512-1708-orchestrator-routing-hardening.md",
     "AGENTS.md",
+    "DESIGN.md",
     "agents/architect.md",
     "agents/artifact-planner.md",
     "agents/backend.md",
@@ -520,6 +527,32 @@
       ]
     },
     {
+      "id": "design-audit-detects-a11y-gaps",
+      "description": "Verify design-audit.py flags missing prefers-reduced-motion, aria-labels/alt text, and hardcoded colors in a seed component.",
+      "category": "behavioral-task",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "audit-report",
+          "file": ".opencode/evidence/design-audit.md",
+          "status": "PASS"
+        }
+      ],
+      "execution": {
+        "mode": "script-run",
+        "seed_root": "scripts/evals/fixtures/design-audit-seed",
+        "command": "python3 ~/.config/opencode/scripts/design-audit.py --project-root . --report .opencode/evidence/design-audit.md",
+        "stdout": "/tmp/opencode-script-run-WuLsps/.opencode/evidence/design-audit.md\n",
+        "stderr": "",
+        "exit_code": 1,
+        "generated_files": [
+          ".opencode/evidence/design-audit.md",
+          "src/Landing.tsx"
+        ],
+        "limitation": "Eval-only temp-repo script execution; uses local scripts and seed fixture files."
+      }
+    },
+    {
       "id": "docs-policy-migration-roundtrip",
       "description": "Behavioral eval: policy should live in canonical docs while AGENTS stays map-like and README stays onboarding-oriented.",
       "category": "behavioral-task",
@@ -632,6 +665,7 @@
         "mode": "init-harness-scaffold",
         "seed_root": "scripts/evals/fixtures/minimal-foreign-repo-seed",
         "generated_files": [
+          ".opencode/design-system/registry.md",
           ".opencode/docs/AGENT_LEGIBILITY.md",
           ".opencode/docs/AGENT_ROUTING.md",
           ".opencode/docs/AGENT_TOOL_ACCESS.md",
@@ -650,6 +684,54 @@
           ".opencode/docs/TOOL_USAGE.md",
           ".opencode/docs/index.md",
           "AGENTS.md",
+          "DESIGN.md",
+          "README.md",
+          "package.json"
+        ],
+        "limitation": "Eval-only temp-repo scaffold adapter; does not execute the real /init-harness slash-command runtime."
+      }
+    },
+    {
+      "id": "init-harness-seeds-design-system",
+      "description": "Init-harness scaffold should seed DESIGN.md and .opencode/design-system/registry.md from canonical templates for UI-capable repos.",
+      "category": "behavioral-task",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "design-source",
+          "file": "DESIGN.md",
+          "status": "PASS"
+        },
+        {
+          "type": "design-registry",
+          "file": ".opencode/design-system/registry.md",
+          "status": "PASS"
+        }
+      ],
+      "execution": {
+        "mode": "init-harness-scaffold",
+        "seed_root": "scripts/evals/fixtures/minimal-foreign-repo-seed",
+        "generated_files": [
+          ".opencode/design-system/registry.md",
+          ".opencode/docs/AGENT_LEGIBILITY.md",
+          ".opencode/docs/AGENT_ROUTING.md",
+          ".opencode/docs/AGENT_TOOL_ACCESS.md",
+          ".opencode/docs/ARCHITECTURE.md",
+          ".opencode/docs/DECISIONS.md",
+          ".opencode/docs/EVALS.md",
+          ".opencode/docs/GC_WORKFLOW.md",
+          ".opencode/docs/GOLDEN_PRINCIPLES.md",
+          ".opencode/docs/MCP.md",
+          ".opencode/docs/PROMPT_GATES.md",
+          ".opencode/docs/QUALITY.md",
+          ".opencode/docs/QUALITY_SCORE.md",
+          ".opencode/docs/RELEASE.md",
+          ".opencode/docs/SECURITY.md",
+          ".opencode/docs/SKILLS.md",
+          ".opencode/docs/TOOL_USAGE.md",
+          ".opencode/docs/index.md",
+          "AGENTS.md",
+          "DESIGN.md",
           "README.md",
           "package.json"
         ],
@@ -747,6 +829,32 @@
         }
       ],
       "execution": null
+    },
+    {
+      "id": "ui-polish-audit-detects-slop",
+      "description": "Verify ui-polish-audit.py detects generic gradients, fake metrics, emoji icons, lorem ipsum, and debug copy in a seed landing page.",
+      "category": "behavioral-task",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "audit-report",
+          "file": ".opencode/evidence/polish-audit.md",
+          "status": "PASS"
+        }
+      ],
+      "execution": {
+        "mode": "script-run",
+        "seed_root": "scripts/evals/fixtures/design-audit-seed",
+        "command": "python3 ~/.config/opencode/scripts/ui-polish-audit.py --project-root . --report .opencode/evidence/polish-audit.md",
+        "stdout": "/tmp/opencode-script-run-03PU9N/.opencode/evidence/polish-audit.md\n",
+        "stderr": "",
+        "exit_code": 1,
+        "generated_files": [
+          ".opencode/evidence/polish-audit.md",
+          "src/Landing.tsx"
+        ],
+        "limitation": "Eval-only temp-repo script execution; uses local scripts and seed fixture files."
+      }
     },
     {
       "id": "creativity-fast-path-positive",

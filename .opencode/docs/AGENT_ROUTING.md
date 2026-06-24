@@ -331,7 +331,7 @@ Helper lanes are conditional. Tiny UI polish still routes to `@designer`; isolat
 
 Global conditional specialist framing:
 - PRD/product blueprint work, SaaS architecture, AI system design, Security/privacy review, Release/ops readiness, and Mobile/hybrid architecture can trigger `@architect`.
-- Tiny UI polish and design ambiguity still go to `@designer`.
+- Tiny UI polish still goes to `@designer`; broader design ambiguity still goes to `@designer`.
 - Shared design-system/token/primitive/theme work goes to `@design-system-engineer`.
 - Isolated bugfixes still go to `@fixer`.
 - Web implementation with existing design direction can route to `@frontend`.

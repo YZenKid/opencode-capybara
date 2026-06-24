@@ -1,0 +1,24 @@
+{
+  "id": "ui-polish-audit-detects-slop",
+  "category": "behavioral-task",
+  "description": "Verify ui-polish-audit.py detects generic gradients, fake metrics, emoji icons, lorem ipsum, and debug copy in a seed landing page.",
+  "execute": {
+    "mode": "script-run",
+    "seedRoot": "scripts/evals/fixtures/design-audit-seed",
+    "command": "python3 ~/.config/opencode/scripts/ui-polish-audit.py --project-root . --report .opencode/evidence/polish-audit.md",
+    "timeoutMs": 20000
+  },
+  "artifacts": [
+    {
+      "type": "audit-report",
+      "file": ".opencode/evidence/polish-audit.md",
+      "mustInclude": [
+        "UI Polish Audit",
+        "Generic gradient background",
+        "Fake metric claim",
+        "Placeholder content"
+      ],
+      "reasonCode": "polish-audit-missing-slop-findings"
+    }
+  ]
+}

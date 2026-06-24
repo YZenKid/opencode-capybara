@@ -1,0 +1,24 @@
+{
+  "id": "design-audit-detects-a11y-gaps",
+  "category": "behavioral-task",
+  "description": "Verify design-audit.py flags missing prefers-reduced-motion, aria-labels/alt text, and hardcoded colors in a seed component.",
+  "execute": {
+    "mode": "script-run",
+    "seedRoot": "scripts/evals/fixtures/design-audit-seed",
+    "command": "python3 ~/.config/opencode/scripts/design-audit.py --project-root . --report .opencode/evidence/design-audit.md",
+    "timeoutMs": 20000
+  },
+  "artifacts": [
+    {
+      "type": "audit-report",
+      "file": ".opencode/evidence/design-audit.md",
+      "mustInclude": [
+        "Design Technical Audit",
+        "Dark mode support absent",
+        "Reduced-motion support absent",
+        "Accessibility attributes missing"
+      ],
+      "reasonCode": "design-audit-missing-a11y-findings"
+    }
+  ]
+}

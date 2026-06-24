@@ -1,0 +1,31 @@
+{
+  "id": "init-harness-seeds-design-system",
+  "category": "behavioral-task",
+  "description": "Init-harness scaffold should seed DESIGN.md and .opencode/design-system/registry.md from canonical templates for UI-capable repos.",
+  "execute": {
+    "mode": "init-harness-scaffold",
+    "seedRoot": "scripts/evals/fixtures/minimal-foreign-repo-seed"
+  },
+  "artifacts": [
+    {
+      "type": "design-source",
+      "file": "DESIGN.md",
+      "mustInclude": [
+        "# [Project Name] Design System",
+        "## Design Language",
+        "## Accessibility Requirements"
+      ],
+      "reasonCode": "init-harness-missing-design-template"
+    },
+    {
+      "type": "design-registry",
+      "file": ".opencode/design-system/registry.md",
+      "mustInclude": [
+        "# [Project Name] Design System Registry",
+        "## Tokens",
+        "## Primitives"
+      ],
+      "reasonCode": "init-harness-missing-design-registry"
+    }
+  ]
+}
