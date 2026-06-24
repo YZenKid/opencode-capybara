@@ -217,11 +217,21 @@ This lane now absorbs the former standalone security-risk-reviewer, accessibilit
 
 During review, verify:
 - `@orchestrator`/`@fixer` searched `.opencode/memory/knowledge.json` before starting if it exists,
-- only high-signal memories were saved (importance `high` or `medium`, never routine trivia),
+- high-signal findings were saved directly (importance `high` or well-justified `medium`),
+- borderline/high-value findings were proposed instead of silently discarded,
 - memory findings that affected the task are referenced in evidence,
-- `python3 scripts/project-memory.py --cleanup` was run before final completion on non-trivial work.
+- `python3 scripts/project-memory.py --cleanup --archive-old` was run before final completion on non-trivial work.
 
-If a task produced reusable high-value knowledge but no memory was saved, recommend saving it as a `required_before_PASS` follow-up.
+If a task produced reusable high-value knowledge but no memory was saved or proposed, add it as a `required_before_PASS` remediation item.
+
+### Quality-gate memory proposal authority
+`@quality-gate` may also create proposals for important lessons discovered during review that the implementation lanes missed.
+
+### Proposal review during gate
+List pending proposals and decide per proposal:
+- **apply**: if reusable and not duplicate,
+- **archive**: if outdated or irrelevant,
+- **leave pending**: if user decision is needed.
 
 ## Functional evidence gate
 

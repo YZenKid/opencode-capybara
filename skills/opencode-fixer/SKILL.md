@@ -163,23 +163,34 @@ Do not ship an empty homepage, tagline-only landing, or placeholder main surface
 
 ## Project memory storage
 
-After a task finishes and produced reusable knowledge, save only important lessons to `.opencode/memory/knowledge.json` using `scripts/project-memory.py`.
+After a task finishes and produced reusable knowledge, save important lessons to `.opencode/memory/knowledge.json` using `scripts/project-memory.py`.
 
 Default rule: **save high-signal knowledge only**. Do not store routine implementation details, obvious library usage, or one-off noise.
 
-Save with `importance=high` when:
-- a non-obvious pitfall was encountered and fixed,
-- a workaround was needed that may recur,
-- a user correction or clarification applies to future work,
-- a security/deploy/operational constraint was discovered,
-- a reusable project-specific pattern or component was established,
-- a previous assumption was proven wrong in a way that matters later.
+Save directly with `--save` when the lesson is unambiguous and high-signal.
+Propose with `--propose` when the lesson is valuable but the agent is unsure of its long-term importance or similarity to existing memories. Proposals go to `.opencode/memory/proposals.json` and are reviewed by `@quality-gate` before final claim.
 
-Use `importance=medium` only for useful but not critical patterns. Avoid `low`.
+Save `high`:
+- recurring pitfall
+- project-specific invariant
+- security/deploy constraint
+- expensive workaround
+- user correction that will matter again
+- previous important assumption proven wrong
 
-Before final completion on non-trivial work, run cleanup:
+Save `medium`:
+- useful pattern likely to recur, but not critical.
+
+Avoid `low`:
+- routine implementation notes,
+- obvious library/API usage,
+- one-off debugging trivia,
+- temporary noise.
+
+Before final completion on non-trivial work:
 ```bash
-python3 scripts/project-memory.py --cleanup
+python3 scripts/project-memory.py --cleanup --archive-old
+python3 scripts/project-memory.py --list-proposals
 ```
 
 ## Escalation

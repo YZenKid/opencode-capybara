@@ -85,8 +85,37 @@ Save `high`:
 Save `medium`:
 - useful pattern likely to recur, but not critical.
 
+Propose `medium`:
+- when the agent is unsure if the lesson is broadly reusable or similar to existing memory.
+
 Avoid `low`:
 - routine implementation notes,
 - obvious library/API usage,
 - one-off debugging trivia,
 - temporary noise.
+
+## Proposal flow
+
+Implementation lanes can propose memories instead of saving directly when unsure:
+```bash
+python3 scripts/project-memory.py --propose \
+  --task <task-id> \
+  --category pattern \
+  --importance medium \
+  --lesson "..." \
+  --context "..." \
+  --tags "..."
+```
+
+`@quality-gate` reviews pending proposals during final signoff:
+- apply if reusable and not duplicate,
+- leave pending if user decision is needed,
+- archive if outdated.
+
+## Cleanup
+
+```bash
+python3 scripts/project-memory.py --cleanup --archive-old
+```
+
+This removes low-importance memories and archives old unused entries.

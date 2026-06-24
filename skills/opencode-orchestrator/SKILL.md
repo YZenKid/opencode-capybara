@@ -160,9 +160,13 @@ If implemented stack/API/asset format diverges materially from the plan or proje
 Before starting any non-trivial task in a project:
 - check if `.opencode/memory/knowledge.json` exists,
 - if it exists, run `python3 scripts/project-memory.py --load --context "<brief task context>" --importance high --limit 5`,
-- include relevant memories in worker handoffs,
-- save only high-signal new memories for non-obvious findings before claiming completion,
-- run `python3 scripts/project-memory.py --cleanup` before final claim on non-trivial work so memory stays lean.
+- include any relevant memories in worker handoffs,
+- save high-signal new memories or propose borderline ones before claiming completion,
+- run cleanup with archive-old and review proposals before final claim on non-trivial work:
+  ```bash
+  python3 scripts/project-memory.py --cleanup --archive-old
+  python3 scripts/project-memory.py --list-proposals
+  ```
 
 ## Workflow
 
