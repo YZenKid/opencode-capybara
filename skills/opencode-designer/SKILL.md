@@ -7,6 +7,17 @@ description: Standalone UI/UX, motion direction, and visual parity workflow for 
 
 Use this as the designer’s self-contained UI/UX manual.
 
+## Lane position
+This lane owns UI/UX direction, blueprinting, reference parity, motion strategy, and design-quality review. It is **not** the primary production screen-code lane.
+
+After design handoff:
+- shared tokens/primitives/component APIs -> `@design-system-engineer`
+- web screen/page implementation -> `@frontend`
+- mobile screen/native implementation -> `@mobile`
+- simple bounded UI fix -> `@fixer`
+
+Adopted from Open Design: strong `DESIGN.md` authority, artifact/source-pack discipline, screenshot-based evidence, and reusable design grammar. Not adopted: upstream-specific plugin/export/runtime assumptions unless explicitly installed here.
+
 ## Trigger / skip
 
 - Trigger: UI/UX direction, design systems, responsive layouts, motion direction, accessibility review, visual parity work, design blueprinting, and any substantial user-facing visual decision.

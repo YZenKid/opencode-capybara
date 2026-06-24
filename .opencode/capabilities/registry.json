@@ -82,12 +82,30 @@
         "accessibility",
         "visual-parity"
       ],
-      "fallback": "@fixer for non-UI implementation",
+      "fallback": "@frontend or @mobile for screen implementation; @design-system-engineer for shared primitives",
       "evidence": [
         "agents/designer.md",
         "skills/opencode-designer/SKILL.md"
       ],
       "source": "agents/designer.md"
+    },
+    {
+      "name": "design-system-engineer",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-design-system-engineer",
+      "owner_lane": "@design-system-engineer",
+      "risk": [
+        "shared-ui-foundation",
+        "token-primitive-api-change",
+        "theme-grammar"
+      ],
+      "fallback": "@designer for missing design grammar; @frontend/@mobile for screen consumption",
+      "evidence": [
+        "agents/design-system-engineer.md",
+        "skills/opencode-design-system-engineer/SKILL.md"
+      ],
+      "source": "agents/design-system-engineer.md"
     },
     {
       "name": "devops",
@@ -438,11 +456,25 @@
         "ui-change",
         "accessibility"
       ],
-      "fallback": "@fixer",
+      "fallback": "@frontend/@mobile/@design-system-engineer for implementation",
       "evidence": [
         "skills/opencode-designer/SKILL.md"
       ],
       "source": "skills/opencode-designer/SKILL.md"
+    },
+    {
+      "name": "opencode-design-system-engineer",
+      "status": "active",
+      "owner_lane": "@design-system-engineer",
+      "risk": [
+        "shared-ui-foundation",
+        "token-primitive-api-change"
+      ],
+      "fallback": "@designer for missing grammar; @frontend/@mobile for consumers",
+      "evidence": [
+        "skills/opencode-design-system-engineer/SKILL.md"
+      ],
+      "source": "skills/opencode-design-system-engineer/SKILL.md"
     },
     {
       "name": "opencode-devops",

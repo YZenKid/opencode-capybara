@@ -7,6 +7,13 @@ description: Senior stack-agnostic mobile implementation playbook for native or 
 
 Use for bounded native or hybrid mobile implementation. Detect actual project stack from repo evidence before edits; local project conventions win; make no Flutter, React Native, Expo, or native default assumptions.
 
+Lane contract:
+- consumes design handoff from `@designer`
+- consumes shared primitives/themes from `@design-system-engineer` when present
+- does not invent visual language when design basis is missing
+
+Adopted from Open Design: source-pack discipline, `DESIGN.md` authority, screenshot/device evidence, and reuse-first implementation. Not adopted: upstream plugin/export assumptions.
+
 ## Reference-first creativity contract
 - Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
 - Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
@@ -79,6 +86,8 @@ evidence:
 
 ## Escalation
 - Route `@architect` for new native dependency strategy, offline architecture, push/deep-link platform design, or store-release strategy.
+- Route `@designer` for visual language, reference parity, or design ambiguity.
+- Route `@design-system-engineer` for shared primitives, theme variables, or component API changes.
 - Route `@quality-gate` for biometric, privacy, permissions, production release, or security-sensitive changes.
 
 ## Output contract

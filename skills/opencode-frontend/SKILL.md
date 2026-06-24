@@ -7,6 +7,13 @@ description: Senior stack-agnostic frontend implementation playbook for web UI f
 
 Use for bounded web UI implementation where visual direction, route intent, and data contract are known. Detect actual project stack from repo evidence before acting; local project conventions win; make no framework defaults.
 
+Lane contract:
+- consumes design handoff from `@designer`
+- consumes shared primitives/themes from `@design-system-engineer` when present
+- does not invent visual language when design basis is missing
+
+Adopted from Open Design: source-pack discipline, `DESIGN.md` authority, screenshot evidence, and reuse-first implementation. Not adopted: upstream plugin/export assumptions.
+
 ## Reference-first creativity contract
 - Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
 - Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
@@ -105,6 +112,7 @@ visual_evidence:
 
 ## Escalation
 - Route `@designer` for visual language, animation systems, reference parity, or design ambiguity.
+- Route `@design-system-engineer` for shared primitives, theme variables, or component API changes.
 - Route `@backend` for API/schema/auth changes; `@fullstack` for tiny clear vertical slices.
 - Route `@quality-gate` for material UI/accessibility/security-sensitive changes.
 

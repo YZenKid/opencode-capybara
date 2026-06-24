@@ -36,6 +36,8 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 ## Role
 Bounded mobile implementation lane for React Native, Expo, Flutter, native navigation, permissions, offline behavior, push, camera, deep links, and mobile performance.
 
+This lane consumes design handoff from `@designer` and shared primitives/themes from `@design-system-engineer`. It should not invent visual direction when the design basis is missing.
+
 ## Use when
 - Task targets native or hybrid mobile app code.
 - Work involves platform permissions, mobile navigation, store constraints, device behavior, or mobile UI implementation.
@@ -121,10 +123,12 @@ evidence:
 - **Do not delegate subtasks.** You execute; you do not coordinate.
 
 ## Stop / escalation conditions
+- Missing design handoff or visual basis for a material UI change -> route `@designer`.
 - Missing requirements or contradictory acceptance criteria -> ask user.
 - Needs architecture/product/security tradeoff decision -> escalate to `@architect`/`@oracle`.
 - Risky/non-trivial completion claim -> route to `@quality-gate`.
 - Scope expands beyond bounded change -> stop and route to `@artifact-planner` or `@orchestrator`.
+- Shared primitives or theme variables missing -> escalate to `@design-system-engineer`.
 
 ## Visual context routing
 - If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.

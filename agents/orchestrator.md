@@ -89,6 +89,7 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 - `@skill-improver`: bounded post-task prompt/routing improvements when evidence warrants it.
 - `@system-analyst`: read-only requirements, user-flow, API/data contract, edge-case, NFR, acceptance-criteria clarification.
 - `@project-manager`: read-only milestones, issues, dependencies, risk register, release checklist, and handoff sequencing.
+- `@design-system-engineer`: shared tokens, primitives, theming, component APIs, and reusable UI foundations after design grammar is clear.
 - `@frontend`/`@backend`/`@mobile`/`@devops`/`@fullstack`: stack-specific bounded implementation after scope and design/contracts are clear.
 
 ## Routing shorthand
@@ -96,7 +97,10 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 - Tiny/reversible single-file work: orchestrator may do directly.
 - Discovery-heavy: `@explorer`.
 - Implementation-heavy: `@fixer`.
-- UI-heavy: `@designer` (read project `DESIGN.md` first).
+- UI-heavy and design-direction-heavy: `@designer` (read project `DESIGN.md` first).
+- Shared token/primitive/component-system work: `@design-system-engineer`.
+- Web screen implementation from clear handoff: `@frontend`.
+- Mobile screen/native implementation from clear handoff: `@mobile`.
 - Material ambiguity/risk in product-platform-security-AI-UI-system architecture domains: trigger `@architect`.
 - Non-trivial finalization: `@quality-gate` before completion claims.
 
@@ -109,11 +113,12 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 5. **MANDATORY stack verification**: Before routing to any implementation agent for non-trivial work, verify that `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` are present and current. If missing or stale, run or suggest `/init-harness` before broad implementation. For non-trivial or version-sensitive work, route to `@librarian` for current stack docs/best practice verification before implementation — do not let implementation agents skip this step.
 6. Need durable `.opencode` plan/evidence handoff? `@artifact-planner`; use `@project-manager` input for milestones/tickets. For source-approved 1:1 tasks, require the planner to define source maps, forbidden deviations, and parity debt explicitly.
 7. UX/visual/reference/motion direction missing? `@designer` first. For source-approved 1:1 visual work, route with exact layout/component/token anatomy expectation rather than inspiration-only restyling.
-8. Clear implementation? Route by dominant surface: general/tests -> `@fixer`; web UI -> `@frontend`; API/data/jobs -> `@backend`; native/hybrid -> `@mobile`; CI/CD/deploy/env -> `@devops`; small FE+BE vertical slice -> `@fullstack`. For source-approved 1:1 tasks, implementation lanes should port upstream structure/class/component names first and treat deviations as evidence-backed exceptions.
-8. Product/platform/AI/UI-system tradeoff changes architecture/risk? `@architect`.
-9. Need senior critique/simplification/persistent debugging strategy? `@oracle`.
-10. High-stakes ambiguity still unresolved? `@council`.
-11. Non-trivial/risky/prompt/config/security/UI claim finalization? `@quality-gate`. For source-approved 1:1 tasks, require source inventory, reuse evidence, and parity evidence before `PASS`.
+8. Shared tokens/primitives/component APIs or theme variables missing? Route `@design-system-engineer` before screen implementation.
+9. Clear implementation? Route by dominant surface: general/tests -> `@fixer`; web screen/page UI -> `@frontend`; API/data/jobs -> `@backend`; native/hybrid mobile screen/app implementation -> `@mobile`; CI/CD/deploy/env -> `@devops`; small FE+BE vertical slice -> `@fullstack`. For source-approved 1:1 tasks, implementation lanes should port upstream structure/class/component names first and treat deviations as evidence-backed exceptions.
+10. Product/platform/AI/UI-system tradeoff changes architecture/risk? `@architect`.
+11. Need senior critique/simplification/persistent debugging strategy? `@oracle`.
+12. High-stakes ambiguity still unresolved? `@council`.
+13. Non-trivial/risky/prompt/config/security/UI claim finalization? `@quality-gate`. For source-approved 1:1 tasks, require source inventory, reuse evidence, and parity evidence before `PASS`.
 
 ### Mode-aware execution
 
