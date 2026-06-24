@@ -29,6 +29,7 @@ def main() -> int:
     project_root = Path(args.project_root).resolve()
     design_dest = project_root / 'DESIGN.md'
     registry_dest = project_root / '.opencode' / 'design-system' / 'registry.md'
+    catalog_dest = project_root / '.opencode' / 'design-system' / 'catalog.json'
 
     created = []
     if args.force or not design_dest.exists():
@@ -39,6 +40,10 @@ def main() -> int:
         registry_dest.parent.mkdir(parents=True, exist_ok=True)
         registry_dest.write_text(REGISTRY_TEMPLATE.read_text(encoding='utf-8'), encoding='utf-8')
         created.append(str(registry_dest))
+    if args.force or not catalog_dest.exists():
+        catalog_dest.parent.mkdir(parents=True, exist_ok=True)
+        catalog_dest.write_text('{\n  "tokens": [],\n  "primitives": [],\n  "components": [],\n  "patterns": [],\n  "sources": {}\n}\n', encoding='utf-8')
+        created.append(str(catalog_dest))
     for item in created:
         print(item)
     return 0

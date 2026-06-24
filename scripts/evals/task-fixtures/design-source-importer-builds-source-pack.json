@@ -1,0 +1,31 @@
+{
+  "id": "design-source-importer-builds-source-pack",
+  "category": "behavioral-task",
+  "description": "design-source-importer should generate a normalized source-pack markdown and update catalog sources from repo paths and screenshot dirs.",
+  "execute": {
+    "mode": "script-run",
+    "seedRoot": "scripts/evals/fixtures/design-audit-seed",
+    "command": "python3 ~/.config/opencode/scripts/design-source-importer.py --project-root . --repo-path src --screenshot-dir screenshots --url https://example.com --output .opencode/evidence/design-source-pack.md"
+  },
+  "artifacts": [
+    {
+      "type": "design-source-pack",
+      "file": ".opencode/evidence/design-source-pack.md",
+      "mustInclude": [
+        "# Design Source Pack",
+        "https://example.com",
+        "## Repo evidence",
+        "## Screenshot inventory"
+      ],
+      "reasonCode": "source-importer-missing-source-pack"
+    },
+    {
+      "type": "catalog-update",
+      "file": ".opencode/design-system/catalog.json",
+      "mustInclude": [
+        "\"sources\":"
+      ],
+      "reasonCode": "source-importer-missing-catalog-update"
+    }
+  ]
+}

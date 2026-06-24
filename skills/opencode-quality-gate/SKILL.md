@@ -159,6 +159,7 @@ Required checks when relevant:
 - For source-approved 1:1 tasks, require source inventory plus evidence that upstream file/component/layout anatomy was reused/adapted, not merely reinterpreted.
 - Accessibility evidence covers contrast, semantics, focus, labels, keyboard/touch, alt text, and reduced-motion. For polish-mode or substantial UI claims, require `python3 ~/.config/opencode/scripts/ui-polish-audit.py --project-root .` and `python3 ~/.config/opencode/scripts/design-audit.py --project-root .` results or explicit rationale why they are inapplicable.
 - For substantial UI debt-sensitive projects, require `python3 ~/.config/opencode/scripts/design-debt-tracker.py --project-root .` report or explicit rationale why design debt tracking is not needed for this slice.
+- For substantial UI claims with task evidence bundles, require `python3 ~/.config/opencode/scripts/preview-evidence-check.py --project-root . --task-id <id>` or equivalent proof that preview URL + desktop/mobile screenshots exist.
 - Motion evidence explains purpose and reduced-motion fallback; no gratuitous motion claim.
 - Asset/image evidence includes generation decision, dimensions, alt/decorative strategy, legal notes, integration notes, `quality_bar`, and `reject_if`.
 - Anti-AI-slop mechanical failures checked: hero fit, nav single-line, CTA contrast/wrap/duplicate intent, eyebrow restraint, layout repetition, image strategy, motion motivation, reduced-motion, fake dashboards/placeholders/generic neon.

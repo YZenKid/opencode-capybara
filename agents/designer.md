@@ -87,7 +87,7 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
 
 ## Workflow
 1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial UI work. If missing or stale, run `/init-harness` or route to `@librarian` for current stack docs — do not implement blind.
-2. Discover current UI patterns and build the source pack: design docs, current screenshots/states, references, tokens/components, and asset constraints. If project `DESIGN.md` is missing for substantial UI work, run `python3 ~/.config/opencode/scripts/init-design-system.py --project-root .` to seed it before going deeper.
+2. Discover current UI patterns and build the source pack: design docs, current screenshots/states, references, tokens/components, and asset constraints. If project `DESIGN.md` is missing for substantial UI work, run `python3 ~/.config/opencode/scripts/init-design-system.py --project-root .` to seed `DESIGN.md`, `.opencode/design-system/registry.md`, and `.opencode/design-system/catalog.json` before going deeper. For reference-heavy work, also run `python3 ~/.config/opencode/scripts/design-source-importer.py --project-root . --repo-path <relative-path> --screenshot-dir <relative-dir> --url <url>`.
 3. Write `Design Read`, lock assumptions, set `DESIGN_VARIANCE`/`MOTION_INTENSITY`/`VISUAL_DENSITY`.
 4. For substantial or ambiguous work, generate 2-3 bounded directions or section approaches, compare them against references/constraints, and choose one explicitly.
 5. Define/confirm visual direction, section anatomy, image strategy, motion purpose, and interaction states.
@@ -102,10 +102,10 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
    - responsive rules,
    - accessibility gate notes,
    - validation evidence plan.
-7. Produce design artifact as artifact-mode output when delivering substantial UI direction, blueprint, or parity handoff.
+7. Produce design artifact as artifact-mode output when delivering substantial UI direction, blueprint, or parity handoff. For task-scoped work, run `python3 ~/.config/opencode/scripts/design-review-bundle.py --project-root . --task-id <id>` to seed standard review artifacts.
 8. For polish-mode passes, run `python3 ~/.config/opencode/scripts/ui-polish-audit.py --project-root .` and attach resulting evidence before claiming `ready` on substantial UI.
-8. Validate with reference/current/final screenshots, browser previews, or equivalent evidence for substantial visual work. When before/after screenshot folders exist, run `python3 ~/.config/opencode/scripts/design-screenshot-compare.py --before-dir .opencode/evidence/<task-id>/before --after-dir .opencode/evidence/<task-id>/after --output .opencode/evidence/<task-id>/design-compare.md`.
-9. If shared components/tokens are involved, point downstream lane to `skills/opencode-design-system-engineer/references/DESIGN-SYSTEM-REGISTRY-TEMPLATE.md` to catalog reusable system entries.
+9. Validate with reference/current/final screenshots, browser previews, or equivalent evidence for substantial visual work. When before/after screenshot folders exist, run `python3 ~/.config/opencode/scripts/design-screenshot-compare.py --before-dir .opencode/evidence/<task-id>/before --after-dir .opencode/evidence/<task-id>/after --output .opencode/evidence/<task-id>/design-compare.md`. Run `python3 ~/.config/opencode/scripts/preview-evidence-check.py --project-root . --task-id <id>` for preview completeness.
+10. If shared components/tokens are involved, point downstream lane to `skills/opencode-design-system-engineer/references/DESIGN-SYSTEM-REGISTRY-TEMPLATE.md` and `.opencode/design-system/catalog.json` to catalog reusable system entries.
 10. Route implementation to the correct lane based on surface and scope:
    - shared tokens/primitives -> `@design-system-engineer`
    - web screen implementation -> `@frontend`

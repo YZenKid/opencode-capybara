@@ -1,10 +1,10 @@
 # Harness Eval Report
 
-- Timestamp: 2026-06-24T10:37:56.044Z
-- Harness version: 9cc97d5808dfe550ce12882051e79b7e4bb402af
+- Timestamp: 2026-06-24T11:49:01.431Z
+- Harness version: 1d51b7c3977669da6e10538f7b10034087ab8e6e
 - Task summary: Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.
 - Verdict: PASS
-- Fixture count: 44
+- Fixture count: 46
 - Failed: 0
 - Transcript fixture count: 24
 - Transcript average routing score: 3.88/5
@@ -19,6 +19,7 @@
   - Write replayable report artifacts under .opencode/evidence/harness-evals/latest/
 - Files changed summary: Read-only eval run; no repository files were modified. files_changed lists validated target files.
   - .opencode/capabilities/registry.json
+  - .opencode/design-system/catalog.json
   - .opencode/design-system/registry.md
   - .opencode/docs/AGENT_ROUTING.md
   - .opencode/docs/ARCHITECTURE.md
@@ -33,6 +34,7 @@
   - .opencode/evidence/20260512-1708-orchestrator-routing-hardening/routing-decisions.md
   - .opencode/evidence/20260512-1708-orchestrator-routing-hardening/verification.md
   - .opencode/evidence/design-audit.md
+  - .opencode/evidence/design-source-pack.md
   - .opencode/evidence/exemplar-greenfield-first-slice/index.json
   - .opencode/evidence/exemplar-maintenance-stability/index.json
   - .opencode/evidence/polish-audit.md
@@ -122,10 +124,12 @@
   - runtime-plugin-removal
   - structural-agent-skill-quality-standard
   - design-audit-detects-a11y-gaps
+  - design-source-importer-builds-source-pack
   - docs-policy-migration-roundtrip
   - drift-planner-visual-asset-boundary
   - evidence-bundle-completion
   - init-harness-minimal-foreign-repo-scaffold
+  - init-harness-seeds-design-catalog
   - init-harness-seeds-design-system
   - orchestrator-routing-discipline-20260512-1708
   - planner-and-mcp-state-contract
@@ -270,6 +274,11 @@
 - Status: PASS
 - Description: Verify design-audit.py flags missing prefers-reduced-motion, aria-labels/alt text, and hardcoded colors in a seed component.
 - .opencode/evidence/design-audit.md: PASS
+## design-source-importer-builds-source-pack
+- Status: PASS
+- Description: design-source-importer should generate a normalized source-pack markdown and update catalog sources from repo paths and screenshot dirs.
+- .opencode/evidence/design-source-pack.md: PASS
+- .opencode/design-system/catalog.json: PASS
 ## docs-policy-migration-roundtrip
 - Status: PASS
 - Description: Behavioral eval: policy should live in canonical docs while AGENTS stays map-like and README stays onboarding-oriented.
@@ -297,6 +306,10 @@
 - .opencode/docs/ARCHITECTURE.md: PASS
 - .opencode/docs/QUALITY.md: PASS
 - .opencode/docs/EVALS.md: PASS
+## init-harness-seeds-design-catalog
+- Status: PASS
+- Description: init-design-system seed should also create `.opencode/design-system/catalog.json` alongside DESIGN.md and registry.md.
+- .opencode/design-system/catalog.json: PASS
 ## init-harness-seeds-design-system
 - Status: PASS
 - Description: Init-harness scaffold should seed DESIGN.md and .opencode/design-system/registry.md from canonical templates for UI-capable repos.
@@ -574,21 +587,32 @@
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/design-audit.md, src/Landing.tsx
-- Stdout captured: "/tmp/opencode-script-run-WuLsps/.opencode/evidence/design-audit.md"
+- Stdout captured: "/tmp/opencode-script-run-hrefUk/.opencode/evidence/design-audit.md"
+- Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
+### Execution metadata for design-source-importer-builds-source-pack
+- Mode: script-run
+- Seed root: scripts/evals/fixtures/design-audit-seed
+- Generated files: .opencode/design-system/catalog.json, .opencode/evidence/design-source-pack.md, src/Landing.tsx
+- Stdout captured: "/tmp/opencode-script-run-0sIis9/.opencode/evidence/design-source-pack.md\n/tmp/opencode-script-run-0sIis9/.opencode/design-system/catalog.json"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for init-harness-minimal-foreign-repo-scaffold
 - Mode: init-harness-scaffold
 - Seed root: scripts/evals/fixtures/minimal-foreign-repo-seed
-- Generated files: .opencode/design-system/registry.md, .opencode/docs/AGENT_LEGIBILITY.md, .opencode/docs/AGENT_ROUTING.md, .opencode/docs/AGENT_TOOL_ACCESS.md, .opencode/docs/ARCHITECTURE.md, .opencode/docs/DECISIONS.md, .opencode/docs/EVALS.md, .opencode/docs/GC_WORKFLOW.md, .opencode/docs/GOLDEN_PRINCIPLES.md, .opencode/docs/MCP.md, .opencode/docs/PROMPT_GATES.md, .opencode/docs/QUALITY.md, .opencode/docs/QUALITY_SCORE.md, .opencode/docs/RELEASE.md, .opencode/docs/SECURITY.md, .opencode/docs/SKILLS.md, .opencode/docs/TOOL_USAGE.md, .opencode/docs/index.md, AGENTS.md, DESIGN.md, README.md, package.json
+- Generated files: .opencode/design-system/catalog.json, .opencode/design-system/registry.md, .opencode/docs/AGENT_LEGIBILITY.md, .opencode/docs/AGENT_ROUTING.md, .opencode/docs/AGENT_TOOL_ACCESS.md, .opencode/docs/ARCHITECTURE.md, .opencode/docs/DECISIONS.md, .opencode/docs/EVALS.md, .opencode/docs/GC_WORKFLOW.md, .opencode/docs/GOLDEN_PRINCIPLES.md, .opencode/docs/MCP.md, .opencode/docs/PROMPT_GATES.md, .opencode/docs/QUALITY.md, .opencode/docs/QUALITY_SCORE.md, .opencode/docs/RELEASE.md, .opencode/docs/SECURITY.md, .opencode/docs/SKILLS.md, .opencode/docs/TOOL_USAGE.md, .opencode/docs/index.md, AGENTS.md, DESIGN.md, README.md, package.json
+- Limitation: Eval-only temp-repo scaffold adapter; does not execute the real /init-harness slash-command runtime.
+### Execution metadata for init-harness-seeds-design-catalog
+- Mode: init-harness-scaffold
+- Seed root: scripts/evals/fixtures/minimal-foreign-repo-seed
+- Generated files: .opencode/design-system/catalog.json, .opencode/design-system/registry.md, .opencode/docs/AGENT_LEGIBILITY.md, .opencode/docs/AGENT_ROUTING.md, .opencode/docs/AGENT_TOOL_ACCESS.md, .opencode/docs/ARCHITECTURE.md, .opencode/docs/DECISIONS.md, .opencode/docs/EVALS.md, .opencode/docs/GC_WORKFLOW.md, .opencode/docs/GOLDEN_PRINCIPLES.md, .opencode/docs/MCP.md, .opencode/docs/PROMPT_GATES.md, .opencode/docs/QUALITY.md, .opencode/docs/QUALITY_SCORE.md, .opencode/docs/RELEASE.md, .opencode/docs/SECURITY.md, .opencode/docs/SKILLS.md, .opencode/docs/TOOL_USAGE.md, .opencode/docs/index.md, AGENTS.md, DESIGN.md, README.md, package.json
 - Limitation: Eval-only temp-repo scaffold adapter; does not execute the real /init-harness slash-command runtime.
 ### Execution metadata for init-harness-seeds-design-system
 - Mode: init-harness-scaffold
 - Seed root: scripts/evals/fixtures/minimal-foreign-repo-seed
-- Generated files: .opencode/design-system/registry.md, .opencode/docs/AGENT_LEGIBILITY.md, .opencode/docs/AGENT_ROUTING.md, .opencode/docs/AGENT_TOOL_ACCESS.md, .opencode/docs/ARCHITECTURE.md, .opencode/docs/DECISIONS.md, .opencode/docs/EVALS.md, .opencode/docs/GC_WORKFLOW.md, .opencode/docs/GOLDEN_PRINCIPLES.md, .opencode/docs/MCP.md, .opencode/docs/PROMPT_GATES.md, .opencode/docs/QUALITY.md, .opencode/docs/QUALITY_SCORE.md, .opencode/docs/RELEASE.md, .opencode/docs/SECURITY.md, .opencode/docs/SKILLS.md, .opencode/docs/TOOL_USAGE.md, .opencode/docs/index.md, AGENTS.md, DESIGN.md, README.md, package.json
+- Generated files: .opencode/design-system/catalog.json, .opencode/design-system/registry.md, .opencode/docs/AGENT_LEGIBILITY.md, .opencode/docs/AGENT_ROUTING.md, .opencode/docs/AGENT_TOOL_ACCESS.md, .opencode/docs/ARCHITECTURE.md, .opencode/docs/DECISIONS.md, .opencode/docs/EVALS.md, .opencode/docs/GC_WORKFLOW.md, .opencode/docs/GOLDEN_PRINCIPLES.md, .opencode/docs/MCP.md, .opencode/docs/PROMPT_GATES.md, .opencode/docs/QUALITY.md, .opencode/docs/QUALITY_SCORE.md, .opencode/docs/RELEASE.md, .opencode/docs/SECURITY.md, .opencode/docs/SKILLS.md, .opencode/docs/TOOL_USAGE.md, .opencode/docs/index.md, AGENTS.md, DESIGN.md, README.md, package.json
 - Limitation: Eval-only temp-repo scaffold adapter; does not execute the real /init-harness slash-command runtime.
 ### Execution metadata for ui-polish-audit-detects-slop
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/polish-audit.md, src/Landing.tsx
-- Stdout captured: "/tmp/opencode-script-run-03PU9N/.opencode/evidence/polish-audit.md"
+- Stdout captured: "/tmp/opencode-script-run-fdjGwX/.opencode/evidence/polish-audit.md"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.

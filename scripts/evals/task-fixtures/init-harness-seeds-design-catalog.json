@@ -1,0 +1,22 @@
+{
+  "id": "init-harness-seeds-design-catalog",
+  "category": "behavioral-task",
+  "description": "init-design-system seed should also create `.opencode/design-system/catalog.json` alongside DESIGN.md and registry.md.",
+  "execute": {
+    "mode": "init-harness-scaffold",
+    "seedRoot": "scripts/evals/fixtures/minimal-foreign-repo-seed"
+  },
+  "artifacts": [
+    {
+      "type": "design-catalog",
+      "file": ".opencode/design-system/catalog.json",
+      "mustInclude": [
+        "\"tokens\":",
+        "\"primitives\":",
+        "\"components\":",
+        "\"patterns\":"
+      ],
+      "reasonCode": "init-harness-missing-design-catalog"
+    }
+  ]
+}

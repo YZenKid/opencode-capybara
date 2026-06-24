@@ -262,6 +262,27 @@ Builds a longitudinal design debt report from `.opencode/memory/knowledge.json`.
 python3 ~/.config/opencode/scripts/design-debt-tracker.py --project-root .
 ```
 
+### design-source-importer.py
+Builds `.opencode/evidence/design-source-pack.md` and updates `.opencode/design-system/catalog.json` from URLs, repo paths, and screenshot dirs.
+
+```bash
+python3 ~/.config/opencode/scripts/design-source-importer.py --project-root . --repo-path src --screenshot-dir .opencode/evidence/ref --url https://example.com
+```
+
+### design-review-bundle.py
+Seeds standard task-scoped design review artifacts under `.opencode/evidence/<task-id>/`.
+
+```bash
+python3 ~/.config/opencode/scripts/design-review-bundle.py --project-root . --task-id my-task
+```
+
+### preview-evidence-check.py
+Validates preview URL + desktop/mobile screenshot evidence for substantial UI claims.
+
+```bash
+python3 ~/.config/opencode/scripts/preview-evidence-check.py --project-root . --task-id my-task
+```
+
 ---
 
 ## Consuming agents and skills
@@ -287,5 +308,8 @@ python3 ~/.config/opencode/scripts/<script>.py --project-root . [script-specific
 | `design-audit.py` | `@designer`, `@quality-gate` |
 | `init-design-system.py` | `@designer`, `@orchestrator` |
 | `design-debt-tracker.py` | `@designer`, `@quality-gate` |
+| `design-source-importer.py` | `@designer`, `@design-system-engineer` |
+| `design-review-bundle.py` | `@designer`, `@quality-gate` |
+| `preview-evidence-check.py` | `@designer`, `@quality-gate` |
 
 When adding a new governance script, also update this README and wire the relevant agent/skill prompts with a concrete command example.
