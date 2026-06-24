@@ -145,7 +145,7 @@ Direct-work threshold (hard default):
 
 ## Functional evidence rule
 
-Mechanical checks alone (build/lint/grep/test counts) are never enough for a strong completion claim. Before reporting `done`, `ready`, `MVP complete`, or `PASS`, require functional evidence per core subsystem in scope. For app/release/API/PWA work, default to running `python3 scripts/runtime-verify.py` with task-specific `--route`, `--asset`, and `--env` flags when that script exists in the target project, then save output under `.opencode/evidence/<task-id>/runtime-verify.json` or equivalent.
+Mechanical checks alone (build/lint/grep/test counts) are never enough for a strong completion claim. Before reporting `done`, `ready`, `MVP complete`, or `PASS`, require functional evidence per core subsystem in scope. For app/release/API/PWA work, default to running `python3 ~/.config/opencode/scripts/runtime-verify.py` with task-specific `--route`, `--asset`, and `--env` flags when that script exists in the target project, then save output under `.opencode/evidence/<task-id>/runtime-verify.json` or equivalent.
 
 ## MVP surface rule
 
@@ -159,13 +159,13 @@ If implemented stack/API/asset format diverges materially from the plan or proje
 
 Before starting any non-trivial task in a project:
 - check if `.opencode/memory/knowledge.json` exists,
-- if it exists, run `python3 scripts/project-memory.py --load --context "<brief task context>" --importance high --limit 5`,
+- if it exists, run `python3 ~/.config/opencode/scripts/project-memory.py --load --context "<brief task context>" --importance high --limit 5`,
 - include any relevant memories in worker handoffs,
 - save high-signal new memories or propose borderline ones before claiming completion,
 - run cleanup with archive-old and review proposals before final claim on non-trivial work:
   ```bash
-  python3 scripts/project-memory.py --cleanup --archive-old
-  python3 scripts/project-memory.py --list-proposals
+  python3 ~/.config/opencode/scripts/project-memory.py --cleanup --archive-old
+  python3 ~/.config/opencode/scripts/project-memory.py --list-proposals
   ```
 
 ## Workflow

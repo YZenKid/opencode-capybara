@@ -82,7 +82,8 @@ Read-only supporting helper lane for version-sensitive docs/API research and doc
 - [ ] Key recommendations trace back to cited sources.
 - [ ] Output is concise enough for downstream execution.
 - [ ] No implementation edits were attempted.
-- [ ] Relevant project memory from `.opencode/memory/knowledge.json` was loaded when available.
+- [ ] Relevant project memory from `.opencode/memory/knowledge.json` was loaded when available via `python3 ~/.config/opencode/scripts/project-memory.py --load --context "<research topic>" --importance high --limit 5`.
+- [ ] When docs affect runtime or plan gates, recommendations mention the exact governance script path under `~/.config/opencode/scripts/`.
 
 ## Anti-patterns
 - Quoting broad docs without extracting decision-relevant guidance.

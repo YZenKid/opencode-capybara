@@ -122,6 +122,7 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
 - [ ] States covered: empty/loading/error/success where relevant.
 - [ ] Accessibility and reduced-motion checked.
 - [ ] Validation includes screenshots or equivalent evidence for material UI changes.
+- [ ] If release/readiness is claimed, output points downstream lane to `python3 ~/.config/opencode/scripts/pre-gate-smoke-check.py --project-root .` and `python3 ~/.config/opencode/scripts/runtime-verify.py --project-root . --base-url <url>`.
 - [ ] Residual risks and assumptions recorded.
 
 ## Anti-patterns

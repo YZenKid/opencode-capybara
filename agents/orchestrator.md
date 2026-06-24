@@ -186,21 +186,31 @@ Balance: respect dependencies, avoid parallelizing what must be sequential.
 
 Before starting any non-trivial task in a project:
 - check if `.opencode/memory/knowledge.json` exists,
-- if it exists, run `python3 scripts/project-memory.py --load --context "<brief task context>" --importance high --limit 5`,
+- if it exists, run `python3 ~/.config/opencode/scripts/project-memory.py --load --context "<brief task context>" --importance high --limit 5`,
 - include any relevant memories in handoff to workers,
 - save high-signal new memories or propose borderline ones before claiming completion,
-- run cleanup with archive-old before final claim on non-trivial work:
-  ```bash
-  python3 scripts/project-memory.py --cleanup --archive-old
-  python3 scripts/project-memory.py --list-proposals
-  ```
+- run cleanup with archive-old and review proposals before final claim on non-trivial work:
+```bash
+python3 ~/.config/opencode/scripts/project-memory.py --cleanup --archive-old
+python3 ~/.config/opencode/scripts/project-memory.py --list-proposals
+```
 
 ## Execution tracking via plan worklist
-For non-trivial work, create execution tracking from the plan worklist and keep it in `.opencode/state/<task-id>/progress.json` using `scripts/task-progress.py`.
+For non-trivial work, create execution tracking from the plan worklist and keep it in `.opencode/state/<task-id>/progress.json` using `python3 ~/.config/opencode/scripts/task-progress.py --project-root . --task <task-id> --init --plan <plan.md>`.
+Keep progress current as steps move through `pending` → `in_progress` → `done` using `python3 ~/.config/opencode/scripts/task-progress.py --project-root . --task <task-id> --step <step-id> --status done --owner @<lane>`.
+Before final claim, verify no `pending` steps remain.
+
+## Runtime verification prerequisite
+Before claiming a service or web app is ready, ensure both static and runtime gates pass:
+```bash
+python3 ~/.config/opencode/scripts/pre-gate-smoke-check.py --project-root .
+python3 ~/.config/opencode/scripts/runtime-verify.py --project-root . --base-url <url>
+```
+Do not claim functional completion if runtime checks cannot be run; instead list the missing verification and block.
 
 Steps:
-1. After loading the plan, run `python3 scripts/task-progress.py <task-id> --init --plan .opencode/plans/<task-id>.md`.
-2. Update the tracker after every task: `python3 scripts/task-progress.py <task-id> --update <task-id> --status <status> --owner <agent> --evidence <path>`.
+1. After loading the plan, run `python3 ~/.config/opencode/scripts/task-progress.py --project-root . --task <task-id> --init --plan .opencode/plans/<task-id>.md`.
+2. Update the tracker after every task: `python3 ~/.config/opencode/scripts/task-progress.py --project-root . --task <task-id> --step <step-id> --status <status> --owner @<agent>`.
 3. Track status: `pending`, `in_progress`, `completed`, `blocked`, `cancelled`, plus owner/lane, depends_on, validation, and evidence_update.
 4. Report the current checklist to the user when asked about progress, or after every meaningful milestone.
 
@@ -428,11 +438,11 @@ evidence:
 Plan-first execution is not enough. Before any completion claim, require functional evidence per core subsystem in the plan slice.
 
 Static pre-gate smoke check (runs without server, always run before runtime verification):
-- run `python3 scripts/pre-gate-smoke-check.py --project-root .` when the project contains that script,
+- run `python3 ~/.config/opencode/scripts/pre-gate-smoke-check.py --project-root .` when the project contains that script,
 - store output under `.opencode/evidence/<task-id>/pre-gate-smoke.json` or equivalent.
 
 Runtime verification (for app/release/API/PWA work):
-- run `python3 scripts/runtime-verify.py` with task-specific `--route`, `--asset`, and `--env` flags when that script exists in the target project, then save output under `.opencode/evidence/<task-id>/runtime-verify.json` or equivalent.
+- run `python3 ~/.config/opencode/scripts/runtime-verify.py` with task-specific `--route`, `--asset`, and `--env` flags when that script exists in the target project, then save output under `.opencode/evidence/<task-id>/runtime-verify.json` or equivalent.
 
 Mechanical checks alone (build/lint/grep/test count) are not sufficient.
 

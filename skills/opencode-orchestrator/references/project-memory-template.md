@@ -11,7 +11,7 @@ Knowledge is per-project at `.opencode/memory/knowledge.json`.
 After a task completes (or when a useful insight appears during work), run:
 
 ```bash
-python3 scripts/project-memory.py --save \
+python3 ~/.config/opencode/scripts/project-memory.py --save \
   --task <task-id> \
   --category <category> \
   --lesson "concise reusable lesson" \
@@ -36,7 +36,7 @@ python3 scripts/project-memory.py --save \
 
 ### Before planning
 ```bash
-python3 scripts/project-memory.py --load \
+python3 ~/.config/opencode/scripts/project-memory.py --load \
   --context "build PWA with offline audio assets" \
   --tags "pwa,assets" \
   --limit 5
@@ -44,13 +44,13 @@ python3 scripts/project-memory.py --load \
 
 ### During debugging
 ```bash
-python3 scripts/project-memory.py --search "manifest"
+python3 ~/.config/opencode/scripts/project-memory.py --search "manifest"
 ```
 
 ### Periodic review
 ```bash
-python3 scripts/project-memory.py --list
-python3 scripts/project-memory.py --export > .opencode/memory/README.md
+python3 ~/.config/opencode/scripts/project-memory.py --list
+python3 ~/.config/opencode/scripts/project-memory.py --export > .opencode/memory/README.md
 ```
 
 ## Required memory triggers
@@ -69,7 +69,7 @@ For non-trivial work, `@orchestrator` and `@fixer` must:
 - search existing project memory before starting the task,
 - save only important new memories before final completion claim,
 - include memory IDs or relevant findings in evidence when they materially affected the task,
-- run `python3 scripts/project-memory.py --cleanup` before final completion so low-value entries do not accumulate.
+- run `python3 ~/.config/opencode/scripts/project-memory.py --cleanup` before final completion so low-value entries do not accumulate.
 
 ## Importance policy
 
@@ -98,7 +98,7 @@ Avoid `low`:
 
 Implementation lanes can propose memories instead of saving directly when unsure:
 ```bash
-python3 scripts/project-memory.py --propose \
+python3 ~/.config/opencode/scripts/project-memory.py --propose \
   --task <task-id> \
   --category pattern \
   --importance medium \
@@ -115,7 +115,7 @@ python3 scripts/project-memory.py --propose \
 ## Cleanup
 
 ```bash
-python3 scripts/project-memory.py --cleanup --archive-old
+python3 ~/.config/opencode/scripts/project-memory.py --cleanup --archive-old
 ```
 
 This removes low-importance memories and archives old unused entries.

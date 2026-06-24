@@ -181,18 +181,20 @@ During review, verify:
 - high-signal findings were saved directly (importance `high` or well-justified `medium`),
 - borderline/high-value findings were proposed instead of silently discarded,
 - memory findings that affected the task are referenced in evidence,
-- `python3 scripts/project-memory.py --cleanup --archive-old` was run before final completion on non-trivial work.
+- `python3 ~/.config/opencode/scripts/project-memory.py --cleanup --archive-old` was run before final completion on non-trivial work.
 
 If a task produced reusable high-value knowledge but no memory was saved or proposed, add it as a `required_before_PASS` remediation item.
 
 ### Quality-gate memory proposal authority
 `@quality-gate` may also create proposals for important lessons discovered during review that the implementation lanes missed. Use:
 ```bash
-python3 scripts/project-memory.py --propose \
+python3 ~/.config/opencode/scripts/project-memory.py --propose \
   --task <task-id> \
   --category pitfall \
   --importance high \
-  --lesson "...
+  --lesson "..." \
+  --context "..." \
+  --tags "..."
 ```
 
 ### Proposal review during gate
@@ -201,24 +203,34 @@ List pending proposals and decide per proposal:
 - **archive**: if outdated or irrelevant,
 - **leave pending**: if user decision is needed.
 
+```bash
+python3 ~/.config/opencode/scripts/project-memory.py --list-proposals
+python3 ~/.config/opencode/scripts/project-memory.py --apply-proposal <proposal-id>
+```
+
 ## Functional evidence gate
 Final gating cannot rely only on mechanical checks (build/lint/grep/test counts). Before returning `PASS` or `PASS_WITH_RISKS`, require functional evidence for every core subsystem in the reviewed scope.
 
 Static pre-gate smoke check (runs without server, always run before runtime verification):
-- run `python3 scripts/pre-gate-smoke-check.py --project-root .` when the project contains that script,
-- store output under `.opencode/evidence/<task-id>/pre-gate-smoke.json` or equivalent,
-- this catches 0-byte assets, manifest-to-missing-file references, and likely-empty primary surfaces.
+- run `python3 ~/.config/opencode/scripts/pre-gate-smoke-check.py --project-root .` when the project contains that script,
+- treat empty primary surfaces, 0-byte required assets, and manifest→missing-file references as mechanical failures.
 
-Runtime verification (runs with server, for app/release/API/PWA work):
-- run `python3 scripts/runtime-verify.py` with task-specific `--route`, `--asset`, and `--env` flags when the project contains `scripts/runtime-verify.py`,
-- store output under `.opencode/evidence/<task-id>/runtime-verify.json` or equivalent,
-- use direct-source runtime proof only when the script is unavailable or inapplicable.
+Runtime verification (requires running server):
+- run `python3 ~/.config/opencode/scripts/runtime-verify.py --project-root . --base-url <actual-url>` when the project is a web app or service,
+- verify every core route/endpoint, required asset, and env-dependent feature declared in the plan,
+- env values needed for runtime checks must come from the project `.env.local` or `--env-file` path; do not ask the user for secrets during gating.
 
-Minimum proof dimensions:
-- real endpoint/route status for declared core surfaces,
-- real asset existence and non-zero size when assets are required,
-- real manifest/icon/manifest-path resolution when PWA/installability is claimed,
-- real env presence when features depend on external services.
+Evidence must include at minimum:
+- command outputs or HTTP status summary,
+- paths of changed files,
+- any non-trivial decisions referenced against memory entries or project docs.
+
+## Plan depth gate
+For plans that claim execution readiness, run:
+```bash
+python3 ~/.config/opencode/scripts/validate-plan-depth.py .opencode/state/<task-id>/plan.md --score
+```
+Use the resulting score and tier to decide whether the plan is deep enough for handoff.
 
 ## Placeholder and empty-surface gate
 These are mechanical failures and must be `NEEDS_FIX`, not follow-ups:

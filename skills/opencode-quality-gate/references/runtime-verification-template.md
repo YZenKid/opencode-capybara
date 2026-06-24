@@ -7,7 +7,7 @@ Use for non-trivial app/release/API/PWA tasks. Fill or adapt before final `PASS`
 ### 1. Route checks
 Run:
 ```bash
-python3 scripts/runtime-verify.py \
+python3 ~/.config/opencode/scripts/runtime-verify.py \
   --project-root . \
   --base-url "$BASE_URL" \
   --route / \
@@ -21,7 +21,7 @@ Add more `--route` flags for every core user-facing route/API promised in scope.
 ### 2. Asset checks
 Run:
 ```bash
-python3 scripts/runtime-verify.py \
+python3 ~/.config/opencode/scripts/runtime-verify.py \
   --project-root . \
   --asset public/manifest.webmanifest \
   --asset public/apple-touch-icon.png \
@@ -35,7 +35,7 @@ Add every required icon/audio/image asset. 0-byte files fail.
 ### 3. Env checks
 Run:
 ```bash
-python3 scripts/runtime-verify.py \
+python3 ~/.config/opencode/scripts/runtime-verify.py \
   --env OPENAI_API_KEY \
   --env DATABASE_URL \
   --output .opencode/evidence/<task-id>/env-verify.json

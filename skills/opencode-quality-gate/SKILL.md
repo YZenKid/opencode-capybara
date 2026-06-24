@@ -220,7 +220,7 @@ During review, verify:
 - high-signal findings were saved directly (importance `high` or well-justified `medium`),
 - borderline/high-value findings were proposed instead of silently discarded,
 - memory findings that affected the task are referenced in evidence,
-- `python3 scripts/project-memory.py --cleanup --archive-old` was run before final completion on non-trivial work.
+- `python3 ~/.config/opencode/scripts/project-memory.py --cleanup --archive-old` was run before final completion on non-trivial work.
 
 If a task produced reusable high-value knowledge but no memory was saved or proposed, add it as a `required_before_PASS` remediation item.
 
@@ -229,16 +229,21 @@ If a task produced reusable high-value knowledge but no memory was saved or prop
 
 ### Proposal review during gate
 List pending proposals and decide per proposal:
-- **apply**: if reusable and not duplicate,
+- **apply**: if lesson is reusable and not duplicate,
 - **archive**: if outdated or irrelevant,
 - **leave pending**: if user decision is needed.
+
+```bash
+python3 ~/.config/opencode/scripts/project-memory.py --list-proposals
+python3 ~/.config/opencode/scripts/project-memory.py --apply-proposal <proposal-id>
+```
 
 ## Functional evidence gate
 
 Do not return `PASS` or `PASS_WITH_RISKS` from mechanical checks alone.
 
 Default runnable path for app/release/API/PWA work:
-- run `python3 scripts/runtime-verify.py` with task-specific `--route`, `--asset`, and `--env` flags when the project contains `scripts/runtime-verify.py`,
+- run `python3 ~/.config/opencode/scripts/runtime-verify.py` with task-specific `--route`, `--asset`, and `--env` flags when the project contains `~/.config/opencode/scripts/runtime-verify.py`,
 - store output under `.opencode/evidence/<task-id>/runtime-verify.json` or equivalent,
 - fall back to direct-source runtime proof only when the script is unavailable or inapplicable.
 

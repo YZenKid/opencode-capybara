@@ -55,7 +55,7 @@ Canonical tool references:
 
 Before synthesizing a new plan for a project:
 1. Check if `.opencode/memory/knowledge.json` exists.
-2. If it exists, run `python3 scripts/project-memory.py --load --context "<goal and scope summary>" --importance high --limit 10`.
+2. If it exists, run `python3 ~/.config/opencode/scripts/project-memory.py --load --context "<goal and scope summary>" --importance high --limit 10`.
 3. Include relevant lessons in `Decisions/Assumptions`, `Risks`, or `Non-negotiable Implementation Invariants`.
 4. If a previous task already solved a similar problem, reuse the documented pattern and cite the memory entry.
 5. Prefer fewer high-signal memories over many medium/low memories.
@@ -120,7 +120,7 @@ A plan is `NEEDS_DEPTH` when execution would still require guessing, not because
 Before marking a plan `PASS` or `PASS_FOR_SLICE`, verify:
 - planned dependency versions/API contracts are actually compatible or route to `@librarian`,
 - required slice evidence reports are present in the plan,
-- runnable verification using `python3 scripts/runtime-verify.py` is specified for app/release/API/PWA slices when the script exists or should exist in repo governance,
+- runnable verification using `python3 ~/.config/opencode/scripts/runtime-verify.py` is specified for app/release/API/PWA slices when the script exists or should exist in repo governance,
 - real asset requirements are specified as non-zero/loadable/legal when applicable,
 - env-dependent features include env presence/config checks,
 - primary surfaces are not allowed to be empty/tagline-only if the slice claims usable MVP.

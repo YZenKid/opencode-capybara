@@ -26,7 +26,7 @@ Prevent shallow plans from reaching implementation even when they contain all re
 1. Locate primary plan file at `.opencode/plans/<task-id>.md`
 2. Run validation script:
    ```bash
-   python3 scripts/validate-plan-depth.py .opencode/plans/<task-id>.md
+   python3 ~/.config/opencode/scripts/validate-plan-depth.py .opencode/plans/<task-id>.md
    ```
 3. Verify all metrics pass (depth, anti-generic, reference pack, design depth)
 4. If any metric fails, return `NEEDS_DEPTH` with specific failures
@@ -145,11 +145,11 @@ After loading this skill, call `sequential_thinking` before material planning, r
 
 ## Local resources
 
-- `scripts/validate-plan-depth.py`
+- `~/.config/opencode/scripts/validate-plan-depth.py`
 - `.opencode/docs/EXAMPLE_PLAN.md`
 
 ## Reference
-- Validation script: `scripts/validate-plan-depth.py`
+- Validation script: `~/.config/opencode/scripts/validate-plan-depth.py`
 - Reference plan: `.opencode/docs/EXAMPLE_PLAN.md`
 
 ## Hard rule

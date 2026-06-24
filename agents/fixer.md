@@ -87,7 +87,7 @@ Bounded implementation helper lane for code changes, tests, fixtures, and TDD ex
 
 ## Project memory storage
 
-After a task finishes and produced reusable knowledge, save important lessons to `.opencode/memory/knowledge.json` using `scripts/project-memory.py`.
+After a task finishes and produced reusable knowledge, save important lessons to `.opencode/memory/knowledge.json` using `python3 ~/.config/opencode/scripts/project-memory.py --save ...`.
 
 Default rule: **save high-signal knowledge only**. Do not store routine implementation details, obvious library usage, or one-off noise.
 
@@ -104,7 +104,8 @@ High-signal save triggers:
 
 Example save:
 ```bash
-python3 scripts/project-memory.py --save \
+python3 ~/.config/opencode/scripts/project-memory.py \
+  --save \
   --task <task-id> \
   --category pitfall \
   --importance high \
@@ -115,7 +116,8 @@ python3 scripts/project-memory.py --save \
 
 Example proposal:
 ```bash
-python3 scripts/project-memory.py --propose \
+python3 ~/.config/opencode/scripts/project-memory.py \
+  --propose \
   --task <task-id> \
   --category pattern \
   --importance medium \
@@ -126,8 +128,8 @@ python3 scripts/project-memory.py --propose \
 
 Before final completion on non-trivial work:
 ```bash
-python3 scripts/project-memory.py --cleanup
-python3 scripts/project-memory.py --list-proposals
+python3 ~/.config/opencode/scripts/project-memory.py --cleanup --archive-old
+python3 ~/.config/opencode/scripts/project-memory.py --list-proposals
 ```
 
 ## Worker progress reporting
@@ -135,8 +137,10 @@ When receiving a worklist task from `@orchestrator`, report back with:
 - task-id (worklist number),
 - status (`completed`, `blocked`, `in_progress`),
 - changed_files,
-- validation result,
-- evidence path.
+- validation_results,
+- evidence path,
+- lessons for memory manager,
+- any new `proposed` memory IDs or `saved` memory IDs.
 This allows the orchestrator to update `.opencode/state/<task-id>/progress.json` accurately.
 
 ## Output contract

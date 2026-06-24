@@ -168,8 +168,8 @@ If the planned stack is not verifiable, mark the plan `BLOCKED` or `NEEDS_DEPTH`
 ## Evidence-per-slice requirement
 A plan cannot be `PASS` or `PASS_FOR_SLICE` when required slice evidence is missing. For every slice, require:
 - slice evidence report path,
-- static pre-gate smoke check using `python3 scripts/pre-gate-smoke-check.py --project-root .` when applicable,
-- runnable verification plan using `python3 scripts/runtime-verify.py` with task-specific `--route`, `--asset`, and `--env` flags when that script exists or is required by repo governance,
+- static pre-gate smoke check using `python3 ~/.config/opencode/scripts/pre-gate-smoke-check.py --project-root .` when applicable,
+- runnable verification plan using `python3 ~/.config/opencode/scripts/runtime-verify.py` with task-specific `--route`, `--asset`, and `--env` flags when that script exists or is required by repo governance,
 - functional endpoint/route checks,
 - real asset existence and non-zero size when required,
 - manifest/icon/asset-path resolution when required,
@@ -186,14 +186,14 @@ Plans must require real assets and real features, not placeholders:
 
 Before synthesizing a new plan for a project:
 1. Check if `.opencode/memory/knowledge.json` exists.
-2. If it exists, run `python3 scripts/project-memory.py --load --context "<goal and scope summary>" --importance high --limit 10`.
+2. If it exists, run `python3 ~/.config/opencode/scripts/project-memory.py --load --context "<goal and scope summary>" --importance high --limit 10`.
 3. Include relevant lessons in `Decisions/Assumptions`, `Risks`, or `Non-negotiable Implementation Invariants`.
 4. If a previous task already solved a similar problem, reuse the documented pattern and cite the memory entry.
 5. Prefer fewer high-signal memories over many medium/low memories.
 
 ## Plan Worklist Tracking
 
-For non-trivial plans, maintain a machine-readable progress tracker at `.opencode/state/<task-id>/progress.json` using `scripts/task-progress.py`.
+For non-trivial plans, maintain a machine-readable progress tracker at `.opencode/state/<task-id>/progress.json` using `python3 ~/.config/opencode/scripts/task-progress.py --project-root . --task <task-id> --init --plan <plan.md>`.
 
 The worklist in the plan must be numbered and assign an owner per task:
 ```markdown
@@ -212,22 +212,22 @@ For `PASS`/`PASS_FOR_SLICE`, include an `Execution-ready Worklist / Handoff Cont
 ### Plan tracker initialization
 After finalizing the plan, initialize the tracker so orchestrator/user can query progress:
 ```bash
-python3 scripts/task-progress.py <task-id> --init --plan .opencode/plans/<task-id>.md
+python3 ~/.config/opencode/scripts/task-progress.py <task-id> --init --plan .opencode/plans/<task-id>.md
 ```
 
 ### Plan tracker usage during execution
 Orchestrator or worker agents update the tracker as work progresses:
 ```bash
-python3 scripts/task-progress.py <task-id> --update A1 --status completed --owner @fixer --evidence .opencode/evidence/<task-id>/A1-test.log
-python3 scripts/task-progress.py <task-id> --update A2 --status in_progress --owner @backend
-python3 scripts/task-progress.py <task-id> --update B1 --status blocked --owner @designer --evidence missing-asset-note.md
+python3 ~/.config/opencode/scripts/task-progress.py <task-id> --update A1 --status completed --owner @fixer --evidence .opencode/evidence/<task-id>/A1-test.log
+python3 ~/.config/opencode/scripts/task-progress.py <task-id> --update A2 --status in_progress --owner @backend
+python3 ~/.config/opencode/scripts/task-progress.py <task-id> --update B1 --status blocked --owner @designer --evidence missing-asset-note.md
 ```
 
 ### User-visible progress query
 Anyone can check progress:
 ```bash
-python3 scripts/task-progress.py <task-id> --summary
-python3 scripts/task-progress.py <task-id> --checklist
+python3 ~/.config/opencode/scripts/task-progress.py <task-id> --summary
+python3 ~/.config/opencode/scripts/task-progress.py <task-id> --checklist
 ```
 
 ### Anti-slop rule

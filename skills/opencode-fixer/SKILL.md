@@ -163,7 +163,7 @@ Do not ship an empty homepage, tagline-only landing, or placeholder main surface
 
 ## Project memory storage
 
-After a task finishes and produced reusable knowledge, save important lessons to `.opencode/memory/knowledge.json` using `scripts/project-memory.py`.
+After a task finishes and produced reusable knowledge, save important lessons to `.opencode/memory/knowledge.json` using `python3 ~/.config/opencode/scripts/project-memory.py`.
 
 Default rule: **save high-signal knowledge only**. Do not store routine implementation details, obvious library usage, or one-off noise.
 
@@ -189,8 +189,8 @@ Avoid `low`:
 
 Before final completion on non-trivial work:
 ```bash
-python3 scripts/project-memory.py --cleanup --archive-old
-python3 scripts/project-memory.py --list-proposals
+python3 ~/.config/opencode/scripts/project-memory.py --cleanup --archive-old
+python3 ~/.config/opencode/scripts/project-memory.py --list-proposals
 ```
 
 ## Escalation
