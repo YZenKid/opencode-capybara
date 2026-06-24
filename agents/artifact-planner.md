@@ -168,6 +168,8 @@ If the planned stack is not verifiable, mark the plan `BLOCKED` or `NEEDS_DEPTH`
 ## Evidence-per-slice requirement
 A plan cannot be `PASS` or `PASS_FOR_SLICE` when required slice evidence is missing. For every slice, require:
 - slice evidence report path,
+- static pre-gate smoke check using `python3 scripts/pre-gate-smoke-check.py --project-root .` when applicable,
+- runnable verification plan using `python3 scripts/runtime-verify.py` with task-specific `--route`, `--asset`, and `--env` flags when that script exists or is required by repo governance,
 - functional endpoint/route checks,
 - real asset existence and non-zero size when required,
 - manifest/icon/asset-path resolution when required,

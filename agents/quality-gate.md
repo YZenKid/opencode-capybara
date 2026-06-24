@@ -174,7 +174,19 @@ residual_risks:
 ```
 
 ## Functional evidence gate
-Final gating cannot rely only on mechanical checks (build/lint/grep/test counts). Before returning `PASS` or `PASS_WITH_RISKS`, require functional evidence for every core subsystem in the reviewed scope:
+Final gating cannot rely only on mechanical checks (build/lint/grep/test counts). Before returning `PASS` or `PASS_WITH_RISKS`, require functional evidence for every core subsystem in the reviewed scope.
+
+Static pre-gate smoke check (runs without server, always run before runtime verification):
+- run `python3 scripts/pre-gate-smoke-check.py --project-root .` when the project contains that script,
+- store output under `.opencode/evidence/<task-id>/pre-gate-smoke.json` or equivalent,
+- this catches 0-byte assets, manifest-to-missing-file references, and likely-empty primary surfaces.
+
+Runtime verification (runs with server, for app/release/API/PWA work):
+- run `python3 scripts/runtime-verify.py` with task-specific `--route`, `--asset`, and `--env` flags when the project contains `scripts/runtime-verify.py`,
+- store output under `.opencode/evidence/<task-id>/runtime-verify.json` or equivalent,
+- use direct-source runtime proof only when the script is unavailable or inapplicable.
+
+Minimum proof dimensions:
 - real endpoint/route status for declared core surfaces,
 - real asset existence and non-zero size when assets are required,
 - real manifest/icon/manifest-path resolution when PWA/installability is claimed,

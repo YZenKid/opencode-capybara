@@ -43,6 +43,7 @@ Dedicated plan depth reviewer that validates plan meets minimum depth requiremen
 - Check state coverage for all components
 - Verify UI spec follows template (pages, sections, components, states)
 - Verify stack compliance planning: the plan must require mandatory stack-doc reads and current best-practice verification via `@librarian`/official docs before non-trivial implementation.
+- Verify runtime evidence planning: app/release/API/PWA plans must specify static pre-gate smoke check using `python3 scripts/pre-gate-smoke-check.py` and runnable verification using `python3 scripts/runtime-verify.py` with task-specific flags when applicable.
 - Return deterministic status: `PASS` or `NEEDS_DEPTH` with specific failures
 - Stay read-only: do not edit plan, do not implement, do not expand scope
 

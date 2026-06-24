@@ -215,7 +215,14 @@ This lane now absorbs the former standalone security-risk-reviewer, accessibilit
 
 ## Functional evidence gate
 
-Do not return `PASS` or `PASS_WITH_RISKS` from mechanical checks alone. Require functional evidence for each core subsystem in scope:
+Do not return `PASS` or `PASS_WITH_RISKS` from mechanical checks alone.
+
+Default runnable path for app/release/API/PWA work:
+- run `python3 scripts/runtime-verify.py` with task-specific `--route`, `--asset`, and `--env` flags when the project contains `scripts/runtime-verify.py`,
+- store output under `.opencode/evidence/<task-id>/runtime-verify.json` or equivalent,
+- fall back to direct-source runtime proof only when the script is unavailable or inapplicable.
+
+Require functional evidence for each core subsystem in scope:
 - real endpoint/route status,
 - real asset existence and non-zero size when assets are required,
 - real manifest/icon/asset-path resolution when installability/PWA is claimed,

@@ -403,7 +403,16 @@ evidence:
 ```
 
 ## Functional evidence rule
-Plan-first execution is not enough. Before any completion claim, require functional evidence per core subsystem in the plan slice: real route/endpoint checks, real asset existence and non-zero size, real manifest/icon resolution, and real env presence for features that depend on it. Mechanical checks alone (build/lint/grep/test count) are not sufficient.
+Plan-first execution is not enough. Before any completion claim, require functional evidence per core subsystem in the plan slice.
+
+Static pre-gate smoke check (runs without server, always run before runtime verification):
+- run `python3 scripts/pre-gate-smoke-check.py --project-root .` when the project contains that script,
+- store output under `.opencode/evidence/<task-id>/pre-gate-smoke.json` or equivalent.
+
+Runtime verification (for app/release/API/PWA work):
+- run `python3 scripts/runtime-verify.py` with task-specific `--route`, `--asset`, and `--env` flags when that script exists in the target project, then save output under `.opencode/evidence/<task-id>/runtime-verify.json` or equivalent.
+
+Mechanical checks alone (build/lint/grep/test count) are not sufficient.
 
 ## MVP surface rule
 A project cannot be reported as MVP-complete when the homepage or primary surface is empty, tagline-only, placeholder, or lacks a meaningful first-slice interaction. If the primary surface is empty, route remediation to `@designer`/`@fixer` before claiming completion.

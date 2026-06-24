@@ -145,7 +145,7 @@ Direct-work threshold (hard default):
 
 ## Functional evidence rule
 
-Mechanical checks alone (build/lint/grep/test counts) are never enough for a strong completion claim. Before reporting `done`, `ready`, `MVP complete`, or `PASS`, require functional evidence per core subsystem in scope: real route/endpoint checks, real asset existence and non-zero size, real manifest/icon resolution, and real env presence for env-dependent features.
+Mechanical checks alone (build/lint/grep/test counts) are never enough for a strong completion claim. Before reporting `done`, `ready`, `MVP complete`, or `PASS`, require functional evidence per core subsystem in scope. For app/release/API/PWA work, default to running `python3 scripts/runtime-verify.py` with task-specific `--route`, `--asset`, and `--env` flags when that script exists in the target project, then save output under `.opencode/evidence/<task-id>/runtime-verify.json` or equivalent.
 
 ## MVP surface rule
 

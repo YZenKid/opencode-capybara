@@ -111,6 +111,7 @@ A plan is `NEEDS_DEPTH` when execution would still require guessing, not because
 Before marking a plan `PASS` or `PASS_FOR_SLICE`, verify:
 - planned dependency versions/API contracts are actually compatible or route to `@librarian`,
 - required slice evidence reports are present in the plan,
+- runnable verification using `python3 scripts/runtime-verify.py` is specified for app/release/API/PWA slices when the script exists or should exist in repo governance,
 - real asset requirements are specified as non-zero/loadable/legal when applicable,
 - env-dependent features include env presence/config checks,
 - primary surfaces are not allowed to be empty/tagline-only if the slice claims usable MVP.
