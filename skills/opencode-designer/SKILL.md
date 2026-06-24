@@ -282,13 +282,14 @@ If any required blueprint section is missing for substantial work, return `block
 
 1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial UI work. If missing or stale, run `/init-harness` or route to `@librarian` for current stack docs — do not implement blind.
 2. Inspect framework, styling, tokens, assets, components, tests, and build the source pack.
-3. Define the full Design Readiness Gate blueprint for substantial work: experience direction, page map, section specs, component/visual systems, asset decisions, motion map, states, responsive rules, accessibility, and evidence plan.
-4. When quality would benefit, generate 2-3 bounded directions or section strategies, compare them against the source pack, and record why one direction wins.
-5. For substantial work, own motion direction/reduced-motion review directly and consume specialist handoffs from `@architect` as needed; final cross-cutting security/accessibility/visual-parity signoff is handled by `@quality-gate`.
-6. **Generator-first implementation**: For new UI components, use the documented official generator/CLI/MCP path first (e.g. `shadcn add`, framework generators, repo scripts from `PROJECT_COMMANDS.md`). **Do not manually create components that a generator can produce.** If manual fallback is used, record the exact command attempted and why it failed.
-7. Implement/review section-by-section and component-by-component against the blueprint.
-8. Check accessibility: semantics, labels, focus-visible, alt text, touch targets, reduced motion.
-9. Validate with browser screenshots when runnable; for substantial UI/reference work, require reference/current/final captures and section-by-section comparison.
+3. **DESIGN.md reference**: If creating or updating `DESIGN.md`, use `references/DESIGN-MD-TEMPLATE.md` as the canonical structure to ensure all 9 sections are covered.
+4. Define the full Design Readiness Gate blueprint for substantial work: experience direction, page map, section specs, component/visual systems, asset decisions, motion map, states, responsive rules, accessibility, and evidence plan.
+5. When quality would benefit, generate 2-3 bounded directions or section strategies, compare them against the source pack, and record why one direction wins.
+6. For substantial work, own motion direction/reduced-motion review directly and consume specialist handoffs from `@architect` as needed; final cross-cutting security/accessibility/visual-parity signoff is handled by `@quality-gate`.
+7. **Generator-first implementation**: For new UI components, use the documented official generator/CLI/MCP path first (e.g. `shadcn add`, framework generators, repo scripts from `PROJECT_COMMANDS.md`). **Do not manually create components that a generator can produce.** If manual fallback is used, record the exact command attempted and why it failed.
+8. Implement/review section-by-section and component-by-component against the blueprint.
+9. Check accessibility: semantics, labels, focus-visible, alt text, touch targets, reduced motion.
+10. Validate with browser screenshots when runnable; for substantial UI/reference work, require reference/current/final captures and section-by-section comparison.
 
 ## Artifact output contract
 

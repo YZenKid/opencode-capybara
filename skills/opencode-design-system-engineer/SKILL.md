@@ -22,11 +22,13 @@ Use for shared UI foundations. This lane sits between `@designer` and `@frontend
 This lane builds reusable foundations, not page composition. If work is not shared across surfaces, it likely belongs elsewhere.
 
 ## Workflow
-1. Read stack docs + `DESIGN.md` first.
+1. Read stack docs + `DESIGN.md` first. If `DESIGN.md` is missing or stale for substantial system work, use `references/DESIGN-MD-TEMPLATE.md` from the designer lane as the canonical shape to request/update.
 2. Detect token/component architecture from repo evidence.
-3. Map requested design grammar into tokens -> primitives -> variants -> usage rules.
-4. Reuse existing architecture first; do not fork system patterns casually.
-5. Validate impacted consumers and document migration/use sites.
+3. Use `references/DESIGN-SYSTEM-REGISTRY-TEMPLATE.md` to catalog existing tokens, primitives, components, and patterns before adding new ones.
+4. Map requested design grammar into tokens -> primitives -> variants -> usage rules.
+5. Reuse existing architecture first; do not fork system patterns casually.
+6. Validate impacted consumers and document migration/use sites.
+7. Update or create registry entries whenever new shared-system artifacts are introduced.
 
 ## Open Design bits worth adopting here
 - Treat `DESIGN.md` as source of truth.

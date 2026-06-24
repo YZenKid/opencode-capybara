@@ -91,7 +91,7 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
 3. Write `Design Read`, lock assumptions, set `DESIGN_VARIANCE`/`MOTION_INTENSITY`/`VISUAL_DENSITY`.
 4. For substantial or ambiguous work, generate 2-3 bounded directions or section approaches, compare them against references/constraints, and choose one explicitly.
 5. Define/confirm visual direction, section anatomy, image strategy, motion purpose, and interaction states.
-6. Produce a design handoff artifact with enough detail for the implementation lane:
+6. Produce a design handoff artifact with enough detail for the implementation lane. Use `skills/opencode-designer/references/DESIGN-MD-TEMPLATE.md` when creating or updating project `DESIGN.md`, and include:
    - page-by-page UX blueprint,
    - section-level visual spec,
    - component system plan,
@@ -103,7 +103,8 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
    - accessibility gate notes,
    - validation evidence plan.
 7. Validate with reference/current/final screenshots, browser previews, or equivalent evidence for substantial visual work.
-8. Route implementation to the correct lane based on surface and scope:
+8. If shared components/tokens are involved, point downstream lane to `skills/opencode-design-system-engineer/references/DESIGN-SYSTEM-REGISTRY-TEMPLATE.md` to catalog reusable system entries.
+9. Route implementation to the correct lane based on surface and scope:
    - shared tokens/primitives -> `@design-system-engineer`
    - web screen implementation -> `@frontend`
    - mobile screen implementation -> `@mobile`
