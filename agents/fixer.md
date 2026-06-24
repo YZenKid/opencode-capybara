@@ -87,24 +87,34 @@ Bounded implementation helper lane for code changes, tests, fixtures, and TDD ex
 
 ## Project memory storage
 
-After a task finishes and produced reusable knowledge, save it to `.opencode/memory/knowledge.json` using `scripts/project-memory.py`.
+After a task finishes and produced reusable knowledge, save only important lessons to `.opencode/memory/knowledge.json` using `scripts/project-memory.py`.
 
-Save when:
+Default rule: **save high-signal knowledge only**. Do not store routine implementation details, obvious library usage, or one-off noise.
+
+Save with `importance=high` when:
 - a non-obvious pitfall was encountered and fixed,
-- a workaround was needed,
+- a workaround was needed that may recur,
 - a user correction or clarification applies to future work,
 - a security/deploy/operational constraint was discovered,
-- a reusable pattern or component was established,
-- a previous assumption was proven wrong.
+- a reusable project-specific pattern or component was established,
+- a previous assumption was proven wrong in a way that matters later.
+
+Use `importance=medium` only for useful but not critical patterns. Avoid `low` unless explicitly requested; cleanup will remove it.
 
 Example:
 ```bash
 python3 scripts/project-memory.py --save \
   --task <task-id> \
   --category pitfall \
+  --importance high \
   --lesson "Serwist service worker route handler must wrap dynamic APIs; static export breaks /api/health" \
   --context "PWA Lighthouse audit failed because /api/health returned 404 in static export" \
   --tags "pwa,serwist,route,health"
+```
+
+Before final completion on non-trivial work, run cleanup:
+```bash
+python3 scripts/project-memory.py --cleanup
 ```
 
 ## Worker progress reporting

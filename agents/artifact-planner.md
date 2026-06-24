@@ -186,9 +186,10 @@ Plans must require real assets and real features, not placeholders:
 
 Before synthesizing a new plan for a project:
 1. Check if `.opencode/memory/knowledge.json` exists.
-2. If it exists, run `python3 scripts/project-memory.py --load --context "<goal and scope summary>" --limit 10`.
+2. If it exists, run `python3 scripts/project-memory.py --load --context "<goal and scope summary>" --importance high --limit 10`.
 3. Include relevant lessons in `Decisions/Assumptions`, `Risks`, or `Non-negotiable Implementation Invariants`.
 4. If a previous task already solved a similar problem, reuse the documented pattern and cite the memory entry.
+5. Prefer fewer high-signal memories over many medium/low memories.
 
 ## Plan Worklist Tracking
 

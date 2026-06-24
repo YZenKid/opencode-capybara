@@ -186,9 +186,10 @@ Balance: respect dependencies, avoid parallelizing what must be sequential.
 
 Before starting any non-trivial task in a project:
 - check if `.opencode/memory/knowledge.json` exists,
-- if it exists, run `python3 scripts/project-memory.py --load --context "<brief task context>" --limit 5` and read top results,
+- if it exists, run `python3 scripts/project-memory.py --load --context "<brief task context>" --importance high --limit 5` and read top results,
 - include any relevant memories in handoff to workers,
-- save new memories for non-obvious findings before claiming completion.
+- save only high-signal new memories for non-obvious findings before claiming completion,
+- run `python3 scripts/project-memory.py --cleanup` before final claim on non-trivial work so memory stays lean.
 
 ## Execution tracking via plan worklist
 For non-trivial work, create execution tracking from the plan worklist and keep it in `.opencode/state/<task-id>/progress.json` using `scripts/task-progress.py`.

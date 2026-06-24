@@ -177,11 +177,12 @@ residual_risks:
 ## Project memory gate
 
 During review, verify:
-- [ ] `@orchestrator`/`@fixer` searched `.opencode/memory/knowledge.json` before starting if it exists,
-- [ ] Reusable non-obvious findings were saved as memory entries,
-- [ ] Memory findings that affected the task are referenced in evidence.
+- `@orchestrator`/`@fixer` searched `.opencode/memory/knowledge.json` before starting if it exists,
+- only high-signal memories were saved (importance `high` or `medium`, never routine trivia),
+- memory findings that affected the task are referenced in evidence,
+- `python3 scripts/project-memory.py --cleanup` was run before final completion on non-trivial work.
 
-If a task produced reusable knowledge but no memory was saved, recommend saving it as a follow-up `non_blocking_follow_up`.
+If a task produced reusable high-value knowledge but no memory was saved, recommend saving it as a `required_before_PASS` follow-up.
 
 ## Functional evidence gate
 Final gating cannot rely only on mechanical checks (build/lint/grep/test counts). Before returning `PASS` or `PASS_WITH_RISKS`, require functional evidence for every core subsystem in the reviewed scope.

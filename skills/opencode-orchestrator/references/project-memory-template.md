@@ -67,5 +67,26 @@ Save memory when any of these happen:
 
 For non-trivial work, `@orchestrator` and `@fixer` must:
 - search existing project memory before starting the task,
-- save relevant new memories before final completion claim,
-- include memory IDs or relevant findings in evidence when they materially affected the task.
+- save only important new memories before final completion claim,
+- include memory IDs or relevant findings in evidence when they materially affected the task,
+- run `python3 scripts/project-memory.py --cleanup` before final completion so low-value entries do not accumulate.
+
+## Importance policy
+
+Default retrieval should use `--importance high`.
+
+Save `high`:
+- recurring pitfall,
+- project-specific invariant,
+- security/deploy constraint,
+- expensive workaround,
+- user correction that will matter again.
+
+Save `medium`:
+- useful pattern likely to recur, but not critical.
+
+Avoid `low`:
+- routine implementation notes,
+- obvious library/API usage,
+- one-off debugging trivia,
+- temporary noise.

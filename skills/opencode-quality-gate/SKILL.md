@@ -217,10 +217,11 @@ This lane now absorbs the former standalone security-risk-reviewer, accessibilit
 
 During review, verify:
 - `@orchestrator`/`@fixer` searched `.opencode/memory/knowledge.json` before starting if it exists,
-- reusable non-obvious findings were saved as memory entries,
-- memory findings that affected the task are referenced in evidence.
+- only high-signal memories were saved (importance `high` or `medium`, never routine trivia),
+- memory findings that affected the task are referenced in evidence,
+- `python3 scripts/project-memory.py --cleanup` was run before final completion on non-trivial work.
 
-If a task produced reusable knowledge but no memory was saved, recommend saving it as a `non_blocking_follow_up`.
+If a task produced reusable high-value knowledge but no memory was saved, recommend saving it as a `required_before_PASS` follow-up.
 
 ## Functional evidence gate
 
