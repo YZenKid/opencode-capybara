@@ -13,3 +13,6 @@ bun.lock
 
 .cache
 .tmp
+
+# Nested local checkout / scratch clone
+opencode-capybara/
