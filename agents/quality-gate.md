@@ -133,6 +133,7 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 - [ ] Claim level matches actual proof (`draft`, `partial`, `PASS`, etc.).
 - [ ] For UI work: generator-first compliance verified — no manual creation of generator-available components.
 - [ ] For UI work: anti-AI-slop gate passed — no card spam, fake metrics, generic hero, placeholder imagery, debug copy, or missing state coverage.
+- [ ] For non-trivial work: progress tracker exists at `.opencode/state/<task-id>/progress.json` and is consistent with claimed completion.
 
 ## Anti-patterns
 - Passing with incomplete evidence.
@@ -172,6 +173,15 @@ residual_risks:
   - "Performance regression possible - monitor after deployment"
 
 ```
+
+## Project memory gate
+
+During review, verify:
+- [ ] `@orchestrator`/`@fixer` searched `.opencode/memory/knowledge.json` before starting if it exists,
+- [ ] Reusable non-obvious findings were saved as memory entries,
+- [ ] Memory findings that affected the task are referenced in evidence.
+
+If a task produced reusable knowledge but no memory was saved, recommend saving it as a follow-up `non_blocking_follow_up`.
 
 ## Functional evidence gate
 Final gating cannot rely only on mechanical checks (build/lint/grep/test counts). Before returning `PASS` or `PASS_WITH_RISKS`, require functional evidence for every core subsystem in the reviewed scope.

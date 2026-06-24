@@ -161,6 +161,18 @@ Do not commit 0-byte, demo, or placeholder assets when the plan requires real as
 
 Do not ship an empty homepage, tagline-only landing, or placeholder main surface when the plan requires a usable first slice. If design direction or content is missing, stop and escalate instead of padding with scaffolding.
 
+## Project memory storage
+
+After a task finishes and produced reusable knowledge, save it to `.opencode/memory/knowledge.json` using `scripts/project-memory.py`.
+
+Save when:
+- a non-obvious pitfall was encountered and fixed,
+- a workaround was needed,
+- a user correction or clarification applies to future work,
+- a security/deploy/operational constraint was discovered,
+- a reusable pattern or component was established,
+- a previous assumption was proven wrong.
+
 ## Escalation
 
 - Escalate to `@explorer` when repo facts, tests, or ownership are still unclear.

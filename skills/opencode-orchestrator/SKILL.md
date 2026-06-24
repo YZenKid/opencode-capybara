@@ -155,6 +155,14 @@ Do not report MVP completion when the homepage or primary surface is empty, tagl
 
 If implemented stack/API/asset format diverges materially from the plan or project docs, resolve or escalate before completion. A documentation note about drift is not enough.
 
+## Project memory retrieval
+
+Before starting any non-trivial task in a project:
+- check if `.opencode/memory/knowledge.json` exists,
+- if it exists, run `python3 scripts/project-memory.py --load --context "<brief task context>" --limit 5`,
+- include relevant memories in worker handoffs,
+- save new memories for non-obvious findings before claiming completion.
+
 ## Workflow
 
 1. Understand explicit and implicit requirements.

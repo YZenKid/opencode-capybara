@@ -182,9 +182,26 @@ Balance: respect dependencies, avoid parallelizing what must be sequential.
 - Parallel delegation means launching multiple independent child-session branches.
 - Only parallelize branches that are truly independent; reconcile dependent steps after delegated results come back.
 
+## Project memory retrieval
+
+Before starting any non-trivial task in a project:
+- check if `.opencode/memory/knowledge.json` exists,
+- if it exists, run `python3 scripts/project-memory.py --load --context "<brief task context>" --limit 5` and read top results,
+- include any relevant memories in handoff to workers,
+- save new memories for non-obvious findings before claiming completion.
+
+## Execution tracking via plan worklist
+For non-trivial work, create execution tracking from the plan worklist and keep it in `.opencode/state/<task-id>/progress.json` using `scripts/task-progress.py`.
+
+Steps:
+1. After loading the plan, run `python3 scripts/task-progress.py <task-id> --init --plan .opencode/plans/<task-id>.md`.
+2. Update the tracker after every task: `python3 scripts/task-progress.py <task-id> --update <task-id> --status <status> --owner <agent> --evidence <path>`.
+3. Track status: `pending`, `in_progress`, `completed`, `blocked`, `cancelled`, plus owner/lane, depends_on, validation, and evidence_update.
+4. Report the current checklist to the user when asked about progress, or after every meaningful milestone.
+
 ## 5. Execute
 1. **Load execution source of truth**: read the primary plan `.opencode/plans/<task-id>.md` and extract Plan Quality Gate value, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, validation commands, evidence path, and Done Criteria. Proceed only with `PASS` or `PASS_FOR_SLICE`.
-2. **Create execution tracking**: break work into tracked tasks from the worklist. At minimum, maintain status for each task: `pending`, `in_progress`, `completed`, `blocked`, `cancelled`, plus owner/lane, depends_on, validation, and evidence_update.
+2. **Create execution tracking**: initialize and maintain the progress tracker from the worklist. At minimum, maintain status for each task: `pending`, `in_progress`, `completed`, `blocked`, `cancelled`, plus owner/lane, depends_on, validation, and evidence_update.
 3. **Start with first ready task**: execute `start_with`, then continue one ready task at a time respecting `depends_on`, `must_preserve`, `do_not_touch`, `exit_verification`, and blocker status.
 4. **Delegate with worker contract**: every worker task sent to a specialist must include: scope, exact outcome, relevant file paths, plan invariants, do_not_touch boundaries, validation command/check, evidence expected, and reminder that the worker must execute only, not reroute/delegate. Workers report back to `@orchestrator` when done/blocked.
 5. **Parallelize only independent tasks**: parallel branches must have no dependency overlap. Reconcile results before dependent tasks begin.

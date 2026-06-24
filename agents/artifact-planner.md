@@ -182,11 +182,62 @@ Plans must require real assets and real features, not placeholders:
 - features must not depend on unconfigured env/keys/services without being explicitly labeled `not-ready`,
 - primary surfaces must not be empty or tagline-only when the slice claims usable MVP.
 
+## Planning memory awareness
+
+Before synthesizing a new plan for a project:
+1. Check if `.opencode/memory/knowledge.json` exists.
+2. If it exists, run `python3 scripts/project-memory.py --load --context "<goal and scope summary>" --limit 10`.
+3. Include relevant lessons in `Decisions/Assumptions`, `Risks`, or `Non-negotiable Implementation Invariants`.
+4. If a previous task already solved a similar problem, reuse the documented pattern and cite the memory entry.
+
+## Plan Worklist Tracking
+
+For non-trivial plans, maintain a machine-readable progress tracker at `.opencode/state/<task-id>/progress.json` using `scripts/task-progress.py`.
+
+The worklist in the plan must be numbered and assign an owner per task:
+```markdown
+1. **A1** | `@fixer` | Scaffold project with Next.js + shadcn
+2. **A2** | `@fixer` | Configure Prisma + initial migration
+```
+
+### Plan evidence requirement
+For `PASS`/`PASS_FOR_SLICE`, include an `Execution-ready Worklist / Handoff Contract` section that lists each task with:
+- `id`: worklist number,
+- `owner`: implementation lane (`@fixer`, `@frontend`, `@backend`, etc.),
+- `depends_on`: prerequisites,
+- `exit_verification`: what proves this task is done,
+- `evidence_path`: where results/logs/screenshots are stored.
+
+### Plan tracker initialization
+After finalizing the plan, initialize the tracker so orchestrator/user can query progress:
+```bash
+python3 scripts/task-progress.py <task-id> --init --plan .opencode/plans/<task-id>.md
+```
+
+### Plan tracker usage during execution
+Orchestrator or worker agents update the tracker as work progresses:
+```bash
+python3 scripts/task-progress.py <task-id> --update A1 --status completed --owner @fixer --evidence .opencode/evidence/<task-id>/A1-test.log
+python3 scripts/task-progress.py <task-id> --update A2 --status in_progress --owner @backend
+python3 scripts/task-progress.py <task-id> --update B1 --status blocked --owner @designer --evidence missing-asset-note.md
+```
+
+### User-visible progress query
+Anyone can check progress:
+```bash
+python3 scripts/task-progress.py <task-id> --summary
+python3 scripts/task-progress.py <task-id> --checklist
+```
+
+### Anti-slop rule
+A non-trivial plan without an explicit numbered worklist, owner per task, and evidence path is not execution-ready. Do not mark `PASS` or `PASS_FOR_SLICE` for such plans.
+
 ## Stop / escalation conditions
 - Planned dependency/API/asset/env requirements are unverifiable or incompatible.
 - Required slice evidence reports are missing.
 - Core features are env-dependent but no env configuration path is planned.
 - Primary surface is empty or placeholder when MVP claims are required.
+- Worklist is missing task owners or evidence paths.
 - For Greenfield App Accelerator work, use `.opencode/docs/GREENFIELD_STARTER.md` for starter matrix, slice rules, and blocking security/privacy checks when available; do not substitute generic greenfield boilerplate.
 - **Ruthless slicing rule**: a plan cannot be `PASS` or `PASS_FOR_SLICE` unless it defines a first slice that is demonstrably buildable and verifiable with the resources/time/complexity at hand. Whole-app-only plans without a bounded first slice must be marked `NEEDS_DEPTH`. Big features that are not in the first slice must be explicitly parked under `Out of scope (next slice)` with clear promotion criteria.
 - **Default first-slice ceiling**: unless the user explicitly asks for all-in-one and accepts the risk, first slice should contain at most: 1 core happy-path user flow, 1 persistence layer, 1 AI/server integration, 1 primary UI screen family, and the tests/validation needed to make it shippable. Everything else is next-slice.

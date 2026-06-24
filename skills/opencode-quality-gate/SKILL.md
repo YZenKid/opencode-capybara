@@ -213,6 +213,15 @@ Evaluate:
 
 This lane now absorbs the former standalone security-risk-reviewer, accessibility-reviewer, and visual-parity-auditor responsibilities at final gate time.
 
+## Project memory gate
+
+During review, verify:
+- `@orchestrator`/`@fixer` searched `.opencode/memory/knowledge.json` before starting if it exists,
+- reusable non-obvious findings were saved as memory entries,
+- memory findings that affected the task are referenced in evidence.
+
+If a task produced reusable knowledge but no memory was saved, recommend saving it as a `non_blocking_follow_up`.
+
 ## Functional evidence gate
 
 Do not return `PASS` or `PASS_WITH_RISKS` from mechanical checks alone.

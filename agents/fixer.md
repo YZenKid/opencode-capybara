@@ -85,6 +85,37 @@ Bounded implementation helper lane for code changes, tests, fixtures, and TDD ex
 5. Implement minimal fix/feature.
 6. Run validation and refactor for clarity/safety.
 
+## Project memory storage
+
+After a task finishes and produced reusable knowledge, save it to `.opencode/memory/knowledge.json` using `scripts/project-memory.py`.
+
+Save when:
+- a non-obvious pitfall was encountered and fixed,
+- a workaround was needed,
+- a user correction or clarification applies to future work,
+- a security/deploy/operational constraint was discovered,
+- a reusable pattern or component was established,
+- a previous assumption was proven wrong.
+
+Example:
+```bash
+python3 scripts/project-memory.py --save \
+  --task <task-id> \
+  --category pitfall \
+  --lesson "Serwist service worker route handler must wrap dynamic APIs; static export breaks /api/health" \
+  --context "PWA Lighthouse audit failed because /api/health returned 404 in static export" \
+  --tags "pwa,serwist,route,health"
+```
+
+## Worker progress reporting
+When receiving a worklist task from `@orchestrator`, report back with:
+- task-id (worklist number),
+- status (`completed`, `blocked`, `in_progress`),
+- changed_files,
+- validation result,
+- evidence path.
+This allows the orchestrator to update `.opencode/state/<task-id>/progress.json` accurately.
+
 ## Output contract
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
 - Files changed and behavior delivered.

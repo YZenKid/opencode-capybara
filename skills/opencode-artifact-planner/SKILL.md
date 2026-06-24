@@ -51,6 +51,14 @@ Canonical tool references:
 - Use Indonesian for all user-facing communication, including chat, operational explanations, assumptions, question gates, planning summaries, and planning artifacts produced by this skill.
 - Do not mix Indonesian and English in the same prose block except for exact technical names, paths, commands, APIs, quoted text, or errors.
 
+## Planning memory awareness
+
+Before synthesizing a new plan for a project:
+1. Check if `.opencode/memory/knowledge.json` exists.
+2. If it exists, run `python3 scripts/project-memory.py --load --context "<goal and scope summary>" --limit 10`.
+3. Include relevant lessons in `Decisions/Assumptions`, `Risks`, or `Non-negotiable Implementation Invariants`.
+4. If a previous task already solved a similar problem, reuse the documented pattern and cite the memory entry.
+
 ## Workflow
 
 1. Discover local project patterns, docs, constraints, references, and available tools.
