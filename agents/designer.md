@@ -102,9 +102,10 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
    - responsive rules,
    - accessibility gate notes,
    - validation evidence plan.
-7. Validate with reference/current/final screenshots, browser previews, or equivalent evidence for substantial visual work.
-8. If shared components/tokens are involved, point downstream lane to `skills/opencode-design-system-engineer/references/DESIGN-SYSTEM-REGISTRY-TEMPLATE.md` to catalog reusable system entries.
-9. Route implementation to the correct lane based on surface and scope:
+7. For polish-mode passes, run `python3 ~/.config/opencode/scripts/ui-polish-audit.py --project-root .` and attach resulting evidence before claiming `ready` on substantial UI.
+8. Validate with reference/current/final screenshots, browser previews, or equivalent evidence for substantial visual work. When before/after screenshot folders exist, run `python3 ~/.config/opencode/scripts/design-screenshot-compare.py --before-dir .opencode/evidence/<task-id>/before --after-dir .opencode/evidence/<task-id>/after --output .opencode/evidence/<task-id>/design-compare.md`.
+9. If shared components/tokens are involved, point downstream lane to `skills/opencode-design-system-engineer/references/DESIGN-SYSTEM-REGISTRY-TEMPLATE.md` to catalog reusable system entries.
+10. Route implementation to the correct lane based on surface and scope:
    - shared tokens/primitives -> `@design-system-engineer`
    - web screen implementation -> `@frontend`
    - mobile screen implementation -> `@mobile`

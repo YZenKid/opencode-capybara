@@ -14,8 +14,8 @@ Senior external reference map: `SENIOR_SKILLS_REFERENCES.md`. Marketplace skills
 - `opencode-fullstack` — owned by `@fullstack`; handles small tightly-coupled FE/BE vertical slices and split thresholds
 - `opencode-oracle` — owned by `@oracle`; handles architecture, review, and simplification
 - `opencode-quality-gate` — owned by `@quality-gate`; performs final read-only conformance/risk signoff
-- `opencode-designer` — owned by `@designer`; handles UI/UX direction, reference parity, `DESIGN.md`-driven blueprint handoff, and motion direction/reduced-motion review
-- `opencode-design-system-engineer` — owned by `@design-system-engineer`; handles shared tokens, primitives, component APIs, and design-system registry upkeep
+- `opencode-designer` — owned by `@designer`; handles UI/UX direction, reference parity, `DESIGN.md`-driven blueprint handoff, polish-mode audit evidence, and motion direction/reduced-motion review
+- `opencode-design-system-engineer` — owned by `@design-system-engineer`; handles shared tokens, primitives, component APIs, design-system registry upkeep, and generated token/spec/docs artifacts
 - `opencode-explorer` — owned by `@explorer`; discovers codebase structure and reuse
 - `opencode-council` — owned by `@council`; provides multi-LLM consensus for high-stakes or ambiguous decisions
 - `opencode-visual-asset-generator` — owned by `@visual-asset-generator`; plans style-equivalent fallback visual asset generation jobs

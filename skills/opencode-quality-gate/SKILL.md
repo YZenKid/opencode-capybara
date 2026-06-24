@@ -155,9 +155,9 @@ Required checks when relevant:
 - `DESIGN_VARIANCE`, `MOTION_INTENSITY`, `VISUAL_DENSITY` documented or clearly implied by existing `DESIGN.md`.
 - Project `DESIGN.md` or `design-system/DESIGN.md` was read, followed, or absence/fallback recorded.
 - Reference basis is explicit: repo/current UI, external references, or first-principles rationale for visual choices.
-- Screenshot evidence supports readiness/parity claims: before/current/final and key responsive viewports when runnable.
+- Screenshot evidence supports readiness/parity claims: before/current/final and key responsive viewports when runnable. When before/after screenshot folders exist, require `python3 ~/.config/opencode/scripts/design-screenshot-compare.py --before-dir .opencode/evidence/<task-id>/before --after-dir .opencode/evidence/<task-id>/after --output .opencode/evidence/<task-id>/design-compare.md` evidence.
 - For source-approved 1:1 tasks, require source inventory plus evidence that upstream file/component/layout anatomy was reused/adapted, not merely reinterpreted.
-- Accessibility evidence covers contrast, semantics, focus, labels, keyboard/touch, alt text, and reduced-motion.
+- Accessibility evidence covers contrast, semantics, focus, labels, keyboard/touch, alt text, and reduced-motion. For polish-mode or substantial UI claims, require `python3 ~/.config/opencode/scripts/ui-polish-audit.py --project-root .` and `python3 ~/.config/opencode/scripts/design-audit.py --project-root .` results or explicit rationale why they are inapplicable.
 - Motion evidence explains purpose and reduced-motion fallback; no gratuitous motion claim.
 - Asset/image evidence includes generation decision, dimensions, alt/decorative strategy, legal notes, integration notes, `quality_bar`, and `reject_if`.
 - Anti-AI-slop mechanical failures checked: hero fit, nav single-line, CTA contrast/wrap/duplicate intent, eyebrow restraint, layout repetition, image strategy, motion motivation, reduced-motion, fake dashboards/placeholders/generic neon.

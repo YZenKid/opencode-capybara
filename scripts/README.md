@@ -203,6 +203,53 @@ Exit codes:
 
 ---
 
+### ui-polish-audit.py
+Runs a polish-mode audit for visual slop, placeholder patterns, and finishing checklist gaps.
+
+```bash
+python3 ~/.config/opencode/scripts/ui-polish-audit.py --project-root .
+```
+
+### design-screenshot-compare.py
+Builds before/after screenshot inventory evidence for visual review.
+
+```bash
+python3 ~/.config/opencode/scripts/design-screenshot-compare.py \
+  --before-dir .opencode/evidence/<task-id>/before \
+  --after-dir .opencode/evidence/<task-id>/after \
+  --output .opencode/evidence/<task-id>/design-compare.md
+```
+
+### design-system-docs.py
+Generates docs for token/component candidates and registry follow-up.
+
+```bash
+python3 ~/.config/opencode/scripts/design-system-docs.py --project-root .
+```
+
+### design-token-generator.py
+Extracts starter token files from `DESIGN.md`.
+
+```bash
+python3 ~/.config/opencode/scripts/design-token-generator.py --project-root .
+```
+
+### component-spec-generator.py
+Generates starter component specs from source components.
+
+```bash
+python3 ~/.config/opencode/scripts/component-spec-generator.py --project-root .
+```
+
+### design-audit.py
+Runs technical design audit checks for accessibility/theming/reduced-motion/token hygiene.
+
+```bash
+python3 ~/.config/opencode/scripts/design-audit.py --project-root .
+```
+
+---
+
 ## Consuming agents and skills
 
 These scripts are referenced in agent and skill prompts. When an agent needs to run a script, use the full cross-project invocation:
@@ -218,5 +265,11 @@ python3 ~/.config/opencode/scripts/<script>.py --project-root . [script-specific
 | `pre-gate-smoke-check.py` | `@quality-gate`, `@orchestrator` |
 | `runtime-verify.py` | `@quality-gate`, `@orchestrator` |
 | `validate-plan-depth.py` | `@plan-reviewer` |
+| `ui-polish-audit.py` | `@designer`, `@quality-gate` |
+| `design-screenshot-compare.py` | `@designer`, `@quality-gate` |
+| `design-system-docs.py` | `@design-system-engineer` |
+| `design-token-generator.py` | `@design-system-engineer` |
+| `component-spec-generator.py` | `@design-system-engineer` |
+| `design-audit.py` | `@designer`, `@quality-gate` |
 
 When adding a new governance script, also update this README and wire the relevant agent/skill prompts with a concrete command example.
