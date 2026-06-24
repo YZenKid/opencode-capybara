@@ -6,11 +6,27 @@ Usage:
     [--url https://example.com] [--repo-path src/components] [--screenshot-dir .opencode/evidence/ref]
 """
 from __future__ import annotations
-import argparse, json
+import argparse, json, re, subprocess
 from pathlib import Path
+from urllib.parse import urlparse
 
 TEXT_EXTS = {'.md', '.txt', '.tsx', '.ts', '.jsx', '.js', '.css', '.scss', '.json', '.yaml', '.yml'}
 IMG_EXTS = {'.png', '.jpg', '.jpeg', '.webp'}
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def fetch_url_structure(url: str, output_dir: Path) -> Path | None:
+    try:
+        extractor = ROOT / 'scripts' / 'url-structure-extractor.py'
+        result = subprocess.run(
+            ['python3', str(extractor), '--url', url, '--output', str(output_dir / f'url-structure-{urlparse(url).netloc}.md')],
+            capture_output=True, text=True, timeout=15, check=True,
+        )
+        return Path(result.stdout.strip())
+    except Exception:
+        return None
 
 
 def summarize_repo_path(path: Path, root: Path) -> list[str]:
@@ -71,9 +87,20 @@ def main() -> int:
         screen_sections.append((raw, bullets))
         screenshot_names.extend(names)
 
+    url_structures = []
+    for u in args.url:
+        struct = fetch_url_structure(u, output.parent)
+        url_structures.append((u, struct))
+
     lines = ['# Design Source Pack', '', f'- Project root: `{root}`', f'- URLs: `{len(args.url)}`', f'- Repo sources: `{len(repo_sections)}`', f'- Screenshot dirs: `{len(screen_sections)}`', '']
     lines += ['## External references']
     lines += [f'- {u}' for u in args.url] or ['- _none_']
+    lines += ['', '## URL structure extracts']
+    if url_structures:
+        for u, struct in url_structures:
+            lines.append(f'- `{u}` -> `{struct}`' if struct else f'- `{u}` -> `_extract failed_`')
+    else:
+        lines.append('- _none_')
     lines += ['', '## Repo evidence']
     if repo_sections:
         for raw, bullets in repo_sections:
@@ -100,6 +127,7 @@ def main() -> int:
     else:
         data = {}
     data.setdefault('sources', {}).update(catalog['sources'])
+    data['sources']['url_structure_files'] = [str(p) for _u, p in url_structures if p]
     catalog_path.write_text(json.dumps(data, indent=2) + '\n', encoding='utf-8')
     print(output)
     print(catalog_path)

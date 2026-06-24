@@ -1,10 +1,10 @@
 # Harness Eval Report
 
-- Timestamp: 2026-06-24T11:49:01.431Z
-- Harness version: 1d51b7c3977669da6e10538f7b10034087ab8e6e
+- Timestamp: 2026-06-24T13:51:01.825Z
+- Harness version: 52bc434a84e46644fdc3fbe75ad8e27086aa79c2
 - Task summary: Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.
 - Verdict: PASS
-- Fixture count: 46
+- Fixture count: 48
 - Failed: 0
 - Transcript fixture count: 24
 - Transcript average routing score: 3.88/5
@@ -38,6 +38,8 @@
   - .opencode/evidence/exemplar-greenfield-first-slice/index.json
   - .opencode/evidence/exemplar-maintenance-stability/index.json
   - .opencode/evidence/polish-audit.md
+  - .opencode/evidence/sample-task/preview-contract.json
+  - .opencode/evidence/sample-task/revamp-contract.json
   - .opencode/plans/20260510-2140-harness-engineering-plan.md
   - .opencode/plans/20260512-1708-orchestrator-routing-hardening.md
   - AGENTS.md
@@ -124,6 +126,8 @@
   - runtime-plugin-removal
   - structural-agent-skill-quality-standard
   - design-audit-detects-a11y-gaps
+  - design-revamp-contract-generates-artifact-requirements
+  - design-review-bundle-seeds-preview-contract
   - design-source-importer-builds-source-pack
   - docs-policy-migration-roundtrip
   - drift-planner-visual-asset-boundary
@@ -274,6 +278,14 @@
 - Status: PASS
 - Description: Verify design-audit.py flags missing prefers-reduced-motion, aria-labels/alt text, and hardcoded colors in a seed component.
 - .opencode/evidence/design-audit.md: PASS
+## design-revamp-contract-generates-artifact-requirements
+- Status: PASS
+- Description: design-revamp-contract should emit required artifact contract for full revamp.
+- .opencode/evidence/sample-task/revamp-contract.json: PASS
+## design-review-bundle-seeds-preview-contract
+- Status: PASS
+- Description: design-review-bundle should seed preview-contract.json alongside review artifacts.
+- .opencode/evidence/sample-task/preview-contract.json: PASS
 ## design-source-importer-builds-source-pack
 - Status: PASS
 - Description: design-source-importer should generate a normalized source-pack markdown and update catalog sources from repo paths and screenshot dirs.
@@ -587,13 +599,25 @@
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/design-audit.md, src/Landing.tsx
-- Stdout captured: "/tmp/opencode-script-run-hrefUk/.opencode/evidence/design-audit.md"
+- Stdout captured: "/tmp/opencode-script-run-tVg0bJ/.opencode/evidence/design-audit.md"
+- Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
+### Execution metadata for design-revamp-contract-generates-artifact-requirements
+- Mode: script-run
+- Seed root: scripts/evals/fixtures/design-audit-seed
+- Generated files: .opencode/evidence/sample-task/revamp-contract.json, src/Landing.tsx
+- Stdout captured: "/tmp/opencode-script-run-oUzT1D/.opencode/evidence/sample-task/revamp-contract.json"
+- Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
+### Execution metadata for design-review-bundle-seeds-preview-contract
+- Mode: script-run
+- Seed root: scripts/evals/fixtures/design-audit-seed
+- Generated files: .opencode/evidence/sample-task/design-debt.md, .opencode/evidence/sample-task/design-handoff.md, .opencode/evidence/sample-task/design-review.md, .opencode/evidence/sample-task/parity-report.md, .opencode/evidence/sample-task/preview-contract.json, .opencode/evidence/sample-task/preview.json, src/Landing.tsx
+- Stdout captured: "/tmp/opencode-script-run-ioP9a8/.opencode/evidence/sample-task/design-handoff.md\n/tmp/opencode-script-run-ioP9a8/.opencode/evidence/sample-task/design-review.md\n/tmp/opencode-script-run-ioP9a8/.opencode/evidence/sample-task/parity-report.md\n/tmp/opencode-script-run-ioP9a8/.opencode/evidence/sample-task/design-debt.md\n/tmp/opencode-script-run-ioP9a8/.opencode/evidence/sample-task/preview.json\n/tmp/opencode-script-run-ioP9a8/.opencode/evidence/sample-task/preview-contract.json"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for design-source-importer-builds-source-pack
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/design-system/catalog.json, .opencode/evidence/design-source-pack.md, src/Landing.tsx
-- Stdout captured: "/tmp/opencode-script-run-0sIis9/.opencode/evidence/design-source-pack.md\n/tmp/opencode-script-run-0sIis9/.opencode/design-system/catalog.json"
+- Stdout captured: "/tmp/opencode-script-run-X3nIib/.opencode/evidence/design-source-pack.md\n/tmp/opencode-script-run-X3nIib/.opencode/design-system/catalog.json"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for init-harness-minimal-foreign-repo-scaffold
 - Mode: init-harness-scaffold
@@ -614,5 +638,5 @@
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/polish-audit.md, src/Landing.tsx
-- Stdout captured: "/tmp/opencode-script-run-fdjGwX/.opencode/evidence/polish-audit.md"
+- Stdout captured: "/tmp/opencode-script-run-zVDkXZ/.opencode/evidence/polish-audit.md"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.

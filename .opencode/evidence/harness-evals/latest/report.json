@@ -1,7 +1,7 @@
 {
   "task_id": "harness-evals-latest",
-  "timestamp": "2026-06-24T11:49:01.431Z",
-  "harness_version": "1d51b7c3977669da6e10538f7b10034087ab8e6e",
+  "timestamp": "2026-06-24T13:51:01.825Z",
+  "harness_version": "52bc434a84e46644fdc3fbe75ad8e27086aa79c2",
   "prompt_or_task_summary": "Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.",
   "tool_trace_summary": [
     "Read eval fixture JSON files from scripts/evals/fixtures/",
@@ -18,7 +18,7 @@
     }
   ],
   "verdict": "PASS",
-  "fixture_count": 46,
+  "fixture_count": 48,
   "failed": 0,
   "fixture_ids": [
     "advisory-boundary-routing",
@@ -32,6 +32,8 @@
     "runtime-plugin-removal",
     "structural-agent-skill-quality-standard",
     "design-audit-detects-a11y-gaps",
+    "design-revamp-contract-generates-artifact-requirements",
+    "design-review-bundle-seeds-preview-contract",
     "design-source-importer-builds-source-pack",
     "docs-policy-migration-roundtrip",
     "drift-planner-visual-asset-boundary",
@@ -124,10 +126,10 @@
     "release_critical_average_score_0_to_5": 4.57
   },
   "drift_summary": {
-    "previous_timestamp": "2026-06-24T11:48:35.198Z",
+    "previous_timestamp": "2026-06-24T13:50:13.296Z",
     "previous_average_score_0_to_5": 3.88,
     "average_score_delta": 0,
-    "failed_delta": -1,
+    "failed_delta": 0,
     "fixture_count_delta": 0
   },
   "release_gate_readiness": {
@@ -158,6 +160,8 @@
     ".opencode/evidence/exemplar-greenfield-first-slice/index.json",
     ".opencode/evidence/exemplar-maintenance-stability/index.json",
     ".opencode/evidence/polish-audit.md",
+    ".opencode/evidence/sample-task/preview-contract.json",
+    ".opencode/evidence/sample-task/revamp-contract.json",
     ".opencode/plans/20260510-2140-harness-engineering-plan.md",
     ".opencode/plans/20260512-1708-orchestrator-routing-hardening.md",
     "AGENTS.md",
@@ -546,11 +550,68 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/design-audit.py --project-root . --report .opencode/evidence/design-audit.md",
-        "stdout": "/tmp/opencode-script-run-hrefUk/.opencode/evidence/design-audit.md\n",
+        "stdout": "/tmp/opencode-script-run-tVg0bJ/.opencode/evidence/design-audit.md\n",
         "stderr": "",
         "exit_code": 1,
         "generated_files": [
           ".opencode/evidence/design-audit.md",
+          "src/Landing.tsx"
+        ],
+        "limitation": "Eval-only temp-repo script execution; uses local scripts and seed fixture files."
+      }
+    },
+    {
+      "id": "design-revamp-contract-generates-artifact-requirements",
+      "description": "design-revamp-contract should emit required artifact contract for full revamp.",
+      "category": "behavioral-task",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "revamp-contract",
+          "file": ".opencode/evidence/sample-task/revamp-contract.json",
+          "status": "PASS"
+        }
+      ],
+      "execution": {
+        "mode": "script-run",
+        "seed_root": "scripts/evals/fixtures/design-audit-seed",
+        "command": "python3 ~/.config/opencode/scripts/design-revamp-contract.py --project-root . --task-id sample-task --class full-revamp",
+        "stdout": "/tmp/opencode-script-run-oUzT1D/.opencode/evidence/sample-task/revamp-contract.json\n",
+        "stderr": "",
+        "exit_code": 0,
+        "generated_files": [
+          ".opencode/evidence/sample-task/revamp-contract.json",
+          "src/Landing.tsx"
+        ],
+        "limitation": "Eval-only temp-repo script execution; uses local scripts and seed fixture files."
+      }
+    },
+    {
+      "id": "design-review-bundle-seeds-preview-contract",
+      "description": "design-review-bundle should seed preview-contract.json alongside review artifacts.",
+      "category": "behavioral-task",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "preview-contract",
+          "file": ".opencode/evidence/sample-task/preview-contract.json",
+          "status": "PASS"
+        }
+      ],
+      "execution": {
+        "mode": "script-run",
+        "seed_root": "scripts/evals/fixtures/design-audit-seed",
+        "command": "python3 ~/.config/opencode/scripts/design-review-bundle.py --project-root . --task-id sample-task",
+        "stdout": "/tmp/opencode-script-run-ioP9a8/.opencode/evidence/sample-task/design-handoff.md\n/tmp/opencode-script-run-ioP9a8/.opencode/evidence/sample-task/design-review.md\n/tmp/opencode-script-run-ioP9a8/.opencode/evidence/sample-task/parity-report.md\n/tmp/opencode-script-run-ioP9a8/.opencode/evidence/sample-task/design-debt.md\n/tmp/opencode-script-run-ioP9a8/.opencode/evidence/sample-task/preview.json\n/tmp/opencode-script-run-ioP9a8/.opencode/evidence/sample-task/preview-contract.json\n",
+        "stderr": "",
+        "exit_code": 0,
+        "generated_files": [
+          ".opencode/evidence/sample-task/design-debt.md",
+          ".opencode/evidence/sample-task/design-handoff.md",
+          ".opencode/evidence/sample-task/design-review.md",
+          ".opencode/evidence/sample-task/parity-report.md",
+          ".opencode/evidence/sample-task/preview-contract.json",
+          ".opencode/evidence/sample-task/preview.json",
           "src/Landing.tsx"
         ],
         "limitation": "Eval-only temp-repo script execution; uses local scripts and seed fixture files."
@@ -577,7 +638,7 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/design-source-importer.py --project-root . --repo-path src --screenshot-dir screenshots --url https://example.com --output .opencode/evidence/design-source-pack.md",
-        "stdout": "/tmp/opencode-script-run-0sIis9/.opencode/evidence/design-source-pack.md\n/tmp/opencode-script-run-0sIis9/.opencode/design-system/catalog.json\n",
+        "stdout": "/tmp/opencode-script-run-X3nIib/.opencode/evidence/design-source-pack.md\n/tmp/opencode-script-run-X3nIib/.opencode/design-system/catalog.json\n",
         "stderr": "",
         "exit_code": 0,
         "generated_files": [
@@ -927,7 +988,7 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/ui-polish-audit.py --project-root . --report .opencode/evidence/polish-audit.md",
-        "stdout": "/tmp/opencode-script-run-fdjGwX/.opencode/evidence/polish-audit.md\n",
+        "stdout": "/tmp/opencode-script-run-zVDkXZ/.opencode/evidence/polish-audit.md\n",
         "stderr": "",
         "exit_code": 1,
         "generated_files": [

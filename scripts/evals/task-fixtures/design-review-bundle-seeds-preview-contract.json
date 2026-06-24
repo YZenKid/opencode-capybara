@@ -1,0 +1,23 @@
+{
+  "id": "design-review-bundle-seeds-preview-contract",
+  "category": "behavioral-task",
+  "description": "design-review-bundle should seed preview-contract.json alongside review artifacts.",
+  "execute": {
+    "mode": "script-run",
+    "seedRoot": "scripts/evals/fixtures/design-audit-seed",
+    "command": "python3 ~/.config/opencode/scripts/design-review-bundle.py --project-root . --task-id sample-task"
+  },
+  "artifacts": [
+    {
+      "type": "preview-contract",
+      "file": ".opencode/evidence/sample-task/preview-contract.json",
+      "mustInclude": [
+        "\"required_selectors\"",
+        "\"viewport_evidence\"",
+        "\"dark_mode\"",
+        "\"reduced_motion\""
+      ],
+      "reasonCode": "design-review-bundle-missing-preview-contract"
+    }
+  ]
+}

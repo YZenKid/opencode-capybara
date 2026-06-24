@@ -37,6 +37,10 @@ def main() -> int:
     if not preview.exists():
         preview.write_text('{\n  "preview_url": "",\n  "desktop_screenshot": "",\n  "mobile_screenshot": "",\n  "dark_screenshot": "",\n  "reduced_motion_screenshot": ""\n}\n', encoding='utf-8')
         created.append(preview)
+    contract = base / 'preview-contract.json'
+    if not contract.exists():
+        contract.write_text('{\n  "preview_url": "",\n  "required_selectors": [],\n  "required_attributes": [],\n  "viewport_evidence": ["desktop", "mobile"],\n  "dark_mode": false,\n  "reduced_motion": false\n}\n', encoding='utf-8')
+        created.append(contract)
     for item in created:
         print(item)
     return 0

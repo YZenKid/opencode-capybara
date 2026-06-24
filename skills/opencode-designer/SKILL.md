@@ -288,7 +288,7 @@ If any required blueprint section is missing for substantial work, return `block
 6. Produce the blueprint handoff artifact using `references/DESIGN-MD-TEMPLATE.md` as the canonical structure. For task-scoped handoffs, also run `python3 ~/.config/opencode/scripts/design-review-bundle.py --project-root . --task-id <id>` to seed `.opencode/evidence/<task-id>/design-handoff.md` and related review files.
 7. For polish-mode passes, run `python3 ~/.config/opencode/scripts/ui-polish-audit.py --project-root .` and attach resulting evidence before claiming `ready` on substantial UI.
 8. Validate with reference/current/final screenshots, browser previews, or equivalent evidence for substantial visual work. When before/after screenshot folders exist, run `python3 ~/.config/opencode/scripts/design-screenshot-compare.py --before-dir .opencode/evidence/<task-id>/before --after-dir .opencode/evidence/<task-id>/after --output .opencode/evidence/<task-id>/design-compare.md`. Run `python3 ~/.config/opencode/scripts/preview-evidence-check.py --project-root . --task-id <id>` for preview evidence completeness.
-9. Validate with browser screenshots when runnable; for substantial UI/reference work, require reference/current/final captures and section-by-section comparison.
+9. Validate with browser screenshots when runnable; for substantial UI/reference work, require reference/current/final captures and section-by-section comparison. When browser is unavailable, run `python3 ~/.config/opencode/scripts/visual-audit-check.py --project-root . --url <preview-url>` as fallback.
 
 ## Artifact output contract
 

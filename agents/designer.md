@@ -107,10 +107,11 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
 9. Validate with reference/current/final screenshots, browser previews, or equivalent evidence for substantial visual work. When before/after screenshot folders exist, run `python3 ~/.config/opencode/scripts/design-screenshot-compare.py --before-dir .opencode/evidence/<task-id>/before --after-dir .opencode/evidence/<task-id>/after --output .opencode/evidence/<task-id>/design-compare.md`. Run `python3 ~/.config/opencode/scripts/preview-evidence-check.py --project-root . --task-id <id>` for preview completeness.
 10. If shared components/tokens are involved, point downstream lane to `skills/opencode-design-system-engineer/references/DESIGN-SYSTEM-REGISTRY-TEMPLATE.md` and `.opencode/design-system/catalog.json` to catalog reusable system entries.
 10. Route implementation to the correct lane based on surface and scope:
-   - shared tokens/primitives -> `@design-system-engineer`
-   - web screen implementation -> `@frontend`
-   - mobile screen implementation -> `@mobile`
-   - simple bounded UI fix -> `@fixer`
+    - shared tokens/primitives -> `@design-system-engineer`
+    - web screen implementation -> `@frontend`
+    - mobile screen implementation -> `@mobile`
+    - simple bounded UI fix -> `@fixer`
+11. For full-revamp or flow-redesign work, run `python3 ~/.config/opencode/scripts/design-revamp-contract.py --project-root . --task-id <id> --class <polish|surface-refresh|flow-redesign|full-revamp>` and ensure all required artifacts in `.opencode/evidence/<task-id>/` are populated before claiming `ready`.
 
 ## Output contract
 Use artifact-mode vocabulary when producing design deliverables. For substantial work, return design artifact with:

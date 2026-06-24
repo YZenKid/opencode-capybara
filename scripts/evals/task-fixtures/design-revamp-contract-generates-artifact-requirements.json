@@ -1,0 +1,24 @@
+{
+  "id": "design-revamp-contract-generates-artifact-requirements",
+  "category": "behavioral-task",
+  "description": "design-revamp-contract should emit required artifact contract for full revamp.",
+  "execute": {
+    "mode": "script-run",
+    "seedRoot": "scripts/evals/fixtures/design-audit-seed",
+    "command": "python3 ~/.config/opencode/scripts/design-revamp-contract.py --project-root . --task-id sample-task --class full-revamp"
+  },
+  "artifacts": [
+    {
+      "type": "revamp-contract",
+      "file": ".opencode/evidence/sample-task/revamp-contract.json",
+      "mustInclude": [
+        "\"revamp_class\": \"full-revamp\"",
+        "design-handoff.md",
+        "parity-report.md",
+        "design-debt.md",
+        "preview-evidence-check"
+      ],
+      "reasonCode": "revamp-contract-missing-requirements"
+    }
+  ]
+}
