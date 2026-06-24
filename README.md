@@ -161,8 +161,9 @@ Use `npm run compare:openchamber-models` to print the current OpenCode vs OpenCh
 | `OPENCODE_MODEL_DEFAULT` | `9router/low` | Top-level default model and general fallback | Keep the baseline lane low-cost for broad default routing. |
 | `OPENCODE_MODEL_ORCHESTRATOR` | `9router/medium` | `@orchestrator` primary routing/integration | Use a balanced lane for delegation, coordination, and synthesis. |
 | `OPENCODE_MODEL_PLANNER` | `9router/high` | `@artifact-planner`, `modes/plan.md`, `agents-disabled/plan.md` | Keep planning on the strongest lane for higher-accuracy specs and execution handoffs. |
-| `OPENCODE_MODEL_DESIGN` | `9router/high` | `@designer`, `@design-system-engineer` | Keep substantial UI/design-system reasoning, motion, accessibility, token, and primitive work on the high lane. |
-| `OPENCODE_MODEL_VISUAL_ASSET` | `9router/medium` | `@visual-asset-generator` | Keep visual asset manifest prep and style-equivalent fallback generation routing on medium while leaving designer/design-system on high. |
+| `OPENCODE_MODEL_DESIGN` | `9router/high` | `@designer` | Keep substantial UI/design reasoning, motion, accessibility, and design blueprint work on the high lane. |
+| `OPENCODE_MODEL_DESIGN_SYSTEM` | `9router/medium` | `@design-system-engineer` | Keep shared token, primitive, theming, and component-API work on medium for better system judgment without paying high-lane cost everywhere. |
+| `OPENCODE_MODEL_VISUAL_ASSET` | `9router/medium` | `@visual-asset-generator` | Keep visual asset manifest prep and style-equivalent fallback generation routing on medium without forcing screen-implementation lanes upward. |
 | `OPENCODE_MODEL_REVIEW` | `9router/medium` | `@oracle`, `@council` | Keep advisory/review reasoning on a balanced lane without degrading high-confidence review paths. |
 | `OPENCODE_MODEL_QUALITY_GATE` | `9router/low` | `@quality-gate` | Final conformance gate stays cheap and explicit without forcing `@oracle`/`@council` down. |
 | `OPENCODE_MODEL_ADVISORY` | `9router/medium` | `@architect` | Use a balanced lane for advisory and architecture guidance. |

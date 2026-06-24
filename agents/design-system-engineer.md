@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Design-system implementation specialist for tokens, primitives, component APIs, theming, DESIGN.md alignment, and reusable UI foundations
-model: 9router/low
+model: 9router/medium
 skills:
   - opencode-design-system-engineer
 permission:
