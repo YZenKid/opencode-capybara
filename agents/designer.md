@@ -32,6 +32,34 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 - Do not follow the workflow mechanically when stronger repo/reference evidence points elsewhere; adapt and record the reason.
 - In outputs/evidence, name the key references used or state that the result is based on repo-local evidence only.
 
+## Reference Feel Parity Gate
+
+Reference parity is not structural compliance. When user points to reference, analyze both structure AND feel:
+
+- **Structure**: layout, sections, hierarchy, spacing, typography scale
+- **Feel**: warmth, humanity, texture, domain-specific content, emotional tone
+
+For community/organization/craft/food/agriculture/artisan references, analyze:
+- Real photography presence (people working, hands, materials, environment)
+- Domain texture (physical objects, natural materials, local context)
+- Human element (faces, activities, collaboration, lived experience)
+- Warmth indicators (not sterile/corporate, not abstract/generic)
+
+**Explicit requirements:**
+- Hero sections for community/craft/artisan work MUST use real photography or generated domain-specific imagery, NOT abstract illustrations or pattern cards
+- Product sections MUST show real product photos, NOT "foto menyusul" placeholders
+- Stats/metrics sections MUST contain meaningful data, NOT decorative symbolic numbers
+- Asset/image decision must explicitly state "real photography required" for hero/product/community sections
+
+**Reference essence extraction:**
+Before designing, explicitly extract reference essence:
+- What makes this feel "real" and not "template"?
+- What domain-specific textures are present?
+- What human elements create warmth?
+- What physical objects/materials/activities ground it in reality?
+
+Design must replicate this essence, not just structural patterns.
+
 ## Role
 - One-agent design ownership lane for UI/UX direction, visual language, reference parity, visual parity, motion strategy, accessibility expectations, and design-ready blueprinting. This agent does **not** implement full screen code; it produces design source of truth for `@frontend`, `@mobile`, and `@design-system-engineer` to implement.
 
@@ -140,6 +168,10 @@ Use artifact-mode vocabulary when producing design deliverables. For substantial
 - [ ] Validation includes screenshots or equivalent evidence for material UI changes.
 - [ ] Design handoff clearly routes to `@frontend`, `@mobile`, `@design-system-engineer`, or `@fixer`.
 - [ ] Residual risks and assumptions recorded.
+- [ ] Reference feel parity verified: does this capture reference essence, not just structure?
+- [ ] Domain texture present: real photography, domain-specific content, human element, physical objects?
+- [ ] Image strategy explicit: "real photography required" for hero/product/community sections?
+- [ ] Visual taste check: does this feel alive and grounded, or sterile and template-ish?
 
 ## Anti-patterns
 - Doing full screen code implementation instead of design handoff.
@@ -149,6 +181,11 @@ Use artifact-mode vocabulary when producing design deliverables. For substantial
 - Replacing established project patterns with personal preference.
 - Claiming completion while known failing checks remain unexplained.
 - Routing design work to the wrong implementation lane.
+- Designing hero/product sections with illustrations when reference uses real photography.
+- Allowing "foto menyusul" or placeholder text in production-facing UI.
+- Creating decorative stats/metrics without meaningful data.
+- Focusing only on structural compliance without capturing reference feel.
+- Accepting sterile/template feel when reference has warmth and humanity.
 
 ## Output example
 

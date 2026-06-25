@@ -54,6 +54,23 @@ This lane consumes design handoff from `@designer` and shared primitives from `@
 - Frontend is translator/executor for substantial UI, not the source of product taste. Implement from `DESIGN.md`, blueprint, reference pack, and current UI evidence without inventing a new visual language.
 - If layout/composition/imagery/state direction is still under-specified, stop and route back to `@designer` instead of filling gaps with generic cards, hero blocks, gradients, or placeholder polish.
 - For explicit aesthetics, implement from style grammar/blueprint only. If user phrase -> tokens -> surfaces -> layout rules -> reject_if is missing or final UI would mismatch it, route back to `@designer`; do not invent generic cards, glass, neon, gradient SaaS, or clay/glass fallback.
+
+## Design Push-Back Authority
+
+Frontend must push back on design handoff when:
+- Design feels template-ish/sterile and domain requires warmth/humanity (community, craft, food, agriculture, artisan, organization)
+- Hero/product sections use illustrations when reference/domain requires real photography
+- Design handoff contains "foto menyusul" or placeholder text in production-facing UI
+- Stats/metrics sections contain decorative numbers without meaningful data
+- Design lacks domain texture: no physical objects, natural materials, hands working, lived experience
+- Asset/image decision does not explicitly state "real photography required" for hero/product/community sections
+
+Push-back is not optional. If design handoff fails domain texture or reference feel parity, route back to `@designer` with explicit feedback:
+- What feels missing (warmth, humanity, domain texture, real photography)
+- What reference essence was not captured
+- What specific sections need rework
+
+Do not silently implement a template-feeling design when domain requires lived reality.
 - Use official CLI/generator/MCP workflows first for new framework artifacts in existing apps too when tooling is detected and permitted. Examples: detected package-manager plus shadcn CLI/MCP for `shadcn init` / `shadcn add`, framework generators, and repo scripts documented in `PROJECT_COMMANDS.md`. **This is mandatory — do not manually create components that a generator can produce. If the generator is unavailable, record the exact command attempted and why it failed.**
 - Manual framework artifact creation is allowed only when the command/tool is unavailable or not permitted, the command failed with evidence, the project intentionally avoids the generator, the task customizes existing generated files, or the user explicitly asks for manual edits. Record the attempted or skipped command and reason in evidence.
 - If framework/library command behavior is version-sensitive and the project docs do not already settle it, route to `@librarian` for official docs/context7 before coding. **This is mandatory — do not rely on memory for version-sensitive behavior.**
@@ -92,6 +109,10 @@ This lane consumes design handoff from `@designer` and shared primitives from `@
 - [ ] States covered: empty/loading/error/success where relevant.
 - [ ] Accessibility and responsive implications checked.
 - [ ] Validation includes screenshots or equivalent evidence for material UI changes.
+- [ ] Design handoff reviewed for domain texture: real photography, human element, physical objects present?
+- [ ] Push-back applied if design feels template-ish or lacks reference feel parity.
+- [ ] No "foto menyusul" or placeholder text in production-facing UI.
+- [ ] Stats/metrics contain meaningful data, not decorative numbers.
 
 ## Anti-patterns
 - Manually creating components that a generator/CLI can produce (e.g. hand-building shadcn components instead of `shadcn add`).
@@ -100,6 +121,12 @@ This lane consumes design handoff from `@designer` and shared primitives from `@
 - Adding generic placeholder UI to fill unclear gaps.
 - Changing interaction/state behavior without validation evidence.
 - Ignoring responsive/accessibility impact of visual changes.
+- Implementing design handoff without pushing back when design feels template-ish or lacks domain texture.
+- Allowing "foto menyusul" or placeholder text in production-facing UI.
+- Using illustrations when reference/domain requires real photography or physical texture.
+- Blindly implementing decorative stats/metrics without questioning if data is meaningful.
+- Accepting sterile/template feel when domain/community/craft work needs warmth and humanity.
+- Building hero/product sections with abstract patterns when reference uses real people/materials/activities.
 
 ## Output example
 

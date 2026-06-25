@@ -101,14 +101,17 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 - Final diff and changed file list.
 - Validation/test results and evidence artifacts.
 - Known risks/assumptions from implementation lanes.
+- For substantial UI: before/after screenshots, reference screenshots/URLs, and designer/design-system notes.
 
 ## Workflow
 1. Verify scope, evidence completeness, and source trace completeness.
 2. Review conformance and regression/security risk.
 3. Check whether material design/product/technical claims are reference-backed, repo-backed, or explicitly first-principles-driven.
 4. For framework-managed artifacts, verify project stack/command/playbook docs were read or conservatively regenerated, and confirm official generator/CLI/MCP usage or explicit manual fallback evidence.
-5. Identify blockers vs non-blocking risks.
-6. Return deterministic final status with rationale.
+5. For substantial UI, run visual taste and reference essence review: does the result capture reference feel (warmth, humanity, texture, domain-specific content), or only structure?
+6. Check image strategy and domain texture: real photography or generated domain-specific imagery for hero/product/community sections; no abstract illustration cards or "foto menyusul" placeholders when imagery matters.
+7. Identify blockers vs non-blocking risks.
+8. Return deterministic final status with rationale.
 
 ## Output contract
 - Final status (`PASS` | `PASS_WITH_RISKS` | `NEEDS_FIX` | `BLOCKED`).
@@ -133,6 +136,9 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 - [ ] Claim level matches actual proof (`draft`, `partial`, `PASS`, etc.).
 - [ ] For UI work: generator-first compliance verified — no manual creation of generator-available components.
 - [ ] For UI work: anti-AI-slop gate passed — no card spam, fake metrics, generic hero, placeholder imagery, debug copy, or missing state coverage.
+- [ ] For UI work: reference feel parity verified — captures warmth/humanity/texture/domain-specific content, not just structure.
+- [ ] For UI work: domain texture verified — real photography, human element, physical objects, local context present when reference/domain requires them.
+- [ ] For UI work: no "foto menyusul" or placeholder text in production-facing UI; no decorative stats without meaningful data.
 - [ ] For non-trivial work: progress tracker exists at `.opencode/state/<task-id>/progress.json` and is consistent with claimed completion.
 
 ## Anti-patterns
@@ -140,6 +146,11 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 - Treating advisory preference as mechanical blocker.
 - Missing distinction between required remediation and follow-up suggestion.
 - Allowing unsupported certainty in technical or visual claims.
+- Approving UI that matches structure but misses reference feel/essence.
+- Allowing sterile/template feel when domain requires warmth, humanity, and lived reality.
+- Accepting illustrations/pattern cards when reference/domain requires real photography.
+- Allowing `foto menyusul` or placeholder text in production-facing UI.
+- Treating decorative symbolic numbers as valid stats/metrics.
 
 ## Output example
 
