@@ -40,6 +40,8 @@ Canonical tool references:
 - No generic UI/product plans. Require reference pack or explicit first-principles rationale plus distinctive direction and concrete page/component/state/motion/accessibility details for substantial UI.
 - Substantial UI needs page-by-page flows, section composition, component inventory, responsive behavior, empty/loading/error/success states, motion intent with reduced-motion handling, accessibility checks, and visual evidence plan.
 - Avoid bland defaults: centered gradient hero, fake metrics, vague dashboards, emoji/icon placeholders, unexplained cards, generic SaaS copy, and “modern clean” without source-backed or first-principles specifics.
+- **Reference feel parity is mandatory** for reference-driven/community/craft/food/agriculture/artisan/organization work: plan must capture warmth, humanity, texture, domain-specific content, and lived reality — not just structural similarity.
+- **Domain texture is mandatory** when trust/warmth comes from physical objects, natural materials, hands working, environment, or local context in the reference. Missing domain texture = `NEEDS_DEPTH`.
 
 ## Material Grammar Translation
 - Substantial UI plans with explicit aesthetic requests must include Material Grammar Translation before final readiness: user phrase -> tokens -> surfaces -> layout rules -> reject_if.
@@ -234,6 +236,8 @@ Execution-ready Worklist / Handoff Contract is mandatory for non-trivial plans a
 For UI/reference work also include Visual Spec Summary, Asset Manifest Summary, Image Generation Decision, Reference Capture Requirements, and Visual Comparison Requirements.
 For source-approved 1:1 UI/reference work, the visual spec must distinguish `copy`, `adapt`, `prune`, and `create` per section/component/asset and record `remaining parity debt` for every non-copied section.
 For substantial UI, require page, component, state, motion, responsive, and accessibility specifics plus reference pack or first-principles rationale; generic “modern dashboard/landing page” prose is not execution-ready.
+For substantial reference work, require **reference essence extraction**: what makes the reference feel real vs template, what domain-specific textures are present, what human elements create warmth, and what physical objects/materials/activities ground it in reality.
+For hero/product/community sections on community/craft/food/agriculture/artisan/organization work, **Image Generation Decision** must explicitly say `real photography required`, `generated domain-specific imagery required`, `use-provided-assets`, or `direct-reuse-user-approved` with reason. Do not accept `foto menyusul`, blank image frames, or abstract illustration/pattern-card heroes when the reference/domain uses real photography.
 For explicit aesthetics, require Material Grammar Translation: user phrase -> tokens -> surfaces -> layout rules -> reject_if; no final plan readiness if missing.
 
 ## Reference Pack Requirement
@@ -329,6 +333,9 @@ Add or reference `.opencode/evidence/<task-id>/reference-captures.md`, `current-
 - [ ] Execution-ready worklist includes owner, depends_on, validation, boundaries, and evidence updates.
 - [ ] Handoff prompt is copy-pasteable for `@orchestrator`.
 - [ ] UI-heavy plans include reference pack or first-principles rationale, design depth, and asset decisions.
+- [ ] Reference feel parity documented: warmth, humanity, texture, domain-specific content, lived reality.
+- [ ] Domain texture requirements documented for hero/product/community sections when reference/domain requires them.
+- [ ] Image strategy explicit: `real photography required` or `generated domain-specific imagery required` where appropriate; no `foto menyusul` placeholders.
 - [ ] Planner stops after artifact writing; no implementation leakage.
 
 ## Anti-patterns
