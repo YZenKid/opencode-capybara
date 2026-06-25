@@ -110,9 +110,10 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 4. For framework-managed artifacts, verify project stack/command/playbook docs were read or conservatively regenerated, and confirm official generator/CLI/MCP usage or explicit manual fallback evidence.
 5. For substantial UI, run visual taste and reference essence review: does the result capture reference feel (warmth, humanity, texture, domain-specific content), or only structure?
 6. Check image strategy and domain texture: real photography or generated domain-specific imagery for hero/product/community sections; no abstract illustration cards or "foto menyusul" placeholders when imagery matters.
-7. For substantial UI, enforce structured visual rubric evidence (see `## Visual Taste and Reference Essence Review`).
-8. Identify blockers vs non-blocking risks.
-9. Return deterministic final status with rationale.
+7. For substantial UI, run `python3 ~/.config/opencode/scripts/verify-visual-quality-evidence.py --project-root . --task <task-id>` and treat missing/incomplete experiential evidence as `NEEDS_FIX` or `BLOCKED` depending on severity.
+8. Enforce structured visual rubric evidence (see `## Visual Taste and Reference Essence Review`).
+9. Identify blockers vs non-blocking risks.
+10. Return deterministic final status with rationale.
 
 ## Output contract
 - Final status (`PASS` | `PASS_WITH_RISKS` | `NEEDS_FIX` | `BLOCKED`).

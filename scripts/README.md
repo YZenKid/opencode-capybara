@@ -220,6 +220,37 @@ python3 ~/.config/opencode/scripts/design-screenshot-compare.py \
   --output .opencode/evidence/<task-id>/design-compare.md
 ```
 
+---
+
+### verify-visual-quality-evidence.py
+Deterministic validator for experiential UI quality evidence across planner → designer → frontend → quality-gate.
+
+Checks:
+- `.opencode/evidence/<task-id>/visual-quality-contract.md`
+- `.opencode/evidence/<task-id>/visual-rubric.md`
+- `.opencode/evidence/<task-id>/design_pushback.md`
+- `.opencode/evidence/<task-id>/reference-essence.md`
+- per-surface `reject_if` presence in `.opencode/plans/<task-id>.md`
+
+```bash
+python3 ~/.config/opencode/scripts/verify-visual-quality-evidence.py \
+  --project-root . \
+  --task <task-id>
+```
+
+Verbose mode:
+```bash
+python3 ~/.config/opencode/scripts/verify-visual-quality-evidence.py \
+  --project-root . \
+  --task <task-id> \
+  --verbose
+```
+
+Exit codes:
+- `0`: all required evidence present
+- `1`: missing/incomplete evidence
+- `2`: runtime error
+
 ### design-system-docs.py
 Generates docs for token/component candidates and registry follow-up.
 

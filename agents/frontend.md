@@ -103,7 +103,8 @@ Do not silently implement a template-feeling design when domain requires lived r
 6. For explicit aesthetics, confirm style grammar/blueprint and reject_if before coding; if missing, stop and route `@designer`.
 7. For new framework/UI artifacts, use the documented official generator/CLI/MCP path first; if manual fallback is used, record the exact command/tool and reason.
 8. Run relevant type/lint/test/browser checks when available, with screenshots for changed screens when the UI is material.
-9. Report changed files, validation, design/accessibility risks, stack best practice basis, and the references/basis used.
+9. For substantial UI/reference work, verify `.opencode/evidence/<task-id>/visual-quality-contract.md` is satisfied; if not, emit `.opencode/evidence/<task-id>/design_pushback.md` and stop.
+10. Report changed files, validation, design/accessibility risks, stack best practice basis, and the references/basis used.
 
 ## Output contract
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.

@@ -46,7 +46,9 @@ For non-trivial plan-bound work, verification evidence must include a Plan Compl
 - validation commands/results;
 - evidence paths updated;
 - quality-gate status and remediation/risk worklist status.
-- for substantial UI/reference work: reference feel parity checkpoint (warmth/humanity/texture/domain-specific content), domain texture checkpoint (real photography or generated domain-specific imagery where required), and explicit note that no `foto menyusul` placeholders or decorative symbolic stats remain on production-facing surfaces.
+- for substantial UI/reference work: reference feel parity checkpoint (warmth/humanity/texture/domain-specific content), domain texture checkpoint (real photography/human element/physical objects/local context), image strategy checkpoint (no placeholder, no abstract illustration/pattern-card hero when reference uses real photography), visual-taste-rubric completed at `.opencode/evidence/<task-id>/visual-rubric.md`, cross-lane visual quality contract at `.opencode/evidence/<task-id>/visual-quality-contract.md`.
+- for plan-bound work: plan compliance checkpoint.
+
 
 Diff Boundary result evidence must list allowed file groups from the plan, actual changed files, generated-report exceptions, and out-of-boundary changes. Out-of-boundary changes require either revert or rationale in verification evidence before final quality gate.
 

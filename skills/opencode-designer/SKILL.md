@@ -22,6 +22,7 @@ Adopted from Open Design: strong `DESIGN.md` authority, artifact/source-pack dis
 
 - Trigger: UI/UX direction, design systems, responsive layouts, motion direction, accessibility review, visual parity work, design blueprinting, and any substantial user-facing visual decision.
 - Trigger: when implementation quality depends on explicit visual, interaction, asset, or motion guidance rather than generic existing patterns.
+- Trigger: for substantial UI/reference work, create/update `.opencode/evidence/<task-id>/visual-quality-contract.md` and `.opencode/evidence/<task-id>/reference-essence.md`.
 - Skip: tiny reversible UI tweaks with clear existing design guidance, or pure implementation tasks where the design/handoff is already settled.
 - Skip: final conformance/risk signoff. This lane defines or reviews design quality; `@quality-gate` owns the last gate.
 

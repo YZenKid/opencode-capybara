@@ -136,6 +136,8 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
 4. For substantial or ambiguous work, generate 2-3 bounded directions or section approaches, compare them against references/constraints, and choose one explicitly.
 5. Define/confirm visual direction, section anatomy, image strategy, motion purpose, and interaction states.
 6. Produce a design handoff artifact with enough detail for the implementation lane. Use `skills/opencode-designer/references/DESIGN-MD-TEMPLATE.md` when creating or updating project `DESIGN.md`, and include:
+   - create or update `.opencode/evidence/<task-id>/visual-quality-contract.md` for substantial UI/reference work,
+   - create or update `.opencode/evidence/<task-id>/reference-essence.md` for reference-driven work,
    - page-by-page UX blueprint,
    - section-level visual spec,
    - component system plan,
