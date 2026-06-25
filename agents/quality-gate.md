@@ -140,7 +140,11 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 - [ ] For UI work: anti-AI-slop gate passed — no card spam, fake metrics, generic hero, placeholder imagery, debug copy, or missing state coverage.
 - [ ] For UI work: reference feel parity verified — captures warmth/humanity/texture/domain-specific content, not just structure.
 - [ ] For UI work: domain texture verified — real photography, human element, physical objects, local context present when reference/domain requires them.
-- [ ] For UI work: no "foto menyusul" or placeholder text in production-facing UI; no decorative stats without meaningful data.
+- [ ] For UI work: no "foto menyusul" or placeholder/trust-breaking text in production-facing UI; no decorative stats without meaningful data.
+- [ ] For UI work: no AI-brochure filler slogans/copy (`pasti bisa`, vague mission filler, generic brochure tone) unless explicitly approved.
+- [ ] For org/community/craft sites: professionalism/trust anchors present (real contact readiness, address/location/operating context, legal/org identity, no CTA contradiction).
+- [ ] For substantial crafted UI: motion purpose is present (hover/focus/scroll/texture) or explicitly justified absent; reduced-motion supported.
+- [ ] For homepage/primary surface: more than hero exists — at least one credibility/proof section, one product/process preview, and real footer/contact context unless scope excludes them.
 - [ ] For non-trivial work: progress tracker exists at `.opencode/state/<task-id>/progress.json` and is consistent with claimed completion.
 - [ ] For substantial UI: structured visual rubric exists at `.opencode/evidence/<task-id>/visual-rubric.md`.
 - [ ] For substantial UI: design pushback or signoff artifact exists if UI went through iteration.
@@ -154,8 +158,11 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 - Approving UI that matches structure but misses reference feel/essence.
 - Allowing sterile/template feel when domain requires warmth, humanity, and lived reality.
 - Accepting illustrations/pattern cards when reference/domain requires real photography.
-- Allowing `foto menyusul` or placeholder text in production-facing UI.
+- Allowing `foto menyusul`, `kontak akan diperbarui`, stock/disclaimer copy, or other placeholder/trust-breaking text in production-facing UI.
 - Treating decorative symbolic numbers as valid stats/metrics.
+- Approving generic AI-brochure slogans/copy with no concrete value or specificity.
+- Approving static hero-only homepage for org/community/craft work without credibility, process/product, and footer/contact context.
+- Approving polished-claim UI that has zero meaningful motion/feedback without rationale.
 
 ## Output example
 

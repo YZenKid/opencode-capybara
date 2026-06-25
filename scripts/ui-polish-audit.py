@@ -24,6 +24,9 @@ def audit_files(files: list[Path]) -> list[dict]:
         (re.compile(r'(99%|24/7|10x|100k|1M)\b'), 'Fake metric claim'),
         (re.compile(r'placeholder\.com|via\.placeholder|picsum|lorem\s+ipsum', re.I), 'Placeholder content'),
         (re.compile(r'<div[^>]*>\s*TODO\s*</div>', re.I), 'Debug TODO in UI'),
+        (re.compile(r'akan diperbarui segera|foto (stok )?ilustrasi|dokumentasi asli menyusul|foto menyusul', re.I), 'Placeholder / amateur trust-breaking copy'),
+        (re.compile(r'\b(pasti bisa|solusi terbaik|masa depan|berbasis sosial budaya lokal)\b', re.I), 'Generic AI-brochure copy'),
+        (re.compile(r'Kontak resmi.*diperbarui', re.I), 'Contradictory contact readiness copy'),
     ]
     for path in files[:500]:
         text = path.read_text(encoding='utf-8', errors='ignore')
@@ -68,9 +71,12 @@ def main() -> int:
         '- [ ] Consistent spacing and alignment across sections',
         '- [ ] Typography hierarchy matches DESIGN.md',
         '- [ ] Focus and hover states are visible',
-        '- [ ] CTAs have consistent styling and contrast',
-        '- [ ] Reduced motion support is present',
-        '- [ ] Placeholder content is not shipped',
+        '- [ ] CTAs have consistent styling, contrast, and benefit-specific copy',
+        '- [ ] Motion is present where it adds aliveness (hover/scroll/texture) and reduced-motion support is present',
+        '- [ ] Placeholder or trust-breaking copy is not shipped (`akan diperbarui segera`, `foto stok ilustrasi`, `dokumentasi asli menyusul`)',
+        '- [ ] Homepage has professionalism/trust anchors (real contact readiness, legal/org metadata, address or operating context)',
+        '- [ ] Imagery shows real process/people/materials/environment when domain requires it',
+        '- [ ] Social proof / credibility preview exists for org/community sites',
         '- [ ] Mobile/tablet viewport behavior checked',
         '- [ ] Final visual review performed by `@designer`',
     ]

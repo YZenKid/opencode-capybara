@@ -60,10 +60,12 @@ This lane consumes design handoff from `@designer` and shared primitives from `@
 Frontend must push back on design handoff when:
 - Design feels template-ish/sterile and domain requires warmth/humanity (community, craft, food, agriculture, artisan, organization)
 - Hero/product sections use illustrations when reference/domain requires real photography
-- Design handoff contains "foto menyusul" or placeholder text in production-facing UI
+- Design handoff contains "foto menyusul", `kontak akan diperbarui`, stock/disclaimer text, or other placeholder/trust-breaking text in production-facing UI
 - Stats/metrics sections contain decorative numbers without meaningful data
 - Design lacks domain texture: no physical objects, natural materials, hands working, lived experience
 - Asset/image decision does not explicitly state "real photography required" for hero/product/community sections
+- Design omits professionalism/trust anchors for org/community/craft work (real contact readiness, address/location/context, legal/org identity)
+- Design omits meaningful motion/feedback and the surface feels dead/template-static
 - Design handoff is missing structured fields: `must_show`, `must_not_show`, `reject_if`, `fake_warmth_patterns`, `template_smells` for major surfaces
 
 Push-back is not optional. If design handoff fails domain texture or reference feel parity, route back to `@designer` with explicit feedback:
