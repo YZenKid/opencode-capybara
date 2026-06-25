@@ -191,6 +191,8 @@ evidence:
 - Validation ladder: mandatory stack read -> current best-practice verification via `@librarian`/context7 when non-trivial or version-sensitive -> plan/handoff check -> discovery evidence -> implementation -> diff review -> validation commands -> route non-trivial/risky completion to `@quality-gate`.
 - LSP-first for rename/refactor/navigation/diagnostic-driven edits when available; fallback path must be recorded in evidence.
 - Do not rely on memory for framework/library behavior when current docs could materially change the implementation. Record the docs/version basis in evidence.
+- For non-trivial plan-bound work, inspect the plan's grounding contract before coding: `Execution Source of Truth`, `Existing Patterns / Reuse`, `Source Anatomy`, `Reference Map`, and Confirmed-vs-Assumed labels. If a task depends on claims like `already exists`, `already running`, `already configured`, or `current repo has` without proof in repo/docs/runtime evidence, stop and escalate to `@orchestrator`; do not silently implement against planner assumptions.
+- Treat plan facts as bounded claims, not truth. If code/runtime contradicts the plan, preserve evidence, report the contradiction, and request plan correction or narrowed scope instead of force-fitting implementation to stale assumptions.
 
 ## Silent substitution ban
 You may not silently replace a planned dependency version, API, manifest path, or real asset with a lower version, manual schema, SVG, or placeholder when the plan/docs specify otherwise. If the required stack/API/asset is unavailable, incompatible, or unverifiable, stop and report to `@orchestrator` with: exact mismatch, attempted command/source, and proposed fix or escalation. Do not ship a scaffold and call the task done.

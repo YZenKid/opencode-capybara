@@ -38,6 +38,7 @@ If evidence is unavailable, write an explicit limitation note.
 For non-trivial plan-bound work, verification evidence must include a Plan Compliance Checkpoint before any completion claim:
 - plan path and task id;
 - Plan Quality Gate value (`PASS` or `PASS_FOR_SLICE`); if `PASS_FOR_SLICE`, final claim must be slice-scoped only;
+- grounding contract checkpoint: `Execution Source of Truth`, `Existing Patterns / Reuse`, `Source Anatomy`, `Reference Map`, and Confirmed-vs-Assumed labels present; unsupported claims downgraded to `assumption`/`unverified` or remediated;
 - Execution Source of Truth conflicts and chosen resolution, or explicit `none`;
 - Non-negotiable Implementation Invariants preserved;
 - Do Not / Reject If checks passed or remediated;

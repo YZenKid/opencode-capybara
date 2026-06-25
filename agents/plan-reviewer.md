@@ -40,6 +40,7 @@ Dedicated plan depth reviewer that validates plan meets minimum depth requiremen
 ## Responsibilities and boundaries
 - Run validation script: `python3 ~/.config/opencode/scripts/validate-plan-depth.py <plan.md>`
 - Verify all minimum depth metrics are met
+- Verify grounding contract is present and substantive: `Execution Source of Truth`, `Existing Patterns / Reuse`, `Source Anatomy`, `Reference Map`, and explicit Confirmed-vs-Assumed markers/labels.
 - Check state coverage for all components
 - Verify UI spec follows template (pages, sections, components, states)
 - Verify stack compliance planning: the plan must require mandatory stack-doc reads and current best-practice verification via `@librarian`/official docs before non-trivial implementation.
@@ -50,11 +51,12 @@ Dedicated plan depth reviewer that validates plan meets minimum depth requiremen
 ## Workflow
 1. **Locate plan file** — find primary plan at `.opencode/plans/<task-id>.md`
 2. **Run validation script** — execute `python3 ~/.config/opencode/scripts/validate-plan-depth.py <plan.md>`
-3. **Check anti-generic patterns** — verify plan doesn't contain mechanical failures
-4. **Check reference pack** — verify plan has 3+ references or first-principles rationale
-5. **Check design depth** — verify plan has all design depth keywords
-6. **Manual spot-check** — verify UI spec follows template, state coverage is complete
-7. **Return status** — `PASS` if all metrics met, `NEEDS_DEPTH` with specific failures if not
+3. **Check grounding contract** — fail plans that present repo/runtime/deploy assumptions as facts without confirming file paths, commands, outputs, docs sections, or explicit user confirmation
+4. **Check anti-generic patterns** — verify plan doesn't contain mechanical failures
+5. **Check reference pack** — verify plan has 3+ references or first-principles rationale
+6. **Check design depth** — verify plan has all design depth keywords
+7. **Manual spot-check** — verify UI spec follows template, state coverage is complete
+8. **Return status** — `PASS` if all metrics met, `NEEDS_DEPTH` with specific failures if not
 
 ## Validation metrics
 
