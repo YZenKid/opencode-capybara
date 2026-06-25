@@ -110,8 +110,9 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 4. For framework-managed artifacts, verify project stack/command/playbook docs were read or conservatively regenerated, and confirm official generator/CLI/MCP usage or explicit manual fallback evidence.
 5. For substantial UI, run visual taste and reference essence review: does the result capture reference feel (warmth, humanity, texture, domain-specific content), or only structure?
 6. Check image strategy and domain texture: real photography or generated domain-specific imagery for hero/product/community sections; no abstract illustration cards or "foto menyusul" placeholders when imagery matters.
-7. Identify blockers vs non-blocking risks.
-8. Return deterministic final status with rationale.
+7. For substantial UI, enforce structured visual rubric evidence (see `## Visual Taste and Reference Essence Review`).
+8. Identify blockers vs non-blocking risks.
+9. Return deterministic final status with rationale.
 
 ## Output contract
 - Final status (`PASS` | `PASS_WITH_RISKS` | `NEEDS_FIX` | `BLOCKED`).
@@ -140,6 +141,9 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 - [ ] For UI work: domain texture verified — real photography, human element, physical objects, local context present when reference/domain requires them.
 - [ ] For UI work: no "foto menyusul" or placeholder text in production-facing UI; no decorative stats without meaningful data.
 - [ ] For non-trivial work: progress tracker exists at `.opencode/state/<task-id>/progress.json` and is consistent with claimed completion.
+- [ ] For substantial UI: structured visual rubric exists at `.opencode/evidence/<task-id>/visual-rubric.md`.
+- [ ] For substantial UI: design pushback or signoff artifact exists if UI went through iteration.
+- [ ] For reference-driven UI: side-by-side screenshot comparison annotated for essence match/mismatch.
 
 ## Anti-patterns
 - Passing with incomplete evidence.

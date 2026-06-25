@@ -150,6 +150,24 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 5. **Discovery**: Inspect local project patterns, docs, constraints, references, available tools, reuse candidates, existing test patterns. Route to `@explorer` for codebase mapping, `@librarian` for docs, `@system-analyst` for requirements/flows/contracts, `@architect` for architecture options, `@designer` for UX/product creativity advisory (read-only only). Write discovery evidence to `.opencode/evidence/<task-id>/discovery.md`.
 6. **Draft**: Write temporary notes, decisions, visual notes, asset manifest, open questions under `.opencode/draft/<task-id>/` only when useful.
 7. **Synthesize plan**: Write one primary plan file `.opencode/plans/<task-id>.md` with all required sections: Goal, Non-goals, Scope, Requirements, Acceptance Criteria, Existing Patterns/Reuse, Source Anatomy, Reference Map, Constraints, Risks, Decisions/Assumptions, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, TDD/Test Plan, Implementation Steps, Expected Files to Change, Agent/Tool Routing, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, Validation Commands, Evidence Requirements, Done Criteria, Final Planning Summary.
+
+**Per-surface reject_if is mandatory for major UI surfaces.**
+For each major surface (hero, product, companion, garden, deck, landing, feature sections), the plan must include explicit `reject_if` conditions that lock design/implementation decisions:
+
+```markdown
+### Surface: [surface name]
+- **intent**: [emotional/functional goal]
+- **meaning_source**: [what makes this surface meaningful, not decorative]
+- **must_preserve**: [invariants, reference essence, domain texture]
+- **reject_if**: [explicit failure conditions]
+  - e.g. "hero is abstract pattern card without domain-specific content"
+  - e.g. "companion is cute mascot without behavioral grounding"
+  - e.g. "garden is symbolic wallpaper without organic texture"
+  - e.g. "no real imagery where reference requires it"
+```
+
+**Why this is mandatory:**
+Without per-surface `reject_if`, designer/frontend/quality-gate can rationalize mediocre output. Explicit rejection conditions force deterministic enforcement, not subjective taste.
 8. **Plan depth enforcement**: Verify all minimum depth metrics are met (5000+ lines, 200+ words goal, 500+ words requirements, 10+ requirements, 8+ acceptance criteria, 50+ implementation steps, 10+ validation commands, 20+ components, state coverage). If any fails, mark `NEEDS_DEPTH` with specific failures.
 9. **Gates check**: Verify Reference Pack Gate (3+ references or first-principles rationale), Anti-Generic Landing Page Gate (no hard fail patterns), **Reference Feel Parity Gate** (warmth/humanity/texture/domain-specific content captured, not just structure), **Domain Texture Gate** (real photography or generated domain-specific imagery required for hero/product/community sections when reference/domain requires it), **Image Strategy Enforcement Gate** (no "foto menyusul" placeholders, no abstract illustration/pattern-card hero when reference uses real photography), Design Depth Handoff (Design Read, craft dials, page blueprint, section spec, component inventory, motion, a11y, asset decisions, evidence plan), Material Grammar Translation (if explicit aesthetic), Open Source Reuse Policy (if user provided source), Source-approved 1:1 map (if clone/port task). Any missing gate = `NEEDS_DEPTH` or `BLOCKED`.
 10. **Finalize**: Add Final Planning Summary with artifacts consulted/created, key decisions, assumptions, open questions, readiness status, cleanup performed. Set Plan Quality Gate value: `PASS`, `PASS_FOR_SLICE`, `NEEDS_DEPTH`, or `BLOCKED`. Only `PASS` and `PASS_FOR_SLICE` are execution-ready.

@@ -32,6 +32,22 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 - Do not follow the workflow mechanically when stronger repo/reference evidence points elsewhere; adapt and record the reason.
 - In outputs/evidence, name the key references used or state that the result is based on repo-local evidence only.
 
+## Structured Design Output Contract
+
+For each major surface (hero, product, companion, garden, deck, landing, feature sections), design handoff must include explicit structured fields, not prose alone:
+
+- **`must_show`**: concrete elements that MUST appear (real photography, physical objects, hands, materials, environment, domain-specific content)
+- **`must_not_show`**: concrete elements that MUST NOT appear (abstract illustrations, pattern cards, placeholder text, decorative filler, generic mascot without behavioral specificity)
+- **`reject_if`**: explicit failure conditions that trigger rejection (e.g. "hero is abstract pattern card", "no real imagery where reference requires it", "companion is cute mascot without behavioral grounding")
+- **`fake_warmth_patterns`**: list of patterns that LOOK warm but are actually template (e.g. "illustrated mascot with no behavioral context", "pastel gradient with no physical objects", "symbolic garden without organic texture")
+- **`template_smells`**: list of smells that indicate template-feel despite structural compliance (e.g. "no hands working", "no physical objects", "all decorative, no lived reality", "warmth label without evidence")
+
+**Why this is mandatory:**
+Prose-only design direction ("warm", "grounded", "human") is too easy to rationalize away. Structured fields force the designer to make rejectable commitments, not just taste labels. Frontend and quality-gate need these fields to push back deterministically, not subjectively.
+
+**Enforcement:**
+Design handoff missing `must_show`, `must_not_show`, or `reject_if` for major surfaces = `needs-polish` / `blocked`. Do not mark design `ready` without these fields.
+
 ## Reference Feel Parity Gate
 
 Reference parity is not structural compliance. When user points to reference, analyze both structure AND feel:

@@ -409,6 +409,13 @@ For reviews, provide concise findings with locations/sections. For implementatio
 - [ ] Motion and reduced-motion behavior are specified.
 - [ ] Accessibility and responsive evidence are part of readiness.
 - [ ] Strong parity/ready claims are backed by screenshots or signoff.
+- [ ] **Reference feel parity verified**: captures warmth/humanity/texture/domain-specific content, not just structure.
+- [ ] **Domain texture verified**: real photography, human element, physical objects, local context present when reference/domain requires them.
+- [ ] **No placeholder text in production-facing UI**: no `foto menyusul`, no decorative stats without meaningful data.
+- [ ] **Structured design output contract fields present** for major surfaces: `must_show`, `must_not_show`, `reject_if`, `fake_warmth_patterns`, `template_smells`.
+- [ ] **Frontend design pushback artifact exists** if pushback occurred: `.opencode/evidence/<task-id>/design_pushback.md`.
+- [ ] **Quality-gate visual rubric exists**: `.opencode/evidence/<task-id>/visual-rubric.md`.
+- [ ] **Reference-driven work has side-by-side screenshot comparison** annotated for essence match/mismatch.
 
 ## Anti-patterns
 - Generic dashboard/landing direction with no source-backed character.

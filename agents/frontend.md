@@ -64,11 +64,20 @@ Frontend must push back on design handoff when:
 - Stats/metrics sections contain decorative numbers without meaningful data
 - Design lacks domain texture: no physical objects, natural materials, hands working, lived experience
 - Asset/image decision does not explicitly state "real photography required" for hero/product/community sections
+- Design handoff is missing structured fields: `must_show`, `must_not_show`, `reject_if`, `fake_warmth_patterns`, `template_smells` for major surfaces
 
 Push-back is not optional. If design handoff fails domain texture or reference feel parity, route back to `@designer` with explicit feedback:
 - What feels missing (warmth, humanity, domain texture, real photography)
 - What reference essence was not captured
 - What specific sections need rework
+
+**Structured pushback artifact is mandatory when pushing back.**
+Write `.opencode/evidence/<task-id>/design_pushback.md` with:
+- `pushback_reason`: which gate failed (reference feel parity, domain texture, image strategy, structured fields missing)
+- `failure_class`: `hard_stop` (cannot proceed) or `required_before_PASS` (must fix before completion)
+- `specific_failures`: list of concrete issues (e.g. "hero uses pattern card, reference requires real photography", "companion section has no must_show field")
+- `required_fixes`: what designer must add/change
+- `evidence_required`: what evidence designer must provide (screenshots, reference comparison, structured fields filled)
 
 Do not silently implement a template-feeling design when domain requires lived reality.
 - Use official CLI/generator/MCP workflows first for new framework artifacts in existing apps too when tooling is detected and permitted. Examples: detected package-manager plus shadcn CLI/MCP for `shadcn init` / `shadcn add`, framework generators, and repo scripts documented in `PROJECT_COMMANDS.md`. **This is mandatory — do not manually create components that a generator can produce. If the generator is unavailable, record the exact command attempted and why it failed.**
