@@ -194,17 +194,12 @@ function prepareInitHarnessTempRepo(root, fixture) {
   const registryTemplate = resolve(root, "skills", "opencode-design-system-engineer", "references", "DESIGN-SYSTEM-REGISTRY-TEMPLATE.md");
   const designTarget = resolve(tempRoot, "DESIGN.md");
   const registryTarget = resolve(tempRoot, ".opencode", "design-system", "registry.md");
-  const catalogTarget = resolve(tempRoot, ".opencode", "design-system", "catalog.json");
   if (!existsSync(designTarget) && existsSync(designTemplate)) {
     copyFileSync(designTemplate, designTarget);
   }
   if (!existsSync(registryTarget) && existsSync(registryTemplate)) {
     ensureDir(resolve(tempRoot, ".opencode", "design-system"));
     copyFileSync(registryTemplate, registryTarget);
-  }
-  if (!existsSync(catalogTarget)) {
-    ensureDir(resolve(tempRoot, ".opencode", "design-system"));
-    writeFileSync(catalogTarget, '{\n  "tokens": [],\n  "primitives": [],\n  "components": [],\n  "patterns": [],\n  "sources": {}\n}\n');
   }
 
   writeFileSync(resolve(tempRoot, "AGENTS.md"), initHarnessGeneratedAgents);

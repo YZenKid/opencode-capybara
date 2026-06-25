@@ -262,62 +262,6 @@ Builds a longitudinal design debt report from `.opencode/memory/knowledge.json`.
 python3 ~/.config/opencode/scripts/design-debt-tracker.py --project-root .
 ```
 
-### design-source-importer.py
-Builds `.opencode/evidence/design-source-pack.md` and updates `.opencode/design-system/catalog.json` from URLs, repo paths, and screenshot dirs.
-
-```bash
-python3 ~/.config/opencode/scripts/design-source-importer.py --project-root . --repo-path src --screenshot-dir .opencode/evidence/ref --url https://example.com
-```
-
-### url-structure-extractor.py
-Extracts information architecture structure from URLs (headings, nav links, forms, CTAs) using urllib + HTML parsing.
-
-```bash
-python3 ~/.config/opencode/scripts/url-structure-extractor.py --project-root . --url https://example.com
-```
-
-### design-review-bundle.py
-Seeds standard task-scoped design review artifacts under `.opencode/evidence/<task-id>/`.
-
-```bash
-python3 ~/.config/opencode/scripts/design-review-bundle.py --project-root . --task-id my-task
-```
-
-### preview-evidence-check.py
-Validates preview URL + desktop/mobile screenshot evidence for substantial UI claims.
-
-```bash
-python3 ~/.config/opencode/scripts/preview-evidence-check.py --project-root . --task-id my-task
-```
-
-### visual-audit-check.py
-Lightweight fallback visual audit without requiring working browser stack.
-
-```bash
-python3 ~/.config/opencode/scripts/visual-audit-check.py --project-root . --url https://example.com
-```
-
-### catalog-reuse-enforcer.py
-Verify changed UI files reference components already in the design-system catalog.
-
-```bash
-python3 ~/.config/opencode/scripts/catalog-reuse-enforcer.py --project-root . --files src/pages/Home.tsx,src/components/NewCard.tsx
-```
-
-### dom-preview-verifier.py
-Live DOM-level verification against preview contract; requires Playwright.
-
-```bash
-python3 ~/.config/opencode/scripts/dom-preview-verifier.py --project-root . --task-id my-task --manifest .opencode/evidence/my-task/preview-contract.json
-```
-
-### design-revamp-contract.py
-Classify revamp scope and generate required artifact contract.
-
-```bash
-python3 ~/.config/opencode/scripts/design-revamp-contract.py --project-root . --task-id my-task --class full-revamp
-```
-
 ---
 
 ## Consuming agents and skills
@@ -343,11 +287,5 @@ python3 ~/.config/opencode/scripts/<script>.py --project-root . [script-specific
 | `design-audit.py` | `@designer`, `@quality-gate` |
 | `init-design-system.py` | `@designer`, `@orchestrator` |
 | `design-debt-tracker.py` | `@designer`, `@quality-gate` |
-| `design-source-importer.py` | `@designer`, `@design-system-engineer` |
-| `design-review-bundle.py` | `@designer`, `@quality-gate` |
-| `preview-evidence-check.py` | `@designer`, `@quality-gate` |
-| `visual-audit-check.py` | `@designer` |
-| `catalog-reuse-enforcer.py` | `@quality-gate`, `@design-system-engineer` |
-| `dom-preview-verifier.py` | `@quality-gate` |
-| `design-revamp-contract.py` | `@designer`, `@quality-gate` |
+
 When adding a new governance script, also update this README and wire the relevant agent/skill prompts with a concrete command example.

@@ -34,6 +34,51 @@ Reading this as: premium product surface for professional users, with confident 
 **First-principles rationale**: References chosen for strong editorial hierarchy, purposeful motion, and professional aesthetic. Avoiding generic SaaS defaults (purple gradients, centered cards, icon placeholders) in favor of distinctive direction grounded in proven product design patterns.
 
 
+## Execution Source of Truth
+
+1. Latest explicit user instruction
+2. Safety, security, privacy, and permission boundaries
+3. Confirmed repo/runtime/doc evidence named in this plan
+4. Acceptance Criteria, Done Criteria, and Validation Commands
+5. Execution-ready Worklist / Handoff Contract
+6. Implementation Steps and follow-up notes
+
+Claims below must stay within their source basis. Any item not verified in repo, runtime, docs, or user confirmation must remain labeled `assumption` or `unverified`.
+
+## Source Anatomy
+
+**Auth and session layer**
+- Repo files: `auth.ts`, `auth.config.ts`, `app/api/auth/[...nextauth]/route.ts`, `middleware.ts` when applicable
+- Docs basis: Auth.js v5 deployment/session docs
+- Runtime basis: protected-route redirects, callback flow, cookie/session checks
+- Boundary: auth config/session semantics must not be inferred from library name alone; plan must cite inspected repo files or docs sections
+
+**Data and persistence layer**
+- Repo files: `prisma/schema.prisma`, `lib/db.ts`, relevant route handlers, migration files
+- Docs basis: Prisma + database driver docs, migration workflow docs
+- Runtime basis: health/data round-trip, migration command output, route/database verification
+- Boundary: persistence behavior must be tied to inspected schema/routes, not assumed from chosen ORM
+
+**UI and route layer**
+- Repo files: `app/**`, `components/**`, route handlers, `next.config.*`, `app/manifest.*`
+- Docs basis: framework routing and rendering docs when version-sensitive
+- Runtime basis: browser screenshots, route checks, manifest/icon resolution, accessibility evidence
+- Boundary: primary surfaces must be verified by actual route/component inspection or runtime capture
+
+**Integration and external service layer**
+- Repo files: env examples, client wrappers, service adapters, infra config
+- Docs basis: official provider docs for APIs, headers, auth, quotas, and deployment specifics
+- Runtime basis: env presence checks, API route behavior, health/status probes
+- Boundary: service posture must stay `assumption` or `unverified` until confirmed by file, docs, or runtime evidence
+
+## Reference Map
+
+- Auth/session behavior — `repo-backed` when verified from auth config/routes; `docs-backed` for provider/deployment semantics; `runtime-backed` for redirect/session proof
+- Persistence/storage behavior — `repo-backed` from schema/db/client files; `runtime-backed` from round-trip verification; `assumption` until those are inspected
+- UI/route behavior — `repo-backed` from route/component files; `reference-backed` for visual direction; `runtime-backed` from screenshot/route checks
+- External integrations — `docs-backed` for provider semantics; `user_confirmed` for credentials/policies; `unverified` until env/runtime proof exists
+- Operational claims (`already exists`, `already running`, `already configured`) are forbidden unless paired with confirming file path, command output, or runtime evidence. Otherwise label `unverified` or `assumption`.
+
 ## Design Depth Specification
 
 ### Page-by-page UX Blueprint

@@ -34,12 +34,7 @@ This lane builds reusable foundations, not page composition. If work is not shar
 - Treat `DESIGN.md` as source of truth.
 - Keep artifact/system thinking, but do not copy upstream tooling assumptions.
 - Prefer reusable system contracts over prompt-only taste.
-- Generate reusable artifacts when helpful:
-  - `python3 ~/.config/opencode/scripts/design-source-importer.py --project-root . --repo-path <path> --screenshot-dir <dir> --url <url>`
-  - `python3 ~/.config/opencode/scripts/design-system-docs.py --project-root .`
-  - `python3 ~/.config/opencode/scripts/design-token-generator.py --project-root .`
-  - `python3 ~/.config/opencode/scripts/component-spec-generator.py --project-root .`
-- Maintain `.opencode/design-system/catalog.json` as the machine-readable single source of truth for shared tokens, primitives, components, and patterns.
+- Generate reusable artifacts when helpful: `python3 ~/.config/opencode/scripts/design-system-docs.py --project-root .`, `python3 ~/.config/opencode/scripts/design-token-generator.py --project-root .`, and `python3 ~/.config/opencode/scripts/component-spec-generator.py --project-root .`.
 
 ## Output contract
 Return `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.

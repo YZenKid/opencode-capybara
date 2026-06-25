@@ -16,6 +16,14 @@ MIN_IMPLEMENTATION_STEPS = 50
 MIN_VALIDATION_COMMANDS = 10
 REQUIRED_STATES = ["empty", "loading", "error", "success"]
 
+GROUNDING_SECTION_HEADERS = {
+    "source_truth": ["## Execution Source of Truth", "# Execution Source of Truth"],
+    "existing_patterns": ["## Existing Patterns/Reuse", "## Existing Patterns", "# Existing Patterns/Reuse", "# Existing Patterns"],
+    "source_anatomy": ["## Source Anatomy", "# Source Anatomy"],
+    "reference_map": ["## Reference Map", "# Reference Map"],
+    "assumptions": ["## Decisions/Assumptions", "## Assumptions", "# Decisions/Assumptions"],
+}
+
 SECTION_HEADERS = {
     "goal": ["## Goal", "# Goal"],
     "non_goals": ["## Non-goals", "## Non Goals", "# Non-goals"],
@@ -79,6 +87,25 @@ REFERENCE_PACK_KEYWORDS = [
     "image style",
     "motion style",
     "first-principles",
+]
+
+GROUNDING_REQUIRED_MARKERS = [
+    "confirmed",
+    "unverified",
+    "assumption",
+    "repo-backed",
+    "docs-backed",
+    "reference-backed",
+    "runtime-backed",
+]
+
+SPECULATIVE_RISK_PATTERNS = [
+    r"\balready exists\b",
+    r"\balready running\b",
+    r"\balready configured\b",
+    r"\bcurrent repo\b",
+    r"\bcurrently\b",
+    r"\balready updated\b",
 ]
 
 
@@ -172,19 +199,62 @@ def check_reference_pack(text: str) -> tuple[bool, list[str]]:
     lower = text.lower()
     has_reference = False
     missing = []
-    
+
     # Check if any reference keyword is present
     for keyword in REFERENCE_PACK_KEYWORDS:
         if keyword in lower:
             has_reference = True
             break
-    
+
     # Check which reference keywords are missing
     for keyword in REFERENCE_PACK_KEYWORDS:
         if keyword not in lower:
             missing.append(keyword)
-    
+
     return has_reference, missing
+
+
+def check_grounding_contract(text: str) -> tuple[bool, list[str]]:
+    """Validate plan has explicit grounding sections and confirmed-vs-assumed markers."""
+    failures = []
+
+    source_truth = section_body(text, GROUNDING_SECTION_HEADERS["source_truth"])
+    existing_patterns = section_body(text, GROUNDING_SECTION_HEADERS["existing_patterns"])
+    source_anatomy = section_body(text, GROUNDING_SECTION_HEADERS["source_anatomy"])
+    reference_map = section_body(text, GROUNDING_SECTION_HEADERS["reference_map"])
+    assumptions = section_body(text, GROUNDING_SECTION_HEADERS["assumptions"])
+    lower = text.lower()
+
+    if not source_truth:
+        failures.append("missing_execution_source_of_truth")
+    if not existing_patterns:
+        failures.append("missing_existing_patterns_reuse")
+    if not source_anatomy:
+        failures.append("missing_source_anatomy")
+    if not reference_map:
+        failures.append("missing_reference_map")
+    if not assumptions:
+        failures.append("missing_decisions_assumptions")
+
+    if source_anatomy and word_count(source_anatomy) < 80:
+        failures.append("source_anatomy_too_shallow")
+    if reference_map and count_bullets_or_ordered(reference_map) < 3:
+        failures.append("reference_map_too_shallow")
+
+    if not any(marker in lower for marker in GROUNDING_REQUIRED_MARKERS):
+        failures.append("missing_confirmed_vs_assumed_markers")
+
+    if "unverified" not in lower and "assumption" not in lower:
+        failures.append("missing_unverified_or_assumption_labels")
+
+    risky = []
+    for pattern in SPECULATIVE_RISK_PATTERNS:
+        if re.search(pattern, lower):
+            risky.append(pattern)
+    if risky and ("confirmed" not in lower and "unverified" not in lower):
+        failures.append("speculative_operational_claims_without_labels")
+
+    return len(failures) == 0, failures
 
 
 def main() -> int:
@@ -235,6 +305,10 @@ def main() -> int:
     has_reference_pack, reference_missing = check_reference_pack(text)
     checks.append(("reference_pack", int(has_reference_pack), 1, has_reference_pack))
 
+    # Grounding contract checks
+    grounding_ok, grounding_failures = check_grounding_contract(text)
+    checks.append(("grounding_contract", int(grounding_ok), 1, grounding_ok))
+
     failed = [c for c in checks if not c[3]]
 
     print("PLAN DEPTH REPORT")
@@ -256,6 +330,17 @@ def main() -> int:
     if not has_reference_pack:
         print("\nREFERENCE PACK MISSING:")
         print("  - No reference screenshots/URLs or first-principles rationale found")
+
+    if grounding_failures:
+        print("\nGROUNDING CONTRACT FAILURES:")
+        for failure in grounding_failures:
+            print(f"  - {failure}")
+        print("\nPLAN LACKS CONFIRMED-VS-ASSUMED AUDIT.")
+        print("Required sections:")
+        print("  - ## Source Anatomy (per subsystem/layer)")
+        print("  - ## Reference Map (per feature)")
+        print("  - Explicit 'confirmed' / 'unverified' / 'assumption' labels")
+        print("Do not speculate about repo state. Verify or label as assumption.")
 
     if score_mode:
         # Calculate score
