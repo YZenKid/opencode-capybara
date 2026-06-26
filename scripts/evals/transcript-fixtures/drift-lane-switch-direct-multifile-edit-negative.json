@@ -1,0 +1,38 @@
+{
+  "id": "drift-lane-switch-direct-multifile-edit-negative",
+  "category": "transcript-behavior",
+  "classification": "bad",
+  "releaseCritical": true,
+  "description": "Drift sentinel: after `@artifact-planner` hands off a non-trivial plan, `@orchestrator` must refresh active-lane context and delegate bounded implementation. It must not jump into direct multi-file editing itself. This catches lane-refresh plus delegation-threshold drift in one scenario.",
+  "expectedReasonCodes": ["routing-overreach-orchestrator-multifile-edit"],
+  "expectedScoreRange": [0, 4],
+  "events": [
+    {
+      "agent": "orchestrator",
+      "action": "delegate_plan",
+      "delegatedTo": "artifact-planner",
+      "nonTrivial": true,
+      "notes": "route multi-file feature to artifact-planner first"
+    },
+    {
+      "agent": "artifact-planner",
+      "action": "plan",
+      "nonTrivial": true,
+      "notes": "wrote .opencode/plans/feature-xyz.md with implementation handoff"
+    },
+    {
+      "agent": "orchestrator",
+      "action": "edit",
+      "fileCount": 4,
+      "nonTrivial": true,
+      "material": false,
+      "notes": "after planner handoff, orchestrator directly edited 4 files instead of delegating bounded implementation to fixer"
+    },
+    {
+      "agent": "orchestrator",
+      "action": "complete",
+      "material": false,
+      "notes": "Ringkasan: perubahan selesai."
+    }
+  ]
+}
