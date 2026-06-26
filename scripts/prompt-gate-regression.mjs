@@ -155,6 +155,65 @@ const checks = [
     ],
   },
   {
+    file: ".opencode/docs/TOOL_USAGE.md",
+    name: "active lane refresh tool usage gate",
+    mustInclude: [
+      "Lane identity check before tool selection",
+      "Before using any tool, confirm which lane is currently active",
+      "drop inherited read-only assumptions",
+      "re-read the active agent file in `agents/` and the matching skill file before acting",
+      "Do not refuse based on stale lane context from the previous turn",
+    ],
+  },
+  {
+    file: ".opencode/docs/AGENT_TOOL_ACCESS.md",
+    name: "active lane refresh boundary gate",
+    mustInclude: [
+      "Agent Context Refresh (mandatory)",
+      "Lanes are not sticky across session turns",
+      "Do not carry `@artifact-planner` read-only restrictions into `@orchestrator` or implementation lanes",
+      "A lane switch resets which tools are permitted",
+    ],
+  },
+  {
+    file: "agents/orchestrator.md",
+    name: "orchestrator active lane refresh gate",
+    mustInclude: [
+      "## Agent Context Refresh Gate",
+      "after every lane switch",
+      "Do **not** inherit write/read-only assumptions from the previously active lane",
+      "Before refusing work due to permissions, verify that the refusal matches the **current** lane",
+    ],
+  },
+  {
+    file: "agents/artifact-planner.md",
+    name: "artifact planner handoff reset gate",
+    mustInclude: [
+      "Lane handoff rule",
+      "must not be carried forward as sticky assumptions",
+      "execution lanes must refresh their own active permissions/context before acting",
+      "Active-lane reset note",
+    ],
+  },
+  {
+    file: "skills/opencode-orchestrator/SKILL.md",
+    name: "orchestrator skill active lane workflow gate",
+    mustInclude: [
+      "Active-lane context refresh",
+      "confirm which agent is currently active in this session",
+      "Do not inherit read-only/planner assumptions from a prior lane",
+    ],
+  },
+  {
+    file: "skills/opencode-artifact-planner/SKILL.md",
+    name: "artifact planner skill handoff reset gate",
+    mustInclude: [
+      "Active-lane reset note",
+      "Planner read-only restrictions are scoped to `@artifact-planner` only",
+      "do not persist into subsequent lanes",
+    ],
+  },
+  {
     file: ".opencode/docs/QUALITY.md",
     name: "framework manual artifact quality gate",
     mustInclude: [
