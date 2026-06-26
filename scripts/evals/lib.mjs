@@ -842,6 +842,25 @@ export function evaluateTranscriptFixture(fixture) {
     violationChecks.push({ type: "transcript-semantics", status: "FAIL", reason_code: "final-output-raw-internal-passthrough", detail: "raw internal/subagent fields leaked into user-facing orchestrator output" });
   }
 
+  const readOnlyLanes = new Set(["artifact-planner", "oracle", "system-analyst", "project-manager"]);
+  let previousAgent = null;
+  for (const event of events) {
+    const currentAgent = event.agent;
+    const noteLower = String(event.notes ?? "").toLowerCase();
+    const refusalLike = ["refuse", "cannot", "not permitted", "read-only", "write is denied", "no write permission"].some((token) => noteLower.includes(token) || event.action === "refuse");
+    const invokesPreviousReadOnlyLane = previousAgent && readOnlyLanes.has(previousAgent) && noteLower.includes(previousAgent.replace("-", " "));
+    const staleLaneRefusal = previousAgent
+      && currentAgent !== previousAgent
+      && readOnlyLanes.has(previousAgent)
+      && refusalLike
+      && (invokesPreviousReadOnlyLane || noteLower.includes("planner") || noteLower.includes("read-only"));
+    if (staleLaneRefusal) {
+      actualReasonCodes.add("stale-lane-identity-refusal");
+      violationChecks.push({ type: "transcript-semantics", status: "FAIL", reason_code: "stale-lane-identity-refusal", detail: `${currentAgent} refused work using inherited read-only restrictions from ${previousAgent} at event ${event.index}` });
+    }
+    previousAgent = currentAgent;
+  }
+
   const hasIndonesianFinal = events.some((event) => {
     if (event.agent !== "orchestrator") return false;
     if (event.action !== "complete") return false;

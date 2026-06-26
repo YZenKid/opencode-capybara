@@ -1,0 +1,24 @@
+{
+  "id": "drift-lane-switch-stale-readonly-negative",
+  "category": "transcript-behavior",
+  "classification": "bad",
+  "releaseCritical": true,
+  "description": "Drift sentinel: a lane switch from @artifact-planner to @orchestrator must not carry planner read-only restrictions forward. Orchestrator must refresh its own active-lane context and execute or delegate implementation; refusing to write because 'planner is read-only' is a stale-lane-identity bug.",
+  "expectedReasonCodes": ["stale-lane-identity-refusal"],
+  "events": [
+    {
+      "agent": "artifact-planner",
+      "action": "plan",
+      "nonTrivial": true,
+      "notes": "wrote .opencode/plans/feature-xyz.md with full SDD/TDD handoff"
+    },
+    {
+      "agent": "orchestrator",
+      "action": "refuse",
+      "material": true,
+      "fileCount": 3,
+      "violationCodes": ["stale-lane-identity-refusal"],
+      "notes": "refused implementation: 'I am still in artifact-planner read-only mode and cannot write source files directly. Please switch to an implementation lane.'"
+    }
+  ]
+}
