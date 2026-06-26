@@ -59,8 +59,9 @@ Narrow vertical-slice implementation lane for small, tightly-coupled frontend/ba
 3. Confirm vertical slice, API contract, and UI state.
 4. Add focused regression/test coverage where feasible.
 5. Implement minimal FE/BE changes following current stack best practice.
-6. Run relevant validation.
-7. Report split recommendations, stack best practice basis, and residual risks.
+6. **Comment Verbosity Gate**: Keep comments minimal. Doc comments above exported/public functions/types are OK. Inline comments must be 1-3 lines max, only for genuinely non-obvious logic. Do not add long multi-line comments explaining business rules, validation contracts, or API flows inside struct/field/function bodies. If verbose comments exist, summarize or delete them before claiming done.
+7. Run relevant validation.
+8. Report split recommendations, stack best practice basis, and residual risks.
 
 ## Output contract
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
@@ -81,6 +82,7 @@ Narrow vertical-slice implementation lane for small, tightly-coupled frontend/ba
 - Holding work that should split to specialized lanes.
 - Editing FE and BE independently without shared contract evidence.
 - Allowing slice scope to expand into multi-subsystem implementation.
+- **Verbose inline comments**: Do not add multi-line comments inside function/struct bodies. Doc comments above public functions/types are OK. Inline comments must be 1-3 lines max, only for non-obvious logic. Move long explanations to PR description, tests, or docs.
 
 ## Output example
 

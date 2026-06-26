@@ -293,7 +293,7 @@ If any required blueprint section is missing for substantial work, return `block
 7. **Generator-first implementation**: For new UI components, use the documented official generator/CLI/MCP path first (e.g. `shadcn add`, framework generators, repo scripts from `PROJECT_COMMANDS.md`). **Do not manually create components that a generator can produce.** If manual fallback is used, record the exact command attempted and why it failed.
 8. Implement/review section-by-section and component-by-component against the blueprint.
 9. Check accessibility: semantics, labels, focus-visible, alt text, touch targets, reduced motion.
-10. Validate with browser screenshots when runnable; for substantial UI/reference work, require reference/current/final captures and section-by-section comparison.
+10. **MANDATORY visual validation**: Validate with Playwright browser screenshots. Do not accept "browser not available" as reason to skip; if browser automation cannot run, report `blocked` and require environment remediation. For substantial UI/reference work, require reference/current/final captures and section-by-section comparison.
 
 ## Artifact output contract
 
@@ -409,7 +409,7 @@ For reviews, provide concise findings with locations/sections. For implementatio
 - [ ] Asset/image decision exists per visual area.
 - [ ] Motion and reduced-motion behavior are specified.
 - [ ] Accessibility and responsive evidence are part of readiness.
-- [ ] Strong parity/ready claims are backed by screenshots or signoff.
+- [ ] **MANDATORY**: Playwright/browser screenshots captured for substantial UI/reference work; no "browser unavailable" skip without explicit `blocked` status and remediation plan.
 - [ ] **Reference feel parity verified**: captures warmth/humanity/texture/domain-specific content, not just structure.
 - [ ] **Domain texture verified**: real photography, human element, physical objects, local context present when reference/domain requires them.
 - [ ] **No placeholder text in production-facing UI**: no `foto menyusul`, no decorative stats without meaningful data.

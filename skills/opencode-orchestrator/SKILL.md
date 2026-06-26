@@ -170,17 +170,18 @@ Before starting any non-trivial task in a project:
 
 ## Workflow
 
-1. Understand explicit and implicit requirements.
-2. **Plan-first rule**:
+1. **Active-lane context refresh**: Before acting, confirm which agent is currently active in this session. Re-read the current role contract and `.opencode/docs/TOOL_USAGE.md` / `.opencode/docs/AGENT_TOOL_ACCESS.md` if the previous turn was in a different lane. Do not inherit read-only/planner assumptions from a prior lane.
+2. Understand explicit and implicit requirements.
+3. **Plan-first rule**:
    - Tiny, reversible, <=1 file, clear validation? Orchestrator may handle directly.
    - Non-trivial (multi-file, multi-step, ambiguous, risky, UI-heavy, greenfield, or needs coordination)? **MANDATORY: route to `@artifact-planner` first.** Do not start implementation without a `PASS` or `PASS_FOR_SLICE` plan.
    - If a plan already exists at `.opencode/plans/<task-id>.md`, load it and proceed to execution.
    - If unsure whether the task is trivial or non-trivial, default to planning.
-3. Run the Harness Preflight Gate for non-trivial work.
-4. Use local discovery before external docs when codebase patterns matter.
+4. Run the Harness Preflight Gate for non-trivial work.
+5. Use local discovery before external docs when codebase patterns matter.
    - For multi-file/read-heavy discovery, do not keep discovery in orchestrator; route to `@explorer` and consume its output.
-5. Ask targeted questions for material ambiguity, but during active implementation prefer finish-first execution: resolve ambiguity via repo evidence, docs, references, browser evidence, and specialist subagents before interrupting the user. For non-trivial autonomous execution, prefer durable runtime state under `.opencode/state/` so task queue, mailbox, worktree, and verification status are inspectable and replayable.
-6. **Execute via the plan as source of truth**:
+6. Ask targeted questions for material ambiguity, but during active implementation prefer finish-first execution: resolve ambiguity via repo evidence, docs, references, browser evidence, and specialist subagents before interrupting the user. For non-trivial autonomous execution, prefer durable runtime state under `.opencode/state/` so task queue, mailbox, worktree, and verification status are inspectable and replayable.
+7. **Execute via the plan as source of truth**:
    - Load the primary plan `.opencode/plans/<task-id>.md` and extract Plan Quality Gate value, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, validation commands, evidence path, and Done Criteria. Proceed only with `PASS` or `PASS_FOR_SLICE`.
    - Create execution tracking from the worklist. Track each task with status (`pending`, `in_progress`, `completed`, `blocked`, `cancelled`), owner/lane, depends_on, validation, and evidence_update.
    - Start with `start_with`, then execute one ready task at a time respecting `depends_on`, `must_preserve`, `do_not_touch`, and `exit_verification`.

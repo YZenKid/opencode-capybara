@@ -61,7 +61,8 @@ For canonical tool policy and boundaries, refer to:
 3. Reproduce Red state with a failing test, regression proof, or baseline evidence when practical.
 4. Make the smallest safe change that can get to Green.
 5. Refactor only after checks pass and avoid unrelated churn.
-6. Run targeted verification and record changed files, evidence, and residual risks.
+6. **Comment Verbosity Gate**: Do not add extensive inline comments inside function bodies, struct/field definitions, or component code explaining business rules, validation contracts, or API flows. Doc comments (PHPDoc/JSDoc/GoDoc/docblocks) above public functions, types, or exported symbols are OK and encouraged. Inline comments must be max 1-3 lines and only for truly non-obvious logic. If verbose comments already exist, summarize or delete them before claiming done.
+7. Run targeted verification and record changed files, evidence, and residual risks.
 
 ## Red → Green → Refactor
 
@@ -132,6 +133,7 @@ Report files changed plus Red, Green, Refactor, Verification. For UI animation w
 - Claiming completion while known failing checks remain unexplained.
 - Hand-building framework artifacts that a generator could produce.
 - Skipping stack docs and relying on memory for framework behavior.
+- **Verbose inline comments**: Do not add multi-line comments inside function/struct/component bodies explaining business rules, validation contracts, or API flows. Doc comments above public functions/types are OK. Inline comments must be 1-3 lines max, only for truly non-obvious logic. Move long explanations to PR description, tests, or external docs.
 
 ## Output example
 

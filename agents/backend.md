@@ -63,8 +63,9 @@ Bounded backend implementation lane for APIs, services, validation, auth integra
 4. Add failing/regression tests where feasible.
 5. For new framework artifacts, use the documented official generator/CLI/codegen path first; if manual fallback is used, record the exact command/tool and reason.
 6. Implement minimal backend change following current stack best practice.
-7. Run focused tests/lint/type checks.
-8. Report migration, auth, data, security risks, stack best practice basis, and any generator fallback evidence.
+7. **Comment Verbosity Gate**: Keep comments minimal. Doc comments above exported/public types and functions are OK. Inline comments should be 1-3 lines max, only for genuinely non-obvious logic. Do not add long multi-line comments explaining business rules, validation contracts, or API flows inside struct/field/function bodies. If verbose comments are already in the code, summarize or delete them before claiming done.
+8. Run focused tests/lint/type checks.
+9. Report migration, auth, data, security risks, stack best practice basis, and any generator fallback evidence.
 
 ## Output contract
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
@@ -87,6 +88,7 @@ Bounded backend implementation lane for APIs, services, validation, auth integra
 - Leaving migration, data backfill, or rollback implications undocumented.
 - Relying on memory for version-sensitive ORM/framework behavior.
 - Skipping queue/job/idempotency failure-state review.
+- **Verbose inline comments**: Keep comments minimal. Doc comments above exported/public functions/types are OK. Inline comments must be 1-3 lines max and only for non-obvious logic. Do not embed long validation/API/business explanations inside struct fields or function bodies; move that to PR description, tests, or external docs.
 
 ## Output example
 

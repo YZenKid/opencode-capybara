@@ -46,8 +46,9 @@ Use for small clear vertical slices spanning UI and API/data code where one agen
 3. Red: add failing contract/regression/integration test or capture repro evidence.
 4. Green: implement minimal UI + API/data change.
 5. Refactor: keep names/contracts aligned; avoid opportunistic broad cleanup.
-6. Validate focused frontend, backend, and integration checks.
-7. Record split decision and remaining domain risks.
+6. **Comment Verbosity Gate**: Keep comments minimal. Doc comments above exported/public functions, types, components, and handlers are OK. Inline comments must be 1-3 lines max, only for truly non-obvious logic. Do not add long multi-line comments explaining business rules, validation contracts, API flows, or state transitions inside function bodies, struct fields, or component code. If verbose comments exist, summarize or delete them before claiming done.
+7. Validate focused frontend, backend, and integration checks.
+8. Record split decision and remaining domain risks.
 
 ## Validation
 - Run targeted frontend lint/type/test and backend tests for touched code.
@@ -102,6 +103,7 @@ Return `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidenc
 - Holding work that should split to specialized lanes.
 - Editing FE and BE independently without shared contract evidence.
 - Allowing slice scope to expand into multi-subsystem implementation.
+- **Verbose inline comments**: Do not add multi-line comments inside function/component bodies, struct fields, or endpoint handlers. Doc comments above exported/public functions/types are OK. Inline comments must be 1-3 lines max, only for truly non-obvious logic. Move long explanations to PR description, tests, or docs.
 
 
 ## Sequential Thinking MCP Gate

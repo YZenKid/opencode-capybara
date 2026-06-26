@@ -68,6 +68,11 @@ Commonly used categories:
 ## Selection heuristics
 Policy note: prefer local canonical capybara lanes for execution. Built-in OpenCode `build`/`plan`/`explore`/`general` are non-default comparator paths unless explicitly enabled.
 
+### Lane identity check before tool selection
+- Before using any tool, confirm which lane is currently active. The active lane determines permission, not the previous turn.
+- After switching from a read-only/planning lane to an implementation lane, drop inherited read-only assumptions.
+- After switching from `@orchestrator` to a specialist lane, follow the specialist workflow rather than orchestrator routing logic.
+- If lane identity is ambiguous, re-read the active agent file in `agents/` and the matching skill file before acting.
 
 1. **Prefer repo-local evidence first** for codebase questions.
    - Preferred: `read` + `glob` + `grep`
@@ -149,7 +154,7 @@ When preferred tool is unavailable, not permitted, or fails:
 Examples:
 - `context7` unavailable → local code evidence + `github` source/docs + note limitation.
 - `playwright` unavailable for UI claim → provide bounded claim level and record missing runtime evidence.
-- Write tool not permitted in current lane → route to implementing lane (`@fixer`) instead of forcing edits.
+- Write tool not permitted in current lane → first verify the active lane; if the lane truly lacks write permission, route to implementing lane (`@fixer`) instead of forcing edits. Do not refuse based on stale lane context from the previous turn.
 
 ## Maintenance rules
 

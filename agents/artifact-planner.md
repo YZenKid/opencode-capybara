@@ -140,6 +140,7 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 - You may call conditional domain specialist only when material:
   - `@architect`
 - Do not call implementation, source-edit, or generation subagents such as fixer or visual-asset-generator from this planner. `@designer` is allowed only for read-only UX/product creativity advisory input; never for implementation, source edits, or generation.
+- **Lane handoff rule**: planner read-only/planning restrictions apply only while `@artifact-planner` is the active lane. They must not be carried forward as sticky assumptions after control returns to `@orchestrator` or switches to an implementation lane. Handoff artifacts should explicitly say that execution lanes must refresh their own active permissions/context before acting.
 
 ## Workflow
 
@@ -173,6 +174,7 @@ Without per-surface `reject_if`, designer/frontend/quality-gate can rationalize 
 10. **Finalize**: Add Final Planning Summary with artifacts consulted/created, key decisions, assumptions, open questions, readiness status, cleanup performed. Set Plan Quality Gate value: `PASS`, `PASS_FOR_SLICE`, `NEEDS_DEPTH`, or `BLOCKED`. Only `PASS` and `PASS_FOR_SLICE` are execution-ready.
 11. **Cleanup**: Delete stale draft/evidence files after consolidation into primary plan. Keep only operationally useful evidence (screenshots, captures, debugging outputs). List kept files with reason in Final Planning Summary.
 12. **Hand off**: Output the primary plan path as source of truth. Do not implement. Stop after plan is finalized.
+13. **Active-lane reset note**: In final handoff, explicitly state that execution must be performed under the next active lane's permissions (`@orchestrator` or implementation lane). Do not imply planner read-only restrictions persist into the next lane/session step.
 
 ## Stack-drift verification before finalization
 Before marking a plan `PASS` or `PASS_FOR_SLICE`, verify that the planned stack is actually installable and compatible:

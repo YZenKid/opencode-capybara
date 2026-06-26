@@ -135,6 +135,13 @@ Note: `@librarian` is a supporting research helper, not one of the 6 core agents
 ## Boundary rules
 LSP-first policy for edit-owning lanes (`@orchestrator` tiny direct edits, `@fixer` bounded implementation): use LSP for rename/refactor/navigation/diagnostic-driven edits when available. If fallback path used, evidence must include limitation and confidence impact.
 
+## Agent Context Refresh (mandatory)
+- Lanes are not sticky across session turns. Before any tool use, verify the currently active lane.
+- If the active lane changed, discard assumptions inherited from the previous lane's read-only/implementation boundaries.
+- Do not carry `@artifact-planner` read-only restrictions into `@orchestrator` or implementation lanes.
+- Do not carry `@orchestrator` delegation preference into read-only reviewer lanes when they are the active lane.
+- A lane switch resets which tools are permitted. Re-read the active agent contract when in doubt.
+
 
 1. Availability does not override permission boundaries.
 2. Preferred path can be skipped only with a concrete reason (not habit).

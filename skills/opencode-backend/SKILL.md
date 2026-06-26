@@ -54,7 +54,8 @@ Use for bounded server/API/data implementation. Detect actual project stack from
 6. Red: add focused failing test or reproduce regression when feasible.
 7. Green: implement minimal endpoint/service/query/migration/job change.
 8. Refactor: simplify while preserving established boundaries.
-9. Validate with focused tests, lint/type/static checks, and migration dry-run where available.
+9. **Comment Verbosity Gate**: Keep comments minimal. Doc comments (GoDoc/phpdoc/JSDoc) above exported functions, types, and public interfaces are OK. Inline comments must be 1-3 lines max, only for truly non-obvious logic. Do not embed long multi-line comments explaining business rules, validation contracts, state-machine transitions, or API flows inside struct fields, function bodies, or endpoint handlers. If verbose comments exist, summarize or delete them before claiming done.
+10. Validate with focused tests, lint/type/static checks, and migration dry-run where available.
 
 ## Validation
 - Run stack-appropriate tests/checks from repo scripts and docs; examples include Laravel `php artisan test`, Go `go test ./...`, Python `pytest`, plus configured lint/static tools.
@@ -105,6 +106,7 @@ Return `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidenc
 - Leaving migration, data backfill, or rollback implications undocumented.
 - Relying on memory for version-sensitive ORM/framework behavior.
 - Skipping queue/job/idempotency failure-state review.
+- **Verbose inline comments**: Do not add multi-line comments inside function bodies, struct fields, endpoint handlers, or service methods explaining business rules, validation contracts, or API flows. Doc comments above exported/public functions/types are OK. Inline comments must be 1-3 lines max, only for truly non-obvious logic. Move long explanations to PR description, tests, or docs.
 
 
 ## Sequential Thinking MCP Gate

@@ -59,12 +59,13 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 - For Maintenance Stability Mode, verify regression evidence, smallest safe diff rationale, and avoid blocking on missing greenfield artifacts.
 - Verify source trace on material decisions and claims: repo evidence, docs, references, screenshots, upstream examples, or explicit first-principles note.
 - Assess regression risk, security/secrets, dependency drift, and release readiness.
-- Act as final UI/design taste gate when substantial UI, visual asset, reference, motion, or design-system claims are made.
-- Review accessibility, visual-parity, screenshots, responsive evidence, motion/reduced-motion evidence, and asset/legal notes when substantial UI claims are made.
+|- Act as final UI/design taste gate when substantial UI, visual asset, reference, motion, or design-system claims are made.
+|- **MANDATORY visual evidence for UI gate**: For substantial UI work, actual screenshot files (PNG/WebP) must exist and be referenced in evidence. HTML/structural diffs, HTTP smoke tests, or plan text alone are NOT sufficient visual evidence. If browser automation is genuinely unavailable, set status `BLOCKED` and require `@designer`/`@fixer` to produce screenshots on an environment with working browser runtime. Do not downgrade to `PASS_WITH_RISKS` purely because screenshots are missing.
+|- Review accessibility, visual-parity, screenshots, responsive evidence, motion/reduced-motion evidence, and asset/legal notes when substantial UI claims are made.
 - For framework-managed artifact creation or changes, verify evidence shows the agent read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before non-trivial implementation, or that `/init-harness` / discovery escalation was used when those docs were missing or stale.
 - Verify stack & best-practice conformance: for non-trivial or version-sensitive work, evidence must show current official docs/context7/`@librarian` verification was used where stack behavior or best practice could materially change the implementation. If the agent relied on memory or stale assumptions, return `NEEDS_FIX`.
 - Unsupported factual or visual certainty is a gate issue. If the result makes strong claims without source basis or evidence, downgrade to `NEEDS_FIX` or `BLOCKED`.
-- Block only on mechanical/evidence failures: missing required screenshots/evidence, unreviewed AI slop, broken contrast/wrapping/layout, absent reduced-motion, unsupported parity/readiness claims, or scope/routing mismatch.
+|- Block only on mechanical/evidence failures: missing required **screenshot files** (not just HTML diffs), unreviewed AI slop, broken contrast/wrapping/layout, absent reduced-motion, unsupported parity/readiness claims, or scope/routing mismatch.
 - Requested Aesthetic Fidelity Gate: for substantial UI, explicit aesthetic mismatch, missing style grammar, card spam/layout repetition, fake metrics/debug copy, or placeholder/abstract hero when imagery matters are mechanical failures and map to `NEEDS_FIX`, not pure taste.
 - **Source-approved 1:1 Porting / Literal Porting Contract** gate: for source-approved `1:1`/`clone`/`port`/`copy from` tasks, `PASS` requires source inventory, visual comparison, and evidence that upstream anatomy/files/components were actually reused or adapted. If the implementation is mostly original generated UI/code instead of source-backed reuse/adaptation, return `NEEDS_FIX` even if build/tests pass.
 - **Open Source Reuse Policy** gate: if the user provided an open source reference and the license is permissive (MIT, BSD, Apache-2.0, ISC, Unlicense, CC0, MPL-2.0), do not penalize direct reuse/adaptation; prefer evidence that source anatomy/components/code were reused appropriately. Only return `NEEDS_FIX` when the agent ignored a reusable permissive source and invented replacement UI/code without evidence-backed reason. For copyleft/caution licenses (LGPL, GPL, AGPL, SSPL, custom/nonstandard), verify the agent escalated with license/risk note instead of silently reusing or silently discarding. For no-license/unclear cases, verify the agent asked or recorded why reuse was skipped — do not assume blocked by default.
@@ -110,7 +111,7 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 4. For framework-managed artifacts, verify project stack/command/playbook docs were read or conservatively regenerated, and confirm official generator/CLI/MCP usage or explicit manual fallback evidence.
 5. For substantial UI, run visual taste and reference essence review: does the result capture reference feel (warmth, humanity, texture, domain-specific content), or only structure?
 6. Check image strategy and domain texture: real photography or generated domain-specific imagery for hero/product/community sections; no abstract illustration cards or "foto menyusul" placeholders when imagery matters.
-7. For substantial UI, run `python3 ~/.config/opencode/scripts/verify-visual-quality-evidence.py --project-root . --task <task-id>` and treat missing/incomplete experiential evidence as `NEEDS_FIX` or `BLOCKED` depending on severity.
+7. **For substantial UI, verify that actual screenshot files exist at `.opencode/evidence/<task-id>/` (e.g. `*-desktop.png`, `*-mobile.png`, `*-hero.png`, `*-before.png`, `*-after.png`) before running the evidence script. Then run `python3 ~/.config/opencode/scripts/verify-visual-quality-evidence.py --project-root . --task <task-id>` and treat missing/incomplete experiential evidence as `NEEDS_FIX` or `BLOCKED` depending on severity.**
 8. Enforce structured visual rubric evidence (see `## Visual Taste and Reference Essence Review`).
 9. Identify blockers vs non-blocking risks.
 10. Return deterministic final status with rationale.
@@ -148,7 +149,7 @@ Final conformance/risk gate helper lane before completion claims on non-trivial 
 - [ ] For non-trivial work: progress tracker exists at `.opencode/state/<task-id>/progress.json` and is consistent with claimed completion.
 - [ ] For substantial UI: structured visual rubric exists at `.opencode/evidence/<task-id>/visual-rubric.md`.
 - [ ] For substantial UI: design pushback or signoff artifact exists if UI went through iteration.
-- [ ] For reference-driven UI: side-by-side screenshot comparison annotated for essence match/mismatch.
+- [ ] **MANDATORY**: Actual screenshot files (PNG/WebP) exist and are referenced for material UI changes. No "equivalent evidence" escape hatch for substantial UI.
 
 ## Anti-patterns
 - Passing with incomplete evidence.

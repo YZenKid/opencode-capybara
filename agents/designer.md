@@ -153,7 +153,7 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
    - validation evidence plan.
 7. Produce design artifact as artifact-mode output when delivering substantial UI direction, blueprint, or parity handoff.
 8. For polish-mode passes, run `python3 ~/.config/opencode/scripts/ui-polish-audit.py --project-root .` and attach resulting evidence before claiming `ready` on substantial UI.
-8. Validate with reference/current/final screenshots, browser previews, or equivalent evidence for substantial visual work. When before/after screenshot folders exist, run `python3 ~/.config/opencode/scripts/design-screenshot-compare.py --before-dir .opencode/evidence/<task-id>/before --after-dir .opencode/evidence/<task-id>/after --output .opencode/evidence/<task-id>/design-compare.md`.
+8. **MANDATORY visual validation**: For substantial UI work, capture reference/current/final screenshots using Playwright browser automation. Screenshot evidence is mandatory, not optional. When before/after screenshot folders exist, run `python3 ~/.config/opencode/scripts/design-screenshot-compare.py --before-dir .opencode/evidence/<task-id>/before --after-dir .opencode/evidence/<task-id>/after --output .opencode/evidence/<task-id>/design-compare.md`.
 9. If shared components/tokens are involved, point downstream lane to `skills/opencode-design-system-engineer/references/DESIGN-SYSTEM-REGISTRY-TEMPLATE.md` to catalog reusable system entries.
 10. Route implementation to the correct lane based on surface and scope:
    - shared tokens/primitives -> `@design-system-engineer`
@@ -186,7 +186,7 @@ Use artifact-mode vocabulary when producing design deliverables. For substantial
 - [ ] Existing components/tokens referenced where possible.
 - [ ] States and interaction model documented.
 - [ ] Accessibility and reduced-motion requirements specified.
-- [ ] Validation includes screenshots or equivalent evidence for material UI changes.
+- [ ] **MANDATORY**: Screenshot evidence exists for material UI changes — no escape to "equivalent evidence" for substantial UI.
 - [ ] Design handoff clearly routes to `@frontend`, `@mobile`, `@design-system-engineer`, or `@fixer`.
 - [ ] Residual risks and assumptions recorded.
 - [ ] Reference feel parity verified: does this capture reference essence, not just structure?

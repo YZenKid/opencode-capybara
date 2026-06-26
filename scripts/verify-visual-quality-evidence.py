@@ -109,6 +109,29 @@ def check_rubric_checks(content: str) -> dict:
     }
 
 
+def check_screenshot_files(evidence_dir: Path) -> dict:
+    """Check that actual screenshot image files exist in the evidence directory."""
+    patterns = ["*.png", "*.webp", "*.jpg", "*.jpeg"]
+    screenshot_files = []
+    for pattern in patterns:
+        screenshot_files.extend(sorted(evidence_dir.glob(pattern)))
+
+    screenshot_names = [path.name for path in screenshot_files]
+    expected_hints = ["desktop", "mobile", "hero", "before", "after", "tablet"]
+    matched_hints = [hint for hint in expected_hints if any(hint in name.lower() for name in screenshot_names)]
+
+    exists = len(screenshot_files) > 0
+    return {
+        "path": str(evidence_dir),
+        "required": True,
+        "exists": exists,
+        "count": len(screenshot_files),
+        "files": screenshot_names,
+        "matched_hints": matched_hints,
+        "status": "pass" if exists else "fail",
+    }
+
+
 def verify_evidence(project_root: Path, task_id: str, verbose: bool = False) -> dict:
     """Verify all required visual quality evidence artifacts."""
     evidence_dir = project_root / ".opencode" / "evidence" / task_id
@@ -185,6 +208,10 @@ def verify_evidence(project_root: Path, task_id: str, verbose: bool = False) -> 
         # Plan must have at least 2 surfaces with reject_if for substantial UI
         plan_check["status"] = "pass" if plan_surface_check["surfaces_found"] >= 2 else "warn"
     results["checks"]["plan_surfaces"] = plan_check
+
+    # 6. Check screenshot image files exist
+    screenshot_check = check_screenshot_files(evidence_dir)
+    results["checks"]["screenshot_files"] = screenshot_check
     
     # Compute overall status
     all_checks = [c for c in results["checks"].values()]

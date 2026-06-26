@@ -104,9 +104,10 @@ Do not silently implement a template-feeling design when domain requires lived r
 5. Confirm implementation basis for each major UI decision: project design docs, designer blueprint/handoff, reference pack, or current UI pattern.
 6. For explicit aesthetics, confirm style grammar/blueprint and reject_if before coding; if missing, stop and route `@designer`.
 7. For new framework/UI artifacts, use the documented official generator/CLI/MCP path first; if manual fallback is used, record the exact command/tool and reason.
-8. Run relevant type/lint/test/browser checks when available, with screenshots for changed screens when the UI is material.
-9. For substantial UI/reference work, verify `.opencode/evidence/<task-id>/visual-quality-contract.md` is satisfied; if not, emit `.opencode/evidence/<task-id>/design_pushback.md` and stop.
-10. Report changed files, validation, design/accessibility risks, stack best practice basis, and the references/basis used.
+8. **Comment Verbosity Gate**: Keep comments minimal. Doc comments above exported/public functions/types are OK. Inline comments must be 1-3 lines max, only for genuinely non-obvious logic. Do not add long multi-line comments explaining UI behavior, business rules, or API flows inside component/function bodies. If verbose comments exist, summarize or delete them before claiming done.
+9. Run relevant type/lint/test/browser checks when available, with screenshots for changed screens when the UI is material.
+10. For substantial UI/reference work, verify `.opencode/evidence/<task-id>/visual-quality-contract.md` is satisfied; if not, emit `.opencode/evidence/<task-id>/design_pushback.md` and stop.
+11. Report changed files, validation, design/accessibility risks, stack best practice basis, and the references/basis used.
 
 ## Output contract
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
@@ -120,7 +121,8 @@ Do not silently implement a template-feeling design when domain requires lived r
 - [ ] Existing components/tokens reused where possible.
 - [ ] States covered: empty/loading/error/success where relevant.
 - [ ] Accessibility and responsive implications checked.
-- [ ] Validation includes screenshots or equivalent evidence for material UI changes.
+- [ ] Validation includes screenshots for material UI changes.
+- [ ] Comment verbosity gate passed: no long inline comments in component/function bodies; inline comments are 1-3 lines max and only for non-obvious logic.
 - [ ] Design handoff reviewed for domain texture: real photography, human element, physical objects present?
 - [ ] Push-back applied if design feels template-ish or lacks reference feel parity.
 - [ ] No "foto menyusul" or placeholder text in production-facing UI.
@@ -139,6 +141,7 @@ Do not silently implement a template-feeling design when domain requires lived r
 - Blindly implementing decorative stats/metrics without questioning if data is meaningful.
 - Accepting sterile/template feel when domain/community/craft work needs warmth and humanity.
 - Building hero/product sections with abstract patterns when reference uses real people/materials/activities.
+- **Verbose inline comments**: Do not add multi-line comments inside component/function bodies. Doc comments above public functions/types are OK. Inline comments must be 1-3 lines max, only for non-obvious logic. Move long explanations to PR description, tests, or docs.
 
 ## Output example
 

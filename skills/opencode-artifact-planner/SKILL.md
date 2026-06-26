@@ -70,6 +70,7 @@ Before synthesizing a new plan for a project:
 4. Draft only when useful under `.opencode/draft/<task-id>/`.
 5. Write one primary plan: `.opencode/plans/<task-id>.md`.
 6. Keep only operationally useful evidence; delete stale drafts after consolidation.
+7. **Active-lane reset note**: In final handoff, explicitly state that execution must be performed under the next active lane's permissions (`@orchestrator` or implementation lane). Planner read-only restrictions are scoped to `@artifact-planner` only and do not persist into subsequent lanes.
 
 Before convergence, explicitly choose source strategy for the task: local repo evidence, official docs, upstream source/examples, screenshots/reference URLs, and current web research. If a reasonable source is skipped, state why.
 

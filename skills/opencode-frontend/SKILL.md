@@ -85,6 +85,7 @@ Adopted from Open Design: source-pack discipline, `DESIGN.md` authority, screens
     - States covered: empty/loading/error/success where relevant
     - If any slop pattern present, fix before returning
 11. Validate with focused lint/type/test/browser commands available in repo, plus screenshots for changed screens when the UI is material.
+12. **Comment Verbosity Gate**: Keep comments minimal. Doc comments above exported/public functions, components, and types are OK. Inline comments must be 1-3 lines max, only for truly non-obvious logic. Do not add long multi-line comments explaining UI behavior, state transitions, API flows, or component purpose inside component function bodies. If verbose comments exist, summarize or delete them before claiming done.
 
 ## Validation
 - Prefer existing commands: `npm|pnpm|yarn test`, `test:unit`, `test:e2e`, `lint`, `typecheck`, Storybook checks.
@@ -142,6 +143,7 @@ Return `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidenc
 - Adding generic placeholder UI to fill unclear gaps.
 - Changing interaction/state behavior without validation evidence.
 - Ignoring responsive/accessibility impact of visual changes.
+- **Verbose inline comments**: Do not add multi-line comments inside component function bodies, hooks, or render logic explaining UI behavior, state, or data flow. Doc comments above exported/public functions/components are OK. Inline comments must be 1-3 lines max, only for truly non-obvious logic. Move long explanations to PR description, tests, or docs.
 
 
 ## Sequential Thinking MCP Gate

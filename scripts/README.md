@@ -96,6 +96,30 @@ python3 ~/.config/opencode/scripts/project-memory.py --export > .opencode/memory
 
 ---
 
+### verify-visual-quality-evidence.py
+Deterministic checker for experiential UI-quality evidence under `.opencode/evidence/<task-id>/`.
+
+**What it verifies**:
+- `visual-quality-contract.md`
+- `visual-rubric.md`
+- `design_pushback.md`
+- `reference-essence.md`
+- per-surface `reject_if` in plan
+- **actual screenshot image files** (`.png`, `.webp`, `.jpg`, `.jpeg`) in evidence folder
+
+**Usage**:
+```bash
+python3 ~/.config/opencode/scripts/verify-visual-quality-evidence.py \
+  --project-root . \
+  --task <task-id>
+```
+
+**Important policy**:
+- Markdown notes, HTML diffs, and HTTP smoke tests are not substitutes for screenshot files on substantial UI work.
+- If screenshot files are missing, the script returns warning/failure so quality-gate can block readiness claims.
+
+---
+
 ### task-progress.py
 Per-task worklist tracker. Maintains machine-readable execution progress at `.opencode/state/<task-id>/progress.json`.
 

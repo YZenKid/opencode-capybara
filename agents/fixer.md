@@ -83,7 +83,8 @@ Bounded implementation helper lane for code changes, tests, fixtures, and TDD ex
 3. Write/adjust failing tests where applicable.
 4. Use the documented generator/CLI/codegen path first when new framework artifacts are needed; if manual fallback is used, record the exact command/tool and reason.
 5. Implement minimal fix/feature.
-6. Run validation and refactor for clarity/safety.
+6. **Comment Verbosity Gate**: Do not add extensive inline comments explaining business logic, API contracts, or validation rules. Doc comments (PHPDoc/JSDoc/GoDoc) above public functions/types are OK. Inline comments must be max 1-3 lines and only for truly non-obvious logic. Remove or summarize verbose comments before claiming done.
+7. Run validation and refactor for clarity/safety.
 
 ## Project memory storage
 
@@ -166,6 +167,7 @@ This allows the orchestrator to update `.opencode/state/<task-id>/progress.json`
 - Claiming completion while known failing checks remain unexplained.
 - Hand-building framework artifacts that a generator could produce.
 - Skipping stack docs and relying on memory for framework behavior.
+- **Verbose inline comments**: Do not add multi-line comments explaining validation rules, API contracts, or business logic inside function bodies. Use doc comments above public APIs. Keep inline comments to 1-3 lines max, only for truly non-obvious logic.
 
 ## Output example
 
