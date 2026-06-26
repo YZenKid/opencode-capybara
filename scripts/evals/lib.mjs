@@ -77,7 +77,11 @@ function copyTree(sourceDir, targetDir) {
       copyTree(sourcePath, targetPath);
     } else {
       ensureDir(resolve(targetPath, ".."));
-      copyFileSync(sourcePath, targetPath);
+      try {
+        copyFileSync(sourcePath, targetPath);
+      } catch {
+        writeFileSync(targetPath, readFileSync(sourcePath));
+      }
     }
   }
 }
@@ -192,14 +196,20 @@ function prepareInitHarnessTempRepo(root, fixture) {
 
   const designTemplate = resolve(root, "skills", "opencode-designer", "references", "DESIGN-MD-TEMPLATE.md");
   const registryTemplate = resolve(root, "skills", "opencode-design-system-engineer", "references", "DESIGN-SYSTEM-REGISTRY-TEMPLATE.md");
+  const catalogTemplate = resolve(root, "skills", "opencode-design-system-engineer", "references", "DESIGN-SYSTEM-CATALOG-TEMPLATE.json");
   const designTarget = resolve(tempRoot, "DESIGN.md");
   const registryTarget = resolve(tempRoot, ".opencode", "design-system", "registry.md");
+  const catalogTarget = resolve(tempRoot, ".opencode", "design-system", "catalog.json");
   if (!existsSync(designTarget) && existsSync(designTemplate)) {
     copyFileSync(designTemplate, designTarget);
   }
   if (!existsSync(registryTarget) && existsSync(registryTemplate)) {
     ensureDir(resolve(tempRoot, ".opencode", "design-system"));
     copyFileSync(registryTemplate, registryTarget);
+  }
+  if (!existsSync(catalogTarget) && existsSync(catalogTemplate)) {
+    ensureDir(resolve(tempRoot, ".opencode", "design-system"));
+    copyFileSync(catalogTemplate, catalogTarget);
   }
 
   writeFileSync(resolve(tempRoot, "AGENTS.md"), initHarnessGeneratedAgents);

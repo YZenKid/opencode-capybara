@@ -1,0 +1,57 @@
+{
+  "id": "lane-switch-active-context-positive",
+  "category": "transcript-behavior",
+  "classification": "good",
+  "releaseCritical": true,
+  "description": "Positive sentinel: after `@artifact-planner` finishes, `@orchestrator` refreshes active-lane context, delegates bounded implementation to `@fixer`, routes material completion through `@quality-gate`, and does not inherit planner read-only restrictions.",
+  "expectedReasonCodes": [],
+  "expectedScoreRange": [4, 5],
+  "events": [
+    {
+      "agent": "orchestrator",
+      "action": "delegate_plan",
+      "delegatedTo": "artifact-planner",
+      "nonTrivial": true,
+      "notes": "route non-trivial feature to artifact-planner first"
+    },
+    {
+      "agent": "artifact-planner",
+      "action": "plan",
+      "nonTrivial": true,
+      "notes": "wrote .opencode/plans/feature-xyz.md with handoff contract for implementation"
+    },
+    {
+      "agent": "orchestrator",
+      "action": "delegate_implementation",
+      "delegatedTo": "fixer",
+      "nonTrivial": true,
+      "notes": "active lane refreshed after planner handoff; delegate bounded implementation to fixer"
+    },
+    {
+      "agent": "fixer",
+      "action": "implement",
+      "fileCount": 3,
+      "nonTrivial": true,
+      "notes": "implemented bounded slice from approved planner handoff"
+    },
+    {
+      "agent": "orchestrator",
+      "action": "delegate_review",
+      "delegatedTo": "quality-gate",
+      "material": true,
+      "notes": "material completion requires final quality-gate review"
+    },
+    {
+      "agent": "quality-gate",
+      "action": "review",
+      "material": true,
+      "notes": "PASS: evidence and routing discipline satisfied"
+    },
+    {
+      "agent": "orchestrator",
+      "action": "complete",
+      "material": true,
+      "notes": "Ringkasan: implementasi selesai, sudah lewat quality-gate, lanjut bila perlu follow-up kecil."
+    }
+  ]
+}

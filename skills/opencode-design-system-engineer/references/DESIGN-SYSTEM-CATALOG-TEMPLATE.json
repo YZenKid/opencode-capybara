@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "description": "Design-system catalog for this project. Keep tokens, primitives, components, and patterns registered so quality gates and reuse enforcers can reason about the system.",
+  "tokens": [],
+  "primitives": [],
+  "components": [],
+  "patterns": []
+}
