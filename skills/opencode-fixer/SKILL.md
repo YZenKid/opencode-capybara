@@ -54,6 +54,41 @@ For canonical tool policy and boundaries, refer to:
 | Architecture/product/security tradeoff | `@architect`/`@oracle` |
 | Final conformance/risk decision | `@quality-gate` |
 
+## Comment Policy
+
+This lane is the source of truth for comment rules. All implementation lanes follow this policy.
+
+**Rules:**
+
+- **Zero inline comments** in function bodies, struct/field definitions, hooks, render logic, or component code.
+- **Doc comments allowed** only on exported/public symbols: functions, types, classes, components, hooks. One short paragraph (`/** ... */`) is enough.
+- **Section heading doc comments** in markdown/yaml allowed (HTML-style, 1 line).
+- If verbose comments already exist, summarize or delete them before claiming done.
+
+**Good:**
+
+```ts
+export function parseToken(raw: string): Token {
+  ...
+}
+```
+
+**Bad:**
+
+```ts
+export function parseToken(raw: string): Token {
+  // First check if raw string is not empty
+  // because empty input would cause downstream errors
+  // and we want to fail fast with clear message
+  if (!raw) throw new Error("empty");
+  // Then strip whitespace before parsing
+  const trimmed = raw.trim();
+  ...
+}
+```
+
+The "Bad" example has 6+ lines of inline comments explaining business rules that should live in tests, PR description, or docs, not function body.
+
 ## Workflow
 
 1. Confirm scope, plan/handoff, constraints, and validation path.
@@ -61,7 +96,7 @@ For canonical tool policy and boundaries, refer to:
 3. Reproduce Red state with a failing test, regression proof, or baseline evidence when practical.
 4. Make the smallest safe change that can get to Green.
 5. Refactor only after checks pass and avoid unrelated churn.
-6. **Comment Verbosity Gate**: Do not add extensive inline comments inside function bodies, struct/field definitions, or component code explaining business rules, validation contracts, or API flows. Doc comments (PHPDoc/JSDoc/GoDoc/docblocks) above public functions, types, or exported symbols are OK and encouraged. Inline comments must be max 1-3 lines and only for truly non-obvious logic. If verbose comments already exist, summarize or delete them before claiming done.
+6. Enforce Comment Policy (see `## Comment Policy` above).
 7. Run targeted verification and record changed files, evidence, and residual risks.
 
 ## Red → Green → Refactor
@@ -124,6 +159,7 @@ Report files changed plus Red, Green, Refactor, Verification. For UI animation w
 - [ ] Existing project patterns reused before new abstractions.
 - [ ] Tests/validation updated for behavior changes.
 - [ ] Residual risks and assumptions recorded.
+- [ ] Comment Policy satisfied (see `## Comment Policy`).
 - [ ] Non-trivial completion routed to `@quality-gate`.
 
 ## Anti-patterns
@@ -133,7 +169,7 @@ Report files changed plus Red, Green, Refactor, Verification. For UI animation w
 - Claiming completion while known failing checks remain unexplained.
 - Hand-building framework artifacts that a generator could produce.
 - Skipping stack docs and relying on memory for framework behavior.
-- **Verbose inline comments**: Do not add multi-line comments inside function/struct/component bodies explaining business rules, validation contracts, or API flows. Doc comments above public functions/types are OK. Inline comments must be 1-3 lines max, only for truly non-obvious logic. Move long explanations to PR description, tests, or external docs.
+- **Verbose inline comments** — see `## Comment Policy` for the rule and good/bad examples.
 
 ## Output example
 

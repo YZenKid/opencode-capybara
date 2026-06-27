@@ -208,18 +208,15 @@ Project-local `DESIGN.md` overrides these defaults.
 
 ### Mechanical anti-AI-slop preflight
 
-Run before output or handoff. Treat context-aware failures as `needs-polish` or blocker for readiness claims.
+Run before output or handoff. Failures map to `needs-polish` or blocker. Concrete examples: see `references/slop-examples.md`.
 
-- Hero fit: above-fold hero fits initial viewport; no cropped primary CTA/content.
-- Nav single-line: desktop nav and primary actions do not wrap or collide.
-- CTA contrast/wrap/duplicate intent: CTAs meet contrast, do not wrap on desktop, and avoid duplicated same-intent buttons.
-- Eyebrow restraint: avoid repetitive eyebrow labels; max roughly `ceil(sectionCount / 3)` unless design system says otherwise.
-- Layout repetition: avoid same card/grid rhythm every section; vary section anatomy with purpose.
-- Image strategy: every visual section declares `generate`, `use-provided-assets`, `licensed-existing-assets`, or `no-generation-needed`.
-- Motion motivation: every non-trivial motion explains meaning and chosen API/system.
-- Reduced-motion: support `prefers-reduced-motion` or platform equivalent.
-- AI tells: reject default purple/blue glow, fake dashboards, vague neon blobs, emoji icons, random serif/display type, placeholder frames, numeric-only service icons, and cloned reference visuals.
-- Explicit aesthetic fidelity: verify requested style grammar is visible in tokens, surfaces, layout, hero, copy, and assets; mismatch is not pure taste.
+- **Hero & CTA**: hero fits initial viewport without cropping primary CTA; nav stays single-line on desktop; CTAs meet contrast and don't duplicate intent.
+- **Section variety**: vary section anatomy by purpose; reject same card/grid rhythm across 3+ sections.
+- **Image strategy**: every visual section declares `generate`, `use-provided-assets`, `licensed-existing-assets`, or `no-generation-needed`.
+- **Motion**: every non-trivial motion explains meaning; support `prefers-reduced-motion` or platform equivalent.
+- **AI tells**: reject default purple/blue glow, fake dashboards, vague neon blobs, emoji icons, placeholder frames, numeric-only service icons, and cloned reference visuals.
+- **Eyebrow restraint**: avoid repetitive eyebrow labels; max roughly `ceil(sectionCount / 3)` unless design system says otherwise.
+- **Style fidelity**: verify requested style grammar is visible in tokens, surfaces, layout, hero, copy, and assets; mismatch is not pure taste.
 
 ### Generation taste contract
 
