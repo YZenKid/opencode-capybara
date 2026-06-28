@@ -57,7 +57,7 @@ Bounded backend implementation lane for APIs, services, validation, auth integra
 - Full playbook lives in matching skill `opencode-backend`.
 
 ## Workflow
-1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial implementation. If missing or stale, run `/init-harness` or route to `@librarian` for current stack docs — do not implement blind.
+1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial implementation. If missing or stale, run `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) or route to `@librarian` for current stack docs — do not implement blind. The `/init-harness` command is the source of truth for what these docs contain; agents do not redefine it.
 2. **Best practice verification**: For non-trivial or version-sensitive work, verify current stack best practice via `@librarian`/context7 before coding. Do not rely on memory for framework/library behavior. Record which docs/version were checked.
 3. Map existing API/data patterns and contracts.
 4. Add failing/regression tests where feasible.

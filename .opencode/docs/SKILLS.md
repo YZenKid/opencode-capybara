@@ -48,6 +48,28 @@ Senior external reference map: `SENIOR_SKILLS_REFERENCES.md`. Marketplace skills
 
 Compatibility note: merged skill names are now canonical for routing. Legacy merged-away skills (accessibility/platform/product/AI/security/UI-system/visual-parity reviewer variants plus build/general) are intentionally removed from active routing.
 
+## UI/UX design system source of truth (Open Design integration)
+
+Substantial UI work (greenfield, design revamp, reference parity, image-heavy, or taste-sensitive surfaces) **must anchor to the Open Design catalog** (`https://open-design.ai`):
+
+- 150 design systems: `https://open-design.ai/plugins/systems/`
+- 290 templates: `https://open-design.ai/plugins/templates/`
+- Format: single-file `DESIGN.md` (Apache-2.0) per system — adopted as the project's `DESIGN.md` v2 schema.
+
+Local cache: `.opencode/catalog/INDEX.md` (≥150 entries with license per entry). Index is seeded by `python3 ~/.config/opencode/scripts/design-source-importer.py --init`.
+
+Lane obligations under this policy:
+
+- `@designer` — pick from the catalog (1 system + 1 template minimum) before producing any substantial UI artifact. Cite in `.opencode/evidence/<task-id>/catalog-decision.md` and in the visual contract's `catalog_citation` block. Deviation from the cited system requires a `deviation_audit` entry.
+- `@frontend` / `@mobile` — implement from the cited catalog. Load tokens from `.opencode/catalog/<active-system>/tokens.{css,json}` (do not re-derive from memory). Cite catalog source in PR/evidence.
+- `@design-system-engineer` — when adding new shared tokens/primitives, search the catalog first via `python3 ~/.config/opencode/scripts/catalog-search.py`. Use `design-system-fork.py` when extending a catalog system.
+- `@quality-gate` — for substantial UI, `visual-quality-contract.md` must contain `catalog_citation`. Missing → `NEEDS_FIX` (mechanical, not taste). Token parity and deviation count rows in `visual-rubric.md` are mechanical checks.
+- `@orchestrator` — on `greenfield` or `substance=substantial UI` tasks, verify `catalog-decision.md` exists before routing to `@frontend`/`@mobile`.
+
+Exemptions: tiny/reversible UI tweaks, non-visual changes, and projects with their own private brand kit (private kits extend catalog, never replace).
+
+Meta-skill: `ui-ux-pro-max` is auto-loaded for substantial UI work and contains the cross-lane UI/UX playbook + catalog index pointer.
+
 ## Contract expectations
 Every skill should provide:
 - frontmatter `name` and `description`,

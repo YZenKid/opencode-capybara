@@ -55,6 +55,38 @@ This lane consumes design handoff from `@designer` and shared primitives from `@
 - If layout/composition/imagery/state direction is still under-specified, stop and route back to `@designer` instead of filling gaps with generic cards, hero blocks, gradients, or placeholder polish.
 - For explicit aesthetics, implement from style grammar/blueprint only. If user phrase -> tokens -> surfaces -> layout rules -> reject_if is missing or final UI would mismatch it, route back to `@designer`; do not invent generic cards, glass, neon, gradient SaaS, or clay/glass fallback.
 
+## Token-First Implementation (v2 — Open Design integration)
+
+For substantial UI work, `@frontend` implements from the **cited catalog system**'s tokens, not from memory or ad-hoc decisions. Reference: `.opencode/docs/SKILLS.md` §"UI/UX design system source of truth".
+
+**Token source-of-truth:**
+
+1. The canonical token file is `.opencode/catalog/<active-system>/tokens.json` (or its generated equivalent at `.opencode/generated-design/tokens.{json,css,tailwind.config.js}`).
+2. Components reference these via:
+   - Tailwind: `tailwind.config.js` extends `theme.colors` from the token generator output.
+   - CSS: `:root { --color-ink: #...; ... }` from `tokens.css`.
+   - CSS-in-JS: import the JSON.
+3. **No inline `#hex` in component code.** If you need a color, it's a token, and tokens come from the cited system. Exception: one-off values that are clearly labeled `/* one-off */` and reviewed by `@designer`.
+
+**Catalog citation in evidence:**
+
+- Every material UI change must cite the catalog template the section anatomy came from (e.g. `Following example-aerocore hero anatomy with one deviation per deviation_audit`).
+- Token usage is mechanically checked: `python3 ~/.config/opencode/scripts/visual-audit-check.py --contract <contract.md> --token-parity` reports parity percentage.
+
+**Pattern-aware component selection:**
+
+Instead of "use shadcn Card", the instruction becomes "use `<CatalogTemplate>/components/Card.tsx` (adapted from `example-aerocore` if a Bento-style is needed)". Prefer catalog-template-derived component anatomy over generic primitives.
+
+**Push-back authority for catalog gaps:** if `DESIGN.md` exists for a substantial-UI project but does not cite an Open Design source (no `Source & Provenance` block, no `open-design.ai` URL), `@frontend` MUST write `design_pushback.md` asking `@designer` to add a catalog citation. Do not silently implement a template-feeling design.
+
+**Workflow (v2 amendments):**
+
+1. Read `DESIGN.md` and verify it cites the catalog (v2 schema).
+2. If not, push back via `design_pushback.md` and stop.
+3. Load tokens from `.opencode/catalog/<active-system>/tokens.{json,css}` (or generated equivalent).
+4. Implement from the cited template's section anatomy; cite the template in PR/evidence.
+5. Run `visual-audit-check.py --contract <contract> --token-parity` before claiming done; if parity < 80% or any `must_avoid_token` is found, fix or push back.
+
 ## Design Push-Back Authority
 
 Frontend must push back on design handoff when:
@@ -67,11 +99,14 @@ Frontend must push back on design handoff when:
 - Design omits professionalism/trust anchors for org/community/craft work (real contact readiness, address/location/context, legal/org identity)
 - Design omits meaningful motion/feedback and the surface feels dead/template-static
 - Design handoff is missing structured fields: `must_show`, `must_not_show`, `reject_if`, `fake_warmth_patterns`, `template_smells` for major surfaces
+- **Design handoff lacks `catalog_citation` block for substantial UI** (v2 — see §"Token-First Implementation (v2)")
+- **Design uses tokens that don't match `must_use_tokens` from the contract** (v2)
 
 Push-back is not optional. If design handoff fails domain texture or reference feel parity, route back to `@designer` with explicit feedback:
 - What feels missing (warmth, humanity, domain texture, real photography)
 - What reference essence was not captured
 - What specific sections need rework
+- **For v2: what catalog citation is missing or what tokens are not from the cited system**
 
 **Structured pushback artifact is mandatory when pushing back.**
 Write `.opencode/evidence/<task-id>/design_pushback.md` with:
@@ -98,7 +133,7 @@ Do not silently implement a template-feeling design when domain requires lived r
 
 ## Workflow
 1. Inspect local frontend structure, design guidance, current UI evidence, references, and existing components.
-2. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial implementation. If missing or stale, run `/init-harness` or route to `@librarian` for current stack docs — do not implement blind.
+2. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial implementation. If missing or stale, run `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) or route to `@librarian` for current stack docs — do not implement blind. The `/init-harness` command is the source of truth for what these docs contain; agents do not redefine it.
 3. **Best practice verification**: For non-trivial or version-sensitive work, verify current framework/library best practice via `@librarian`/context7 before coding. Do not rely on memory for React/Next/Vue/Svelte/Tailwind ecosystem behavior. Record which docs/version were checked.
 4. Confirm API/data contracts and state boundaries.
 5. Confirm implementation basis for each major UI decision: project design docs, designer blueprint/handoff, reference pack, or current UI pattern.

@@ -54,7 +54,7 @@ Narrow vertical-slice implementation lane for small, tightly-coupled frontend/ba
 - Prefer contract-preserving changes and shared naming/data patterns across both sides of the slice.
 
 ## Workflow
-1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial implementation. If missing or stale, run `/init-harness` or route to `@librarian` for current stack docs — do not implement blind.
+1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial implementation. If missing or stale, run `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) or route to `@librarian` for current stack docs — do not implement blind. The `/init-harness` command is the source of truth for what these docs contain; agents do not redefine it.
 2. **Best practice verification**: For non-trivial or version-sensitive work, verify current frontend/backend stack best practice via `@librarian`/context7 before coding. Do not rely on memory for framework/library behavior. Record which docs/version were checked.
 3. Confirm vertical slice, API contract, and UI state.
 4. Add focused regression/test coverage where feasible.

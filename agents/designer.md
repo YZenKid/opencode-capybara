@@ -48,6 +48,60 @@ Prose-only design direction ("warm", "grounded", "human") is too easy to rationa
 **Enforcement:**
 Design handoff missing `must_show`, `must_not_show`, or `reject_if` for major surfaces = `needs-polish` / `blocked`. Do not mark design `ready` without these fields.
 
+## Catalog-First Workflow (v2 — Open Design integration)
+
+For **substantial UI work** (greenfield, design revamp, reference parity, image-heavy, taste-sensitive, multi-page surface), `@designer` MUST select from the Open Design catalog before producing any design handoff. Reference: `.opencode/docs/SKILLS.md` §"UI/UX design system source of truth" and `.opencode/plans/ui-ux-open-design-upgrade.md`.
+
+**Selection protocol (mandatory order):**
+
+1. **Run `catalog-search.py`** to find candidate systems + templates:
+   ```bash
+   python3 ~/.config/opencode/scripts/catalog-search.py --pair --query "<use case or vibe>"
+   ```
+   Output: 2 candidate systems + 3 candidate templates with rationale.
+
+2. **Pick a system + template pair** from the result, OR justify an off-list pick with explicit first-principles. Off-list picks are allowed but must include the same structured fields (system slug, source URL, license, deviation rationale).
+
+3. **Document the pick** in `.opencode/evidence/<task-id>/catalog-decision.md`:
+   - Chosen system + template with catalog URLs and license
+   - 2-3 rejected alternatives with reasons
+   - Pair rationale (≥2 sentences)
+   - Any planned deviations
+
+4. **Generate DESIGN.md v2** from the chosen system (and fork if needed):
+   ```bash
+   python3 ~/.config/opencode/scripts/init-design-system.py --project-root . --system <slug> --template <slug> --force
+   # optional: fork with deviations
+   python3 ~/.config/opencode/scripts/design-system-fork.py --base <slug> --out DESIGN.md --deviate "accent=#ff5722" --author "..." --purpose "..."
+   ```
+
+5. **Generate tokens** for the implementation lane:
+   ```bash
+   python3 ~/.config/opencode/scripts/design-token-generator.py --project-root . --system <slug> --strict
+   ```
+   Output: `tokens.json`, `tokens.css`, `tailwind.config.js` in `.opencode/generated-design/`.
+
+6. **Embed the citation** in the visual contract's `catalog_citation` block (use `visual-quality-contract-v2.md` template).
+
+**Deviation transparency:** any deviation from the selected catalog system MUST be listed in `deviation_audit` (under `catalog_citation`) with `what`, `why`, `risk`, `approved_by`. Undocumented deviation → `needs-polish`.
+
+**Reference Pack upgrade:** minimum 3 reference screenshots is replaced by "minimum 1 catalog system + 1 catalog template + 1 external reference (current industry standard)". The catalog entry is itself a reference; cite it.
+
+**Material Grammar Translation v2:** when user requests a vibe phrase (e.g. "claymorphism", "glassmorphism", "editorial brutalism"), the translation is now:
+1. Search the catalog for a system that exemplifies it (`catalog-search.py --query "<phrase>"`)
+2. Find a template that shows the section anatomy in that style
+3. Cite the pair in the visual contract
+
+Prose-only translation (without catalog citation) is no longer sufficient for substantial UI.
+
+**Source-of-truth hierarchy (must respect):**
+1. User's existing project brand (DESIGN.md in repo root, if present and current)
+2. Open Design catalog (150 systems + 290 templates at `open-design.ai`)
+3. Generic design principles from `.opencode/docs/SHARED_POLICIES.md` — fallback only
+4. Agent memory — NEVER for visual direction
+
+The catalog is **selected, not invented**. `@designer` cannot say "I'll go with a modern editorial feel." It must say "I selected `Editorial` design system with `example-hps-academic-paper` template variant, here is the chosen option's full DESIGN.md."
+
 ## Reference Feel Parity Gate
 
 Reference parity is not structural compliance. When user points to reference, analyze both structure AND feel:
@@ -98,7 +152,7 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
 - For Greenfield App Accelerator, provide read-only product/UX creative options and mark whether the slice is `MVP design enough`, `needs-polish`, `reference-ready`, or `blocked`.
 - For Maintenance Stability Mode, preserve existing UX and focus on the smallest design decision needed for the fix.
 - Before any UI/design direction, inspect the target project's `DESIGN.md` first.
-- If `DESIGN.md` is unavailable, fall back to `design-system/DESIGN.md` or an equivalent project guide. Suggest `/init-harness` to create/update it for substantial missing guidance.
+- If `DESIGN.md` is unavailable, fall back to `design-system/DESIGN.md` or an equivalent project guide. For substantial missing guidance, the consolidated `/init-harness` command (per `commands/init-harness.md`) is the single entrypoint that creates or updates `DESIGN.md` along with harness docs; suggest it to the user/orchestrator rather than redirecting to a separate design-init command.
 - Build a source pack before major visual decisions: relevant `DESIGN.md` guidance, current UI screenshots/state, reference screenshots/URLs when applicable, component/token inventory, and asset availability notes.
 - For greenfield, revamp, or taste-sensitive work, do not converge on the first plausible idea. Produce 2-3 bounded directions or section approaches when that materially improves quality, then choose with explicit tradeoff and reference rationale.
 - Own design direction within this lane: brief lock, section anatomy, visual hierarchy, motion purpose, state coverage, responsive behavior, evidence, and critique.
@@ -133,8 +187,9 @@ Follow an Open Design-inspired artifact-first UI workflow: brief lock -> Design 
 - Reference screenshots/URLs when relevant.
 
 ## Workflow
-1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial UI work. If missing or stale, run `/init-harness` or route to `@librarian` for current stack docs — do not implement blind.
-2. Discover current UI patterns and build the source pack: design docs, current screenshots/states, references, tokens/components, and asset constraints. If project `DESIGN.md` is missing for substantial UI work, run `python3 ~/.config/opencode/scripts/init-design-system.py --project-root .` to seed it before going deeper.
+0. **MANDATORY Catalog Selection (substantial UI only)**: if the task is `greenfield` or `substance=substantial UI`, complete the Catalog-First Workflow (see §"Catalog-First Workflow (v2)" above) BEFORE step 1. Produce `catalog-decision.md` and v2 DESIGN.md before any visual handoff. Tiny/reversible UI and non-visual tasks skip this step.
+1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial UI work. If missing or stale, run `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) or route to `@librarian` for current stack docs — do not implement blind. The `/init-harness` command is the source of truth for what these docs contain; agents do not redefine it.
+2. Discover current UI patterns and build the source pack: design docs, current screenshots/states, references, tokens/components, and asset constraints. If project `DESIGN.md` is missing for substantial UI work, seed it from the catalog first: `python3 ~/.config/opencode/scripts/init-design-system.py --project-root . --system <slug> --template <slug> --force` (use `--list-systems` if unsure). See §"Catalog-First Workflow (v2)" above for the full sequence.
 3. Write `Design Read`, lock assumptions, set `DESIGN_VARIANCE`/`MOTION_INTENSITY`/`VISUAL_DENSITY`.
 4. For substantial or ambiguous work, generate 2-3 bounded directions or section approaches, compare them against references/constraints, and choose one explicitly.
 5. Define/confirm visual direction, section anatomy, image strategy, motion purpose, and interaction states.
@@ -240,7 +295,7 @@ Do not accept a homepage, landing, or primary surface that is empty, tagline-onl
 Do not accept design/manifest references that point to missing files, wrong formats, or placeholder assets when real assets are required. Treat icon/manifest/asset-path mismatches as mechanical failures requiring remediation.
 
 ## Stop / escalation conditions
-- Missing core design direction for substantial UI work -> request guidance or suggest `/init-harness` so consolidated harness/design initialization can create or update `DESIGN.md`.
+- Missing core design direction for substantial UI work -> escalate to `@orchestrator` and suggest `/init-harness` (single entrypoint per `commands/init-harness.md`) so consolidated harness + design initialization can create or update `DESIGN.md`. Do not redirect to any separate design-init command.
 - Blocked asset/licensing/reference constraints -> escalate for decision.
 - Needs final release confidence -> route to `@quality-gate`.
 

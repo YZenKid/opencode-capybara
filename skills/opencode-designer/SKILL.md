@@ -186,7 +186,7 @@ Adapt useful Open Design patterns locally; do not paste upstream wholesale or cl
 | `taste-skill` | Write `Design Read`; set `DESIGN_VARIANCE`, `MOTION_INTENSITY`, `VISUAL_DENSITY`; run mechanical anti-slop checks. |
 | `design-brief` | Convert vague ask into palette, accent, typography, display, layout, mood, density, assets, platform, constraints, and defaults. |
 | `reference-design-contract` | Split references into `Keep`, `Change`, `Do not copy`; preserve intent by default, but under Source-approved 1:1 Porting / Literal Porting Contract exact layout/component/class anatomy, tokens, and code structure may be preferred when the user explicitly approved/licensed the source. Protected assets, fake testimonials/claims, restricted logos/trademarks, privacy/security hazards, and unsafe copied behavior still remain blocked. |
-| `design-md` | Treat project `DESIGN.md` as design source of truth and create/update it through `/init-harness` when substantial guidance is missing. |
+| `design-md` | Treat project `DESIGN.md` as design source of truth and create/update it through `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) when substantial guidance is missing. |
 | `web-design-guidelines` | Apply layout/type/color/motion/a11y basics before taste flourishes. |
 | `design-review` | Score critique with evidence; state what a 10/10 would require; flag AI slop. |
 | `plan-design-review` | Require before/after screenshot plan and viewport/state evidence for substantial visual work. |
@@ -227,7 +227,7 @@ For UI, image, mockup, hero, thumbnail, avatar, badge, or background generation:
 
 1. Brief lock: target surface, audience, brand, constraints, platform, assets, acceptance.
 2. Design Read and dials.
-3. Read `DESIGN.md` first; fallback `design-system/DESIGN.md`; suggest `/init-harness` for substantial missing guidance so the consolidated harness/design initialization can create or update project-local guidance.
+3. Read `DESIGN.md` first; fallback `design-system/DESIGN.md`; suggest `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) for substantial missing guidance so consolidated harness/design initialization can create or update project-local guidance. Do not redirect to any separate design-init command.
 4. Manifest/art direction: section title, semantic subject, composition, palette/light, medium, dimensions, alt/decorative strategy, legal notes, integration notes, `quality_bar`, `reject_if`.
 5. Reference contract when applicable: `keep`, `change`, `do_not_copy`.
 6. Execute generation only after manifest is art-directed; prefer visual-asset-generator/9router saved asset path.
@@ -269,7 +269,7 @@ Required blueprint sections:
 - The target project's own `DESIGN.md` is the first design authority; project-local guidance wins over generic taste.
 - Use a 9-section DESIGN.md mental model for design-system reasoning: visual atmosphere, color roles, typography rules, component styling, layout principles, depth/elevation, do/don't rules, responsive behavior, and agent prompt guidance.
 - Map design-system input to existing project tokens, components, and breakpoints first; extend only when gaps are real.
-- If substantial UI/design work has no project-local design guide, recommend `/init-harness` before inventing a new visual direction so the consolidated harness/design initialization can create or update `DESIGN.md`.
+- If substantial UI/design work has no project-local design guide, recommend `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) before inventing a new visual direction so consolidated harness/design initialization can create or update `DESIGN.md`.
 - Existing project design systems and tokens win over generic taste.
 
 If any required blueprint section is missing for substantial work, return `blocked` or `needs-polish`; do not mark the design `ready`.
@@ -283,7 +283,7 @@ If any required blueprint section is missing for substantial work, return `block
 
 ## Workflow
 
-1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial UI work. If missing or stale, run `/init-harness` or route to `@librarian` for current stack docs — do not implement blind.
+1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial UI work. If missing or stale, run `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) or route to `@librarian` for current stack docs — do not implement blind.
 2. Inspect target project's `DESIGN.md` first. If absent, run `python3 ~/.config/opencode/scripts/init-design-system.py --project-root .` to seed `DESIGN.md` and `.opencode/design-system/registry.md` from templates.
 3. Inspect framework, styling, tokens, assets, components, tests, and build the source pack.
 3. **DESIGN.md reference**: If creating or updating `DESIGN.md`, use `references/DESIGN-MD-TEMPLATE.md` as the canonical structure to ensure all 9 sections are covered.

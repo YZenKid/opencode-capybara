@@ -38,6 +38,37 @@ Bounded mobile implementation lane for React Native, Expo, Flutter, native navig
 
 This lane consumes design handoff from `@designer` and shared primitives/themes from `@design-system-engineer`. It should not invent visual direction when the design basis is missing.
 
+## Mobile Catalog Selection (v2 — Open Design integration)
+
+For substantial mobile UI, `@mobile` requires `@designer` to select a **mobile-tested** catalog system, or document the translation risk. Reference: `.opencode/docs/SKILLS.md` §"UI/UX design system source of truth".
+
+**Mobile-tested systems (preferred)**: `apple-hig`, `material-you`, `telegram`, `discord`, `spotify`, `tiktok`, `notion`. These have mobile-first token systems and section anatomies that survive a phone viewport.
+
+**Desktop-only systems (require explicit translation risk note in `deviation_audit`)**: `linear`, `vercel`, `github`, `supabase`, `stripe`, `editorial`. Section anatomies that work on desktop (e.g. multi-column hero, sticky sidebar) MUST be translated to mobile patterns (single column, bottom sheet) and the translation rule cited.
+
+**Workflow (v2 amendments):**
+
+1. Read `DESIGN.md` and the visual contract; verify catalog citation is present and the system is mobile-tested (or translation risk is documented).
+2. If the system is desktop-only, write a translation note in the PR/evidence: which desktop sections become which mobile patterns.
+3. Implement from the cited template's mobile-friendly section anatomy.
+4. Run `visual-audit-check.py --contract <contract> --token-parity` before claiming done.
+
+**Native token parity:** if a design system is selected, the iOS/Android theme variables MUST be generated from the same token source. The `design-token-generator.py` script emits CSS + Tailwind + JSON; for mobile, derive:
+
+- **iOS (Swift)**: `UIColor` extensions in `Theme.swift` with hex values from `tokens.json`.
+- **Android (Kotlin)**: `color.xml` resources + Compose `Color` object, both from `tokens.json`.
+- **React Native**: `colors.ts` that re-exports `tokens.json`.
+- **Flutter**: `Color` constants in `app_colors.dart` from `tokens.json`.
+
+Until the iOS/Android theme generation is automated (post-slice work), `@mobile` must hand-write these from `tokens.json` and document the manual step in the PR.
+
+**Platform anti-patterns (v2 — must reject):**
+
+- "Material You dynamic color override": the catalog system wins by default. User must explicitly opt in.
+- "iOS native-feel on Android" or vice versa: each platform gets its own idiom unless the design system explicitly calls for cross-platform chrome.
+- "Desktop hero parallax on mobile": parallax and other motion that performs poorly on mobile are removed in translation, with `deviation_audit` entry.
+- "Touch target < 44x44pt": reject; catalog systems are expected to enforce minimum touch targets.
+
 ## Use when
 - Task targets native or hybrid mobile app code.
 - Work involves platform permissions, mobile navigation, store constraints, device behavior, or mobile UI implementation.
@@ -59,7 +90,7 @@ This lane consumes design handoff from `@designer` and shared primitives/themes 
 - Full playbook lives in matching skill `opencode-mobile`.
 
 ## Workflow
-1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial implementation. If missing or stale, run `/init-harness` or route to `@librarian` for current stack docs — do not implement blind.
+1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial implementation. If missing or stale, run `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) or route to `@librarian` for current stack docs — do not implement blind. The `/init-harness` command is the source of truth for what these docs contain; agents do not redefine it.
 2. **Best practice verification**: For non-trivial or version-sensitive work, verify current mobile stack best practice via `@librarian`/context7 before coding. Do not rely on memory for Expo/React Native/Flutter/native API behavior. Record which docs/version were checked.
 3. Identify stack and platform targets.
 4. Inspect navigation, permission, offline, and build config patterns.

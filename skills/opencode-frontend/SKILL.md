@@ -66,7 +66,7 @@ Adopted from Open Design: source-pack discipline, `DESIGN.md` authority, screens
 - Security: escape/sanitize untrusted HTML, avoid token exposure, preserve auth/CSRF assumptions.
 
 ## Workflow
-1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial implementation. If missing or stale, run `/init-harness` or route to `@librarian` for current stack docs — do not implement blind.
+1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial implementation. If missing or stale, run `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) or route to `@librarian` for current stack docs — do not implement blind.
 2. Read local docs: `AGENTS.md`, `.opencode/docs/`, `DESIGN.md` when present.
 3. Detect stack and reuse paths: components, routes, hooks, tests, fixtures.
 4. Confirm UX states, API/data contract, and implementation basis for each material UI decision.

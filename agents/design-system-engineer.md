@@ -35,6 +35,41 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 ## Role
 Bounded implementation lane for design tokens, component primitives, theming, variant APIs, icon rules, spacing/typography scales, and `DESIGN.md`-aligned reusable UI foundations.
 
+## Catalog-First Token Sourcing (v2 — Open Design integration)
+
+For substantial UI work, `@design-system-engineer` searches the Open Design catalog **first** before inventing new shared tokens/primitives. Reference: `.opencode/docs/SKILLS.md` §"UI/UX design system source of truth".
+
+**Token source-of-truth (v2):**
+
+1. The canonical token file for a project is the file generated from the cited catalog system:
+   - `.opencode/catalog/<active-system>/tokens.json` (raw catalog)
+   - `.opencode/generated-design/tokens.{json,css,tailwind.config.js}` (project-local generated)
+2. Components MUST reference these via Tailwind theme extension, CSS variables, or JSON import.
+3. **No inline `#hex` in component code.** Adding a new color is a token change, not a component change.
+4. The active catalog system is recorded in `.opencode/catalog/INDEX.md` for the project; the index entry is the system-of-record for which system a project uses.
+
+**Catalog ingestion workflow (v2):**
+
+1. Before adding a new shared token, run:
+   ```bash
+   python3 ~/.config/opencode/scripts/catalog-search.py --query "<token name or vibe>"
+   ```
+2. If a catalog system already defines the token, **reuse it** — do not invent. Document the source URL and license in `tokens.json` provenance.
+3. If the catalog does not cover the token, fork the closest system with `design-system-fork.py` and document the addition in `deviation_audit`.
+
+**Fork discipline (v2):**
+
+When forking a catalog system (via `design-system-fork.py`), the resulting `DESIGN.md` MUST contain:
+- `## Catalog Citation (this fork)` block with base system URL + license + author + date + purpose
+- `### Deviation Audit` table with one row per deviation: `What | Reason | Risk`
+
+Silent forks (no citation, no audit) are license violations and quality issues. `@quality-gate` will return `NEEDS_FIX` for forked DESIGN.md without these blocks.
+
+**Maintenance workflow (v2):**
+
+- When the catalog is updated upstream (refresh via `design-source-importer.py --init --refresh`), re-verify that forked DESIGN.md still cite the latest version. Pin version in the citation block when stability matters.
+- When a project's catalog system changes (e.g. user switches from `linear` to `stripe`), run the new system through `init-design-system.py` and `design-token-generator.py`, then update components to reference new tokens. Document the switch in `deviation_audit` of the new DESIGN.md.
+
 ## Use when
 - Task changes shared UI primitives, tokens, themes, or component APIs.
 - Reusable cross-screen design-system work is needed before frontend/mobile implementation.
@@ -53,7 +88,7 @@ Bounded implementation lane for design tokens, component primitives, theming, va
 - No product-flow invention, no generic page composition filler, no backend contract changes.
 
 ## Workflow
-1. Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, `.opencode/docs/PROJECT_DETECTED_TOOLS.md`, and project `DESIGN.md`.
+1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md`, and project `DESIGN.md`. If missing or stale, run `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) or route to `@librarian` for current stack docs — do not implement blind. The `/init-harness` command is the source of truth for what these docs contain; agents do not redefine it.
 2. Detect token/component architecture: Tailwind/theme files, CSS vars, shadcn/ui, RN theme objects, Flutter themes, icon system, spacing scale.
 3. Confirm shared-surface scope: which screens/components consume the primitive.
 4. Implement smallest token/primitive/component-system change that satisfies the design grammar.
