@@ -65,6 +65,15 @@ Adopted from Open Design: source-pack discipline, `DESIGN.md` authority, screens
 - Performance: avoid needless client bundles, waterfalls, layout shift, unbounded lists, heavy sync work in render.
 - Security: escape/sanitize untrusted HTML, avoid token exposure, preserve auth/CSRF assumptions.
 
+## Pre-flight Skill & MCP Discovery
+Before the first substantial answer, diagnosis, route, or implementation step on non-trivial work:
+- Name the skill explicitly (`Skill I'm using: ...`).
+- Decide MCP applicability explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
+- If an MCP is obviously applicable, use it or record a concrete skip reason. Silent skip is a defect.
+- At final summary time, name one concrete thing this skill changed about execution. Loaded-but-unused skill is a process defect.
+
+ponytail: This is a behavioral contract. Use `scripts/session-trace-audit.py` as the advisory checker until transcript hooks become first-class.
+
 ## Workflow
 1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial implementation. If missing or stale, run `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) or route to `@librarian` for current stack docs — do not implement blind.
 2. Read local docs: `AGENTS.md`, `.opencode/docs/`, `DESIGN.md` when present.

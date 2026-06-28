@@ -209,6 +209,15 @@ Before starting any non-trivial task in a project:
   python3 ~/.config/opencode/scripts/project-memory.py --list-proposals
   ```
 
+## Pre-flight Skill & MCP Discovery
+Before the first substantial answer, diagnosis, route, or implementation step on non-trivial work:
+- Name the skill explicitly (`Skill I'm using: ...`).
+- Decide MCP applicability explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
+- If an MCP is obviously applicable, use it or record a concrete skip reason. Silent skip is a defect.
+- At final summary time, name one concrete thing this skill changed about execution. Loaded-but-unused skill is a process defect.
+
+ponytail: This is a behavioral contract. Use `scripts/session-trace-audit.py` as the advisory checker until transcript hooks become first-class.
+
 ## Workflow
 
 1. **Active-lane context refresh**: Before acting, confirm which agent is currently active in this session. Re-read the current role contract and `.opencode/docs/TOOL_USAGE.md` / `.opencode/docs/AGENT_TOOL_ACCESS.md` if the previous turn was in a different lane. Do not inherit read-only/planner assumptions from a prior lane.
@@ -512,6 +521,29 @@ next_actions:
   - "Report residual risk to user"
 ```
 
+
+## MCP Discovery Matrix
+
+Before any non-trivial answer, route, plan, or diagnosis, scan `.opencode/docs/MCP.md` and decide which MCPs are applicable. The decision is mandatory even when the result is "not using". Use this matrix as the default starting point:
+
+| Task class | MCPs to consider first | Must use when | Allowed skip reason |
+|---|---|---|---|
+| Multi-issue debugging / cascading failures / 3+ inter-related symptoms | `sequential-thinking` | Scope spans multiple issues, hypotheses, or failure layers | Only if tool unavailable; then say fallback explicitly |
+| Version-sensitive framework/API/library behavior | `context7` | Official current docs affect correctness (framework, SDK, migration tool, API contract) | Repo-local docs already pin exact current version and behavior |
+| Broad code search / pattern hunt / finding ownership in a large repo | `grep_app` | Search space is too large for local grep to be efficient or you need semantic search across many files/modules | Local repo is tiny or local grep/search already answered it quickly |
+| Repo / PR / issue / commit / branch / file history questions | `github` | You need current remote state, PR context, issue references, or authoritative repo metadata | Task is strictly local and no remote context is needed |
+| Static pattern / security smell / anti-pattern scan | `semgrep` | You are checking repeated code smells, security-sensitive patterns, or broad unsafe usage | The task is too tiny / single-file and manual review is faster |
+| Browser/UI/runtime flow / reproduction / DOM evidence | `playwright` | The bug or task depends on actual runtime/browser behavior | No browser surface exists or task is purely backend |
+| UI component lookup / shadcn registry / install candidate discovery | `shadcn` | Project uses shadcn/Tailwind and task touches components/primitives | Project does not use shadcn |
+| General external search / current web facts | `9router.web_search` | User needs current information not available in repo/docs | Local repo/docs are already authoritative |
+
+**Decision contract:**
+- Produce a short orientation before the first substantial answer: `Skill I'm using`, `MCPs I'm using`, `What I'm checking first`.
+- If an MCP is obviously applicable and you skip it, record the concrete reason. Silent skip is a defect.
+- If you load a skill, you must name one concrete thing it changed about execution in the final summary. Loaded-but-unused skill = process defect.
+- If multiple MCPs are plausible, prefer the cheapest authoritative one first (`context7`/repo docs before web search, repo search before browser, etc.).
+
+ponytail: This is a textual decision matrix, not a hard runtime selector. Upgrade path: mechanical session-trace audit once transcript hooks are stable.
 
 ## Sequential Thinking MCP Gate
 

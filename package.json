@@ -37,6 +37,8 @@
     "test:advisory-boundaries": "node scripts/tests/advisory-boundary-routing.test.mjs",
     "test:deterministic-edit-helper": "node scripts/tests/deterministic-edit-proposal.test.mjs",
     "test:verify-claim": "python3 scripts/tests/verify-before-claim-check.test.py",
+    "check:session-trace": "python3 scripts/session-trace-audit.py",
+    "test:session-trace": "python3 scripts/tests/session-trace-audit.test.py",
     "sync:openchamber": "node scripts/sync-openchamber-settings.mjs",
     "sync:openchamber:check": "node scripts/sync-openchamber-settings.mjs --check",
     "sync:openchamber:seed": "node scripts/sync-openchamber-settings.mjs --seed-approved-directories",

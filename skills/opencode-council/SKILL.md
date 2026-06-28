@@ -36,6 +36,15 @@ Do not use when `@architect` or `@oracle` can answer cheaply, when code discover
 
 Correctness, risk, maintainability, simplicity, performance, scalability, security, privacy, data integrity, testability, migration, rollback, cost, and operational burden.
 
+## Pre-flight Skill & MCP Discovery
+Before the first substantial answer, diagnosis, route, or implementation step on non-trivial work:
+- Name the skill explicitly (`Skill I'm using: ...`).
+- Decide MCP applicability explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
+- If an MCP is obviously applicable, use it or record a concrete skip reason. Silent skip is a defect.
+- At final summary time, name one concrete thing this skill changed about execution. Loaded-but-unused skill is a process defect.
+
+ponytail: This is a behavioral contract. Use `scripts/session-trace-audit.py` as the advisory checker until transcript hooks become first-class.
+
 ## Workflow
 
 1. Frame decision, non-goals, constraints, and success criteria.

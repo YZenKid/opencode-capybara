@@ -81,6 +81,15 @@ Guardrails:
 - Ask before destructive/overwrite/lossy or sensitivity-changing operations.
 - Do not handle app implementation edits in this lane.
 
+## Pre-flight Skill & MCP Discovery
+Before the first substantial answer, diagnosis, route, or implementation step on non-trivial work:
+- Name the skill explicitly (`Skill I'm using: ...`).
+- Decide MCP applicability explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
+- If an MCP is obviously applicable, use it or record a concrete skip reason. Silent skip is a defect.
+- At final summary time, name one concrete thing this skill changed about execution. Loaded-but-unused skill is a process defect.
+
+ponytail: This is a behavioral contract. Use `scripts/session-trace-audit.py` as the advisory checker until transcript hooks become first-class.
+
 ## Workflow
 
 1. Confirm the exact question, source type, version sensitivity, and desired output shape.

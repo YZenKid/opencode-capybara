@@ -122,6 +122,15 @@ One-agent design ownership lane for UI/UX direction, visual language, reference 
 - Only `@quality-gate` may be routed directly for final signoff when task requires it.
 - Do not delegate. You execute; you do not coordinate.
 
+## Pre-flight Skill & MCP Discovery
+Before the first substantial answer, diagnosis, plan, or implementation step on non-trivial work:
+- Load the lane's primary skill first and name it explicitly (`Skill I'm using: ...`).
+- Scan `.opencode/docs/MCP.md`, task shape, and stack docs to decide which MCPs are applicable; state that explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
+- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `playwright`), use it or record a concrete skip reason.
+- If you loaded a skill, it must change execution in at least one concrete way (command, pattern, test, risk callout, MCP choice). Loaded-but-unused skill is a process defect.
+
+ponytail: Textual contract first; mechanical transcript audit via `scripts/session-trace-audit.py` is the upgrade path.
+
 ## Workflow
 
 1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial UI work. If missing or stale, run `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) — do not implement blind.
@@ -135,6 +144,37 @@ One-agent design ownership lane for UI/UX direction, visual language, reference 
 ## Output contract
 
 For substantial work, return design artifact with: Design Read + craft dials, source pack summary, chosen direction (with rejected alternatives), section-level specs, component plan, validation evidence plan, anti-AI-slop result, accessibility/motion notes, references, residual risks.
+
+## Output example
+
+```yaml
+design_read:
+  product: "Onboarding flow for healthcare ops SaaS"
+  audience: "ops managers at hospital networks, daily users, mobile-first"
+  warmth_target: "human + clinical, not consumer-soft"
+chosen_direction:
+  pattern_ref: "Vercel linear app + Stripe atlas hero restraint"
+  tokens: ".opencode/catalog/systems/vercel/DESIGN.md"
+  rejected:
+    - "generic gradient hero with illustration"
+    - "consumer product card layout (no domain fit)"
+section_spec:
+  hero: "Headline + sub + 2 CTAs; restrained spacing; real image of clinic, not stock"
+  feature_grid: "3 cards max, each with one concrete metric and one workspace screenshot"
+anti_ai_slop:
+  card_spam: false
+  fake_metrics: false
+  placeholder_imagery: false
+a11y:
+  contrast: "AA verified"
+  reduced_motion: "honored"
+evidence:
+  screenshots: ".opencode/evidence/<task-id>/hero-desktop.png"
+  token_parity: 0.92
+residual_risks:
+  - "Need real photo of clinic; fallback to brand-photo safe placeholder"
+final_claim_scope: slice complete
+```
 
 ## Quality checklist
 

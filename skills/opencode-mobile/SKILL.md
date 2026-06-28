@@ -52,6 +52,15 @@ Adopted from Open Design: source-pack discipline, `DESIGN.md` authority, screens
 - Performance: avoid jank on main isolate/JS thread, excessive rebuilds/renders, large images, unbounded lists.
 - Releases: app identifiers, signing, build numbers, store review sensitive APIs.
 
+## Pre-flight Skill & MCP Discovery
+Before the first substantial answer, diagnosis, route, or implementation step on non-trivial work:
+- Name the skill explicitly (`Skill I'm using: ...`).
+- Decide MCP applicability explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
+- If an MCP is obviously applicable, use it or record a concrete skip reason. Silent skip is a defect.
+- At final summary time, name one concrete thing this skill changed about execution. Loaded-but-unused skill is a process defect.
+
+ponytail: This is a behavioral contract. Use `scripts/session-trace-audit.py` as the advisory checker until transcript hooks become first-class.
+
 ## Workflow
 1. Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
 2. Detect stack, platforms, and build/test commands.

@@ -40,6 +40,15 @@ Use for small clear vertical slices spanning UI and API/data code where one agen
 - Tests: unit where logic lives, contract/integration for boundary, browser/E2E for critical flow.
 - Split threshold: more than one route + one backend area, broad schema change, cross-cutting auth, async jobs, CI/deploy impact, or unclear ownership.
 
+## Pre-flight Skill & MCP Discovery
+Before the first substantial answer, diagnosis, route, or implementation step on non-trivial work:
+- Name the skill explicitly (`Skill I'm using: ...`).
+- Decide MCP applicability explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
+- If an MCP is obviously applicable, use it or record a concrete skip reason. Silent skip is a defect.
+- At final summary time, name one concrete thing this skill changed about execution. Loaded-but-unused skill is a process defect.
+
+ponytail: This is a behavioral contract. Use `scripts/session-trace-audit.py` as the advisory checker until transcript hooks become first-class.
+
 ## Workflow
 1. Confirm slice, user flow, UX states, API contract, data changes, and auth rules.
 2. Detect stack and reuse existing FE/BE/integration patterns.

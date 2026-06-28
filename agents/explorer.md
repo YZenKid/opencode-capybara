@@ -55,6 +55,15 @@ Read-only helper lane for codebase discovery, symbol mapping, and reuse candidat
 - Question to answer (what to locate/verify).
 - Optional scope boundaries (directories, languages, subsystems).
 
+## Pre-flight Skill & MCP Discovery
+Before the first substantial answer, diagnosis, plan, or implementation step on non-trivial work:
+- Load the lane's primary skill first and name it explicitly (`Skill I'm using: ...`).
+- Scan `.opencode/docs/MCP.md`, task shape, and stack docs to decide which MCPs are applicable; state that explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
+- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `playwright`), use it or record a concrete skip reason.
+- If you loaded a skill, it must change execution in at least one concrete way (command, pattern, test, risk callout, MCP choice). Loaded-but-unused skill is a process defect.
+
+ponytail: Textual contract first; mechanical transcript audit via `scripts/session-trace-audit.py` is the upgrade path.
+
 ## Workflow
 1. Narrow search scope.
 2. Locate relevant files/symbols.

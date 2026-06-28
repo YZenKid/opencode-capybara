@@ -78,6 +78,15 @@ Bounded implementation helper lane for code changes, tests, fixtures, and TDD ex
 - Target files/modules and constraints.
 - Test expectations or current failing behavior.
 
+## Pre-flight Skill & MCP Discovery
+Before the first substantial answer, diagnosis, plan, or implementation step on non-trivial work:
+- Load the lane's primary skill first and name it explicitly (`Skill I'm using: ...`).
+- Scan `.opencode/docs/MCP.md`, task shape, and stack docs to decide which MCPs are applicable; state that explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
+- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `playwright`), use it or record a concrete skip reason.
+- If you loaded a skill, it must change execution in at least one concrete way (command, pattern, test, risk callout, MCP choice). Loaded-but-unused skill is a process defect.
+
+ponytail: Textual contract first; mechanical transcript audit via `scripts/session-trace-audit.py` is the upgrade path.
+
 ## Workflow
 
 1. Confirm scope, plan/handoff, constraints, validation path.
@@ -91,6 +100,28 @@ Bounded implementation helper lane for code changes, tests, fixtures, and TDD ex
 ## Output contract
 
 Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`. Files changed and behavior delivered, tests/validation run and outcomes, risks/follow-ups/assumptions.
+
+## Output example
+
+```yaml
+summary: "Removed auto-promote from PickingUp -> Delivering; last-leg pickup now stays PickingUp until explicit delivering call."
+findings:
+  - "Root cause: tryAutoPromote() fired when all legs became PickedUp in the same request."
+  - "Secondary issue: duplicate pickup with same legId should allow photo-only second call when leg already PickedUp."
+changed_files:
+  - internal/repository/logistic_repository.go
+  - internal/repository/logistic_repository_test.go
+risks:
+  - "Client must explicitly send delivering after all legs are picked up."
+next_actions:
+  - "Run @quality-gate if this ships beyond local regression fix."
+evidence:
+  commands:
+    - "go test ./internal/repository -run ShippingStatus"
+  tests_added:
+    - "TestUpdateShippingStatus_PickingUpLastLegPickedUp_StaysPickingUp"
+    - "TestUpdateShippingStatus_TwoCallFlow_AllowsPhotoUploadAfterPickup"
+```
 
 ## Execution policy
 

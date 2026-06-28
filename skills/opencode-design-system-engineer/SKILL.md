@@ -21,6 +21,15 @@ Use for shared UI foundations. This lane sits between `@designer` and `@frontend
 ## Core rule
 This lane builds reusable foundations, not page composition. If work is not shared across surfaces, it likely belongs elsewhere.
 
+## Pre-flight Skill & MCP Discovery
+Before the first substantial answer, diagnosis, route, or implementation step on non-trivial work:
+- Name the skill explicitly (`Skill I'm using: ...`).
+- Decide MCP applicability explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
+- If an MCP is obviously applicable, use it or record a concrete skip reason. Silent skip is a defect.
+- At final summary time, name one concrete thing this skill changed about execution. Loaded-but-unused skill is a process defect.
+
+ponytail: This is a behavioral contract. Use `scripts/session-trace-audit.py` as the advisory checker until transcript hooks become first-class.
+
 ## Workflow
 1. Read stack docs + `DESIGN.md` first. If `DESIGN.md` is missing or stale for substantial system work, use `references/DESIGN-MD-TEMPLATE.md` from the designer lane as the canonical shape to request/update.
 2. Detect token/component architecture from repo evidence.

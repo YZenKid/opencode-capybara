@@ -18,6 +18,7 @@ Prompt gates convert important repository invariants into deterministic checks.
 - `npm run init:rules-harmonize` → `scripts/rules-harmonizer.py --apply` (import external rules into `.opencode/docs/SOURCE_RULES.md`; append `## Source Rules` to root `AGENTS.md`; idempotent)
 - `npm run init:rules-harmonize:forward-all` → same, with `--forward-to claude,codex,cursor,windsurf` to write mirror files
 - `npm run init:stack-suggest` → `scripts/stack-resource-suggester.py` (soft recommender; matches project signals against `scripts/data/stack_resources.json` to surface idiomatic skills, MCP servers, and best practices; never auto-installs)
+- `npm run check:session-trace <transcript>` → `scripts/session-trace-audit.py` (advisory heuristic audit for the failure mode: no skill/MCP orientation, loaded-but-unused skill, obvious MCP silently skipped, no sequential-thinking on multi-issue debugging)
 - `npm run docs:generate:check` → generated docs freshness validation
 - `npm run check:harness` → aggregate harness check
 

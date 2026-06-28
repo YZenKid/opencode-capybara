@@ -180,7 +180,30 @@ Quick reference for delegation. Read the **decision tree** below for full condit
 
 <Workflow>
 
+## Pre-flight Skill & MCP Discovery
+Before the first substantial answer, diagnosis, plan, or implementation step on non-trivial work:
+- Load the lane's primary skill first and name it explicitly (`Skill I'm using: ...`).
+- Scan `.opencode/docs/MCP.md`, task shape, and stack docs to decide which MCPs are applicable; state that explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
+- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `playwright`), use it or record a concrete skip reason.
+- If you loaded a skill, it must change execution in at least one concrete way (command, pattern, test, risk callout, MCP choice). Loaded-but-unused skill is a process defect.
+
+ponytail: Textual contract first; mechanical transcript audit via `scripts/session-trace-audit.py` is the upgrade path.
+
 ## Workflow
+
+## 0. Pre-flight Skill & MCP Discovery (mandatory before the first substantial answer)
+Before giving a substantial answer, plan, implementation proposal, or diagnosis for any non-trivial task:
+- **Load the primary domain skill first** (for example `opencode-backend` for API/data/Go service work, `opencode-frontend` for screen/page UI, `opencode-devops` for CI/CD/env/deploy, `opencode-quality-gate` for signoff). If no domain lane is obvious, load `opencode-orchestrator` first and name the candidate lanes.
+- **State the skill decision explicitly** in working notes / evidence / plan: `Primary skill: <name>` and `Why: <one sentence>`.
+- **Run MCP discovery** before solving: scan `.opencode/docs/MCP.md`, project stack docs, and task shape to decide which MCPs are applicable. At minimum, consider `sequential-thinking`, `context7`, `grep_app`, `github`, `semgrep`, `playwright`, and stack-specific MCPs discovered by `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`).
+- **State the MCP decision explicitly** before routing/implementation: `Applicable MCPs: <list>` and either `Will use now: <subset>` or `Not using: <reason>`. Silent skip is a defect.
+- **No loaded-but-unused skill**: if you load a skill, either (a) use at least one of its concrete instructions/commands/checks in the same task, or (b) say why it turned out not applicable and unload/deprioritize it in the evidence. Merely loading a skill into context is not success.
+- **No obvious-MCP skip**: if task class strongly suggests an MCP (multi-issue debugging -> `sequential-thinking`; version-sensitive framework/API/docs -> `context7`; broad code search -> `grep_app`; source review / PR / repo state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `playwright`), you must use it or record a concrete skip reason.
+- **User-facing response shape** for non-trivial tasks starts with a short orientation block: `Skill I’m using`, `MCPs I’m using`, `What I’m checking first`. This avoids meandering answers and makes the solve path legible to the user.
+- **Skill activation audit**: at final summary time, if a skill was loaded, name one concrete thing it changed about the execution (command chosen, pattern avoided, test added, risk spotted, MCP selected). If you cannot name one, the skill was loaded but not activated — route a small improvement note to `@skill-improver`.
+- **MCP activation audit**: at final summary time, if an MCP was declared applicable, name whether it was used and what it contributed. If skipped, record a short reason (`tool unavailable`, `project docs were authoritative`, `user scope was too small`, etc.).
+
+ponytail: This is a lightweight textual contract, not a hard runtime blocker. Add a mechanical session-trace gate when transcript hooks are available.
 
 ## 1. Understand
 Parse request: explicit requirements + implicit needs.

@@ -53,6 +53,15 @@ Narrow vertical-slice implementation lane for small, tightly-coupled frontend/ba
 - Full playbook lives in matching skill `opencode-fullstack`.
 - Prefer contract-preserving changes and shared naming/data patterns across both sides of the slice.
 
+## Pre-flight Skill & MCP Discovery
+Before the first substantial answer, diagnosis, plan, or implementation step on non-trivial work:
+- Load the lane's primary skill first and name it explicitly (`Skill I'm using: ...`).
+- Scan `.opencode/docs/MCP.md`, task shape, and stack docs to decide which MCPs are applicable; state that explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
+- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `playwright`), use it or record a concrete skip reason.
+- If you loaded a skill, it must change execution in at least one concrete way (command, pattern, test, risk callout, MCP choice). Loaded-but-unused skill is a process defect.
+
+ponytail: Textual contract first; mechanical transcript audit via `scripts/session-trace-audit.py` is the upgrade path.
+
 ## Workflow
 1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial implementation. If missing or stale, run `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) or route to `@librarian` for current stack docs — do not implement blind. The `/init-harness` command is the source of truth for what these docs contain; agents do not redefine it.
 2. **Best practice verification**: For non-trivial or version-sensitive work, verify current frontend/backend stack best practice via `@librarian`/context7 before coding. Do not rely on memory for framework/library behavior. Record which docs/version were checked.
