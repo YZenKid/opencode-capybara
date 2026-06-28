@@ -5,7 +5,7 @@ Usage:
   python3 ~/.config/opencode/scripts/ui-polish-audit.py --project-root . [--design-file DESIGN.md] [--report .opencode/evidence/polish-audit.md]
 """
 from __future__ import annotations
-import argparse, re
+import argparse, re, sys
 from pathlib import Path
 
 
@@ -41,11 +41,25 @@ def main() -> int:
     ap.add_argument('--project-root', default='.')
     ap.add_argument('--design-file', default='DESIGN.md')
     ap.add_argument('--report', default='.opencode/evidence/polish-audit.md')
+    ap.add_argument('--strict-catalog', action='store_true', help='Fail if DESIGN.md lacks catalog_citation block (substantial UI)')
     args = ap.parse_args()
     root = Path(args.project_root).resolve()
     design_file = root / args.design_file
     files = find_ui_files(root)
     findings = audit_files(files)
+
+    # v2: catalog citation check (optional strict mode)
+    catalog_citation_present = False
+    catalog_citation_note = ""
+    if design_file.exists():
+        design_text = design_file.read_text(encoding='utf-8', errors='ignore')
+        catalog_citation_present = ("Source & Provenance" in design_text) or ("## Catalog Citation" in design_text) or ("open-design.ai" in design_text)
+        if catalog_citation_present:
+            catalog_citation_note = "DESIGN.md cites the Open Design catalog."
+        else:
+            catalog_citation_note = "DESIGN.md does NOT cite the Open Design catalog. For substantial UI, run `python3 ~/.config/opencode/scripts/init-design-system.py --project-root . --system <slug>` to regenerate from the catalog."
+    else:
+        catalog_citation_note = "No DESIGN.md found."
 
     report = root / args.report
     report.parent.mkdir(parents=True, exist_ok=True)
@@ -54,7 +68,11 @@ def main() -> int:
         '',
         f'- Scanned files: `{len(files)}`',
         f'- DESIGN.md present: `{design_file.exists()}`',
+        f'- Catalog citation present: `{catalog_citation_present}`',
         f'- Potential AI-slop findings: `{len(findings)}`',
+        '',
+        '## Catalog Citation Check (v2)',
+        f'- {catalog_citation_note}',
         '',
         '## Findings',
     ]
@@ -82,7 +100,13 @@ def main() -> int:
     ]
     report.write_text('\n'.join(lines) + '\n', encoding='utf-8')
     print(report)
-    return 1 if findings else 0
+    # Exit code precedence: strict-catalog failure (2) > slop findings (1) > pass (0)
+    if args.strict_catalog and not catalog_citation_present:
+        print('FAIL: --strict-catalog set and DESIGN.md lacks catalog citation; see report', file=sys.stderr)
+        return 2
+    if findings:
+        return 1
+    return 0
 
 if __name__ == '__main__':
     raise SystemExit(main())

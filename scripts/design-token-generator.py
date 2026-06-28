@@ -1,40 +1,194 @@
 #!/usr/bin/env python3
-"""Generate starter token files from DESIGN.md.
+"""Generate starter token files from a catalog DESIGN.md (preferred) or project DESIGN.md.
+
+v2 (catalog-aware) changes:
+- Defaults to reading from `.opencode/catalog/systems/<slug>/DESIGN.md` when --system is given.
+- Falls back to project DESIGN.md when --design-file is set explicitly.
+- Emits NAMED tokens (ink, accent, surface, muted, subtle, success, warning, danger, info,
+  dark_ground, dark_ink) instead of anonymous color_1..color_N.
+- Generates three artifacts: tokens.json (canonical), tokens.css (CSS variables), tailwind.config.js
+  (semantic Tailwind theme extension).
+- Validates that the design system has a `Source & Provenance` block (catalog citation).
 
 Usage:
-  python3 ~/.config/opencode/scripts/design-token-generator.py --project-root . [--design-file DESIGN.md] [--out-dir .opencode/generated-design]
+  # from a catalog system (recommended)
+  python3 design-token-generator.py --project-root . --system linear
+  # from a project DESIGN.md
+  python3 design-token-generator.py --project-root . --design-file DESIGN.md
+  # specify output dir
+  python3 design-token-generator.py --project-root . --system editorial --out-dir .opencode/generated-design
 """
 from __future__ import annotations
-import argparse, re, json
+import argparse
+import json
+import re
+import sys
 from pathlib import Path
 
-HEX = re.compile(r'#[0-9A-Fa-f]{3,8}')
-SIZE = re.compile(r'\b\d+(?:px|rem|em)\b')
+HARNESS_ROOT = Path(__file__).resolve().parents[1]
+CATALOG_SYSTEMS = HARNESS_ROOT / ".opencode" / "catalog" / "systems"
+
+
+def parse_color_section(design_text: str) -> dict[str, str]:
+    """Extract named colors from the Color Palette section. Returns dict of role -> hex."""
+    # Look for **Name** (`#hex`): description
+    pattern = re.compile(r"\*\*([A-Z][A-Za-z\s]+)\*\*\s*\(`(#[0-9A-Fa-f]{3,8})`\)")
+    roles: dict[str, str] = {}
+    for m in pattern.finditer(design_text):
+        name = m.group(1).strip().lower().replace(" ", "_")
+        hex_value = m.group(2).lower()
+        # collapse variants like "dark ink" -> "dark_ink"
+        roles[name] = hex_value
+    return roles
+
+
+def parse_typography_section(design_text: str) -> dict[str, dict]:
+    """Extract typography roles from the table. Returns dict of role -> {family, size, weight, line_height}."""
+    # Find the typography table; rows look like: | Display | Inter Display | 56/64 | 700 | 1.05 | -0.02em |
+    table_re = re.compile(r"\|\s*([A-Z][A-Za-z\s]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|")
+    roles: dict[str, dict] = {}
+    for m in table_re.finditer(design_text):
+        role = m.group(1).strip().lower().replace(" ", "_")
+        family = m.group(2).strip()
+        size = m.group(3).strip()
+        weight = m.group(4).strip()
+        line_height = m.group(5).strip()
+        roles[role] = {
+            "family": family,
+            "size": size,
+            "weight": weight,
+            "lineHeight": line_height,
+        }
+    return roles
+
+
+def parse_spacing_section(design_text: str) -> list[str]:
+    """Extract the spacing scale from section 4."""
+    # Look for: - **Scale**: 4, 8, 12, ...
+    m = re.search(r"\*\*Scale\*\*:\s*([0-9,\s]+)", design_text)
+    if not m:
+        return ["4px", "8px", "12px", "16px", "24px", "32px", "48px", "64px", "96px", "128px"]
+    return [f"{n.strip()}px" for n in m.group(1).split(",") if n.strip().isdigit()]
+
+
+def has_catalog_citation(design_text: str) -> bool:
+    """Verify the DESIGN.md has a Source & Provenance block (catalog citation)."""
+    return "Source & Provenance" in design_text or "## Catalog Citation" in design_text
+
+
+def render_tokens_json(system_slug: str, colors: dict, typography: dict, spacing: list, source_url: str) -> dict:
+    return {
+        "system": system_slug,
+        "source": source_url,
+        "license": "Apache-2.0",
+        "colors": colors,
+        "typography": typography,
+        "spacing": {"scale": spacing, "base_unit": "4px"},
+    }
+
+
+def render_tokens_css(tokens: dict) -> str:
+    lines = [
+        f"/* Tokens for {tokens['system']} — source: {tokens['source']} */",
+        ":root {",
+    ]
+    for role, hex_value in tokens["colors"].items():
+        lines.append(f"  --color-{role}: {hex_value};")
+    for role, info in tokens["typography"].items():
+        lines.append(f"  --font-{role}-family: {info['family']};")
+        lines.append(f"  --font-{role}-weight: {info['weight']};")
+    for i, v in enumerate(tokens["spacing"]["scale"]):
+        lines.append(f"  --space-{i}: {v};")
+    lines.append("}")
+    return "\n".join(lines) + "\n"
+
+
+def render_tailwind_config(tokens: dict) -> str:
+    colors_js = ", ".join(f"'{role}': '{hex_value}'" for role, hex_value in tokens["colors"].items())
+    font_family_js = ", ".join(f"'{role}': ['{info['family'].split(' / ')[0]}', 'sans-serif']" for role, info in tokens["typography"].items())
+    spacing_js = ", ".join(f"'{i}': '{v}'" for i, v in enumerate(tokens["spacing"]["scale"]))
+    return f"""// Tailwind config for {tokens['system']} — source: {tokens['source']}
+// License: Apache-2.0
+// Generated by ~/.config/opencode/scripts/design-token-generator.py
+module.exports = {{
+  theme: {{
+    extend: {{
+      colors: {{
+        {colors_js}
+      }},
+      fontFamily: {{
+        {font_family_js}
+      }},
+      spacing: {{
+        {spacing_js}
+      }},
+    }},
+  }},
+}};
+"""
+
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument('--project-root', default='.')
-    ap.add_argument('--design-file', default='DESIGN.md')
-    ap.add_argument('--out-dir', default='.opencode/generated-design')
+    ap.add_argument("--project-root", default=".")
+    ap.add_argument("--system", help="Catalog system slug (e.g. linear). Reads from .opencode/catalog/systems/<slug>/DESIGN.md")
+    ap.add_argument("--design-file", default="DESIGN.md", help="Project DESIGN.md path (relative to --project-root)")
+    ap.add_argument("--out-dir", default=".opencode/generated-design", help="Output directory (relative to --project-root)")
+    ap.add_argument("--strict", action="store_true", help="Fail if catalog citation is missing")
     args = ap.parse_args()
-    root = Path(args.project_root).resolve()
-    text = (root / args.design_file).read_text(encoding='utf-8')
-    colors = sorted(set(HEX.findall(text)))
-    sizes = sorted(set(SIZE.findall(text)))
-    out_dir = root / args.out_dir
+
+    project_root = Path(args.project_root).resolve()
+    out_dir = project_root / args.out_dir
+
+    if args.system:
+        catalog_path = CATALOG_SYSTEMS / args.system / "DESIGN.md"
+        if not catalog_path.exists():
+            print(f"ERROR: catalog system '{args.system}' not found at {catalog_path}", file=sys.stderr)
+            return 1
+        design_text = catalog_path.read_text(encoding="utf-8")
+        source_url = f"https://open-design.ai/plugins/systems/example-{args.system}"
+        system_slug = args.system
+    else:
+        design_path = project_root / args.design_file
+        if not design_path.exists():
+            print(f"ERROR: design file not found at {design_path}", file=sys.stderr)
+            return 1
+        design_text = design_path.read_text(encoding="utf-8")
+        # Try to infer system slug from "Design System: <Name>"
+        m = re.search(r"#\s*Design System:\s*([A-Za-z][\w\s-]+)", design_text)
+        system_slug = (m.group(1).strip().lower().replace(" ", "-") if m else "custom")
+        source_url = "(project-local DESIGN.md; no catalog citation)"
+
+    if args.strict and not has_catalog_citation(design_text):
+        print("ERROR: DESIGN.md lacks Source & Provenance block (catalog citation required in --strict mode)", file=sys.stderr)
+        return 2
+
+    colors = parse_color_section(design_text)
+    typography = parse_typography_section(design_text)
+    spacing = parse_spacing_section(design_text)
+
+    if not colors:
+        print("WARN: no named colors parsed from DESIGN.md section 2 (Color Palette & Roles).", file=sys.stderr)
+        print("      Expected format: **Ink** (`#0d0e10`): Primary text.", file=sys.stderr)
+
+    tokens = render_tokens_json(system_slug, colors, typography, spacing, source_url)
     out_dir.mkdir(parents=True, exist_ok=True)
-    data = {
-        'colors': {f'color_{i+1}': v for i, v in enumerate(colors[:40])},
-        'sizes': {f'size_{i+1}': v for i, v in enumerate(sizes[:40])},
-    }
-    (out_dir / 'tokens.json').write_text(json.dumps(data, indent=2) + '\n', encoding='utf-8')
-    css_lines = [':root {']
-    for k, v in data['colors'].items(): css_lines.append(f'  --{k}: {v};')
-    for k, v in data['sizes'].items(): css_lines.append(f'  --{k}: {v};')
-    css_lines.append('}')
-    (out_dir / 'tokens.css').write_text('\n'.join(css_lines) + '\n', encoding='utf-8')
-    print(out_dir)
+
+    tokens_json = out_dir / "tokens.json"
+    tokens_css = out_dir / "tokens.css"
+    tailwind_config = out_dir / "tailwind.config.js"
+
+    tokens_json.write_text(json.dumps(tokens, indent=2) + "\n", encoding="utf-8")
+    tokens_css.write_text(render_tokens_css(tokens), encoding="utf-8")
+    tailwind_config.write_text(render_tailwind_config(tokens), encoding="utf-8")
+
+    print(f"Generated: {tokens_json}")
+    print(f"Generated: {tokens_css}")
+    print(f"Generated: {tailwind_config}")
+    print(f"System: {system_slug}, source: {source_url}")
+    print(f"Tokens: {len(colors)} colors, {len(typography)} type roles, {len(spacing)} spacing steps")
     return 0
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     raise SystemExit(main())
