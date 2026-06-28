@@ -1,0 +1,78 @@
+{
+  "task_id": "ui-ux-open-design-upgrade",
+  "plan_path": ".opencode/plans/ui-ux-open-design-upgrade.md",
+  "plan_quality_gate": "PASS_FOR_SLICE",
+  "started_at": "2026-06-28T00:00:00Z",
+  "completed_at": "2026-06-28T01:00:00Z",
+  "slices": {
+    "foundation": {
+      "tasks": "1-11",
+      "status": "completed",
+      "evidence": ".opencode/evidence/ui-ux-open-design-upgrade/foundation-slice-summary.md"
+    },
+    "policy_migration": {
+      "tasks": "12-22",
+      "status": "completed",
+      "evidence": ".opencode/evidence/ui-ux-open-design-upgrade/policy-migration-slice-summary.md"
+    }
+  },
+  "tasks": [
+    {"id": 1, "title": "Seed .opencode/catalog/INDEX.md (150 entries)", "lane": "@designer", "status": "completed", "evidence": ".opencode/catalog/INDEX.md"},
+    {"id": 2, "title": "Download top 20 systems full DESIGN.md", "lane": "@designer", "status": "completed", "evidence": ".opencode/catalog/systems/<slug>/DESIGN.md for 20 systems"},
+    {"id": 3, "title": "Download top 20 templates", "lane": "@designer", "status": "completed", "evidence": ".opencode/catalog/templates/<slug>.md for 20 templates"},
+    {"id": 4, "title": "Upgrade init-design-system.py to v2", "lane": "@fixer", "status": "completed", "evidence": "scripts/init-design-system.py v2 with --list-systems/--list-templates"},
+    {"id": 5, "title": "Upgrade design-token-generator.py to read from catalog", "lane": "@fixer", "status": "completed", "evidence": "scripts/design-token-generator.py v2 emits named tokens + tokens.json/css/tailwind.config.js"},
+    {"id": 6, "title": "Add catalog-search.py CLI", "lane": "@fixer", "status": "completed", "evidence": "scripts/catalog-search.py supports --query/--kind/--surface/--pair/--json"},
+    {"id": 7, "title": "Add design-system-fork.py CLI", "lane": "@fixer", "status": "completed", "evidence": "scripts/design-system-fork.py applies deviations + emits Catalog Citation (this fork) + Deviation Audit table"},
+    {"id": 8, "title": "Add visual-quality-contract-v2.md template", "lane": "@quality-gate", "status": "completed", "evidence": "skills/opencode-quality-gate/templates/visual-quality-contract-v2.md (7.8KB)"},
+    {"id": 9, "title": "Upgrade visual-rubric.md with mechanical rows", "lane": "@quality-gate", "status": "completed", "evidence": "Added Catalog Citation Check (10 rows), Dashboard/Pricing/Onboarding coverage, Template Anatomy Compliance block"},
+    {"id": 10, "title": "Upgrade visual-audit-check.py", "lane": "@fixer", "status": "completed", "evidence": "Added audit_contract_v2 + token_parity with deviation whitelist + parity <80% / must_avoid violations -> NEEDS_FIX"},
+    {"id": 11, "title": "Upgrade ui-polish-audit.py with --strict-catalog", "lane": "@fixer", "status": "completed", "evidence": "Added Catalog Citation Check section + --strict-catalog flag (exit 2 on catalog fail)"},
+    {"id": 12, "title": "Upgrade @designer agent with Catalog-First Workflow", "lane": "@skill-improver", "status": "completed", "evidence": "agents/designer.md +54 lines: Catalog-First Workflow section + Workflow step 0 mandatory catalog selection"},
+    {"id": 13, "title": "Upgrade @frontend agent with Token-First Implementation", "lane": "@skill-improver", "status": "completed", "evidence": "agents/frontend.md +31 lines: Token-First Implementation + pushback authority for catalog gaps"},
+    {"id": 14, "title": "Upgrade @mobile agent with mobile catalog selection", "lane": "@skill-improver", "status": "completed", "evidence": "agents/mobile.md +31 lines: Mobile Catalog Selection + native token parity + platform anti-patterns"},
+    {"id": 15, "title": "Upgrade @quality-gate agent with v2 mechanical checks", "lane": "@skill-improver", "status": "completed", "evidence": "agents/quality-gate.md +4 mandatory items: catalog citation, deviation audit, token parity, visual rubric v2"},
+    {"id": 16, "title": "Upgrade @design-system-engineer agent with catalog-first token sourcing", "lane": "@skill-improver", "status": "completed", "evidence": "agents/design-system-engineer.md +35 lines: Catalog-First Token Sourcing + fork discipline"},
+    {"id": 17, "title": "Orchestrator step 4.5 routing cue", "lane": "@skill-improver", "status": "completed", "evidence": "agents/orchestrator.md line 121: catalog-decision.md required for substantial UI before @frontend/@mobile"},
+    {"id": 18, "title": "Fill ui-ux-pro-max/ skill folder", "lane": "@skill-improver", "status": "completed", "evidence": "skills/ui-ux-pro-max/{SKILL.md (7.1KB), references/{catalog-quickstart,anti-slop-playbook,lane-routing-cheatsheet}, scripts/select-catalog.py}"},
+    {"id": 19, "title": "Update .opencode/docs/SKILLS.md", "lane": "@skill-improver", "status": "completed", "evidence": "Added UI/UX design system source of truth section (verified earlier)"},
+    {"id": 20, "title": "Update AGENTS.md", "lane": "@skill-improver", "status": "completed", "evidence": "Added UI/UX catalog source of truth line (verified earlier)"},
+    {"id": 21, "title": "Run end-to-end eval on greenfield-style task", "lane": "@quality-gate", "status": "completed", "evidence": "9-step pipeline (orchestrator -> select-catalog -> catalog-decision -> init-design-system -> fork -> token-gen -> contract -> implement -> 3 mechanical audits) all exit 0; parity 100% after deviation whitelist"},
+    {"id": 22, "title": "Update state + write policy migration evidence summary", "lane": "@orchestrator", "status": "completed", "evidence": ".opencode/state/ui-ux-open-design-upgrade/progress.json (this file) + .opencode/evidence/ui-ux-open-design-upgrade/policy-migration-slice-summary.md"}
+  ],
+  "next_steps": [
+    "Run release task #22 from the plan: open PR with all diffs + foundation-slice-summary + policy-migration-slice-summary",
+    "Schedule weekly catalog refresh: python3 ~/.config/opencode/scripts/design-source-importer.py --init --refresh",
+    "Monitor @quality-gate NEEDS_FIX rate; if 'v2_token_parity_low' or 'v2_must_avoid_violation' fires more than 3x, @skill-improver updates the relevant SKILL.md",
+    "Follow-ups (post-slice, per plan §10): live MCP for open-design.ai, per-project DESIGN.md extension blocks, eval-driven model tier auto-tuning, Figma round-trip, catalog contribution"
+  ],
+  "consistency_audits": [
+    {
+      "audit": "init-harness reference consistency",
+      "date": "2026-06-28",
+      "files_scanned": 14,
+      "total_occurrences": 27,
+      "with_single_entrypoint_marker": 27,
+      "with_commands_init_harness_path": 27,
+      "result": "PASS — 100% consistent. /init-harness now uniformly marked as single entrypoint with command spec reference. /init-harness redefined behavior blocked; /designer and /orchestrator guard against separate design-init redirects.",
+      "files_modified": [
+        "agents/designer.md (lines 155, 191, 298)",
+        "agents/frontend.md (line 136)",
+        "agents/mobile.md (line 93)",
+        "agents/design-system-engineer.md (line 91)",
+        "agents/quality-gate.md (line 69)",
+        "agents/devops.md (line 59)",
+        "agents/backend.md (line 60)",
+        "agents/fullstack.md (line 57)",
+        "agents/artifact-planner.md (lines 147, 327)",
+        "agents/orchestrator.md (lines 122, 276, 277, 314)",
+        "skills/opencode-designer/SKILL.md (lines 189, 230, 272, 286)",
+        "skills/opencode-frontend/SKILL.md (line 69)",
+        "skills/opencode-quality-gate/SKILL.md (lines 39, 202)",
+        "skills/opencode-orchestrator/SKILL.md (lines 65, 91, 141, 142)"
+      ]
+    }
+  ],
+  "plan_status": "PASS_FOR_SLICE",
+  "slice_status": "both slices completed + init-harness consistency audit passed; ready for release task #22 (PR)"
+}
