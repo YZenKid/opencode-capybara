@@ -1,0 +1,517 @@
+{
+  "$schema_version": "1.0",
+  "description": "Curated mapping from stack detection signals to recommended skills (skills.sh), MCP servers, and best-practice documentation URLs. This is reference material, NOT an auto-install list. All recommendations require explicit user approval before installation.",
+  "usage_policy": "Treat entries as non-authoritative inspiration. Verify current behavior from upstream before relying on any skill or MCP. Local OpenCode agents, skills, docs, and tests remain source of truth. Install only after explicit user approval and detected-stack relevance review.",
+  "registry_maintainers": "opencode-capybara (this repo) — propose additions via PR with evidence of stack-fit and current upstream behavior.",
+  "stacks": {
+    "laravel": {
+      "name": "Laravel (PHP)",
+      "category": "backend-web-framework",
+      "detection_signals": [
+        "composer.json containing laravel/framework",
+        "artisan",
+        "app",
+        "routes",
+        ".env containing APP_KEY"
+      ],
+      "skills": [
+        {
+          "url": "https://www.skills.sh/anthropics/skills/laravel-best-practices",
+          "source": "anthropics/skills",
+          "use_when": "Eloquent queries, routing, controllers, middleware, validation, queues, testing in Laravel 10+/11+",
+          "do_not_use_for": "Pure Blade template design (route to UI skill instead), non-Laravel PHP"
+        },
+        {
+          "url": "https://laravel.com/docs",
+          "source": "official",
+          "use_when": "Authoritative framework reference; version-sensitive features"
+        }
+      ],
+      "mcp_servers": [
+        {
+          "name": "postgres",
+          "reason": "Eloquent → Postgres introspection, query review, schema diffs"
+        },
+        {
+          "name": "redis",
+          "reason": "Cache/session/queue introspection"
+        }
+      ],
+      "best_practices": {
+        "idempotency": "Use Laravel's built-in `php artisan make:*` for all scaffolding (controller, model, migration, request, resource, observer, policy, test). Manual file creation is allowed only when generator is unavailable or customizing existing generated files.",
+        "migrations": "Use `php artisan make:migration` + `php artisan migrate`; never edit applied migrations; create new ones for schema changes.",
+        "validation": "Use FormRequest classes (`php artisan make:request`) — never inline `$request->validate()` in controllers.",
+        "queries": "Eloquent first; raw SQL only when Eloquent is genuinely insufficient. Always prefer eager loading to prevent N+1.",
+        "testing": "`php artisan test` with Pest or PHPUnit. Feature tests for HTTP, unit tests for pure logic. Use factories + seeders, never raw model::create in tests.",
+        "queues": "`php artisan make:job` for all jobs. Long-running jobs must use `--timeout` and be idempotent.",
+        "rbac": "Use Policies (`php artisan make:policy`) + Gates; never hand-rolled permission checks in controllers."
+      },
+      "anti_patterns": [
+        "DB::raw() without strong reason",
+        "Controller > 200 lines (split into FormRequest + Action + Resource)",
+        "Business logic in Blade templates",
+        "Mass assignment via $guarded = [] instead of $fillable",
+        "Skipping `php artisan config:cache` / route:cache in production"
+      ]
+    },
+    "nextjs": {
+      "name": "Next.js (React meta-framework)",
+      "category": "frontend-meta-framework",
+      "detection_signals": [
+        "package.json containing next",
+        "next.config.js",
+        "next.config.ts",
+        "next.config.mjs",
+        "app",
+        "pages"
+      ],
+      "skills": [
+        {
+          "url": "https://www.skills.sh/vercel-labs/next-skills/next-best-practices",
+          "source": "vercel-labs/next-skills",
+          "use_when": "Routing (App Router/Pages Router), data fetching (RSC, server actions, fetch caching), metadata, image optimization, deployment on Vercel"
+        },
+        {
+          "url": "https://www.skills.sh/vercel-labs/agent-skills/vercel-react-best-practices",
+          "source": "vercel-labs/agent-skills",
+          "use_when": "React patterns: hooks, suspense, transitions, server components"
+        },
+        {
+          "url": "https://www.skills.sh/anthropics/skills/webapp-testing",
+          "source": "anthropics/skills",
+          "use_when": "Playwright/Cypress setup, visual regression, e2e patterns"
+        },
+        {
+          "url": "https://nextjs.org/docs",
+          "source": "official",
+          "use_when": "Authoritative framework reference; version-sensitive features"
+        }
+      ],
+      "mcp_servers": [
+        {
+          "name": "shadcn",
+          "reason": "Component registry, install components directly via MCP, view available components"
+        },
+        {
+          "name": "playwright",
+          "reason": "Browser automation, e2e tests, visual screenshots"
+        }
+      ],
+      "best_practices": {
+        "data_fetching": "Server Components by default; use `'use client'` only when you need state/effects/event handlers. Fetch in Server Components, not useEffect.",
+        "caching": "Default to `fetch` cache + Next.js revalidation; use `unstable_cache` for non-fetch queries. Be explicit about cache: 'no-store' when needed.",
+        "image": "Always use `next/image` (not <img>); configure `images.remotePatterns` for external domains.",
+        "metadata": "Use `generateMetadata` API or static `metadata` export; never hand-roll <title>/<meta>.",
+        "routing": "Use App Router file conventions (layout.tsx, page.tsx, loading.tsx, error.tsx) — not pages/ for new projects.",
+        "api_routes": "Use Route Handlers (app/api/route.ts) for HTTP endpoints; use Server Actions for form mutations."
+      },
+      "anti_patterns": [
+        "useEffect for data fetching (use Server Components or SWR/React Query)",
+        "getServerSideProps in App Router (deprecated)",
+        "Importing server-only code from client components (use 'server-only' package)",
+        "Hand-rolled <title> in pages instead of metadata API",
+        "Missing 'use client' directive in interactive components"
+      ]
+    },
+    "react-native-expo": {
+      "name": "React Native / Expo",
+      "category": "mobile-framework",
+      "detection_signals": [
+        "package.json containing expo",
+        "app.json",
+        "app.config.js",
+        "app.config.ts",
+        "eas.json"
+      ],
+      "skills": [
+        {
+          "url": "https://www.skills.sh/vercel-labs/agent-skills/vercel-react-native-skills",
+          "source": "vercel-labs/agent-skills",
+          "use_when": "Expo Router, EAS Build/Submit/Update, native modules, push notifications, deep links"
+        },
+        {
+          "url": "https://docs.expo.dev",
+          "source": "official",
+          "use_when": "Authoritative Expo reference; SDK version-specific features"
+        }
+      ],
+      "mcp_servers": [
+        {
+          "name": "playwright",
+          "reason": "Web preview testing during development; not for native UI"
+        }
+      ],
+      "best_practices": {
+        "navigation": "Use Expo Router file-based routing — not React Navigation directly for new projects.",
+        "native_modules": "Prefer Expo managed workflow + `expo install` for all native dependencies. Use config plugins for native config.",
+        "build_release": "`eas build --platform all` for builds; `eas update` for OTA JS updates; never hand-edit native android/ios folders.",
+        "performance": "Use FlashList over FlatList for large lists; use Reanimated for animations (not Animated API).",
+        "testing": "Detox for e2e, Jest for unit. Use Expo's testing utilities for module mocks."
+      },
+      "anti_patterns": [
+        "Mixing Expo managed and bare workflow",
+        "Hand-editing ios/Podfile or android/build.gradle without config plugin",
+        "Using ScrollView for long lists (use FlashList/FlatList)",
+        "Storing sensitive data in AsyncStorage (use expo-secure-store)"
+      ]
+    },
+    "flutter": {
+      "name": "Flutter / Dart",
+      "category": "mobile-framework",
+      "detection_signals": [
+        "pubspec.yaml",
+        "pubspec.yaml containing flutter",
+        "lib",
+        "android",
+        "ios"
+      ],
+      "skills": [
+        {
+          "url": "https://docs.flutter.dev",
+          "source": "official",
+          "use_when": "Authoritative Flutter reference; widget patterns, state management"
+        }
+      ],
+      "mcp_servers": [
+        {
+          "name": "playwright",
+          "reason": "Flutter web preview testing only; not for native"
+        }
+      ],
+      "best_practices": {
+        "state_management": "Riverpod or Bloc for new projects; setState only for ephemeral UI state. Avoid mixing multiple state solutions.",
+        "widgets": "Prefer composition over inheritance; extract reusable widgets early; keep build() pure.",
+        "navigation": "go_router for declarative routing; Navigator 2.0 only when go_router doesn't fit.",
+        "platform_channels": "Use official packages first; only hand-roll platform channels when no package exists."
+      },
+      "anti_patterns": [
+        "Mixing Provider + Riverpod + Bloc in same project",
+        "Deeply nested widgets (extract early)",
+        "Build() doing async work (use FutureBuilder or initState)"
+      ]
+    },
+    "supabase": {
+      "name": "Supabase (BaaS)",
+      "category": "backend-platform",
+      "detection_signals": [
+        "package.json containing @supabase",
+        "supabase",
+        "supabase/config.toml",
+        ".env containing SUPABASE_URL"
+      ],
+      "skills": [
+        {
+          "url": "https://www.skills.sh/supabase/agent-skills/supabase",
+          "source": "supabase/agent-skills",
+          "use_when": "Auth, RLS policies, storage, realtime, edge functions, project structure"
+        },
+        {
+          "url": "https://www.skills.sh/supabase/agent-skills/supabase-postgres-best-practices",
+          "source": "supabase/agent-skills",
+          "use_when": "Postgres schema design, RLS policy authoring, query performance, migrations"
+        }
+      ],
+      "mcp_servers": [
+        {
+          "name": "postgres",
+          "reason": "Direct schema introspection, RLS policy review, query analysis"
+        }
+      ],
+      "best_practices": {
+        "rls": "Every table MUST have RLS enabled. Use `auth.uid()` predicates; never trust client-side filtering.",
+        "migrations": "Use `supabase migration new <name>` for all schema changes; never edit applied migrations.",
+        "client_keys": "Use anon key in client; service_role key only in edge functions or trusted server contexts.",
+        "edge_functions": "Use `supabase functions new <name>`; deploy with `supabase functions deploy`; never embed secrets in function source."
+      },
+      "anti_patterns": [
+        "Disabling RLS for 'simplicity'",
+        "Using service_role key in client code",
+        "Editing applied migration files",
+        "Storing JWTs in localStorage without httpOnly cookies for sensitive ops"
+      ]
+    },
+    "rails": {
+      "name": "Ruby on Rails",
+      "category": "backend-web-framework",
+      "detection_signals": [
+        "Gemfile",
+        "Gemfile containing rails",
+        "config/routes.rb",
+        "app/controllers",
+        "bin/rails"
+      ],
+      "skills": [
+        {
+          "url": "https://guides.rubyonrails.org",
+          "source": "official",
+          "use_when": "Authoritative Rails reference; Active Record, Action Controller, migrations"
+        }
+      ],
+      "best_practices": {
+        "scaffolding": "Use `rails generate model/controller/migration` for all scaffolding. Never create models/controllers manually.",
+        "migrations": "Use `rails generate migration`; never edit applied migrations; use `rails db:rollback` for reversibility.",
+        "validations": "Use ActiveRecord validations in the model; never validate in controllers.",
+        "testing": "Use `rails test` or RSpec; system tests for full-stack, model tests for unit, integration tests for controller-level flows."
+      },
+      "anti_patterns": [
+        "Fat controllers (move logic to models or service objects)",
+        "Logic in views (use helpers or decorators)",
+        "Skipping strong parameters"
+      ]
+    },
+    "go": {
+      "name": "Go",
+      "category": "backend-language",
+      "detection_signals": [
+        "go.mod",
+        "main.go",
+        "cmd",
+        "internal",
+        "pkg"
+      ],
+      "skills": [
+        {
+          "url": "https://www.skills.sh/anthropics/skills/go-best-practices",
+          "source": "anthropics/skills",
+          "use_when": "Idiomatic Go: error handling, goroutines, channels, testing patterns"
+        },
+        {
+          "url": "https://go.dev/doc/effective_go",
+          "source": "official",
+          "use_when": "Authoritative Go idioms reference"
+        }
+      ],
+      "mcp_servers": [
+        {
+          "name": "postgres",
+          "reason": "Database introspection when using database/sql or sqlx"
+        }
+      ],
+      "best_practices": {
+        "errors": "Return errors, do not panic. Wrap with %w for fmt.Errorf; check via errors.Is/As.",
+        "testing": "Use `_test.go` files with standard testing package. Table-driven tests for variations.",
+        "modules": "Use `go mod tidy` after dependency changes; commit go.sum.",
+        "structure": "cmd/ for executables, internal/ for private packages, pkg/ for public libraries."
+      },
+      "anti_patterns": [
+        "panic for non-fatal errors",
+        "Goroutine leaks (always pair with context cancellation)",
+        "Ignoring errors with `_`",
+        "Using init() for side effects in library packages"
+      ]
+    },
+    "python-fastapi": {
+      "name": "Python + FastAPI",
+      "category": "backend-web-framework",
+      "detection_signals": [
+        "pyproject.toml containing fastapi",
+        "requirements.txt containing fastapi",
+        "main.py",
+        "app"
+      ],
+      "skills": [
+        {
+          "url": "https://fastapi.tiangolo.com",
+          "source": "official",
+          "use_when": "Authoritative FastAPI reference; routing, dependencies, OpenAPI"
+        }
+      ],
+      "best_practices": {
+        "type_hints": "Pydantic models for all request/response; use Python type hints everywhere.",
+        "dependencies": "Use FastAPI's `Depends()` for auth/db/session injection; never use globals.",
+        "async": "Use async def for I/O-bound routes; sync def for CPU-bound or blocking calls.",
+        "testing": "Use `TestClient` from FastAPI for HTTP tests; pytest fixtures for setup."
+      },
+      "anti_patterns": [
+        "Mixing sync and async without understanding blocking",
+        "Skipping Pydantic validation",
+        "Putting business logic in route handlers (use service layer)"
+      ]
+    },
+    "django": {
+      "name": "Django",
+      "category": "backend-web-framework",
+      "detection_signals": [
+        "pyproject.toml containing django",
+        "requirements.txt containing django",
+        "manage.py"
+      ],
+      "skills": [
+        {
+          "url": "https://docs.djangoproject.com",
+          "source": "official",
+          "use_when": "Authoritative Django reference; ORM, admin, middleware, CBVs"
+        }
+      ],
+      "best_practices": {
+        "apps": "Each Django app owns one bounded responsibility; never dump everything into one app.",
+        "orm": "Use Django ORM QuerySets; annotate/aggregate for complex queries. Use `select_related`/`prefetch_related` to avoid N+1.",
+        "migrations": "Use `python manage.py makemigrations` + `migrate`; never edit applied migrations.",
+        "admin": "Customize admin via ModelAdmin class; never expose sensitive fields."
+      },
+      "anti_patterns": [
+        "Fat views (use CBVs or service layer)",
+        "Logic in templates (use template tags or helpers)",
+        "Skipping CSRF protection"
+      ]
+    },
+    "vue-nuxt": {
+      "name": "Vue / Nuxt",
+      "category": "frontend-meta-framework",
+      "detection_signals": [
+        "package.json containing vue",
+        "package.json containing nuxt",
+        "nuxt.config.ts",
+        "vite.config.ts"
+      ],
+      "skills": [
+        {
+          "url": "https://nuxt.com/docs",
+          "source": "official",
+          "use_when": "Nuxt 3+ routing, server routes, composables, auto-imports"
+        }
+      ],
+      "best_practices": {
+        "components": "Use `<script setup>` syntax; auto-imports in Nuxt; defineProps with TypeScript types.",
+        "state": "Pinia for global state; useState for SSR-safe per-request state in Nuxt.",
+        "data_fetching": "useFetch/useAsyncData in Nuxt; never fetch in onMounted for SSR-rendered routes."
+      },
+      "anti_patterns": [
+        "Mixing Options API and Composition API arbitrarily",
+        "Mutating props directly (use emit)",
+        "Client-only state in SSR pages (use useState or cookies)"
+      ]
+    },
+    "svelte-sveltekit": {
+      "name": "Svelte / SvelteKit",
+      "category": "frontend-meta-framework",
+      "detection_signals": [
+        "package.json containing svelte",
+        "package.json containing @sveltejs/kit",
+        "svelte.config.js"
+      ],
+      "skills": [
+        {
+          "url": "https://kit.svelte.dev/docs",
+          "source": "official",
+          "use_when": "SvelteKit routing, load functions, form actions, hooks"
+        }
+      ],
+      "best_practices": {
+        "components": "Use Svelte 5 runes ($state, $derived, $effect) for new code; stores for shared state.",
+        "data_loading": "Use `load` functions for data; use `+page.server.js` for server-only logic.",
+        "forms": "Use SvelteKit form actions with progressive enhancement."
+      },
+      "anti_patterns": [
+        "Using stores where runes would be simpler",
+        "Client-side data fetching in +page.svelte when +page.server.js would work",
+        "Importing server-only code into client components"
+      ]
+    },
+    "tailwind-shadcn": {
+      "name": "Tailwind CSS + shadcn/ui",
+      "category": "frontend-styling",
+      "detection_signals": [
+        "package.json containing tailwindcss",
+        "tailwind.config.js",
+        "tailwind.config.ts",
+        "components.json"
+      ],
+      "skills": [
+        {
+          "url": "https://www.skills.sh/anthropics/skills/frontend-design",
+          "source": "anthropics/skills",
+          "use_when": "Visual design patterns, polish, layout, accessibility"
+        }
+      ],
+      "mcp_servers": [
+        {
+          "name": "shadcn",
+          "reason": "Component registry, install components via MCP, view available components and demos"
+        }
+      ],
+      "best_practices": {
+        "components": "Use `npx shadcn@latest add <component>` for all UI primitives. Never copy-paste components from web; always use the official registry.",
+        "theming": "Use CSS variables in `globals.css`; semantic tokens (background, foreground, primary, etc.) — never hardcode hex values in components.",
+        "dark_mode": "Configure via `dark:` variant + CSS variable swap; never duplicate styles for dark mode.",
+        "responsive": "Mobile-first; use `sm:`, `md:`, `lg:` breakpoints consistently.",
+        "accessibility": "shadcn components are Radix-based — preserve keyboard navigation and ARIA attributes."
+      },
+      "anti_patterns": [
+        "Hardcoded hex colors in className (use semantic tokens)",
+        "Mixing inline styles with Tailwind classes",
+        "Modifying shadcn components in-place (extend via composition or wrap)",
+        "Using `style={{ color: '#fff' }}` instead of Tailwind classes"
+      ]
+    },
+    "rust": {
+      "name": "Rust",
+      "category": "systems-language",
+      "detection_signals": [
+        "Cargo.toml",
+        "src/main.rs",
+        "src/lib.rs"
+      ],
+      "skills": [
+        {
+          "url": "https://www.skills.sh/anthropics/skills/rust-best-practices",
+          "source": "anthropics/skills",
+          "use_when": "Idiomatic Rust: ownership, lifetimes, error handling, async runtime choice"
+        },
+        {
+          "url": "https://doc.rust-lang.org/book",
+          "source": "official",
+          "use_when": "Authoritative Rust language reference"
+        }
+      ],
+      "best_practices": {
+        "errors": "Use thiserror for library errors; anyhow for application errors; never Box<dyn Error> as a return type when more specific types are available.",
+        "ownership": "Borrow by default; clone only when ownership transfer is genuinely needed.",
+        "async": "Tokio for full-featured runtime; smol/async-std for simpler needs. Pick one and stay consistent.",
+        "testing": "`cargo test` for unit + integration; `#[cfg(test)]` modules for unit tests; tests/ directory for integration."
+      },
+      "anti_patterns": [
+        "unwrap() in production code paths (use ? or expect with context)",
+        "String where &str suffices",
+        "Mutex where RwLock or channels would be more appropriate"
+      ]
+    },
+    "postgres": {
+      "name": "PostgreSQL",
+      "category": "database",
+      "detection_signals": [
+        "schema.sql",
+        "migrations",
+        ".env containing POSTGRES",
+        ".env containing DATABASE_URL",
+        "psql"
+      ],
+      "skills": [
+        {
+          "url": "https://www.skills.sh/supabase/agent-skills/supabase-postgres-best-practices",
+          "source": "supabase/agent-skills",
+          "use_when": "Schema design, RLS, query optimization, index strategy, migration safety"
+        }
+      ],
+      "mcp_servers": [
+        {
+          "name": "postgres",
+          "reason": "Live schema introspection, query plan analysis, EXPLAIN output review"
+        }
+      ],
+      "best_practices": {
+        "migrations": "Never edit applied migrations; create new ones for every schema change. Use forward-only migrations in production.",
+        "indexes": "Add indexes for WHERE/JOIN/ORDER BY columns used in hot queries. Use EXPLAIN ANALYZE to verify usage.",
+        "constraints": "Use NOT NULL, UNIQUE, FOREIGN KEY, CHECK constraints. Trust the database, not just application validation.",
+        "naming": "snake_case for tables/columns; plural table names (users, orders, posts); singular column names.",
+        "transactions": "Wrap related writes in transactions; use SERIALIZABLE only when READ COMMITTED is genuinely insufficient."
+      },
+      "anti_patterns": [
+        "Storing JSON blobs when structured columns fit better",
+        "SELECT * in production code (name columns explicitly)",
+        "Missing indexes on foreign keys",
+        "Using ORM-generated SQL without EXPLAIN review"
+      ]
+    }
+  }
+}
