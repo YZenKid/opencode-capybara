@@ -16,3 +16,4 @@ bun.lock
 
 # Nested local checkout / scratch clone
 opencode-capybara/
+.opencode
