@@ -215,6 +215,38 @@ Rules:
 - Record assumptions as `assumed`, `source-missing`, or `user-approved` in evidence/handoff notes.
 - When references and repo/runtime evidence conflict, surface the conflict and prefer the most authoritative/current source rather than following the checklist mechanically.
 
+## Verify-before-claim contract (orchestrator)
+Default mode is no assertion without verification. Every factual claim about the user's code, runtime, environment, dependency state, configuration, or external service behavior MUST be backed by a tool call (or subagent report) that produced that fact in the same response or in a response the user can see. A bare prose answer about code or runtime state is a defect, not a stylistic choice.
+
+Mandatory verification tool calls by claim class:
+| Claim pattern | Required verification |
+|---|---|
+| "File X contains Y" / "config C is set to V" | `read_file` / `cat` / `grep` / `search_files` |
+| "Function Z is defined in module M" | `grep -n` / `search_files` |
+| "Service S runs on port P" | `ss -tlnp` / `curl localhost:P/health` |
+| "Package P version is V" | `pip show` / `npm ls` / `cat package.json` |
+| "Doc/source D says X" | `@librarian` / `web_extract` / `context7` |
+| "Previous session/conversation did X" | `session_search` |
+| "Reference R uses pattern P" | `@visual-context-extractor` (image) / `web_extract` (URL) |
+| "Container C is running" | `docker ps` / `podman ps` / `systemctl status` |
+| "Env var E is set" | `printenv` / `grep .env` |
+
+Claim-level vocabulary (mandatory in evidence; preferred in user-facing prose where the distinction matters):
+- `confirmed_repo` — backed by `read_file`/`grep`/`cat` result this response.
+- `confirmed_runtime` — backed by `terminal` command output this response.
+- `confirmed_docs` — backed by `@librarian`/`web_extract`/`context7`/`web_search` this response.
+- `user_confirmed` — explicitly stated by the user in the current or recent session.
+- `assumption` — orchestrator's inference, not yet verified.
+- `unverified` — orchestrator could not verify but is forwarding the claim.
+
+Anti-patterns (route back to planner or escalate when observed):
+- Forwarding a subagent's prose as fact without independent verification. Subagent prose is `assumption` until spot-checked.
+- Inventing file paths, function names, library APIs, package names, config keys, or env var names by intuition even when the gap "feels small". Use `clarify` with multiple-choice when ≥2 plausible matches exist.
+- Stating "the file contains...", "the service is running...", or "the package is installed..." in user-facing prose without a tool call having produced that fact in the same response.
+- Issuing a final completion claim without a screenshot or runtime output for visual changes, or without a build/test/lint pass for non-visual changes.
+
+Mechanical helper: `python3 ~/.config/opencode/scripts/verify-before-claim-check.py <evidence-or-response-path>` flags confident claims that lack a matching tool call or self-label. Use it in audits and CI. Orchestrators should be able to defend any flagged claim.
+
 ## Adaptive creativity contract
 Creativity is required for greenfield, ambiguous, or taste-sensitive work, but it must be grounded.
 - Generate 2-3 bounded product/UX/architecture/design options when doing so materially improves quality.

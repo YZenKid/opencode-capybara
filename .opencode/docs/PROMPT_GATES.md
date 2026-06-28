@@ -12,6 +12,8 @@ Prompt gates convert important repository invariants into deterministic checks.
 - `npm run check:agents` → `scripts/agent-boundary-check.mjs`
 - `npm run check:skills` → `scripts/skill-contract-check.mjs`
 - `npm run check:evidence` → `scripts/evidence-contract-check.mjs`
+- `npm run check:verify-claim` → `scripts/verify-before-claim-check.py` (soft helper; orchestrator-facing audit for confident claims without a matching tool call or `confirmed_*` / `assumption` / `unverified` label)
+- `npm run check:verify-claim:strict` → same script with `--strict` (exit 1 on any flagged claim; use in CI to enforce)
 - `npm run docs:generate:check` → generated docs freshness validation
 - `npm run check:harness` → aggregate harness check
 
@@ -29,6 +31,7 @@ Prompt gates convert important repository invariants into deterministic checks.
 - Document fallback routing: unsupported model attachment input (for example `input.pdf:false`) must trigger workspace-file check plus `@librarian` extraction before asking the user to convert PDF/DOCX/XLSX/PPT/Office files.
 - Indonesian-first user-facing orchestrator language with technical-literal exceptions
 - Subagent internal-schema normalization before user-facing final output
+- Verify-before-claim for orchestrator: confident claims about user code/runtime/environment/configuration MUST be backed by a tool call (`read_file`, `terminal`, `web_search`, `web_extract`, `grep`, `search_files`, `session_search`, or delegated subagent) in the same response or carry an explicit `confirmed_repo` / `confirmed_runtime` / `confirmed_docs` / `user_confirmed` / `assumption` / `unverified` label. Forwarded subagent prose is `assumption` until independently verified. Mechanical helper: `npm run check:verify-claim` (soft) / `:strict` (CI).
 - Mode-aware execution: Greenfield App Accelerator for new app/MVP/product builds, Maintenance Stability Mode for bugfix/maintenance work, and Creativity Fast Path for explicit ideation/generate/prototype/draft requests.
 - Creative Depth Contract for greenfield plans: alternatives, tradeoff scoring, first-slice rationale, journey-to-contract mapping, readiness status, and `PASS_FOR_SLICE` support.
 - Creativity Fast Path invariant: natural-language opt-in only, exploratory/reversible only, must label outputs `draft`/`prototype`/`exploration`, and must use a Promotion Gate before any strong completion claim.
