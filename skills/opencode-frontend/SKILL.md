@@ -136,6 +136,38 @@ Return `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidenc
 - [ ] Validation includes screenshots or equivalent evidence for material UI changes.
 - [ ] Framework/library version-sensitive behavior verified via `@librarian`/context7 when non-trivial.
 
+## Token-First Implementation (v2 — Open Design integration)
+
+For substantial UI work, `@frontend` implements from the **cited catalog system**'s tokens, not from memory or ad-hoc decisions. Reference: `.opencode/docs/SKILLS.md` §"UI/UX design system source of truth".
+
+**Token source-of-truth:**
+
+1. The canonical token file is `.opencode/catalog/<active-system>/tokens.json` (or its generated equivalent at `.opencode/generated-design/tokens.{json,css,tailwind.config.js}`).
+2. Components reference these via:
+   - Tailwind: `tailwind.config.js` extends `theme.colors` from the token generator output.
+   - CSS: `:root { --color-ink: #...; ... }` from `tokens.css`.
+   - CSS-in-JS: import the JSON.
+3. **No inline `#hex` in component code.** If you need a color, it's a token, and tokens come from the cited system. Exception: one-off values that are clearly labeled `/* one-off */` and reviewed by `@designer`.
+
+**Catalog citation in evidence:**
+
+- Every material UI change must cite the catalog template the section anatomy came from (e.g. `Following example-aerocore hero anatomy with one deviation per deviation_audit`).
+- Token usage is mechanically checked: `python3 ~/.config/opencode/scripts/visual-audit-check.py --contract <contract.md> --token-parity` reports parity percentage.
+
+**Pattern-aware component selection:**
+
+Instead of "use shadcn Card", the instruction becomes "use `<CatalogTemplate>/components/Card.tsx` (adapted from `example-aerocore` if a Bento-style is needed)". Prefer catalog-template-derived component anatomy over generic primitives.
+
+**Push-back authority for catalog gaps:** if `DESIGN.md` exists for a substantial-UI project but does not cite an Open Design source (no `Source & Provenance` block, no `open-design.ai` URL), `@frontend` MUST write `design_pushback.md` asking `@designer` to add a catalog citation. Do not silently implement a template-feeling design.
+
+**Workflow (v2 amendments):**
+
+1. Read `DESIGN.md` and verify it cites the catalog (v2 schema).
+2. If not, push back via `design_pushback.md` and stop.
+3. Load tokens from `.opencode/catalog/<active-system>/tokens.{json,css}` (or generated equivalent).
+4. Implement from the cited template's section anatomy; cite the template in PR/evidence.
+5. Run `visual-audit-check.py --contract <contract> --token-parity` before claiming done; if parity < 80% or any `must_avoid_token` is found, fix or push back.
+
 ## Anti-patterns
 - Manually creating components that a generator/CLI can produce.
 - Shipping UI with AI-slop patterns.

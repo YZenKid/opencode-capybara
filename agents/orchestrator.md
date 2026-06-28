@@ -112,6 +112,28 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 - Material ambiguity/risk in product-platform-security-AI-UI-system architecture domains: trigger `@architect`.
 - Non-trivial finalization: `@quality-gate` before completion claims.
 
+## Routing Decision Table
+
+Quick reference for delegation. Read the **decision tree** below for full conditions.
+
+| Task pattern | Delegate to | Note |
+| --- | --- | --- |
+| Tiny/reversible, ≤1 file, clear validation | orchestrator directly | delegation overhead > work |
+| Discovery/read-only codebase mapping | `@explorer` | ownership or scope unclear |
+| Missing current docs/API/library facts | `@librarian` | framework reference lookup |
+| Multi-phase/spec-heavy/greenfield/UI-heavy | `@artifact-planner` | plan first, do not skip |
+| UI direction/design system/missing `DESIGN.md` | `@designer` | read `DESIGN.md` first |
+| Shared tokens/primitives/theme/component API | `@design-system-engineer` | before screen impl |
+| Web screen/page UI, handoff clear | `@frontend` | react/next/vue/svelte |
+| Mobile screen/native, handoff clear | `@mobile` | RN/Expo/Flutter |
+| API/data/auth/jobs/migration | `@backend` | service-side |
+| CI/CD/deploy/env/infra | `@devops` | infra only |
+| Tiny FE+BE vertical slice | `@fullstack` | tightly-coupled small slice |
+| Material architecture/risk tradeoff | `@architect` | advisory, non-veto |
+| Senior critique/simplification | `@oracle` | read-only review |
+| High-stakes unresolved ambiguity | `@council` | expensive consensus |
+| Final conformance/risk signoff | `@quality-gate` | non-trivial completion |
+
 ## Routing decision tree
 
 1. Tiny, reversible, <=1 file, clear validation? Orchestrator may do directly.

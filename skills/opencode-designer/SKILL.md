@@ -208,18 +208,15 @@ Project-local `DESIGN.md` overrides these defaults.
 
 ### Mechanical anti-AI-slop preflight
 
-Run before output or handoff. Treat context-aware failures as `needs-polish` or blocker for readiness claims.
+Run before output or handoff. Failures map to `needs-polish` or blocker. Concrete examples: see `references/slop-examples.md`.
 
-- Hero fit: above-fold hero fits initial viewport; no cropped primary CTA/content.
-- Nav single-line: desktop nav and primary actions do not wrap or collide.
-- CTA contrast/wrap/duplicate intent: CTAs meet contrast, do not wrap on desktop, and avoid duplicated same-intent buttons.
-- Eyebrow restraint: avoid repetitive eyebrow labels; max roughly `ceil(sectionCount / 3)` unless design system says otherwise.
-- Layout repetition: avoid same card/grid rhythm every section; vary section anatomy with purpose.
-- Image strategy: every visual section declares `generate`, `use-provided-assets`, `licensed-existing-assets`, or `no-generation-needed`.
-- Motion motivation: every non-trivial motion explains meaning and chosen API/system.
-- Reduced-motion: support `prefers-reduced-motion` or platform equivalent.
-- AI tells: reject default purple/blue glow, fake dashboards, vague neon blobs, emoji icons, random serif/display type, placeholder frames, numeric-only service icons, and cloned reference visuals.
-- Explicit aesthetic fidelity: verify requested style grammar is visible in tokens, surfaces, layout, hero, copy, and assets; mismatch is not pure taste.
+- **Hero & CTA**: hero fits initial viewport without cropping primary CTA; nav stays single-line on desktop; CTAs meet contrast and don't duplicate intent.
+- **Section variety**: vary section anatomy by purpose; reject same card/grid rhythm across 3+ sections.
+- **Image strategy**: every visual section declares `generate`, `use-provided-assets`, `licensed-existing-assets`, or `no-generation-needed`.
+- **Motion**: every non-trivial motion explains meaning; support `prefers-reduced-motion` or platform equivalent.
+- **AI tells**: reject default purple/blue glow, fake dashboards, vague neon blobs, emoji icons, placeholder frames, numeric-only service icons, and cloned reference visuals.
+- **Eyebrow restraint**: avoid repetitive eyebrow labels; max roughly `ceil(sectionCount / 3)` unless design system says otherwise.
+- **Style fidelity**: verify requested style grammar is visible in tokens, surfaces, layout, hero, copy, and assets; mismatch is not pure taste.
 
 ### Generation taste contract
 
@@ -232,6 +229,60 @@ For UI, image, mockup, hero, thumbnail, avatar, badge, or background generation:
 5. Reference contract when applicable: `keep`, `change`, `do_not_copy`.
 6. Execute generation only after manifest is art-directed; prefer visual-asset-generator/9router saved asset path.
 7. Require integration evidence before ready/parity claims.
+
+## Catalog-First Workflow (v2 — Open Design integration)
+
+For **substantial UI work** (greenfield, design revamp, reference parity, image-heavy, taste-sensitive, multi-page surface), `@designer` MUST select from the Open Design catalog before producing any design handoff. Reference: `.opencode/docs/SKILLS.md` §"UI/UX design system source of truth" and `.opencode/plans/ui-ux-open-design-upgrade.md`.
+
+**Selection protocol (mandatory order):**
+
+1. **Run `catalog-search.py`** to find candidate systems + templates:
+   ```bash
+   python3 ~/.config/opencode/scripts/catalog-search.py --pair --query "<use case or vibe>"
+   ```
+   Output: 2 candidate systems + 3 candidate templates with rationale.
+
+2. **Pick a system + template pair** from the result, OR justify an off-list pick with explicit first-principles. Off-list picks are allowed but must include the same structured fields (system slug, source URL, license, deviation rationale).
+
+3. **Document the pick** in `.opencode/evidence/<task-id>/catalog-decision.md`:
+   - Chosen system + template with catalog URLs and license
+   - 2-3 rejected alternatives with reasons
+   - Pair rationale (≥2 sentences)
+   - Any planned deviations
+
+4. **Generate DESIGN.md v2** from the chosen system (and fork if needed):
+   ```bash
+   python3 ~/.config/opencode/scripts/init-design-system.py --project-root . --system <slug> --template <slug> --force
+   # optional: fork with deviations
+   python3 ~/.config/opencode/scripts/design-system-fork.py --base <slug> --out DESIGN.md --deviate "accent=#ff5722" --author "..." --purpose "..."
+   ```
+
+5. **Generate tokens** for the implementation lane:
+   ```bash
+   python3 ~/.config/opencode/scripts/design-token-generator.py --project-root . --system <slug> --strict
+   ```
+   Output: `tokens.json`, `tokens.css`, `tailwind.config.js` in `.opencode/generated-design/`.
+
+6. **Embed the citation** in the visual contract's `catalog_citation` block (use `visual-quality-contract-v2.md` template).
+
+**Deviation transparency:** any deviation from the selected catalog system MUST be listed in `deviation_audit` (under `catalog_citation`) with `what`, `why`, `risk`, `approved_by`. Undocumented deviation → `needs-polish`.
+
+**Reference Pack upgrade:** minimum 3 reference screenshots is replaced by "minimum 1 catalog system + 1 catalog template + 1 external reference (current industry standard)". The catalog entry is itself a reference; cite it.
+
+**Material Grammar Translation v2:** when user requests a vibe phrase (e.g. "claymorphism", "glassmorphism", "editorial brutalism"), the translation is now:
+1. Search the catalog for a system that exemplifies it (`catalog-search.py --query "<phrase>"`)
+2. Find a template that shows the section anatomy in that style
+3. Cite the pair in the visual contract
+
+Prose-only translation (without catalog citation) is no longer sufficient for substantial UI.
+
+**Source-of-truth hierarchy (must respect):**
+1. User's existing project brand (DESIGN.md in repo root, if present and current)
+2. Open Design catalog (150 systems + 290 templates at `open-design.ai`)
+3. Generic design principles from `.opencode/docs/SHARED_POLICIES.md` — fallback only
+4. Agent memory — NEVER for visual direction
+
+The catalog is **selected, not invented**. `@designer` cannot say "I'll go with a modern editorial feel." It must say "I selected `Editorial` design system with `example-hps-academic-paper` template variant, here is the chosen option's full DESIGN.md."
 
 ## General Design Readiness Gate
 
