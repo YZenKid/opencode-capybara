@@ -663,3 +663,35 @@ Your return report should mirror the handoff:
 
 ponytail: This is a soft discipline first. The upgrade path is a session-trace/delegation-log audit that flags workers who routinely act on incomplete handoffs.
 
+## Project Memory Finalization Gate (mandatory before final summary)
+
+Before the `@orchestrator` posts the final user-facing summary for any non-trivial task, persist a project-local memory entry under `<project-root>/.opencode/mcp-memory/`. The wrapper is the source of truth for memory writes; never write to that directory directly.
+
+Wrapper:
+
+```bash
+python3 ~/.config/opencode/scripts/mcp-memory-store.py --project-root . --finalize \
+  --task "$TASK_ID" \
+  --summary "<1-3 sentence factual summary>" \
+  --decision "<concrete decision that should persist>" \
+  --file "<path touched in this task>" \
+  --claim-level done
+```
+
+Rules:
+- Bounded, not stacked: each task id has at most one active record. Re-running the same `--task` archives the previous one with `archived_reason: replaced_by_newer_task_memory` and increments the `revision`.
+- Cap-bounded: default `--max-active 200`. When the active set exceeds the cap, lowest importance + oldest `last_used_at` is archived with `archived_reason: cap_exceeded`.
+- Project-local: the wrapper derives `<project-key>` from a SHA-256 of the absolute project root, so the same path on the same machine maps to one bundle. Moving the project does not merge memories.
+- Search: `mcp-memory-store.py --search <query>` returns local hits; future sessions can grep `--graph` to see active entities.
+- This is not chat memory. It does not contain user-identity facts (those live in Hermes memory). It is project-task history, evidence-led, replaceable.
+
+If `--finalize` returns `ok: false`, the `@orchestrator` must surface that failure in the final summary and must not mark the task `done` until the memory write succeeds (or the user has been informed that the memory subsystem is unavailable).
+
+Verification (mechanical, runnable from any session):
+
+```bash
+python3 ~/.config/opencode/scripts/mcp-memory-store.py --project-root . --graph --json | jq '.records | length'
+```
+
+ponytail: For now this is a soft constraint at the prompt layer with a runnable check; the upgrade path is wiring this into the runtime quality-gate checkpoint so the script auto-runs before completion.
+

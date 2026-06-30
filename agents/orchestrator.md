@@ -628,3 +628,20 @@ If the implemented stack diverges from the planned or documented stack (dependen
 - If reasoning/thinking tool exists, call tool through OpenCode/MCP only.
 - If native provider reasoning exists, let provider emit reasoning parts.
 - Otherwise keep private reasoning hidden and output only final user-facing content.
+
+## Project Memory Finalization Gate (mandatory before final summary)
+
+Before posting the final user-facing summary for any non-trivial task, persist a project-local memory entry that future sessions of this project can reuse. This is the only way project memory stays bounded, fresh, and project-scoped instead of stacked-up chat memory.
+
+Storage:
+- Per-project bundle: `<project-root>/.opencode/mcp-memory/<project-key>/`
+- Records: `index.json` (active + historical entities), `archive.json` (replaced/archived)
+- MCP graph store: `memory.jsonl` (synced via the wrapper below)
+
+Run the wrapper:
+
+```bash
+python3 ~/.config/opencode/scripts/mcp-memory-store.py --project-root . --finalize \
+  --task "$TASK_ID" \
+  --summary "1-3 sentence factual summary of what shipped" \
+  --decision "Concret...[truncated]
