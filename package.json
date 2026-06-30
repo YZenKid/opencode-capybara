@@ -39,6 +39,8 @@
     "test:verify-claim": "python3 scripts/tests/verify-before-claim-check.test.py",
     "check:session-trace": "python3 scripts/session-trace-audit.py",
     "test:session-trace": "python3 scripts/tests/session-trace-audit.test.py",
+    "check:template-source": "python3 scripts/template-source-discovery.py --project-root . --summary-only",
+    "check:template-source:json": "python3 scripts/template-source-discovery.py --project-root . --json",
     "sync:openchamber": "node scripts/sync-openchamber-settings.mjs",
     "sync:openchamber:check": "node scripts/sync-openchamber-settings.mjs --check",
     "sync:openchamber:seed": "node scripts/sync-openchamber-settings.mjs --seed-approved-directories",

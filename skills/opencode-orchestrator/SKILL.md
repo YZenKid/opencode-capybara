@@ -86,6 +86,41 @@ This section turns the reference-first contract above into enforceable rules. Th
 - Reject generic fallback styles such as card grids, vague glass/neon, centered gradient hero, or fake dashboards when the user requested a different aesthetic.
 - Keep tiny UI light: small reversible polish may rely on existing design guidance when no material style decision changes.
 
+## Template/Source Discovery Hard Gate
+
+When a user references "templates", "pakai templates", "ikutin website X", "porting", "1:1 clone", "copy this design", or when the project has a `templates/` directory referenced by `AGENTS.md` or `.opencode/AGENTS.md` non-negotiables, this lane MUST run a hard discovery step before any implementation.
+
+### When this gate fires
+- The user prompt contains any of: `template`, `pakai templates`, `ikutin`, `mirip`, `clone`, `port`, `copy`, `replicate`, `porting`, `1:1`, `style seperti`, `seperti web`, `adapt dari`.
+- The project has a `templates/` directory at the project root or under a documented source location.
+- The project's `.opencode/AGENTS.md` lists any non-negotiable (N#) that names a template, a template directory, or a license/attribution constraint tied to a third-party template.
+
+### Mandatory discovery steps
+1. Run `python3 ~/.config/opencode/scripts/template-source-discovery.py --project-root . --json` and read the discovery report. The script inventories every folder under `templates/`, parses entry HTML/CSS/JS/Pug/SCSS and `package.json`, and scans `.opencode/AGENTS.md` for matching constraints.
+2. If the script reports a conflict between user intent ("pakai templates") and any N# constraint (e.g. N19 blocking `templates/landingpage/`), stop and ask the user to clarify. Do not invent a resolution.
+3. Write `.opencode/evidence/<task-id>/template-source-discovery.json` and reference it from the plan/evidence/handoff. No silent skipping.
+4. Only after the discovery report exists AND user intent is unambiguous may this lane proceed. Skip reason must be recorded explicitly when an MCP or script is unavailable.
+
+### Why this gate is mechanical, not taste
+Without this gate the historical failure pattern is:
+- Agent acknowledges `templates/` exists but never reads the entry files.
+- Agent defaults to a generic SaaS-style implementation (centered gradient hero, fake testimonials `Maya R./Andre F./Nisa A.`, fake pricing `$4/$12/mo`, generic FAQ, `Join thousands who reflect daily`).
+- Constraint `N17` (token visual identity with template) and `N19` (block Trafalgar Pug/Gulp/Bootstrap) are silently overridden.
+- No `template_extraction_trace` is produced, so quality-gate cannot detect the drift.
+
+This gate exists so the failure becomes **impossible to ship silently**.
+
+### Quick clarification template (use when needed)
+Ask the user (or surface in evidence if user is offline):
+1. Which template directory is the source of truth? (list the candidates the script reported)
+2. Level of fidelity: `1:1 port`, `visual+layout adapt`, `token source only`, `anatomy reference only`.
+3. What is allowed to be reused verbatim? `structure`, `style tokens`, `copy`, `assets`, `code`.
+4. What MUST be replaced? `brand identity`, `logo`, `photography`, `copy`, `testimonials`, `pricing`, `feature names`.
+5. Is there an explicit license/permission that allows reuse, or is reuse adapted-only?
+
+ponytail: This gate pairs a behavioral rule with a mechanical helper (`scripts/template-source-discovery.py`). A prompt-only rule without a script is a wish; this slice ships the script and wires `npm run check:template-source` so the gate is auditable.
+
+
 ## Core routing
 
 Direct-work threshold (hard default):

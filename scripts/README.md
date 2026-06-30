@@ -343,6 +343,7 @@ python3 ~/.config/opencode/scripts/<script>.py --project-root . [script-specific
 | `design-audit.py` | `@designer`, `@quality-gate` |
 | `init-design-system.py` | `@designer`, `@orchestrator` |
 | `design-debt-tracker.py` | `@designer`, `@quality-gate` |
+| `template-source-discovery.py` | `@orchestrator`, `@designer`, `@artifact-planner`, `@frontend`, `@quality-gate` (Template/Source Discovery Hard Gate) |
 
 When adding a new governance script, also update this README and wire the relevant agent/skill prompts with a concrete command example.
 
@@ -382,3 +383,38 @@ This mode verifies:
 - If the project contains `templates/<dir>/`, `.opencode/evidence/<task-id>/template-extraction-trace.md` exists and is non-empty.
 
 Exit code `1` on any high-severity mechanical failure; `0` when only low/medium. Combine with `--token-parity` for full v2 + v3 coverage. Consumed by `@designer`, `@frontend`, `@artifact-planner`, and `@quality-gate`.
+
+### template-source-discovery.py
+
+Hard-gate helper for the `## Template/Source Discovery Hard Gate` clause in `@orchestrator`, `@designer`, `@artifact-planner`, `@frontend`, and `@quality-gate`. Fires whenever a user prompt mentions a template/source/port intent keyword (`pakai templates`, `ikutin`, `mirip`, `clone`, `port`, `copy from`, `1:1`, `porting`, `seperti web ini`) **or** the project has a `templates/` directory.
+
+**Summary mode** (default; exit `0` even when no templates exist, `1` when a constraint blocks a discovered template folder):
+
+```bash
+python3 ~/.config/opencode/scripts/template-source-discovery.py --project-root . --summary-only
+```
+
+**JSON mode** (machine-readable; ready to be archived as `.opencode/evidence/<task-id>/template-source-discovery.json`):
+
+```bash
+python3 ~/.config/opencode/scripts/template-source-discovery.py \
+  --project-root . \
+  --user-intent "Tolong pakai templates yang ada untuk landing" \
+  --json > .opencode/evidence/<task-id>/template-source-discovery.json
+```
+
+**Convenience npm scripts** (run from any project root after `npm run setup:tools`):
+
+```bash
+npm run check:template-source          # human summary, exit 0/1
+npm run check:template-source:json     # full JSON
+```
+
+What the script does:
+
+- Walks `<project-root>/templates/` and inventories each immediate subdirectory (e.g. `templates/dashboard/`, `templates/landingpage/`) by parsing `index.html`, `src/index.css`, `package.json`, and any obvious entry files.
+- Extracts `name`, `package_name`, `license` (from `package.json` `license` field, or `LICENSE*`/`Readme.md` scan), and `stack_hints` (`react`, `vue`, `vite`, `tailwind`, `bootstrap`, `pug`, `gulp`, `react-router`, `inertia`, `recharts`, `framer-motion`).
+- Scans `AGENTS.md` and `.opencode/AGENTS.md` for non-negotiables `N1..N99` and detects `constraint-blocks-template` conflicts (constraint body contains `tidak`/`jangan`/`blocked`/`tidak dipakai`/`not used`/`banned` AND the template name or its `templates/<name>` path token, or its `package_name`, appears in the body).
+- Emits `needs_user_clarification: true` + an exit code of `1` when at least one conflict is found. The agent must surface the conflict to the user before any implementation.
+
+Why this is mechanical and not a taste preference: the historic failure pattern is "agent saw `templates/` but never opened the files, defaulted to a generic SaaS landing, ignored `N19`-style constraints, and produced a structurally complete but substantively wrong output". A prompt-only rule without a script is a wish; this slice ships the script and wires `check:template-source` so the gate is auditable.
