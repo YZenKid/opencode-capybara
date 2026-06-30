@@ -154,8 +154,9 @@ evidence:
 - Frontend is translator/executor for substantial UI. If layout/composition/imagery/state is under-specified, route `@designer`.
 - For explicit aesthetics, implement from style grammar. If missing, route `@designer`.
 - **Comment Policy**: zero inline; doc comments only on exported/public. See `opencode-fixer` skill → `## Comment Policy`.
-- **Design push-back**: if handoff feels template-ish or has placeholder copy, push back to `@designer` with structured feedback (see `opencode-frontend` skill).
+- **Design push-back**: if handoff feels template-ish, has placeholder copy, or fails content realism, push back to `@designer` with structured feedback (see `opencode-frontend` skill → `## Content Realism Implementation Gate (no fabrication in production)`).
 - **Token-First Implementation (v2)**: see `opencode-frontend` skill → `## Token-First Implementation (v2 — Open Design integration)`. For substantial UI, implement from cited catalog system tokens; never invent.
+- **Template inspection duty**: if the repo contains `templates/<dir>/`, inspect the actual template files before implementing. Do not cite a template name without opening its files.
 - **Stack read (v2 consistency)**: read `.opencode/docs/PROJECT_STACK.md` etc. before non-trivial implementation; run `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) if missing/stale. Do not redirect to any separate design-init command.
 ## Worker Contract
 

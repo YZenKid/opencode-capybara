@@ -17,3 +17,7 @@ bun.lock
 # Nested local checkout / scratch clone
 opencode-capybara/
 .opencode
+
+# Python bytecode cache
+__pycache__/
+*.pyc

@@ -97,6 +97,39 @@ For greenfield/UI-heavy/substantial visual work, quality-gate MUST verify plan i
 **Enforcement:**
 If reference pack is missing, return `NEEDS_FIX`. Do not proceed to implementation review until reference pack is adequate.
 
+## Content Authenticity Gate (mechanical, blocks PASS)
+
+For substantial UI work, quality-gate MUST verify content authenticity as a mechanical gate. These are not taste preferences.
+
+**Hard fail patterns (return `NEEDS_FIX` immediately):**
+- **Fabricated testimonials** presented as real (named people without evidence, generic initials like "Maya R."/"Andre F.", stock-style quotes that could be swapped to any SaaS).
+- **Fake pricing/tiers** with arbitrary dollar amounts and feature lists when no business evidence exists in repo/plan/user confirmation.
+- **Fake FAQ** answers that are interchangeable across SaaS landing pages (e.g. "Will I lose my streak if I miss a day?" answered with a generic supportive blurb).
+- **Decorative stats** (99%, 24k users, 10x faster) without a labeled source, `user-supplied` annotation, or a sample-size note.
+- **AI-brochure slogans** (`pasti bisa`, `solusi terbaik`, vague mission filler, "your trusted partner") in user-facing copy unless the user explicitly approved the slogan.
+- **`foto menyusul`, `kontak akan diperbarui`, `coming soon` copy** in production-facing surfaces unless labeled demo/dev.
+- **CTA buttons linking to `/#` or non-existent routes** when the slice claims usable MVP.
+- **Stock illustration/pattern-card hero** when the reference or domain requires real photography, hands, materials, or local context.
+- **Hollow social proof** (avatar cluster without names, "Loved by reflective people" with no real user evidence, fake rating counts).
+
+**Required evidence for substantial UI:**
+- `.opencode/evidence/<task-id>/visual-quality-contract.md` includes a `content_provenance` block per section.
+- `.opencode/evidence/<task-id>/visual-quality-contract.md` includes a `content_authenticity_checklist` with 8 pass/fail rows (testimonial_real, pricing_real, faq_grounded, stats_meaningful, hero_shows_real_domain, copy_no_brochure_slogans, cta_routes_resolve, contact_real).
+- `.opencode/evidence/<task-id>/template-extraction-trace.md` exists when the project contains a `templates/<dir>/` directory, listing every template dir, files inspected, and which project surface each informed.
+- `.opencode/evidence/<task-id>/visual-rubric.md` reference feel parity table exists with one row per major surface and no `no`/`partial` cells without a next action.
+
+**Verification mechanism:**
+Run `python3 ~/.config/opencode/scripts/visual-audit-check.py --contract <path> --content-authenticity` (see `scripts/visual-audit-check.py` upgrade). Missing `content_provenance` block, `content_authenticity_checklist` block, or any hard-fail pattern detected by the script → `NEEDS_FIX`.
+
+**Status mapping:**
+- Single hard-fail in a non-critical section → `PASS_WITH_RISKS` only if the section is explicitly labeled `placeholder_pending_user` or `fabricated_for_demo` and the slice claim is reduced to `draft`/`prototype`.
+- Single hard-fail in a critical section (hero, pricing, social proof, primary CTA) → `NEEDS_FIX` even if the rest is excellent.
+- Multiple hard-fails across sections → `BLOCKED` (cannot assess real quality with so much fabricated content).
+- Missing evidence (no `content_provenance`, no `content_authenticity_checklist`, no `template-extraction-trace.md` when templates dir exists) → `NEEDS_FIX` for substantial UI.
+
+**Enforcement rule:**
+A landing page that is structurally complete (hero/features/testimonials/pricing/FAQ/CTA/footer all present) but fails the Content Authenticity Gate MUST NOT receive `PASS` or `PASS_WITH_RISKS`. The gate is mechanical: a "rapi tapi slop" outcome is `NEEDS_FIX` because the user-facing surface is hollow.
+
 ## Anti-Generic Landing Page Gate
 
 For greenfield/UI-heavy/substantial visual work, quality-gate MUST check plan for mechanical failures.

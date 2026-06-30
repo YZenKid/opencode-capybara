@@ -12,6 +12,13 @@ Generated inventory of deterministic prompt-gate checks. This file is advisory a
 - `npm run check:agents`
 - `npm run check:skills`
 - `npm run check:evidence`
+- `npm run check:verify-claim`
+- `npm run check:verify-claim:strict`
+- `npm run check:rules-source`
+- `npm run init:rules-harmonize`
+- `npm run init:rules-harmonize:forward-all`
+- `npm run init:stack-suggest`
+- `npm run check:session-trace <transcript>`
 - `npm run docs:generate:check`
 - `npm run check:harness`
 

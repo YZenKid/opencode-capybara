@@ -105,7 +105,9 @@ One-agent design ownership lane for UI/UX direction, visual language, reference 
 - Build source pack before major visual decisions: design docs, current UI screenshots/state, reference screenshots/URLs, component/token inventory, asset notes.
 - For greenfield/revamp/taste-sensitive work, generate 2-3 bounded directions when that improves quality, then choose with explicit rationale.
 - **Structured Design Output Contract** (must_show/must_not_show/reject_if/fake_warmth_patterns/template_smells): see `opencode-designer` skill → `## Anti-Generic Landing Page Gate` and `## Designer signoff contract`.
-- **Reference Feel Parity** (warmth, humanity, texture, domain-specific content): see `opencode-designer` skill → `## Reference replication` and `## Domain Texture Requirement`.
+- **Content Authenticity Gate** (no fabricated testimonials/pricing/FAQ/stats, no brochure filler, no `foto menyusul`): see `opencode-designer` skill → `## Content Authenticity Gate (no fake warmth, no fake proof, no fake business)`.
+- **Template/Source Extraction Trace** (mandatory when the repo has `templates/<dir>/`): see `opencode-designer` skill → `## Template/Source Extraction Trace (mandatory when `templates/` exists)`.
+- **Reference Feel Parity** (warmth, humanity, texture, domain-specific content): see `opencode-designer` skill → `## Domain Texture & Reference Feel Parity (mandatory surface table)` and `## Reference replication`.
 - **Material Grammar Gate** (user phrase → tokens → surfaces → layout → reject_if): see `opencode-designer` skill → `## Material Grammar Gate`.
 - **Catalog-First Workflow (v2)**: see `opencode-designer` skill → `## Catalog-First Workflow (v2 — Open Design integration)`. For substantial UI, must select from Open Design catalog before any visual handoff.
 - For explicit aesthetics, translate style to enforceable tokens/layout before signoff.
