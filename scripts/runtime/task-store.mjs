@@ -1,6 +1,7 @@
 
 import { taskFile, tasksRoot, runEventsFile } from "./state-paths.mjs";
 import { appendNdjson, ensureDir, listJson, readJson, writeJsonAtomic } from "./state-io.mjs";
+import { runMemoryFinalize } from "./memory-finalize-hook.mjs";
 
 function timestamp() {
   return new Date().toISOString();
@@ -53,7 +54,15 @@ export function claimTask(projectRoot, runId, taskId, worker) {
 }
 
 export function completeTask(projectRoot, runId, taskId, result = {}) {
-  return withTask(projectRoot, runId, taskId, (current) => ({ ...current, status: "completed", result }));
+  const finished = withTask(projectRoot, runId, taskId, (current) => ({ ...current, status: "completed", result }));
+  // ponytail: project memory auto-finalize. The hook is fail-soft: a missing
+  // MCP server or a malformed payload must not block task completion. To
+  // disable globally, set OPENCODE_MEMORY_FINALIZE=0 in the environment.
+  if (process.env.OPENCODE_MEMORY_FINALIZE === "0") {
+    return finished;
+  }
+  const memory = runMemoryFinalize(projectRoot, runId, finished, result);
+  return { ...finished, memory_finalize: memory };
 }
 
 export function failTask(projectRoot, runId, taskId, result = {}) {

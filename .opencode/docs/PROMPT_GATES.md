@@ -27,6 +27,7 @@ Prompt gates convert important repository invariants into deterministic checks.
 - `npm run test:memory-reuse` → `scripts/tests/memory-reuse-check.test.py` (fixture-driven regression for `scripts/memory-reuse-check.py`; checks that verified claims reference a memory id or `project-memory.py --load` invocation, otherwise the script emits a `memory_reuse_missed` finding)
 - `npm run test:session-trace-strict` → `scripts/tests/session-trace-audit.test.py` (fixture-driven regression for `session-trace-audit.py` --strict mode, including the `memory_reuse_missed` heuristic when a transcript verifies a fact that overlaps a memory entry)
 - `npm run test:mcp-memory-store` → `scripts/tests/mcp-memory-store.test.py` (fixture-driven regression for the bounded project-local MCP memory wrapper; covers finalize, replace/archive on re-finalize, search, cap-bounded pruning, and required-arg validation)
+- `npm run test:runtime-memory-finalize` → `scripts/tests/runtime-memory-finalize-hook.test.mjs` (node:test regression for `scripts/runtime/memory-finalize-hook.mjs` and the auto-finalize behavior injected into `task-store.completeTask`; covers happy path, fail-soft behavior, and the `OPENCODE_MEMORY_FINALIZE=0` kill switch)
 - `npm run docs:generate:check` → generated docs freshness validation
 - `npm run check:harness` → aggregate harness check
 
