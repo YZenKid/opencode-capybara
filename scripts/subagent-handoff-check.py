@@ -11,24 +11,6 @@ the subagent can execute without re-deriving context.
 
 This script validates a handoff payload (YAML or JSON) against the
 required schema and a per-lane allowlist.
-
-Usage:
-    python3 ~/.config/opencode/scripts/subagent-handoff-check.py \\
-        --payload .opencode/handoffs/<task-id>-<n>.yaml
-
-    python3 ~/.config/opencode/scripts/subagent-handoff-check.py \\
-        --payload -  # read from stdin
-
-    # CI mode: scan a plan file for embedded handoffs
-    python3 ~/.config/opencode/scripts/subagent-handoff-check.py \\
-        --plan .opencode/plans/<task-id>.md
-
-Exit codes:
-    0 = payload valid
-    1 = payload missing required field
-    2 = payload refers to lane outside allowlist
-    3 = evidence path does not exist
-    4 = invocation error
 """
 from __future__ import annotations
 
@@ -39,15 +21,11 @@ import sys
 from pathlib import Path
 from typing import Any
 
-# Field schema for the handoff payload.
-# Required = strictly required. Recommended = should be present for non-trivial work.
-REQUIRED_FIELDS = (
-    "task_id",
-    "caller",
-    "callee",
-    "scope",
-    "claim_level",
-)
+try:
+    import jsonschema
+except Exception:  # pragma: no cover
+    jsonschema = None
+
 RECOMMENDED_FIELDS = (
     "plan_id",
     "source_basis",
@@ -85,24 +63,21 @@ ALLOWED_LANES = {
     "council",
 }
 ALLOWED_CLAIM_LEVELS = {"draft", "scoped", "partial", "done"}
-
-# Match a YAML/JSON fenced block in a markdown plan that starts with
-# `handoff:` or `subagent_handoff:` (case-insensitive). Used by --plan mode.
+SCHEMA_PATH = Path(__file__).with_name("data") / "handoff.schema.json"
 FENCE_PATTERN = re.compile(
     r"```(?:yaml|json)?\s*\n(.*?^[\s>]*(?:handoff|subagent_handoff)\s*:\s*.*?)\n```",
     re.IGNORECASE | re.MULTILINE | re.DOTALL,
 )
-PAYLOAD_KEY_PATTERN = re.compile(
-    r"^[\s>-]*([A-Za-z_][A-Za-z0-9_]*)\s*:\s*(.+?)\s*$",
-    re.MULTILINE,
-)
+
+
+def load_schema() -> dict[str, Any] | None:
+    if not SCHEMA_PATH.is_file():
+        return None
+    return json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
 
 
 def strip_yaml(text: str) -> dict[str, Any]:
-    """Tiny YAML-ish parser; supports scalars, inline lists, and one nested map level.
-
-    Good enough for handoff payloads. If real YAML is needed, install pyyaml.
-    """
+    """Tiny YAML-ish parser; supports scalars, inline lists, and one nested map level."""
     out: dict[str, Any] = {}
     current_key: str | None = None
     current_list: list[str] | None = None
@@ -111,7 +86,6 @@ def strip_yaml(text: str) -> dict[str, Any]:
         line = raw.rstrip("\n")
         if not line.strip() or line.lstrip().startswith("#"):
             continue
-        # nested child under current_map, e.g. handoff:\n  task_id: x
         if current_key and current_map is not None and re.match(r"^\s{2,}[A-Za-z_][A-Za-z0-9_]*\s*:", line):
             child = line.strip()
             m_child = re.match(r"^([A-Za-z_][A-Za-z0-9_]*)\s*:\s*(.*)$", child)
@@ -125,7 +99,6 @@ def strip_yaml(text: str) -> dict[str, Any]:
                     current_map[ckey] = cval.strip("'\"")
                 out[current_key] = current_map
                 continue
-        # list item under current_key
         m_list = re.match(r"^\s*-\s+(.*)$", line)
         if m_list and current_list is not None and current_key is not None:
             current_list.append(m_list.group(1).strip().strip("'\""))
@@ -144,23 +117,15 @@ def strip_yaml(text: str) -> dict[str, Any]:
             continue
         if val.startswith("[") and val.endswith("]"):
             inner = val[1:-1].strip()
-            items = [v.strip().strip("'\"") for v in inner.split(",") if v.strip()]
-            out[key] = items
+            out[key] = [v.strip().strip("'\"") for v in inner.split(",") if v.strip()]
             current_key = None
             current_list = None
             current_map = None
-            continue
-        if val.startswith("[") and not val.endswith("]"):
-            current_list = [val[1:].strip().strip("'\"")]
-            current_key = key
-            current_map = None
-            out[key] = current_list
             continue
         out[key] = val.strip("'\"")
         current_key = None
         current_list = None
         current_map = None
-    # unwrap top-level handoff/subagent_handoff block when present
     if isinstance(out.get("handoff"), dict):
         return out["handoff"]
     if isinstance(out.get("subagent_handoff"), dict):
@@ -183,50 +148,48 @@ def load_plan_payloads(plan_path: Path) -> list[tuple[str, dict[str, Any]]]:
     text = plan_path.read_text(encoding="utf-8", errors="replace")
     out: list[tuple[str, dict[str, Any]]] = []
     for m in FENCE_PATTERN.finditer(text):
-        body = m.group(1)
-        # strip leading list markers
-        cleaned = re.sub(r"^\s*>\s?", "", body, flags=re.MULTILINE)
-        out.append((f"{plan_path.name}#{m.start()}", strip_yaml(cleaned)))
+        body = re.sub(r"^\s*>\s?", "", m.group(1), flags=re.MULTILINE)
+        out.append((f"{plan_path.name}#{m.start()}", strip_yaml(body)))
     return out
+
+
+def validate_with_schema(name: str, payload: dict[str, Any]) -> list[str]:
+    if jsonschema is None:
+        return []
+    schema = load_schema()
+    if not schema:
+        return []
+    validator = jsonschema.Draft202012Validator(schema)
+    errors = []
+    for err in validator.iter_errors(payload):
+        where = ".".join(str(x) for x in err.path) or "$"
+        errors.append(f"[{name}] schema {where}: {err.message}")
+    return sorted(errors)
 
 
 def validate_one(name: str, payload: dict[str, Any], project_root: Path) -> list[str]:
     errors: list[str] = []
-    for field in REQUIRED_FIELDS:
-        if field not in payload or payload[field] in ("", None, []):
-            errors.append(f"[{name}] missing required field: {field}")
+    errors.extend(validate_with_schema(name, payload))
     for field in RECOMMENDED_FIELDS:
         if field not in payload:
             errors.append(f"[{name}] missing recommended field: {field}")
     callee = str(payload.get("callee", "")).lstrip("@")
     if callee and callee not in ALLOWED_LANES:
-        errors.append(
-            f"[{name}] callee='{callee}' is not in the OpenCode lane allowlist"
-        )
+        errors.append(f"[{name}] callee='{callee}' is not in the OpenCode lane allowlist")
     claim = str(payload.get("claim_level", ""))
     if claim and claim not in ALLOWED_CLAIM_LEVELS:
-        errors.append(
-            f"[{name}] claim_level='{claim}' invalid; expected one of "
-            f"{sorted(ALLOWED_CLAIM_LEVELS)}"
-        )
-    # evidence_required paths must be future-safe (don't have to exist yet)
-    # but if absolute and existing, that's suspicious (handoff before work).
+        errors.append(f"[{name}] claim_level='{claim}' invalid; expected one of {sorted(ALLOWED_CLAIM_LEVELS)}")
     for rel in payload.get("evidence_required", []) or []:
         if isinstance(rel, str) and rel:
             p = (project_root / rel).resolve()
             try:
                 if p.exists() and p.stat().st_size == 0:
-                    errors.append(
-                        f"[{name}] evidence_required path is empty: {rel}"
-                    )
+                    errors.append(f"[{name}] evidence_required path is empty: {rel}")
             except OSError:
                 pass
-    # do_not_touch should never include '..' (safety)
     for rel in payload.get("do_not_touch", []) or []:
         if isinstance(rel, str) and ".." in rel.split("/"):
-            errors.append(
-                f"[{name}] do_not_touch uses '..' path traversal: {rel}"
-            )
+            errors.append(f"[{name}] do_not_touch uses '..' path traversal: {rel}")
     return errors
 
 
@@ -235,9 +198,7 @@ def main() -> int:
     ap.add_argument("--payload", help="Path to handoff payload file (.yaml/.json) or - for stdin")
     ap.add_argument("--plan", help="Plan markdown to scan for embedded handoff blocks")
     ap.add_argument("--project-root", default=".", help="Project root for resolving paths")
-    ap.add_argument(
-        "--json", action="store_true", help="Emit JSON report instead of human text"
-    )
+    ap.add_argument("--json", action="store_true", help="Emit JSON report instead of human text")
     args = ap.parse_args()
 
     if not args.payload and not args.plan:
@@ -267,11 +228,12 @@ def main() -> int:
             return 4
 
     all_errors: list[str] = []
-    for name, p in payloads:
-        all_errors.extend(validate_one(name, p, project_root))
+    for name, payload in payloads:
+        all_errors.extend(validate_one(name, payload, project_root))
 
     report = {
         "schema": "subagent-handoff/v1",
+        "schema_path": str(SCHEMA_PATH),
         "checked": len(payloads),
         "errors": all_errors,
         "ok": not all_errors,
@@ -281,13 +243,12 @@ def main() -> int:
     else:
         if all_errors:
             print(f"FAIL ({len(all_errors)} issues across {len(payloads)} payload(s)):")
-            for e in all_errors:
-                print(f"  - {e}")
+            for err in all_errors:
+                print(f"  - {err}")
         else:
             print(f"OK ({len(payloads)} payload(s) valid)")
 
     if not payloads:
-        # No handoff blocks in plan: not a hard fail, just informative
         return 0
     return 0 if report["ok"] else 1
 

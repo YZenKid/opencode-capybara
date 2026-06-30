@@ -178,7 +178,11 @@ class SubagentHandoffCheckTests(unittest.TestCase):
     def test_missing_required_fields_fails(self) -> None:
         code, out, err = _run("--payload", "-", "--project-root", str(REPO_ROOT), stdin=MISSING_REQUIRED)
         self.assertEqual(code, 1)
-        self.assertIn("missing required field: callee", out)
+        # schema validator runs first; either schema-form or legacy-form is acceptable
+        self.assertTrue(
+            "callee" in out and ("required" in out or "missing" in out),
+            msg=out,
+        )
         self.assertIn("missing recommended field: source_basis", out)
 
     def test_unknown_lane_and_bad_claim_level_fail(self) -> None:

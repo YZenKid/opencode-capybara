@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opencode.local/schemas/subagent-handoff/v1.json",
+  "title": "OpenCode Subagent Handoff Contract",
+  "description": "Structured payload that @orchestrator or @artifact-planner must send to a worker lane (@fixer, @frontend, @backend, @mobile, @devops, @designer, etc.) for non-trivial work. Plans without valid handoff blocks for non-trivial worklist items are not execution-ready.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "task_id",
+    "caller",
+    "callee",
+    "scope",
+    "claim_level"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.\\-]*$",
+      "description": "Stable identifier shared with the plan and the runtime run, e.g. landing-2026-06-30."
+    },
+    "plan_id": {
+      "type": "string",
+      "description": "Plan id or plan filename stem; usually identical to task_id."
+    },
+    "caller": {
+      "type": "string",
+      "description": "Lane that originates the delegation. Must be one of orchestrator or artifact-planner in practice, but the schema does not enforce a fixed set so worker-only validation is the responsibility of the orchestrator tooling.",
+      "pattern": "^[a-z][a-z0-9\\-]*$"
+    },
+    "callee": {
+      "type": "string",
+      "description": "Worker lane that should execute. The validator (subagent-handoff-check.py) enforces membership in the 22-lane allowlist independently of this schema.",
+      "pattern": "^[a-z][a-z0-9\\-]*$"
+    },
+    "scope": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Single concrete outcome the worker owns. Avoid compound sentences."
+    },
+    "claim_level": {
+      "type": "string",
+      "enum": ["draft", "scoped", "partial", "done"],
+      "description": "Maximum completion claim the worker is allowed to make. 'done' means production-ready; lower levels are non-blocking drafts."
+    },
+    "claim_scope": {
+      "type": "string",
+      "description": "Free-form clarification of what is in scope and what is NOT in scope for the claim."
+    },
+    "source_basis": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Files, paths, docs, or references the worker must treat as authority."
+    },
+    "must_preserve": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Invariants that cannot be broken even if a shortcut seems easier."
+    },
+    "do_not_touch": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Paths or scopes that are out of bounds. Path traversal segments ('..') are rejected by the validator."
+    },
+    "validation": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Commands or checks the worker must run before reporting done."
+    },
+    "exit_criteria": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Deterministic done conditions."
+    },
+    "evidence_required": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Required evidence paths (logs, screenshots, manifests, contract files)."
+    },
+    "depends_on": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Task ids or named prerequisites; the worker should not start until these are complete."
+    },
+    "context_bundle": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Files the worker should inspect first to ground the task without rediscovering the repo."
+    }
+  },
+  "$defs": {
+    "Lane": {
+      "type": "string",
+      "enum": [
+        "orchestrator",
+        "artifact-planner",
+        "fixer",
+        "frontend",
+        "backend",
+        "mobile",
+        "devops",
+        "designer",
+        "design-system-engineer",
+        "fullstack",
+        "explorer",
+        "librarian",
+        "oracle",
+        "quality-gate",
+        "system-analyst",
+        "project-manager",
+        "architect",
+        "plan-reviewer",
+        "visual-context-extractor",
+        "visual-asset-generator",
+        "skill-improver",
+        "council"
+      ]
+    }
+  },
+  "examples": [
+    {
+      "task_id": "landing-2026-06-30",
+      "plan_id": "landing-2026-06-30",
+      "caller": "orchestrator",
+      "callee": "frontend",
+      "scope": "Implement landing hero + 3 feature sections + CTA",
+      "claim_level": "scoped",
+      "claim_scope": "hero + features + CTA only; no testimonials, no pricing",
+      "source_basis": [
+        "templates/dashboard/src/index.css",
+        ".opencode/AGENTS.md#N17"
+      ],
+      "must_preserve": [
+        "Token identity with templates/dashboard/src/index.css",
+        "Shadcn new-york registry (N9)"
+      ],
+      "do_not_touch": [
+        "templates/landingpage/",
+        ".env",
+        "package.json deps outside UI"
+      ],
+      "validation": [
+        "npm run check:template-source",
+        "npm run check:agents"
+      ],
+      "exit_criteria": [
+        "Template extraction trace present",
+        "No fake testimonials"
+      ],
+      "evidence_required": [
+        ".opencode/evidence/landing-2026-06-30/template-extraction-trace.md",
+        ".opencode/evidence/landing-2026-06-30/visual-rubric.md"
+      ],
+      "depends_on": ["catalog-decision"],
+      "context_bundle": [
+        "DESIGN.md",
+        ".opencode/AGENTS.md",
+        "templates/dashboard/src/index.css"
+      ]
+    }
+  ]
+}

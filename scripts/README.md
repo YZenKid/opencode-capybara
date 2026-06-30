@@ -345,6 +345,8 @@ python3 ~/.config/opencode/scripts/<script>.py --project-root . [script-specific
 | `design-debt-tracker.py` | `@designer`, `@quality-gate` |
 | `template-source-discovery.py` | `@orchestrator`, `@designer`, `@artifact-planner`, `@frontend`, `@quality-gate` (Template/Source Discovery Hard Gate) |
 | `subagent-handoff-check.py` | `@orchestrator`, `@artifact-planner`, every worker lane (`@fixer`, `@frontend`, `@backend`, `@mobile`, `@devops`, `@designer`, `@explorer`, `@librarian`, `@quality-gate`, etc.) for the Subagent Handoff Contract |
+| `delegation-log.py` | `@orchestrator`, `@artifact-planner`, every worker lane; append-only NDJSON record of planner→worker→return flows at `.opencode/state/<task>/delegation.jsonl` |
+| `plan-compliance-check.py` | `@orchestrator`, `@quality-gate`; pre-completion checkpoint that cross-checks plan worklist markers, handoff payloads, progress tracker, and delegation log |
 
 When adding a new governance script, also update this README and wire the relevant agent/skill prompts with a concrete command example.
 
@@ -442,3 +444,43 @@ Required fields: `task_id`, `caller`, `callee`, `scope`, `claim_level`. Recommen
 Exit codes: `0` payload valid; `1` validation issue; `4` invocation error.
 
 Why this is mechanical: prose-only delegation is the main source of context drift between planner, orchestrator, and worker. Validating the payload shape up front forces both sides to use the same vocabulary for scope, source of truth, and exit criteria, so the worker cannot silently convert planner assumptions into implementation facts.
+
+### Schema source of truth
+
+The handoff contract shape lives in `scripts/data/handoff.schema.json` (JSON Schema Draft 2020-12). `subagent-handoff-check.py` uses it as the primary validator when the `jsonschema` Python package is importable; otherwise it falls back to the hand-rolled checks. Add new fields to the schema first, then update the hand-rolled checks if you still want a zero-dependency fallback.
+
+### Delegation Log
+
+`scripts/delegation-log.py` is the append-only NDJSON writer/validator for `.opencode/state/<task>/delegation.jsonl`. It enforces a record shape (timestamp, task id, kind, caller, callee, scope, claim level) so the trail between planner/orchestrator and worker remains auditable after the fact.
+
+```bash
+# record a delegation
+python3 scripts/delegation-log.py --project-root . --task landing-1 \
+    --record --caller orchestrator --callee frontend \
+    --scope "Implement landing hero + 3 sections + CTA" \
+    --claim-level scoped --kind delegate \
+    --plan .opencode/plans/landing-1.md \
+    --handoff .opencode/handoffs/landing-1.yaml
+
+# record a worker return
+python3 scripts/delegation-log.py --project-root . --task landing-1 \
+    --record --caller frontend --callee orchestrator \
+    --kind return --claim-level partial \
+    --summary-text "Hero + 2 sections landed; CTA blocked on copy."
+
+# validate a log file (CI-friendly)
+python3 scripts/delegation-log.py --project-root . --task landing-1 --validate
+```
+
+Record kinds: `delegate`, `return`, `ack`, `block`, `escalate`. Claim levels: `draft`, `scoped`, `partial`, `done`. Caller/callee are lane names without `@`.
+
+### Plan Compliance Checkpoint
+
+`scripts/plan-compliance-check.py` is the pre-`@quality-gate` checkpoint. It cross-checks:
+
+- plan markdown has an `Execution-ready Worklist / Handoff Contract` (or `Executor Handoff Prompt`) marker,
+- embedded handoff payloads validate via `subagent-handoff-check.py`,
+- progress tracker file (if present) has well-formed JSON with a `tasks` list,
+- delegation log file (if present) validates cleanly.
+
+Non-trivial execution-bound plans should reach this script before the final completion claim. Missing progress and delegation files are reported as notes, not failures, because some plans finish without opening a runtime.
