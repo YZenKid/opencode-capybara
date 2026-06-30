@@ -1,16 +1,18 @@
 import { getTask, claimTask } from "./task-store.mjs";
 import { sendMessage } from "./mailbox-store.mjs";
 import { prepareWorkerExecution, getWorkerExecution, launchWorkerExecution } from "./executor.mjs";
+import { applyProjectMemoryContext } from "./memory-reuse-loader.mjs";
 
 export function dispatchWorkerTask(projectRoot, runId, payload = {}) {
   const task = getTask(projectRoot, runId, payload.task_id);
   if (!task) throw new Error(`task not found: ${payload.task_id}`);
+  const memoryContext = applyProjectMemoryContext(projectRoot, task, payload.prompt ?? "");
   const execution = prepareWorkerExecution(projectRoot, runId, {
     execution_id: payload.execution_id,
     task_id: task.task_id,
     worker_name: payload.worker_name,
     lane: payload.lane ?? task.owner_lane,
-    prompt: payload.prompt,
+    prompt: memoryContext.prompt,
     backend: payload.backend,
     workspace_mode: payload.workspace_mode ?? "worktree",
   });
@@ -27,7 +29,7 @@ export function dispatchWorkerTask(projectRoot, runId, payload = {}) {
       prompt: payload.prompt,
     },
   });
-  return { task: claimedTask, execution, message };
+  return { task: claimedTask, execution, message, memory_context: memoryContext };
 }
 
 export function executeDispatchedTask(projectRoot, runId, executionId, options = {}) {

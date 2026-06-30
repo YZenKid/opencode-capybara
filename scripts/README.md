@@ -349,6 +349,8 @@ python3 ~/.config/opencode/scripts/<script>.py --project-root . [script-specific
 | `plan-compliance-check.py` | `@orchestrator`, `@quality-gate`; pre-completion checkpoint that cross-checks plan worklist markers, handoff payloads, progress tracker, and delegation log |
 | `memory-reuse-check.py` | `@orchestrator`, every worker lane; cross-session validator that flags verification claims in evidence/plan that do not reference a memory entry they overlap |
 | `mcp-memory-store.py` | `@orchestrator`; per-project MCP memory wrapper. Persists bounded, replace-aware, project-local task memory under `.opencode/mcp-memory/<project-key>/` via `npx @modelcontextprotocol/server-memory` with a local JSON fallback. Run before final summary to avoid stacked-up chat memory. |
+| `runtime/memory-finalize-hook.mjs` | Runtime completion hook: auto-finalizes project-local memory when `task-store.completeTask()` transitions a task to `completed` (fail-soft, kill switch `OPENCODE_MEMORY_FINALIZE=0`). |
+| `runtime/memory-reuse-loader.mjs` | Runtime dispatch hook: prepends the top 3 relevant project-memory hits to worker prompts before launch (fail-soft, kill switch `OPENCODE_MEMORY_REUSE_LOADER=0`). |
 
 When adding a new governance script, also update this README and wire the relevant agent/skill prompts with a concrete command example.
 
