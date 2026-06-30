@@ -362,6 +362,52 @@ ponytail: This is a behavioral contract. Use `scripts/session-trace-audit.py` as
 - Do not force the artifact wrapper when editing existing app code or when the user asked for implementation changes.
 - For standalone artifacts, prefer seed/template discipline: inspect available templates/references/assets first, map the active design system to tokens, compose from existing section/layout primitives, and self-check before returning the artifact.
 
+## Content Authenticity Gate (no fake warmth, no fake proof, no fake business)
+
+This is a **mechanical** gate. Prose-only "warm" or "grounded" claims are no longer enough. The designer MUST lock in content authenticity before signoff.
+
+### Hard fail — these are mechanical, not taste:
+- Fabricated testimonials (named people who do not exist for the project, or generic initials like "Maya R.") presented as if real.
+- Fake pricing/tiers with arbitrary dollar amounts and feature lists when no business evidence exists.
+- Fake FAQ answers that could be copy-pasted into any SaaS landing (e.g. "Will I lose my streak if I miss a day?" answered with a generic supportive blurb).
+- Decorative stats (99%, 24k users, 10x faster) without a labeled source or `user-supplied` status.
+- Stock/illustration/pattern-card hero when the reference or domain requires real photography, hands, materials, or local context.
+- AI-brochure slogans (`pasti bisa`, `solusi terbaik`, vague mission filler) in user-facing copy unless explicitly approved.
+- `foto menyusul`, `kontak akan diperbarui`, `coming soon` copy in production-facing surfaces when not explicitly labeled demo/dev.
+- CTA buttons that link to `/#` or non-existent routes when the slice claims usable MVP.
+
+### Required for substantial UI handoff (alongside existing structured fields):
+- **`content_provenance`** per section: `user_supplied` | `repo_local_evidence` | `placeholder_pending_user` | `fabricated_for_demo` | `first_principles_inferred`. If `fabricated_for_demo` or `placeholder_pending_user` is used, the section MUST be labeled as such in the handoff and excluded from `ready` status — the slice can only be `draft`/`prototype` until real content is supplied.
+- **`content_authenticity_checklist`** as an explicit pass/fail list of 8 questions (testimonial_real, pricing_real, faq_grounded, stats_meaningful, hero_shows_real_domain, copy_no_brochure_slogans, cta_routes_resolve, contact_real).
+- **`template_extraction_trace`**: a per-template/per-source file list naming exactly which files in `templates/<dir>/` were inspected and what was extracted (typography ratio, section cadence, color tone, imagery strategy, CTA hierarchy). If the project has `templates/` dirs (e.g. `templates/landingpage/`, `templates/dashboard/`), this trace is mandatory.
+- **`reference_feel_parity_score`** for the surfaced pages: at minimum a 5-row table mapping each section to (a) what the reference feels like, (b) what we implemented, (c) warmth/humanity/texture presence (yes/no/partial), (d) gap, (e) next action. Any "no" or "partial" without a next action blocks `ready`.
+
+### If any hard fail pattern fires:
+- Return `needs-polish` (single-section issue) or `blocked` (multiple sections or entire slice).
+- Do not return `ready` based on `ready_for_implementation` from the planner alone — designer must independently verify the content authenticity checklist.
+- For projects that genuinely lack user-supplied content (greenfield without testimonials), the rule is **omit the section**, not invent one. Empty-but-honest > fabricated.
+
+## Template/Source Extraction Trace (mandatory when `templates/` exists)
+
+If the project repo contains one or more `templates/<dir>/` directories (e.g. `templates/landingpage/`, `templates/dashboard/`), the designer MUST:
+1. List every template dir found.
+2. For each: name the files inspected, what was extracted (typography scale, color tokens, section cadence, imagery, motion, CTA hierarchy), and which project surface it informs.
+3. Cross-reference each major section of the design handoff to the template that informed it.
+4. If a section has no template source, mark it `first_principles` and explain the rationale.
+
+This trace becomes a section in the design handoff artifact and is also written to `.opencode/evidence/<task-id>/template-extraction-trace.md` for the quality gate to verify.
+
+Without this trace, a substantial UI handoff that "could have come from any SaaS template" is auto-`needs-polish`.
+
+## Domain Texture & Reference Feel Parity (mandatory surface table)
+
+For each major surface (hero, product, features, social proof, pricing, FAQ, CTA, footer), produce a row in the reference feel parity table:
+
+| Surface | Reference essence | Implemented | Warmth/humanity/texture | Gap | Next action |
+|---|---|---|---|---|---|
+
+If any row has `no` or `partial` for warmth/humanity/texture, that surface is `needs-polish`. Empty rows are not acceptable; the table is mandatory for substantial UI handoff.
+
 ## Designer signoff contract
 
 For substantial UI/reference/image-heavy work, return one of these statuses: `ready`, `blocked`, or `needs-polish`.

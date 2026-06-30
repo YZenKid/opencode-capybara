@@ -209,12 +209,117 @@ def token_parity(contract_path: Path, project_root: Path) -> dict:
     }
 
 
+CONTENT_AUTHENTICITY_REQUIRED_ROWS = [
+    "testimonial_real",
+    "pricing_real",
+    "faq_grounded",
+    "stats_meaningful",
+    "hero_shows_real_domain",
+    "copy_no_brochure_slogans",
+    "cta_routes_resolve",
+    "contact_real",
+]
+
+CONTENT_HARD_FAIL_PATTERNS = [
+    (re.compile(r'\bMaya\s+R\.\b'), "fabricated_testimonial_Maya_R"),
+    (re.compile(r'\bAndre\s+F\.\b'), "fabricated_testimonial_Andre_F"),
+    (re.compile(r'\bNisa\s+A\.\b'), "fabricated_testimonial_Nisa_A"),
+    (re.compile(r'(?i)\bpasti\s+bisa\b'), "brochure_slogan_pasti_bisa"),
+    (re.compile(r'(?i)\bsolusi\s+terbaik\b'), "brochure_slogan_solusi_terbaik"),
+    (re.compile(r'(?i)\bfoto\s+menyusul\b'), "foto_menyusul_placeholder"),
+    (re.compile(r'(?i)\bkontak\s+akan\s+diperbarui\b'), "kontak_akan_diperbarui_placeholder"),
+    (re.compile(r'(?i)your trusted partner'), "brochure_slogan_your_trusted_partner"),
+    (re.compile(r'href\s*=\s*"#"\s*data-cta'), "cta_link_to_hash"),
+    (re.compile(r'\bcoming soon\b', re.IGNORECASE), "coming_soon_label"),
+]
+
+
+def _detect_section(text: str, heading: str) -> str:
+    """Extract content under a markdown heading (## or ###) until the next same-or-higher heading."""
+    pat = re.compile(rf'(?im)^#{{2,3}}\s+{re.escape(heading)}\b.*?(?=^#{{2,3}}\s+|\Z)', re.DOTALL)
+    m = pat.search(text)
+    return m.group(0) if m else ''
+
+
+def content_authenticity(contract_path: Path, root: Path) -> dict:
+    """Inspect a visual-quality-contract.md for content authenticity blocks + hard-fail patterns.
+
+    Required blocks (substantive UI):
+    - `## Content Provenance` (or `content_provenance`) — table per section with provenance column.
+    - `## Content Authenticity Checklist` (or `content_authenticity_checklist`) — 8 pass/fail rows.
+
+    Optional but recommended when `templates/<dir>/` exists:
+    - `.opencode/evidence/<task-id>/template-extraction-trace.md`
+    """
+    result: dict = {
+        "has_content_provenance": False,
+        "has_content_authenticity_checklist": False,
+        "checklist_failing": [],
+        "hard_fail_patterns": [],
+        "templates_dir_missing_trace": False,
+    }
+    if not contract_path.exists():
+        result["hard_fail_patterns"].append("contract_file_not_found")
+        return result
+    text = contract_path.read_text(encoding="utf-8", errors="ignore")
+
+    prov_block = _detect_section(text, "Content Provenance") or _detect_section(text, "content_provenance")
+    if prov_block and re.search(r'\|\s*Provenance\s*\|', prov_block, re.IGNORECASE):
+        result["has_content_provenance"] = True
+
+    check_block = _detect_section(text, "Content Authenticity Checklist") or _detect_section(text, "content_authenticity_checklist")
+    if check_block:
+        result["has_content_authenticity_checklist"] = True
+        rows = re.findall(r'\|\s*([a-z_]+)\s*\|\s*(pass|fail|yes|no|partial|n/?a)\s*\|', check_block, re.IGNORECASE)
+        present = {k.lower(): v.lower() for k, v in rows}
+        for required in CONTENT_AUTHENTICITY_REQUIRED_ROWS:
+            if required not in present:
+                result["checklist_failing"].append(f"{required}:missing")
+            elif present[required] in ("fail", "no"):
+                result["checklist_failing"].append(f"{required}:{present[required]}")
+
+    for rx, name in CONTENT_HARD_FAIL_PATTERNS:
+        if rx.search(text):
+            result["hard_fail_patterns"].append(name)
+
+    # Template extraction trace check (only when project has templates/<dir>/)
+    try:
+        templates_root = root / "templates"
+        if templates_root.exists() and any(templates_root.iterdir()):
+            # find task id from contract path: .opencode/evidence/<task-id>/visual-quality-contract.md
+            parts = contract_path.parts
+            trace_path = None
+            for i, p in enumerate(parts):
+                if p == "evidence" and i + 1 < len(parts):
+                    task_id = parts[i + 1]
+                    candidate = root / ".opencode" / "evidence" / task_id / "template-extraction-trace.md"
+                    if candidate.exists():
+                        trace_path = candidate
+                        break
+            if not trace_path:
+                # also check root/.opencode/evidence/<task-id>/ where task id is parent dir of contract_path
+                for parent in contract_path.parents:
+                    if parent.name == "evidence" and parent.parent.name == ".opencode":
+                        candidate = parent / "template-extraction-trace.md"
+                        if candidate.exists() and candidate.stat().st_size > 0:
+                            trace_path = candidate
+                            break
+            if not trace_path:
+                result["templates_dir_missing_trace"] = True
+    except Exception:
+        # Be conservative: don't fail the gate on filesystem ambiguity
+        pass
+
+    return result
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument('--project-root', default='.')
     ap.add_argument('--url', help='URL to audit (legacy mode)')
     ap.add_argument('--contract', help='Path to visual-quality-contract.md (v2 mode)')
     ap.add_argument('--token-parity', action='store_true', help='In contract mode, also check token parity')
+    ap.add_argument('--content-authenticity', action='store_true', help='In contract mode, check content_provenance + content_authenticity_checklist blocks')
     ap.add_argument('--output', default='.opencode/evidence/visual-audit.md')
     args = ap.parse_args()
     root = Path(args.project_root).resolve()
@@ -239,6 +344,39 @@ def main() -> int:
                     "severity": "high",
                     "issue": "v2_must_avoid_violation",
                     "detail": f"must_avoid_token violations: {parity['must_avoid_violations']}",
+                })
+
+        if args.content_authenticity:
+            ca = content_authenticity(contract_path, root)
+            if not ca.get("has_content_provenance"):
+                findings.append({
+                    "severity": "high",
+                    "issue": "content_provenance_missing",
+                    "detail": "visual-quality-contract.md must include a ## Content Provenance (or content_provenance) block per section",
+                })
+            if not ca.get("has_content_authenticity_checklist"):
+                findings.append({
+                    "severity": "high",
+                    "issue": "content_authenticity_checklist_missing",
+                    "detail": "visual-quality-contract.md must include a ## Content Authenticity Checklist (or content_authenticity_checklist) block with 8 rows",
+                })
+            elif ca.get("checklist_failing"):
+                findings.append({
+                    "severity": "high",
+                    "issue": "content_authenticity_checklist_failed",
+                    "detail": f"failing rows: {ca['checklist_failing']}",
+                })
+            if ca.get("hard_fail_patterns"):
+                findings.append({
+                    "severity": "high",
+                    "issue": "content_hard_fail_pattern",
+                    "detail": f"hard-fail patterns detected in contract: {ca['hard_fail_patterns']}",
+                })
+            if ca.get("templates_dir_missing_trace"):
+                findings.append({
+                    "severity": "high",
+                    "issue": "template_extraction_trace_missing",
+                    "detail": "project contains a templates/<dir>/ directory but template-extraction-trace.md is missing or empty in .opencode/evidence/<task-id>/",
                 })
 
         out = root / args.output

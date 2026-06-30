@@ -145,7 +145,34 @@ Return `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidenc
 - [ ] Validation includes screenshots or equivalent evidence for material UI changes.
 - [ ] Framework/library version-sensitive behavior verified via `@librarian`/context7 when non-trivial.
 
-## Token-First Implementation (v2 — Open Design integration)
+## Content Realism Implementation Gate (no fabrication in production)
+
+For substantial UI implementation (landing page, marketing surface, multi-page app, or any user-facing surface with copy), `@frontend` MUST verify content realism before accepting handoff. This is mechanical, not taste.
+
+**Push-back triggers (mandatory design_pushback.md write):**
+- Handoff contains fabricated testimonials (named people without source, generic initials, stock quotes).
+- Handoff contains fake pricing tiers or arbitrary dollar amounts without business confirmation.
+- Handoff contains fake FAQ answers that could be copy-pasted into any SaaS landing.
+- Handoff contains decorative stats (99%, 24k, 10x) without labeled source or sample size.
+- Handoff uses `foto menyusul`, `kontak akan diperbarui`, or generic brochure slogans in production-facing UI.
+- Handoff uses CTA buttons linking to `/#` when the slice claims usable MVP.
+- Handoff lacks `content_provenance` block per section.
+- Handoff lacks `content_authenticity_checklist` with all 8 rows.
+- Handoff lacks `template_extraction_trace` when the project contains `templates/<dir>/`.
+- Handoff references a template but never inspects the actual template files (e.g. claims "Orbit-inspired" without opening `templates/dashboard/`).
+
+**Allowed behaviors:**
+- **Omit the section** instead of fabricating. An honest empty section > a fake testimonial.
+- **Mark section as `placeholder_pending_user`** with explicit user-decision-needed note in the evidence.
+- **Use generated domain-specific imagery** via the visual-asset-generator when reference requires real photography and no asset is supplied.
+- **Derive from first principles** with explicit `[first_principles]` annotation in the data file.
+- **Push back via `.opencode/evidence/<task-id>/design_pushback.md`** when any hard fail fires.
+
+**Verification:**
+- Frontend run: `python3 ~/.config/opencode/scripts/visual-audit-check.py --contract <path> --content-authenticity` to verify the contract has the required blocks.
+- If the script is unavailable, frontend MUST manually verify the 8-row checklist before claiming done.
+
+**Token-First Implementation (v2 — Open Design integration)**
 
 For substantial UI work, `@frontend` implements from the **cited catalog system**'s tokens, not from memory or ad-hoc decisions. Reference: `.opencode/docs/SKILLS.md` §"UI/UX design system source of truth".
 
@@ -178,12 +205,16 @@ Instead of "use shadcn Card", the instruction becomes "use `<CatalogTemplate>/co
 5. Run `visual-audit-check.py --contract <contract> --token-parity` before claiming done; if parity < 80% or any `must_avoid_token` is found, fix or push back.
 
 ## Anti-patterns
-- Manually creating components that a generator/CLI can produce.
+## Anti-patterns
+
 - Shipping UI with AI-slop patterns.
 - Inventing design language instead of implementing provided direction.
 - Adding generic placeholder UI to fill unclear gaps.
 - Changing interaction/state behavior without validation evidence.
 - Ignoring responsive/accessibility impact of visual changes.
+- **Implementing fabricated testimonials, fake pricing, decorative stats, or brochure slogans in production-facing UI when the user has not supplied real content. Omit the section or push back.**
+- **Treating `templates/<dir>/` as decorative; failing to inspect actual template files before producing handoff.**
+- **Building a "rapi tapi slop" surface that passes structurally but fails content authenticity.**
 - **Verbose inline comments**: Do not add multi-line comments inside component function bodies, hooks, or render logic explaining UI behavior, state, or data flow. Doc comments above exported/public functions/components are OK. Inline comments must be 1-3 lines max, only for truly non-obvious logic. Move long explanations to PR description, tests, or docs.
 
 

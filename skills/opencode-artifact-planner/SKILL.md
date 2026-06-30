@@ -139,6 +139,82 @@ Before marking a plan `PASS` or `PASS_FOR_SLICE`, verify:
 
 If these checks fail, mark `NEEDS_DEPTH` or `BLOCKED`.
 
+## Content Authenticity Plan (mandatory for substantial UI)
+
+For substantial UI plans (landing, marketing surface, multi-page app, or any surface with user-facing copy), the plan MUST include a `## Content Authenticity Plan` section before reaching `PASS` or `PASS_FOR_SLICE`. This is mechanical, not taste.
+
+Required subsections:
+
+```markdown
+## Content Authenticity Plan
+
+### Content provenance per section
+| Section | Content type | Provenance | Source |
+|---|---|---|---|
+| Hero headline | copy | user_supplied | user message 2026-06-30 |
+| Hero subcopy | copy | first_principles_inferred | derived from product thesis |
+| Feature 1 title | copy | repo_local_evidence | DESIGN.md + product spec |
+| Feature 1 image | asset | placeholder_pending_user | user to provide product photo |
+| Testimonials | social proof | NOT INCLUDED | no real testimonials available; section omitted, not invented |
+| Pricing | business | NOT INCLUDED | no business confirmation; section omitted, replaced with "early access" CTA |
+| FAQ | support | first_principles_inferred | derived from real product concerns |
+| CTA | conversion | user_supplied | user message 2026-06-30 |
+
+### Sections NOT included (and why)
+- **Testimonials**: greenfield product, no real users. Section omitted, not invented with fake names.
+- **Pricing**: no business confirmation from user. Replaced with early-access CTA.
+- **Stats**: no real metrics. Section omitted.
+
+### Content authenticity rules for implementer
+- DO NOT invent testimonials, pricing tiers, stats, or FAQ with placeholder names/numbers.
+- IF a section requires content not yet supplied by the user, OMIT the section or mark it `placeholder_pending_user` and exclude from MVP claim.
+- IF copy must be drafted from first principles, label each instance explicitly with `[first_principles]` comment in the data file.
+- IF a hero image is required and not supplied, use a generated domain-specific image via the visual-asset-generator flow, not a stock pattern card.
+
+### Reference feel parity table (per major surface)
+| Surface | Reference essence | Planned implementation | Warmth/humanity/texture | Gap | Next action |
+|---|---|---|---|---|---|
+| Hero | warm invitation, not corporate | calm gradient + real photo | yes | n/a | n/a |
+| Feature strip | concrete product proof | real product screenshot per feature | yes | need 3 product shots | request from user or generate |
+| Social proof | real voices, not stock | omitted in v1 | n/a | no real users | revisit after launch |
+| Pricing | honest, no fake tiers | early-access CTA only | yes | no pricing yet | collect real data, add v2 |
+| FAQ | real product concerns | first-principles draft, labeled | yes | needs review | @designer to validate |
+| CTA | clear next step | single primary + secondary | yes | n/a | n/a |
+| Footer | real contact, real identity | org address + email | yes | n/a | n/a |
+
+Any row with `no` or `partial` for warmth/humanity/texture MUST have a non-empty `Next action` cell. Empty `Next action` for a `no`/`partial` row → plan is `NEEDS_DEPTH`.
+
+### Template extraction trace (mandatory when `templates/<dir>/` exists)
+| Template dir | Files inspected | What was extracted | Surfaces informed |
+|---|---|---|---|
+| templates/landingpage/ | ... | ... | ... |
+| templates/dashboard/ | ... | ... | ... |
+
+If a section has no template source, mark it `first_principles` and add rationale. Empty template extraction table when `templates/` exists → plan is `NEEDS_DEPTH`.
+```
+
+**Why this is mandatory:**
+A plan that only describes layout, components, and visual style is structurally complete but content-hollow. The result is a "rapi tapi slop" landing that has every section but no real proof, no real content, no real story. Adding the Content Authenticity Plan forces the planner to decide, per section, whether content is real, supplied, derived, or absent — and to omit sections that cannot be honestly filled. This is the upstream fix for the "Maya R. testimonial" failure mode.
+
+**Status mapping for missing Content Authenticity Plan:**
+- Substantial UI plan with no `## Content Authenticity Plan` → `NEEDS_DEPTH`.
+- Substantial UI plan with `## Content Authenticity Plan` but missing content provenance table or reference feel parity table → `NEEDS_DEPTH`.
+- Substantial UI plan with sections marked `fabricated_for_demo` or `placeholder_pending_user` claiming MVP-ready → downgrade to `draft`/`prototype`, not `PASS_FOR_SLICE`.
+
+## Template / Source Inventory in Plan (mandatory when `templates/<dir>/` exists)
+
+If the target project contains a `templates/<dir>/` directory (e.g. `templates/landingpage/`, `templates/dashboard/`), the plan MUST include a `## Template / Source Inventory` section that:
+
+1. Lists every template dir found.
+2. For each: what files exist, what visual/structural/typography/asset/motion/CTA pattern was extracted, which project surface each informs.
+3. Marks which sections are `first_principles` (no template source) and why.
+4. For source-approved 1:1 tasks, also includes the source file map (upstream target, copy/adapt/prune/create per file).
+
+This inventory becomes the upstream of the designer's `template_extraction_trace` and the quality gate's `template-extraction-trace.md` evidence.
+
+**Why this is mandatory:**
+Without explicit template extraction, the implementer falls back to "generic SaaS marketing page" patterns regardless of how good the template files in the repo are. The templates in `templates/` are a free quality lever that the plan currently fails to surface.
+
 ## UI Detail Template
 
 **Every page in UI spec must follow this template:**

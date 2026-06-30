@@ -104,6 +104,7 @@ Deterministic checker for experiential UI-quality evidence under `.opencode/evid
 - `visual-rubric.md`
 - `design_pushback.md`
 - `reference-essence.md`
+- `template-extraction-trace.md` when the project has `templates/<dir>/`
 - per-surface `reject_if` in plan
 - **actual screenshot image files** (`.png`, `.webp`, `.jpg`, `.jpeg`) in evidence folder
 
@@ -344,3 +345,40 @@ python3 ~/.config/opencode/scripts/<script>.py --project-root . [script-specific
 | `design-debt-tracker.py` | `@designer`, `@quality-gate` |
 
 When adding a new governance script, also update this README and wire the relevant agent/skill prompts with a concrete command example.
+
+### visual-audit-check.py
+
+Lightweight live-site fallback audit and v2 visual-quality-contract validator.
+
+**Legacy URL mode**:
+
+```bash
+python3 ~/.config/opencode/scripts/visual-audit-check.py --url https://example.com --output .opencode/evidence/visual-audit.md
+```
+
+**Contract v2 mode (catalog + token parity)**:
+
+```bash
+python3 ~/.config/opencode/scripts/visual-audit-check.py \
+  --project-root . \
+  --contract .opencode/evidence/<task-id>/visual-quality-contract.md \
+  --token-parity
+```
+
+**Contract v3 — content authenticity mode** (substantial UI):
+
+```bash
+python3 ~/.config/opencode/scripts/visual-audit-check.py \
+  --project-root . \
+  --contract .opencode/evidence/<task-id>/visual-quality-contract.md \
+  --content-authenticity
+```
+
+This mode verifies:
+
+- `## Content Provenance` (or `content_provenance`) block exists per section.
+- `## Content Authenticity Checklist` (or `content_authenticity_checklist`) block exists with 8 rows (testimonial_real, pricing_real, faq_grounded, stats_meaningful, hero_shows_real_domain, copy_no_brochure_slogans, cta_routes_resolve, contact_real).
+- No hard-fail content patterns (fabricated testimonials like `Maya R.` / `Andre F.` / `Nisa A.`, brochure slogans, `foto menyusul`, `kontak akan diperbarui`, `coming soon`, etc.).
+- If the project contains `templates/<dir>/`, `.opencode/evidence/<task-id>/template-extraction-trace.md` exists and is non-empty.
+
+Exit code `1` on any high-severity mechanical failure; `0` when only low/medium. Combine with `--token-parity` for full v2 + v3 coverage. Consumed by `@designer`, `@frontend`, `@artifact-planner`, and `@quality-gate`.
