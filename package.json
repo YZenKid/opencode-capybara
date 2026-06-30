@@ -53,6 +53,11 @@
     "test:mcp-memory-store": "python3 scripts/tests/mcp-memory-store.test.py",
     "test:runtime-memory-finalize": "node scripts/tests/runtime-memory-finalize-hook.test.mjs",
     "test:runtime-memory-reuse-loader": "node scripts/tests/runtime-memory-reuse-loader.test.mjs",
+    "cleanup:backups:scan": "python3 scripts/backup-cleanup.py --scan",
+    "cleanup:backups:trash": "python3 scripts/backup-cleanup.py --trash --trash-age-days 3",
+    "cleanup:backups:purge": "python3 scripts/backup-cleanup.py --purge --purge-age-days 14",
+    "cleanup:backups:apply": "python3 scripts/backup-cleanup.py --apply --trash-age-days 3 --purge-age-days 14",
+    "test:backup-cleanup": "python3 scripts/tests/backup-cleanup.test.py",
     "check:memory-reuse": "python3 scripts/memory-reuse-check.py --project-root . --files .opencode/evidence 2>/dev/null || true",
     "sync:openchamber": "node scripts/sync-openchamber-settings.mjs",
     "sync:openchamber:check": "node scripts/sync-openchamber-settings.mjs --check",
@@ -90,6 +95,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
+    "@opencode-ai/plugin": "1.17.11",
     "openai": "^6.35.0",
     "sharp": "^0.34.5",
     "zod": "^4.4.1"
