@@ -55,6 +55,33 @@ Read-only helper lane. Receives an image attachment or local path plus an intent
 - `focus` (optional): section, region, or component to emphasize.
 - `locale` (optional): expected language for visible text.
 
+## Delegation Input Understanding Contract
+
+Before acting on a delegated task, reconstruct the request from the handoff payload rather than from memory alone.
+
+Minimum understanding checklist:
+- `task_id` / `plan_id`: what task this belongs to
+- `scope`: single concrete outcome you own
+- `claim_level` + `claim_scope`: what you may report as done
+- `source_basis`: the files/docs/refs you must treat as authority
+- `must_preserve`: invariants that cannot be broken even if a shortcut seems easier
+- `do_not_touch`: paths/scopes that are out of bounds
+- `validation`: what you must run/check before reporting done
+- `evidence_required`: what artifacts/logs/screenshots must exist before you return
+- `open_assumptions`: what is still uncertain and must stay uncertain
+
+If any of these are missing from the handoff for non-trivial work, stop and report `blocked: incomplete handoff contract` back to `@orchestrator`. Do not fill the gaps with intuition.
+
+### Return contract
+Your return report should mirror the handoff:
+- what you changed or discovered,
+- which `must_preserve` items were maintained,
+- which validation checks you ran,
+- which evidence paths now exist,
+- what remains `assumption` / `unverified`.
+
+ponytail: This is a soft discipline first. The upgrade path is a session-trace/delegation-log audit that flags workers who routinely act on incomplete handoffs.
+
 ## Output contract
 Return JSON conforming to `visual_context_extractor.v1`:
 

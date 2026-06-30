@@ -253,6 +253,53 @@ Before the first substantial answer, diagnosis, route, or implementation step on
 
 ponytail: This is a behavioral contract. Use `scripts/session-trace-audit.py` as the advisory checker until transcript hooks become first-class.
 
+## Subagent Handoff Contract (mandatory before delegation)
+
+Every non-trivial delegation to a worker lane must carry a structured payload, not only a prose summary. If you delegate with text-only context, the worker will re-derive intent and may silently drift.
+
+### Required worker payload
+Before calling a worker, assemble a handoff payload with these minimum fields:
+- `task_id`
+- `plan_id`
+- `caller`
+- `callee`
+- `scope`
+- `claim_level`
+- `claim_scope`
+- `source_basis`
+- `must_preserve`
+- `do_not_touch`
+- `validation`
+- `exit_criteria`
+- `evidence_required`
+- `depends_on`
+- `context_bundle`
+
+The payload format is defined by `scripts/subagent-handoff-check.py`. The worker should be able to execute without guessing what the source of truth is.
+
+### Delegation log
+For non-trivial work, write an append-only delegation log under `.opencode/state/<task-id>/delegation.jsonl` with at least:
+- timestamp,
+- caller lane,
+- callee lane,
+- scope one-liner,
+- claim level,
+- evidence paths expected.
+
+This makes planner -> orchestrator -> worker drift auditable after the fact.
+
+### Worker context rules
+- Include 3-10 highest-signal verified facts only; do not flood workers with whole-file dumps.
+- Preserve open assumptions explicitly. Workers must not convert planner/orchestrator guesses into facts.
+- Include `must_preserve` and `do_not_touch` exactly as written in the plan when they are safety- or parity-critical.
+- If a worker reports completion without satisfying `validation`, `exit_criteria`, or `evidence_required`, treat the report as `partial` and remediate before forwarding.
+
+### Mechanical validation
+- Validate any serialized handoff payload with `python3 ~/.config/opencode/scripts/subagent-handoff-check.py --payload -` (stdin) or `--plan <plan.md>` before claiming the delegation contract is complete.
+- A non-trivial delegation without a valid payload is a process defect.
+
+ponytail: The goal is not bureaucracy. The goal is to make subagents boringly reliable by removing ambiguity from what they inherit.
+
 ## Workflow
 
 1. **Active-lane context refresh**: Before acting, confirm which agent is currently active in this session. Re-read the current role contract and `.opencode/docs/TOOL_USAGE.md` / `.opencode/docs/AGENT_TOOL_ACCESS.md` if the previous turn was in a different lane. Do not inherit read-only/planner assumptions from a prior lane.
@@ -587,3 +634,32 @@ After loading this skill, call `sequential_thinking` before material planning, r
 ## skills.sh inspirations
 
 This skill folder absorbs selected practices from `skills.sh` while staying a single local skill folder for this agent. Do not split these inspirations into separate local skills here. Use curated notes in `references/skills-sh-curated.md` and adapt them through this lane's own contracts, boundaries, and evidence rules.
+
+
+## Delegation Input Understanding Contract
+
+Before acting on a delegated task, reconstruct the request from the handoff payload rather than from memory alone.
+
+Minimum understanding checklist:
+- `task_id` / `plan_id`: what task this belongs to
+- `scope`: single concrete outcome you own
+- `claim_level` + `claim_scope`: what you may report as done
+- `source_basis`: the files/docs/refs you must treat as authority
+- `must_preserve`: invariants that cannot be broken even if a shortcut seems easier
+- `do_not_touch`: paths/scopes that are out of bounds
+- `validation`: what you must run/check before reporting done
+- `evidence_required`: what artifacts/logs/screenshots must exist before you return
+- `open_assumptions`: what is still uncertain and must stay uncertain
+
+If any of these are missing from the handoff for non-trivial work, stop and report `blocked: incomplete handoff contract` back to `@orchestrator`. Do not fill the gaps with intuition.
+
+### Return contract
+Your return report should mirror the handoff:
+- what you changed or discovered,
+- which `must_preserve` items were maintained,
+- which validation checks you ran,
+- which evidence paths now exist,
+- what remains `assumption` / `unverified`.
+
+ponytail: This is a soft discipline first. The upgrade path is a session-trace/delegation-log audit that flags workers who routinely act on incomplete handoffs.
+

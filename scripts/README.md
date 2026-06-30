@@ -344,6 +344,7 @@ python3 ~/.config/opencode/scripts/<script>.py --project-root . [script-specific
 | `init-design-system.py` | `@designer`, `@orchestrator` |
 | `design-debt-tracker.py` | `@designer`, `@quality-gate` |
 | `template-source-discovery.py` | `@orchestrator`, `@designer`, `@artifact-planner`, `@frontend`, `@quality-gate` (Template/Source Discovery Hard Gate) |
+| `subagent-handoff-check.py` | `@orchestrator`, `@artifact-planner`, every worker lane (`@fixer`, `@frontend`, `@backend`, `@mobile`, `@devops`, `@designer`, `@explorer`, `@librarian`, `@quality-gate`, etc.) for the Subagent Handoff Contract |
 
 When adding a new governance script, also update this README and wire the relevant agent/skill prompts with a concrete command example.
 
@@ -418,3 +419,26 @@ What the script does:
 - Emits `needs_user_clarification: true` + an exit code of `1` when at least one conflict is found. The agent must surface the conflict to the user before any implementation.
 
 Why this is mechanical and not a taste preference: the historic failure pattern is "agent saw `templates/` but never opened the files, defaulted to a generic SaaS landing, ignored `N19`-style constraints, and produced a structurally complete but substantively wrong output". A prompt-only rule without a script is a wish; this slice ships the script and wires `check:template-source` so the gate is auditable.
+
+### Subagent Handoff Contract
+
+`scripts/subagent-handoff-check.py` validates the structured payload that `@orchestrator` or `@artifact-planner` must send to every worker lane for non-trivial tasks. Plans without valid worker handoffs are not execution-ready.
+
+```bash
+# validate a payload file or stdin
+npm run check:handoff -- < path/to/handoff.yaml
+
+# scan a single plan
+python3 scripts/subagent-handoff-check.py --plan .opencode/plans/<task-id>.md
+
+# scan all plans in a directory
+npm run check:handoff:plan
+```
+
+Required fields: `task_id`, `caller`, `callee`, `scope`, `claim_level`. Recommended: `plan_id`, `source_basis`, `must_preserve`, `do_not_touch`, `validation`, `exit_criteria`, `evidence_required`, `claim_scope`, `depends_on`, `context_bundle`.
+
+`claim_level` must be one of: `draft`, `scoped`, `partial`, `done`. `callee` must be a known OpenCode lane (validated against a 22-lane allowlist).
+
+Exit codes: `0` payload valid; `1` validation issue; `4` invocation error.
+
+Why this is mechanical: prose-only delegation is the main source of context drift between planner, orchestrator, and worker. Validating the payload shape up front forces both sides to use the same vocabulary for scope, source of truth, and exit criteria, so the worker cannot silently convert planner assumptions into implementation facts.

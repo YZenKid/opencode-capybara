@@ -71,6 +71,56 @@ Before the first substantial answer, diagnosis, route, or implementation step on
 
 ponytail: This is a behavioral contract. Use `scripts/session-trace-audit.py` as the advisory checker until transcript hooks become first-class.
 
+## Subagent Handoff Contract (mandatory for execution-ready plans)
+
+For any non-trivial plan that will be executed by `@orchestrator` + worker lanes, the plan MUST include a structured handoff payload in addition to prose. Text-only handoffs are too lossy; they are the main source of context drift between planner -> orchestrator -> subagent.
+
+### Required payload schema
+Include a fenced YAML block under `## Execution-ready Worklist / Handoff Contract` for each worker task:
+
+```yaml
+handoff:
+  task_id: <same task id as plan>
+  plan_id: <same task id or plan filename stem>
+  caller: orchestrator
+  callee: <fixer|frontend|backend|mobile|devops|designer|explorer|librarian|quality-gate|...>
+  scope: <single concrete outcome>
+  claim_level: <draft|scoped|partial|done>
+  claim_scope: <what the worker may claim, and what it may NOT claim>
+  source_basis:
+    - <repo/doc/reference paths the worker must treat as authority>
+  must_preserve:
+    - <invariants>
+  do_not_touch:
+    - <paths / scopes / decisions outside boundary>
+  validation:
+    - <command or check>
+  exit_criteria:
+    - <deterministic done condition>
+  evidence_required:
+    - <required evidence paths>
+  depends_on:
+    - <task ids or `none`>
+  context_bundle:
+    - <files already verified and worth re-reading first>
+```
+
+### Subagent Context Bundle
+The plan MUST also provide a compact `Subagent Context Bundle` per worker-sized task. This is the anti-context-drift package that prevents a worker from rediscovering the repo from scratch and accidentally converting planner assumptions into implementation facts.
+
+Include:
+- `verified_by_planner`: 3-10 highest-signal confirmed facts with source path/command and verification level (`confirmed_repo`, `confirmed_runtime`, `confirmed_docs`, `user_confirmed`).
+- `files_already_read`: exact files/paths the worker should inspect first.
+- `open_assumptions`: any assumption still not verified; workers must preserve the uncertainty rather than turn it into fact.
+- `source_of_truth_order`: local precedence for this task if it differs from repo-wide defaults.
+
+### Mechanical validation
+- The plan is not execution-ready unless the handoff payload validates with `python3 ~/.config/opencode/scripts/subagent-handoff-check.py --plan .opencode/plans/<task-id>.md`.
+- Missing required fields in any worker handoff -> `NEEDS_DEPTH`.
+- Payload that names an unknown lane or lacks `must_preserve` / `do_not_touch` / `validation` -> `NEEDS_DEPTH`.
+
+ponytail: This is intentionally boring and redundant. Redundancy here is cheaper than subagents improvising because a critical invariant only existed in prose.
+
 ## Workflow
 
 1. Discover local project patterns, docs, constraints, references, and available tools.
@@ -491,3 +541,32 @@ After loading this skill, call `sequential_thinking` before material planning, r
 ## skills.sh inspirations
 
 This skill folder absorbs selected practices from `skills.sh` while staying a single local skill folder for this agent. Do not split these inspirations into separate local skills here. Use curated notes in `references/skills-sh-curated.md` and adapt them through this lane's own contracts, boundaries, and evidence rules.
+
+
+## Delegation Input Understanding Contract
+
+Before acting on a delegated task, reconstruct the request from the handoff payload rather than from memory alone.
+
+Minimum understanding checklist:
+- `task_id` / `plan_id`: what task this belongs to
+- `scope`: single concrete outcome you own
+- `claim_level` + `claim_scope`: what you may report as done
+- `source_basis`: the files/docs/refs you must treat as authority
+- `must_preserve`: invariants that cannot be broken even if a shortcut seems easier
+- `do_not_touch`: paths/scopes that are out of bounds
+- `validation`: what you must run/check before reporting done
+- `evidence_required`: what artifacts/logs/screenshots must exist before you return
+- `open_assumptions`: what is still uncertain and must stay uncertain
+
+If any of these are missing from the handoff for non-trivial work, stop and report `blocked: incomplete handoff contract` back to `@orchestrator`. Do not fill the gaps with intuition.
+
+### Return contract
+Your return report should mirror the handoff:
+- what you changed or discovered,
+- which `must_preserve` items were maintained,
+- which validation checks you ran,
+- which evidence paths now exist,
+- what remains `assumption` / `unverified`.
+
+ponytail: This is a soft discipline first. The upgrade path is a session-trace/delegation-log audit that flags workers who routinely act on incomplete handoffs.
+

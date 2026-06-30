@@ -265,6 +265,53 @@ Choose the path that optimizes all four.
 - Brief user on delegation goal before each call
 - Skip delegation if overhead ≥ doing it yourself
 
+## Subagent Handoff Contract (mandatory before delegation)
+
+Every non-trivial delegation to a worker lane must carry a structured payload, not only a prose summary. If you delegate with text-only context, the worker will re-derive intent and may silently drift.
+
+### Required worker payload
+Before calling a worker, assemble a handoff payload with these minimum fields:
+- `task_id`
+- `plan_id`
+- `caller`
+- `callee`
+- `scope`
+- `claim_level`
+- `claim_scope`
+- `source_basis`
+- `must_preserve`
+- `do_not_touch`
+- `validation`
+- `exit_criteria`
+- `evidence_required`
+- `depends_on`
+- `context_bundle`
+
+The payload format is defined by `scripts/subagent-handoff-check.py`. The worker should be able to execute without guessing what the source of truth is.
+
+### Delegation log
+For non-trivial work, write an append-only delegation log under `.opencode/state/<task-id>/delegation.jsonl` with at least:
+- timestamp,
+- caller lane,
+- callee lane,
+- scope one-liner,
+- claim level,
+- evidence paths expected.
+
+This makes planner -> orchestrator -> worker drift auditable after the fact.
+
+### Worker context rules
+- Include 3-10 highest-signal verified facts only; do not flood workers with whole-file dumps.
+- Preserve open assumptions explicitly. Workers must not convert planner/orchestrator guesses into facts.
+- Include `must_preserve` and `do_not_touch` exactly as written in the plan when they are safety- or parity-critical.
+- If a worker reports completion without satisfying `validation`, `exit_criteria`, or `evidence_required`, treat the report as `partial` and remediate before forwarding.
+
+### Mechanical validation
+- Validate any serialized handoff payload with `python3 ~/.config/opencode/scripts/subagent-handoff-check.py --payload -` (stdin) or `--plan <plan.md>` before claiming the delegation contract is complete.
+- A non-trivial delegation without a valid payload is a process defect.
+
+ponytail: The goal is not bureaucracy. The goal is to make subagents boringly reliable by removing ambiguity from what they inherit.
+
 ## 4. Split and Parallelize
 Can tasks be split into subtasks and run in parallel?
 - Multiple @explorer searches across different domains?

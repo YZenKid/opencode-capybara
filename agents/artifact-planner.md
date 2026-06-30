@@ -186,6 +186,56 @@ Ask the user (or surface in evidence if user is offline):
 ponytail: This gate pairs a behavioral rule with a mechanical helper (`scripts/template-source-discovery.py`). A prompt-only rule without a script is a wish; this slice ships the script and wires `npm run check:template-source` so the gate is auditable.
 
 
+## Subagent Handoff Contract (mandatory for execution-ready plans)
+
+For any non-trivial plan that will be executed by `@orchestrator` + worker lanes, the plan MUST include a structured handoff payload in addition to prose. Text-only handoffs are too lossy; they are the main source of context drift between planner -> orchestrator -> subagent.
+
+### Required payload schema
+Include a fenced YAML block under `## Execution-ready Worklist / Handoff Contract` for each worker task:
+
+```yaml
+handoff:
+  task_id: <same task id as plan>
+  plan_id: <same task id or plan filename stem>
+  caller: orchestrator
+  callee: <fixer|frontend|backend|mobile|devops|designer|explorer|librarian|quality-gate|...>
+  scope: <single concrete outcome>
+  claim_level: <draft|scoped|partial|done>
+  claim_scope: <what the worker may claim, and what it may NOT claim>
+  source_basis:
+    - <repo/doc/reference paths the worker must treat as authority>
+  must_preserve:
+    - <invariants>
+  do_not_touch:
+    - <paths / scopes / decisions outside boundary>
+  validation:
+    - <command or check>
+  exit_criteria:
+    - <deterministic done condition>
+  evidence_required:
+    - <required evidence paths>
+  depends_on:
+    - <task ids or `none`>
+  context_bundle:
+    - <files already verified and worth re-reading first>
+```
+
+### Subagent Context Bundle
+The plan MUST also provide a compact `Subagent Context Bundle` per worker-sized task. This is the anti-context-drift package that prevents a worker from rediscovering the repo from scratch and accidentally converting planner assumptions into implementation facts.
+
+Include:
+- `verified_by_planner`: 3-10 highest-signal confirmed facts with source path/command and verification level (`confirmed_repo`, `confirmed_runtime`, `confirmed_docs`, `user_confirmed`).
+- `files_already_read`: exact files/paths the worker should inspect first.
+- `open_assumptions`: any assumption still not verified; workers must preserve the uncertainty rather than turn it into fact.
+- `source_of_truth_order`: local precedence for this task if it differs from repo-wide defaults.
+
+### Mechanical validation
+- The plan is not execution-ready unless the handoff payload validates with `python3 ~/.config/opencode/scripts/subagent-handoff-check.py --plan .opencode/plans/<task-id>.md`.
+- Missing required fields in any worker handoff -> `NEEDS_DEPTH`.
+- Payload that names an unknown lane or lacks `must_preserve` / `do_not_touch` / `validation` -> `NEEDS_DEPTH`.
+
+ponytail: This is intentionally boring and redundant. Redundancy here is cheaper than subagents improvising because a critical invariant only existed in prose.
+
 ## Workflow
 
 1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial planning. If missing or stale, run `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) or route to `@librarian` for current stack docs — do not plan blind. The `/init-harness` command is the source of truth for what these docs contain; agents do not redefine it.
