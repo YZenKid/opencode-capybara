@@ -347,6 +347,7 @@ python3 ~/.config/opencode/scripts/<script>.py --project-root . [script-specific
 | `subagent-handoff-check.py` | `@orchestrator`, `@artifact-planner`, every worker lane (`@fixer`, `@frontend`, `@backend`, `@mobile`, `@devops`, `@designer`, `@explorer`, `@librarian`, `@quality-gate`, etc.) for the Subagent Handoff Contract |
 | `delegation-log.py` | `@orchestrator`, `@artifact-planner`, every worker lane; append-only NDJSON record of planner→worker→return flows at `.opencode/state/<task>/delegation.jsonl` |
 | `plan-compliance-check.py` | `@orchestrator`, `@quality-gate`; pre-completion checkpoint that cross-checks plan worklist markers, handoff payloads, progress tracker, and delegation log |
+| `memory-reuse-check.py` | `@orchestrator`, every worker lane; cross-session validator that flags verification claims in evidence/plan that overlap a memory entry but do not reference it |
 
 When adding a new governance script, also update this README and wire the relevant agent/skill prompts with a concrete command example.
 

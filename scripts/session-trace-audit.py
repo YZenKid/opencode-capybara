@@ -15,11 +15,13 @@ This is an advisory heuristic checker, not a runtime blocker. It can scan:
 Usage:
   python3 scripts/session-trace-audit.py path/to/transcript.md
   python3 scripts/session-trace-audit.py path/to/transcript.md --json
+  python3 scripts/session-trace-audit.py path/to/transcript.md --strict
   cat transcript.md | python3 scripts/session-trace-audit.py -
 
 Output classes:
 - PASS: no obvious activation defects found
 - WARN: likely clarity / activation / MCP-usage issues
+- FAIL (only with --strict): any WARN counts as a non-zero exit for CI
 
 Checks:
 1. Non-trivial session should have a skill/MCP orientation block
@@ -33,6 +35,12 @@ Checks:
 4. Multi-issue / cascading-debug sessions should use sequential-thinking.
 5. Version-sensitive framework/API/library work should use context7 or
    an explicit skip reason.
+6. Cross-session memory reuse: a session that records a verification
+   claim (`confirmed_repo` / `confirmed_runtime` / `confirmed_docs`)
+   with a topic keyword should reference the corresponding entry in
+   `.opencode/memory/knowledge.json` if one exists, instead of
+   re-deriving the same fact. Reported as `WARN memory_reuse_missed`
+   when an obvious memory entry was not referenced.
 
 ponytail: heuristic matching only; false positives/negatives are possible.
 Upgrade path: parse structured OpenCode transcript format when available.
@@ -187,6 +195,75 @@ def explicit_skip_reason(mcp: str, text: str) -> bool:
     )
 
 
+VERIFICATION_PREFIX = re.compile(
+    r"(?:confirmed_repo|confirmed_runtime|confirmed_docs|user_confirmed|assumption|unverified)\s*[:\-]\s*([^\n]+)",
+    re.IGNORECASE,
+)
+MEMORY_TOKEN_RE = re.compile(r"[A-Za-z][A-Za-z0-9_./\-]{2,}")
+KEYWORD_STOPWORDS = {
+    "the", "this", "that", "with", "from", "into", "and", "for", "but", "not",
+    "have", "has", "had", "was", "were", "are", "but", "yet", "use", "using",
+    "uses", "used", "via", "after", "before", "should", "would", "could",
+    "into", "onto", "over", "under", "then", "than", "because", "while",
+    "case", "file", "line", "lines", "code", "work", "task", "session",
+    "page", "test", "tests", "agent", "agents", "skill", "skills",
+    "context", "memory", "claim", "claims", "claim_level",
+    "tutorial", "example", "note", "notes", "doc", "docs",
+}
+
+
+def keyword_set(text: str) -> set[str]:
+    return {tok.lower() for tok in MEMORY_TOKEN_RE.findall(text) if len(tok) >= 4} - KEYWORD_STOPWORDS
+
+
+def load_memory_entries(project_root: Path) -> list[dict]:
+    memory_path = project_root / ".opencode" / "memory" / "knowledge.json"
+    if not memory_path.is_file():
+        return []
+    try:
+        data = json.loads(memory_path.read_text(encoding="utf-8", errors="replace"))
+    except json.JSONDecodeError:
+        return []
+    return data if isinstance(data, list) else []
+
+
+def memory_reuse_misses(text: str, project_root: Path) -> list[Finding]:
+    findings: list[Finding] = []
+    entries = load_memory_entries(project_root)
+    if not entries:
+        return findings
+    text_keywords = keyword_set(text)
+    if not text_keywords:
+        return findings
+    for entry in entries:
+        lesson = str(entry.get("lesson") or entry.get("text") or "")
+        tags = entry.get("tags") or []
+        ctx = str(entry.get("context") or "")
+        corpus = " ".join([lesson, ctx, " ".join(tags) if isinstance(tags, list) else str(tags)])
+        mem_keywords = keyword_set(corpus)
+        overlap = text_keywords & mem_keywords
+        if len(overlap) < 1:
+            continue
+        # Reuse signal present?
+        cid = str(entry.get("id") or entry.get("memory_id") or lesson[:40])
+        if re.search(rf"\bmemory[-_ ]?id\s*[:=]\s*{re.escape(cid)}", text, re.IGNORECASE):
+            continue
+        if re.search(rf"\b{re.escape(cid)}\b", text):
+            continue
+        if has(r"memory[-_ ]?reuse|memory[-_ ]?recall|reuse[d]? from memory|from memory", text):
+            continue
+        findings.append(Finding(
+            level="WARN",
+            code="memory_reuse_missed",
+            message=(
+                f"Memory entry '{cid}' looks relevant (overlap={sorted(overlap)[:5]}) "
+                "but the session re-derived instead of referencing it."
+            ),
+            evidence=[cid, *sorted(overlap)[:5]],
+        ))
+    return findings
+
+
 def audit(text: str, source: str) -> Report:
     report = Report(source=source)
     signals = task_signals(text)
@@ -316,10 +393,14 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("source", help="Transcript/evidence path, or '-' for stdin")
     p.add_argument("--json", action="store_true", help="Emit JSON report")
+    p.add_argument("--strict", action="store_true", help="Exit non-zero on any WARN finding (CI mode)")
+    p.add_argument("--project-root", default=".", help="Project root for memory cross-check")
     args = p.parse_args(argv)
 
     text = read_text(args.source)
+    project_root = Path(args.project_root).resolve()
     report = audit(text, args.source)
+    report.findings.extend(memory_reuse_misses(text, project_root))
     if args.json:
         print(json.dumps({
             "source": report.source,
