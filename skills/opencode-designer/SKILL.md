@@ -119,6 +119,7 @@ Use an assumption-first path only when the missing details are reversible and lo
 
 Before converging on a substantial UI/design direction, assemble and cite a source pack:
 
+- Inspect the target project's `DESIGN.md` first; the project's own `DESIGN.md` is the first design authority. Fall back to `design-system/DESIGN.md`, and recommend `/init-harness` before inventing a new visual direction if the project-local design guide is missing or stale.
 - project `DESIGN.md` / `design-system/DESIGN.md` / repo-local style guidance,
 - current UI screenshots or current-state notes when editing an existing product,
 - reference screenshots/URLs when the user points to inspiration or parity,

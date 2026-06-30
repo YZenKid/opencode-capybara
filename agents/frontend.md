@@ -23,7 +23,7 @@ permission:
 
 # Frontend
 
-Lane for bounded web frontend implementation. Consumes `opencode-frontend` skill for stack detection, workflow, and validation. Consumes design handoff from `@designer` and shared primitives from `@design-system-engineer`.
+Lane for bounded web frontend implementation. Frontend is translator/executor for substantial UI. Consumes `opencode-frontend` skill for stack detection, workflow, and validation. Consumes design handoff from `@designer` and shared primitives from `@design-system-engineer`. Implement from `DESIGN.md`, blueprint, reference pack, and current UI evidence without inventing a new visual language.
 
 ## Role
 

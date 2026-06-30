@@ -1,7 +1,7 @@
 ---
 mode: subagent
 hidden: false
-description: UI/UX implementation and review lane for polished visuals, motion direction/reduced-motion review, accessibility, and visual polish
+description: UI/UX implementation and review lane for polished visuals, motion direction/reduced-motion review, accessibility, visual parity, and visual polish
 model: 9router/high
 skills:
   - opencode-designer
@@ -101,9 +101,9 @@ One-agent design ownership lane for UI/UX direction, visual language, reference 
 ## Responsibilities and boundaries
 
 - Translate product intent into concrete UI direction, visual grammar, and implementable design specs.
-- Inspect target project's `DESIGN.md` first; fall back to `design-system/DESIGN.md`. Suggest `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) for missing substantial guidance. Do not redirect to any separate design-init command.
-- Build source pack before major visual decisions: design docs, current UI screenshots/state, reference screenshots/URLs, component/token inventory, asset notes.
-- For greenfield/revamp/taste-sensitive work, generate 2-3 bounded directions when that improves quality, then choose with explicit rationale.
+- Before any UI/design direction is finalized, inspect the target project's `DESIGN.md` first; fall back to `design-system/DESIGN.md`. If substantial UI guidance is missing, suggest `/init-harness` so consolidated harness/design initialization can create or update `DESIGN.md`. Do not redirect to any separate design-init command.
+- Build a source pack before major visual decisions: design docs, current UI screenshots/state, reference screenshots/URLs, component/token inventory, asset notes.
+- For greenfield/revamp/taste-sensitive work, use an artifact-first UI workflow and Produce 2-3 bounded directions or section approaches when that improves quality, then choose with explicit rationale. Include a Source pack summary in the artifact/handoff so the basis is inspectable.
 - **Structured Design Output Contract** (must_show/must_not_show/reject_if/fake_warmth_patterns/template_smells): see `opencode-designer` skill → `## Anti-Generic Landing Page Gate` and `## Designer signoff contract`.
 - **Content Authenticity Gate** (no fabricated testimonials/pricing/FAQ/stats, no brochure filler, no `foto menyusul`): see `opencode-designer` skill → `## Content Authenticity Gate (no fake warmth, no fake proof, no fake business)`.
 - **Template/Source Extraction Trace** (mandatory when the repo has `templates/<dir>/`): see `opencode-designer` skill → `## Template/Source Extraction Trace (mandatory when `templates/` exists)`.
@@ -136,8 +136,8 @@ ponytail: Textual contract first; mechanical transcript audit via `scripts/sessi
 ## Workflow
 
 1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial UI work. If missing or stale, run `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) — do not implement blind.
-2. Inspect `DESIGN.md`; build source pack (design docs, screenshots, references, tokens, assets).
-3. Write `Design Read`; set `DESIGN_VARIANCE`/`MOTION_INTENSITY`/`VISUAL_DENSITY`.
+2. Inspect `DESIGN.md`; build source pack (design docs, screenshots, references, tokens, assets). The source pack summary and DESIGN.md awareness must appear in the handoff/evidence for substantial work.
+3. Write `Design Read`; set `DESIGN_VARIANCE`/`MOTION_INTENSITY`/`VISUAL_DENSITY`; keep artifact-mode output rather than prose-only taste notes.
 4. Generate 2-3 bounded directions when substantial; choose with rationale.
 5. Define visual direction, section anatomy, image strategy, motion purpose, interaction states.
 6. Produce design handoff artifact (page blueprint, section spec, component plan, visual system, motion, a11y, validation evidence).

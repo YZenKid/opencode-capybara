@@ -34,6 +34,29 @@
 
 ---
 
+## Goal
+
+Integrate Open Design as a concrete, cited design-system source of truth for substantial UI work so design direction, implementation, and quality-gate checks stop relying on generic taste prose alone.
+
+## Validation Commands
+
+- `node scripts/agent-boundary-check.mjs`
+- `node scripts/skill-contract-check.mjs`
+- `node scripts/capability-registry-check.mjs`
+- `node scripts/evidence-contract-check.mjs`
+- `npm run test:prompt-gates`
+
+## Evidence Requirements
+
+- `.opencode/evidence/ui-ux-open-design-upgrade/discovery.md`
+- `.opencode/evidence/ui-ux-open-design-upgrade/verification.md`
+- `.opencode/evidence/ui-ux-open-design-upgrade/index.json`
+- Prompt/routing/script diffs that show where the catalog-citation workflow is enforced
+
+## Final Planning Summary
+
+This roadmap is a governance upgrade plan, not proof of full implementation. A valid evidence bundle for it must prove the roadmap artifact is grounded in real repo inspection and can be looked up by task id, while future slices still have to ship the runtime/design-system behavior it proposes.
+
 ## 1. Problem statement (anti-AI-slop root cause)
 
 Generated UI currently fails not because of missing rules — the **rules already exist** (`@designer` has 256 lines, `@quality-gate` has 283). It fails because:
