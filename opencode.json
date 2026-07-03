@@ -232,6 +232,15 @@
       "url": "https://mcp.grep.app",
       "enabled": true
     },
+    "stitch": {
+      "type": "remote",
+      "url": "https://stitch.googleapis.com/mcp",
+      "headers": {
+        "X-Goog-Api-Key": "{env:STITCH_API_KEY}"
+      },
+      "enabled": true,
+      "timeout": 30000
+    },
     "playwright": {
       "type": "local",
       "command": [

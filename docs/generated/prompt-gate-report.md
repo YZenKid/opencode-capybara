@@ -19,6 +19,18 @@ Generated inventory of deterministic prompt-gate checks. This file is advisory a
 - `npm run init:rules-harmonize:forward-all`
 - `npm run init:stack-suggest`
 - `npm run check:session-trace <transcript>`
+- `npm run check:template-source`
+- `npm run check:handoff`
+- `npm run check:handoff:plan`
+- `npm run test:delegation-log`
+- `npm run test:plan-compliance`
+- `npm run test:memory-reuse`
+- `npm run test:session-trace-strict`
+- `npm run test:mcp-memory-store`
+- `npm run test:runtime-memory-finalize`
+- `npm run test:runtime-memory-reuse-loader`
+- `npm run test:backup-cleanup`
+- `npm run cleanup:backups:scan|trash|purge|apply`
 - `npm run docs:generate:check`
 - `npm run check:harness`
 
