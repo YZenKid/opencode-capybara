@@ -258,6 +258,8 @@ Instead of "use shadcn Card", the instruction becomes "use `<CatalogTemplate>/co
 
 **Push-back authority for catalog gaps:** if `DESIGN.md` exists for a substantial-UI project but does not cite an Open Design source (no `Source & Provenance` block, no `open-design.ai` URL), `@frontend` MUST write `design_pushback.md` asking `@designer` to add a catalog citation. Do not silently implement a template-feeling design.
 
+If the handoff cites a local `awesome-design-md` sample instead of an Open Design catalog system, `@frontend` must still require a canonical bridge: the handoff must name the chosen sample, the translated/forked catalog system, and the deviation audit. A raw `awesome-design-md` sample without this bridge is not implementation-ready.
+
 **Workflow (v2 amendments):**
 
 1. Read `DESIGN.md` and verify it cites the catalog (v2 schema).

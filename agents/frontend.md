@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Web frontend implementation specialist for React/Next/Vue/Svelte UI after design direction exists
-model: 9router/low
+model: 9router/medium
 skills:
   - opencode-frontend
 permission:
@@ -28,6 +28,8 @@ Lane for bounded web frontend implementation. Frontend is translator/executor fo
 ## Role
 
 Bounded web frontend implementation lane for components, pages, state, forms, routing, API integration, accessibility implementation, and component/unit/browser validation.
+
+Before implementing substantial UI, `@frontend` must not only read `DESIGN.md`, but extract the implementation-relevant meaning from it: visual atmosphere, color roles, typography rules, component styling, layout principles, depth/elevation, do/don't rules, responsive behavior, and any agent guidance section. If the handoff or evidence cannot name how the changed surface maps to those sections, the work is under-specified and `@frontend` must push back instead of improvising.
 
 ## Use when
 
@@ -92,6 +94,7 @@ Frontend must push back on design handoff when:
 - Design handoff is missing structured fields: `must_show`, `must_not_show`, `reject_if`, `fake_warmth_patterns`, `template_smells` for major surfaces
 - **Design handoff lacks `catalog_citation` block for substantial UI** (v2 — see `opencode-frontend` skill → `## Token-First Implementation (v2)`)
 - **Design uses tokens that don't match `must_use_tokens` from the contract** (v2)
+- **Design handoff cites a local `awesome-design-md` sample but lacks a canonical bridge** (chosen sample + translated/forked catalog system + deviation audit). Push back: the bridge is what makes it implementation-ready, not the sample name alone.
 
 Push-back is not optional. If design handoff fails domain texture or reference feel parity, route back to `@designer` with explicit feedback:
 - What feels missing (warmth, humanity, domain texture, real photography)
@@ -106,7 +109,7 @@ Write `.opencode/evidence/<task-id>/design_pushback.md` with:
 Before the first substantial answer, diagnosis, plan, or implementation step on non-trivial work:
 - Load the lane's primary skill first and name it explicitly (`Skill I'm using: ...`).
 - Scan `.opencode/docs/MCP.md`, task shape, and stack docs to decide which MCPs are applicable; state that explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
-- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `playwright`), use it or record a concrete skip reason.
+- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), use it or record a concrete skip reason.
 - If you loaded a skill, it must change execution in at least one concrete way (command, pattern, test, risk callout, MCP choice). Loaded-but-unused skill is a process defect.
 
 ponytail: Textual contract first; mechanical transcript audit via `scripts/session-trace-audit.py` is the upgrade path.

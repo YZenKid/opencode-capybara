@@ -61,7 +61,8 @@ Workflow:
 39. State that substantial UI requires evidence/screenshots/reduced-motion/accessibility checks and `@quality-gate` before completion claim.
 40. Use the user's hints from `$ARGUMENTS` only to specialize the files; do not discard the harness baseline or invent a broad new visual direction without evidence.
 41. Explicitly state which agent should be used first for default execution (`@orchestrator`).
-42. After command/config edits, remind the user to restart OpenCode because command/config-time files are loaded at startup.
+42. After writing or updating `DESIGN.md`, run `python3 ~/.config/opencode/scripts/design-md-grader.py --project-root .` (or explain why it could not be run) so the 9-section contract is mechanically verified.
+43. After command/config edits, remind the user to restart OpenCode because command/config-time files are loaded at startup.
 
 Write `AGENTS.md` using exactly these sections, in this order:
 

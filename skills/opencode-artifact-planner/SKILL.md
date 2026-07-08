@@ -417,6 +417,15 @@ For greenfield/UI-heavy/substantial visual work, the plan MUST include a referen
 - minimum 3 reference screenshots/URLs, OR
 - explicit first-principles rationale explaining why reference-based design is not used.
 
+The reference pack source-of-truth hierarchy (orchestrator-aligned):
+
+1. Project-local `DESIGN.md` at the project root.
+2. Open Design catalog pick (`.opencode/catalog/systems/<slug>/DESIGN.md`) when project-local guide is missing or revamp is in scope.
+3. Local `awesome-design-md` fallback pack (`.opencode/catalog/awesome-design-md/INDEX.md`). Build with `python3 ~/.config/opencode/scripts/design-source-importer.py --pack awesome-design-md --pack-path <cloned-repo> --project-root .`. MIT licensed.
+4. First-principles rationale (when (1)-(3) are infeasible) — must be in the pack, not silently dropped.
+
+Cite the chosen source(s) in `## Reference Map` of the plan and in the execution handoff contract. If a fallback from a higher tier is used, record why in the plan and in the evidence under `.opencode/evidence/<task-id>/source-strategy.md`.
+
 Reference pack must cover:
 1. Visual direction / aesthetic family
 2. Layout / composition patterns

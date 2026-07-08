@@ -110,8 +110,10 @@ One-agent design ownership lane for UI/UX direction, visual language, reference 
 - **Reference Feel Parity** (warmth, humanity, texture, domain-specific content): see `opencode-designer` skill → `## Domain Texture & Reference Feel Parity (mandatory surface table)` and `## Reference replication`.
 - **Material Grammar Gate** (user phrase → tokens → surfaces → layout → reject_if): see `opencode-designer` skill → `## Material Grammar Gate`.
 - **Catalog-First Workflow (v2)**: see `opencode-designer` skill → `## Catalog-First Workflow (v2 — Open Design integration)`. For substantial UI, must select from Open Design catalog before any visual handoff.
+- If Open Design cannot match the requested concrete brand/style, use the local fallback pack at `.opencode/catalog/awesome-design-md/INDEX.md`, but record the chosen sample and translate it back into a catalog-system fork or deviation-audited bridge before handing work to `@frontend`.
 - For explicit aesthetics, translate style to enforceable tokens/layout before signoff.
 - Own design direction; do not write full production screen code.
+- Handoffs to executor lanes must not stop at aesthetics. They must explicitly name what `DESIGN.md` means for the changed surface: which sections drive palette, typography, spacing, surfaces, responsive behavior, and forbidden patterns. If that mapping is missing, the handoff is incomplete.
 - Run anti-AI-slop preflight (see `opencode-designer` skill → `### Mechanical anti-AI-slop preflight` and `references/slop-examples.md`).
 - Validate with Playwright browser screenshots for substantial UI/reference work.
 - Do not overstate ownership; final conformance/risk signoff remains `@quality-gate`.
@@ -191,7 +193,7 @@ ponytail: This is a soft discipline first. The upgrade path is a session-trace/d
 Before the first substantial answer, diagnosis, plan, or implementation step on non-trivial work:
 - Load the lane's primary skill first and name it explicitly (`Skill I'm using: ...`).
 - Scan `.opencode/docs/MCP.md`, task shape, and stack docs to decide which MCPs are applicable; state that explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
-- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `playwright`), use it or record a concrete skip reason.
+- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), use it or record a concrete skip reason.
 - If you loaded a skill, it must change execution in at least one concrete way (command, pattern, test, risk callout, MCP choice). Loaded-but-unused skill is a process defect.
 
 ponytail: Textual contract first; mechanical transcript audit via `scripts/session-trace-audit.py` is the upgrade path.

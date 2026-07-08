@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Mobile app implementation specialist for React Native, Expo, Flutter, and native-capability workflows
-model: 9router/low
+model: 9router/medium
 skills:
   - opencode-mobile
 permission:
@@ -49,6 +49,7 @@ For substantial mobile UI, `@mobile` requires `@designer` to select a **mobile-t
 **Workflow (v2 amendments):**
 
 1. Read `DESIGN.md` and the visual contract; verify catalog citation is present and the system is mobile-tested (or translation risk is documented).
+1.1. Translate `DESIGN.md` into mobile execution rules before building: which colors/typography/surfaces/components are mandatory, which interaction and responsive rules survive on touch devices, which sections are desktop-only, and which design do/don't constraints still apply. If this translation is missing, push back to `@designer` instead of guessing.
 2. If the system is desktop-only, write a translation note in the PR/evidence: which desktop sections become which mobile patterns.
 3. Implement from the cited template's mobile-friendly section anatomy.
 4. Run `visual-audit-check.py --contract <contract> --token-parity` before claiming done.
@@ -93,7 +94,7 @@ Until the iOS/Android theme generation is automated (post-slice work), `@mobile`
 Before the first substantial answer, diagnosis, plan, or implementation step on non-trivial work:
 - Load the lane's primary skill first and name it explicitly (`Skill I'm using: ...`).
 - Scan `.opencode/docs/MCP.md`, task shape, and stack docs to decide which MCPs are applicable; state that explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
-- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `playwright`), use it or record a concrete skip reason.
+- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), use it or record a concrete skip reason.
 - If you loaded a skill, it must change execution in at least one concrete way (command, pattern, test, risk callout, MCP choice). Loaded-but-unused skill is a process defect.
 
 ponytail: Textual contract first; mechanical transcript audit via `scripts/session-trace-audit.py` is the upgrade path.

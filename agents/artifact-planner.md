@@ -121,6 +121,7 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 - For substantial UI plans with an explicit aesthetic request, include Material Grammar Translation before final plan readiness: user phrase -> tokens -> surfaces -> layout rules -> reject_if.
 - Example: `claymorphism + glassmorphism` -> soft warm/pastel tokens, large rounded tactile clay surfaces, translucent frosted glass overlays with restrained blur, layered shadows/highlights, airy product/domain hero composition; reject_if: generic neon SaaS, flat card grid spam, unreadable blur, fake dashboard metrics, abstract blobs replacing meaningful imagery.
 - Do not finalize `ready-for-implementation`, `PASS`, or `PASS_FOR_SLICE` for substantial UI when style grammar is missing. Mark `blocked`/`NEEDS_DEPTH` and route to `@designer` advisory.
+- For substantial UI plans, also state the chosen reference-pack tier in `## Reference Map`: project-local `DESIGN.md` -> Open Design catalog pick -> local `awesome-design-md` pack (`.opencode/catalog/awesome-design-md/INDEX.md`) -> first-principles. Lower tiers require explicit rationale recorded in `.opencode/evidence/<task-id>/source-strategy.md`.
 
 ## Language
 
@@ -146,7 +147,7 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 Before the first substantial answer, diagnosis, plan, or implementation step on non-trivial work:
 - Load the lane's primary skill first and name it explicitly (`Skill I'm using: ...`).
 - Scan `.opencode/docs/MCP.md`, task shape, and stack docs to decide which MCPs are applicable; state that explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
-- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `playwright`), use it or record a concrete skip reason.
+- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), use it or record a concrete skip reason.
 - If you loaded a skill, it must change execution in at least one concrete way (command, pattern, test, risk callout, MCP choice). Loaded-but-unused skill is a process defect.
 
 ponytail: Textual contract first; mechanical transcript audit via `scripts/session-trace-audit.py` is the upgrade path.

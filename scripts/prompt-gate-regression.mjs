@@ -2002,6 +2002,43 @@ for (const check of modeBehaviorChecks) {
   }
 }
 
+const packageJson = read("package.json") ?? "";
+const promptGatesDoc = read(".opencode/docs/PROMPT_GATES.md") ?? "";
+const sharedPoliciesDoc = read(".opencode/docs/SHARED_POLICIES.md") ?? "";
+const legalSourceGateChecks = [
+  {
+    name: "legal-source-check.py exists",
+    pass: read("scripts/legal-source-check.py") !== null,
+  },
+  {
+    name: "npm run check:legal-source registered",
+    pass: packageJson.includes('"check:legal-source"'),
+  },
+  {
+    name: "PROMPT_GATES.md documents the external source legal gate",
+    pass:
+      promptGatesDoc.includes("npm run check:legal-source") &&
+      promptGatesDoc.includes("External Source Legal Gate") &&
+      promptGatesDoc.includes("legal-source-check.json"),
+  },
+  {
+    name: "SHARED_POLICIES.md documents external source reuse + image-prompt legal gate",
+    pass:
+      sharedPoliciesDoc.includes("External source reuse, scraping, and image-generation legal gate") &&
+      sharedPoliciesDoc.includes("Image-prompt legal check") &&
+      sharedPoliciesDoc.includes("high-risk"),
+  },
+];
+
+for (const check of legalSourceGateChecks) {
+  if (!check.pass) {
+    state.failures += 1;
+    console.error(`✗ legal source gate (${check.name})`);
+  } else {
+    console.log(`✓ legal source gate (${check.name})`);
+  }
+}
+
 if (state.failures > 0) {
   console.error(`\nPrompt gate regression failed with ${state.failures} issue(s).`);
   process.exit(1);

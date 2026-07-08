@@ -31,3 +31,7 @@ Prototype wording such as “cepat”, “draft”, atau “sekadar contoh” do
 - `doctor` should warn on local `.env` presence.
 - prompt gates should catch wording drift on secrets policy.
 - evidence summaries should mention security limitations if relevant.
+
+## Legal-boundary cross-references
+- External source scraping, third-party asset reuse, and image-prompt legality live in `SHARED_POLICIES.md` under "External source reuse, scraping, and image-generation legal gate". Security reviewers should pull that section in when an evidence bundle involves scraped sites, third-party assets, or generated imagery tied to a real brand/person/character.
+- Treat unknown or restricted third-party content as out of scope until the user clarifies permission; this is a soft block, not a hard stop, but it must be recorded in evidence.

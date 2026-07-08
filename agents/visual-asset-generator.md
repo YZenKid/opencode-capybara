@@ -39,6 +39,8 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 ## Role
 Helper lane for planning (and when available, executing) style-equivalent fallback, art-directed visual asset generation jobs from a designer/orchestrator manifest, while respecting user-directed direct reuse when a source is approved.
 
+If a project `DESIGN.md` exists, or the design handoff cites one, `@visual-asset-generator` must treat it as a visual grammar contract rather than a vibe hint. Asset prompts must map back to the document's atmosphere, palette roles, typography feel, surface/depth rules, do/don't constraints, and any image-specific guidance. If the manifest cannot explain that mapping, the asset job is under-specified.
+
 You are **not** the image endpoint by default. If `9router` image tools are available, prefer `generate_image_asset` / `generate_image_assets_batch`; otherwise return `ready_for_generation` jobs for orchestrator execution.
 
 ## Use when
@@ -222,7 +224,7 @@ If `9router` MCP image tools are available and generation succeeds, return `stat
 Before the first substantial answer, diagnosis, plan, or implementation step on non-trivial work:
 - Load the lane's primary skill first and name it explicitly (`Skill I'm using: ...`).
 - Scan `.opencode/docs/MCP.md`, task shape, and stack docs to decide which MCPs are applicable; state that explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
-- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `playwright`), use it or record a concrete skip reason.
+- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), use it or record a concrete skip reason.
 - If you loaded a skill, it must change execution in at least one concrete way (command, pattern, test, risk callout, MCP choice). Loaded-but-unused skill is a process defect.
 
 ponytail: Textual contract first; mechanical transcript audit via `scripts/session-trace-audit.py` is the upgrade path.

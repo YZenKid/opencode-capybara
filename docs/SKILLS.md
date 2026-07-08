@@ -17,6 +17,7 @@
 ## Conditional helper/specialist skills
 - `opencode-architect`
 - `opencode-skill-improver`
+- `browseros-runtime` — BrowserOS MCP runtime playbook (browser automation + 40+ external apps via Strata). Load whenever a task needs real browser automation, DOM evidence, screenshots, or external app integration through BrowserOS.
 
 Legacy merged-away skills (accessibility/platform/product/AI/security/UI-system/visual-parity reviewer variants and build/general) are intentionally not active.
 

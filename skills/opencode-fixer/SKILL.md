@@ -145,7 +145,7 @@ For website, frontend, or mobile app animation work, follow the plan/designer mo
 
 ## Local resources
 
-- `references/playwright/` for Playwright patterns.
+- `references/playwright/` for project-side E2E with `@playwright/test` (npm library, fixtures, CI). Separate from the `browseros` MCP, which is for agent-driven runtime UI interaction during a task — see `.opencode/docs/MCP.md` for the BrowserOS tool surface and quick loop pattern.
 - `scripts/with_server.py` for local web app checks.
 - `references/senior-frontend/`, `scripts/senior-frontend/` for frontend implementation helpers.
 - `scripts/senior-backend/` for backend/API helpers.

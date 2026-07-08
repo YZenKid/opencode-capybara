@@ -341,6 +341,17 @@ ponytail: The goal is not bureaucracy. The goal is to make subagents boringly re
 
 Treat reference URLs/screenshots/templates or “mirip/jadikan seperti ini/clone/match/revamp like” as visual parity unless user says inspiration only. If the user also explicitly approves source reuse or asks for `1:1`, `clone`, `port`, `copy from`, or `make exactly like`, upgrade that to the Source-approved 1:1 Porting / Literal Porting Contract: literal reuse/adapt/prune is the default, and style-equivalent generation is fallback only when direct reuse is not requested, not allowed, unavailable, or unsafe. Require reference/current/final screenshots, visual spec, asset inventory, legal replacement handling, image generation decision, motion storyboard, icon strategy, visual density checks, and section-by-section comparison.
 For project UI work, the target project's own `DESIGN.md` is the first design authority; read it before generic preferences, then `design-system/DESIGN.md` or a documented equivalent.
+
+## Design source-of-truth hierarchy (for delegating design work)
+
+When delegating visual work, the order of authority is:
+
+1. Project-local `DESIGN.md` (root or `design-system/`).
+2. Open Design catalog selection (`.opencode/catalog/systems/<slug>/DESIGN.md`) when project-local guide is missing or revamp is requested.
+3. Local `awesome-design-md` fallback pack at `.opencode/catalog/awesome-design-md/INDEX.md` (built by `python3 scripts/design-source-importer.py --pack awesome-design-md --pack-path <local-clone>`). MIT licensed, curated by VoltAgent. Use only when (1) and (2) are insufficient for a concrete brand/style match, and document why in the evidence.
+4. First-principles rationale (when no reference is feasible) — must still be in the reference pack, not silently dropped.
+
+When source clarity is low (no project DESIGN.md, no catalog pick, no reference pack yet), do not send the work straight to `@frontend`. Route `@artifact-planner` -> `@designer` first, then `@frontend`. The brief handed to `@frontend` must name the cited system/template/sample, the deviation audit, and the basis (DESIGN.md section or blueprint).
 For build-from-scratch or substantial UI/UX work, high-level visual direction is insufficient. Require `@designer` to produce a general end-to-end UI/UX Design Blueprint before implementation is called ready. The blueprint must include experience direction, page-by-page UX blueprint, section-level visual specification, component system plan, visual system, asset and image decision, motion system, interaction/state design, responsive plan, accessibility gate, and validation evidence. The target project's own `DESIGN.md` is the first design authority.
 Substantial UI plans must name their reference pack or first-principles rationale and include page, component, state, motion, responsive, and accessibility specifics; generic “modern dashboard/landing page” prose is not implementation-ready.
 When the request is a standalone `prototype`, `deck`, `template`, or `design-system` artifact, allow `@designer` artifact-mode output; otherwise do not force artifact wrapping into normal app work.
@@ -615,7 +626,7 @@ Before any non-trivial answer, route, plan, or diagnosis, scan `.opencode/docs/M
 | Broad code search / pattern hunt / finding ownership in a large repo | `grep_app` | Search space is too large for local grep to be efficient or you need semantic search across many files/modules | Local repo is tiny or local grep/search already answered it quickly |
 | Repo / PR / issue / commit / branch / file history questions | `github` | You need current remote state, PR context, issue references, or authoritative repo metadata | Task is strictly local and no remote context is needed |
 | Static pattern / security smell / anti-pattern scan | `semgrep` | You are checking repeated code smells, security-sensitive patterns, or broad unsafe usage | The task is too tiny / single-file and manual review is faster |
-| Browser/UI/runtime flow / reproduction / DOM evidence | `playwright` | The bug or task depends on actual runtime/browser behavior | No browser surface exists or task is purely backend |
+| Browser/UI/runtime flow / reproduction / DOM evidence | `browseros` | The bug or task depends on actual runtime/browser behavior | No browser surface exists or task is purely backend |
 | UI component lookup / shadcn registry / install candidate discovery | `shadcn` | Project uses shadcn/Tailwind and task touches components/primitives | Project does not use shadcn |
 | General external search / current web facts | `9router.web_search` | User needs current information not available in repo/docs | Local repo/docs are already authoritative |
 

@@ -315,8 +315,11 @@ Prose-only translation (without catalog citation) is no longer sufficient for su
 **Source-of-truth hierarchy (must respect):**
 1. User's existing project brand (DESIGN.md in repo root, if present and current)
 2. Open Design catalog (150 systems + 290 templates at `open-design.ai`)
-3. Generic design principles from `.opencode/docs/SHARED_POLICIES.md` — fallback only
-4. Agent memory — NEVER for visual direction
+3. Local `awesome-design-md` fallback pack at `.opencode/catalog/awesome-design-md/INDEX.md` — curated real-brand DESIGN.md samples (MIT). Build with `python3 ~/.config/opencode/scripts/design-source-importer.py --pack awesome-design-md --pack-path <cloned-repo> --project-root .`. Use only when (1) and (2) cannot match the requested brand/style.
+4. Generic design principles from `.opencode/docs/SHARED_POLICIES.md` — fallback only
+5. Agent memory — NEVER for visual direction
+
+When picking from (3), record the chosen sample (e.g. `linear`, `vercel`, `stripe`) in `catalog-decision.md` and translate the chosen sample into a catalog-system fork via `design-system-fork.py` so tokens and audit remain canonical. Do not let a verbatim `awesome-design-md` DESIGN.md replace a project-local `DESIGN.md`.
 
 The catalog is **selected, not invented**. `@designer` cannot say "I'll go with a modern editorial feel." It must say "I selected `Editorial` design system with `example-hps-academic-paper` template variant, here is the chosen option's full DESIGN.md."
 
@@ -520,13 +523,20 @@ Reject generic AI aesthetics such as glossy cyberpunk dashboards, random neon bl
 
 Require per-asset uniqueness and set cohesion. The generated set must feel like one art-directed family, but each asset still needs a distinct role, composition, and thumbnail identity.
 
-## Playwright/browser capture
+## Playwright / BrowserOS capture
 
-Use wait-stabilize-scroll-settle for reference/current/final screenshots. Capture full page and hero/mobile/tablet/desktop as needed. Record limitations and rendering errors.
+For agent-driven runtime UI interaction (click, fill, snapshot, scrape) during
+a task, use the `browseros` MCP — see `.opencode/docs/MCP.md` for the tool
+surface and the Observe → Act → Verify loop pattern. For project-side E2E
+testing (test suite, CI, fixtures) and ad-hoc screenshot/visual capture from a
+script, `references/playwright/` covers the `@playwright/test` npm library.
+Use the wait-stabilize-scroll-settle workflow for reference/current/final
+screenshots. Capture full page and hero/mobile/tablet/desktop as needed.
+Record limitations and rendering errors.
 
 ## Local resources
 
-- `references/playwright/` for E2E, ad-hoc, visual, and debugging patterns.
+- `references/playwright/` for project-side E2E with `@playwright/test` (npm library, fixtures, CI) and ad-hoc screenshot/visual capture scripts. Separate from the `browseros` MCP, which is for agent-driven runtime UI interaction during a task — see `.opencode/docs/MCP.md`.
 - `references/frontend-review/` for review checklists/output formats.
 - `references/senior-frontend/` for React/frontend patterns.
 - `scripts/ui_ux_search.py`, `scripts/design_system.py`, `data/ui-design-intelligence/` for design-system lookup.

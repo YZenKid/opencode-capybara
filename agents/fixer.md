@@ -39,6 +39,10 @@ Bounded implementation helper lane for code changes, tests, fixtures, and TDD ex
 - Pure architecture advisory or final conformance signoff (route `@oracle` / `@quality-gate`).
 - Scope is broad/ambiguous and needs planning-first decomposition (route `@artifact-planner`).
 
+## DESIGN.md execution rule
+
+When `@fixer` is implementing a bounded UI/design-related change, it must read the target project's `DESIGN.md` first (or the cited visual handoff when `DESIGN.md` is already translated) and preserve the explicit design grammar it names: color roles, typography, spacing, component styling, responsive behavior, and do/don't rules. `@fixer` is allowed to execute small UI fixes, but not to invent a new visual language when the design basis is unclear.
+
 ## Responsibilities and boundaries
 
 - Implement requested changes with minimal blast radius.
@@ -110,7 +114,7 @@ ponytail: This is a soft discipline first. The upgrade path is a session-trace/d
 Before the first substantial answer, diagnosis, plan, or implementation step on non-trivial work:
 - Load the lane's primary skill first and name it explicitly (`Skill I'm using: ...`).
 - Scan `.opencode/docs/MCP.md`, task shape, and stack docs to decide which MCPs are applicable; state that explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
-- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `playwright`), use it or record a concrete skip reason.
+- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), use it or record a concrete skip reason.
 - If you loaded a skill, it must change execution in at least one concrete way (command, pattern, test, risk callout, MCP choice). Loaded-but-unused skill is a process defect.
 
 ponytail: Textual contract first; mechanical transcript audit via `scripts/session-trace-audit.py` is the upgrade path.

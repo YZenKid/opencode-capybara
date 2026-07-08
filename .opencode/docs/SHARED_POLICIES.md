@@ -160,6 +160,55 @@ Route `@explorer` for source inventory, `@artifact-planner` for copy/adapt/prune
 
 Keep legal/security/scope safeguards: restricted assets, secrets, unsafe code, incompatible licenses, privacy hazards, fake testimonials/claims, logos/trademarks, and out-of-scope behavior still require blocking, pruning, or substitution with documented rationale.
 
+## External source reuse, scraping, and image-generation legal gate
+
+Use this gate whenever the work involves a third-party website, repository, CDN asset, screenshot, illustration, logo, icon pack, stock image, or AI-generated image prompt that references a real brand, creator, or protected work.
+
+### Source classification
+- `user-owned`: the user created it or controls it.
+- `user-provided`: the user uploaded it or pasted it into the session.
+- `licensed`: license/terms are known and compatible with the intended use.
+- `public-but-unlicensed`: publicly reachable, but no clear reuse license/permission is present.
+- `restricted`: terms, robots, watermark, paywall, auth wall, or copyright notice indicate scraping/reuse restrictions.
+- `unknown`: source exists but permission status is not yet verified.
+
+### Scraping / extraction rules
+- Browsing a public website for reference, structure, or factual observation is allowed.
+- Copying raw source, bulk extracting assets, or reusing copy/images/styles from a third-party site is **not** allowed silently.
+- If the user explicitly asks to clone/port/copy from a site, classify the source first and record one of: license known, user permission asserted, or permission unknown.
+- `public-but-unlicensed`, `restricted`, or `unknown` sources are **not** safe for verbatim code/asset reuse by default. Ask the user or switch to structure-only analysis / style-equivalent recreation.
+- Do not bypass paywalls, auth walls, anti-bot controls, signed URLs, hotlink restrictions, or robots/terms restrictions.
+- Do not scrape or retain personal data, private dashboards, non-public documents, or user-specific content from third-party sites.
+- For template/source-driven tasks, inventory what is reused verbatim vs adapted vs generated, and record that in evidence/final notes.
+
+### Asset reuse rules
+- Direct asset reuse requires explicit user direction plus source tracking.
+- Final notes/evidence should record, when known: source URL/repo, asset type, license/permission status, trademark/logo status, and production-use risk.
+- Logos, trademarks, mascots, character art, celebrity likenesses, product screenshots, and watermarked images are high-risk assets. Default to block, prune, or substitute unless the user clearly owns them or provides permission.
+- If an external asset is not clearly reusable, prefer style-equivalent generation, licensed replacement, or omission over silent copying.
+- Do not fabricate authenticity signals such as testimonials, customer logos, press logos, security badges, award seals, app store badges, or partner marks.
+
+### Image-prompt legal check
+Before generating an image, the responsible lane should classify the prompt/output intent:
+- `safe-original`: original composition with generic descriptors and no protected identity dependence.
+- `style-equivalent`: inspired by broad observable traits, but not asking for a named artist/brand/logo/character/person to be replicated.
+- `directed-reuse`: user explicitly wants provided/licensed/owned assets reused.
+- `high-risk`: asks for a named artist's exact style, trademark/logo replication, copyrighted character, celebrity/public figure likeness, product UI screenshot cloning, watermark removal, or source-obscuring transformation.
+
+Rules:
+- `safe-original` and `style-equivalent` are allowed.
+- `directed-reuse` is allowed only with explicit user direction and recorded source/permission notes when known.
+- `high-risk` must be blocked, narrowed, or rewritten into a non-infringing/style-equivalent prompt.
+- Do not claim generated images are licensed stock, official brand assets, real customers, real employees, or documentary photographs unless that is actually verified.
+- Do not remove watermarks, signatures, or attribution marks from source images.
+- When generation is used as fallback, record `why_generation_instead_of_reuse` in evidence or final notes.
+
+### Escalation defaults
+- Permissive OSS code/assets with clear license: reuse/adapt is acceptable.
+- Copyleft, custom, marketplace, no-license, or unclear website terms: escalate with risk note before reuse.
+- Trademark/logo/celebrity/character/press-logo requests: default to substitute or ask for explicit ownership/permission.
+- If uncertainty remains material, downgrade to analysis-only, structure-only, or style-equivalent output instead of verbatim reuse.
+
 ## Mode-aware execution
 
 Before non-trivial routing, classify the request into one mode and record the mode in evidence or handoff notes.

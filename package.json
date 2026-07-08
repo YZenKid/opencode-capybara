@@ -41,6 +41,8 @@
     "test:session-trace": "python3 scripts/tests/session-trace-audit.test.py",
     "check:template-source": "python3 scripts/template-source-discovery.py --project-root . --summary-only",
     "check:template-source:json": "python3 scripts/template-source-discovery.py --project-root . --json",
+    "check:legal-source": "python3 scripts/legal-source-check.py --source https://example.com --summary-only",
+    "check:legal-source:json": "python3 scripts/legal-source-check.py --source https://example.com --json",
     "check:handoff": "python3 scripts/subagent-handoff-check.py --payload -",
     "check:handoff:plan": "python3 scripts/subagent-handoff-check.py --plan .opencode/plans",
     "check:delegation-log": "python3 scripts/delegation-log.py --project-root . --task sample --validate",
@@ -95,6 +97,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
+    "@opencode-ai/plugin": "1.17.5",
     "openai": "^6.35.0",
     "sharp": "^0.34.5",
     "zod": "^4.4.1"
