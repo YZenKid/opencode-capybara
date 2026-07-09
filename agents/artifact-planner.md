@@ -245,7 +245,7 @@ ponytail: This is intentionally boring and redundant. Redundancy here is cheaper
 4. **Research Gate**: Explicitly decide source strategy per type: local discovery (required for non-trivial), official docs/context7/@librarian (required when version-sensitive), GitHub (required when upstream-dependent), web search (required for current external facts), browser/screenshot (required for visual parity). Record skipped sources with reason.
 5. **Discovery**: Inspect local project patterns, docs, constraints, references, available tools, reuse candidates, existing test patterns. Route to `@explorer` for codebase mapping, `@librarian` for docs, `@system-analyst` for requirements/flows/contracts, `@architect` for architecture options, `@designer` for UX/product creativity advisory (read-only only). Write discovery evidence to `.opencode/evidence/<task-id>/discovery.md`.
 6. **Draft**: Write temporary notes, decisions, visual notes, asset manifest, open questions under `.opencode/draft/<task-id>/` only when useful.
-7. **Synthesize plan**: Write one primary plan file `.opencode/plans/<task-id>.md` with all required sections: Goal, Non-goals, Scope, Requirements, Acceptance Criteria, Existing Patterns/Reuse, Source Anatomy, Reference Map, Constraints, Risks, Decisions/Assumptions, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, TDD/Test Plan, Implementation Steps, Expected Files to Change, Agent/Tool Routing, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, Validation Commands, Evidence Requirements, Done Criteria, Final Planning Summary.
+7. **Synthesize plan**: Write one primary plan file `.opencode/plans/<task-id>.md` with all required sections: Goal, Non-goals, Scope, Requirements, Acceptance Criteria, Existing Patterns/Reuse, Source Anatomy, Reference Map, Constraints, Risks, Decisions/Assumptions, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, TDD/Test Plan, Implementation Steps, Expected Files to Change, Agent/Tool Routing, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, Progress Tracking, Validation Commands, Evidence Requirements, Done Criteria, Final Planning Summary.
    - For substantial UI, also require `## Content Authenticity Plan` and `## Template / Source Inventory` when the repo contains `templates/<dir>/`.
    - Plans with fake testimonials/pricing/stats, generic FAQ, or omitted content provenance are not execution-ready even if the visual spec is deep.
 
@@ -350,12 +350,30 @@ python3 ~/.config/opencode/scripts/task-progress.py <task-id> --checklist
 ### Anti-slop rule
 A non-trivial plan without an explicit numbered worklist, owner per task, and evidence path is not execution-ready. Do not mark `PASS` or `PASS_FOR_SLICE` for such plans.
 
+### Mandatory `## Progress Tracking` section in the plan
+- Every non-trivial `PASS` or `PASS_FOR_SLICE` plan MUST include an explicit `## Progress Tracking` section. This section is required, not optional.
+- The section MUST contain at minimum:
+  - `tracker_path`: `.opencode/state/<task-id>/progress.json`
+  - `init_command`: exact `task-progress.py --init --plan <plan.md>` command
+  - `summary_command`: exact `task-progress.py --summary` command
+  - `checklist_command`: exact `task-progress.py --checklist` command
+  - `update_rules`: when status must be updated, including:
+    - immediately before a task is started (`pending` -> `in_progress`)
+    - immediately after a task is completed, blocked, or cancelled
+    - any time evidence is written
+    - at every cross-lane handoff
+  - `task_map`: explicit table mapping every worklist id to its owner, evidence path, and the exact `task-progress.py --update` command line for that id
+- The worklist itself MUST use stable, machine-friendly task ids (`A1`, `A2`, `B1`, ...) so the tracker can be initialized deterministically. Prose-only steps are not acceptable for non-trivial plans.
+- A plan is NOT execution-ready if it has a worklist but no `## Progress Tracking` section, or if the section lacks the fields above.
+- Planner must explicitly tell the executor: "tracker updates at every status transition are mandatory, not optional bookkeeping." This sentence must appear in the `Executor Handoff Prompt`.
+
 ## Stop / escalation conditions
 - Planned dependency/API/asset/env requirements are unverifiable or incompatible.
 - Required slice evidence reports are missing.
 - Core features are env-dependent but no env configuration path is planned.
 - Primary surface is empty or placeholder when MVP claims are required.
 - Worklist is missing task owners or evidence paths.
+- Plan is missing the required `## Progress Tracking` section, tracker commands, stable task ids, or explicit tracker update rules for the executor.
 - For Greenfield App Accelerator work, use `.opencode/docs/GREENFIELD_STARTER.md` for starter matrix, slice rules, and blocking security/privacy checks when available; do not substitute generic greenfield boilerplate.
 - **Ruthless slicing rule**: a plan cannot be `PASS` or `PASS_FOR_SLICE` unless it defines a first slice that is demonstrably buildable and verifiable with the resources/time/complexity at hand. Whole-app-only plans without a bounded first slice must be marked `NEEDS_DEPTH`. Big features that are not in the first slice must be explicitly parked under `Out of scope (next slice)` with clear promotion criteria.
 - **Default first-slice ceiling**: unless the user explicitly asks for all-in-one and accepts the risk, first slice should contain at most: 1 core happy-path user flow, 1 persistence layer, 1 AI/server integration, 1 primary UI screen family, and the tests/validation needed to make it shippable. Everything else is next-slice.
@@ -507,7 +525,7 @@ Use this mode when the user provides PRD/product docs or asks to turn product do
   - `.opencode/draft/<task-id>/notes.md`
   - `.opencode/draft/<task-id>/decisions.md`
   - `.opencode/draft/<task-id>/open-questions.md`
-- The single primary plan file must include these sections: Goal, Non-goals, Scope, Requirements, Acceptance Criteria, Existing Patterns/Reuse, Constraints, Risks, Decisions/Assumptions, **Execution Source of Truth**, **Non-negotiable Implementation Invariants** when plan semantics can be implemented incorrectly, **Do Not / Reject If**, **Diff Boundary**, TDD/Test Plan, Implementation Steps, Expected Files to Change, Agent/Tool Routing, **Executor Handoff Prompt**, **Execution-ready Worklist / Handoff Contract**, Validation Commands, Evidence Requirements, Done Criteria, and Final Planning Summary.
+- The single primary plan file must include these sections: Goal, Non-goals, Scope, Requirements, Acceptance Criteria, Existing Patterns/Reuse, Constraints, Risks, Decisions/Assumptions, **Execution Source of Truth**, **Non-negotiable Implementation Invariants** when plan semantics can be implemented incorrectly, **Do Not / Reject If**, **Diff Boundary**, TDD/Test Plan, Implementation Steps, Expected Files to Change, Agent/Tool Routing, **Executor Handoff Prompt**, **Execution-ready Worklist / Handoff Contract**, **Progress Tracking**, Validation Commands, Evidence Requirements, Done Criteria, and Final Planning Summary.
 - For **Source-approved 1:1 Porting / Literal Porting Contract** tasks, the primary plan must also include: **Upstream/Source File Map**, **Local Target Map**, **Copy/Adapt/Prune/Create Decision** for every source file/component/asset, **License/Attribution Note**, **Forbidden Deviations**, and **Remaining Parity Debt** for every non-copied or intentionally diverged section. Do not use vague grammar/style parity alone as acceptance criteria.
 - **Execution Source of Truth** must define precedence for implementation, normally: latest explicit user instruction; safety/security/permission rules; Non-negotiable Implementation Invariants; Execution-ready Worklist / Handoff Contract; Acceptance Criteria and Done Criteria; Implementation Steps; follow-ups/recommendations. If conflicts exist, require executor to follow the higher source and record the conflict in verification evidence.
 - **Non-negotiable Implementation Invariants** must capture semantics the executor must preserve, such as artifact-only planner posture, conditional planner use, tiny fast path lightweight behavior, owner/lane boundaries, evidence requirements, and claim scope. Include this section for non-trivial plans whenever a reasonable executor could satisfy checklist text while violating intended behavior.
@@ -534,6 +552,7 @@ Use this mode when the user provides PRD/product docs or asks to turn product do
 - Keep the worklist finish-first friendly: represent optional branches explicitly, but ensure all non-blocked tasks are executable in order until completion criteria are met.
 - **Execution ownership table**: for non-trivial plans, include a table that maps each major subsystem/area to its implementation owner lane (`@frontend`, `@backend`, `@designer`, etc.) and review gate owner (`@quality-gate`). Do not let a single `@fixer` own the entire app.
 - **Handoff prompt contract**: the Executor Handoff Prompt must be copy-pasteable and include: plan task id, scope one-liner, all `must_preserve` invariants, all `do_not_touch` boundaries, exact acceptance criteria to verify, expected evidence files, and a reminder that workers execute only and report back to `@orchestrator`.
+- **Progress Tracking contract**: the `## Progress Tracking` section must provide exact tracker commands and per-task update mapping. The Executor Handoff Prompt must explicitly require `task-progress.py` updates at every status transition (`in_progress`, `completed`, `blocked`, `cancelled`) and whenever evidence for that task is written.
 - The TDD/Test Plan section must include: whether TDD is required, reason, existing test patterns, first failing/regression test, Green step, Refactor step, edge cases, and commands. If TDD is exempt, document the exemption reason and useful validation instead.
 - The discovery evidence artifact must include: files inspected, project patterns found, reuse candidates, commands/docs checked, constraints, risks, and a **Confirmed vs Assumed Audit** table. That table must classify every material claim as one of: `confirmed_repo`, `confirmed_runtime`, `confirmed_docs`, `user_confirmed`, `assumption`, or `unverified`.
 - **Grounding contract**: non-trivial plans must include `## Source Anatomy` and `## Reference Map`.
