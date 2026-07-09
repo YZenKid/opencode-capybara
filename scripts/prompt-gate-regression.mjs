@@ -2039,6 +2039,68 @@ for (const check of legalSourceGateChecks) {
   }
 }
 
+const designMdTemplate = read("skills/opencode-designer/references/DESIGN-MD-TEMPLATE.md") ?? "";
+const assetLibrariesDoc = read("references/ASSET_LIBRARIES.md") ?? "";
+const designSystemGateChecks = [
+  {
+    name: "DESIGN-MD-TEMPLATE.md covers motion system",
+    pass:
+      designMdTemplate.includes("### Motion system") &&
+      designMdTemplate.includes("prefers-reduced-motion") &&
+      designMdTemplate.includes("Reanimated + Gesture Handler"),
+  },
+  {
+    name: "DESIGN-MD-TEMPLATE.md covers reduced motion fallback",
+    pass:
+      designMdTemplate.includes("### Reduced motion") &&
+      designMdTemplate.includes("`no-3d` fallback"),
+  },
+  {
+    name: "DESIGN-MD-TEMPLATE.md covers 3D / spatial system",
+    pass:
+      designMdTemplate.includes("### 3D / spatial") &&
+      designMdTemplate.includes("Three.js + react-three-fiber") &&
+      designMdTemplate.includes("glTF/GLB"),
+  },
+  {
+    name: "DESIGN-MD-TEMPLATE.md covers icon system + asset policy",
+    pass:
+      designMdTemplate.includes("### Icon system") &&
+      designMdTemplate.includes("### Imagery / asset policy") &&
+      designMdTemplate.includes("references/ASSET_LIBRARIES.md"),
+  },
+  {
+    name: "references/ASSET_LIBRARIES.md curated list present",
+    pass:
+      assetLibrariesDoc.includes("## Icon libraries") &&
+      assetLibrariesDoc.includes("## Illustrations") &&
+      assetLibrariesDoc.includes("## 3D models and assets") &&
+      assetLibrariesDoc.includes("Lucide") &&
+      assetLibrariesDoc.includes("Phosphor Icons") &&
+      assetLibrariesDoc.includes("Poly Haven") &&
+      assetLibrariesDoc.includes("Three.js") &&
+      assetLibrariesDoc.includes("check:legal-source"),
+  },
+  {
+    name: "SHARED_POLICIES.md documents icon, motion, and 3D system rules",
+    pass:
+      sharedPoliciesDoc.includes("Icon, motion, and 3D system rules") &&
+      sharedPoliciesDoc.includes("### Icon system") &&
+      sharedPoliciesDoc.includes("### Motion system") &&
+      sharedPoliciesDoc.includes("### 3D / spatial system") &&
+      sharedPoliciesDoc.includes("references/ASSET_LIBRARIES.md"),
+  },
+];
+
+for (const check of designSystemGateChecks) {
+  if (!check.pass) {
+    state.failures += 1;
+    console.error(`✗ design system gate (${check.name})`);
+  } else {
+    console.log(`✓ design system gate (${check.name})`);
+  }
+}
+
 if (state.failures > 0) {
   console.error(`\nPrompt gate regression failed with ${state.failures} issue(s).`);
   process.exit(1);

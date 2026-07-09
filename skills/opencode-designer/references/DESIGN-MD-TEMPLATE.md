@@ -25,6 +25,37 @@ Heading, body, label, caption, numeric, code/mono usage. Include scale, weight, 
 ## Component Stylings
 Buttons, inputs, cards, navigation, tables/lists, dialogs/drawers, feedback surfaces, empty states, icons, imagery, charts. Include important variants and states.
 
+### Icon system
+- Library preference (e.g. Lucide, Phosphor, Heroicons, Tabler, Iconoir, Material Symbols) and license (MIT, Apache-2.0, OFL, etc.).
+- Outline vs filled vs duotone variants and when each is appropriate.
+- Sizing scale (16/20/24/32/48) and stroke-width.
+- Functional icon policy: never replace functional UI icons with generated substitutes; decorative badges or lookalike marks may use generation when explicit.
+- Icon anti-patterns: emoji icons, numeric-only service icons, fake social/brand icons, mismatched stroke weights across sets.
+
+### Imagery / asset policy
+- Real photography vs generated domain imagery vs use-provided vs licensed-existing vs no-imagery per section; record the decision in evidence.
+- Open-source asset library anchors (see `references/ASSET_LIBRARIES.md`): illustrations (Open Doodles, unDraw, Storyset, Blush, Humaaans), stock photography (Unsplash, Pexels, Pixabay — license-clear per source), 3D models (Poly Haven, Quaternius, Kenney, Sketchfab CC filter).
+- Do not fabricate authenticity signals: testimonials, customer logos, press logos, security/award seals, app store badges, partner marks.
+- Watermark removal from source images is not allowed.
+
+### Motion system
+- Web: CSS native for hover/focus/opacity/transform; `motion.dev` for non-trivial React/Next/Vue layout/state/gesture/scroll motion; `animejs` for timeline/SVG choreography; `animate.css` only for quick ready-made effects.
+- React Native/Expo: built-in `Animated` / `LayoutAnimation` for simple motion; Reanimated + Gesture Handler for non-trivial UI-thread/gesture/layout motion; Lottie for valid onboarding/loading/brand illustrations.
+- Flutter: implicit animations for simple property/state changes; explicit `AnimationController` for complex choreography; Hero for shared-element route transitions.
+- Do not use web-only libraries (`motion.dev`, `animejs`, `animate.css`) for native mobile screens unless the target is web/webview.
+- Easing and duration scale (fast/medium/slow) and per-component motion budget.
+- Never `transition: all`, layout-janky animation, interaction-blocking overlays, or unbounded loops.
+- Surface, not spec: motion is part of the design system, not an optional polish pass.
+
+### 3D / spatial (when applicable)
+- Runtime preference (Three.js + react-three-fiber for React, model-viewer for web-embed, Spline for hero/visualization, Babylon.js for richer scenes). Pick a runtime, do not mix multiple.
+- 3D is allowed when the section materially benefits (product configurator, hero with product-on-stage, data visualization, map / geospatial). Default to flat for dashboards, forms, settings, transactional surfaces.
+- Asset pipeline: source (Poly Haven / Quaternius / Kenney / Sketchfab CC) → glTF/GLB → license recorded → `use-provided-assets` / `licensed-existing-assets` / `no-3d`.
+- Performance budget: bundle size cap, draw call / triangle budget, lazy-load, dispose on unmount.
+- Lighting and material rules so generated/imported 3D matches the project palette and elevation.
+- Reduced-motion and accessibility: respect `prefers-reduced-motion`, allow `no-3d` fallback to a static image or icon.
+- 3D anti-patterns: 3D for the sake of 3D, autoplay camera spins, heavy assets on the critical path, 3D that hides CTA, fake-material 3D that does not match real product context.
+
 ## Layout Principles
 Grid, max widths, spacing rhythm, section density, responsive breakpoints, sticky/fixed behavior, content hierarchy across mobile/tablet/desktop.
 
@@ -36,6 +67,12 @@ Concrete project-specific rules, anti-generic UI rules, icon/image rules, copy/m
 
 ## Responsive Behavior
 Mobile-first rules, navigation changes, CTA placement, data display adaptation, form behavior, image crops, touch target expectations, reduced-motion expectations.
+
+### Reduced motion
+- Respect `prefers-reduced-motion: reduce` (web), `accessibilityReduceMotion` (React Native), and platform reduced-motion APIs.
+- Provide instant alternatives for every meaningful transition: route changes, list reveal, modal/sheet, toast, parallax, scroll-linked effects, 3D camera motion, autoplay video.
+- For 3D, allow `no-3d` fallback to a static image, icon, or 2D illustration when reduced motion is requested.
+- Document which motion is essential (loading spinners, drag affordance) vs decorative, and only keep essential motion under reduced-motion preference.
 
 ## Agent Prompt Guide
 Direct instructions for future coding/design agents: which files/tokens/components to read first, how to apply this design system, when to reuse/extend/create, when to ask questions, when to run visual validation, how to report deviations. Also state the downstream ownership chain for substantial UI work.

@@ -64,6 +64,22 @@ For explicit material aesthetics in hero/image-heavy work, require tactile/produ
 - Keep the OpenCode config root separate from the target application root.
 - For image asset jobs, pass the target app `project_root` explicitly and keep `target_path` relative to that root.
 
+## Curated asset library anchor
+
+Before generating or approving a substitute, consult `references/ASSET_LIBRARIES.md` as the curated anchor for safe upstream libraries and providers.
+
+Use it to:
+- prefer proper icon libraries (Lucide, Phosphor, Heroicons, Tabler, Iconoir, Material Symbols, etc.) over generated substitutes for functional UI icons,
+- prefer licensed illustration sources (Open Doodles, unDraw, Storyset, Humaaans, Blush, Open Peeps) before inventing a generated lookalike,
+- prefer licensed stock photography providers (Unsplash, Pexels, Pixabay, Wikimedia Commons, NASA, Coverr) when the section needs real photography,
+- prefer license-clear 3D model sources (Poly Haven, Quaternius, Kenney, Sketchfab CC filter) and explicit runtimes (Three.js, react-three-fiber, model-viewer, Spline, Babylon.js) when 3D is materially part of the section.
+
+Rules:
+- If `references/ASSET_LIBRARIES.md` already lists a category-appropriate source, cite that source in the manifest/evidence before switching to generation.
+- Pair every external asset/provider URL with `python3 ~/.config/opencode/scripts/legal-source-check.py --source <upstream-url> --json` (or `npm run check:legal-source`) when reuse posture is unclear.
+- For functional UI icons, generated substitutes are not acceptable when a proper icon library exists.
+- For sections that need real photography, do not replace a clearly-required human/product photograph with generated illustration unless the designer explicitly marked `generated domain-specific imagery required`.
+
 ## Execution provider
 
 Use 9Router image generation for executable image asset jobs.

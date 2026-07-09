@@ -135,6 +135,21 @@ ponytail: This gate pairs a behavioral rule with a mechanical helper (`scripts/t
 **Enforcement:**
 These are mechanical failures, not taste preferences. If any failure is present, return `needs-polish` or `blocked`. Do not mark substantial UI `ready` when these failures exist.
 
+## Curated asset library anchor
+
+For icon, illustration, stock photography, and 3D asset selection, always consult the curated open-source list at `references/ASSET_LIBRARIES.md` before introducing a new source. The list is the authoritative anchor for:
+
+- icon family choice (Lucide, Phosphor, Heroicons, Tabler, Iconoir, Material Symbols, Remix Icon, Carbon Icons, Octicons, Bootstrap Icons, etc.) and license
+- illustration library choice (unDraw, Open Doodles, Storyset, Humaaans, Blush, Open Peeps, etc.) and license
+- stock photography posture (Unsplash, Pexels, Pixabay, Wikimedia Commons, NASA Image Gallery, Coverr) and per-source license
+- 3D model + runtime posture (Poly Haven, Quaternius, Kenney, Sketchfab, Three.js, react-three-fiber, drei, model-viewer, Spline, Babylon.js) and per-source license
+
+Rules:
+- Record the chosen library, version, license, and attribution posture in `Component Stylings` (icon/imagery) and `Component Stylings > 3D / spatial` (when applicable), then mirror the same in evidence.
+- Pair every external asset URL with the legal gate: `python3 ~/.config/opencode/scripts/legal-source-check.py --source <upstream-url> --json` (or `npm run check:legal-source`).
+- Do not hotlink CDN assets that prohibit hotlinking; download + commit a copy under the project asset path so the source is reproducible.
+- If the upstream license posture is unclear, mark the asset as `unknown` in evidence and ask the user before reuse; do not silently substitute with a generated lookalike.
+
 ## Smart UI artifact workflow
 
 - Use an artifact-first design workflow that makes the agent behave like a senior product designer with a clear brief, design-system context, craft rules, and validation evidence.

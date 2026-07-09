@@ -31,10 +31,44 @@ For substantial UI work, these are mechanical failures (not taste preferences):
 | Lorem text or placeholder copy in user-facing UI | `needs-polish` |
 | Missing hero composition (no meaningful product/domain content) | `blocked` |
 | Missing image strategy per visual section | `blocked` |
+| Missing icon strategy or icon library decision | `needs-polish` |
 | Missing motion motivation (no explanation for non-trivial motion) | `needs-polish` |
 | Missing reduced-motion support | `needs-polish` |
+| 3D used without runtime/asset/performance/fallback rules | `blocked` |
 
 If any failure is present, return `needs-polish` or `blocked`. Do not mark substantial UI `ready` when these failures exist.
+
+## Icon, motion, and 3D system rules
+
+For substantial UI, the project `DESIGN.md` must declare a system (not a one-off) for icons, motion, and 3D. These rules extend the anti-generic table above.
+
+### Icon system
+- Pick a single icon family per project (Lucide, Phosphor, Heroicons, Tabler, Iconoir, Material Symbols, Remix Icon, Carbon Icons, Octicons, Bootstrap Icons, etc.). Do not mix.
+- Use functional icons from the chosen library; never replace functional UI icons with generated substitutes or emoji.
+- Generated icons are only acceptable for decorative badges, lookalike marks, or non-logo imagery; record license and source in evidence.
+- Always record the icon library name and license in `Component Stylings > Icon system`.
+
+### Motion system
+- The 9-section `DESIGN.md` template (`skills/opencode-designer/references/DESIGN-MD-TEMPLATE.md`) carries explicit `### Motion system` and `### Reduced motion` sub-sections. Substantial UI work that needs motion must fill them in.
+- Surface the runtime/library choice in the design system itself, not as a per-implementation choice. Common anchors:
+  - Web: CSS native, `motion.dev`, `animejs`, `animate.css` (only for quick ready-made effects).
+  - React Native/Expo: built-in `Animated`/`LayoutAnimation`, Reanimated + Gesture Handler, Lottie for valid motion assets.
+  - Flutter: implicit/explicit animations, `AnimationController`, Hero.
+- Never `transition: all`, layout-janky animation, interaction-blocking overlays, or unbounded loops.
+- Always support reduced-motion (`prefers-reduced-motion: reduce`, `accessibilityReduceMotion`, platform APIs) and provide instant alternatives.
+
+### 3D / spatial system
+- 3D is allowed when the section materially benefits (product configurator, hero with product-on-stage, data visualization, map/geospatial). Default to flat for dashboards, forms, settings, and transactional surfaces.
+- Pick one 3D runtime per project (Three.js + react-three-fiber, model-viewer, Spline, Babylon.js). Do not mix multiple runtimes without a reason.
+- Asset pipeline: source (Poly Haven / Quaternius / Kenney / Sketchfab CC filter) -> glTF/GLB -> license recorded in evidence.
+- Performance budget: bundle size cap, draw-call / triangle budget, lazy-load, dispose on unmount.
+- 3D anti-patterns: 3D for the sake of 3D, autoplay camera spins, heavy assets on the critical path, 3D that hides the primary CTA, fake-material 3D that does not match real product context, watermark removal or origin falsification.
+- Always provide a `no-3d` fallback (static image, icon, 2D illustration) under reduced-motion or when 3D fails to load.
+
+### Open-source asset library anchor
+- `references/ASSET_LIBRARIES.md` is the curated reference for open-source icon, illustration, stock photography, and 3D model sources with their license posture.
+- Always record the chosen library, license, and attribution posture per section in evidence; do not silently hotlink CDN assets that prohibit hotlinking.
+- Pair every asset choice with the legal gate: `npm run check:legal-source -- --source <upstream-url>` when reuse posture is unclear.
 
 ## Reference pack requirement
 
@@ -176,7 +210,8 @@ Use this gate whenever the work involves a third-party website, repository, CDN 
 - Browsing a public website for reference, structure, or factual observation is allowed.
 - Copying raw source, bulk extracting assets, or reusing copy/images/styles from a third-party site is **not** allowed silently.
 - If the user explicitly asks to clone/port/copy from a site, classify the source first and record one of: license known, user permission asserted, or permission unknown.
-- `public-but-unlicensed`, `restricted`, or `unknown` sources are **not** safe for verbatim code/asset reuse by default. Ask the user or switch to structure-only analysis / style-equivalent recreation.
+- `public-but-unlicensed` and `unknown` sources are allowed for reference, adaptation, layout/structure analysis, and style-equivalent recreation by default. Verbatim code/asset reuse from those sources still requires explicit user direction plus source tracking.
+- `restricted` sources remain blocked for bypass/scraping/reuse without permission.
 - Do not bypass paywalls, auth walls, anti-bot controls, signed URLs, hotlink restrictions, or robots/terms restrictions.
 - Do not scrape or retain personal data, private dashboards, non-public documents, or user-specific content from third-party sites.
 - For template/source-driven tasks, inventory what is reused verbatim vs adapted vs generated, and record that in evidence/final notes.
@@ -203,11 +238,29 @@ Rules:
 - Do not remove watermarks, signatures, or attribution marks from source images.
 - When generation is used as fallback, record `why_generation_instead_of_reuse` in evidence or final notes.
 
+### Reuse posture (medium-loose default)
+
+`scripts/legal-source-check.py` now emits a `reuse_posture` field so downstream lanes can decide without re-deriving the posture. Allowed values:
+
+- `allowed-direct`: license is clear, source is licensed/user-owned/user-provided, no high-risk signals. Default for reference + adaptation + most direct reuse tasks.
+- `allowed-direct-with-risk`: source is public-but-unlicensed or unknown, or carries a high-risk signal (logo, premium, celebrity, lookalike). Adaptation and reference-only are still allowed; verbatim reuse needs explicit user direction.
+- `allowed-adapt`: explicit adaptation intent (`reference-only` or `style-equivalent`). Visual anatomy, layout, spacing, composition, and structural code patterns are allowed; verbatim code/asset copying is not the default.
+- `allowed-adapt-with-risk`: same as `allowed-direct-with-risk` but for adaptation intent.
+- `blocked`: source is restricted, license is copyleft/nonstandard, or bypass would be required. Escalate to user with risk note; do not auto-replace.
+
+The legal source check still emits `needs_user_clarification: true` when:
+- intent is `clone` / `1:1` / `copy-from` / `direct-reuse` AND the source is public-but-unlicensed, unknown, restricted, or has a high-risk signal;
+- license is copyleft / nonstandard;
+- risk signals include brand/logo/celebrity/character or premium-pro assets AND the intent is verbatim reuse.
+
+For all other cases the default is to proceed with `reuse_posture` and record source + risk in evidence instead of asking.
+
 ### Escalation defaults
 - Permissive OSS code/assets with clear license: reuse/adapt is acceptable.
-- Copyleft, custom, marketplace, no-license, or unclear website terms: escalate with risk note before reuse.
+- Copyleft, custom, marketplace, or clearly restrictive website terms: escalate with risk note before reuse.
+- No-license / unclear public sources: adaptation is allowed; escalate only when the task requires verbatim redistribution, premium assets, or brand/trademark-sensitive reuse.
 - Trademark/logo/celebrity/character/press-logo requests: default to substitute or ask for explicit ownership/permission.
-- If uncertainty remains material, downgrade to analysis-only, structure-only, or style-equivalent output instead of verbatim reuse.
+- If uncertainty remains material, downgrade to analysis-only, structure-only, adapted output, or style-equivalent output instead of silent verbatim reuse.
 
 ## Mode-aware execution
 
