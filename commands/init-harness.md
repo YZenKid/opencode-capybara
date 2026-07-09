@@ -37,8 +37,8 @@ Workflow:
 15. Capture concise stack-and-tooling findings (languages, frameworks, package managers, test runners, linters, build/deploy surfaces) and reflect them in `AGENTS.md` instead of generic advice.
 16. Keep repo-local-docs-first posture. Use external references only when local evidence is insufficient or version-sensitive, following `.opencode/docs/TOOL_USAGE.md` (prefer official docs via `context7`, then source/examples via GitHub, then broad web search).
 17. If external references are needed, state what was checked and why in the final summary.
-18. If `AGENTS.md` already exists at the project root, ask before overwriting or replacing it. Do not silently overwrite project-specific rules.
-19. If `DESIGN.md` already exists at the project root, ask before overwriting or replacing it. Do not silently overwrite project design guidance.
+18. If `AGENTS.md` already exists at the project root, ask before overwriting or replacing it. Do not silently overwrite project-specific rules. Do NOT stop the rest of the harness work because of this — continue with the safe subset (project-stack/commands/playbook/detected-tools docs, optional `DESIGN.md`, and the canonical `.opencode/docs/` scaffold) and surface the `AGENTS.md` overwrite question as a single question at the end so the run can finish.
+19. If `DESIGN.md` already exists at the project root, ask before overwriting or replacing it. Do not silently overwrite project design guidance. The same safe-subset rule applies — continue with the rest of the harness work and surface the `DESIGN.md` overwrite question alongside the `AGENTS.md` question.
 20. If no root `AGENTS.md` exists, create one in the current project root.
 21. If no root `DESIGN.md` exists, create one in the current project root.
 22. Keep both files in English.
@@ -217,12 +217,13 @@ The `Agent Prompt Guide` should also state the downstream ownership chain for su
 
 After writing the files, summarize:
 
-- whether `AGENTS.md` was created, updated, skipped, or left unchanged,
-- whether `DESIGN.md` was created, updated, skipped, or left unchanged,
+- whether `AGENTS.md` was created, updated, skipped pending approval, or left unchanged,
+- whether `DESIGN.md` was created, updated, skipped pending approval, or left unchanged,
 - whether `PROJECT_STACK.md`, `PROJECT_COMMANDS.md`, `FRAMEWORK_PLAYBOOK.md`, and `PROJECT_DETECTED_TOOLS.md` were created, updated, skipped, or left unchanged,
 - which repo-local docs, project files, and scripts informed the result,
 - any assumptions made,
 - whether a `.opencode/docs/` system-of-record scaffold is still missing,
+- if any file was held back for user approval, list exactly which files and which one-line action the user needs to take next (e.g. "approve AGENTS.md overwrite — run /init-harness again with --confirm-agents-overwrite"),
 - how future agents should apply the docs,
 - whether follow-up screenshots or design review are recommended,
 - and that the user should restart OpenCode for command/config changes to take effect.
