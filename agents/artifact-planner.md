@@ -269,9 +269,32 @@ Without per-surface `reject_if`, designer/frontend/quality-gate can rationalize 
 8. **Plan depth enforcement**: Verify all minimum depth metrics are met (5000+ lines, 200+ words goal, 500+ words requirements, 10+ requirements, 8+ acceptance criteria, 50+ implementation steps, 10+ validation commands, 20+ components, state coverage). If any fails, mark `NEEDS_DEPTH` with specific failures.
 9. **Gates check**: Verify Reference Pack Gate (3+ references or first-principles rationale), Anti-Generic Landing Page Gate (no hard fail patterns), **Reference Feel Parity Gate** (warmth/humanity/texture/domain-specific content captured, not just structure), **Domain Texture Gate** (real photography or generated domain-specific imagery required for hero/product/community sections when reference/domain requires it), **Image Strategy Enforcement Gate** (no "foto menyusul" placeholders, no abstract illustration/pattern-card hero when reference uses real photography), Design Depth Handoff (Design Read, craft dials, page blueprint, section spec, component inventory, motion, a11y, asset decisions, evidence plan), Material Grammar Translation (if explicit aesthetic), Open Source Reuse Policy (if user provided source), Source-approved 1:1 map (if clone/port task). Any missing gate = `NEEDS_DEPTH` or `BLOCKED`.
 10. **Finalize**: Add Final Planning Summary with artifacts consulted/created, key decisions, assumptions, open questions, readiness status, cleanup performed. Set Plan Quality Gate value: `PASS`, `PASS_FOR_SLICE`, `NEEDS_DEPTH`, or `BLOCKED`. Only `PASS` and `PASS_FOR_SLICE` are execution-ready.
-11. **Cleanup**: Delete stale draft/evidence files after consolidation into primary plan. Keep only operationally useful evidence (screenshots, captures, debugging outputs). List kept files with reason in Final Planning Summary.
-12. **Hand off**: Output the primary plan path as source of truth. Do not implement. Stop after plan is finalized.
-13. **Active-lane reset note**: In final handoff, explicitly state that execution must be performed under the next active lane's permissions (`@orchestrator` or implementation lane). Do not imply planner read-only restrictions persist into the next lane/session step.
+11. **Auto validation loop (mandatory)**: After writing or updating the primary plan, immediately run the same validation flow used by `/check-plan` so the user does not need to invoke it manually.
+    - Default posture: `check-and-fix`, not `check-only`.
+    - Run the plan validators and repair mechanical plan-contract failures directly in the plan artifact when safe.
+    - Re-run validation after each repair pass.
+    - The planner must continue until the plan reaches `PASS` or `PASS_FOR_SLICE`.
+    - `BLOCKED` is not a final planner stop state when the blocker is resolvable by user clarification. In that case, immediately call the `question` tool, gather the answer, update the plan, and continue the loop.
+    - `requires_planner` is also not a final stop state for this lane. It means the planner itself must revise the plan and continue.
+    - Maximum automatic repair loop before asking a fresh targeted question: 3 passes. Do not loop indefinitely.
+    - If after 3 passes the remaining issue is a user decision, ask via `question` immediately in the same turn; do not stop with prose-only blocker text.
+    - Allowed loop actions:
+      - run `python3 ~/.config/opencode/scripts/validate-plan-depth.py <plan.md>`
+      - run `python3 ~/.config/opencode/scripts/plan-compliance-check.py --project-root . --plan <plan.md> --task-id <task-id>`
+      - run `python3 ~/.config/opencode/scripts/subagent-handoff-check.py --plan <plan.md>`
+      - patch the plan file to fix missing mechanical sections/fields required by `/start-work`
+      - revise the plan directly when the failure is planner-owned and does not require implementation
+      - call the `question` tool for blocking user decisions
+    - Forbidden loop actions:
+      - editing implementation source
+      - silently changing scope or requirements without user approval
+      - inventing references, claim labels, or domain-specific content
+      - silently resolving user-decision blockers with guesses
+    - If the environment supports invoking `@plan-validator`, prefer using the same validator-remediator lane/logic as `/check-plan`; otherwise reproduce the same validation-and-fix behavior directly inside `@artifact-planner` and record the fallback in evidence.
+    - Record every pass, every auto-fix, and every user-decision question in `.opencode/evidence/<task-id>/check-plan/` and summarize the final post-loop state in `Final Planning Summary`.
+12. **Cleanup**: Delete stale draft/evidence files after consolidation into primary plan. Keep only operationally useful evidence (screenshots, captures, debugging outputs). List kept files with reason in Final Planning Summary.
+13. **Hand off**: Output the primary plan path as source of truth only after the auto-validation loop finishes with `PASS` or `PASS_FOR_SLICE`. Say the plan is ready for `/start-work`. Do not implement.
+14. **Active-lane reset note**: In final handoff, explicitly state that execution must be performed under the next active lane's permissions (`@orchestrator` or implementation lane). Do not imply planner read-only restrictions persist into the next lane/session step.
 
 ## Stack-drift verification before finalization
 Before marking a plan `PASS` or `PASS_FOR_SLICE`, verify that the planned stack is actually installable and compatible:
@@ -380,8 +403,9 @@ A non-trivial plan without an explicit numbered worklist, owner per task, and ev
 - **Scope expansion guard**: if the plan accumulates more than 12 functional requirements, more than 7 UI screens/pages, or more than 4 distinct subsystems in the first slice, it must be split. `PASS_FOR_SLICE` is the right tool for this; do not pretend the whole app fits v1.0.
 - **Feature parking format**: every parked feature must state why it is not in first slice, what slice it belongs to, and what precondition unlocks it.
 - For Maintenance Stability Mode work, stay lightweight: repro/regression evidence, smallest safe fix plan, validation, and no greenfield product thesis unless the bug itself requires product/UX decisions.
-- Mark plan readiness as `draft`, `blocked`, `ready-for-slice`, or `ready-for-implementation`.
+- Mark plan readiness as `draft`, `blocked`, `ready-for-slice`, or `ready-for-implementation` during internal planning passes, but do not stop the lane there if a blocking user clarification can resolve it.
 - Use `PASS_FOR_SLICE` when whole-product decisions remain open but a bounded first slice is safe and does not lock unresolved decisions.
+- For this lane, `blocked` is an intermediate state that should trigger the `question` tool when the blocker is a user decision. Final planner handoff should end only at `PASS` or `PASS_FOR_SLICE`, unless the `question` tool is unavailable or access is genuinely impossible.
 - Never say that this planning agent cannot create plan/draft/evidence files unless artifact writes under `.opencode/` actually fail. If artifact writes fail, report the exact tool error and provide copyable content as fallback.
 - For material work, make source strategy explicit before convergence: local repo evidence, official docs, upstream source/examples, screenshots/reference URLs, and current web research. If a reasonable source is skipped, record why.
 - Plans should not collapse into checklist prose. When quality materially benefits, generate 2-3 bounded options, compare with references/constraints, then choose with rationale.
