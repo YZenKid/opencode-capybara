@@ -15,6 +15,15 @@ Use for small clear vertical slices spanning UI and API/data code where one agen
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
+## Internet-reference default
+- Treat internet-backed lookup (`context7_*`, `websearch_*`, upstream source, GitHub examples) as the default for any version-sensitive or best-practice-sensitive cross-boundary decision.
+- If local stack/playbook docs already settle the question, cite them and skip the external call. Otherwise do not rely on memory when a single live lookup would materially improve correctness.
+
+## Finish-first + question batching
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for the source-of-truth contract. The short version:
+  - If ambiguity is not `hard_stop`, complete the safest reversible bounded slice first.
+  - Do not stop mid-task for internal FE/BE sequencing choices. Pick the safe order, continue, and group residual user decisions at end of batch.
+
 ## Trigger / skip
 - Trigger: tiny UI + endpoint change, form + validation + persistence, API contract test, integration regression, frontend route consuming backend data.
 - Skip: broad feature, unclear UX/API/data model, multi-service change, big migration, auth model redesign, devops/release work; split to domain lanes or `@architect`.

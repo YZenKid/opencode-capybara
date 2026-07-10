@@ -13,6 +13,8 @@ permission:
     "*.env": ask
     "*.env.*": allow
     "*.env.example": allow
+  context7_*: allow
+  websearch_*: allow
   bash: ask
   external_directory:
     "*": allow
@@ -266,8 +268,10 @@ final_claim_scope: slice complete
 ## Stop / escalation
 
 - Missing core design direction for substantial UI work → escalate to `@orchestrator` and suggest `/init-harness` (single entrypoint per `commands/init-harness.md`) so consolidated harness + design initialization can create or update `DESIGN.md`. Do not redirect to any separate design-init command.
+- If some design ambiguity remains but a safe bounded design direction can still be produced, continue the handoff, mark the unresolved item as `deferred_question` / `follow_up`, and batch residual user decisions at the end instead of stopping repeatedly.
 - Blocked asset/licensing/reference constraints → escalate.
 - Final release confidence → route `@quality-gate`.
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for finish-first + question batching + internet-reference default rules.
 
 ## Visual context routing
 

@@ -22,6 +22,15 @@ Adopted from Open Design: source-pack discipline, `DESIGN.md` authority, screens
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
+## Internet-reference default
+- Treat internet-backed lookup (`context7_*`, `websearch_*`, `webfetch`, upstream source, GitHub examples) as the default for any version-sensitive or best-practice-sensitive mobile decision (Expo/React Native/Flutter/native API behavior, platform lifecycle, permission flow).
+- If project-local stack/playbook docs already settle the question, cite them and skip the external call. Otherwise, do not rely on memory when a single live lookup would materially improve correctness.
+
+## Finish-first + question batching
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for the source-of-truth contract. The short version:
+  - If ambiguity is not `hard_stop`, implement the safest reversible in-scope subset and report residual items as `deferred_question` / `follow_up`.
+  - Do not stop mid-task for internal execution choices. Pick the safe default, continue, and batch residual user decisions.
+
 ## Trigger / skip
 - Trigger: Flutter/RN screens, navigation, state, platform config, permissions, offline sync, push, camera, deep links, build/test/device validation.
 - Skip: product flow ambiguity → `@system-analyst`; app architecture/platform strategy → `@architect`; backend/API/data contract change → `@backend`/`@fullstack`; privacy/biometric/final permission signoff → `@quality-gate`.

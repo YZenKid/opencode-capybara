@@ -13,6 +13,8 @@ permission:
     "*.env": ask
     "*.env.*": ask
     "*.env.example": allow
+  context7_*: allow
+  websearch_*: allow
   bash: ask
   external_directory:
     "*": allow
@@ -236,9 +238,10 @@ ponytail: This is a soft discipline first. The upgrade path is a session-trace/d
 ## Stop / escalation
 
 - Missing design handoff or visual basis → route `@designer`.
-- Missing requirements or contradictory acceptance → ask user.
+- Missing requirements or contradictory acceptance → first try repo evidence, plan evidence, current docs, existing UI patterns, and safest reversible scoped subset. Escalate only if ambiguity remains a true `hard_stop`; otherwise continue and report as `deferred_question` / `follow_up`.
 - Architecture/product/security tradeoff → `@architect` / `@oracle`.
 - Risky/non-trivial completion claim → `@quality-gate`.
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for finish-first + question batching + internet-reference default rules.
 
 ## Visual context routing
 

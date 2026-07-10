@@ -31,6 +31,8 @@ permission:
     "*.env": ask
     "*.env.*": allow
     "*.env.example": allow
+  context7_*: allow
+  websearch_*: allow
   edit:
     "*": deny
     ".opencode/plans/": allow
@@ -241,7 +243,10 @@ ponytail: This is intentionally boring and redundant. Redundancy here is cheaper
 
 1. **MANDATORY stack read**: Read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before any non-trivial planning. If missing or stale, run `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) or route to `@librarian` for current stack docs — do not plan blind. The `/init-harness` command is the source of truth for what these docs contain; agents do not redefine it.
 2. **Current stack verification**: For non-trivial, greenfield, or version-sensitive work, verify current stack best practice and ecosystem trends via `@librarian`/context7/web_search before recommending or converging on a stack. Do not rely on memory for framework/library version compatibility, deprecation status, or current best practice. Record which docs/version/sources were checked.
+   - Internet-backed references are default here, not optional polish. If current docs/upstream source/web research were reasonably available and skipped, record a concrete skip reason and lower claim confidence.
 3. **Question Gate**: Run when material unknowns remain. Ask 3-7 targeted questions in one `question` tool call. Do not silently invent requirements, contracts, data models, security posture, or UX direction. Multiple-choice with recommended option + "assume X to proceed" fallback for low-risk ambiguity.
+   - Do not stop planning with prose-only blocker text when the missing piece is a user decision that can be gathered now. Call `question` in the same turn, capture the answer, and continue planning.
+   - Do not ask the user to choose internal planner mechanics (artifact order, lane order, sub-slice order, whether to validate now or later) when one safe default is already evident from the request and repo evidence. Planner should choose and continue.
 4. **Research Gate**: Explicitly decide source strategy per type: local discovery (required for non-trivial), official docs/context7/@librarian (required when version-sensitive), GitHub (required when upstream-dependent), web search (required for current external facts), browser/screenshot (required for visual parity). Record skipped sources with reason.
 5. **Discovery**: Inspect local project patterns, docs, constraints, references, available tools, reuse candidates, existing test patterns. Route to `@explorer` for codebase mapping, `@librarian` for docs, `@system-analyst` for requirements/flows/contracts, `@architect` for architecture options, `@designer` for UX/product creativity advisory (read-only only). Write discovery evidence to `.opencode/evidence/<task-id>/discovery.md`.
 6. **Draft**: Write temporary notes, decisions, visual notes, asset manifest, open questions under `.opencode/draft/<task-id>/` only when useful.
@@ -266,7 +271,7 @@ For each major surface (hero, product, companion, garden, deck, landing, feature
 
 **Why this is mandatory:**
 Without per-surface `reject_if`, designer/frontend/quality-gate can rationalize mediocre output. Explicit rejection conditions force deterministic enforcement, not subjective taste.
-8. **Plan depth enforcement**: Verify all minimum depth metrics are met (5000+ lines, 200+ words goal, 500+ words requirements, 10+ requirements, 8+ acceptance criteria, 50+ implementation steps, 10+ validation commands, 20+ components, state coverage). If any fails, mark `NEEDS_DEPTH` with specific failures.
+8. **Plan depth enforcement**: depth thresholds are mode-aware and dispatch through `scripts/validate-plan-depth.py --mode <auto|maintenance|greenfield|substantial-ui>`. UI-only checks (UI pages, components, state coverage, design depth keywords, reference pack, anti-generic) apply only to `substantial-ui`. General depth, grounding, and safety hard stops apply to every execution-ready plan. If any applicable check fails, mark `NEEDS_DEPTH` with specific failures.
 9. **Gates check**: Verify Reference Pack Gate (3+ references or first-principles rationale), Anti-Generic Landing Page Gate (no hard fail patterns), **Reference Feel Parity Gate** (warmth/humanity/texture/domain-specific content captured, not just structure), **Domain Texture Gate** (real photography or generated domain-specific imagery required for hero/product/community sections when reference/domain requires it), **Image Strategy Enforcement Gate** (no "foto menyusul" placeholders, no abstract illustration/pattern-card hero when reference uses real photography), Design Depth Handoff (Design Read, craft dials, page blueprint, section spec, component inventory, motion, a11y, asset decisions, evidence plan), Material Grammar Translation (if explicit aesthetic), Open Source Reuse Policy (if user provided source), Source-approved 1:1 map (if clone/port task). Any missing gate = `NEEDS_DEPTH` or `BLOCKED`.
 10. **Finalize**: Add Final Planning Summary with artifacts consulted/created, key decisions, assumptions, open questions, readiness status, cleanup performed. Set Plan Quality Gate value: `PASS`, `PASS_FOR_SLICE`, `NEEDS_DEPTH`, or `BLOCKED`. Only `PASS` and `PASS_FOR_SLICE` are execution-ready.
 11. **Auto validation loop (mandatory)**: After writing or updating the primary plan, immediately run the same validation flow used by `/check-plan` so the user does not need to invoke it manually.
@@ -276,8 +281,11 @@ Without per-surface `reject_if`, designer/frontend/quality-gate can rationalize 
     - The planner must continue until the plan reaches `PASS` or `PASS_FOR_SLICE`.
     - `BLOCKED` is not a final planner stop state when the blocker is resolvable by user clarification. In that case, immediately call the `question` tool, gather the answer, update the plan, and continue the loop.
     - `requires_planner` is also not a final stop state for this lane. It means the planner itself must revise the plan and continue.
-    - Maximum automatic repair loop before asking a fresh targeted question: 3 passes. Do not loop indefinitely.
-    - If after 3 passes the remaining issue is a user decision, ask via `question` immediately in the same turn; do not stop with prose-only blocker text.
+  - Maximum automatic repair loop: 3 bounded passes per planning transaction. Do not loop indefinitely.
+     - Gather all material unknowns first, call `question` exactly once, then write answers as `user_confirmed` into the same canonical `.opencode/plans/<task-id>.md`; do not open a second batch after answers.
+     - After the one question batch, resolve non-hard-stop gaps from repo evidence or reversible labeled assumptions. If the same failure/plan fingerprint repeats, return explicit no-progress failure without asking the user to repeat context.
+     - If a genuinely new, unpredictable hard stop appears, stop safely and explain it; do not use ordinary validator gaps to start user back-and-forth.
+
     - Allowed loop actions:
       - run `python3 ~/.config/opencode/scripts/validate-plan-depth.py <plan.md>`
       - run `python3 ~/.config/opencode/scripts/plan-compliance-check.py --project-root . --plan <plan.md> --task-id <task-id>`

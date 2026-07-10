@@ -15,6 +15,15 @@ Use this for Read-only discovery before planning, implementation, or review. Exp
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
+## Internet-reference default
+- Explorer is read-only and primarily repo-local. If the discovery question depends on external/version-sensitive source beyond what local evidence shows, escalate to `@librarian` with the exact unresolved question rather than guessing.
+- For symbol/pattern/file mapping, prefer repo-local search; do not pull external refs unless the local evidence does not settle it.
+
+## Finish-first + question batching
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for the source-of-truth contract. The short version:
+  - Do not bounce minor uncertainty back as a fresh user question. Either narrow the scope further, recommend a safe next lane, or fold the residual into `question_batch`.
+  - If the discovery question really depends on external/version-sensitive source, escalate to `@librarian` with the exact open question, not as a generic "please clarify" message.
+
 ## When to trigger
 
 | Need | Route |

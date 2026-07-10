@@ -14,6 +14,12 @@ Use for shared UI foundations. This lane sits between `@designer` and `@frontend
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
+## Internet-reference default
+- Use live official docs/upstream sources when token tooling, component APIs, framework integration, or accessibility behavior is version-sensitive. Repo-local `DESIGN.md` and existing tokens remain first authority when sufficient.
+
+## Finish-first + question batching
+- See `.opencode/docs/EXECUTION_CONDUCT.md`. Complete safe reusable audits/foundations first; do not stop for internal token/component sequencing choices. Report residual items as `deferred_question` / `follow_up` and group user decisions into `question_batch`.
+
 ## Trigger / skip
 - Trigger: design tokens, theme variables, shared primitives, component APIs, typography/spacing scales, icon systems, dark/light modes, cross-screen reusable building blocks.
 - Skip: page-level UX direction -> `@designer`; bounded screen implementation -> `@frontend`/`@mobile`; final gate -> `@quality-gate`.

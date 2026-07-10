@@ -1,5 +1,8 @@
 # Generic UI Plan
 
+## Mode
+`substance: substantial-ui`. `plan_profile: substantial-ui`.
+
 ## Design Read
 Reading this as: modern clean SaaS.
 - DESIGN_VARIANCE: low

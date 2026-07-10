@@ -25,6 +25,16 @@ Mode-aware check: for Greenfield App Accelerator, verify Plan Quality Gate statu
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
+## Internet-reference default
+- For non-trivial or version-sensitive reviews, current official docs / context7 / upstream sources are default evidence when repo-local evidence alone cannot settle best practice, generator behavior, API semantics, or compatibility.
+- If current live references were reasonably available and skipped, quality gate should treat that as an evidence gap and return `NEEDS_FIX` when the skipped source could materially change the implementation or claim.
+
+## Finish-first remediation contract
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for the source-of-truth contract. The short version:
+  - Quality gate is read-only, but its outputs must help orchestrator continue finish-first.
+  - Non-`PASS` output should prefer directly executable remediation items, not vague prose.
+  - If user decisions remain, batch them into one `question_batch` section suitable for one final `question` tool call. Do not scatter individual confirmation prompts across findings.
+
 ## Pre-flight Skill & MCP Discovery
 Before the first substantial answer, diagnosis, route, or implementation step on non-trivial work:
 - Name the skill explicitly (`Skill I'm using: ...`).

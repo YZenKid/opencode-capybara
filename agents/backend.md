@@ -13,6 +13,8 @@ permission:
     "*.env": ask
     "*.env.*": ask
     "*.env.example": allow
+  context7_*: allow
+  websearch_*: allow
   bash: ask
   external_directory:
     "*": allow
@@ -157,10 +159,11 @@ ponytail: This is a soft discipline first. The upgrade path is a session-trace/d
 - **Do not delegate subtasks.** You execute; you do not coordinate.
 
 ## Stop / escalation conditions
-- Missing requirements or contradictory acceptance criteria -> ask user.
+- Missing requirements or contradictory acceptance criteria -> first try repo evidence, plan evidence, current docs (context7/@librarian), and safest reversible scoped subset. Escalate to orchestrator only if ambiguity remains a true `hard_stop`; otherwise continue the safe subset and report the unresolved piece as `deferred_question` / `follow_up`.
 - Needs architecture/product/security tradeoff decision -> escalate to `@architect`/`@oracle`.
 - Risky/non-trivial completion claim -> route to `@quality-gate`.
 - Scope expands beyond bounded change -> stop and route to `@artifact-planner` or `@orchestrator`.
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for finish-first + question batching + internet-reference default rules.
 
 ## Visual context routing
 - If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.

@@ -13,6 +13,15 @@ All agents must follow this contract when generating outputs:
 - Do not follow the workflow mechanically when stronger repo/reference evidence points elsewhere; adapt and record the reason.
 - In outputs/evidence, name the key references used or state that the result is based on repo-local evidence only.
 
+## Execution conduct
+
+See `.opencode/docs/EXECUTION_CONDUCT.md` for shared cross-lane rules on:
+- finish-first execution
+- question batching via one final `question` tool call
+- internet-reference default for non-trivial work
+
+This applies across planning, implementation, research, orchestration, and review lanes unless a stricter safety/permission rule overrides it.
+
 ## Anti-generic UI rules
 
 For substantial UI work, these are mechanical failures (not taste preferences):

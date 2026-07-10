@@ -130,7 +130,7 @@ python3 ~/.config/opencode/scripts/task-progress.py \
   --project-root . \
   --init \
   --task <task-id> \
-  --plan .opencode/state/<task-id>/plan.md
+  --plan .opencode/plans/<task-id>.md
 ```
 
 **Update a step**:
@@ -208,17 +208,19 @@ Exit codes:
 
 ---
 
+`plan_remediation_loop.py` runs bounded canonical-plan validation and no-progress remediation.
+
 ### validate-plan-depth.py
 Checks whether a plan artifact is deep enough for execution handoff. Operates on a generated plan `.md` file.
 
 **Basic run**:
 ```bash
-python3 ~/.config/opencode/scripts/validate-plan-depth.py .opencode/state/<task-id>/plan.md
+python3 ~/.config/opencode/scripts/validate-plan-depth.py .opencode/plans/<task-id>.md
 ```
 
 **With score output**:
 ```bash
-python3 ~/.config/opencode/scripts/validate-plan-depth.py .opencode/state/<task-id>/plan.md --score
+python3 ~/.config/opencode/scripts/validate-plan-depth.py .opencode/plans/<task-id>.md --score
 ```
 
 Exit codes:

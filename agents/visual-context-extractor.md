@@ -12,6 +12,8 @@ permission:
   write: deny
   task: deny
   webfetch: allow
+  context7_*: allow
+  websearch_*: allow
   read:
     "*": allow
     "*.env": ask
@@ -246,10 +248,11 @@ ponytail: This is a soft discipline first. The upgrade path is a session-trace/d
 - **Do not delegate subtasks.** You execute; you do not coordinate.
 
 ## Stop / escalation conditions
-- Caller asks for design recommendation or visual grade -> refuse and route to `@designer`.
-- Caller asks for source edit or implementation change -> refuse and route to `@fixer`.
-- Caller asks for image generation -> refuse and route to `@visual-asset-generator`.
+- Caller asks for design recommendation or visual grade -> still extract all observable facts first, then route recommendation/grade to `@designer`.
+- Caller asks for source edit or implementation change -> still extract relevant observable facts first, then route to `@fixer`.
+- Caller asks for image generation -> still extract relevant observable facts first, then route to `@visual-asset-generator`.
 - PII/secrets that cannot be safely masked -> set `redaction_failed: true` and halt; escalate to caller with the offending region.
+- Do not ask follow-up questions for observable details already recoverable from the visual. See `.opencode/docs/EXECUTION_CONDUCT.md`.
 
 ## Reasoning Tag Output Rule
 - Do not write literal `<think>...</think>` or similar fake reasoning tags in user-visible output.

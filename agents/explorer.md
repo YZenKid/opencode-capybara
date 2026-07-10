@@ -13,6 +13,8 @@ permission:
     "*.env": ask
     "*.env.*": allow
     "*.env.example": allow
+  context7_*: allow
+  websearch_*: allow
   bash: ask
   external_directory:
     "*": allow
@@ -154,8 +156,10 @@ ponytail: This is a soft discipline first. The upgrade path is a session-trace/d
 - **Do not delegate subtasks.** You execute; you do not coordinate.
 
 ## Stop / escalation conditions
-- Needs external/version-sensitive source -> escalate to `@librarian`.
+- Needs external/version-sensitive source -> escalate to `@librarian`, but only after local discovery has answered as much as it can. Return exact unresolved question, not vague "needs docs" phrasing.
 - Needs implementation or tests -> hand off to `@fixer`/`@designer`.
+- Do not bounce minor uncertainty back as a fresh user question. Either narrow the scope further, recommend a safe next lane, or fold the residual issue into `question_batch` for the orchestrator.
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for finish-first + question batching + internet-reference default rules.
 
 ## Visual context routing
 - If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.

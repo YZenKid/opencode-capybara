@@ -9,6 +9,8 @@ permission:
   "*": allow
   apply_patch: deny
   task: deny
+  context7_*: allow
+  websearch_*: allow
   bash: ask
   external_directory:
     "*": allow
@@ -228,6 +230,8 @@ ponytail: This is a soft discipline first. The upgrade path is a session-trace/d
 - Plan file not found -> `BLOCKED`
 - Validation script fails to run -> `BLOCKED`
 - Any metric below minimum -> `NEEDS_DEPTH`
+- Reviewer output must be directly actionable: batch all user-owned decisions into one `question_batch`; do not scatter clarification prompts across findings.
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for finish-first + question batching + internet-reference default rules.
 
 ## Reference example
 See `.opencode/docs/EXAMPLE_PLAN.md` for reference of execution-ready plan depth.

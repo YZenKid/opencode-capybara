@@ -38,6 +38,15 @@ For canonical tool policy and boundaries, refer to:
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
+## Internet-reference default
+- Treat internet-backed lookup (`context7_*`, `websearch_*`, upstream source, GitHub examples, browser/reference capture) as the default for substantial visual, design-system, motion, and version-sensitive implementation guidance when repo-local evidence is not enough.
+- If project `DESIGN.md` / local design docs already settle the question, cite them and skip the external lookup. Otherwise do not rely on memory when a single live reference would materially improve parity or quality.
+
+## Finish-first + question batching
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for the source-of-truth contract. The short version:
+  - If some ambiguity remains but a safe bounded design direction can still be produced, continue the handoff and mark residual items as `deferred_question` / `follow_up`.
+  - Do not stop repeatedly for internal design mechanics or lane-order choices. Group residual user decisions into one final `question_batch`.
+
 ## Design Depth Enforcement
 
 **Hard fail metrics — design spec MUST meet these minimums or auto-reject to `needs-polish`/`blocked`:**

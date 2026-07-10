@@ -13,6 +13,8 @@ permission:
     "*.env": ask
     "*.env.*": allow
     "*.env.example": allow
+  context7_*: allow
+  websearch_*: allow
   bash: ask
   external_directory:
     "*": allow
@@ -124,10 +126,12 @@ ponytail: Textual contract first; mechanical transcript audit via `scripts/sessi
 1. Confirm scope, plan/handoff, constraints, validation path.
 2. Read stack/playbook docs before manual framework edits.
 3. Find existing patterns, tests, and generator-first workflow.
-4. Reproduce Red state with failing test or baseline evidence.
-5. Implement minimal fix/feature.
-6. Enforce Comment Policy (skill → `## Comment Policy`).
-7. Run targeted verification and record changed files + evidence + residual risks.
+4. If stack/framework behavior is version-sensitive or best-practice-sensitive, pull current docs via `@librarian`/context7 before coding. Do not rely on memory when a single live lookup would remove uncertainty.
+5. Reproduce Red state with failing test or baseline evidence.
+6. Implement minimal fix/feature.
+7. Enforce Comment Policy (skill → `## Comment Policy`).
+8. Run targeted verification and record changed files + evidence + residual risks.
+9. If a non-blocking ambiguity remains, continue with the safest reversible implementation inside scope and report it back as `deferred_question`/`follow_up`; do not stop mid-task for internal execution choices.
 
 ## Output contract
 
@@ -178,9 +182,9 @@ Validation ladder: stack read → current best-practice via `@librarian`/context
 
 ## Stop / escalation
 
-- Missing/contradictory requirements → ask user.
-- Planned stack/API/asset/env mismatch → escalate.
-- Env-dependent feature without env config → mark `not-ready`.
+- Missing/contradictory requirements → first try repo evidence, plan evidence, current docs, and safest reversible scoped subset. Escalate only if ambiguity remains a true `hard_stop`.
+- Planned stack/API/asset/env mismatch → verify with current docs/evidence, then escalate with concrete mismatch details.
+- Env-dependent feature without env config → mark `not-ready` and complete safe subset first; do not block unrelated in-scope work.
 - Architecture/product tradeoff → `@architect` / `@oracle`.
 - Non-trivial completion claim → `@quality-gate`.
 

@@ -15,6 +15,12 @@ Use this to transform asset manifests into generation jobs and integration notes
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
+## Internet-reference default
+- Use current source/license references and upstream visual evidence when asset legality, style parity, or reuse posture depends on external facts. Do not assume licenses from memory.
+
+## Finish-first + question batching
+- See `.opencode/docs/EXECUTION_CONDUCT.md`. Normalize all safe manifest fields and prepare runnable jobs before escalating missing data. This lane cannot use `question`; return grouped `question_batch` data to orchestrator.
+
 ## Input contract
 
 Require asset id, type, priority, target path, dimensions/aspect ratio, prompt, negative prompt, alt text, placement notes, legal notes, section title/description, semantic subject, palette notes, and background/output format when relevant.

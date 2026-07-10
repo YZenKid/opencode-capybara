@@ -13,6 +13,8 @@ permission:
     "*.env": ask
     "*.env.*": ask
     "*.env.example": allow
+  context7_*: allow
+  websearch_*: allow
   bash: ask
   external_directory:
     "*": allow
@@ -122,9 +124,11 @@ ponytail: Textual contract first; mechanical transcript audit via `scripts/sessi
 - Mixing backend/product-flow decisions into system work.
 
 ## Escalation
-- Route `@designer` for missing visual grammar.
+- Route `@designer` for missing visual grammar, but complete any safe reusable token/primitive audit first.
 - Route `@frontend` or `@mobile` for screen-level implementation after primitives land.
 - Route `@quality-gate` for risky broad UI foundation changes.
+- Do not stop for internal token/component sequencing choices; choose the safest reversible foundation path and report residual items as `deferred_question` / `follow_up`.
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for finish-first + question batching + internet-reference default rules.
 
 ## Output example
 

@@ -15,6 +15,12 @@ Use this for strategic analysis, senior engineering review, simplification press
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
+## Internet-reference default
+- For version-sensitive or best-practice-sensitive review, use current official docs/upstream sources when repo evidence cannot settle the claim. Do not advise from memory when one live lookup would materially improve confidence.
+
+## Finish-first + question batching
+- See `.opencode/docs/EXECUTION_CONDUCT.md`. Oracle advice is non-veto: provide safe reversible recommendation and exact evidence gaps. Group residual user decisions into `question_batch`, not repeated stop prompts.
+
 ## Boundary table
 
 | Need | Route |

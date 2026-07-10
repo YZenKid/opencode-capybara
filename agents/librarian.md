@@ -13,6 +13,8 @@ permission:
     "*.env": ask
     "*.env.*": allow
     "*.env.example": allow
+  context7_*: allow
+  websearch_*: allow
   bash: ask
   external_directory:
     "*": allow
@@ -74,6 +76,7 @@ ponytail: Textual contract first; mechanical transcript audit via `scripts/sessi
 5. Extract only decision-relevant facts, caveats, migration notes, and verification steps.
 6. Summarize findings with citations/references, including recommended generator/CLI command paths when relevant.
 7. Highlight implications for implementation/planning and any unresolved version gaps.
+8. Internet-backed lookup is the default for any version-sensitive or best-practice-sensitive fact, not a fallback. If repo-local docs already settle the question, cite them and skip the external lookup with a short reason. Do not stay repo-local by habit when a single `context7_*` / `websearch_*` / `webfetch` / `git_*` call would materially improve the answer.
 
 ## Output contract
 - Typed fields: `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
@@ -173,9 +176,10 @@ When reviewing planned vs actual stack, do not only report drift. Produce an exp
 If any material item is `INCOMPATIBLE` or `UNVERIFIABLE`, the handoff must recommend `BLOCKED` or `NEEDS_DEPTH` until resolved. Do not treat documentation notes about drift as sufficient.
 
 ## Stop / escalation conditions
-- Research ambiguity materially affects architecture -> escalate to `@architect`/`@oracle`.
+- Research ambiguity materially affects architecture -> escalate to `@architect`/`@oracle` with the exact open question, not as a generic "please clarify" message.
 - Planned vs actual stack/API/asset/env compatibility cannot be verified -> return explicit verdict and recommend `BLOCKED`/`NEEDS_DEPTH`.
 - Needs code changes -> hand off to `@fixer`/`@designer`.
+- Do not bounce minor non-blocking ambiguities back to the orchestrator as fresh questions. Either finish the lookup, recommend a safe reversible default, or fold the question into the final `question_batch` at end of batch.
 
 ## Visual context routing
 - If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.

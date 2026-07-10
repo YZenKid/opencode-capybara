@@ -36,10 +36,12 @@ For canonical tool policy and boundaries, refer to:
 - Preserve generator-first policy: for new framework artifacts, use detected official CLI/scaffold/generator/MCP before manual file creation when usable.
 - Manual artifact fallback must record evidence: attempted or skipped command/tool, unavailable/failed tool, repo convention, explicit project/user reason, or existing generated-file customization.
 - If framework/library command behavior is version-sensitive and project docs do not already settle it, route to `@librarian` for official docs/context7 before coding.
+- Internet-backed references are default for version-sensitive or best-practice-sensitive implementation, not optional polish. If a single live docs/source lookup would remove uncertainty, do it.
 - **Source-approved 1:1 Porting / Literal Porting Contract**: when the user explicitly approves a source and asks for `1:1`, `clone`, `port`, `copy`, `copy from`, or `make exactly like`, port upstream structure, file/component names, class anatomy, and implementation flow first. Do not generate replacement code/UI from prose unless direct copy/adapt is unsafe, unavailable, legally blocked, or the plan explicitly says `create`. Any deviation must be evidence-backed and labeled `scope-preserving deviation` or `remaining parity debt`.
 - Make minimal safe changes.
 - Escalate architecture/unclear decisions instead of guessing.
 - Do not add new animation dependencies unless an explicit plan/designer handoff names the dependency and rationale, or the user directly approves it after existing options are checked.
+- Finish-first: if ambiguity does not rise to `hard_stop`, implement the safest reversible in-scope subset, record the assumption, and keep moving. Internal execution choices are not user questions.
 
 ## Boundary table
 

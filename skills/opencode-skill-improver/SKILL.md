@@ -20,6 +20,12 @@ Use this skill for small, evidence-based improvements to agents, skills, routing
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
+## Internet-reference default
+- Use current external references when improving version-sensitive tool/MCP/agent behavior; repo evidence remains primary for local prompt regressions. Do not import external practices blindly.
+
+## Finish-first + question batching
+- See `.opencode/docs/EXECUTION_CONDUCT.md`. Apply bounded safe improvements first. Preserve no-change default for unsupported ideas and group residual policy-owner decisions into `question_batch`.
+
 ## Pre-flight Skill & MCP Discovery
 Before the first substantial answer, diagnosis, route, or implementation step on non-trivial work:
 - Name the skill explicitly (`Skill I'm using: ...`).

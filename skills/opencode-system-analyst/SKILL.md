@@ -15,6 +15,15 @@ Use for requirements and contract clarification before implementation. Read-only
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
+## Internet-reference default
+- Treat internet-backed lookup (`context7_*`, `websearch_*`, `webfetch`, upstream docs/examples) as the default when requirements, contracts, or best-practice-sensitive behavior depend on current external reality rather than only local code.
+- If repo-local docs already settle the question, cite them and skip the external call. Otherwise, do not stay repo-only by habit when a single live lookup would materially improve requirement quality.
+
+## Finish-first + question batching
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for the source-of-truth contract. The short version:
+  - If some ambiguity remains but safe slice framing can still proceed, continue analysis and classify residual items as `deferred_question` / `follow_up`.
+  - Do not stop repeatedly for internal analysis mechanics. Group residual user decisions into one final `question_batch` candidate.
+
 ## Trigger / skip
 - Trigger: vague feature request, PRD extraction, user flows, API/data contracts, acceptance criteria, edge cases, NFRs, bug triage, implementation handoff.
 - Skip: code edits → `@fixer`/domain lane; delivery sequencing after scope clear → `@project-manager`; architecture decision → `@architect`; final risk signoff → `@quality-gate`.

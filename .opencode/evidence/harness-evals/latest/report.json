@@ -1,7 +1,7 @@
 {
   "task_id": "harness-evals-latest",
-  "timestamp": "2026-06-24T10:37:56.044Z",
-  "harness_version": "9cc97d5808dfe550ce12882051e79b7e4bb402af",
+  "timestamp": "2026-07-10T12:36:59.191Z",
+  "harness_version": "31c0d94c56e458b4561aafab2cc230c48aa00e64",
   "prompt_or_task_summary": "Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.",
   "tool_trace_summary": [
     "Read eval fixture JSON files from scripts/evals/fixtures/",
@@ -17,9 +17,9 @@
       "result": "PASS"
     }
   ],
-  "verdict": "PASS",
-  "fixture_count": 44,
-  "failed": 0,
+  "verdict": "FAIL",
+  "fixture_count": 51,
+  "failed": 1,
   "fixture_ids": [
     "advisory-boundary-routing",
     "agents-policy-bloat-negative",
@@ -32,10 +32,14 @@
     "runtime-plugin-removal",
     "structural-agent-skill-quality-standard",
     "design-audit-detects-a11y-gaps",
+    "design-revamp-contract-generates-artifact-requirements",
+    "design-review-bundle-seeds-preview-contract",
+    "design-source-importer-builds-source-pack",
     "docs-policy-migration-roundtrip",
     "drift-planner-visual-asset-boundary",
     "evidence-bundle-completion",
     "init-harness-minimal-foreign-repo-scaffold",
+    "init-harness-seeds-design-catalog",
     "init-harness-seeds-design-system",
     "orchestrator-routing-discipline-20260512-1708",
     "planner-and-mcp-state-contract",
@@ -45,6 +49,8 @@
     "creativity-fast-path-risky-negative",
     "drift-designer-frontend-boundary-negative",
     "drift-fullstack-catchall-negative",
+    "drift-lane-switch-direct-multifile-edit-negative",
+    "drift-lane-switch-stale-readonly-negative",
     "drift-maintenance-overgated-negative",
     "drift-planner-default-tax-negative",
     "drift-quality-gate-remediation-positive",
@@ -54,6 +60,7 @@
     "final-output-raw-subagent-language-negative",
     "finish-first-advisory-veto-negative",
     "finish-first-indonesian-final-positive",
+    "lane-switch-active-context-positive",
     "prototype-promotion-required-positive",
     "routing-borderline-direct-tiny-task",
     "routing-compliant-positive",
@@ -68,11 +75,14 @@
   ],
   "reason_codes": [
     "unsupported-fixture-shape",
+    "init-harness-missing-design-template",
     "routing-overreach-missing-planner-first",
     "routing-overreach-missing-quality-gate",
     "routing-overreach-missing-quality-gate",
     "routing-drift-fullstack-catchall",
     "routing-overreach-missing-quality-gate",
+    "routing-overreach-orchestrator-multifile-edit",
+    "stale-lane-identity-refusal",
     "routing-drift-planner-overuse-tiny-task",
     "source-strategy-missing-for-version-sensitive-work",
     "final-output-raw-internal-passthrough",
@@ -91,25 +101,25 @@
     "routing-overreach-missing-quality-gate"
   ],
   "transcript_summary": {
-    "fixture_count": 24,
-    "average_score_0_to_5": 3.88,
+    "fixture_count": 27,
+    "average_score_0_to_5": 3.89,
     "min_score_0_to_5": 1,
     "max_score_0_to_5": 5,
     "source_modes": {
-      "normalized-events": 17,
+      "normalized-events": 20,
       "raw-tool-trace": 2,
       "raw-transcript": 1,
       "share-export": 4
     },
     "score_bands": {
-      "excellent": 11,
+      "excellent": 12,
       "weak": 5,
-      "strong": 7,
-      "usable": 1
+      "strong": 8,
+      "usable": 2
     },
     "classifications": {
-      "good": 2,
-      "bad": 4,
+      "good": 3,
+      "bad": 6,
       "domain-boundary": 3,
       "planner-boundary": 1,
       "quality-gate": 2,
@@ -118,12 +128,12 @@
       "borderline": 2,
       "fallback-valid": 1
     },
-    "release_critical_fixture_count": 7,
-    "release_critical_average_score_0_to_5": 4.57
+    "release_critical_fixture_count": 10,
+    "release_critical_average_score_0_to_5": 4.4
   },
   "drift_summary": {
-    "previous_timestamp": "2026-06-24T10:33:04.625Z",
-    "previous_average_score_0_to_5": 3.88,
+    "previous_timestamp": "2026-07-10T12:29:38.305Z",
+    "previous_average_score_0_to_5": 3.89,
     "average_score_delta": 0,
     "failed_delta": 0,
     "fixture_count_delta": 0
@@ -131,12 +141,13 @@
   "release_gate_readiness": {
     "transcript_fixtures_all_pass": true,
     "release_critical_all_pass": true,
-    "release_critical_average_score_0_to_5": 4.57,
+    "release_critical_average_score_0_to_5": 4.4,
     "minimum_required_average_score_0_to_5": 4.5,
-    "ready": true
+    "ready": false
   },
   "files_changed": [
     ".opencode/capabilities/registry.json",
+    ".opencode/design-system/catalog.json",
     ".opencode/design-system/registry.md",
     ".opencode/docs/AGENT_ROUTING.md",
     ".opencode/docs/ARCHITECTURE.md",
@@ -151,9 +162,12 @@
     ".opencode/evidence/20260512-1708-orchestrator-routing-hardening/routing-decisions.md",
     ".opencode/evidence/20260512-1708-orchestrator-routing-hardening/verification.md",
     ".opencode/evidence/design-audit.md",
+    ".opencode/evidence/design-source-pack.md",
     ".opencode/evidence/exemplar-greenfield-first-slice/index.json",
     ".opencode/evidence/exemplar-maintenance-stability/index.json",
     ".opencode/evidence/polish-audit.md",
+    ".opencode/evidence/sample-task/preview-contract.json",
+    ".opencode/evidence/sample-task/revamp-contract.json",
     ".opencode/plans/20260510-2140-harness-engineering-plan.md",
     ".opencode/plans/20260512-1708-orchestrator-routing-hardening.md",
     "AGENTS.md",
@@ -185,6 +199,8 @@
     "scripts/evals/transcript-fixtures/creativity-fast-path-risky-negative.json",
     "scripts/evals/transcript-fixtures/drift-designer-frontend-boundary-negative.json",
     "scripts/evals/transcript-fixtures/drift-fullstack-catchall-negative.json",
+    "scripts/evals/transcript-fixtures/drift-lane-switch-direct-multifile-edit-negative.json",
+    "scripts/evals/transcript-fixtures/drift-lane-switch-stale-readonly-negative.json",
     "scripts/evals/transcript-fixtures/drift-maintenance-overgated-negative.json",
     "scripts/evals/transcript-fixtures/drift-planner-default-tax-negative.json",
     "scripts/evals/transcript-fixtures/drift-quality-gate-remediation-positive.json",
@@ -194,6 +210,7 @@
     "scripts/evals/transcript-fixtures/final-output-raw-subagent-language-negative.json",
     "scripts/evals/transcript-fixtures/finish-first-advisory-veto-negative.json",
     "scripts/evals/transcript-fixtures/finish-first-indonesian-final-positive.json",
+    "scripts/evals/transcript-fixtures/lane-switch-active-context-positive.json",
     "scripts/evals/transcript-fixtures/prototype-promotion-required-positive.json",
     "scripts/evals/transcript-fixtures/routing-borderline-direct-tiny-task.json",
     "scripts/evals/transcript-fixtures/routing-compliant-positive.json",
@@ -542,11 +559,101 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/design-audit.py --project-root . --report .opencode/evidence/design-audit.md",
-        "stdout": "/tmp/opencode-script-run-WuLsps/.opencode/evidence/design-audit.md\n",
+        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-hBiTpK/.opencode/evidence/design-audit.md\n",
         "stderr": "",
         "exit_code": 1,
         "generated_files": [
           ".opencode/evidence/design-audit.md",
+          "src/Landing.tsx"
+        ],
+        "limitation": "Eval-only temp-repo script execution; uses local scripts and seed fixture files."
+      }
+    },
+    {
+      "id": "design-revamp-contract-generates-artifact-requirements",
+      "description": "design-revamp-contract should emit required artifact contract for full revamp.",
+      "category": "behavioral-task",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "revamp-contract",
+          "file": ".opencode/evidence/sample-task/revamp-contract.json",
+          "status": "PASS"
+        }
+      ],
+      "execution": {
+        "mode": "script-run",
+        "seed_root": "scripts/evals/fixtures/design-audit-seed",
+        "command": "python3 ~/.config/opencode/scripts/design-revamp-contract.py --project-root . --task-id sample-task --class full-revamp",
+        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-2zrZyz/.opencode/evidence/sample-task/revamp-contract.json\n",
+        "stderr": "",
+        "exit_code": 0,
+        "generated_files": [
+          ".opencode/evidence/sample-task/revamp-contract.json",
+          "src/Landing.tsx"
+        ],
+        "limitation": "Eval-only temp-repo script execution; uses local scripts and seed fixture files."
+      }
+    },
+    {
+      "id": "design-review-bundle-seeds-preview-contract",
+      "description": "design-review-bundle should seed preview-contract.json alongside review artifacts.",
+      "category": "behavioral-task",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "preview-contract",
+          "file": ".opencode/evidence/sample-task/preview-contract.json",
+          "status": "PASS"
+        }
+      ],
+      "execution": {
+        "mode": "script-run",
+        "seed_root": "scripts/evals/fixtures/design-audit-seed",
+        "command": "python3 ~/.config/opencode/scripts/design-review-bundle.py --project-root . --task-id sample-task",
+        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-pN7JHK/.opencode/evidence/sample-task/design-handoff.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-pN7JHK/.opencode/evidence/sample-task/design-review.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-pN7JHK/.opencode/evidence/sample-task/parity-report.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-pN7JHK/.opencode/evidence/sample-task/design-debt.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-pN7JHK/.opencode/evidence/sample-task/preview.json\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-pN7JHK/.opencode/evidence/sample-task/preview-contract.json\n",
+        "stderr": "",
+        "exit_code": 0,
+        "generated_files": [
+          ".opencode/evidence/sample-task/design-debt.md",
+          ".opencode/evidence/sample-task/design-handoff.md",
+          ".opencode/evidence/sample-task/design-review.md",
+          ".opencode/evidence/sample-task/parity-report.md",
+          ".opencode/evidence/sample-task/preview-contract.json",
+          ".opencode/evidence/sample-task/preview.json",
+          "src/Landing.tsx"
+        ],
+        "limitation": "Eval-only temp-repo script execution; uses local scripts and seed fixture files."
+      }
+    },
+    {
+      "id": "design-source-importer-builds-source-pack",
+      "description": "design-source-importer should generate a normalized source-pack markdown and update catalog sources from repo paths and screenshot dirs.",
+      "category": "behavioral-task",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "design-source-pack",
+          "file": ".opencode/evidence/design-source-pack.md",
+          "status": "PASS"
+        },
+        {
+          "type": "catalog-update",
+          "file": ".opencode/design-system/catalog.json",
+          "status": "PASS"
+        }
+      ],
+      "execution": {
+        "mode": "script-run",
+        "seed_root": "scripts/evals/fixtures/design-audit-seed",
+        "command": "python3 ~/.config/opencode/scripts/design-source-importer.py --project-root . --repo-path src --screenshot-dir screenshots --url https://example.com --output .opencode/evidence/design-source-pack.md",
+        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-zxu5Ie/.opencode/evidence/design-source-pack.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-zxu5Ie/.opencode/design-system/catalog.json\n",
+        "stderr": "",
+        "exit_code": 0,
+        "generated_files": [
+          ".opencode/design-system/catalog.json",
+          ".opencode/evidence/design-source-pack.md",
+          ".opencode/evidence/url-structure-example.com.md",
           "src/Landing.tsx"
         ],
         "limitation": "Eval-only temp-repo script execution; uses local scripts and seed fixture files."
@@ -665,6 +772,50 @@
         "mode": "init-harness-scaffold",
         "seed_root": "scripts/evals/fixtures/minimal-foreign-repo-seed",
         "generated_files": [
+          ".opencode/design-system/catalog.json",
+          ".opencode/design-system/registry.md",
+          ".opencode/docs/AGENT_LEGIBILITY.md",
+          ".opencode/docs/AGENT_ROUTING.md",
+          ".opencode/docs/AGENT_TOOL_ACCESS.md",
+          ".opencode/docs/ARCHITECTURE.md",
+          ".opencode/docs/DECISIONS.md",
+          ".opencode/docs/EVALS.md",
+          ".opencode/docs/GC_WORKFLOW.md",
+          ".opencode/docs/GOLDEN_PRINCIPLES.md",
+          ".opencode/docs/MCP.md",
+          ".opencode/docs/PROMPT_GATES.md",
+          ".opencode/docs/QUALITY.md",
+          ".opencode/docs/QUALITY_SCORE.md",
+          ".opencode/docs/RELEASE.md",
+          ".opencode/docs/SECURITY.md",
+          ".opencode/docs/SKILLS.md",
+          ".opencode/docs/TOOL_USAGE.md",
+          ".opencode/docs/index.md",
+          "AGENTS.md",
+          "DESIGN.md",
+          "README.md",
+          "package.json"
+        ],
+        "limitation": "Eval-only temp-repo scaffold adapter; does not execute the real /init-harness slash-command runtime."
+      }
+    },
+    {
+      "id": "init-harness-seeds-design-catalog",
+      "description": "init-design-system seed should also create `.opencode/design-system/catalog.json` alongside DESIGN.md and registry.md.",
+      "category": "behavioral-task",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "design-catalog",
+          "file": ".opencode/design-system/catalog.json",
+          "status": "PASS"
+        }
+      ],
+      "execution": {
+        "mode": "init-harness-scaffold",
+        "seed_root": "scripts/evals/fixtures/minimal-foreign-repo-seed",
+        "generated_files": [
+          ".opencode/design-system/catalog.json",
           ".opencode/design-system/registry.md",
           ".opencode/docs/AGENT_LEGIBILITY.md",
           ".opencode/docs/AGENT_ROUTING.md",
@@ -695,12 +846,18 @@
       "id": "init-harness-seeds-design-system",
       "description": "Init-harness scaffold should seed DESIGN.md and .opencode/design-system/registry.md from canonical templates for UI-capable repos.",
       "category": "behavioral-task",
-      "status": "PASS",
+      "status": "FAIL",
       "checks": [
         {
           "type": "design-source",
           "file": "DESIGN.md",
-          "status": "PASS"
+          "status": "FAIL",
+          "reason_code": "init-harness-missing-design-template",
+          "missing": [
+            "## Design Language",
+            "## Accessibility Requirements"
+          ],
+          "forbidden": []
         },
         {
           "type": "design-registry",
@@ -712,6 +869,7 @@
         "mode": "init-harness-scaffold",
         "seed_root": "scripts/evals/fixtures/minimal-foreign-repo-seed",
         "generated_files": [
+          ".opencode/design-system/catalog.json",
           ".opencode/design-system/registry.md",
           ".opencode/docs/AGENT_LEGIBILITY.md",
           ".opencode/docs/AGENT_ROUTING.md",
@@ -846,7 +1004,7 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/ui-polish-audit.py --project-root . --report .opencode/evidence/polish-audit.md",
-        "stdout": "/tmp/opencode-script-run-03PU9N/.opencode/evidence/polish-audit.md\n",
+        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-BVNLA0/.opencode/evidence/polish-audit.md\n",
         "stderr": "",
         "exit_code": 1,
         "generated_files": [
@@ -1056,6 +1214,105 @@
           "reason_code": "routing-overreach-missing-quality-gate",
           "detail": "material completion happened at event 2 before quality-gate review",
           "file": "scripts/evals/transcript-fixtures/drift-fullstack-catchall-negative.json"
+        }
+      ]
+    },
+    {
+      "id": "drift-lane-switch-direct-multifile-edit-negative",
+      "description": "Drift sentinel: after `@artifact-planner` hands off a non-trivial plan, `@orchestrator` must refresh active-lane context and delegate bounded implementation. It must not jump into direct multi-file editing itself. This catches lane-refresh plus delegation-threshold drift in one scenario.",
+      "category": "transcript-behavior",
+      "transcript_source_mode": "normalized-events",
+      "routing_score": {
+        "score_0_to_5": 3,
+        "score_band": "usable",
+        "dimensions": {
+          "lane_fit": false,
+          "threshold_compliance": false,
+          "planner_first": true,
+          "evidence_legibility_proxy": true,
+          "final_gate_presence": true
+        },
+        "coverage": {
+          "event_count": 4,
+          "source_mode": "normalized-events",
+          "has_material_claim": false,
+          "has_non_trivial_work": true,
+          "has_delegation": true
+        },
+        "confidence": "high",
+        "reasons": [
+          "lane_fit",
+          "threshold_compliance"
+        ]
+      },
+      "release_critical": true,
+      "fixture_classification": "bad",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "transcript-expectation",
+          "status": "PASS",
+          "detail": "transcript matched expected routing reason codes: routing-overreach-orchestrator-multifile-edit",
+          "file": "scripts/evals/transcript-fixtures/drift-lane-switch-direct-multifile-edit-negative.json"
+        },
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "reason_code": "routing-overreach-orchestrator-multifile-edit",
+          "detail": "orchestrator directly edited 4 files at event 2",
+          "file": "scripts/evals/transcript-fixtures/drift-lane-switch-direct-multifile-edit-negative.json"
+        },
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "detail": "user-facing final output showed Indonesian normalization without raw internal fields",
+          "file": "scripts/evals/transcript-fixtures/drift-lane-switch-direct-multifile-edit-negative.json"
+        }
+      ]
+    },
+    {
+      "id": "drift-lane-switch-stale-readonly-negative",
+      "description": "Drift sentinel: a lane switch from @artifact-planner to @orchestrator must not carry planner read-only restrictions forward. Orchestrator must refresh its own active-lane context and execute or delegate implementation; refusing to write because 'planner is read-only' is a stale-lane-identity bug.",
+      "category": "transcript-behavior",
+      "transcript_source_mode": "normalized-events",
+      "routing_score": {
+        "score_0_to_5": 4,
+        "score_band": "strong",
+        "dimensions": {
+          "lane_fit": true,
+          "threshold_compliance": true,
+          "planner_first": true,
+          "evidence_legibility_proxy": false,
+          "final_gate_presence": true
+        },
+        "coverage": {
+          "event_count": 2,
+          "source_mode": "normalized-events",
+          "has_material_claim": true,
+          "has_non_trivial_work": true,
+          "has_delegation": false
+        },
+        "confidence": "high",
+        "reasons": [
+          "evidence_legibility_proxy"
+        ]
+      },
+      "release_critical": true,
+      "fixture_classification": "bad",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "transcript-expectation",
+          "status": "PASS",
+          "detail": "transcript matched expected routing reason codes: stale-lane-identity-refusal",
+          "file": "scripts/evals/transcript-fixtures/drift-lane-switch-stale-readonly-negative.json"
+        },
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "reason_code": "stale-lane-identity-refusal",
+          "detail": "orchestrator refused work using inherited read-only restrictions from artifact-planner at event 1",
+          "file": "scripts/evals/transcript-fixtures/drift-lane-switch-stale-readonly-negative.json"
         }
       ]
     },
@@ -1440,6 +1697,49 @@
           "status": "PASS",
           "detail": "user-facing final output showed Indonesian normalization without raw internal fields",
           "file": "scripts/evals/transcript-fixtures/finish-first-indonesian-final-positive.json"
+        }
+      ]
+    },
+    {
+      "id": "lane-switch-active-context-positive",
+      "description": "Positive sentinel: after `@artifact-planner` finishes, `@orchestrator` refreshes active-lane context, delegates bounded implementation to `@fixer`, routes material completion through `@quality-gate`, and does not inherit planner read-only restrictions.",
+      "category": "transcript-behavior",
+      "transcript_source_mode": "normalized-events",
+      "routing_score": {
+        "score_0_to_5": 5,
+        "score_band": "excellent",
+        "dimensions": {
+          "lane_fit": true,
+          "threshold_compliance": true,
+          "planner_first": true,
+          "evidence_legibility_proxy": true,
+          "final_gate_presence": true
+        },
+        "coverage": {
+          "event_count": 7,
+          "source_mode": "normalized-events",
+          "has_material_claim": true,
+          "has_non_trivial_work": true,
+          "has_delegation": true
+        },
+        "confidence": "high",
+        "reasons": []
+      },
+      "release_critical": true,
+      "fixture_classification": "good",
+      "status": "PASS",
+      "checks": [
+        {
+          "type": "transcript-expectation",
+          "status": "PASS",
+          "detail": "transcript matched expected routing reason codes: ",
+          "file": "scripts/evals/transcript-fixtures/lane-switch-active-context-positive.json"
+        },
+        {
+          "type": "transcript-semantics",
+          "status": "PASS",
+          "detail": "user-facing final output showed Indonesian normalization without raw internal fields",
+          "file": "scripts/evals/transcript-fixtures/lane-switch-active-context-positive.json"
         }
       ]
     },

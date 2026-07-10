@@ -11,6 +11,8 @@ permission:
   skill:
     "*": deny
     opencode-council: allow
+  context7_*: allow
+  websearch_*: allow
   bash: deny
   task: deny
   apply_patch: deny
@@ -201,8 +203,9 @@ sources:
 ```
 
 ## Stop / escalation conditions
-- Missing critical context blocks reliable consensus.
-- Decision is policy/product ownership call without decision authority.
+- Missing critical context blocks reliable consensus -> return exact missing facts and the safe subset that can continue; do not emit vague "need more context" prose.
+- Decision is policy/product ownership call without decision authority -> group the minimum owner decisions into one `question_batch` candidate.
+- Council output is advisory, not veto. See `.opencode/docs/EXECUTION_CONDUCT.md` for finish-first + question batching + internet-reference default rules.
 
 ## Visual context routing
 - If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.

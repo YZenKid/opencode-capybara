@@ -14,6 +14,12 @@ Use this skill to validate that a plan is deep enough before implementation.
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include key references or repo artifacts that materially shaped the verdict.
 
+## Internet-reference default
+- Verify that non-trivial/version-sensitive plans cite current official docs/upstream sources where implementation could materially change. Missing live verification is an actionable plan gap when repo docs are insufficient.
+
+## Finish-first + question batching
+- See `.opencode/docs/EXECUTION_CONDUCT.md`. Return directly actionable depth failures. Batch all user-owned decisions into one `question_batch`; never scatter clarification prompts across findings.
+
 ## Purpose
 Prevent shallow plans from reaching implementation even when they contain all required section headings.
 

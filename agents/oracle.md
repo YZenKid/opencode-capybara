@@ -13,6 +13,8 @@ permission:
     "*.env": ask
     "*.env.*": allow
     "*.env.example": allow
+  context7_*: allow
+  websearch_*: allow
   bash: ask
   external_directory:
     "*": allow
@@ -163,8 +165,9 @@ risks:
 ```
 
 ## Stop / escalation conditions
-- Insufficient evidence for credible recommendation.
+- Insufficient evidence for credible recommendation -> first exhaust repo evidence, current docs, upstream sources, and safe reversible recommendation framing; return exact evidence gap, not vague blocker prose.
 - Conflict requires multi-perspective consensus -> escalate to `@council`.
+- Oracle advice is non-veto. Classify findings with `.opencode/docs/EXECUTION_CONDUCT.md`; group residual user decisions into `question_batch` instead of creating repeated stop points.
 
 ## Visual context routing
 - If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.

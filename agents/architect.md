@@ -13,6 +13,8 @@ permission:
     "*.env": ask
     "*.env.*": allow
     "*.env.example": allow
+  context7_*: allow
+  websearch_*: allow
   bash: ask
   external_directory:
     "*": allow
@@ -186,6 +188,8 @@ rollback_conditions:
 - Missing critical constraints (security, compliance, tenancy, cost, SLOs).
 - Conflicting goals needing product-level prioritization.
 - Requires final conformance signoff -> route to `@quality-gate` after implementation.
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for finish-first + question batching + internet-reference default rules.
+- Architect framing must be advisory, not a stop-the-line veto. Convert any `needs-architect-decisions` style label into the `EXECUTION_CONDUCT` blocker taxonomy and prefer safe-reversible options with evidence.
 
 ## Visual context routing
 - If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.

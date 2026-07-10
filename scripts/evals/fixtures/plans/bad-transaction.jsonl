@@ -1,0 +1,4 @@
+{"task_id":"bad","event":"question_batch","hard_stop":false}
+{"task_id":"bad","event":"question_batch","hard_stop":false}
+{"task_id":"bad","event":"answer","plan_path":".opencode/plans/bad.md"}
+{"task_id":"bad","event":"plan_write","plan_path":".opencode/state/bad/plan.md"}

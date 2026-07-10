@@ -15,6 +15,16 @@ Use for bounded server/API/data implementation. Detect actual project stack from
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
+## Internet-reference default
+- Treat internet-backed lookup (`context7_*`, `websearch_*`, `webfetch`, GitHub source) as the default for any version-sensitive or best-practice-sensitive backend decision, not a fallback.
+- If repo-local docs (`.opencode/docs/PROJECT_STACK.md`, `PROJECT_COMMANDS.md`, `FRAMEWORK_PLAYBOOK.md`, `PROJECT_DETECTED_TOOLS.md`) already settle the question, cite them and skip the external call. Don't be repo-only by habit when a single live lookup would materially improve correctness.
+
+## Finish-first + question batching
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for the source-of-truth contract. The short version:
+  - If ambiguity is not `hard_stop`, implement the safest reversible in-scope subset and report residual items as `deferred_question` / `follow_up`.
+  - Do not stop mid-task for internal execution choices (sub-slice order, lane order, validate now or later). The implementation lane decides and continues.
+  - Batch residual user decisions at the end of the batch, not one by one.
+
 ## Trigger / skip
 - Trigger: endpoints, controllers, services, validation, auth integration, DB queries, migrations, jobs/queues, API tests, background processing, server-side security fixes.
 - Skip: unclear requirements/contracts → `@system-analyst`; broad architecture/data model decisions → `@architect`; frontend slice too coupled and tiny → `@fullstack`; final security/privacy signoff → `@quality-gate`.

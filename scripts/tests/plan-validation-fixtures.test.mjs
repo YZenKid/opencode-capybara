@@ -10,12 +10,19 @@ const fixtures = [
   {
     name: "bad-shallow-plan.md",
     shouldPass: false,
-    expectedFailures: ["total_lines", "goal_words", "requirements_count", "acceptance_count", "components_count", "implementation_steps", "validation_commands"],
+    expectedFailures: ["total_lines", "goal_words", "requirements_count", "acceptance_count", "implementation_steps", "validation_commands", "grounding_contract"],
   },
   {
     name: "bad-generic-ui-plan.md",
+    mode: "substantial-ui",
     shouldPass: false,
     expectedFailures: ["anti_generic_patterns"],
+  },
+  {
+    name: "maintenance-small-plan.md",
+    shouldPass: true,
+    mode: "auto",
+    expectedFailures: [],
   },
   {
     name: "EXAMPLE_PLAN.md",
@@ -32,7 +39,8 @@ for (const fixture of fixtures) {
     : resolve(fixturesDir, fixture.name);
 
   try {
-    const output = execSync(`python3 ${validatorScript} ${planPath}`, {
+    const mode = fixture.mode ? ` --mode ${fixture.mode}` : "";
+    const output = execSync(`python3 ${validatorScript} ${planPath}${mode}`, {
       encoding: "utf-8",
       cwd: root,
     });
@@ -88,6 +96,30 @@ for (const fixture of fixtures) {
       failures += 1;
     }
   }
+}
+
+const autoUiOutput = execSync(`python3 ${validatorScript} ${resolve(fixturesDir, "bad-generic-ui-plan.md")} || true`, {
+  encoding: "utf-8",
+  cwd: root,
+});
+if (!autoUiOutput.includes("profile: substantial-ui (requested: auto)") || !autoUiOutput.includes("anti_generic_patterns")) {
+  console.error("✗ substantial-ui metadata auto inference failed");
+  failures += 1;
+}
+
+const greenfieldOutput = execSync(`python3 ${validatorScript} ${resolve(fixturesDir, "maintenance-small-plan.md")} --mode greenfield || true`, {
+  encoding: "utf-8",
+  cwd: root,
+});
+for (const uiOnlyCheck of ["ui_pages", "components_count", "state_coverage", "design_depth_keywords", "reference_pack", "anti_generic_patterns"]) {
+  if (greenfieldOutput.includes(`- ${uiOnlyCheck}:`)) {
+    console.error(`✗ explicit greenfield unexpectedly ran ${uiOnlyCheck}`);
+    failures += 1;
+  }
+}
+if (!greenfieldOutput.includes("profile: greenfield (requested: greenfield)")) {
+  console.error("✗ explicit greenfield profile missing");
+  failures += 1;
 }
 
 if (failures > 0) {

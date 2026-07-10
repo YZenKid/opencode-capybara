@@ -15,6 +15,15 @@ Read-only unified advisory lane.
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
+## Internet-reference default
+- Architect framing must be evidence-backed. For non-trivial or version-sensitive options (stack, framework, runtime, AI/SDK, UI-system shape), verify via `context7`/`@librarian`/upstream docs/web before including in options. Do not recommend from memory.
+
+## Finish-first + question batching
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for the source-of-truth contract. The short version:
+  - Architect framing is advisory, not a stop-the-line veto. Convert `needs-architect-decisions` style labels into the `EXECUTION_CONDUCT` blocker taxonomy.
+  - Frame options with safe-reversible defaults whenever possible, and call out the smallest decision that can be made immediately to unblock the orchestrator.
+  - If a user decision is needed, frame it as a grouped `question_batch` candidate, not as a stop point.
+
 ## Trigger / skip
 
 - Trigger when material architecture boundaries are involved across product, platform, AI, or UI-system concerns.

@@ -15,6 +15,17 @@ Use this for Read-only research and document-centric extraction/transformation s
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
+## Internet-reference default
+- Internet-backed lookup (`context7_*`, `websearch_*`, `webfetch`, GitHub search/source) is the **default** for any version-sensitive or best-practice-sensitive question, not a fallback used only when repo evidence runs out.
+- If repo-local docs (`.opencode/docs/PROJECT_STACK.md`, `PROJECT_COMMANDS.md`, `FRAMEWORK_PLAYBOOK.md`, `PROJECT_DETECTED_TOOLS.md`) already settle the question, cite them and skip the external lookup with a short reason. Don't be repo-only by habit.
+- If a single live call would materially improve the answer (correct API signature, current version, deprecation status, security posture, recommended pattern), make the call. Skipping it on autopilot is a defect for non-trivial work and must be recorded in evidence.
+
+## Finish-first + question batching
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for the source-of-truth contract. The short version:
+  - Do not bounce minor non-blocking ambiguities back to the orchestrator as fresh questions.
+  - Either finish the lookup, recommend a safe reversible default, or fold the question into the final `question_batch` of the batch.
+  - If the research ambiguity materially affects architecture, escalate to `@architect`/`@oracle` with the exact open question, not as a generic "please clarify" message.
+
 ## Boundary table
 
 | Need | Route |

@@ -15,6 +15,12 @@ Use this skill when a caller agent needs structured observable context from a vi
 - Do not follow the workflow mechanically when stronger repo/reference evidence points elsewhere; adapt and record the reason.
 - In outputs/evidence, name the key references used or state that the result is based on repo-local evidence only.
 
+## Internet-reference default
+- Visual extraction stays evidence-first. Use URL/browser/web evidence only when caller provides an external visual reference or runtime page; do not add unrelated web research to observable extraction.
+
+## Finish-first + question batching
+- See `.opencode/docs/EXECUTION_CONDUCT.md`. Extract every safely observable fact before routing out-of-lane requests. Do not ask follow-up questions for details recoverable from the visual; return exact uncertainty and grouped residual needs.
+
 ## Role
 Read-only helper lane. Receives an image attachment or local path plus an intent, returns a structured JSON summary describing only what is observable in the image.
 

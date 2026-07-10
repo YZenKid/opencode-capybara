@@ -21,6 +21,8 @@ permission:
     delete: ask
     "{env:HOME}/.local/share/opencode/tool-output/*": allow
     "{env:HOME}/.config/opencode/skills/opencode-skill-improver/*": allow
+  context7_*: allow
+  websearch_*: allow
   bash: ask
   apply_patch: ask
   task: deny
@@ -164,9 +166,11 @@ ponytail: This is a soft discipline first. The upgrade path is a session-trace/d
 - **Do not delegate subtasks.** You execute; you do not coordinate.
 
 ## Stop / escalation conditions
-- Missing evidence for causal improvement.
+- Missing evidence for causal improvement -> return exact evidence gap and preserve safe no-change default.
 - Change would be broad, risky, or cross-lane policy shift.
 - Requires architecture/policy decision beyond bounded scope.
+- Complete bounded safe improvements first; group residual owner decisions into `question_batch` instead of stopping repeatedly.
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for finish-first + question batching + internet-reference default rules.
 
 ## Visual context routing
 - If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.

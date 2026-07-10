@@ -48,7 +48,7 @@ Execution contract:
    - `must_preserve`: existing plan content stays intact (append/fill only); in `check-and-fix` mode, do not remove or rewrite existing content
    - `do_not_touch`: any path outside the plan file (no source code, no configs, no non-`.opencode/` files)
    - `validation`:
-     - `python3 ~/.config/opencode/scripts/validate-plan-depth.py <plan.md>`
+      - `python3 ~/.config/opencode/scripts/validate-plan-depth.py .opencode/plans/<task-id>.md --mode auto`
      - `python3 ~/.config/opencode/scripts/plan-compliance-check.py --project-root . --plan <plan.md> --task-id <task-id>`
      - `python3 ~/.config/opencode/scripts/subagent-handoff-check.py --plan <plan.md>`
    - `exit_criteria`: validator returns a deterministic status with failures, auto-fixes (in `check-and-fix`), and evidence paths
@@ -61,7 +61,9 @@ Execution contract:
    - If `$ARGUMENTS` contains `--fix-only`: use mode `check-and-fix` but skip the user-facing report; just run validators, auto-fix, and re-validate.
    - Default: `check-and-fix`. The validator may edit the plan, re-run validators, and return the post-fix verdict.
 
-7. Apply the `Start Here` rule.
+7. Apply the `Start Here` rule. The remediation driver is `python3 scripts/plan_remediation_loop.py <task-id> --mode auto`; it validates the canonical plan, records evidence, bounds retries, and emits `NO_PROGRESS` without asking the user.
+
+
    - If the user invoked `/check-plan` directly, run validation and report.
    - If `@start-work` is being prepared, only proceed when the validator returns `PASS` or `PASS_FOR_SLICE`.
 

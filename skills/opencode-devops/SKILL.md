@@ -15,6 +15,15 @@ Use for bounded CI/CD, containers, environment, deployment, monitoring, and rele
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
+## Internet-reference default
+- Treat internet-backed lookup (`context7_*`, `websearch_*`, `webfetch`, upstream provider docs, GitHub examples) as the default for version-sensitive or best-practice-sensitive CI/CD, Docker, deploy, observability, or runtime decisions.
+- If project-local stack/playbook docs already settle the question, cite them and skip the external call. Otherwise, do not rely on memory when a live lookup would materially improve safety or correctness.
+
+## Finish-first + question batching
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for the source-of-truth contract. The short version:
+  - If ambiguity is not `hard_stop`, complete the safest reversible scoped change, prefer dry-run/read-only validation first, and report residual items as `deferred_question` / `follow_up`.
+  - Do not stop mid-task for internal execution choices. Group residual user decisions instead of dripping confirmations.
+
 ## Trigger / skip
 - Trigger: GitHub Actions, Dockerfile/Compose, build scripts, env templates, release/rollback docs, deploy config, monitoring checks, CI failure fixes.
 - Skip: production deploy/delete/secret rotation without explicit approval; architecture-level platform design → `@architect`; security/release final signoff → `@quality-gate`.

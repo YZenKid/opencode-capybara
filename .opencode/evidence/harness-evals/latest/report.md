@@ -1,16 +1,16 @@
 # Harness Eval Report
 
-- Timestamp: 2026-06-24T10:37:56.044Z
-- Harness version: 9cc97d5808dfe550ce12882051e79b7e4bb402af
+- Timestamp: 2026-07-10T12:36:59.191Z
+- Harness version: 31c0d94c56e458b4561aafab2cc230c48aa00e64
 - Task summary: Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.
-- Verdict: PASS
-- Fixture count: 44
-- Failed: 0
-- Transcript fixture count: 24
-- Transcript average routing score: 3.88/5
-- Transcript score bands: excellent=11, weak=5, strong=7, usable=1
+- Verdict: FAIL
+- Fixture count: 51
+- Failed: 1
+- Transcript fixture count: 27
+- Transcript average routing score: 3.89/5
+- Transcript score bands: excellent=12, weak=5, strong=8, usable=2
 - Drift average delta: 0
-- Release gate ready: true
+- Release gate ready: false
 - Tool trace:
   - Read eval fixture JSON files from scripts/evals/fixtures/
   - Read behavioral task fixture JSON files from scripts/evals/task-fixtures/
@@ -19,6 +19,7 @@
   - Write replayable report artifacts under .opencode/evidence/harness-evals/latest/
 - Files changed summary: Read-only eval run; no repository files were modified. files_changed lists validated target files.
   - .opencode/capabilities/registry.json
+  - .opencode/design-system/catalog.json
   - .opencode/design-system/registry.md
   - .opencode/docs/AGENT_ROUTING.md
   - .opencode/docs/ARCHITECTURE.md
@@ -33,9 +34,12 @@
   - .opencode/evidence/20260512-1708-orchestrator-routing-hardening/routing-decisions.md
   - .opencode/evidence/20260512-1708-orchestrator-routing-hardening/verification.md
   - .opencode/evidence/design-audit.md
+  - .opencode/evidence/design-source-pack.md
   - .opencode/evidence/exemplar-greenfield-first-slice/index.json
   - .opencode/evidence/exemplar-maintenance-stability/index.json
   - .opencode/evidence/polish-audit.md
+  - .opencode/evidence/sample-task/preview-contract.json
+  - .opencode/evidence/sample-task/revamp-contract.json
   - .opencode/plans/20260510-2140-harness-engineering-plan.md
   - .opencode/plans/20260512-1708-orchestrator-routing-hardening.md
   - AGENTS.md
@@ -67,6 +71,8 @@
   - scripts/evals/transcript-fixtures/creativity-fast-path-risky-negative.json
   - scripts/evals/transcript-fixtures/drift-designer-frontend-boundary-negative.json
   - scripts/evals/transcript-fixtures/drift-fullstack-catchall-negative.json
+  - scripts/evals/transcript-fixtures/drift-lane-switch-direct-multifile-edit-negative.json
+  - scripts/evals/transcript-fixtures/drift-lane-switch-stale-readonly-negative.json
   - scripts/evals/transcript-fixtures/drift-maintenance-overgated-negative.json
   - scripts/evals/transcript-fixtures/drift-planner-default-tax-negative.json
   - scripts/evals/transcript-fixtures/drift-quality-gate-remediation-positive.json
@@ -76,6 +82,7 @@
   - scripts/evals/transcript-fixtures/final-output-raw-subagent-language-negative.json
   - scripts/evals/transcript-fixtures/finish-first-advisory-veto-negative.json
   - scripts/evals/transcript-fixtures/finish-first-indonesian-final-positive.json
+  - scripts/evals/transcript-fixtures/lane-switch-active-context-positive.json
   - scripts/evals/transcript-fixtures/prototype-promotion-required-positive.json
   - scripts/evals/transcript-fixtures/routing-borderline-direct-tiny-task.json
   - scripts/evals/transcript-fixtures/routing-compliant-positive.json
@@ -122,10 +129,14 @@
   - runtime-plugin-removal
   - structural-agent-skill-quality-standard
   - design-audit-detects-a11y-gaps
+  - design-revamp-contract-generates-artifact-requirements
+  - design-review-bundle-seeds-preview-contract
+  - design-source-importer-builds-source-pack
   - docs-policy-migration-roundtrip
   - drift-planner-visual-asset-boundary
   - evidence-bundle-completion
   - init-harness-minimal-foreign-repo-scaffold
+  - init-harness-seeds-design-catalog
   - init-harness-seeds-design-system
   - orchestrator-routing-discipline-20260512-1708
   - planner-and-mcp-state-contract
@@ -135,6 +146,8 @@
   - creativity-fast-path-risky-negative
   - drift-designer-frontend-boundary-negative
   - drift-fullstack-catchall-negative
+  - drift-lane-switch-direct-multifile-edit-negative
+  - drift-lane-switch-stale-readonly-negative
   - drift-maintenance-overgated-negative
   - drift-planner-default-tax-negative
   - drift-quality-gate-remediation-positive
@@ -144,6 +157,7 @@
   - final-output-raw-subagent-language-negative
   - finish-first-advisory-veto-negative
   - finish-first-indonesian-final-positive
+  - lane-switch-active-context-positive
   - prototype-promotion-required-positive
   - routing-borderline-direct-tiny-task
   - routing-compliant-positive
@@ -157,11 +171,14 @@
   - routing-share-export-noisy-negative
 - Reason codes:
   - unsupported-fixture-shape
+  - init-harness-missing-design-template
   - routing-overreach-missing-planner-first
   - routing-overreach-missing-quality-gate
   - routing-overreach-missing-quality-gate
   - routing-drift-fullstack-catchall
   - routing-overreach-missing-quality-gate
+  - routing-overreach-orchestrator-multifile-edit
+  - stale-lane-identity-refusal
   - routing-drift-planner-overuse-tiny-task
   - source-strategy-missing-for-version-sensitive-work
   - final-output-raw-internal-passthrough
@@ -270,6 +287,19 @@
 - Status: PASS
 - Description: Verify design-audit.py flags missing prefers-reduced-motion, aria-labels/alt text, and hardcoded colors in a seed component.
 - .opencode/evidence/design-audit.md: PASS
+## design-revamp-contract-generates-artifact-requirements
+- Status: PASS
+- Description: design-revamp-contract should emit required artifact contract for full revamp.
+- .opencode/evidence/sample-task/revamp-contract.json: PASS
+## design-review-bundle-seeds-preview-contract
+- Status: PASS
+- Description: design-review-bundle should seed preview-contract.json alongside review artifacts.
+- .opencode/evidence/sample-task/preview-contract.json: PASS
+## design-source-importer-builds-source-pack
+- Status: PASS
+- Description: design-source-importer should generate a normalized source-pack markdown and update catalog sources from repo paths and screenshot dirs.
+- .opencode/evidence/design-source-pack.md: PASS
+- .opencode/design-system/catalog.json: PASS
 ## docs-policy-migration-roundtrip
 - Status: PASS
 - Description: Behavioral eval: policy should live in canonical docs while AGENTS stays map-like and README stays onboarding-oriented.
@@ -297,10 +327,14 @@
 - .opencode/docs/ARCHITECTURE.md: PASS
 - .opencode/docs/QUALITY.md: PASS
 - .opencode/docs/EVALS.md: PASS
-## init-harness-seeds-design-system
+## init-harness-seeds-design-catalog
 - Status: PASS
+- Description: init-design-system seed should also create `.opencode/design-system/catalog.json` alongside DESIGN.md and registry.md.
+- .opencode/design-system/catalog.json: PASS
+## init-harness-seeds-design-system
+- Status: FAIL
 - Description: Init-harness scaffold should seed DESIGN.md and .opencode/design-system/registry.md from canonical templates for UI-capable repos.
-- DESIGN.md: PASS
+- DESIGN.md: FAIL (init-harness-missing-design-template)
 - .opencode/design-system/registry.md: PASS
 ## orchestrator-routing-discipline-20260512-1708
 - Status: PASS
@@ -371,6 +405,27 @@
 - scripts/evals/transcript-fixtures/drift-fullstack-catchall-negative.json: PASS
 - scripts/evals/transcript-fixtures/drift-fullstack-catchall-negative.json: PASS (routing-drift-fullstack-catchall)
 - scripts/evals/transcript-fixtures/drift-fullstack-catchall-negative.json: PASS (routing-overreach-missing-quality-gate)
+## drift-lane-switch-direct-multifile-edit-negative
+- Status: PASS
+- Description: Drift sentinel: after `@artifact-planner` hands off a non-trivial plan, `@orchestrator` must refresh active-lane context and delegate bounded implementation. It must not jump into direct multi-file editing itself. This catches lane-refresh plus delegation-threshold drift in one scenario.
+- Transcript source mode: normalized-events
+- Routing score: 3/5
+- Routing score band: usable
+- Routing confidence: high
+- Routing dimensions: lane_fit=fail, threshold_compliance=fail, planner_first=pass, evidence_legibility_proxy=pass, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/drift-lane-switch-direct-multifile-edit-negative.json: PASS
+- scripts/evals/transcript-fixtures/drift-lane-switch-direct-multifile-edit-negative.json: PASS (routing-overreach-orchestrator-multifile-edit)
+- scripts/evals/transcript-fixtures/drift-lane-switch-direct-multifile-edit-negative.json: PASS
+## drift-lane-switch-stale-readonly-negative
+- Status: PASS
+- Description: Drift sentinel: a lane switch from @artifact-planner to @orchestrator must not carry planner read-only restrictions forward. Orchestrator must refresh its own active-lane context and execute or delegate implementation; refusing to write because 'planner is read-only' is a stale-lane-identity bug.
+- Transcript source mode: normalized-events
+- Routing score: 4/5
+- Routing score band: strong
+- Routing confidence: high
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=fail, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/drift-lane-switch-stale-readonly-negative.json: PASS
+- scripts/evals/transcript-fixtures/drift-lane-switch-stale-readonly-negative.json: PASS (stale-lane-identity-refusal)
 ## drift-maintenance-overgated-negative
 - Status: PASS
 - Description: Drift sentinel: maintenance bugfix must not be forced through greenfield thesis or creative options.
@@ -458,6 +513,16 @@
 - Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=pass, final_gate_presence=pass
 - scripts/evals/transcript-fixtures/finish-first-indonesian-final-positive.json: PASS
 - scripts/evals/transcript-fixtures/finish-first-indonesian-final-positive.json: PASS
+## lane-switch-active-context-positive
+- Status: PASS
+- Description: Positive sentinel: after `@artifact-planner` finishes, `@orchestrator` refreshes active-lane context, delegates bounded implementation to `@fixer`, routes material completion through `@quality-gate`, and does not inherit planner read-only restrictions.
+- Transcript source mode: normalized-events
+- Routing score: 5/5
+- Routing score band: excellent
+- Routing confidence: high
+- Routing dimensions: lane_fit=pass, threshold_compliance=pass, planner_first=pass, evidence_legibility_proxy=pass, final_gate_presence=pass
+- scripts/evals/transcript-fixtures/lane-switch-active-context-positive.json: PASS
+- scripts/evals/transcript-fixtures/lane-switch-active-context-positive.json: PASS
 ## prototype-promotion-required-positive
 - Status: PASS
 - Description: Positive transcript: prototype starts in Creativity Fast Path, then exits through a Promotion Gate before material completion claim.
@@ -574,21 +639,44 @@
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/design-audit.md, src/Landing.tsx
-- Stdout captured: "/tmp/opencode-script-run-WuLsps/.opencode/evidence/design-audit.md"
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-hBiTpK/.opencode/evidence/design-audit.md"
+- Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
+### Execution metadata for design-revamp-contract-generates-artifact-requirements
+- Mode: script-run
+- Seed root: scripts/evals/fixtures/design-audit-seed
+- Generated files: .opencode/evidence/sample-task/revamp-contract.json, src/Landing.tsx
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-2zrZyz/.opencode/evidence/sample-task/revamp-contract.json"
+- Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
+### Execution metadata for design-review-bundle-seeds-preview-contract
+- Mode: script-run
+- Seed root: scripts/evals/fixtures/design-audit-seed
+- Generated files: .opencode/evidence/sample-task/design-debt.md, .opencode/evidence/sample-task/design-handoff.md, .opencode/evidence/sample-task/design-review.md, .opencode/evidence/sample-task/parity-report.md, .opencode/evidence/sample-task/preview-contract.json, .opencode/evidence/sample-task/preview.json, src/Landing.tsx
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-pN7JHK/.opencode/evidence/sample-task/design-handoff.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-pN7JHK/.opencode/evidence/sample-task/design-review.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-pN7JHK/.opencode/evidence/sample-task/parity-report.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-pN7JHK/.opencode/evidence/sample-task/design-debt.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-pN7JHK/.opencode/evidence/sample-task/preview.json\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-pN7JHK/.opencode/evidence/sample-task/preview-contract.json"
+- Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
+### Execution metadata for design-source-importer-builds-source-pack
+- Mode: script-run
+- Seed root: scripts/evals/fixtures/design-audit-seed
+- Generated files: .opencode/design-system/catalog.json, .opencode/evidence/design-source-pack.md, .opencode/evidence/url-structure-example.com.md, src/Landing.tsx
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-zxu5Ie/.opencode/evidence/design-source-pack.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-zxu5Ie/.opencode/design-system/catalog.json"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for init-harness-minimal-foreign-repo-scaffold
 - Mode: init-harness-scaffold
 - Seed root: scripts/evals/fixtures/minimal-foreign-repo-seed
-- Generated files: .opencode/design-system/registry.md, .opencode/docs/AGENT_LEGIBILITY.md, .opencode/docs/AGENT_ROUTING.md, .opencode/docs/AGENT_TOOL_ACCESS.md, .opencode/docs/ARCHITECTURE.md, .opencode/docs/DECISIONS.md, .opencode/docs/EVALS.md, .opencode/docs/GC_WORKFLOW.md, .opencode/docs/GOLDEN_PRINCIPLES.md, .opencode/docs/MCP.md, .opencode/docs/PROMPT_GATES.md, .opencode/docs/QUALITY.md, .opencode/docs/QUALITY_SCORE.md, .opencode/docs/RELEASE.md, .opencode/docs/SECURITY.md, .opencode/docs/SKILLS.md, .opencode/docs/TOOL_USAGE.md, .opencode/docs/index.md, AGENTS.md, DESIGN.md, README.md, package.json
+- Generated files: .opencode/design-system/catalog.json, .opencode/design-system/registry.md, .opencode/docs/AGENT_LEGIBILITY.md, .opencode/docs/AGENT_ROUTING.md, .opencode/docs/AGENT_TOOL_ACCESS.md, .opencode/docs/ARCHITECTURE.md, .opencode/docs/DECISIONS.md, .opencode/docs/EVALS.md, .opencode/docs/GC_WORKFLOW.md, .opencode/docs/GOLDEN_PRINCIPLES.md, .opencode/docs/MCP.md, .opencode/docs/PROMPT_GATES.md, .opencode/docs/QUALITY.md, .opencode/docs/QUALITY_SCORE.md, .opencode/docs/RELEASE.md, .opencode/docs/SECURITY.md, .opencode/docs/SKILLS.md, .opencode/docs/TOOL_USAGE.md, .opencode/docs/index.md, AGENTS.md, DESIGN.md, README.md, package.json
+- Limitation: Eval-only temp-repo scaffold adapter; does not execute the real /init-harness slash-command runtime.
+### Execution metadata for init-harness-seeds-design-catalog
+- Mode: init-harness-scaffold
+- Seed root: scripts/evals/fixtures/minimal-foreign-repo-seed
+- Generated files: .opencode/design-system/catalog.json, .opencode/design-system/registry.md, .opencode/docs/AGENT_LEGIBILITY.md, .opencode/docs/AGENT_ROUTING.md, .opencode/docs/AGENT_TOOL_ACCESS.md, .opencode/docs/ARCHITECTURE.md, .opencode/docs/DECISIONS.md, .opencode/docs/EVALS.md, .opencode/docs/GC_WORKFLOW.md, .opencode/docs/GOLDEN_PRINCIPLES.md, .opencode/docs/MCP.md, .opencode/docs/PROMPT_GATES.md, .opencode/docs/QUALITY.md, .opencode/docs/QUALITY_SCORE.md, .opencode/docs/RELEASE.md, .opencode/docs/SECURITY.md, .opencode/docs/SKILLS.md, .opencode/docs/TOOL_USAGE.md, .opencode/docs/index.md, AGENTS.md, DESIGN.md, README.md, package.json
 - Limitation: Eval-only temp-repo scaffold adapter; does not execute the real /init-harness slash-command runtime.
 ### Execution metadata for init-harness-seeds-design-system
 - Mode: init-harness-scaffold
 - Seed root: scripts/evals/fixtures/minimal-foreign-repo-seed
-- Generated files: .opencode/design-system/registry.md, .opencode/docs/AGENT_LEGIBILITY.md, .opencode/docs/AGENT_ROUTING.md, .opencode/docs/AGENT_TOOL_ACCESS.md, .opencode/docs/ARCHITECTURE.md, .opencode/docs/DECISIONS.md, .opencode/docs/EVALS.md, .opencode/docs/GC_WORKFLOW.md, .opencode/docs/GOLDEN_PRINCIPLES.md, .opencode/docs/MCP.md, .opencode/docs/PROMPT_GATES.md, .opencode/docs/QUALITY.md, .opencode/docs/QUALITY_SCORE.md, .opencode/docs/RELEASE.md, .opencode/docs/SECURITY.md, .opencode/docs/SKILLS.md, .opencode/docs/TOOL_USAGE.md, .opencode/docs/index.md, AGENTS.md, DESIGN.md, README.md, package.json
+- Generated files: .opencode/design-system/catalog.json, .opencode/design-system/registry.md, .opencode/docs/AGENT_LEGIBILITY.md, .opencode/docs/AGENT_ROUTING.md, .opencode/docs/AGENT_TOOL_ACCESS.md, .opencode/docs/ARCHITECTURE.md, .opencode/docs/DECISIONS.md, .opencode/docs/EVALS.md, .opencode/docs/GC_WORKFLOW.md, .opencode/docs/GOLDEN_PRINCIPLES.md, .opencode/docs/MCP.md, .opencode/docs/PROMPT_GATES.md, .opencode/docs/QUALITY.md, .opencode/docs/QUALITY_SCORE.md, .opencode/docs/RELEASE.md, .opencode/docs/SECURITY.md, .opencode/docs/SKILLS.md, .opencode/docs/TOOL_USAGE.md, .opencode/docs/index.md, AGENTS.md, DESIGN.md, README.md, package.json
 - Limitation: Eval-only temp-repo scaffold adapter; does not execute the real /init-harness slash-command runtime.
 ### Execution metadata for ui-polish-audit-detects-slop
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/polish-audit.md, src/Landing.tsx
-- Stdout captured: "/tmp/opencode-script-run-03PU9N/.opencode/evidence/polish-audit.md"
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-BVNLA0/.opencode/evidence/polish-audit.md"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.

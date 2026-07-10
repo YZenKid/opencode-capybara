@@ -11,6 +11,8 @@ permission:
     "*.env": ask
     "*.env.*": allow
     "*.env.example": allow
+  context7_*: allow
+  websearch_*: allow
   skill:
     "*": deny
     opencode-quality-gate: allow
@@ -158,6 +160,8 @@ ponytail: Textual contract first; mechanical transcript audit via `scripts/sessi
 8. Enforce structured visual rubric evidence (see `## Visual Taste and Reference Essence Review`).
 9. Identify blockers vs non-blocking risks.
 10. Return deterministic final status with rationale.
+11. If status is non-`PASS`, produce remediation that is directly executable by `@orchestrator` without needing fresh mid-batch clarification unless the item is truly `requires_user_decision: yes`.
+12. Batch all residual user decisions into one grouped section suitable for one final `question` tool call. Do not emit scattered prose questions that would cause the orchestrator to stop repeatedly.
 
 ## Output contract
 - Final status (`PASS` | `PASS_WITH_RISKS` | `NEEDS_FIX` | `BLOCKED`).
@@ -173,6 +177,7 @@ ponytail: Textual contract first; mechanical transcript audit via `scripts/sessi
   - `validation`:
   - `exit_criteria`:
   - `requires_user_decision`: `yes` | `no`
+- If any items have `requires_user_decision: yes`, also return a `question_batch` section that groups them into one end-of-batch user interaction instead of multiple individual confirmations.
 
 ## Template/Source Discovery Hard Gate
 
@@ -330,7 +335,7 @@ Evidence must include at minimum:
 ## Plan depth gate
 For plans that claim execution readiness, run:
 ```bash
-python3 ~/.config/opencode/scripts/validate-plan-depth.py .opencode/state/<task-id>/plan.md --score
+python3 ~/.config/opencode/scripts/validate-plan-depth.py .opencode/plans/<task-id>.md --mode auto --score
 ```
 Use the resulting score and tier to decide whether the plan is deep enough for handoff.
 

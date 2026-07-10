@@ -9,6 +9,8 @@ permission:
   "*": allow
   apply_patch: deny
   task: deny
+  context7_*: allow
+  websearch_*: allow
   bash: ask
   external_directory:
     "*": allow
@@ -223,6 +225,7 @@ ponytail: Textual contract first; mechanical transcript audit via `scripts/sessi
 11. **Re-run validators after auto-fixes**
     - Verify the post-fix state.
     - Recompute the verdict.
+    - Keep edits in same canonical plan path and repeat until `PASS` or `PASS_FOR_SLICE`; cap retries with a plan/failure fingerprint no-progress guard. No-progress returns explicit `NEEDS_DEPTH`/implementation defect and never sends user back-and-forth to repeat answers.
 
 12. **Compile output**
     - `status`: `PASS`, `PASS_FOR_SLICE`, `NEEDS_DEPTH`, or `BLOCKED`.
@@ -379,3 +382,4 @@ Your return report must include:
 - Grounding sections or claim labels missing -> `NEEDS_DEPTH` (cannot auto-fix; requires planner).
 - Handoff payload invalid -> `NEEDS_DEPTH` (or auto-fix in `check-and-fix` mode when content allows).
 - Auto-fix attempted on a `requires_planner` failure -> stop and report.
+- All `BLOCKED`/`NEEDS_DEPTH` outputs must end with a grouped `question_batch` candidate if any user decision remains, not scattered prose. See `.opencode/docs/EXECUTION_CONDUCT.md` for finish-first + question batching + internet-reference default rules.

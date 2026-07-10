@@ -249,6 +249,7 @@ Before the first substantial answer, diagnosis, route, or implementation step on
 - Name the skill explicitly (`Skill I'm using: ...`).
 - Decide MCP applicability explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
 - If an MCP is obviously applicable, use it or record a concrete skip reason. Silent skip is a defect.
+- For non-trivial work, treat `context7`, `web search`, `webfetch`, GitHub search, and upstream source lookup as first-class MCP/reference paths, not rare fallbacks. If current best practice or version-sensitive behavior matters, prefer a live reference over memory.
 - At final summary time, name one concrete thing this skill changed about execution. Loaded-but-unused skill is a process defect.
 
 ponytail: This is a behavioral contract. Use `scripts/session-trace-audit.py` as the advisory checker until transcript hooks become first-class.
@@ -312,7 +313,7 @@ ponytail: The goal is not bureaucracy. The goal is to make subagents boringly re
 4. Run the Harness Preflight Gate for non-trivial work.
 5. Use local discovery before external docs when codebase patterns matter.
    - For multi-file/read-heavy discovery, do not keep discovery in orchestrator; route to `@explorer` and consume its output.
-6. Ask targeted questions for material ambiguity, but during active implementation prefer finish-first execution: resolve ambiguity via repo evidence, docs, references, browser evidence, and specialist subagents before interrupting the user. For non-trivial autonomous execution, prefer durable runtime state under `.opencode/state/` so task queue, mailbox, worktree, and verification status are inspectable and replayable.
+6. Ask targeted questions for material ambiguity, but during active implementation prefer finish-first execution: resolve ambiguity via repo evidence, official docs, internet references, web search, browser evidence, and specialist subagents before interrupting the user. For non-trivial autonomous execution, prefer durable runtime state under `.opencode/state/` so task queue, mailbox, worktree, and verification status are inspectable and replayable.
 7. **Execute via the plan as source of truth**:
    - Load the primary plan `.opencode/plans/<task-id>.md` and extract Plan Quality Gate value, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, validation commands, evidence path, and Done Criteria. Proceed only with `PASS` or `PASS_FOR_SLICE`.
    - Create execution tracking from the worklist. Track each task with status (`pending`, `in_progress`, `completed`, `blocked`, `cancelled`), owner/lane, depends_on, validation, and evidence_update.
@@ -336,6 +337,17 @@ ponytail: The goal is not bureaucracy. The goal is to make subagents boringly re
    - All user-visible output (progress, summary, risks, next steps, handoff) must default to Bahasa Indonesia.
    - Technical literals must stay original: code, identifiers, package names, API names, CLI commands, file paths, exact errors, and quoted source.
    - If the user explicitly asks for another language, follow the user's request.
+9. **Defer all non-blocking questions to one final `question` tool call**:
+   - Treat "Mau saya lanjut dengan opsi 1 atau 2?", "Pilih subset mana?", "Mau delegasi sekarang atau setelahnya?", "Konfirmasi Docker sudah up?" (when verifiable via repo/runtime), "Sub-slice mana dulu?" (when plan already sequences them) as **non-blocking decisions**.
+   - During execution, do not interrupt the user with these. Pick the safest reversible option, continue, and record the choice in the working notes.
+   - When the batch ends and non-blocking questions remain, surface them together in a **single `question` tool call** that lists every accumulated decision (multi-select or grouped). Never drip one-by-one.
+   - The `question` tool is for **accumulated end-of-batch decisions**, not for mid-execution confirmations. Mid-execution approvals are not a use case for `question`; if the orchestrator catches itself reaching for it, reclassify the item into `soft_blocker`/`deferred_question`/`follow_up` and continue.
+10. **Reference-first by default, not repo-only**:
+   - For non-trivial work, default source strategy is: repo evidence -> official docs via `context7`/`@librarian` -> upstream source/examples -> GitHub/web search -> browser/reference capture.
+   - Do not invent library/API behavior, version-sensitive defaults, or current best practice from memory when an external reference is reasonably available. "Reasonably available" includes anything reachable by a single `context7_*` / `websearch_*` / `webfetch` / `git_*` call.
+   - When the project's own stack/playbook docs already settle the question, prefer them and skip the external lookup. Record the skip reason briefly.
+   - When a fact is material (API signature, runtime config, version constraint, security posture, recommended pattern), the orchestrator should pull a current reference, cite it in evidence, and apply it — not guess.
+   - Treat internet-backed lookup as **the default**, not a fallback. Skipping it on autopilot ("repo-locally enough") is a defect for non-trivial work and should be recorded in evidence only with a concrete reason.
 
 ## UI/reference policy
 
@@ -446,24 +458,36 @@ Use same workflow for reference/current/final captures. Local resource notes: `r
 
 ## Plan Quality Checklist (mandatory before execution)
 
-Before accepting any plan as execution-ready, orchestrator MUST verify all of these:
+Classify plan mode before applying thresholds. Depth scales with scope and risk; fixed-size gates are reserved for greenfield or substantial UI plans.
 
-- [ ] Total plan length >= 5000 lines
-- [ ] Goal + Non-goals >= 200 words
-- [ ] Requirements >= 10 detailed items and >= 500 words
-- [ ] Acceptance Criteria >= 8 testable criteria and >= 300 words
-- [ ] For greenfield/UI work: >= 3 pages with >= 1000 words per page
-- [ ] Component inventory >= 20 components with props/state/variants/responsive detail
-- [ ] Every component has state coverage: empty/loading/error/success
-- [ ] Implementation steps >= 50 detailed steps with file paths and logic
-- [ ] Validation commands >= 10 with expected output
-- [ ] Source strategy is explicit: repo/docs/reference/first-principles basis recorded
+**All non-trivial plans must have:**
+
+- [ ] Explicit mode and `PASS` or `PASS_FOR_SLICE` readiness
+- [ ] Goal, Non-goals, Requirements, and testable Acceptance Criteria covering material behavior
+- [ ] Execution Source of Truth, Existing Patterns/Reuse, Source Anatomy, Reference Map, and confirmed-vs-assumed labels
+- [ ] Non-negotiable Implementation Invariants, Do Not / Reject If, and Diff Boundary
+- [ ] TDD/Test Plan or documented test exemption
+- [ ] Ordered implementation worklist with dependencies, owners, validation, exit criteria, evidence paths, and progress tracking
+- [ ] Valid structured handoff payload for delegated work
+- [ ] Validation commands sufficient for every subsystem in the claimed slice
+- [ ] Source strategy explicit: repo/docs/reference/first-principles basis recorded
+
+**Maintenance Stability Mode:**
+
+- Use proportional depth. No minimum total line count, universal word quota, UI page count, component count, or 50-step requirement.
+- Reject as `NEEDS_DEPTH` only when execution still requires material guessing, safety or scope boundaries are absent, promised behavior lacks acceptance coverage, handoff is invalid, or validation cannot prove the claim.
+- Keep regression-first and minimal; do not inflate local bugfix plans with unrelated UI/product sections.
+
+**Greenfield / substantial UI / reference UI mode:**
+
+- Apply deep planning thresholds where material: >=3 pages with page-level detail, component/state coverage, motion/responsive/accessibility evidence, reference pack, and enough implementation steps/validation to execute without guessing.
+- Large line/word/component counts are diagnostics, not substitutes for coherent execution detail. A shallow plan cannot pass by padding.
 
 **Hard fail rule:**
-If any checklist item fails, orchestrator MUST reject the plan as `NEEDS_DEPTH` and send it back to `@artifact-planner`. Do not continue implementation with shallow plans, even if all section headings exist.
+Reject the plan as `NEEDS_DEPTH` when required mode-specific checks fail. Do not apply greenfield/UI-only metrics to maintenance plans.
 
 **No checklist compliance theater:**
-A plan that contains all required section names but lacks depth/detail is NOT execution-ready. Section presence alone is insufficient.
+Section presence or arbitrary length alone is insufficient. Execution readiness means bounded scope, no material guessing, deterministic validation, and valid handoff.
 
 - Plan Execution Precedence Order: latest explicit user instruction; safety/security/permission rules; Non-negotiable Implementation Invariants; Execution-ready Worklist / Handoff Contract; Acceptance Criteria and Done Criteria; Implementation Steps; follow-ups/recommendations. Record conflicts and chosen resolution in verification evidence.
 - When a plan includes an `Execution-ready Worklist / Handoff Contract`, treat it as the execution source of truth:
@@ -485,12 +509,14 @@ A plan that contains all required section names but lacks depth/detail is NOT ex
 - `soft_blocker`: not a stop. Continue the safe subset and record risks/assumptions.
 - `deferred_question`: non-blocking question. Defer it to the end.
 - `follow_up`: non-blocking continuation work after the main goal is complete.
+- `question_batch`: accumulated `deferred_question` items that must be surfaced together in one final `question` tool call. This is the default presentation shape for residual end-of-batch decisions.
 
 ## Advisory non-veto contract
 
 - Output from `@architect`, `@oracle`, `@council`, and other advisory lanes is advisory by default, not an automatic veto.
 - Labels such as `needs-architect-decisions`, `blocked`, and `Material block exists` must be reclassified through the taxonomy above using actual repo evidence.
 - If the situation does not meet `hard_stop`, the orchestrator must continue finish-first on the safe subset.
+- Do not convert internal execution choices into user approval requests. If the question is really "which safe reversible next step should the orchestrator take?", the orchestrator should answer it itself and continue.
 
 ## Quality Gate Remediation / Risk Worklist
 

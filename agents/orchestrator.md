@@ -25,8 +25,8 @@ permission:
   skill:
     "*": deny
     opencode-orchestrator: allow
-  context7_*: deny
-  websearch_*: deny
+  context7_*: allow
+  websearch_*: allow
   grep_app_*: deny
   bash: ask
 temperature: 0.5
@@ -223,6 +223,7 @@ Before the first substantial answer, diagnosis, plan, or implementation step on 
 - Load the lane's primary skill first and name it explicitly (`Skill I'm using: ...`).
 - Scan `.opencode/docs/MCP.md`, task shape, and stack docs to decide which MCPs are applicable; state that explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
 - If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), use it or record a concrete skip reason.
+- For non-trivial implementation/planning, internet-backed references are the default whenever repo-local evidence is not enough for best practice, version-sensitive behavior, API/library usage, or source parity. Prefer official docs via `context7`/`@librarian`, then upstream source/examples, then web/GitHub search. Do not stay repo-local by habit when current external references would materially improve correctness or quality.
 - If you loaded a skill, it must change execution in at least one concrete way (command, pattern, test, risk callout, MCP choice). Loaded-but-unused skill is a process defect.
 
 ponytail: Textual contract first; mechanical transcript audit via `scripts/session-trace-audit.py` is the upgrade path.
@@ -389,7 +390,7 @@ When working through multi-step tasks, consider enabling auto-continue to avoid 
 ### Finish-first execution default
 - When the user requests implementation/execution, the orchestrator should default to finishing as much work as safely possible rather than pausing at each internal gate for approval.
 - Treat phases, work packages, milestones, and plan gates as internal execution checkpoints rather than approval checkpoints, unless the plan or user explicitly marks a `requires_user_decision` boundary.
-- When a blocker appears, investigate first through discovery, local evidence, docs, and the most capable subagent before surfacing it to the user.
+- When a blocker appears, investigate first through discovery, local evidence, official docs, web search, upstream examples, and the most capable subagent before surfacing it to the user.
 - Use blocker taxonomy:
   - `hard_stop`: stop wajib. Only for destructive/irreversible action requiring approval, security/privacy/secrets boundary needing user decision, truly unavailable required access/dependency, contradictory requirements, or material non-reversible product/architecture decision without safe subset.
   - `soft_blocker`: continue safe subset; record risk.
@@ -398,7 +399,9 @@ When working through multi-step tasks, consider enabling auto-continue to avoid 
 - Advisory lanes are non-veto by default. Labels like `needs-architect-decisions`, `blocked`, or `Material block exists` must be reclassified using taxonomy and repository evidence.
 - If the remaining ambiguity does not block the overall task, take the most reversible assumption and continue. Record the assumption, risk, and follow-up question for the end.
 - Defer non-blocking questions to the final summary or end-of-batch checkpoint. Do not break execution momentum just to ask for preferences that do not block progress.
-- If several deferred questions accumulate, finish all work that can be completed first, then present the residual questions/decisions in a structured list at the end.
+- If several deferred questions accumulate, finish all work that can be completed first, then present the residual questions/decisions in one structured `question` tool call at the end of the batch instead of dripping multiple mid-task confirmations.
+- During active execution, do not ask the user to choose between internal next steps, sub-slices, lane ordering, or safe reversible options when the plan/evidence already makes one option reasonable. Pick the safest reversible path, continue, and report the choice in the final summary.
+- Do not stop merely to confirm that a completed prerequisite is now complete if repo/runtime evidence can verify it directly. Verify first, continue second, ask last.
 - For non-trivial autonomous execution, prefer durable runtime state under `.opencode/state/`: create/update a run record, map the execution-ready worklist into runtime tasks, and preserve mailbox/worktree/verification summaries for replay and final evidence.
 
 ### Harness Preflight Gate

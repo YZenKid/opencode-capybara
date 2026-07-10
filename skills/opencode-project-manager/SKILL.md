@@ -15,6 +15,15 @@ Use for delivery planning, sequencing, backlog shaping, issue breakdown, and rel
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
+## Internet-reference default
+- Project manager sequencing is mostly repo-local (milestones, dependencies, risks, release gates). If a sequencing decision depends on external/version-sensitive source (provider release calendar, ecosystem roadmap, breaking change in tracked tool), pull current reference via `context7` / `websearch` / `webfetch` before publishing the plan.
+- If repo-local plan artifacts already settle the question, cite them and skip the external call.
+
+## Finish-first + question batching
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for the source-of-truth contract. The short version:
+  - If ambiguity is not `hard_stop`, sequence the safest bounded first vertical slice and group remaining work, rather than pausing for sequencing confirmation.
+  - Do not stop repeatedly for internal sequencing mechanics. Group residual user decisions into one final `question_batch` candidate.
+
 ## Trigger / skip
 - Trigger: split work into issues, milestone plan, dependency map, risk register, release checklist, handoff notes, status summary, triage queue.
 - Skip: unclear requirements → `@system-analyst`; technical design decision → `@architect`; code edits → domain/fixer lanes; final release/security signoff → `@quality-gate`.

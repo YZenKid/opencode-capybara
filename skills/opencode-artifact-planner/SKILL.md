@@ -28,11 +28,18 @@ Canonical tool references:
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
+## Finish-first + question batching (shared policy)
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for the source-of-truth contract. The short version:
+  - Finish-first: keep planning and execution moving through the safe subset. Internal next-step choices (sub-slice order, lane order, validate-now-or-later) are the planner's decision, not a user prompt.
+  - Question batching: collect all material unknowns before one `question` call per planning transaction. Write answers as `user_confirmed` into the same canonical `.opencode/plans/<task-id>.md`; never open a second ordinary batch after answers. Resolve later non-hard-stop gaps from repo evidence or reversible labeled assumptions.
+  - Internal mechanic choices (artifact order, lane order, sub-slice order, "validate now or later", "include or skip optional section") are not user questions. The planner chooses and continues.
+
 ## Reference Depth Gate
 - Tiny maintenance, local bugfixes, and prompt/config plans may rely on repo-local evidence when enough; do not force internet research or make external claims for low-risk local work.
 - For greenfield, substantial UI/UX, unfamiliar or version-sensitive library/API behavior, current external facts, reference UI, product/market-sensitive, or upstream-dependent work, define source strategy before convergence: repo evidence, official/library docs via `@librarian`/context when available, upstream source/examples or GitHub/web search when needed, and browser/reference screenshots for visual work.
 - Do not finalize substantial plans until reasonable references were checked or explicitly skipped with rationale. Missing current docs/API/source facts route to `@librarian`; do not invent library/API behavior, package capabilities, pricing, market facts, or upstream behavior from memory.
 - If a relevant source path is skipped, record why and lower the claim level (`draft`, `assumption`, `repo-local only`, or `first-principles`).
+- Internet-backed references are the default for non-trivial planning, not extra polish. If current docs/upstream source/web research were reasonably available and skipped, record a concrete reason and lower claim confidence.
 - Greenfield plans must use `.opencode/docs/GREENFIELD_STARTER.md` or a repo-local equivalent as starter input unless explicitly prototype-only; if skipped, record why.
 - For framework-managed work in existing or greenfield apps, inspect `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present so the plan defaults to project-specific command/generator workflows before manual edits.
 

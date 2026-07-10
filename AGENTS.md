@@ -13,6 +13,7 @@
 - Skills index: `.opencode/docs/SKILLS.md`
 - MCP overview: `.opencode/docs/MCP.md`
 - Golden principles: `.opencode/docs/GOLDEN_PRINCIPLES.md`
+- Execution conduct (finish-first, question batching, internet-reference default): `.opencode/docs/EXECUTION_CONDUCT.md`
 - Agent legibility: `.opencode/docs/AGENT_LEGIBILITY.md`
 - Decisions log: `.opencode/docs/DECISIONS.md`
 - Release and operational readiness: `.opencode/docs/RELEASE.md`

@@ -17,6 +17,8 @@ permission:
     "*.env": ask
     "*.env.*": allow
     "*.env.example": allow
+  context7_*: allow
+  websearch_*: allow
   external_directory:
     "*": allow
     write: ask
@@ -327,9 +329,10 @@ ponytail: This is a soft discipline first. The upgrade path is a session-trace/d
 - **Do not delegate subtasks.** You execute; you do not coordinate.
 
 ## Stop / escalation conditions
-- Required manifest fields are missing or contradictory.
-- Licensing/compliance constraints are unclear for requested asset style.
+- Required manifest fields are missing or contradictory -> complete any safe manifest normalization first, then return exact missing fields.
+- Licensing/compliance constraints are unclear for requested asset style -> verify current source/license references where available; escalate only unresolved legal risk.
 - No generation tool is available for required assets (return `ready_for_generation`).
+- This lane cannot use `question`; return grouped residual decisions as `question_batch` data for orchestrator. See `.opencode/docs/EXECUTION_CONDUCT.md`.
 
 ## Visual context routing
 - If task needs visual understanding/context from screenshot, image, mockup, or diagram, route/request `@visual-context-extractor` first.

@@ -15,6 +15,12 @@ Use this for consensus on costly, ambiguous, or high-blast-radius decisions wher
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
+## Internet-reference default
+- Consensus must use current official docs/upstream evidence for version-sensitive or externally dependent facts. Multiple opinions do not substitute for source verification.
+
+## Finish-first + question batching
+- See `.opencode/docs/EXECUTION_CONDUCT.md`. Council output is advisory, not veto. Return safe subset, exact missing facts, and one grouped `question_batch` candidate for owner decisions.
+
 ## Trigger threshold
 
 Use council only when at least one condition holds:

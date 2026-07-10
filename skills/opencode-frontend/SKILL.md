@@ -22,6 +22,15 @@ Adopted from Open Design: source-pack discipline, `DESIGN.md` authority, screens
 - Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
 - In output/evidence, include the key references or repo artifacts that materially shaped the result.
 
+## Internet-reference default
+- Treat internet-backed lookup (`context7_*`, `websearch_*`, `webfetch`, upstream source, GitHub examples) as the default for version-sensitive or best-practice-sensitive frontend decisions, not optional polish.
+- If project-local stack/playbook docs already settle the question, cite them and skip the external call. Otherwise, do not rely on memory when a single live lookup would materially improve correctness.
+
+## Finish-first + question batching
+- See `.opencode/docs/EXECUTION_CONDUCT.md` for the source-of-truth contract. The short version:
+  - If ambiguity is not `hard_stop`, implement the safest reversible in-scope subset and report residual items as `deferred_question` / `follow_up`.
+  - Do not stop mid-task for internal execution choices. Frontend should choose safe defaults, continue, and leave grouped residual user decisions for one final `question` batch.
+
 ## Trigger / skip
 - Trigger: pages, components, forms, state, client/server rendering, routing, data hooks, API integration, component tests, Playwright/browser checks, accessibility implementation.
 - Skip: major visual direction or reference parity → `@designer`; unclear product flow/API contract → `@system-analyst`; backend contract/data change → `@backend` or `@fullstack`; final a11y/security signoff → `@quality-gate`.
