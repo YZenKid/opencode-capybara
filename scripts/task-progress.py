@@ -52,7 +52,7 @@ def init_progress(task_id: str, plan_path: str):
     tasks = []
 
     # Pattern 1: numbered worklist
-    pattern1 = r'(\d+)\.\s+\*\*([A-Z]\d+)\*\*\s*\|\s*`@(\w+)`'
+    pattern1 = r'(\d+)\.\s+\*\*([A-Z]\d+)\*\*\s*\|\s*`@([\w-]+)`'
     for match in re.finditer(pattern1, content):
         num, task_id_num, owner = match.groups()
         tasks.append({
@@ -98,7 +98,7 @@ def init_progress(task_id: str, plan_path: str):
     print(f"File: {STATE_DIR / task_id / 'progress.json'}")
 
 
-def update_task(task_id: str, task_num: str, status: str, owner: str = None, evidence: str = None):
+def update_task(task_id: str, task_num: str, status: str, owner: str | None = None, evidence: str | None = None):
     """Update task status."""
     progress = load_progress(task_id)
     if not progress:

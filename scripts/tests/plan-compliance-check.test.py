@@ -14,7 +14,6 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCRIPT = REPO_ROOT / "scripts" / "plan-compliance-check.py"
-TMP_ROOT = Path("/var/home/ujang")
 
 
 def _run(*args: str) -> tuple[int, str, str]:
@@ -23,7 +22,7 @@ def _run(*args: str) -> tuple[int, str, str]:
 
 
 def _tmpdir(prefix: str) -> Path:
-    return Path(tempfile.mkdtemp(prefix=prefix, dir=str(TMP_ROOT)))
+    return Path(tempfile.mkdtemp(prefix=prefix))
 
 
 def _write(path: Path, content: str) -> Path:

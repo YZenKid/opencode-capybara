@@ -31,7 +31,8 @@ Canonical tool references:
 ## Finish-first + question batching (shared policy)
 - See `.opencode/docs/EXECUTION_CONDUCT.md` for the source-of-truth contract. The short version:
   - Finish-first: keep planning and execution moving through the safe subset. Internal next-step choices (sub-slice order, lane order, validate-now-or-later) are the planner's decision, not a user prompt.
-  - Question batching: collect all material unknowns before one `question` call per planning transaction. Write answers as `user_confirmed` into the same canonical `.opencode/plans/<task-id>.md`; never open a second ordinary batch after answers. Resolve later non-hard-stop gaps from repo evidence or reversible labeled assumptions.
+  - Question batching: collect all material unknowns before one `question` call per planning transaction. Call `question` in that same transaction, write answers as `user_confirmed` into the same canonical `.opencode/plans/<task-id>.md`, then resume plan completion. Never end with prose asking user to repair plan later. Resolve later non-hard-stop gaps from repo evidence or reversible labeled assumptions.
+  - Before `PASS` or `PASS_FOR_SLICE`, run `python3 scripts/plan-execution-readiness.py <plan.md> --project-root .`; validator zero is required.
   - Internal mechanic choices (artifact order, lane order, sub-slice order, "validate now or later", "include or skip optional section") are not user questions. The planner chooses and continues.
 
 ## Reference Depth Gate

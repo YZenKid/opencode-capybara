@@ -341,7 +341,7 @@ Before synthesizing a new plan for a project:
 
 ## Plan Worklist Tracking
 
-For non-trivial plans, maintain a machine-readable progress tracker at `.opencode/state/<task-id>/progress.json` using `python3 ~/.config/opencode/scripts/task-progress.py --project-root . --task <task-id> --init --plan <plan.md>`.
+For non-trivial plans, maintain a machine-readable progress tracker at `.opencode/state/<task-id>/progress.json` using `python3 ~/.config/opencode/scripts/task-progress.py <task-id> --init --plan <plan.md>`. Before `PASS` or `PASS_FOR_SLICE`, run `python3 scripts/plan-execution-readiness.py <plan.md> --project-root .`; nonzero output blocks readiness.
 
 The worklist in the plan must be numbered and assign an owner per task:
 ```markdown

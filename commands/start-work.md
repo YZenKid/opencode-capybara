@@ -83,9 +83,12 @@ Execution contract:
    - Tiny, read-only, or emergency exceptions must be explicitly recorded.
 
 7. Progress tracking is mandatory and must run at every status transition.
-   - Initialize plan progress from the selected plan before the first implementation step:
-     - `python3 ~/.config/opencode/scripts/task-progress.py --project-root . --task <task-id> --init --plan <plan.md>`
-   - The plan must contain a `## Progress Tracking` section. If it is missing, stop and route back to `@artifact-planner` — do not invent tracker commands.
+    - Run execution readiness before reading the task map, initializing progress, or dispatching workers:
+      - `python3 scripts/plan-execution-readiness.py <plan.md> --project-root .`
+    - Nonzero readiness output is a planner contract defect. Route back to `@artifact-planner`; do not ask user to manually repair planner syntax.
+    - Initialize plan progress from the selected plan before the first implementation step:
+      - `python3 ~/.config/opencode/scripts/task-progress.py <task-id> --init --plan <plan.md>`
+    - The plan must contain a `## Progress Tracking` section. If it is missing, stop and route back to `@artifact-planner` — do not invent tracker commands.
    - Use the plan's `task_map` to drive every tracker update. Use the exact `task-progress.py --update <id> ...` command from the plan.
    - Keep exactly one active task `in_progress` at a time unless the plan explicitly allows independent parallel branches.
    - Update the tracker at every transition:
