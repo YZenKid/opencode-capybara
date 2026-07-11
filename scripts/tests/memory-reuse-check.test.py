@@ -14,7 +14,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCRIPT = REPO_ROOT / "scripts" / "memory-reuse-check.py"
-TMP_ROOT = Path("/var/home/ujang")
+TMP_ROOT = Path(tempfile.gettempdir())
 
 
 def _run(*args: str) -> tuple[int, str, str]:

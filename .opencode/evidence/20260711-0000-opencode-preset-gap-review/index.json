@@ -1,0 +1,54 @@
+{
+  "task_id": "20260711-0000-opencode-preset-gap-review",
+  "plan_file": ".opencode/plans/20260711-0000-opencode-preset-gap-review.md",
+  "evidence_dir": ".opencode/evidence/20260711-0000-opencode-preset-gap-review",
+  "tracker_file": ".opencode/state/20260711-0000-opencode-preset-gap-review/progress.json",
+  "mode": "maintenance-stability",
+  "plan_status": "PASS_FOR_SLICE",
+  "preflight_disposition": "preset-self",
+  "required_files": [
+    "discovery.md",
+    "verification.md",
+    "quality-gate.md"
+  ],
+  "validation_commands": [
+    "npm run check:capabilities",
+    "npm run check:agents",
+    "npm run check:skills",
+    "python3 scripts/tests/subagent-handoff-check.test.py",
+    "npm run docs:generate:check",
+    "npm run check:docs",
+    "npm run eval:harness",
+    "npm run check:routing-release",
+    "npm run check:harness:strict",
+    "npm run doctor",
+    "npm run check:release",
+    "npm run check:evidence"
+  ],
+  "retention": {
+    "keep": [
+      "discovery.md",
+      "index.json",
+      "verification.md",
+      "quality-gate.md",
+      "A1-route-registry.md",
+      "A2-mcp-registry.md",
+      "B1-handoff-test.md",
+    "B2-gate-aggregation.md",
+    "C1-routing-score.md",
+    "C2-generated-docs.md",
+    "E2-portability-remediation.md",
+    "quality-gate-rerun.md"
+  ],
+    "summarize_and_delete": [],
+    "never_delete_until_gate": [
+      "A1-route-registry.md",
+      "B1-handoff-test.md",
+      "C1-routing-score.md",
+      "verification.md"
+    ]
+  },
+  "final_verdict": "PASS_WITH_RISKS",
+  "open_questions": [],
+  "external_sources_consulted": []
+}

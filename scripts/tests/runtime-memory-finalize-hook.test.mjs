@@ -14,7 +14,7 @@ const TASK_STORE = resolve(REPO_ROOT, "scripts/runtime/task-store.mjs");
 const HOOK = resolve(REPO_ROOT, "scripts/runtime/memory-finalize-hook.mjs");
 const RUN_STORE = resolve(REPO_ROOT, "scripts/runtime/run-store.mjs");
 
-const SCRATCH_ROOT = "/var/home/ujang";
+const SCRATCH_ROOT = tmpdir();
 
 async function importFresh(cwd) {
   process.chdir(cwd);

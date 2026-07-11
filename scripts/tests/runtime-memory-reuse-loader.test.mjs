@@ -3,13 +3,14 @@
 // Run:
 //   node scripts/tests/runtime-memory-reuse-loader.test.mjs
 import { mkdtempSync, rmSync, writeFileSync, readFileSync, existsSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
 const REPO_ROOT = resolve(import.meta.dirname, "..", "..");
 const LOADER = resolve(REPO_ROOT, "scripts/runtime/memory-reuse-loader.mjs");
-const SCRATCH_ROOT = "/var/home/ujang";
+const SCRATCH_ROOT = tmpdir();
 
 async function importFresh() {
   return await import(`${LOADER}?t=${Date.now()}`);

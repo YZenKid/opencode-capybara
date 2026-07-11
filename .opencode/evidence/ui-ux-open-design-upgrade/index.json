@@ -1,0 +1,24 @@
+{
+  "task_id": "ui-ux-open-design-upgrade",
+  "plan_file": ".opencode/plans/ui-ux-open-design-upgrade.md",
+  "evidence_dir": ".opencode/evidence/ui-ux-open-design-upgrade",
+  "required_files": [
+    "discovery.md",
+    "verification.md",
+    "index.json"
+  ],
+  "validation_commands": [
+    "node scripts/evidence-contract-check.mjs"
+  ],
+  "bundle_status": "bundling_only",
+  "retention": {
+    "keep": [
+      "foundation-slice-summary.md",
+      "policy-migration-slice-summary.md",
+      "discovery.md",
+      "verification.md",
+      "index.json"
+    ]
+  },
+  "final_verdict": "not_revalidated"
+}
