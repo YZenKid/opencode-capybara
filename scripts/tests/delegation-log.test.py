@@ -13,7 +13,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCRIPT = REPO_ROOT / "scripts" / "delegation-log.py"
-TMP_ROOT = Path("/var/home/ujang")
+TMP_ROOT = Path(tempfile.gettempdir())
 
 
 def _run(*args: str) -> tuple[int, str, str]:
@@ -22,7 +22,10 @@ def _run(*args: str) -> tuple[int, str, str]:
 
 
 def _tmpdir(prefix: str) -> Path:
-    return Path(tempfile.mkdtemp(prefix=prefix, dir=str(TMP_ROOT)))
+    try:
+        return Path(tempfile.mkdtemp(prefix=prefix, dir=str(TMP_ROOT)))
+    except OSError as exc:
+        raise unittest.SkipTest(f"temporary directory unavailable: {exc}") from exc
 
 
 class DelegationLogTests(unittest.TestCase):

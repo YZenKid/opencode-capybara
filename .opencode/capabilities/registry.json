@@ -287,6 +287,23 @@
       "description": "Plan review and quality contract validation for plan-reviewer agent."
     },
     {
+      "name": "plan-validator",
+      "status": "active",
+      "mode": "subagent",
+      "skill": "opencode-plan-validator",
+      "owner_lane": "@plan-validator",
+      "risk": [
+        "plan-artifact-write",
+        "contract-drift"
+      ],
+      "fallback": "@artifact-planner for domain-level plan changes",
+      "evidence": [
+        "agents/plan-validator.md",
+        "skills/opencode-plan-validator/SKILL.md"
+      ],
+      "source": "agents/plan-validator.md"
+    },
+    {
       "name": "project-manager",
       "status": "active",
       "mode": "subagent",
@@ -618,6 +635,20 @@
       "description": "Plan review skill for the plan-reviewer agent."
     },
     {
+      "name": "opencode-plan-validator",
+      "status": "active",
+      "owner_lane": "@plan-validator",
+      "risk": [
+        "plan-artifact-write",
+        "contract-drift"
+      ],
+      "fallback": "@artifact-planner for non-mechanical plan changes",
+      "evidence": [
+        "skills/opencode-plan-validator/SKILL.md"
+      ],
+      "source": "skills/opencode-plan-validator/SKILL.md"
+    },
+    {
       "name": "opencode-project-manager",
       "status": "active",
       "owner_lane": "@project-manager",
@@ -770,6 +801,45 @@
       ]
     },
     {
+      "name": "browseros",
+      "status": "configured",
+      "owner_lane": "@orchestrator",
+      "risk": [
+        "browser-session",
+        "local-cdp",
+        "stateful-actions",
+        "remote-egress"
+      ],
+      "fallback": "static review or screenshots supplied by user",
+      "evidence": [
+        "opencode.json:mcp.browseros"
+      ],
+      "source": "opencode.json",
+      "transport": "remote",
+      "auth": "none",
+      "data_egress": "page URLs, forms, screenshots, network data, 40+ external app integrations",
+      "write_capability": true,
+      "allowed_lanes": [
+        "@orchestrator",
+        "@fixer",
+        "@designer",
+        "@frontend",
+        "@explorer",
+        "@librarian"
+      ],
+      "denied_lanes": [
+        "@quality-gate",
+        "@council"
+      ],
+      "evidence_required": [
+        "URL, action summary, screenshot/console/network result when used"
+      ],
+      "secret_surfaces": [
+        "browser cookies",
+        "local session"
+      ]
+    },
+    {
       "name": "context7",
       "status": "configured",
       "owner_lane": "@librarian",
@@ -853,6 +923,44 @@
         "this is a prompt-policy cap, not a claimed server-enforced cap unless separately evidenced"
       ],
       "secret_surfaces": []
+    },
+    {
+      "name": "stitch",
+      "status": "configured",
+      "owner_lane": "@designer",
+      "risk": [
+        "remote-egress",
+        "api-key",
+        "ui-design",
+        "project-write"
+      ],
+      "fallback": "local design-system artifacts and source edits without Stitch",
+      "evidence": [
+        "opencode.json:mcp.stitch"
+      ],
+      "source": "opencode.json",
+      "transport": "remote",
+      "auth": "STITCH_API_KEY",
+      "data_egress": "design prompts, project and screen metadata, generated UI designs",
+      "write_capability": true,
+      "allowed_lanes": [
+        "@designer",
+        "@frontend",
+        "@fixer",
+        "@orchestrator"
+      ],
+      "denied_lanes": [
+        "@quality-gate",
+        "@council"
+      ],
+      "evidence_required": [
+        "project/screen IDs and prompt summary",
+        "no secrets in prompt",
+        "record generated design or explicit fallback"
+      ],
+      "secret_surfaces": [
+        "STITCH_API_KEY"
+      ]
     },
     {
       "name": "grep_app",

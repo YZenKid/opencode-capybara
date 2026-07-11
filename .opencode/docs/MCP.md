@@ -16,6 +16,8 @@ Configured MCP surfaces include:
 - `context7`
 - `sequential-thinking`
 - `grep_app`
+- `stitch`
+- `browseros`
 - `playwright`
 - `shadcn`
 - `semgrep`

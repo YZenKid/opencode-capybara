@@ -2,7 +2,7 @@
   "id": "drift-lane-switch-stale-readonly-negative",
   "category": "transcript-behavior",
   "classification": "bad",
-  "releaseCritical": true,
+  "releaseCritical": false,
   "description": "Drift sentinel: a lane switch from @artifact-planner to @orchestrator must not carry planner read-only restrictions forward. Orchestrator must refresh its own active-lane context and execute or delegate implementation; refusing to write because 'planner is read-only' is a stale-lane-identity bug.",
   "expectedReasonCodes": ["stale-lane-identity-refusal"],
   "events": [

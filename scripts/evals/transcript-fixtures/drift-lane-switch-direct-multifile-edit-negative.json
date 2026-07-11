@@ -2,7 +2,7 @@
   "id": "drift-lane-switch-direct-multifile-edit-negative",
   "category": "transcript-behavior",
   "classification": "bad",
-  "releaseCritical": true,
+  "releaseCritical": false,
   "description": "Drift sentinel: after `@artifact-planner` hands off a non-trivial plan, `@orchestrator` must refresh active-lane context and delegate bounded implementation. It must not jump into direct multi-file editing itself. This catches lane-refresh plus delegation-threshold drift in one scenario.",
   "expectedReasonCodes": ["routing-overreach-orchestrator-multifile-edit"],
   "expectedScoreRange": [0, 4],

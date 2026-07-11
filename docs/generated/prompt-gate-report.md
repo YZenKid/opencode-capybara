@@ -20,6 +20,7 @@ Generated inventory of deterministic prompt-gate checks. This file is advisory a
 - `npm run init:stack-suggest`
 - `npm run check:session-trace <transcript>`
 - `npm run check:template-source`
+- `npm run check:legal-source`
 - `npm run check:handoff`
 - `npm run check:handoff:plan`
 - `npm run test:delegation-log`

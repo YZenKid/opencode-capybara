@@ -1861,7 +1861,7 @@ const checks = [
     mustInclude: [
       '"eval:ui-slop": "node scripts/evals/ui-slop-eval.mjs eval"',
       '"check:ui-slop": "node scripts/evals/ui-slop-eval.mjs check"',
-      "npm run check:ui-slop && npm run eval:harness",
+      '"check:harness:strict": "node scripts/run-all.mjs check:harness check:ui-slop eval:harness"',
     ],
   },
   {
@@ -1908,7 +1908,7 @@ const checks = [
     name: "plan validation package script wiring gate",
     mustInclude: [
       '"test:plan-validation": "node scripts/tests/plan-validation-fixtures.test.mjs"',
-      "npm run test:plan-validation && npm run test:advisory-boundaries && npm run test:deterministic-edit-helper",
+      '"check:harness": "node scripts/run-all.mjs test:prompt-gates test:plan-validation test:advisory-boundaries test:deterministic-edit-helper',
     ],
   },
   {

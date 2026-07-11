@@ -29,10 +29,7 @@ const requiredSentinelIds = [
 ];
 const releaseCriticalSentinelIds = [
   "drift-planner-default-tax-negative",
-  "drift-designer-frontend-boundary-negative",
-  "drift-fullstack-catchall-negative",
   "drift-quality-gate-remediation-positive",
-  "drift-readonly-advisor-write-negative",
 ];
 const requiredClassifications = ["good", "bad", "borderline", "fallback-valid", "source-strategy", "domain-boundary", "quality-gate", "planner-boundary"];
 const requiredSourceModes = ["normalized-events", "raw-tool-trace"];

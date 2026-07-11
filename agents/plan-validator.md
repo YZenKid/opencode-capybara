@@ -245,6 +245,27 @@ ponytail: Textual contract first; mechanical transcript audit via `scripts/sessi
 - `NEEDS_DEPTH`: at least one gate fails. In `check-only` mode, route back to `@artifact-planner` with the failure list. In `check-and-fix` mode, only the `requires_planner` failures remain.
 - `BLOCKED`: cannot validate (missing plan, validator unavailable, contradictory requirements). Ask the user or `@orchestrator` to resolve.
 
+## Output example
+
+```yaml
+status: PASS_FOR_SLICE
+task_id: 20260711-0000-opencode-preset-gap-review
+plan_path: .opencode/plans/20260711-0000-opencode-preset-gap-review.md
+mode: check-and-fix
+validators_run:
+  - script: validate-plan-depth.py
+    result: PASS
+  - script: plan-compliance-check.py
+    result: PASS
+  - script: subagent-handoff-check.py
+    result: PASS
+failures: []
+auto_fixes: []
+requires_planner: []
+evidence:
+  - .opencode/evidence/20260711-0000-opencode-preset-gap-review/check-plan/
+```
+
 ## Output contract
 
 ```yaml

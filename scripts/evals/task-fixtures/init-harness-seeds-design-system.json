@@ -12,8 +12,8 @@
       "file": "DESIGN.md",
       "mustInclude": [
         "# [Project Name] Design System",
-        "## Design Language",
-        "## Accessibility Requirements"
+        "## Visual Theme & Atmosphere",
+        "## Responsive Behavior"
       ],
       "reasonCode": "init-harness-missing-design-template"
     },

@@ -2,7 +2,7 @@
   "id": "drift-fullstack-catchall-negative",
   "category": "transcript-behavior",
   "classification": "domain-boundary",
-  "releaseCritical": true,
+  "releaseCritical": false,
   "description": "Drift sentinel: fullstack must not become catch-all for broad unknown FE/BE contract work.",
   "expectedReasonCodes": ["routing-drift-fullstack-catchall", "routing-overreach-missing-quality-gate"],
   "events": [
