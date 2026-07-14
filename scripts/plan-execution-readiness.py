@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+"""Validate plan readiness using canonical OpenCode governance scripts.
+
+Tracker resolution checks nonempty OPENCODE_CONFIG_DIR, then
+$HOME/.config/opencode, then this script's sibling task-progress.py.
+"""
 import argparse
 import json
 import os
@@ -15,6 +20,19 @@ UPDATE = re.compile(r"python3\s+(?:~/.config/opencode/)?scripts/task-progress\.p
 def fail(message):
     print(f"FAIL: {message}", file=sys.stderr)
     return 1
+
+
+def resolve_tracker_script():
+    config_root = os.environ.get("OPENCODE_CONFIG_DIR")
+    candidates = []
+    if config_root:
+        candidates.append(Path(config_root).expanduser() / "scripts/task-progress.py")
+    candidates.append(Path(os.path.expanduser("~/.config/opencode/scripts/task-progress.py")))
+    candidates.append(Path(__file__).resolve().parent / "task-progress.py")
+    for candidate in candidates:
+        if candidate.is_file():
+            return candidate
+    return candidates[-1]
 
 
 def validate(plan_path, project_root):
@@ -70,8 +88,11 @@ def validate(plan_path, project_root):
         errors.append("unresolved material question blocks PASS")
     if errors:
         return errors
+    tracker_script = resolve_tracker_script()
+    if not tracker_script.is_file():
+        return [f"tracker script not found: checked OPENCODE_CONFIG_DIR, ~/.config/opencode/scripts/, and sibling directory"]
     with tempfile.TemporaryDirectory() as temp:
-        result = subprocess.run([sys.executable, str(Path(project_root, "scripts/task-progress.py").resolve()), "readiness-check", "--init", "--plan", str(Path(plan_path).resolve())], cwd=temp, capture_output=True, text=True)
+        result = subprocess.run([sys.executable, str(tracker_script), "readiness-check", "--init", "--plan", str(Path(plan_path).resolve())], cwd=temp, capture_output=True, text=True)
         if result.returncode:
             return [f"tracker init failed: {result.stderr.strip() or result.stdout.strip()}"]
         tracker = Path(temp, ".opencode/state/readiness-check/progress.json")

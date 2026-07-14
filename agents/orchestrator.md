@@ -342,8 +342,8 @@ python3 ~/.config/opencode/scripts/project-memory.py --list-proposals
 ```
 
 ## Execution tracking via plan worklist
-For non-trivial work, create execution tracking from the plan worklist and keep it in `.opencode/state/<task-id>/progress.json` using `python3 ~/.config/opencode/scripts/task-progress.py --project-root . --task <task-id> --init --plan <plan.md>`.
-Keep progress current as steps move through `pending` → `in_progress` → `done` using `python3 ~/.config/opencode/scripts/task-progress.py --project-root . --task <task-id> --step <step-id> --status done --owner @<lane>`.
+For non-trivial work, create execution tracking from the plan worklist and keep it in `.opencode/state/<task-id>/progress.json` using `python3 ~/.config/opencode/scripts/task-progress.py <task-id> --init --plan <plan.md>`.
+Keep progress current as steps move through `pending` → `in_progress` → `completed` using `python3 ~/.config/opencode/scripts/task-progress.py <task-id> --update <step-id> --status completed --owner @<lane>`.
 Before final claim, verify no `pending` steps remain.
 
 ## Runtime verification prerequisite
@@ -355,8 +355,8 @@ python3 ~/.config/opencode/scripts/runtime-verify.py --project-root . --base-url
 Do not claim functional completion if runtime checks cannot be run; instead list the missing verification and block.
 
 Steps:
-1. After loading the plan, run `python3 ~/.config/opencode/scripts/task-progress.py --project-root . --task <task-id> --init --plan .opencode/plans/<task-id>.md`.
-2. Update the tracker after every task: `python3 ~/.config/opencode/scripts/task-progress.py --project-root . --task <task-id> --step <step-id> --status <status> --owner @<agent>`.
+1. After loading the plan, run `python3 ~/.config/opencode/scripts/task-progress.py <task-id> --init --plan .opencode/plans/<task-id>.md`.
+2. Update the tracker after every task: `python3 ~/.config/opencode/scripts/task-progress.py <task-id> --update <step-id> --status <status> --owner @<agent>`.
 3. Track status: `pending`, `in_progress`, `completed`, `blocked`, `cancelled`, plus owner/lane, depends_on, validation, and evidence_update.
 4. Report the current checklist to the user when asked about progress, or after every meaningful milestone.
 
