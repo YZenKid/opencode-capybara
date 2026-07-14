@@ -323,6 +323,15 @@
       ],
       "enabled": false,
       "timeout": 30000
+    },
+    "scripts": {
+      "type": "local",
+      "command": [
+        "node",
+        "{env:HOME}/.config/opencode/bin/scripts-mcp.mjs"
+      ],
+      "enabled": true,
+      "timeout": 30000
     }
   },
   "agent": {

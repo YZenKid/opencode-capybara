@@ -135,6 +135,17 @@ Note: `@librarian` is a supporting research helper, not one of the 6 core agents
 ## Boundary rules
 LSP-first policy for edit-owning lanes (`@orchestrator` tiny direct edits, `@fixer` bounded implementation): use LSP for rename/refactor/navigation/diagnostic-driven edits when available. If fallback path used, evidence must include limitation and confidence impact.
 
+## Scripts MCP Access Policy
+
+`mcp.scripts` is a configured local stdio server with fixed tool allowlist, strict schemas, and no arbitrary script/flag passthrough. First slice exposes read/check/query tools only. `caller_lane` is policy attestation, not authorization.
+
+- **all lanes**: may use configured `mcp.scripts` only within role permissions and first-slice read/check/query boundary when connected/usable/permitted.
+- **read-only lanes** (`@system-analyst`, `@project-manager`, `@artifact-planner`, `@explorer`, `@librarian`, `@oracle`, `@visual-context-extractor`, `@visual-asset-generator`): use scripts MCP for evidence/query only. No write operations (deferred).
+- **implementation lanes** (`@fixer`, `@frontend`, `@backend`, `@mobile`, `@fullstack`, `@devops`): use scripts MCP for validation/readiness checks within task scope. Cannot invoke deferred write operations because they do not exist in this slice.
+- **core routing agents** (`@orchestrator`, `@quality-gate`): use scripts MCP per lane contract.
+
+Fallback to canonical CLI when MCP is disconnected, unavailable after config change, `tool_pending`, not permitted, or lacks exact mapping. MCP availability never overrides existing role policy. See [TOOL_USAGE.md](./TOOL_USAGE.md) for executable fallback commands and [MCP.md](./MCP.md) for tool inventory.
+
 ## Agent Context Refresh (mandatory)
 - Lanes are not sticky across session turns. Before any tool use, verify the currently active lane.
 - If the active lane changed, discard assumptions inherited from the previous lane's read-only/implementation boundaries.

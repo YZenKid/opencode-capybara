@@ -732,3 +732,7 @@ python3 ~/.config/opencode/scripts/mcp-memory-store.py --project-root . --graph 
 
 ponytail: For now this is a soft constraint at the prompt layer with a runnable check; the upgrade path is wiring this into the runtime quality-gate checkpoint so the script auto-runs before completion.
 
+
+
+<!-- scripts-mcp-pointer -->
+`mcp.scripts` is a configured local read/check/query-only governance tool. This skill should prefer it for matching audit, discovery, and validation read/check/query operations when connected, usable, and permitted; no write operations exist in this slice. `caller_lane` in the tool payload is policy attestation only, not real authorization; this skill’s existing boundaries still control what it may do. Canonical CLI fallback remains valid: `python3 ~/.config/opencode/scripts/<name>.py ...` when MCP is disconnected, unavailable, returns `tool_pending`, or is not permitted. Full policy: `.opencode/docs/MCP.md`, `.opencode/docs/TOOL_USAGE.md`, `.opencode/docs/AGENT_TOOL_ACCESS.md`.

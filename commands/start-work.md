@@ -21,6 +21,11 @@ Primary objective:
 
 Execution contract:
 
+0. Scripts MCP preference.
+   - For governance read/check/query tasks (plan validation, readiness, smoke, runtime verify, template discovery, progress read), prefer `scripts` MCP when connected, usable, and permitted.
+   - Fallback to canonical CLI when MCP is disconnected, unavailable after config change, `tool_pending`, not permitted, or exact operation absent.
+   - All existing `python3` CLI command lines below remain valid and executable. MCP does not replace them.
+
 1. Refresh active-lane context first.
    - Confirm the active lane is `@orchestrator`.
    - Re-anchor on the current role contract, not the previous lane's assumptions.

@@ -1224,6 +1224,58 @@
       "secret_surfaces": [
         "LOCAL_SQLITE_PATH"
       ]
+    },
+    {
+      "name": "scripts",
+      "status": "configured",
+      "owner_lane": "@orchestrator",
+      "risk": [
+        "local-process",
+        "script-invocation",
+        "output-egress"
+      ],
+      "fallback": "exact CLI pattern: node {env:HOME}/.config/opencode/bin/scripts-mcp.mjs; or direct python3 scripts/<name>.py <args>",
+      "evidence": [
+        "opencode.json:mcp.scripts",
+        ".opencode/docs/MCP.md"
+      ],
+      "source": "opencode.json",
+      "transport": "local",
+      "auth": "none",
+      "data_egress": "local project scripts/output only; no remote egress",
+      "write_capability": false,
+      "allowed_lanes": [
+        "@architect",
+        "@artifact-planner",
+        "@backend",
+        "@designer",
+        "@design-system-engineer",
+        "@devops",
+        "@explorer",
+        "@fixer",
+        "@frontend",
+        "@fullstack",
+        "@librarian",
+        "@mobile",
+        "@oracle",
+        "@orchestrator",
+        "@plan-reviewer",
+        "@plan-validator",
+        "@project-manager",
+        "@quality-gate",
+        "@skill-improver",
+        "@system-analyst",
+        "@visual-asset-generator",
+        "@visual-context-extractor"
+      ],
+      "denied_lanes": [
+        "@council"
+      ],
+      "evidence_required": [
+        "tool name, input args, exit code, stdout/stderr summary",
+        "no secrets in tool input"
+      ],
+      "secret_surfaces": []
     }
   ],
   "external_comparators": [

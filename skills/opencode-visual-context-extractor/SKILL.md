@@ -274,3 +274,7 @@ ponytail: This is a behavioral contract. Use `scripts/session-trace-audit.py` as
 - If reasoning/thinking tool exists, call tool through OpenCode/MCP only.
 - If native provider reasoning exists, let provider emit reasoning parts.
 - Otherwise keep private reasoning hidden and output only final user-facing content.
+
+
+<!-- scripts-mcp-pointer -->
+`mcp.scripts` is a configured local read/check/query-only governance tool. This read-only skill should prefer it over raw shell invocation of matching plan validation, runtime verification, progress reading, audit, discovery, memory query, or delegation query scripts when connected, usable, and permitted; no write operations exist in this slice. `caller_lane` in the tool payload is policy attestation only, not real authorization; this skill’s existing read-only boundary still controls what it may do. Canonical CLI fallback remains valid: `python3 ~/.config/opencode/scripts/<name>.py ...` when MCP is disconnected, unavailable, returns `tool_pending`, or is not permitted. Full policy: `.opencode/docs/MCP.md`, `.opencode/docs/TOOL_USAGE.md`, `.opencode/docs/AGENT_TOOL_ACCESS.md`.

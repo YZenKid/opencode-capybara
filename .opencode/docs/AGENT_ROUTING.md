@@ -294,6 +294,10 @@ Use this quick rubric for real workflow audits:
 
 Score guidance: 5/5 = strong routing discipline; 3–4/5 = acceptable with minor drift; ≤2/5 = routing failure requiring remediation.
 
+## Scripts MCP routing
+
+`mcp.scripts` is a configured local stdio server with fixed read/check/query tools. Governance/read/check/query requests prefer scripts MCP when connected, usable, and permitted. Fallback to canonical CLI when MCP is disconnected, unavailable after config change, `tool_pending`, not permitted, or exact operation absent. MCP availability does not bypass role boundaries. Use `@fixer` for planned implementation changes; `@quality-gate` remains final reviewer. See [MCP.md](./MCP.md) for inventory, [TOOL_USAGE.md](./TOOL_USAGE.md) for selection, and [AGENT_TOOL_ACCESS.md](./AGENT_TOOL_ACCESS.md) for per-role policy.
+
 ## Core agents (default operating model)
 
 Cross-lane contract baseline (non-trivial work):

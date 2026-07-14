@@ -404,3 +404,7 @@ Your return report must include:
 - Handoff payload invalid -> `NEEDS_DEPTH` (or auto-fix in `check-and-fix` mode when content allows).
 - Auto-fix attempted on a `requires_planner` failure -> stop and report.
 - All `BLOCKED`/`NEEDS_DEPTH` outputs must end with a grouped `question_batch` candidate if any user decision remains, not scattered prose. See `.opencode/docs/EXECUTION_CONDUCT.md` for finish-first + question batching + internet-reference default rules.
+
+
+<!-- scripts-mcp-pointer -->
+`mcp.scripts` is a configured local read/check/query-only governance tool. This read-only role should prefer it over raw shell invocation of matching plan validation, runtime verification, progress reading, audit, discovery, memory query, or delegation query scripts when connected, usable, and permitted; no write operations exist in this slice. `caller_lane` in the tool payload is policy attestation only, not real authorization; this role’s existing read-only boundary still controls what it may do. Canonical CLI fallback remains valid: `python3 ~/.config/opencode/scripts/<name>.py ...` when MCP is disconnected, unavailable, returns `tool_pending`, or is not permitted. Full policy: `.opencode/docs/MCP.md`, `.opencode/docs/TOOL_USAGE.md`, `.opencode/docs/AGENT_TOOL_ACCESS.md`.

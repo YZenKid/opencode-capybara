@@ -175,3 +175,7 @@ ponytail: This is a soft discipline first. The upgrade path is a session-trace/d
 - If reasoning/thinking tool exists, call tool through OpenCode/MCP only.
 - If native provider reasoning exists, let provider emit reasoning parts.
 - Otherwise keep private reasoning hidden and output only final user-facing content.
+
+
+<!-- scripts-mcp-pointer -->
+`mcp.scripts` is a configured local read/check/query-only governance tool. This implementation role should prefer it for matching validation and readiness checks when connected, usable, and permitted; no write operations exist in this slice. `caller_lane` in the tool payload is policy attestation only, not real authorization; this role’s existing read/write boundaries still control what it may do. Canonical CLI fallback remains valid: `python3 ~/.config/opencode/scripts/<name>.py ...` when MCP is disconnected, unavailable, returns `tool_pending`, or is not permitted. Full policy: `.opencode/docs/MCP.md`, `.opencode/docs/TOOL_USAGE.md`, `.opencode/docs/AGENT_TOOL_ACCESS.md`.

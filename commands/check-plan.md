@@ -14,6 +14,11 @@ $ARGUMENTS
 
 Execution contract:
 
+0. Scripts MCP preference.
+   - For plan depth, compliance, handoff, and execution-readiness checks, prefer `scripts` MCP when connected, usable, and permitted.
+   - Fallback to canonical CLI when MCP is disconnected, unavailable after config change, `tool_pending`, not permitted, or exact operation absent.
+   - Keep validator CLI lines below as canonical executable fallback. This command must not depend on MCP connection.
+
 1. Refresh active-lane context.
    - Confirm the active lane is `@orchestrator`.
    - Load the `opencode-orchestrator` skill.

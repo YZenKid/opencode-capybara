@@ -68,6 +68,28 @@ Commonly used categories:
 ## Selection heuristics
 Policy note: prefer local canonical capybara lanes for execution. Built-in OpenCode `build`/`plan`/`explore`/`general` are non-default comparator paths unless explicitly enabled.
 
+### Scripts MCP selection
+
+For governance read/check/query work, prefer `scripts` MCP when it is connected, usable, permitted, and exactly maps the requested operation. `caller_lane` is policy attestation, not authorization; existing role policy still controls use. If `mcp.scripts` is disconnected, unavailable after config change, `tool_pending`, not permitted, or lacks exact mapping, use canonical CLI fallback. Never use generic `bash` arbitrary execution when a fixed MCP mapping exists and is usable. CLI remains allowed and canonical for fallback, debugging, bootstrap, and reproducibility.
+
+Executable fallback examples for common governance tasks:
+
+```bash
+python3 ~/.config/opencode/scripts/validate-plan-depth.py .opencode/plans/<task-id>.md --mode auto
+python3 ~/.config/opencode/scripts/plan-compliance-check.py --project-root . --plan .opencode/plans/<task-id>.md --task-id <task-id>
+python3 ~/.config/opencode/scripts/subagent-handoff-check.py --plan .opencode/plans/<task-id>.md
+python3 ~/.config/opencode/scripts/plan-execution-readiness.py .opencode/plans/<task-id>.md --project-root .
+python3 ~/.config/opencode/scripts/pre-gate-smoke-check.py --project-root .
+python3 ~/.config/opencode/scripts/runtime-verify.py --project-root . --base-url <url>
+python3 ~/.config/opencode/scripts/template-source-discovery.py --project-root .
+python3 ~/.config/opencode/scripts/task-progress.py <task-id> --summary
+python3 ~/.config/opencode/scripts/task-progress.py <task-id> --checklist
+python3 ~/.config/opencode/scripts/backup-cleanup.py --scan
+python3 ~/.config/opencode/scripts/rules-harmonizer.py . --dry-run
+```
+
+These fixed mappings do not expose arbitrary scripts, flags, commands, or write operations. Preserve CLI fallback when MCP is pending or forbidden; do not treat MCP availability as permission. When `scripts` MCP is connected and usable, it provides the preferred interface for these operations.
+
 ### Lane identity check before tool selection
 - Before using any tool, confirm which lane is currently active. The active lane determines permission, not the previous turn.
 - After switching from a read-only/planning lane to an implementation lane, drop inherited read-only assumptions.

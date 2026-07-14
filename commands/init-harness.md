@@ -16,6 +16,11 @@ $ARGUMENTS
 
 Workflow:
 
+0. Scripts MCP preference.
+   - For governance discovery, pre-gate, runtime, and progress read/check/query tasks during harness work, prefer `scripts` MCP when connected, usable, and permitted.
+   - Fallback to canonical CLI when MCP is disconnected, unavailable after config change, `tool_pending`, not permitted, or exact operation absent.
+   - Harness initialization must remain runnable without MCP connection; preserve canonical `python3` commands and do not use generic arbitrary execution when a fixed MCP mapping is usable.
+
 1. Inspect the current target project root before writing anything.
 2. Read the existing root `AGENTS.md` if it exists.
 3. Read the existing root `DESIGN.md` if it exists.

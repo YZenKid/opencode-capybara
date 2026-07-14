@@ -22,6 +22,7 @@ Configured MCP surfaces include:
 - `shadcn`
 - `semgrep`
 - `github`
+- `scripts`
 - Legacy `image-asset-generator` removed; image asset tools live under `9router`.
 
 ## Sequential Thinking MCP
@@ -73,6 +74,36 @@ Operational image rules:
 **No duplicate invocation:** When both MCPs are reachable, the lane picks BrowserOS first. Automatic same-task duplicate actions against both MCPs are forbidden.
 
 **Selection guidance:** See [TOOL_USAGE.md](./TOOL_USAGE.md) for when to use `playwright` tools.
+
+## Scripts MCP
+
+`mcp.scripts` is configured as an enabled local stdio server with command `node {env:HOME}/.config/opencode/bin/scripts-mcp.mjs`. Configuration is `confirmed_repo`; OpenCode must be restarted (`/exit` and relaunch) after changing `opencode.json` before `mcp.scripts` is connected/usable. A prior stdio smoke passed before restart, but that does not make the current OpenCode process connected.
+
+First slice exposes fixed read/check/query tools only:
+
+- `scripts_catalog`
+- `scripts_plan_validate`
+- `scripts_runtime_verify`
+- `scripts_pre_gate_smoke`
+- `scripts_template_discover`
+- `scripts_visual_audit`
+- `scripts_legal_source_check`
+- `scripts_design_audit`
+- `scripts_memory_query`
+- `scripts_progress_read`
+- `scripts_delegation_read`
+- `scripts_memory_reuse_check`
+- `scripts_session_trace_audit`
+- `scripts_backup_scan`
+- `scripts_rules_dry_run`
+
+Tools use fixed script mappings and strict schemas. No caller-supplied script, flag, command, executable, environment, cwd, or arbitrary argument passthrough exists. The wrapper uses `spawn` with `shell:false`, project-root containment, bounded output, and sanitized errors. `caller_lane` is policy attestation only, not authorization. Availability never overrides existing role permission.
+
+`scripts_visual_audit` is reachable but returns structured `tool_pending` while `scripts/visual-audit.py` is absent. This means unsupported in this slice, not an error and not permission escalation. Fixed inventory and classifications live in `scripts_catalog`; this document does not duplicate tool schemas.
+
+Excluded from MCP: `backup-cleanup.py --trash|--purge|--apply`, `rules-harmonizer.py --forward-to`, arbitrary script/argument execution, and write/update actions such as `progress_update`, memory write, delegation record, and rules apply. Write actions are deferred.
+
+When `scripts` is connected, permitted, and exactly maps a first-slice read/check/query task, prefer it. Use canonical CLI as fallback when MCP is disconnected, unavailable, `tool_pending`, not permitted, or exact operation is absent. MCP never replaces CLI. See [TOOL_USAGE.md](./TOOL_USAGE.md) for executable fallback commands.
 
 ## MCP state terminology
 

@@ -91,6 +91,7 @@
     "runtime:lease-sweep": "node scripts/runtime/cli.mjs lease-sweep",
     "runtime:diagnostics": "node scripts/runtime/cli.mjs diagnostics",
     "test:runtime-phase11": "node scripts/tests/runtime-phase11.test.mjs",
+    "test:scripts-mcp": "node scripts/tests/scripts-mcp.test.mjs",
     "runtime:diagnostics-snapshot": "node scripts/runtime/cli.mjs diagnostics-snapshot",
     "runtime:dashboard-export": "node scripts/runtime/cli.mjs dashboard-export",
     "runtime:tail-session-gc": "node scripts/runtime/cli.mjs tail-session-gc"
