@@ -58,6 +58,22 @@ Operational image rules:
 - If the provider rejects dimensions, retry with a provider-supported size/aspect. If it rejects pixel budget, retry with a provider-supported size that stays within budget before fallback or failure.
 - Do not claim an asset was generated if the endpoint failed. Deterministic SVG/CSS/local placeholder fallback is placeholder/demo output, not generated imagery.
 
+## Playwright MCP
+
+`playwright` exposes browser automation tools (snapshot, act, navigate, screenshot, read, etc.).
+
+**Primary/fallback relationship:** BrowserOS is the **primary** browser automation MCP. Playwright MCP is a **failure-only fallback** — invoke it only after a concrete BrowserOS failure (endpoint unreachable, MCP tool error/timeout, browser process crash). Do not run both MCPs in automatic parallel or duplicate a state-changing action across both.
+
+**Failure trigger:** A concrete BrowserOS tool/connection error. Not operator preference, not speed comparison.
+
+**Restart gate:** After changing `opencode.json`, restart OpenCode before this MCP becomes reachable.
+
+**Defaults:** Headless mode. Chromium-only browser set (no Firefox/WebKit in this slice). For headed mode or additional browser engines, operator must explicitly opt in and record the choice.
+
+**No duplicate invocation:** When both MCPs are reachable, the lane picks BrowserOS first. Automatic same-task duplicate actions against both MCPs are forbidden.
+
+**Selection guidance:** See [TOOL_USAGE.md](./TOOL_USAGE.md) for when to use `playwright` tools.
+
 ## MCP state terminology
 
 Use this lightweight state model consistently across docs/prompt surfaces:
