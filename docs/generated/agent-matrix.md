@@ -16,10 +16,10 @@ Generated summary of local agent metadata. This file is advisory and must not re
 | devops | subagent | 9router/low | opencode-devops | CI/CD, Docker, environment, deploy, monitoring, rollback, and infrastructure configuration specialist |
 | explorer | subagent | 9router/low | opencode-explorer | Local codebase discovery and search specialist for unfamiliar or broad scopes |
 | fixer | subagent | 9router/low | opencode-fixer | Bounded implementation and testing specialist for Red/Green/Refactor work |
-| frontend | subagent | 9router/medium | opencode-frontend | Web frontend implementation specialist for React/Next/Vue/Svelte UI after design direction exists |
+| frontend | subagent | 9router/low | opencode-frontend | Web frontend implementation specialist for React/Next/Vue/Svelte UI after design direction exists |
 | fullstack | subagent | 9router/low | opencode-fullstack | Narrow fullstack vertical-slice integrator for small tightly-coupled frontend/backend changes only |
 | librarian | subagent | 9router/fast | opencode-librarian | Library/docs research plus document-centric read-only extraction and transformation support |
-| mobile | subagent | 9router/medium | opencode-mobile | Mobile app implementation specialist for React Native, Expo, Flutter, and native-capability workflows |
+| mobile | subagent | 9router/low | opencode-mobile | Mobile app implementation specialist for React Native, Expo, Flutter, and native-capability workflows |
 | oracle | subagent | 9router/medium | opencode-oracle | Read-only architecture and risk review advisor for complex decisions |
 | orchestrator | primary | 9router/high | opencode-orchestrator | AI coding orchestrator that routes tasks to specialist agents |
 | plan-reviewer | subagent | 9router/medium | opencode-plan-reviewer | Dedicated plan depth reviewer that validates plan meets minimum depth requirements before implementation |

@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Web frontend implementation specialist for React/Next/Vue/Svelte UI after design direction exists
-model: 9router/medium
+model: 9router/low
 skills:
   - opencode-frontend
 permission:

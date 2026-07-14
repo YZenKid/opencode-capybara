@@ -2,7 +2,7 @@
 mode: subagent
 hidden: false
 description: Mobile app implementation specialist for React Native, Expo, Flutter, and native-capability workflows
-model: 9router/medium
+model: 9router/low
 skills:
   - opencode-mobile
 permission:

@@ -84,7 +84,7 @@ Execution contract:
 
 7. Progress tracking is mandatory and must run at every status transition.
     - Run execution readiness before reading the task map, initializing progress, or dispatching workers:
-      - `python3 scripts/plan-execution-readiness.py <plan.md> --project-root .`
+      - `python3 ~/.config/opencode/scripts/plan-execution-readiness.py <plan.md> --project-root .`
     - Nonzero readiness output is a planner contract defect. Route back to `@artifact-planner`; do not ask user to manually repair planner syntax.
     - Initialize plan progress from the selected plan before the first implementation step:
       - `python3 ~/.config/opencode/scripts/task-progress.py <task-id> --init --plan <plan.md>`
