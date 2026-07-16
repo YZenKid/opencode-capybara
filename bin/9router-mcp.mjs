@@ -379,8 +379,8 @@ export function createServer(deps = {}) {
       if (name === 'health_check_9router') return { content: toolText(await requestGetImpl('/api/health')) }
       if (name === 'list_9router_models') return { content: toolText(await requestGetImpl(modelEndpoint(args.kind === 'chat' ? undefined : args.kind))) }
       if (name === 'get_9router_model_info') return { content: toolText(await requestGetImpl(`/v1/models/info?id=${encodeURIComponent(args.id)}`)) }
-      if (name === 'web_search') return { content: toolText(await requestJsonImpl('/v1/search', { query: args.query, model: args.model || env('NINEROUTER_SEARCH_MODEL', 'search-combo'), max_results: args.max_results, search_type: args.search_type, country: args.country, language: args.language, time_range: args.time_range, domain_filter: args.domain_filter, providerOptions: args.providerOptions })) }
-      if (name === 'web_fetch') return { content: toolText(await requestJsonImpl('/v1/web/fetch', { url: args.url, model: args.model || env('NINEROUTER_FETCH_MODEL', 'fetch-combo'), format: args.format, max_characters: args.max_characters })) }
+      if (name === 'web_search') return { content: toolText(await requestJsonImpl('/v1/search', { query: args.query, model: args.model || env('NINEROUTER_SEARCH_MODEL', 'search'), max_results: args.max_results, search_type: args.search_type, country: args.country, language: args.language, time_range: args.time_range, domain_filter: args.domain_filter, providerOptions: args.providerOptions })) }
+      if (name === 'web_fetch') return { content: toolText(await requestJsonImpl('/v1/web/fetch', { url: args.url, model: args.model || env('NINEROUTER_FETCH_MODEL', 'fetch'), format: args.format, max_characters: args.max_characters })) }
       if (name === 'generate_image') return { content: toolText({ status: 'success', generated: await runGenerateImage(args) }) }
       if (name === 'generate_image_asset') return { content: toolText({ status: 'success', generated: await runGenerateImageAsset(args) }) }
       if (name === 'generate_image_assets_batch') return { content: toolText(await runBatchImpl(args.jobs || [], runGenerateImageAsset)) }
