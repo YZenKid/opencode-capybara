@@ -68,6 +68,41 @@ class SessionTraceAuditTests(unittest.TestCase):
         code, out, err = _run("-", stdin=GOOD_ORIENTED)
         self.assertEqual(code, 0, msg=f"expected PASS got {code}: {err or out}")
 
+    def test_scope_guard_fixture_matrix(self) -> None:
+        cases = [
+            ("planner_read_only", "planner_on_read_only"),
+            ("mutation_after_audit", "mutation_after_read_only"),
+            ("security_audit_stays_read_only", None),
+            ("explicit_fix_promotion", None),
+            ("tiny_budget_excess", "tiny_budget_exceeded"),
+            ("deep_checkpoint_allowed", None),
+            ("unknown_schema", "unknown_trace_schema"),
+            ("repeated_orientation", "repeated_orientation"),
+        ]
+        fixture_root = REPO_ROOT / "scripts" / "tests" / "fixtures" / "session-trace"
+        for name, expected_code in cases:
+            with self.subTest(name=name):
+                code, out, err = _run(
+                    "--json", str(fixture_root / f"{name}.md")
+                )
+                data = json.loads(out)
+                codes = {finding["code"] for finding in data["findings"]}
+                if expected_code:
+                    self.assertIn(expected_code, codes)
+                    self.assertEqual(code, 1)
+                else:
+                    self.assertEqual(code, 0, msg=f"{name}: {err or out}")
+
+    def test_strict_mode_only_fails_concrete_scope_violations(self) -> None:
+        fixture_root = REPO_ROOT / "scripts" / "tests" / "fixtures" / "session-trace"
+        unknown = _run("--strict", str(fixture_root / "unknown_schema.md"))
+        self.assertEqual(unknown[0], 0)
+        unknown_json = json.loads(_run("--json", str(fixture_root / "unknown_schema.md"))[1])
+        self.assertEqual(unknown_json["status"], "WARN")
+        self.assertIn("unknown_trace_schema", {finding["code"] for finding in unknown_json["findings"]})
+        deep = _run("--strict", str(fixture_root / "deep_checkpoint_allowed.md"))
+        self.assertEqual(deep[0], 0, msg=deep[2] or deep[1])
+
     def test_memory_reuse_signal(self) -> None:
         root = _tmpdir("trace-mem-")
         memory = json.dumps([

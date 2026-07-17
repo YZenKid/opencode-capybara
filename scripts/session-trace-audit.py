@@ -264,8 +264,29 @@ def memory_reuse_misses(text: str, project_root: Path) -> list[Finding]:
     return findings
 
 
+def scope_findings(text: str) -> list[Finding]:
+    findings: list[Finding] = []
+    read_only = has(r"\b(read[_ -]?only|no edits?|don't edit|do not edit|without changing)\b", text)
+    explicit_promotion = has(r"(?:user|request)\s*:\s*(?:fix|change|implement|refactor|apply)\b|\b(?:fix|change|implement|refactor|apply)\s+p0\b", text)
+    if read_only and has(r"\b(?:planner|artifact-planner)\s+(?:invoked|activated|used|called)\b", text) and not explicit_promotion:
+        findings.append(Finding("WARN", "planner_on_read_only", "Planner activated for read-only scope.", ["read_only=true"]))
+    if read_only and has(r"(?:edited|changed|modified|wrote|source diff|mutation)\b", text) and not explicit_promotion:
+        findings.append(Finding("WARN", "mutation_after_read_only", "Mutation occurred after read-only audit without promotion.", ["read_only=true"]))
+    if has(r"route\s*:\s*tiny-readonly-compare|class\s*:\s*tiny-readonly-compare", text):
+        reads = count(r"\b(?:read|read_file|read_files)\b", text)
+        calls = count(r"\b(?:tool_call|tool call|call)\b", text)
+        if reads > 3 or calls > 10:
+            findings.append(Finding("WARN", "tiny_budget_exceeded", "Tiny read-only budget exceeded.", [f"reads={reads}", f"calls={calls}"]))
+    if has(r"schema\s*:\s*(?:unknown|legacy|missing)|trace schema unavailable|unstructured trace", text):
+        findings.append(Finding("WARN", "unknown_trace_schema", "Trace schema is unknown; result remains unverified.", ["schema=unknown"]))
+    if count(r"(?:Skill I'm using|MCPs I'm using|What I'm checking first|Primary skill|Applicable MCPs)\s*:", text) > 3:
+        findings.append(Finding("WARN", "repeated_orientation", "Orientation block repeated during session.", ["orientation_count>3"]))
+    return findings
+
+
 def audit(text: str, source: str) -> Report:
     report = Report(source=source)
+    report.findings.extend(scope_findings(text))
     signals = task_signals(text)
     report.signals = signals
 
@@ -410,6 +431,8 @@ def main(argv: list[str] | None = None) -> int:
         }, indent=2))
     else:
         print(render_text(report))
+    if args.strict:
+        return 0 if not [f for f in report.findings if f.code != "unknown_trace_schema"] else 1
     return 0 if report.status == "PASS" else 1
 
 

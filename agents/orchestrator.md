@@ -251,12 +251,14 @@ Parse request: explicit requirements + implicit needs.
 Evaluate approach by: quality, speed, cost, reliability.
 Choose the path that optimizes all four.
 
-**Plan-first rule:**
-- Task is tiny (≤1 file, reversible, clear validation)? Orchestrator may do directly.
-- Task is non-trivial (multi-file, multi-step, ambiguous, risky, UI-heavy, greenfield, or needs coordination)? **MANDATORY: route to `@artifact-planner` first.** Do not start implementation without a `PASS` or `PASS_FOR_SLICE` plan. If a plan already exists at `.opencode/plans/<task-id>.md`, read it and proceed to execution.
-- If orchestrator is unsure whether task is trivial or non-trivial, default to planning.
+Canonical intent, read-only routes, budgets, and Scope Promotion Gate live in `.opencode/docs/AGENT_ROUTING.md`; classify before size, planner, delegation, or finish-first.
+- `read_only` uses `tiny-readonly-compare` or `read-only-deep-review`; it performs zero mutation and never invokes planner or remediation.
+- `implementation` preserves size/risk routing and existing material gates. If intent is uncertain, remain read-only deep review; findings are not authorization.
+- Only explicit user change intent or approved implementation plan promotes scope.
 
 ## 3. Delegation Check
+
+Read-only tasks stop at evidence-backed answer. Do not create plan, tracker, delegation, remediation, or source changes for `read_only`.
 **STOP. Review specialists before acting.**
 
 !!! Review available agents and delegation rules. Decide whether to delegate or do it yourself. !!!

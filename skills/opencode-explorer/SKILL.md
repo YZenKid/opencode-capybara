@@ -1,11 +1,11 @@
 ---
 name: opencode-explorer
-description: Standalone read-only codebase discovery workflow for explorer. Use for finding files, symbols, tests, fixtures, patterns, architecture maps, repository structure, and reuse candidates with fast targeted search.
+description: Standalone Read-only codebase discovery workflow for explorer. Use for finding files, symbols, tests, fixtures, patterns, architecture maps, repository structure, and reuse candidates with fast targeted search.
 ---
 
 # OpenCode Explorer Skill
 
-Use this for Read-only discovery before planning, implementation, or review. Explorer maps facts; it does not decide architecture, write plans, edit files, or sign off risk.
+Use this for read-only discovery after intent classification in `.opencode/docs/AGENT_ROUTING.md`. `tiny-readonly-compare` stays narrow and stops at answer; `read-only-deep-review` may gather broader evidence with an explicit scope checkpoint. Explorer maps facts; it does not decide architecture, write plans, edit files, promote scope, or sign off risk.
 
 ## Reference-first creativity contract
 - Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.

@@ -1,0 +1,51 @@
+{
+  "task_id": "20260716-1535-preset-scope-routing",
+  "status": "slice_passed",
+  "source_of_truth": ".opencode/plans/20260716-1535-preset-scope-routing.md",
+  "evidence": [
+    {
+      "path": ".opencode/evidence/20260716-1535-preset-scope-routing/discovery.md",
+      "purpose": "Discovery, source strategy, and confirmed-vs-assumed audit"
+    },
+    {
+      "path": ".opencode/evidence/20260716-1535-preset-scope-routing/A1-routing-policy.md",
+      "purpose": "Canonical intent routing and scope-promotion policy"
+    },
+    {
+      "path": ".opencode/evidence/20260716-1535-preset-scope-routing/A2-trace-tests.md",
+      "purpose": "Trace regression guard validation"
+    },
+    {
+      "path": ".opencode/evidence/20260716-1535-preset-scope-routing/A3-runtime-config.md",
+      "purpose": "No-secret resolved config proof and no-change decision"
+    },
+    {
+      "path": ".opencode/evidence/20260716-1535-preset-scope-routing/A3-candidate-samples.md",
+      "purpose": "Candidate fixture audit outcomes"
+    },
+    {
+      "path": ".opencode/evidence/20260716-1535-preset-scope-routing/A4-final-validation.md",
+      "purpose": "Integrated validation and inherited harness limitation"
+    },
+    {
+      "path": ".opencode/evidence/20260716-1535-preset-scope-routing/quality-gate.md",
+      "purpose": "Final PASS verdict for scoped slice"
+    }
+  ],
+  "planned_execution_evidence": [
+    "A1-routing-policy.md",
+    "A1-duplicate-inventory.md",
+    "A2-trace-tests.md",
+    "A2-fixture-matrix.json",
+    "A3-runtime-config.md",
+    "A3-candidate-samples.md",
+    "A4-final-validation.md",
+    "quality-gate.md"
+  ],
+  "validation": {
+    "plan_depth": "PASS",
+    "handoff": "PASS",
+    "execution_readiness": "PASS",
+    "pre_gate_smoke": "PASS"
+  }
+}

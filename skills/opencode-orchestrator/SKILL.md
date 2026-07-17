@@ -123,10 +123,16 @@ ponytail: This gate pairs a behavioral rule with a mechanical helper (`scripts/t
 
 ## Core routing
 
+Canonical intent classifier, read-only routes, budgets, and Scope Promotion Gate live in `.opencode/docs/AGENT_ROUTING.md`. Classify intent before size, planner, delegation, or finish-first.
+
+- `read_only`: use `tiny-readonly-compare` or `read-only-deep-review`; zero mutation, no planner, no tracker, no remediation.
+- `implementation`: use normal size/risk routing and existing material gates.
+- Findings, risk, gaps, and failed checks never authorize implementation. Explicit user change intent or approved implementation plan is required.
+
 Direct-work threshold (hard default):
 - `@orchestrator` may execute directly only for tiny, reversible tasks (typically 1 edited file and <=3 file reads for verification).
-- Non-trivial work should route through `@artifact-planner` first when planning depth/evidence is required.
-- route through `@artifact-planner` first for non-trivial work.
+- `read_only` work never routes through `@artifact-planner`.
+- `@artifact-planner` is triggered after `implementation` promotion when planning depth/evidence is required.
 - If discovery becomes unknown-scope, cross-area, or read-heavy (>3 files), route to `@explorer` instead of continuing direct reads.
 - If implementation touches 2+ files, route bounded implementation to `@fixer` by default.
 - route bounded implementation to `@fixer` by default.
@@ -304,12 +310,13 @@ ponytail: The goal is not bureaucracy. The goal is to make subagents boringly re
 ## Workflow
 
 1. **Active-lane context refresh**: Before acting, confirm which agent is currently active in this session. Re-read the current role contract and `.opencode/docs/TOOL_USAGE.md` / `.opencode/docs/AGENT_TOOL_ACCESS.md` if the previous turn was in a different lane. Do not inherit read-only/planner assumptions from a prior lane.
-2. Understand explicit and implicit requirements.
-3. **Plan-first rule**:
+2. Classify intent using `.opencode/docs/AGENT_ROUTING.md` before size, planner, delegation, or finish-first. Keep `read_only` read-only.
+3. Understand explicit and implicit requirements.
+4. **Implementation planning rule**:
    - Tiny, reversible, <=1 file, clear validation? Orchestrator may handle directly.
-   - Non-trivial (multi-file, multi-step, ambiguous, risky, UI-heavy, greenfield, or needs coordination)? **MANDATORY: route to `@artifact-planner` first.** Do not start implementation without a `PASS` or `PASS_FOR_SLICE` plan.
-   - If a plan already exists at `.opencode/plans/<task-id>.md`, load it and proceed to execution.
-   - If unsure whether the task is trivial or non-trivial, default to planning.
+    - `read_only` intent: use `tiny-readonly-compare` or `read-only-deep-review`; never invoke planner or remediation.
+    - `implementation` intent: if multi-phase, materially ambiguous, or evidence-heavy, invoke `@artifact-planner`; existing `PASS` or `PASS_FOR_SLICE` plan may proceed.
+    - If intent is uncertain, remain `read_only` deep review and request explicit promotion before edits.
 4. Run the Harness Preflight Gate for non-trivial work.
 5. Use local discovery before external docs when codebase patterns matter.
    - For multi-file/read-heavy discovery, do not keep discovery in orchestrator; route to `@explorer` and consume its output.

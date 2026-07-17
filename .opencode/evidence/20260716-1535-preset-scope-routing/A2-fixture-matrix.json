@@ -1,0 +1,18 @@
+{
+  "task_id": "20260716-1535-preset-scope-routing",
+  "strict_exit_semantics": {
+    "unknown_trace_schema": 0,
+    "concrete_scope_violation": 1
+  },
+  "fixtures": [
+    {"name":"planner_read_only","json_status":"WARN","strict_exit":1,"code":"planner_on_read_only"},
+    {"name":"mutation_after_audit","json_status":"WARN","strict_exit":1,"code":"mutation_after_read_only"},
+    {"name":"security_audit_stays_read_only","json_status":"PASS","strict_exit":0},
+    {"name":"explicit_fix_promotion","json_status":"PASS","strict_exit":0},
+    {"name":"tiny_budget_excess","json_status":"WARN","strict_exit":1,"code":"tiny_budget_exceeded"},
+    {"name":"deep_checkpoint_allowed","json_status":"PASS","strict_exit":0},
+    {"name":"unknown_schema","json_status":"WARN","strict_exit":0,"code":"unknown_trace_schema","verification":"unverified"},
+    {"name":"repeated_orientation","json_status":"WARN","strict_exit":1,"code":"repeated_orientation"}
+  ],
+  "structured_trace_claim": "unverified"
+}

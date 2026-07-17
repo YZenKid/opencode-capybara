@@ -1,0 +1,56 @@
+{
+  "task_id": "20260716-1535-preset-scope-routing",
+  "plan_path": ".opencode/plans/20260716-1535-preset-scope-routing.md",
+  "created": "2026-07-16T22:45:51.767290",
+  "tasks": [
+    {
+      "id": "A1",
+      "title": "Task A1",
+      "status": "completed",
+      "owner": "@fixer",
+      "depends_on": [],
+      "started": "2026-07-17T07:41:38.592927",
+      "completed": "2026-07-17T07:47:40.644675",
+      "evidence": [
+        ".opencode/evidence/20260716-1535-preset-scope-routing/A1-routing-policy.md"
+      ]
+    },
+    {
+      "id": "A2",
+      "title": "Task A2",
+      "status": "completed",
+      "owner": "@fixer",
+      "depends_on": [],
+      "started": "2026-07-17T07:47:40.672001",
+      "completed": "2026-07-17T07:54:33.785983",
+      "evidence": [
+        ".opencode/evidence/20260716-1535-preset-scope-routing/A2-trace-tests.md",
+        ".opencode/evidence/20260716-1535-preset-scope-routing/A2-trace-tests.md"
+      ]
+    },
+    {
+      "id": "A3",
+      "title": "Task A3",
+      "status": "completed",
+      "owner": "@orchestrator",
+      "depends_on": [],
+      "started": "2026-07-17T07:52:12.161368",
+      "completed": "2026-07-17T07:56:53.927812",
+      "evidence": [
+        ".opencode/evidence/20260716-1535-preset-scope-routing/A3-runtime-config.md"
+      ]
+    },
+    {
+      "id": "A4",
+      "title": "Task A4",
+      "status": "completed",
+      "owner": "@quality-gate",
+      "depends_on": [],
+      "started": "2026-07-17T07:56:53.952453",
+      "completed": "2026-07-17T08:04:46.939512",
+      "evidence": [
+        ".opencode/evidence/20260716-1535-preset-scope-routing/quality-gate.md"
+      ]
+    }
+  ]
+}

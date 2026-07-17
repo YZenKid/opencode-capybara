@@ -5,6 +5,22 @@ Capability registry: `.opencode/capabilities/registry.json`. Generated advisory 
 ## Default flow
 User intent → `@orchestrator` → specialist agents → validation → `@quality-gate` → final summary.
 
+## Intent classifier and scope promotion
+Classify intent before size, risk, planner trigger, delegation, or finish-first:
+
+| Intent | Match | Route and authorization |
+|---|---|---|
+| `read_only` | User asks to inspect, compare, audit, review, explain, search, or diagnose without an explicit change verb | No mutation, plan, tracker, delegation, remediation, or commit. Choose `tiny-readonly-compare` for narrow local evidence or `read-only-deep-review` for broad/risk-sensitive evidence. |
+| `implementation` | User explicitly asks to fix, change, implement, refactor, apply, continue remediation, ship, commit, deploy, or approves a plan that does so | Normal size/risk routing and existing implementation gates apply. |
+
+Security, privacy, auth, payment, deploy, or destructive keywords affect review depth and gates; they never authorize implementation. Finding, risk, gap, recommendation, or failed check is not authorization.
+
+`tiny-readonly-compare`: local narrow question, zero edits, no external research unless requested, target ≤3 reads and ≤10 total tool calls. Stop at answer.
+
+`read-only-deep-review`: evidence-heavy or risk-sensitive review, zero edits, no planner and no automatic remediation. Use an explicit checkpoint if scope grows; return evidence, gaps, unverified items, and explicit next actions.
+
+**Scope Promotion Gate:** only explicit user change intent or user-approved implementation plan promotes `read_only` to `implementation`. Prior audit context and findings do not promote scope.
+
 ## Execution posture
 - Harness Preflight Gate: before non-trivial work, `@orchestrator` must verify the target project has a current root `AGENTS.md`, canonical `.opencode/docs/`, and root `DESIGN.md` when UI/design work is involved.
 - For existing-app and greenfield framework-managed work, preflight also checks `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
@@ -25,15 +41,16 @@ User intent → `@orchestrator` → specialist agents → validation → `@quali
 Planner invocation expectation:
 - `@artifact-planner` is a **triggered lane**, not default-first.
 - Invoke it for multi-phase, spec-heavy, materially ambiguous, or evidence-heavy work.
+- Non-trivial tasks should route through `@artifact-planner` first when planning depth is needed.
 - Trivial, single-step, and easily reversible tasks may execute directly without planner.
-- Trivial, single-step, and easily reversible tasks may execute directly without planner.
-- **Plan-first rule**: Non-trivial tasks should route through `@artifact-planner` first before implementation.
-- Non-trivial tasks should route through `@artifact-planner` first before implementation.
+- `read_only` tasks never invoke planner; analysis depth does not grant mutation authority.
+- `@artifact-planner` is triggered only after `implementation` promotion and when planning depth is needed.
 - Planner handoff quality bar: non-trivial plans must include an explicit `Execution-ready Worklist / Handoff Contract` with ordered atomic tasks, dependencies, owner/lane, validation, exit criteria, blocking status, and a `start_with` first action for orchestrator.
 - Handoff confidence bar: worklist tasks must be worker-sized, lane-owned, and executable without replanning; plans must include an execution ownership table, a copy-pasteable Executor Handoff Prompt, Source Anatomy Breakdown per major subsystem, and Reference Map per Feature.
 
 ## Compact routing quality checklist
-- Non-trivial tasks should route through `@artifact-planner` first.
+- Non-trivial implementation tasks route through `@artifact-planner` only when planning depth is needed.
+- `read_only` tasks route through canonical lite/deep read-only paths and never through planner.
 - Bounded multi-file implementation should route to `@fixer` or a domain lane.
 - Final review pass to `@quality-gate` is required before material completion claims.
 - Tiny direct orchestrator work is exception-only, not default behavior.
@@ -66,7 +83,7 @@ See [GREENFIELD_STARTER.md](./GREENFIELD_STARTER.md) for the canonical Greenfiel
 
 ## Task-size rubric
 
-Use size before lane selection. Size does not override risk triggers.
+Use size only after intent classification. Size does not override intent, risk triggers, or the Scope Promotion Gate.
 
 | Class | Shape | Default route | Completion claim |
 |---|---|---|---|
