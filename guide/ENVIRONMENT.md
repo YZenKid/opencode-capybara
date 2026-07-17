@@ -21,8 +21,8 @@ Kalau dua nilai ini salah atau kosong, agent bisa gagal memanggil model atau too
 ```bash
 NINEROUTER_URL="http://localhost:20128"
 NINEROUTER_KEY="your_9router_api_key"
-NINEROUTER_SEARCH_MODEL="search-combo"
-NINEROUTER_FETCH_MODEL="fetch-combo"
+NINEROUTER_SEARCH_MODEL="search"
+NINEROUTER_FETCH_MODEL="fetch"
 NINEROUTER_IMAGE_MODEL="gemini/gemini-3-pro-image-preview"
 NINEROUTER_IMAGE_DEFAULT_SIZE="1024x1024"
 NINEROUTER_IMAGE_DEFAULT_QUALITY="medium"

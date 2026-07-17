@@ -70,11 +70,11 @@ Use the minimum source depth needed. Avoid broad tutorials and stale blog posts 
 ## 9Router web tools
 
 Use `web_search` when repo-local docs, `context7`, and GitHub evidence are insufficient and you need current public web information.
-- Default model: `NINEROUTER_SEARCH_MODEL` or `search-combo`.
+- Default model: `NINEROUTER_SEARCH_MODEL` or `search`.
 - Capture query, URLs, and why each result matters.
 
 Use `web_fetch` when a user gives a URL and wants page content extracted as markdown/text/html without interactive browser work.
-- Default model: `NINEROUTER_FETCH_MODEL` or `fetch-combo`.
+- Default model: `NINEROUTER_FETCH_MODEL` or `fetch`.
 - Extract concise facts with citation.
 
 Both tools require `NINEROUTER_URL` (and `NINEROUTER_KEY` if auth enabled). Verify env before calling.
