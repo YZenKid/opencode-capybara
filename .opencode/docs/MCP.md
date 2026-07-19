@@ -46,8 +46,9 @@ After changing `opencode.json`, restart OpenCode before expecting this MCP to be
 - `generate_image_asset`
 - `generate_image_assets_batch`
 
-Use `web_search` for fresh public web lookup.
-Use `web_fetch` for URL-to-markdown/text/html extraction.
+Use `web_search` for fresh public web lookup. Agent input: `query`, optional `max_results` only.
+Use `web_fetch` for URL-to-markdown/text/html extraction. Agent input: `url` only.
+`NINEROUTER_URL` and `NINEROUTER_KEY` configure endpoint and authentication. MCP internally sends `model: "search"`, `search_type: "web"`, `max_results: 5` by default for search; and `model: "fetch"`, `format: "markdown"` for fetch.
 Use `generate_image_asset` for project assets that must be saved to disk.
 Use `generate_image` for direct image generation without project file output.
 

@@ -226,8 +226,6 @@ function check9Router() {
   section("9Router");
   const url = env("NINEROUTER_URL");
   const key = env("NINEROUTER_KEY");
-  const searchModel = env("NINEROUTER_SEARCH_MODEL");
-  const fetchModel = env("NINEROUTER_FETCH_MODEL");
   const imageModel = env("NINEROUTER_IMAGE_MODEL");
 
   if (!url) {
@@ -238,10 +236,7 @@ function check9Router() {
 
   status("NINEROUTER_URL", "pass", url);
   status("NINEROUTER_KEY", key ? "pass" : "warn", key ? "present" : "missing or auth disabled");
-  if (searchModel) status("NINEROUTER_SEARCH_MODEL", "pass", searchModel);
-  else status("NINEROUTER_SEARCH_MODEL", "warn", "unset; default MCP behavior applies");
-  if (fetchModel) status("NINEROUTER_FETCH_MODEL", "pass", fetchModel);
-  else status("NINEROUTER_FETCH_MODEL", "warn", "unset; default MCP behavior applies");
+  status("9Router web models", "pass", "web_search=search; web_fetch=fetch (fixed)");
   if (imageModel) status("NINEROUTER_IMAGE_MODEL", "pass", imageModel);
   else status("NINEROUTER_IMAGE_MODEL", "warn", "unset; default MCP behavior applies");
 
