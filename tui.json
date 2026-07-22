@@ -1,3 +1,13 @@
 {
+  "$schema": "https://opencode.ai/tui.json",
+  "theme": "system",
+  "leader_timeout": 1200,
+  "keybinds": {
+    "mcp_list": "<leader>p",
+    "model_list": "<leader>m",
+    "session_new": "<leader>n",
+    "session_list": "<leader>l",
+    "theme_list": "<leader>t"
+  },
   "plugin": []
 }
