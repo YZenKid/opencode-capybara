@@ -1,0 +1,58 @@
+{
+  "task_id": "graphify-discovery-coverage",
+  "plan_path": ".opencode/plans/graphify-discovery-coverage.md",
+  "created": "2026-07-22T17:11:02.520301",
+  "tasks": [
+    {
+      "id": "G1",
+      "title": "Task G1",
+      "status": "completed",
+      "owner": "explorer",
+      "depends_on": [],
+      "started": "2026-07-22T17:11:02.547020",
+      "completed": "2026-07-22T17:13:30.825520",
+      "evidence": [
+        ".opencode/evidence/graphify-discovery-coverage/discovery.md",
+        ".opencode/evidence/graphify-discovery-coverage/discovery.md"
+      ]
+    },
+    {
+      "id": "G2",
+      "title": "Task G2",
+      "status": "completed",
+      "owner": "fixer",
+      "depends_on": [],
+      "started": "2026-07-22T17:13:40.199199",
+      "completed": "2026-07-22T17:19:25.632991",
+      "evidence": [
+        ".opencode/evidence/graphify-discovery-coverage/implementation-notes.md",
+        ".opencode/evidence/graphify-discovery-coverage/implementation-notes.md"
+      ]
+    },
+    {
+      "id": "G3",
+      "title": "Task G3",
+      "status": "completed",
+      "owner": "fixer",
+      "depends_on": [],
+      "started": null,
+      "completed": "2026-07-22T17:19:25.662565",
+      "evidence": [
+        ".opencode/evidence/graphify-discovery-coverage/verification.md"
+      ]
+    },
+    {
+      "id": "G4",
+      "title": "Task G4",
+      "status": "completed",
+      "owner": "quality-gate",
+      "depends_on": [],
+      "started": "2026-07-22T17:19:25.693483",
+      "completed": "2026-07-22T17:25:50.093164",
+      "evidence": [
+        ".opencode/evidence/graphify-discovery-coverage/quality-gate.md",
+        ".opencode/evidence/graphify-discovery-coverage/quality-gate.md"
+      ]
+    }
+  ]
+}

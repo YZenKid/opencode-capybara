@@ -1,0 +1,61 @@
+FAIL (60 issue(s)):
+  - handoff: [graphify-discovery-coverage.md#19061] schema $: 'callee' is a required property
+  - handoff: [graphify-discovery-coverage.md#19061] schema $: 'caller' is a required property
+  - handoff: [graphify-discovery-coverage.md#19061] schema $: 'claim_level' is a required property
+  - handoff: [graphify-discovery-coverage.md#19061] schema $: 'scope' is a required property
+  - handoff: [graphify-discovery-coverage.md#19061] schema $: 'task_id' is a required property
+  - handoff: [graphify-discovery-coverage.md#19061] missing recommended field: plan_id
+  - handoff: [graphify-discovery-coverage.md#19061] missing recommended field: source_basis
+  - handoff: [graphify-discovery-coverage.md#19061] missing recommended field: must_preserve
+  - handoff: [graphify-discovery-coverage.md#19061] missing recommended field: do_not_touch
+  - handoff: [graphify-discovery-coverage.md#19061] missing recommended field: validation
+  - handoff: [graphify-discovery-coverage.md#19061] missing recommended field: exit_criteria
+  - handoff: [graphify-discovery-coverage.md#19061] missing recommended field: evidence_required
+  - handoff: [graphify-discovery-coverage.md#19061] missing recommended field: claim_scope
+  - handoff: [graphify-discovery-coverage.md#19061] missing recommended field: depends_on
+  - handoff: [graphify-discovery-coverage.md#19061] missing recommended field: context_bundle
+  - handoff: [graphify-discovery-coverage.md#20760] schema $: 'callee' is a required property
+  - handoff: [graphify-discovery-coverage.md#20760] schema $: 'caller' is a required property
+  - handoff: [graphify-discovery-coverage.md#20760] schema $: 'claim_level' is a required property
+  - handoff: [graphify-discovery-coverage.md#20760] schema $: 'scope' is a required property
+  - handoff: [graphify-discovery-coverage.md#20760] schema $: 'task_id' is a required property
+  - handoff: [graphify-discovery-coverage.md#20760] missing recommended field: plan_id
+  - handoff: [graphify-discovery-coverage.md#20760] missing recommended field: source_basis
+  - handoff: [graphify-discovery-coverage.md#20760] missing recommended field: must_preserve
+  - handoff: [graphify-discovery-coverage.md#20760] missing recommended field: do_not_touch
+  - handoff: [graphify-discovery-coverage.md#20760] missing recommended field: validation
+  - handoff: [graphify-discovery-coverage.md#20760] missing recommended field: exit_criteria
+  - handoff: [graphify-discovery-coverage.md#20760] missing recommended field: evidence_required
+  - handoff: [graphify-discovery-coverage.md#20760] missing recommended field: claim_scope
+  - handoff: [graphify-discovery-coverage.md#20760] missing recommended field: depends_on
+  - handoff: [graphify-discovery-coverage.md#20760] missing recommended field: context_bundle
+  - handoff: [graphify-discovery-coverage.md#22522] schema $: 'callee' is a required property
+  - handoff: [graphify-discovery-coverage.md#22522] schema $: 'caller' is a required property
+  - handoff: [graphify-discovery-coverage.md#22522] schema $: 'claim_level' is a required property
+  - handoff: [graphify-discovery-coverage.md#22522] schema $: 'scope' is a required property
+  - handoff: [graphify-discovery-coverage.md#22522] schema $: 'task_id' is a required property
+  - handoff: [graphify-discovery-coverage.md#22522] missing recommended field: plan_id
+  - handoff: [graphify-discovery-coverage.md#22522] missing recommended field: source_basis
+  - handoff: [graphify-discovery-coverage.md#22522] missing recommended field: must_preserve
+  - handoff: [graphify-discovery-coverage.md#22522] missing recommended field: do_not_touch
+  - handoff: [graphify-discovery-coverage.md#22522] missing recommended field: validation
+  - handoff: [graphify-discovery-coverage.md#22522] missing recommended field: exit_criteria
+  - handoff: [graphify-discovery-coverage.md#22522] missing recommended field: evidence_required
+  - handoff: [graphify-discovery-coverage.md#22522] missing recommended field: claim_scope
+  - handoff: [graphify-discovery-coverage.md#22522] missing recommended field: depends_on
+  - handoff: [graphify-discovery-coverage.md#22522] missing recommended field: context_bundle
+  - handoff: [graphify-discovery-coverage.md#24054] schema $: 'callee' is a required property
+  - handoff: [graphify-discovery-coverage.md#24054] schema $: 'caller' is a required property
+  - handoff: [graphify-discovery-coverage.md#24054] schema $: 'claim_level' is a required property
+  - handoff: [graphify-discovery-coverage.md#24054] schema $: 'scope' is a required property
+  - handoff: [graphify-discovery-coverage.md#24054] schema $: 'task_id' is a required property
+  - handoff: [graphify-discovery-coverage.md#24054] missing recommended field: plan_id
+  - handoff: [graphify-discovery-coverage.md#24054] missing recommended field: source_basis
+  - handoff: [graphify-discovery-coverage.md#24054] missing recommended field: must_preserve
+  - handoff: [graphify-discovery-coverage.md#24054] missing recommended field: do_not_touch
+  - handoff: [graphify-discovery-coverage.md#24054] missing recommended field: validation
+  - handoff: [graphify-discovery-coverage.md#24054] missing recommended field: exit_criteria
+  - handoff: [graphify-discovery-coverage.md#24054] missing recommended field: evidence_required
+  - handoff: [graphify-discovery-coverage.md#24054] missing recommended field: claim_scope
+  - handoff: [graphify-discovery-coverage.md#24054] missing recommended field: depends_on
+  - handoff: [graphify-discovery-coverage.md#24054] missing recommended field: context_bundle

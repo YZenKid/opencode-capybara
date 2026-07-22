@@ -1,0 +1,16 @@
+
+> check:agents
+> node scripts/agent-boundary-check.mjs
+
+✓ agents/quality-gate.md
+✓ agents/oracle.md
+✓ agents/explorer.md
+✓ agents/librarian.md
+✓ agents/architect.md
+✓ agents/council.md
+✓ agents/system-analyst.md
+✓ agents/project-manager.md
+✓ agents/artifact-planner.md
+✓ agents/orchestrator.md
+
+Agent boundary check passed.

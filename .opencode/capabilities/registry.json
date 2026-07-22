@@ -918,8 +918,8 @@
         "summarize decisions/evidence only; do not expose raw thoughts",
         "record fallback when the MCP is unavailable",
         "keep tiny fast-path use to one brief thought",
-        "for non-trivial, ambiguous, or risky work, use at most 3 thought steps total",
-        "set or keep totalThoughts no higher than 3 when invoking sequential_thinking",
+        "for non-trivial, ambiguous, or risky work, use at most 2 thought steps total",
+        "set or keep totalThoughts no higher than 2 when invoking sequential_thinking",
         "this is a prompt-policy cap, not a claimed server-enforced cap unless separately evidenced"
       ],
       "secret_surfaces": []

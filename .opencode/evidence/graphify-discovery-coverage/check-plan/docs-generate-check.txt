@@ -1,0 +1,12 @@
+
+> docs:generate:check
+> node scripts/generate-generated-docs.mjs --check
+
+✓ docs/generated/agent-matrix.md is current
+✓ docs/generated/capability-matrix.md is current
+✓ docs/generated/mcp-risk-matrix.md is current
+✓ docs/generated/external-comparison.md is current
+✓ docs/generated/prompt-gate-report.md is current
+✓ docs/generated/docs-integrity-report.md is current
+
+Generated docs freshness check passed.

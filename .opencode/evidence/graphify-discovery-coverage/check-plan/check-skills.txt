@@ -1,0 +1,29 @@
+
+> check:skills
+> node scripts/skill-contract-check.mjs
+
+✓ skills/opencode-architect/SKILL.md
+✓ skills/opencode-artifact-planner/SKILL.md
+✓ skills/opencode-backend/SKILL.md
+✓ skills/opencode-council/SKILL.md
+✓ skills/opencode-design-system-engineer/SKILL.md
+✓ skills/opencode-designer/SKILL.md
+✓ skills/opencode-devops/SKILL.md
+✓ skills/opencode-explorer/SKILL.md
+✓ skills/opencode-fixer/SKILL.md
+✓ skills/opencode-frontend/SKILL.md
+✓ skills/opencode-fullstack/SKILL.md
+✓ skills/opencode-librarian/SKILL.md
+✓ skills/opencode-mobile/SKILL.md
+✓ skills/opencode-oracle/SKILL.md
+✓ skills/opencode-orchestrator/SKILL.md
+✓ skills/opencode-plan-reviewer/SKILL.md
+✓ skills/opencode-plan-validator/SKILL.md
+✓ skills/opencode-project-manager/SKILL.md
+✓ skills/opencode-quality-gate/SKILL.md
+✓ skills/opencode-skill-improver/SKILL.md
+✓ skills/opencode-system-analyst/SKILL.md
+✓ skills/opencode-visual-asset-generator/SKILL.md
+✓ skills/opencode-visual-context-extractor/SKILL.md
+
+Skill contract check passed.

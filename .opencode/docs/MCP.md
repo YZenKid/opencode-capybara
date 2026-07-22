@@ -29,7 +29,7 @@ Configured MCP surfaces include:
 
 `sequential-thinking` exposes `sequential_thinking`.
 
-Use it after loading a skill and before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback. Use it as a reasoning scaffold only: it does not replace repo evidence, docs, tests, browser/runtime validation, or role boundaries. Do not expose raw chain-of-thought to the user; summarize decisions and evidence only.
+Use it after loading a skill and before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 2 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `2` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback. Use it as a reasoning scaffold only: it does not replace repo evidence, docs, tests, browser/runtime validation, or role boundaries. Do not expose raw chain-of-thought to the user; summarize decisions and evidence only.
 
 After changing `opencode.json`, restart OpenCode before expecting this MCP to become usable.
 

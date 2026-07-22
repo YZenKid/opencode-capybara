@@ -8,6 +8,7 @@ const skillsDir = resolve(root, "skills");
 let failures = 0;
 
 const intentionallyMissing = new Set(["opencode-build", "opencode-general"]);
+const graphifyMarkers = ["Graphify", "optional", "read-only", "source", "tests", "runtime"];
 
 // Core structural sections required in every skill
 const coreStructuralSections = [
@@ -33,6 +34,8 @@ for (const entry of readdirSync(skillsDir, { withFileTypes: true })) {
     requirements.push("Read-only");
   }
   const missing = requirements.filter((needle) => needle instanceof RegExp ? !needle.test(content) : !content.includes(needle));
+  const graphifyContent = readFileSync(resolve(root, "AGENTS.md"), "utf8") + readFileSync(resolve(root, ".opencode/docs/SKILLS.md"), "utf8") + readFileSync(resolve(root, "skills/graphify-discovery/SKILL.md"), "utf8");
+  if (!graphifyMarkers.every((marker) => graphifyContent.toLowerCase().includes(marker.toLowerCase()))) missing.push("centralized Graphify policy");
 
   const hasTitle = content.includes("# ");
   const hasContractMarker = /^##\s+.+/m.test(content);
@@ -58,6 +61,14 @@ for (const entry of readdirSync(skillsDir, { withFileTypes: true })) {
   } else {
     console.log(`✓ skills/${entry.name}/SKILL.md`);
   }
+}
+
+const activeSkillDirs = readdirSync(skillsDir, { withFileTypes: true }).filter((entry) => entry.isDirectory() && entry.name.startsWith("opencode-") && !intentionallyMissing.has(entry.name));
+if (activeSkillDirs.length === 0) {
+  failures += 1;
+  console.error("✗ skills coverage: no active opencode skills found");
+} else {
+  console.log(`✓ skills coverage: ${activeSkillDirs.length} active skills inherit centralized Graphify policy`);
 }
 
 if (failures > 0) {

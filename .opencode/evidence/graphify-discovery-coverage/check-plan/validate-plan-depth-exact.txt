@@ -1,0 +1,17 @@
+PLAN DEPTH REPORT
+file: .opencode/plans/graphify-discovery-coverage.md
+profile: maintenance (requested: maintenance)
+- goal_words: 152 / 20 => PASS
+- requirements_count: 15 / 8 => PASS
+- acceptance_count: 9 / 6 => PASS
+- implementation_steps: 6 / 4 => PASS
+- validation_commands: 8 / 3 => PASS
+- grounding_contract: 1 / 1 => PASS
+- handoff_contract: 1 / 1 => PASS
+- evidence_requirements: 1 / 1 => PASS
+- done_criteria: 1 / 1 => PASS
+
+SCORE: 100.0% (9/9 checks passed)
+TIER: EXECUTION_READY
+
+RESULT: PASS

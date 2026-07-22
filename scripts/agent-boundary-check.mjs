@@ -5,6 +5,16 @@ import { resolve } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
 
+const graphifyPolicyFiles = [
+  "AGENTS.md",
+  ".opencode/docs/MCP.md",
+  ".opencode/docs/TOOL_USAGE.md",
+  ".opencode/docs/AGENT_TOOL_ACCESS.md",
+  ".opencode/docs/SKILLS.md",
+  "skills/graphify-discovery/SKILL.md",
+];
+const graphifyMarkers = ["Graphify", "optional", "read-only", "source", "tests", "runtime"];
+
 const checks = [
   {
     file: "agents/quality-gate.md",
@@ -80,6 +90,24 @@ for (const file of readdirSync(resolve(root, "agents"))) {
     for (const section of missingSections) console.error(`  - missing: ${section}`);
     console.error("  Structural requirement: All agents must include Workflow, Quality checklist, Anti-patterns, and Output example sections (9.5+ quality standard).");
   }
+}
+
+for (const file of graphifyPolicyFiles) {
+  const content = readFileSync(resolve(root, file), "utf8");
+  const missing = graphifyMarkers.filter((marker) => !content.toLowerCase().includes(marker.toLowerCase()));
+  if (missing.length > 0) {
+    failures += 1;
+    console.error(`✗ ${file}: centralized Graphify policy incomplete`);
+    for (const item of missing) console.error(`  - missing: ${item}`);
+  }
+}
+
+const agentFiles = readdirSync(resolve(root, "agents")).filter((file) => file.endsWith(".md"));
+if (agentFiles.length === 0) {
+  failures += 1;
+  console.error("✗ agents coverage: no local agent files found");
+} else {
+  console.log(`✓ agents coverage: ${agentFiles.length} local agent files inherit centralized Graphify policy via AGENTS.md`);
 }
 
 if (failures > 0) {

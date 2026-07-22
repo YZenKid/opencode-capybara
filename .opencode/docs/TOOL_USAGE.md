@@ -58,8 +58,8 @@ Commonly used categories:
 ## Sequential thinking scaffold
 
 - Use `sequential_thinking` after a skill is loaded and before material planning, routing, implementation, review, or final claims.
-- For non-trivial, ambiguous, or risky work, use at most 3 thought steps total—enough to frame scope, constraints, approach, and validation.
-- Set or keep `totalThoughts` no higher than `3` when invoking `sequential_thinking`.
+- For non-trivial, ambiguous, or risky work, use at most 2 thought steps total—enough to frame scope, constraints, approach, and validation.
+- Set or keep `totalThoughts` no higher than `2` when invoking `sequential_thinking`.
 - For tiny fast-path work, keep it to one brief thought.
 - If the MCP tool is unavailable, record the fallback and continue with the role's normal evidence-first workflow.
 - It is a scaffold, not a replacement for repo evidence, official docs, tests, browser/runtime checks, or role boundaries.

@@ -1,0 +1,21 @@
+{
+  "task_id": "graphify-discovery-coverage",
+  "mode": "Maintenance Stability Mode",
+  "plan_file": ".opencode/plans/graphify-discovery-coverage.md",
+  "evidence_dir": ".opencode/evidence/graphify-discovery-coverage/",
+  "required_files": [
+    "planning.md",
+    "discovery.md",
+    "verification.md"
+  ],
+  "validation_commands": [
+    "python3 ~/.config/opencode/scripts/validate-plan-depth.py .opencode/plans/graphify-discovery-coverage.md --mode auto --score",
+    "python3 ~/.config/opencode/scripts/plan-compliance-check.py --project-root . --plan .opencode/plans/graphify-discovery-coverage.md --task-id graphify-discovery-coverage",
+    "python3 ~/.config/opencode/scripts/subagent-handoff-check.py --plan .opencode/plans/graphify-discovery-coverage.md"
+  ],
+  "retention": {
+    "planning.md": "keep",
+    "discovery.md": "keep",
+    "verification.md": "keep"
+  }
+}

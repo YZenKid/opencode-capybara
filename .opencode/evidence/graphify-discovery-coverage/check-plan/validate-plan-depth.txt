@@ -1,0 +1,28 @@
+PLAN DEPTH REPORT
+file: .opencode/plans/graphify-discovery-coverage.md
+profile: greenfield (requested: auto)
+- goal_words: 152 / 200 => FAIL
+- requirements_words: 301 / 500 => FAIL
+- requirements_count: 15 / 10 => PASS
+- acceptance_words: 115 / 300 => FAIL
+- acceptance_count: 8 / 8 => PASS
+- implementation_steps: 6 / 50 => FAIL
+- validation_commands: 8 / 10 => FAIL
+- total_lines: 495 / 5000 => FAIL
+- grounding_contract: 0 / 1 => FAIL
+
+GROUNDING CONTRACT FAILURES:
+  - missing_existing_patterns_reuse
+  - missing_decisions_assumptions
+
+PLAN LACKS CONFIRMED-VS-ASSUMED AUDIT.
+Required sections:
+  - ## Source Anatomy (per subsystem/layer)
+  - ## Reference Map (per feature)
+  - Explicit 'confirmed' / 'unverified' / 'assumption' labels
+Do not speculate about repo state. Verify or label as assumption.
+
+SCORE: 22.2% (2/9 checks passed)
+TIER: INADEQUATE
+
+RESULT: NEEDS_DEPTH
