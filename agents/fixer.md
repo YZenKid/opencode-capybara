@@ -161,7 +161,7 @@ evidence:
 
 ## Execution policy
 
-Validation ladder: stack read → current best-practice via `@librarian`/context7 when version-sensitive → plan/handoff check → discovery evidence → implementation → diff review → validation commands → route non-trivial completion to `@quality-gate`. LSP-first for rename/refactor when available. Do not rely on memory for framework behavior when current docs could materially change implementation.
+Validation ladder: stack read → current best-practice via `@librarian`/context7 when version-sensitive → plan/handoff check → discovery evidence → implementation → diff review → validation commands → route non-trivial completion to `@quality-gate`. Use project stack/playbook CLI diagnostics first, including lint, typecheck, and test; do not rely on memory for framework behavior when current docs could materially change implementation.
 
 ## Quality checklist
 

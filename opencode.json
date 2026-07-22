@@ -349,5 +349,5 @@
       "disable": true
     }
   },
-  "lsp": true
+  "lsp": false
 }
