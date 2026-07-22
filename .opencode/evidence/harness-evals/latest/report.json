@@ -1,7 +1,7 @@
 {
   "task_id": "harness-evals-latest",
-  "timestamp": "2026-07-22T02:04:32.154Z",
-  "harness_version": "4ad08f8052410bf96648f8d6a747f870b630f3a4",
+  "timestamp": "2026-07-22T02:15:37.457Z",
+  "harness_version": "ea42b722fed2123df5df95a538ed0f3a138d04d2",
   "prompt_or_task_summary": "Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.",
   "tool_trace_summary": [
     "Read eval fixture JSON files from scripts/evals/fixtures/",
@@ -131,7 +131,7 @@
     "release_critical_average_score_0_to_5": 5
   },
   "drift_summary": {
-    "previous_timestamp": "2026-07-22T01:58:50.759Z",
+    "previous_timestamp": "2026-07-22T02:04:32.154Z",
     "previous_average_score_0_to_5": 3.89,
     "average_score_delta": 0,
     "failed_delta": 0,
@@ -558,7 +558,7 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/design-audit.py --project-root . --report .opencode/evidence/design-audit.md",
-        "stdout": "/tmp/opencode-script-run-F9EduJ/.opencode/evidence/design-audit.md\n",
+        "stdout": "/tmp/opencode-script-run-bQUxX2/.opencode/evidence/design-audit.md\n",
         "stderr": "",
         "exit_code": 1,
         "generated_files": [
@@ -584,7 +584,7 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/design-revamp-contract.py --project-root . --task-id sample-task --class full-revamp",
-        "stdout": "/tmp/opencode-script-run-8VpD1Z/.opencode/evidence/sample-task/revamp-contract.json\n",
+        "stdout": "/tmp/opencode-script-run-TSjvC5/.opencode/evidence/sample-task/revamp-contract.json\n",
         "stderr": "",
         "exit_code": 0,
         "generated_files": [
@@ -610,7 +610,7 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/design-review-bundle.py --project-root . --task-id sample-task",
-        "stdout": "/tmp/opencode-script-run-2vEhsx/.opencode/evidence/sample-task/design-handoff.md\n/tmp/opencode-script-run-2vEhsx/.opencode/evidence/sample-task/design-review.md\n/tmp/opencode-script-run-2vEhsx/.opencode/evidence/sample-task/parity-report.md\n/tmp/opencode-script-run-2vEhsx/.opencode/evidence/sample-task/design-debt.md\n/tmp/opencode-script-run-2vEhsx/.opencode/evidence/sample-task/preview.json\n/tmp/opencode-script-run-2vEhsx/.opencode/evidence/sample-task/preview-contract.json\n",
+        "stdout": "/tmp/opencode-script-run-oVPt9P/.opencode/evidence/sample-task/design-handoff.md\n/tmp/opencode-script-run-oVPt9P/.opencode/evidence/sample-task/design-review.md\n/tmp/opencode-script-run-oVPt9P/.opencode/evidence/sample-task/parity-report.md\n/tmp/opencode-script-run-oVPt9P/.opencode/evidence/sample-task/design-debt.md\n/tmp/opencode-script-run-oVPt9P/.opencode/evidence/sample-task/preview.json\n/tmp/opencode-script-run-oVPt9P/.opencode/evidence/sample-task/preview-contract.json\n",
         "stderr": "",
         "exit_code": 0,
         "generated_files": [
@@ -646,7 +646,7 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/design-source-importer.py --project-root . --repo-path src --screenshot-dir screenshots --url https://example.com --output .opencode/evidence/design-source-pack.md",
-        "stdout": "/tmp/opencode-script-run-0VXHNv/.opencode/evidence/design-source-pack.md\n/tmp/opencode-script-run-0VXHNv/.opencode/design-system/catalog.json\n",
+        "stdout": "/tmp/opencode-script-run-3c824h/.opencode/evidence/design-source-pack.md\n/tmp/opencode-script-run-3c824h/.opencode/design-system/catalog.json\n",
         "stderr": "",
         "exit_code": 0,
         "generated_files": [
@@ -996,7 +996,7 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/ui-polish-audit.py --project-root . --report .opencode/evidence/polish-audit.md",
-        "stdout": "/tmp/opencode-script-run-2F8Blz/.opencode/evidence/polish-audit.md\n",
+        "stdout": "/tmp/opencode-script-run-4HoCf8/.opencode/evidence/polish-audit.md\n",
         "stderr": "",
         "exit_code": 1,
         "generated_files": [
