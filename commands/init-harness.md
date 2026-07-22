@@ -36,38 +36,39 @@ Workflow:
    - `FRAMEWORK_PLAYBOOK.md` — framework/library-specific best practices: official CLI/generator-first rules, migration rules, routing/file placement, testing/validation, manual fallback conditions, and repo-specific conventions.
    - `PROJECT_DETECTED_TOOLS.md` — discovered tools/generators and the repo evidence for each detection.
 11. `FRAMEWORK_PLAYBOOK.md` must make generator/CLI-first the default for existing app development too, not only from scratch. Name concrete examples when they fit the detected stack, such as Laravel `php artisan make:*` / `php artisan test` / `php artisan route:list`, goose `goose create <name> sql` / `status` / `up` / `down`, shadcn CLI/MCP, Prisma/Drizzle migrate/generate, Rails/Nest/Expo/Flutter generators, and `sqlc`/`buf`/`oapi-codegen`.
-12. Manual fallback guidance must be explicit: manual artifact edits are allowed only when the command/tool is unavailable or not permitted, the command failed with evidence, the project intentionally avoids the generator, the task customizes existing generated files, or the user explicitly asks for manual edits. Require evidence naming the attempted or skipped command and reason.
-13. If framework/library behavior or command best practice is version-sensitive and local project docs do not already settle it, use external references per `.opencode/docs/TOOL_USAGE.md` and prefer official docs via `context7`/`@librarian` before broader sources.
-14. Inspect existing project tokens, components, styles, breakpoints, UI docs, screenshots, and related guidance when available so `DESIGN.md` matches the project instead of generic taste.
-15. Capture concise stack-and-tooling findings (languages, frameworks, package managers, test runners, linters, build/deploy surfaces) and reflect them in `AGENTS.md` instead of generic advice.
-16. Keep repo-local-docs-first posture. Use external references only when local evidence is insufficient or version-sensitive, following `.opencode/docs/TOOL_USAGE.md` (prefer official docs via `context7`, then source/examples via GitHub, then broad web search).
-17. If external references are needed, state what was checked and why in the final summary.
-18. If `AGENTS.md` already exists at the project root, ask before overwriting or replacing it. Do not silently overwrite project-specific rules. Do NOT stop the rest of the harness work because of this — continue with the safe subset (project-stack/commands/playbook/detected-tools docs, optional `DESIGN.md`, and the canonical `.opencode/docs/` scaffold) and surface the `AGENTS.md` overwrite question as a single question at the end so the run can finish.
-19. If `DESIGN.md` already exists at the project root, ask before overwriting or replacing it. Do not silently overwrite project design guidance. The same safe-subset rule applies — continue with the rest of the harness work and surface the `DESIGN.md` overwrite question alongside the `AGENTS.md` question.
-20. If no root `AGENTS.md` exists, create one in the current project root.
-21. If no root `DESIGN.md` exists, create one in the current project root.
-22. Keep both files in English.
-23. Keep `AGENTS.md` short: target under 60 lines, never exceed 100.
-24. Treat `AGENTS.md` as a map, not an encyclopedia. Detailed policy belongs in `.opencode/docs/` and mechanical checks.
-25. Prefer repo-local docs over embedded long-form instructions. Point to canonical docs instead of duplicating policy.
-26. If the project already uses a docs-as-system-of-record workflow, reflect it explicitly.
-27. If canonical docs are missing under `.opencode/docs/`, scaffold the full canonical system-of-record first (create `.opencode/docs/index.md` plus the current canonical corpus files), then write `AGENTS.md`; do not produce placeholder or missing-doc links.
-28. The scaffolded canonical docs must contain comparable operational detail (not placeholders) across concerns: routing thresholds and delegation boundaries, tool/MCP state boundaries, quality and evidence expectations, evals/replayability posture, prompt gates and mechanical checks, security constraints, skills ownership and division of labor, decisions/release/GC workflow, and architecture context.
-29. Make `DESIGN.md` concrete, specific, and aligned to the target project's own UI language.
-30. Prefer design rules that map to existing tokens, components, breakpoints, and interaction patterns; add new guidance only when the project actually needs it.
-31. Explicitly state that project-local `DESIGN.md` wins over generic preferences, and that UI/design work should read it first, then `design-system/DESIGN.md` or any documented project-specific equivalent.
-32. In both docs, keep the downstream ownership chain legible: `@orchestrator` routes/integrates, `@designer` owns UI direction/review first, bounded implementation/tests go to `@fixer` or domain lanes, evidence-heavy/spec-heavy planning goes to `@artifact-planner`, and final non-trivial UI/prompt/config/docs/security-sensitive changes go to `@quality-gate`.
-33. Add the Harness Preflight Gate concisely: before non-trivial work, `@orchestrator` must verify the target project has a current root `AGENTS.md`, canonical `.opencode/docs/`, root `DESIGN.md` when UI/design work is involved, and the project stack/command/playbook docs when framework-managed artifacts are in scope.
-34. State that if harness guidance is missing or stale, future operators should run `/init-harness` first, or ask the user to run `/init-harness` when command execution is unavailable. Do not start broad implementation until harness guidance is available, except for tiny, read-only, or emergency tasks; if skipped, record the reason in the final summary.
-35. State that agents should follow project framework playbook/commands before manual framework artifact edits.
-36. State that `@designer` may implement only when directly routed/requested.
-37. State that `@artifact-planner` may use designer only as read-only advisory input.
-38. State that `@visual-asset-generator` is invoked by `@orchestrator`/`@designer` from an asset manifest/image-heavy plan, not by planner.
-39. State that substantial UI requires evidence/screenshots/reduced-motion/accessibility checks and `@quality-gate` before completion claim.
-40. Use the user's hints from `$ARGUMENTS` only to specialize the files; do not discard the harness baseline or invent a broad new visual direction without evidence.
-41. Explicitly state which agent should be used first for default execution (`@orchestrator`).
-42. After writing or updating `DESIGN.md`, run `python3 ~/.config/opencode/scripts/design-md-grader.py --project-root .` (or explain why it could not be run) so the 9-section contract is mechanically verified.
-43. After command/config edits, remind the user to restart OpenCode because command/config-time files are loaded at startup.
+12. When a local Compose file has a service that builds app code, project instructions must require this conditional post-code-change contract: run the project-documented `docker compose ... config --quiet`, then rebuild/recreate only changed app service with `docker compose ... up --build -d --no-deps <app-service>`, then perform documented health/runtime verification. Never make this universal for projects without such a Compose service; do not restart dependencies, read/output `.env` values, or deploy to production.
+13. Manual fallback guidance must be explicit: manual artifact edits are allowed only when the command/tool is unavailable or not permitted, the command failed with evidence, the project intentionally avoids the generator, the task customizes existing generated files, or the user explicitly asks for manual edits. Require evidence naming the attempted or skipped command and reason.
+14. If framework/library behavior or command best practice is version-sensitive and local project docs do not already settle it, use external references per `.opencode/docs/TOOL_USAGE.md` and prefer official docs via `context7`/`@librarian` before broader sources.
+15. Inspect existing project tokens, components, styles, breakpoints, UI docs, screenshots, and related guidance when available so `DESIGN.md` matches the project instead of generic taste.
+16. Capture concise stack-and-tooling findings (languages, frameworks, package managers, test runners, linters, build/deploy surfaces) and reflect them in `AGENTS.md` instead of generic advice.
+17. Keep repo-local-docs-first posture. Use external references only when local evidence is insufficient or version-sensitive, following `.opencode/docs/TOOL_USAGE.md` (prefer official docs via `context7`, then source/examples via GitHub, then broad web search).
+18. If external references are needed, state what was checked and why in the final summary.
+19. If `AGENTS.md` already exists at the project root, ask before overwriting or replacing it. Do not silently overwrite project-specific rules. Do NOT stop the rest of the harness work because of this — continue with the safe subset (project-stack/commands/playbook/detected-tools docs, optional `DESIGN.md`, and the canonical `.opencode/docs/` scaffold) and surface the `AGENTS.md` overwrite question as a single question at the end so the run can finish.
+20. If `DESIGN.md` already exists at the project root, ask before overwriting or replacing it. Do not silently overwrite project design guidance. The same safe-subset rule applies — continue with the rest of the harness work and surface the `DESIGN.md` overwrite question alongside the `AGENTS.md` question.
+21. If no root `AGENTS.md` exists, create one in the current project root.
+22. If no root `DESIGN.md` exists, create one in the current project root.
+23. Keep both files in English.
+24. Keep `AGENTS.md` short: target under 60 lines, never exceed 100.
+25. Treat `AGENTS.md` as a map, not an encyclopedia. Detailed policy belongs in `.opencode/docs/` and mechanical checks.
+26. Prefer repo-local docs over embedded long-form instructions. Point to canonical docs instead of duplicating policy.
+27. If the project already uses a docs-as-system-of-record workflow, reflect it explicitly.
+28. If canonical docs are missing under `.opencode/docs/`, scaffold the full canonical system-of-record first (create `.opencode/docs/index.md` plus the current canonical corpus files), then write `AGENTS.md`; do not produce placeholder or missing-doc links.
+29. The scaffolded canonical docs must contain comparable operational detail (not placeholders) across concerns: routing thresholds and delegation boundaries, tool/MCP state boundaries, quality and evidence expectations, evals/replayability posture, prompt gates and mechanical checks, security constraints, skills ownership and division of labor, decisions/release/GC workflow, and architecture context.
+30. Make `DESIGN.md` concrete, specific, and aligned to the target project's own UI language.
+31. Prefer design rules that map to existing tokens, components, breakpoints, and interaction patterns; add new guidance only when the project actually needs it.
+32. Explicitly state that project-local `DESIGN.md` wins over generic preferences, and that UI/design work should read it first, then `design-system/DESIGN.md` or any documented project-specific equivalent.
+33. In both docs, keep the downstream ownership chain legible: `@orchestrator` routes/integrates, `@designer` owns UI direction/review first, bounded implementation/tests go to `@fixer` or domain lanes, evidence-heavy/spec-heavy planning goes to `@artifact-planner`, and final non-trivial UI/prompt/config/docs/security-sensitive changes go to `@quality-gate`.
+34. Add the Harness Preflight Gate concisely: before non-trivial work, `@orchestrator` must verify the target project has a current root `AGENTS.md`, canonical `.opencode/docs/`, root `DESIGN.md` when UI/design work is involved, and the project stack/command/playbook docs when framework-managed artifacts are in scope.
+35. State that if harness guidance is missing or stale, future operators should run `/init-harness` first, or ask the user to run `/init-harness` when command execution is unavailable. Do not start broad implementation until harness guidance is available, except for tiny, read-only, or emergency tasks; if skipped, record the reason in the final summary.
+36. State that agents should follow project framework playbook/commands before manual framework artifact edits.
+37. State that `@designer` may implement only when directly routed/requested.
+38. State that `@artifact-planner` may use designer only as read-only advisory input.
+39. State that `@visual-asset-generator` is invoked by `@orchestrator`/`@designer` from an asset manifest/image-heavy plan, not by planner.
+40. State that substantial UI requires evidence/screenshots/reduced-motion/accessibility checks and `@quality-gate` before completion claim.
+41. Use the user's hints from `$ARGUMENTS` only to specialize the files; do not discard the harness baseline or invent a broad new visual direction without evidence.
+42. Explicitly state which agent should be used first for default execution (`@orchestrator`).
+43. After writing or updating `DESIGN.md`, run `python3 ~/.config/opencode/scripts/design-md-grader.py --project-root .` (or explain why it could not be run) so the 9-section contract is mechanically verified.
+44. After command/config edits, remind the user to restart OpenCode because command/config-time files are loaded at startup.
 
 Write `AGENTS.md` using exactly these sections, in this order:
 
