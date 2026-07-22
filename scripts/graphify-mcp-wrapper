@@ -7,7 +7,9 @@ if [[ ! -d "$root" ]]; then
   exit 2
 fi
 root=$(cd "$root" && pwd -P)
-graph="$root/graphify-out/graph.json"
+out="$root/.opencode/graphify-out"
+graph="$out/graph.json"
+export GRAPHIFY_OUT="$out"
 
 if [[ ! -s "$graph" ]]; then
   graphify extract "$root" --code-only --no-cluster --out "$root" >&2

@@ -9,7 +9,7 @@ Use Graphify only as optional, local, code-only, read-only discovery context. It
 
 ## Workflow
 
-1. Check whether `graphify-out/graph.json` exists and is fresh enough for current work.
+1. Check whether `.opencode/graphify-out/graph.json` exists and is fresh enough for current work.
 2. Use narrow `query`, `path`, or `explain` requests before broad repository discovery.
 3. Treat `INFERRED` and `AMBIGUOUS` edges as leads, not facts.
 4. Read relevant source files directly before making claims or edits.
