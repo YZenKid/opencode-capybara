@@ -10,9 +10,9 @@ root=$(cd "$root" && pwd -P)
 graph="$root/graphify-out/graph.json"
 
 if [[ ! -s "$graph" ]]; then
-  graphify extract "$root" --code-only --no-cluster --out "$root"
+  graphify extract "$root" --code-only --no-cluster --out "$root" >&2
 else
-  graphify update "$root" --no-cluster
+  graphify update "$root" --no-cluster >&2
 fi
 
 exec graphify-mcp "$graph"
