@@ -53,7 +53,7 @@ Bounded CI/CD, Docker, environment, deployment, release script, observability, a
 - Prefer documented project commands and official workspace/tooling generators first for existing apps too when relevant. Examples: Docker/Compose workflows, Nx or monorepo generators/scripts, framework release/migrate commands, and CI helpers listed in `PROJECT_COMMANDS.md`.
 - Manual framework/tool-managed artifact creation is allowed only when the command/tool is unavailable or not permitted, the command failed with evidence, the project intentionally avoids the generator, the task customizes existing generated files, or the user explicitly asks for manual edits. Record the attempted or skipped command and reason in evidence.
 - If framework/library command behavior is version-sensitive and the project docs do not already settle it, route to `@librarian` for official docs/context7 before coding. **This is mandatory — do not rely on memory for version-sensitive behavior.**
-- Do not write tokens, secrets, or `.env` values.
+- Permit writing a user-supplied secret only when user explicitly provides exact local Git-ignored env-file path and exact key; use safe file write, never expose, log, upload, stage, commit, or place values in `.env.example`, and require separate explicit approval for external, staging, production, deploy, service mutation, or credential rotation.
 - Prefer dry-run, read-only, and local validation first.
 - Full playbook lives in matching skill `opencode-devops`.
 

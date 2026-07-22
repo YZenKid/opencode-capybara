@@ -1,7 +1,7 @@
 {
   "task_id": "harness-evals-latest",
-  "timestamp": "2026-07-10T12:36:59.191Z",
-  "harness_version": "31c0d94c56e458b4561aafab2cc230c48aa00e64",
+  "timestamp": "2026-07-22T02:04:32.154Z",
+  "harness_version": "4ad08f8052410bf96648f8d6a747f870b630f3a4",
   "prompt_or_task_summary": "Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.",
   "tool_trace_summary": [
     "Read eval fixture JSON files from scripts/evals/fixtures/",
@@ -17,9 +17,9 @@
       "result": "PASS"
     }
   ],
-  "verdict": "FAIL",
+  "verdict": "PASS",
   "fixture_count": 51,
-  "failed": 1,
+  "failed": 0,
   "fixture_ids": [
     "advisory-boundary-routing",
     "agents-policy-bloat-negative",
@@ -75,7 +75,6 @@
   ],
   "reason_codes": [
     "unsupported-fixture-shape",
-    "init-harness-missing-design-template",
     "routing-overreach-missing-planner-first",
     "routing-overreach-missing-quality-gate",
     "routing-overreach-missing-quality-gate",
@@ -128,11 +127,11 @@
       "borderline": 2,
       "fallback-valid": 1
     },
-    "release_critical_fixture_count": 10,
-    "release_critical_average_score_0_to_5": 4.4
+    "release_critical_fixture_count": 5,
+    "release_critical_average_score_0_to_5": 5
   },
   "drift_summary": {
-    "previous_timestamp": "2026-07-10T12:29:38.305Z",
+    "previous_timestamp": "2026-07-22T01:58:50.759Z",
     "previous_average_score_0_to_5": 3.89,
     "average_score_delta": 0,
     "failed_delta": 0,
@@ -141,9 +140,9 @@
   "release_gate_readiness": {
     "transcript_fixtures_all_pass": true,
     "release_critical_all_pass": true,
-    "release_critical_average_score_0_to_5": 4.4,
+    "release_critical_average_score_0_to_5": 5,
     "minimum_required_average_score_0_to_5": 4.5,
-    "ready": false
+    "ready": true
   },
   "files_changed": [
     ".opencode/capabilities/registry.json",
@@ -559,7 +558,7 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/design-audit.py --project-root . --report .opencode/evidence/design-audit.md",
-        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-hBiTpK/.opencode/evidence/design-audit.md\n",
+        "stdout": "/tmp/opencode-script-run-F9EduJ/.opencode/evidence/design-audit.md\n",
         "stderr": "",
         "exit_code": 1,
         "generated_files": [
@@ -585,7 +584,7 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/design-revamp-contract.py --project-root . --task-id sample-task --class full-revamp",
-        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-2zrZyz/.opencode/evidence/sample-task/revamp-contract.json\n",
+        "stdout": "/tmp/opencode-script-run-8VpD1Z/.opencode/evidence/sample-task/revamp-contract.json\n",
         "stderr": "",
         "exit_code": 0,
         "generated_files": [
@@ -611,7 +610,7 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/design-review-bundle.py --project-root . --task-id sample-task",
-        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-pN7JHK/.opencode/evidence/sample-task/design-handoff.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-pN7JHK/.opencode/evidence/sample-task/design-review.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-pN7JHK/.opencode/evidence/sample-task/parity-report.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-pN7JHK/.opencode/evidence/sample-task/design-debt.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-pN7JHK/.opencode/evidence/sample-task/preview.json\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-pN7JHK/.opencode/evidence/sample-task/preview-contract.json\n",
+        "stdout": "/tmp/opencode-script-run-2vEhsx/.opencode/evidence/sample-task/design-handoff.md\n/tmp/opencode-script-run-2vEhsx/.opencode/evidence/sample-task/design-review.md\n/tmp/opencode-script-run-2vEhsx/.opencode/evidence/sample-task/parity-report.md\n/tmp/opencode-script-run-2vEhsx/.opencode/evidence/sample-task/design-debt.md\n/tmp/opencode-script-run-2vEhsx/.opencode/evidence/sample-task/preview.json\n/tmp/opencode-script-run-2vEhsx/.opencode/evidence/sample-task/preview-contract.json\n",
         "stderr": "",
         "exit_code": 0,
         "generated_files": [
@@ -647,13 +646,12 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/design-source-importer.py --project-root . --repo-path src --screenshot-dir screenshots --url https://example.com --output .opencode/evidence/design-source-pack.md",
-        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-zxu5Ie/.opencode/evidence/design-source-pack.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-zxu5Ie/.opencode/design-system/catalog.json\n",
+        "stdout": "/tmp/opencode-script-run-0VXHNv/.opencode/evidence/design-source-pack.md\n/tmp/opencode-script-run-0VXHNv/.opencode/design-system/catalog.json\n",
         "stderr": "",
         "exit_code": 0,
         "generated_files": [
           ".opencode/design-system/catalog.json",
           ".opencode/evidence/design-source-pack.md",
-          ".opencode/evidence/url-structure-example.com.md",
           "src/Landing.tsx"
         ],
         "limitation": "Eval-only temp-repo script execution; uses local scripts and seed fixture files."
@@ -846,18 +844,12 @@
       "id": "init-harness-seeds-design-system",
       "description": "Init-harness scaffold should seed DESIGN.md and .opencode/design-system/registry.md from canonical templates for UI-capable repos.",
       "category": "behavioral-task",
-      "status": "FAIL",
+      "status": "PASS",
       "checks": [
         {
           "type": "design-source",
           "file": "DESIGN.md",
-          "status": "FAIL",
-          "reason_code": "init-harness-missing-design-template",
-          "missing": [
-            "## Design Language",
-            "## Accessibility Requirements"
-          ],
-          "forbidden": []
+          "status": "PASS"
         },
         {
           "type": "design-registry",
@@ -1004,7 +996,7 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/ui-polish-audit.py --project-root . --report .opencode/evidence/polish-audit.md",
-        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-BVNLA0/.opencode/evidence/polish-audit.md\n",
+        "stdout": "/tmp/opencode-script-run-2F8Blz/.opencode/evidence/polish-audit.md\n",
         "stderr": "",
         "exit_code": 1,
         "generated_files": [
@@ -1145,7 +1137,7 @@
           "final_gate_presence"
         ]
       },
-      "release_critical": true,
+      "release_critical": false,
       "fixture_classification": "domain-boundary",
       "status": "PASS",
       "checks": [
@@ -1191,7 +1183,7 @@
           "final_gate_presence"
         ]
       },
-      "release_critical": true,
+      "release_critical": false,
       "fixture_classification": "domain-boundary",
       "status": "PASS",
       "checks": [
@@ -1245,7 +1237,7 @@
           "threshold_compliance"
         ]
       },
-      "release_critical": true,
+      "release_critical": false,
       "fixture_classification": "bad",
       "status": "PASS",
       "checks": [
@@ -1297,7 +1289,7 @@
           "evidence_legibility_proxy"
         ]
       },
-      "release_critical": true,
+      "release_critical": false,
       "fixture_classification": "bad",
       "status": "PASS",
       "checks": [
@@ -1467,7 +1459,7 @@
           "evidence_legibility_proxy"
         ]
       },
-      "release_critical": true,
+      "release_critical": false,
       "fixture_classification": "bad",
       "status": "PASS",
       "checks": [

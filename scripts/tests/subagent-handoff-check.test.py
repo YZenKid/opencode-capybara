@@ -181,8 +181,8 @@ class SubagentHandoffCheckTests(unittest.TestCase):
     def test_missing_required_fields_fails(self) -> None:
         code, out, err = _run("--payload", "-", "--project-root", str(REPO_ROOT), stdin=MISSING_REQUIRED)
         self.assertEqual(code, 1)
+        self.assertIn("schema $: 'callee' is a required property", out)
         self.assertIn("missing recommended field: source_basis", out)
-        self.assertNotIn("callee", out)
 
     def test_unknown_lane_and_bad_claim_level_fail(self) -> None:
         code, out, err = _run("--payload", "-", "--project-root", str(REPO_ROOT), stdin=UNKNOWN_LANE)
