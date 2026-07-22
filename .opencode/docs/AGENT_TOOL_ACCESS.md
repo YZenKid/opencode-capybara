@@ -38,6 +38,10 @@ Use MCP state terms from [MCP.md](./MCP.md) when discussing tool readiness.
 - If unavailable, record the fallback and continue with the normal role-specific evidence workflow.
 - Do not expose raw thoughts; summarize decisions and evidence only.
 
+## Graphify discovery boundary
+
+All lanes may consume Graphify as optional, local, code-only, read-only discovery context when available and permitted. Use it first only for broad architecture or dependency discovery, with narrow `query`, `path`, or `explain` requests. `INFERRED` and `AMBIGUOUS` edges are leads, not facts. Direct source reading, tests, and runtime verification remain mandatory for material claims. If graph is missing or stale, use normal repo discovery or an approved refresh. Graphify does not grant write access or change lane ownership.
+
 ## Matrix (documented lanes and helpers)
 
 ### `@orchestrator`

@@ -1,0 +1,57 @@
+{
+  "task_id": "graphify-opencode-integration",
+  "plan_path": ".opencode/plans/graphify-opencode-integration.md",
+  "created": "2026-07-22T15:38:03.965665",
+  "tasks": [
+    {
+      "id": "G1",
+      "title": "Task G1",
+      "status": "completed",
+      "owner": "@explorer",
+      "depends_on": [],
+      "started": null,
+      "completed": "2026-07-22T15:46:19.579818",
+      "evidence": [
+        ".opencode/evidence/graphify-opencode-integration/source-audit.md"
+      ]
+    },
+    {
+      "id": "G2",
+      "title": "Task G2",
+      "status": "completed",
+      "owner": "@devops",
+      "depends_on": [],
+      "started": null,
+      "completed": "2026-07-22T15:46:19.605704",
+      "evidence": [
+        ".opencode/evidence/graphify-opencode-integration/install-and-runtime.md"
+      ]
+    },
+    {
+      "id": "G3",
+      "title": "Task G3",
+      "status": "completed",
+      "owner": "@fixer",
+      "depends_on": [],
+      "started": null,
+      "completed": "2026-07-22T15:46:19.631459",
+      "evidence": [
+        ".opencode/evidence/graphify-opencode-integration/guidance-audit.md"
+      ]
+    },
+    {
+      "id": "G4",
+      "title": "Task G4",
+      "status": "completed",
+      "owner": "@quality-gate",
+      "depends_on": [],
+      "started": "2026-07-22T15:46:19.656450",
+      "completed": "2026-07-22T16:00:01.633374",
+      "evidence": [
+        ".opencode/evidence/graphify-opencode-integration/quality-gate.md",
+        ".opencode/evidence/graphify-opencode-integration/{quality-gate.md,plan-remediation.md}",
+        ".opencode/evidence/graphify-opencode-integration/quality-gate.md"
+      ]
+    }
+  ]
+}

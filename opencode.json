@@ -330,6 +330,15 @@
       ],
       "enabled": true,
       "timeout": 30000
+    },
+    "graphify": {
+      "type": "local",
+      "command": [
+        "bash",
+        "{env:HOME}/.config/opencode/scripts/graphify-mcp-wrapper"
+      ],
+      "enabled": true,
+      "timeout": 120000
     }
   },
   "agent": {

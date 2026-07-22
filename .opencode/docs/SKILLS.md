@@ -4,6 +4,9 @@ Routing and ownership source of truth: `AGENT_ROUTING.md`.
 Capability registry: `.opencode/capabilities/registry.json`. Generated advisory view: `docs/generated/capability-matrix.md`.
 Senior external reference map: `SENIOR_SKILLS_REFERENCES.md`. Marketplace skills from `skills.sh` are reference material, not default runtime installs; no mass installing external skills without explicit user approval and stack-fit review.
 
+## Graphify discovery skill
+- `graphify-discovery` — optional local code-only graph discovery for broad architecture/dependency mapping; direct source verification remains mandatory
+
 ## Active skills (1:1 with active agents)
 - `opencode-orchestrator` — owned by `@orchestrator`; routes work, coordinates lanes, and integrates results
 - `opencode-fixer` — owned by `@fixer`; handles bounded implementation and tests

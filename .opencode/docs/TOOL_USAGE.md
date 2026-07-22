@@ -65,6 +65,10 @@ Commonly used categories:
 - It is a scaffold, not a replacement for repo evidence, official docs, tests, browser/runtime checks, or role boundaries.
 - Do not expose raw thoughts to the user; report decisions and evidence only.
 
+## Graphify query-first discovery
+
+For broad architecture or dependency discovery, check for a fresh `graphify-out/graph.json` before wide repository scans. Use narrow Graphify `query`, `path`, or `explain` requests. Treat `INFERRED` and `AMBIGUOUS` edges as non-factual leads. Verify every material finding against source files, tests, and runtime checks. Missing or stale graph means normal repo discovery or an approved graph refresh; Graphify is optional and never blocks source verification.
+
 ## Selection heuristics
 Policy note: prefer local canonical capybara lanes for execution. Built-in OpenCode `build`/`plan`/`explore`/`general` are non-default comparator paths unless explicitly enabled.
 

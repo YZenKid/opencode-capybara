@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+root=${1:-$PWD}
+if [[ ! -d "$root" ]]; then
+  printf 'graphify: project root is not a directory: %s\n' "$root" >&2
+  exit 2
+fi
+root=$(cd "$root" && pwd -P)
+graph="$root/graphify-out/graph.json"
+
+if [[ ! -s "$graph" ]]; then
+  graphify extract "$root" --code-only --no-cluster --out "$root"
+else
+  graphify update "$root" --no-cluster
+fi
+
+exec graphify-mcp "$graph"

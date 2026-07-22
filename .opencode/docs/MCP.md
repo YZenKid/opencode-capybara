@@ -106,6 +106,10 @@ Excluded from MCP: `backup-cleanup.py --trash|--purge|--apply`, `rules-harmonize
 
 When `scripts` is connected, permitted, and exactly maps a first-slice read/check/query task, prefer it. Use canonical CLI as fallback when MCP is disconnected, unavailable, `tool_pending`, not permitted, or exact operation is absent. MCP never replaces CLI. See [TOOL_USAGE.md](./TOOL_USAGE.md) for executable fallback commands.
 
+## Graphify discovery context
+
+Graphify is optional, local, code-only, and read-only. When `graphify-out/graph.json` exists and is fresh, use narrow `query`, `path`, or `explain` requests before broad architecture or dependency discovery. Treat `INFERRED` and `AMBIGUOUS` edges as leads, never verified facts. Graphify output never replaces direct source reading, tests, or runtime checks. If graph is missing or stale, refresh it when permitted or use normal repo discovery. No semantic LLM extraction, HTTP server, post-commit hook, or strict source-read blocking belongs in this integration.
+
 ## MCP state terminology
 
 Use this lightweight state model consistently across docs/prompt surfaces:
