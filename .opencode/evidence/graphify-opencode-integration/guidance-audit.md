@@ -29,7 +29,7 @@
 - Graph output never replaces direct source reading, tests, or runtime checks.
 - `INFERRED` and `AMBIGUOUS` edges remain leads, not facts.
 - Missing or stale graph falls back to normal repository discovery or approved refresh.
-- No semantic LLM extraction, HTTP server, post-commit hook, strict source-read blocking, package installation, or config edit was performed by this slice.
+- No semantic LLM extraction, HTTP server, unapproved scheduler, strict source-read blocking, package installation, or config edit was performed by this slice. Later user-approved repository-local detached post-commit/post-checkout hooks are documented separately.
 - `commands/init-harness.md` was not touched by this slice.
 
 ## Working-tree note

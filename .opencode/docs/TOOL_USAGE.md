@@ -67,7 +67,7 @@ Commonly used categories:
 
 ## Graphify query-first discovery
 
-For broad architecture or dependency discovery, check for a fresh `graphify-out/graph.json` before wide repository scans. Use narrow Graphify `query`, `path`, or `explain` requests. Treat `INFERRED` and `AMBIGUOUS` edges as non-factual leads. Verify every material finding against source files, tests, and runtime checks. Missing or stale graph means normal repo discovery or an approved graph refresh; Graphify is optional and never blocks source verification.
+For broad architecture or dependency discovery, check for a fresh `graphify-out/graph.json` before wide repository scans. Use narrow Graphify `query`, `path`, or `explain` requests. Treat `INFERRED` and `AMBIGUOUS` edges as non-factual leads. Verify every material finding against source files, tests, and runtime checks. Missing or stale graph means normal repo discovery or an approved graph refresh; Graphify is optional and never blocks source verification. Installed repository hooks refresh code graph asynchronously after commit and branch checkout. They log to `$HOME/.cache/graphify-rebuild.log`; set `GRAPHIFY_SKIP_HOOK=1` to opt out. Recover with `graphify extract <repo> --code-only --no-cluster --out <repo>` when rebuild needs a full reset, or `graphify update <repo> --no-cluster` for normal refresh.
 
 ## Selection heuristics
 Policy note: prefer local canonical capybara lanes for execution. Built-in OpenCode `build`/`plan`/`explore`/`general` are non-default comparator paths unless explicitly enabled.

@@ -5,7 +5,7 @@
 
 ## Installer behavior
 
-`graphify install --platform opencode` is not used directly. Upstream `graphify/install.py` installs a global skill but also writes project-local `.opencode/plugins/graphify.js` and `.opencode/opencode.json`. That conflicts with this preset's no-plugin/no-hook boundary.
+`graphify install --platform opencode` is not used directly. Upstream `graphify/install.py` installs a global skill but also writes project-local `.opencode/plugins/graphify.js` and `.opencode/opencode.json`. That conflicts with this preset's no-plugin boundary and is not used. This audit predates later user approval of repository-local detached post-commit/post-checkout hooks; that later extension is documented separately in `commit-hook.md`.
 
 ## Supported safe primitives
 
@@ -30,7 +30,7 @@ Context7 source for `/anomalyco/opencode` confirms local MCP process cwd default
 - Upstream OpenCode installer/plugin.
 - Semantic extraction and LLM backends.
 - HTTP transport.
-- Post-commit hooks.
+- Unapproved automatic schedulers or hook changes beyond the later user-approved repository-local post-commit/post-checkout extension.
 - Strict raw-source blocking.
 
 ## References

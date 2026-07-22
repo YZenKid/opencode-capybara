@@ -3,16 +3,16 @@
 - Task ID: `graphify-opencode-integration`
 - Mode: Maintenance Stability Mode
 - Plan Quality Gate: `PASS_FOR_SLICE`
-- Claim scope: Graphify code-only graph generation, startup readiness, local MCP registration, and query-first guidance across this OpenCode preset. No post-commit hook, strict source-read blocking, HTTP exposure, or semantic LLM extraction.
+- Claim scope: Graphify code-only graph generation, startup readiness, local MCP registration, query-first guidance, and the later user-approved repository-local detached post-commit/post-checkout hook extension across this OpenCode preset. No strict source-read blocking, HTTP exposure, or semantic LLM extraction.
 
 ## Goal
 
-Bring this preset to execution-grade, evidence-backed Graphify integration for broad architecture and dependency discovery. Plan must describe only real completed behavior already evidenced in this repo: local code-only graph extraction, portable stdio MCP startup, query-first discovery guidance, and explicit fallback to direct source reading when graph is missing, stale, `INFERRED`, or `AMBIGUOUS`. This plan excludes plugin installer path, hooks, HTTP serving, semantic/LLM extraction, and any claim that Graphify replaces source verification.
+Bring this preset to execution-grade, evidence-backed Graphify integration for broad architecture and dependency discovery. Plan must describe only real completed behavior already evidenced in this repo: local code-only graph extraction, portable stdio MCP startup, query-first discovery guidance, explicit fallback to direct source reading when graph is missing, stale, `INFERRED`, or `AMBIGUOUS`, and the later user-approved repository-local detached post-commit/post-checkout hook extension. This plan excludes plugin installer path, unapproved schedulers, HTTP serving, semantic/LLM extraction, and any claim that Graphify replaces source verification.
 
 ## Non-goals
 
 - Do not add or require Graphify plugin installation through upstream `graphify install --platform opencode`.
-- Do not add HTTP server mode, background daemon, webhook, post-commit hook, or cron-like auto-refresh.
+- Do not add HTTP server mode, background daemon, webhook, cron-like auto-refresh, or any scheduler beyond the explicitly approved repository-local detached post-commit and post-checkout hooks. User approved those hooks on 2026-07-22; no other automatic refresh path is in scope.
 - Do not add semantic extraction, remote providers, credentials, telemetry, or secret handling.
 - Do not make raw-source reading optional, blocked, or second-class.
 - Do not fabricate framework playbook docs for this task; record explicit waiver because this slice changes preset/runtime guidance, not framework-managed application artifacts.
@@ -26,7 +26,7 @@ In scope: document and validate completed Graphify integration across preset run
 
 1. Plan must state explicit task goal in maintenance language with at least one bounded integration outcome.
 2. Plan must describe only verified or clearly labeled assumed Graphify behavior, using `confirmed_repo`, `confirmed_docs`, `confirmed_runtime`, `assumption`, or `user_confirmed` labels.
-3. Plan must capture no-plugin/no-hook/no-HTTP/no-semantic-extraction boundaries as non-negotiable invariants.
+3. Plan must capture no-plugin/no-unapproved-hook/no-HTTP/no-semantic-extraction boundaries as non-negotiable invariants, with approved detached post-commit/post-checkout hooks as the explicit exception.
 4. Plan must include at least eight concrete requirements tied to real completed behavior and future validation expectations.
 5. Plan must include at least six acceptance criteria that can be checked from repo state, evidence, or local commands.
 6. Plan must include at least four ordered implementation/remediation steps, even if implementation is already complete, so future maintainers can replay or audit sequence.
@@ -91,7 +91,7 @@ In scope: document and validate completed Graphify integration across preset run
 
 ## Decisions/Assumptions
 
-- `confirmed_repo`: This slice is plan/evidence remediation only; implementation artifacts remain untouched.
+- `confirmed_repo`: Base integration commit `8717e34` predates hook approval; this remediation preserves that historical boundary and records hooks as a later user-approved extension. Current work remains plan/evidence remediation only; implementation artifacts remain untouched.
 - `confirmed_repo`: Missing `.opencode/docs/PROJECT_*` files are recorded as explicit waiver, not hidden completeness.
 - `assumption`: If Graphify runtime changes upstream, wrapper or guidance may need fresh verification before any future claim of readiness.
 
@@ -106,19 +106,19 @@ Every material claim in this plan must map to repo evidence, upstream source evi
 3. Query-first rules apply only when `graphify-out/graph.json` exists and is fresh enough; otherwise build/update graph or use normal repo discovery.
 4. Preserve agent role boundaries; Graphify is a read-only discovery context tool.
 5. Do not touch `commands/init-harness.md` or stage its pre-existing modification.
-6. Do not add post-commit hooks or strict source-read blocking.
+6. Use only user-approved Graphify detached, background post-commit and post-checkout hooks for automatic code-only rebuilds; commits and checkouts must not wait for graph rebuild; do not add strict source-read blocking or any other auto-run path.
 7. Use portable config paths. No hardcoded user home paths in repo files.
 
 ## Do Not / Reject If
 
 - Reject always-on semantic extraction, automatic URL ingestion, network listener, or use of secrets.
-- Reject automatic `graphify hook install`.
+- Reject automatic hook changes beyond explicit user-approved `graphify hook install` for this repository; approved post-commit/post-checkout hooks remain repository-local, detached, background, and code-only.
 - Reject agent guidance that treats graph output as verified source.
 - Reject unbounded MCP output; use narrow query/path/explain requests.
 
 ## Diff Boundary
 
-Allowed: `opencode.json`, `AGENTS.md`, `.opencode/docs/{MCP.md,TOOL_USAGE.md,AGENT_TOOL_ACCESS.md,PROJECT_STACK.md,PROJECT_COMMANDS.md,FRAMEWORK_PLAYBOOK.md,PROJECT_DETECTED_TOOLS.md}`, `skills/graphify/**`, `scripts/graphify-*`, `package.json`, `.opencode/plans/graphify-opencode-integration.md`, `.opencode/evidence/graphify-opencode-integration/**`, `.opencode/state/graphify-opencode-integration/**`, generated `graphify-out/**`.
+Allowed: `opencode.json`, `AGENTS.md`, `.opencode/docs/{MCP.md,TOOL_USAGE.md,AGENT_TOOL_ACCESS.md,PROJECT_STACK.md,PROJECT_COMMANDS.md,FRAMEWORK_PLAYBOOK.md,PROJECT_DETECTED_TOOLS.md}`, `skills/graphify/**`, `scripts/graphify-*`, `package.json`, `.gitattributes`, `.opencode/plans/graphify-opencode-integration.md`, `.opencode/evidence/graphify-opencode-integration/**`, `.opencode/state/graphify-opencode-integration/**`, generated `graphify-out/**`.
 
 ## TDD / Test Plan
 
@@ -162,7 +162,7 @@ Planner remediation is plan/evidence-only, so no new implementation test is intr
 - Validation: Graphify CLI installed; code-only graph builds; MCP stdio initializes; `opencode.json` parses.
 - Exit: startup wrapper ensures graph exists/updates before MCP serves; local MCP entry configured with portable command; no network server/hook.
 - Evidence: `.opencode/evidence/graphify-opencode-integration/install-and-runtime.md`.
-- must_preserve: existing actual implementation scope only, code-only/local/no hooks/plugins/HTTP/semantic extraction, no plan fiction.
+- must_preserve: existing actual implementation scope only, code-only/local/user-approved detached hooks only/no plugins/HTTP/semantic extraction, no plan fiction.
 - do_not_touch: `commands/init-harness.md`, unrelated MCPs, secrets, non-Graphify runtime behavior.
 
 ### G3 — Agent and skill guidance
@@ -194,7 +194,7 @@ handoff:
   claim_level: partial
   claim_scope: Verified source and installer findings only.
   source_basis: [.opencode/plans/graphify-opencode-integration.md, .opencode/evidence/graphify-opencode-integration/source-audit.md, upstream Graphify sources]
-  must_preserve: [Existing actual implementation scope only, Code-only/local/no hooks/plugins/HTTP/semantic extraction]
+  must_preserve: [Existing actual implementation scope only, Code-only/local/user-approved detached hooks only/no plugins/HTTP/semantic extraction]
   do_not_touch: [opencode.json, AGENTS.md, .opencode/docs/*, scripts/*, skills/*, commands/init-harness.md]
   validation: [inspect upstream installer, inspect serve path, record rejected integration modes]
   exit_criteria: [exact installer mutations documented, safe local stdio path confirmed, no preset/plugin fiction]
@@ -214,7 +214,7 @@ handoff:
   claim_level: partial
   claim_scope: Runtime installation/config validation only.
   source_basis: [.opencode/plans/graphify-opencode-integration.md, .opencode/evidence/graphify-opencode-integration/source-audit.md, .opencode/evidence/graphify-opencode-integration/install-and-runtime.md]
-  must_preserve: [Existing actual implementation scope only, Code-only/local/no hooks/plugins/HTTP/semantic extraction, No edits outside approved Graphify runtime surfaces]
+  must_preserve: [Existing actual implementation scope only, Code-only/local/user-approved detached hooks only/no plugins/HTTP/semantic extraction, No edits outside approved Graphify runtime surfaces]
   do_not_touch: [commands/init-harness.md, secrets, unrelated MCP config, framework playbook docs]
   validation: [uv tool install graphifyy[mcp], graphify extract help, wrapper smoke, graph query smoke, MCP stdio handshake, JSON parse]
   exit_criteria: [wrapper builds or updates graph before serve, local stdio MCP documented, no HTTP or hook path introduced]
@@ -317,4 +317,4 @@ This plan now reflects completed Graphify integration behavior already evidenced
 
 ## Executor Handoff Prompt
 
-Execute only assigned work. Preserve all invariants. Do not delegate, redesign scope, add hooks/HTTP/semantic extraction, or touch `commands/init-harness.md`. Report changed files, exact validation results, evidence paths, and residual risks.
+Execute only assigned work. Preserve all invariants. Do not delegate, redesign scope, add unapproved hooks/HTTP/semantic extraction, or touch `commands/init-harness.md`. Report changed files, exact validation results, evidence paths, and residual risks.
