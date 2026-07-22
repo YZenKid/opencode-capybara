@@ -1,7 +1,7 @@
 # Harness Eval Report
 
-- Timestamp: 2026-07-22T02:15:37.457Z
-- Harness version: ea42b722fed2123df5df95a538ed0f3a138d04d2
+- Timestamp: 2026-07-22T11:23:07.939Z
+- Harness version: 3486b93c4c5f8bf2f99781c7c469c9ce623c40a4
 - Task summary: Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.
 - Verdict: PASS
 - Fixture count: 51
@@ -638,25 +638,25 @@
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/design-audit.md, src/Landing.tsx
-- Stdout captured: "/tmp/opencode-script-run-bQUxX2/.opencode/evidence/design-audit.md"
+- Stdout captured: "/tmp/opencode-script-run-LBdMc2/.opencode/evidence/design-audit.md"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for design-revamp-contract-generates-artifact-requirements
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/sample-task/revamp-contract.json, src/Landing.tsx
-- Stdout captured: "/tmp/opencode-script-run-TSjvC5/.opencode/evidence/sample-task/revamp-contract.json"
+- Stdout captured: "/tmp/opencode-script-run-i5NK36/.opencode/evidence/sample-task/revamp-contract.json"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for design-review-bundle-seeds-preview-contract
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/sample-task/design-debt.md, .opencode/evidence/sample-task/design-handoff.md, .opencode/evidence/sample-task/design-review.md, .opencode/evidence/sample-task/parity-report.md, .opencode/evidence/sample-task/preview-contract.json, .opencode/evidence/sample-task/preview.json, src/Landing.tsx
-- Stdout captured: "/tmp/opencode-script-run-oVPt9P/.opencode/evidence/sample-task/design-handoff.md\n/tmp/opencode-script-run-oVPt9P/.opencode/evidence/sample-task/design-review.md\n/tmp/opencode-script-run-oVPt9P/.opencode/evidence/sample-task/parity-report.md\n/tmp/opencode-script-run-oVPt9P/.opencode/evidence/sample-task/design-debt.md\n/tmp/opencode-script-run-oVPt9P/.opencode/evidence/sample-task/preview.json\n/tmp/opencode-script-run-oVPt9P/.opencode/evidence/sample-task/preview-contract.json"
+- Stdout captured: "/tmp/opencode-script-run-AtOoYU/.opencode/evidence/sample-task/design-handoff.md\n/tmp/opencode-script-run-AtOoYU/.opencode/evidence/sample-task/design-review.md\n/tmp/opencode-script-run-AtOoYU/.opencode/evidence/sample-task/parity-report.md\n/tmp/opencode-script-run-AtOoYU/.opencode/evidence/sample-task/design-debt.md\n/tmp/opencode-script-run-AtOoYU/.opencode/evidence/sample-task/preview.json\n/tmp/opencode-script-run-AtOoYU/.opencode/evidence/sample-task/preview-contract.json"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for design-source-importer-builds-source-pack
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/design-system/catalog.json, .opencode/evidence/design-source-pack.md, src/Landing.tsx
-- Stdout captured: "/tmp/opencode-script-run-3c824h/.opencode/evidence/design-source-pack.md\n/tmp/opencode-script-run-3c824h/.opencode/design-system/catalog.json"
+- Stdout captured: "/tmp/opencode-script-run-Iy2NpX/.opencode/evidence/design-source-pack.md\n/tmp/opencode-script-run-Iy2NpX/.opencode/design-system/catalog.json"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for init-harness-minimal-foreign-repo-scaffold
 - Mode: init-harness-scaffold
@@ -677,5 +677,5 @@
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/polish-audit.md, src/Landing.tsx
-- Stdout captured: "/tmp/opencode-script-run-4HoCf8/.opencode/evidence/polish-audit.md"
+- Stdout captured: "/tmp/opencode-script-run-0fZIoK/.opencode/evidence/polish-audit.md"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.

@@ -1226,6 +1226,44 @@
       ]
     },
     {
+      "name": "graphify",
+      "status": "configured",
+      "owner_lane": "@explorer",
+      "risk": [
+        "local-process",
+        "code-only-discovery",
+        "read-only-boundary"
+      ],
+      "fallback": "normal repo discovery with direct source reading",
+      "evidence": [
+        "opencode.json:mcp.graphify",
+        ".opencode/docs/MCP.md",
+        ".opencode/docs/AGENT_TOOL_ACCESS.md"
+      ],
+      "source": "opencode.json",
+      "transport": "local",
+      "auth": "none",
+      "data_egress": "local repository code graph only; no remote egress",
+      "write_capability": false,
+      "allowed_lanes": [
+        "@architect",
+        "@artifact-planner",
+        "@explorer",
+        "@orchestrator",
+        "@oracle",
+        "@fixer",
+        "@quality-gate"
+      ],
+      "denied_lanes": [
+        "@council"
+      ],
+      "evidence_required": [
+        "query/path/explain scope and direct source verification",
+        "no secrets in tool input"
+      ],
+      "secret_surfaces": []
+    },
+    {
       "name": "scripts",
       "status": "configured",
       "owner_lane": "@orchestrator",
