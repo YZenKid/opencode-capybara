@@ -76,8 +76,7 @@ bash scripts/install.sh
 The installer will run:
 
 - `npm install`
-- explicit RTK setup inside the installer
-- explicit Caveman setup inside the installer
+- explicit support-tool setup inside the installer
 - `npm run doctor`
 
 This installer **requires network access** and runs **third-party tool setup** explicitly. If you need non-interactive mode, use `bash scripts/install.sh --yes`.
@@ -211,12 +210,11 @@ UI / design policy:
 
 See the full explanation in [`guide/SCRIPTS.md`](./guide/SCRIPTS.md).
 
-## RTK and Caveman in brief
+## Support tooling in brief
 
 - if automatic setup is unavailable, the script will provide clear **manual fallback** commands
 - this repo enforces a **no unsafe lifecycle install hooks policy**
-- **OpenCode command rewriting** remains **opt-in**
-- for **token compression / context packing**, use **RTK and Caveman together**
+- support tooling stays optional and does not change OpenCode command behavior
 
 ## Validation summary
 
@@ -280,9 +278,7 @@ Full details remain in `.opencode/docs/`, the related agent/skill files, and the
   - https://github.com/YZenKid/oh-my-opencode-slim-preset
 - oh-my-pi (`omp`) — reference for deterministic edit, LSP-first workflow, debugger/runtime primitives, and eval-driven harness design that informed the OMP adoption roadmap:
   - https://github.com/can1357/oh-my-pi
-- RTK AI — the primary toolchain for token compression / context packing, used together with Caveman according to the repo workflow:
-  - https://github.com/rtk-ai/rtk
-- Caveman — the companion workflow used together with RTK, not a separate alternative path:
+- Caveman — optional support guidance for readability and concise communication:
   - https://github.com/JuliusBrussee/caveman
 - GPT Harness Engineering — conceptual reference for evals, replayability, evidence, and harness hardening:
   - https://openai.com/index/harness-engineering/

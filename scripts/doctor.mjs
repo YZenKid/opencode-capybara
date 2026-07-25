@@ -61,19 +61,6 @@ function checkNpm() {
   return false;
 }
 
-function checkRtk() {
-  section("RTK");
-  log("Checking rtk --version without modifying anything.");
-  const result = run("rtk", ["--version"]);
-  if (result.status === 0) {
-    status("RTK", "pass", result.stdout.trim());
-    return true;
-  }
-  status("RTK", "fail", "missing or not on PATH");
-  remediation("run `npm run setup:tools` or install RTK manually, then rerun `npm run doctor`");
-  return false;
-}
-
 function checkSkills() {
   const result = run("npx", ["-y", "skills", "--help"]);
   if (result.status === 0) {
@@ -81,7 +68,7 @@ function checkSkills() {
     return true;
   }
   status("npx skills", "warn", "could not verify");
-  remediation("run `npm run setup:tools -- --skip-rtk` and confirm the skills CLI is available, or rerun `npm run setup:tools`");
+  remediation("run `npm run setup:tools` and confirm the skills CLI is available, or rerun `npm run setup:tools`");
   return false;
 }
 
@@ -141,8 +128,8 @@ function checkDocsPolicy() {
 
   let ok = true;
   const agentsNeedles = [
-    "RTK may be installed by explicit setup",
-    "OpenCode auto-rewrite/prefix remains opt-in",
+    "Keep shell command usage explicit and reviewable",
+    "Use Caveman guidance as an optional support utility",
     ".opencode/docs/AGENT_ROUTING.md",
     ".opencode/docs/QUALITY.md",
     ".opencode/docs/EVALS.md",
@@ -152,18 +139,18 @@ function checkDocsPolicy() {
       status(`AGENTS.md: ${needle}`, "pass");
     } else {
       status(`AGENTS.md: ${needle}`, "fail", "missing");
-      remediation("update AGENTS.md RTK policy wording to preserve explicit opt-in behavior");
+      remediation("update AGENTS.md command and support-tool guidance");
       ok = false;
     }
   }
 
-  const readmeNeedles = ["npm run setup:tools", "npm run doctor", "RTK", "Caveman"];
+  const readmeNeedles = ["npm run setup:tools", "npm run doctor", "Support tooling", "Caveman"];
   for (const needle of readmeNeedles) {
     if (readme.includes(needle)) {
       status(`README.md: ${needle}`, "pass");
     } else {
       status(`README.md: ${needle}`, "fail", "missing");
-      remediation("update README.md quick start and RTK/Caveman section");
+      remediation("update README.md quick start and support-tool section");
       ok = false;
     }
   }
@@ -299,7 +286,6 @@ function main() {
   const results = [
     checkNode(),
     checkNpm(),
-    checkRtk(),
     checkSkills(),
     checkRepoFiles(),
     checkPackageLifecycle(),

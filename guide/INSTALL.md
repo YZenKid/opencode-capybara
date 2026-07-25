@@ -26,8 +26,7 @@ bash scripts/install.sh
 Installer ini akan menjalankan:
 
 - `npm install`
-- setup RTK secara eksplisit di dalam installer
-- setup Caveman secara eksplisit di dalam installer
+- setup tool pendukung secara eksplisit di dalam installer
 - `npm run doctor`
 
 Catatan:
@@ -36,11 +35,6 @@ Catatan:
 - installer ini menjalankan setup **third-party tools** secara eksplisit
 - installer akan meminta **konfirmasi** sebelum third-party setup
 - mode non-interaktif tersedia lewat `bash scripts/install.sh --yes`
-
-Catatan versi RTK:
-
-- jalur script resmi memakai fallback **pinned release** `RTK_VERSION=v0.39.0` secara default
-- jalur Homebrew tetap mengikuti **versi formula saat ini**
 
 ## Setup manual / lanjutan
 

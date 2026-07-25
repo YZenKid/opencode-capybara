@@ -40,7 +40,7 @@ Isi semua value penting, terutama:
 - `NINEROUTER_KEY`
 - semua `OPENCODE_MODEL_*`, termasuk `OPENCODE_MODEL_VISUAL_ASSET` dan `OPENCODE_MODEL_QUALITY_GATE`
 
-## RTK atau Caveman belum tersedia
+## Tool pendukung belum tersedia
 
 Jalankan:
 

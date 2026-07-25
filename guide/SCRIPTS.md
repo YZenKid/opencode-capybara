@@ -5,7 +5,7 @@
 | Script | Fungsi | Kapan dipakai |
 |---|---|---|
 | `bash scripts/install.sh` | Installer pemula: install dependency, setup tool eksternal, buat `.env` jika belum ada, lalu beri instruksi next step | Saat pertama kali setup repo ini |
-| `npm run setup:tools` | Menyiapkan RTK dan Caveman secara eksplisit | Kalau tool pendukung belum terpasang atau ingin setup manual tanpa installer pemula |
+| `npm run setup:tools` | Menyiapkan tool pendukung secara eksplisit | Kalau tool pendukung belum terpasang atau ingin setup manual tanpa installer pemula |
 | `npm run setup:tools:check` | Verifikasi read-only apakah tool setup sudah tersedia | Saat ingin cek kondisi tool tanpa mengubah sistem |
 | `npm run doctor` | Menjalankan pemeriksaan repo, env posture, sync agent model, dan sync OpenChamber | Setelah setup atau saat troubleshooting |
 | `npm run post:update` | Menjalankan sync agent model, sync OpenChamber, lalu `doctor` | Setelah update config, model routing, atau file agent |

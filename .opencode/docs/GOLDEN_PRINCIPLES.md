@@ -33,8 +33,8 @@ For execution requests, agents should complete as much work as possible first. N
 ## 11. Harness constrains. Evidence proves.
 Preventive controls, mechanical checks, and replayable evidence should be trusted more than verbal confidence.
 
-## 12. Compression follows the approved toolchain
-If token compression or context packing is needed, use RTK and Caveman together according to the repo-approved workflow. Do not create a parallel local compression path or treat RTK and Caveman as either/or choices outside the official setup, docs, and gates.
+## 12. Communication stays readable
+Use optional support guidance only when it improves readability or concise communication. Do not make support tooling a required operating path.
 
 ## 13. Indonesian-first user-facing prose
 Default user-facing orchestrator communication must be Bahasa Indonesia: progress, summary, risks, next steps, and handoff.

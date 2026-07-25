@@ -4,15 +4,9 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ENV_EXAMPLE="$ROOT_DIR/.env.example"
 ENV_FILE="$ROOT_DIR/.env"
-RTK_VERSION="${RTK_VERSION:-v0.39.0}"
-
 PASS_COUNT=0
 WARN_COUNT=0
 AUTO_YES=0
-
-platform_name() {
-  uname -s
-}
 
 usage() {
   cat <<EOF
@@ -65,7 +59,6 @@ note() {
 confirm_external_setup() {
   section "Konfirmasi third-party setup"
   note "Installer ini akan menjalankan setup tool eksternal berikut secara eksplisit:"
-  note "- RTK ${RTK_VERSION} via Homebrew atau script resmi RTK yang dipin ke tag release"
   note "- Caveman via npx skills add JuliusBrussee/caveman -a opencode"
 
   if [[ "$AUTO_YES" -eq 1 ]]; then
@@ -97,36 +90,10 @@ run_step() {
   pass "$label selesai"
 }
 
-install_rtk() {
-  section "RTK"
-  note "RTK dipasang secara eksplisit oleh installer ini."
-  note "Jangan jalankan rtk init dengan -g --opencode."
-  note "Versi yang dipin: ${RTK_VERSION}"
-
-  if command -v rtk >/dev/null 2>&1; then
-    pass "rtk sudah terpasang"
-    return
-  fi
-
-  if [[ "$(platform_name)" == "Darwin" ]] && command -v brew >/dev/null 2>&1; then
-    run_step "brew install rtk" brew install rtk
-    return
-  fi
-
-  if command -v curl >/dev/null 2>&1 && command -v sh >/dev/null 2>&1; then
-    printf '[run] curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/%s/install.sh | RTK_VERSION=%s sh\n' "$RTK_VERSION" "$RTK_VERSION"
-    sh -lc "curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/${RTK_VERSION}/install.sh | RTK_VERSION=${RTK_VERSION} sh"
-    pass "rtk selesai dipasang lewat script resmi"
-    return
-  fi
-
-  fail "Installer otomatis RTK tidak tersedia di platform ini. Pasang RTK manual lalu jalankan ulang installer."
-}
-
 install_caveman() {
   section "Caveman"
   note "Caveman ditambahkan secara eksplisit oleh installer ini."
-  note "Repo ini memakai RTK dan Caveman bersama untuk workflow compression/context packing saat dibutuhkan."
+  note "Caveman tetap opsional dan membantu readability atau concise communication bila diperlukan."
   run_step "npx -y skills add JuliusBrussee/caveman -a opencode" npx -y skills add JuliusBrussee/caveman -a opencode
 }
 
@@ -159,7 +126,6 @@ fi
 section "Install dan setup repo"
 run_step "npm install" npm install
 confirm_external_setup
-install_rtk
 install_caveman
 run_step "npm run doctor" npm run doctor
 

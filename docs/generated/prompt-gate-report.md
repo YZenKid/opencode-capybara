@@ -128,8 +128,8 @@ Generated inventory of deterministic prompt-gate checks. This file is advisory a
 90. **readme conditional domain specialist gate** — `README.md`
 91. **readme docs system-of-record gate** — `README.md`
 92. **tool setup script contract gate** — `package.json`
-93. **rtk caveman onboarding docs gate** — `README.md`
-94. **rtk opt-in policy gate** — `AGENTS.md`
+93. **support tooling onboarding docs gate** — `README.md`
+94. **support tooling policy gate** — `AGENTS.md`
 95. **setup-dev-tools contract gate** — `scripts/setup-dev-tools.mjs`
 96. **doctor read-only contract gate** — `scripts/doctor.mjs`
 97. **docs integrity contract gate** — `scripts/docs-integrity-check.mjs`

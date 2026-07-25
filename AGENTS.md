@@ -20,9 +20,8 @@
 - Quality score and GC workflow: `.opencode/docs/QUALITY_SCORE.md`, `.opencode/docs/GC_WORKFLOW.md`
 
 ## Non-negotiable Rules
-- Do not prefix shell commands with `rtk` in OpenCode sessions or OpenChamber sessions that invoke OpenCode.
-- RTK may be installed by explicit setup, but OpenCode auto-rewrite/prefix remains opt-in unless user explicitly asks; OpenChamber should follow that OpenCode posture rather than redefine it.
-- Token compression/context packing should use RTK and Caveman together when that capability is needed; do not invent a parallel local compression flow or treat them as either/or alternatives.
+- Keep shell command usage explicit and reviewable in OpenCode sessions and OpenChamber sessions that invoke OpenCode.
+- Use Caveman guidance as an optional support utility when it helps readability or concise communication; do not treat it as required.
 - Never commit secrets, tokens, or `.env` files.
 - Use `@orchestrator` for routing and integration.
 - Use `@quality-gate` for material changes, including non-trivial/risky work, prompt/config changes, and security-sensitive changes.
