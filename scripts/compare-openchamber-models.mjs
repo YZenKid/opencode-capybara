@@ -115,7 +115,6 @@ function main() {
       env.OPENCODE_MODEL_DISCOVERY || env.OPENCODE_MODEL_IMPROVEMENT || env.OPENCODE_MODEL_DEFAULT || opencodeConfig.model,
       openchamber.zenModel || "-",
     ],
-    ["homeDirectory", flags.opencodeRoot, openchamber.homeDirectory || "-"],
   ];
 
   const agentMap = {

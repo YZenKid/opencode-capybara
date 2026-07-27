@@ -6,7 +6,9 @@ ENV_FILE="${OPENCODE_ENV_FILE:-$HOME/.config/opencode/.env}"
 detect_default_binary() {
   case "$(uname -s)" in
     Darwin*)
-      if [ -x /opt/homebrew/bin/opencode ]; then
+      if [ -x "$HOME/.bun/bin/opencode" ]; then
+        printf '%s\n' "$HOME/.bun/bin/opencode"
+      elif [ -x /opt/homebrew/bin/opencode ]; then
         printf '%s\n' '/opt/homebrew/bin/opencode'
       elif [ -x /usr/local/bin/opencode ]; then
         printf '%s\n' '/usr/local/bin/opencode'

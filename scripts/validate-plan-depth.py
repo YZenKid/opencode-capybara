@@ -3,17 +3,16 @@ import re
 import sys
 from pathlib import Path
 
-MIN_TOTAL_LINES = 5000
-MIN_GOAL_WORDS = 200
-MIN_REQUIREMENTS_WORDS = 500
+# Proportional plan depth: executable coverage beats filler.
+# Greenfield plans must prove material scope with requirements, acceptance
+# criteria, worklist, validation, and grounding—not an arbitrary line quota.
 MIN_REQUIREMENTS_COUNT = 10
-MIN_ACCEPTANCE_WORDS = 300
 MIN_ACCEPTANCE_COUNT = 8
-MIN_UI_PAGES = 3
-MIN_UI_PAGE_WORDS = 1000
-MIN_COMPONENTS = 20
-MIN_IMPLEMENTATION_STEPS = 50
+MIN_IMPLEMENTATION_STEPS = 30
 MIN_VALIDATION_COMMANDS = 10
+MIN_UI_PAGES = 3
+MIN_UI_PAGE_WORDS = 300
+MIN_COMPONENTS = 20
 REQUIRED_STATES = ["empty", "loading", "error", "success"]
 
 GROUNDING_SECTION_HEADERS = {
@@ -335,19 +334,18 @@ def main() -> int:
         ])
     else:
         checks.extend([
-            ("goal_words", word_count(goal_text), MIN_GOAL_WORDS, word_count(goal_text) >= MIN_GOAL_WORDS),
-            ("requirements_words", word_count(requirements_text), MIN_REQUIREMENTS_WORDS, word_count(requirements_text) >= MIN_REQUIREMENTS_WORDS),
             ("requirements_count", count_bullets_or_ordered(requirements_text), MIN_REQUIREMENTS_COUNT, count_bullets_or_ordered(requirements_text) >= MIN_REQUIREMENTS_COUNT),
-            ("acceptance_words", word_count(acceptance_text), MIN_ACCEPTANCE_WORDS, word_count(acceptance_text) >= MIN_ACCEPTANCE_WORDS),
             ("acceptance_count", count_bullets_or_ordered(acceptance_text), MIN_ACCEPTANCE_COUNT, count_bullets_or_ordered(acceptance_text) >= MIN_ACCEPTANCE_COUNT),
+            ("implementation_worklist", int(has_implementation and count_bullets_or_ordered(implementation_text) >= MIN_IMPLEMENTATION_STEPS), MIN_IMPLEMENTATION_STEPS, has_implementation and count_bullets_or_ordered(implementation_text) >= MIN_IMPLEMENTATION_STEPS),
+            ("handoff_contract", int(has_handoff), 1, has_handoff),
+            ("evidence_requirements", int(has_evidence_requirements), 1, has_evidence_requirements),
+            ("done_criteria", int(has_done_criteria), 1, has_done_criteria),
         ])
     if profile != "maintenance":
         checks.extend([
             ("implementation_steps", count_bullets_or_ordered(implementation_text), MIN_IMPLEMENTATION_STEPS, count_bullets_or_ordered(implementation_text) >= MIN_IMPLEMENTATION_STEPS),
             ("validation_commands", count_bullets_or_ordered(validation_text), MIN_VALIDATION_COMMANDS, count_bullets_or_ordered(validation_text) >= MIN_VALIDATION_COMMANDS),
         ])
-    if profile != "maintenance":
-        checks.append(("total_lines", total_lines, MIN_TOTAL_LINES, total_lines >= MIN_TOTAL_LINES))
     if profile == "substantial-ui":
         checks.extend([
             ("ui_pages", len(ui_pages), MIN_UI_PAGES, len(ui_pages) >= MIN_UI_PAGES),

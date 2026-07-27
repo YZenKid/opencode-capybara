@@ -13,8 +13,7 @@ export GRAPHIFY_OUT="$out"
 
 if [[ ! -s "$graph" ]]; then
   graphify extract "$root" --code-only --no-cluster --out "$root" >&2
-else
-  graphify update "$root" --no-cluster >&2
 fi
 
+# ponytail: startup reuses graph; refresh manually after source changes via graphify update.
 exec graphify-mcp "$graph"

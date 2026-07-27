@@ -103,7 +103,6 @@ function printHelp() {
   log("");
   log("Syncs OpenChamber settings with the current OpenCode config.");
   log("Fields synced:");
-  log("- homeDirectory <- OpenCode config root");
   log("- defaultModel <- OPENCODE_MODEL_ORCHESTRATOR for new OpenChamber sessions");
   log("- defaultAgent <- opencode.json default_agent");
   log("- zenModel <- OPENCODE_MODEL_DISCOVERY or OPENCODE_MODEL_IMPROVEMENT or opencode.json model");
@@ -197,7 +196,6 @@ function main() {
   const opencodeAgentModelMap = buildOpencodeAgentModelMap(opencodeEnv);
 
   const desired = {
-    homeDirectory: flags.opencodeRoot,
     defaultModel,
     defaultAgent: opencodeConfig.default_agent,
     zenModel,

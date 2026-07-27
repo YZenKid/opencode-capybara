@@ -338,7 +338,7 @@
         "{env:HOME}/.config/opencode/scripts/graphify-mcp-wrapper"
       ],
       "enabled": true,
-      "timeout": 120000
+      "timeout": 300000
     }
   },
   "agent": {
