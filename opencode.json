@@ -173,6 +173,7 @@
     }
   },
   "model": "{env:OPENCODE_MODEL_DEFAULT}",
+  "plugin": ["./plugins/visual-context-filepart-bridge.js"],
   "default_agent": "orchestrator",
   "mcp": {
     "time": {

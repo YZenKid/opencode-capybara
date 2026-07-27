@@ -42,7 +42,7 @@ This section turns the reference-first contract above into enforceable rules. Th
 | "Package P version is V" | `pip show P` / `npm ls P` / `cat package.json` / `cat requirements.txt` |
 | "Doc/source D says X" | `@librarian`, `web_extract D`, or `web_search "D"` |
 | "Previous session/conversation did X" | `session_search` |
-| "Reference R uses pattern P" | `@visual-context-extractor` for image, `web_extract R` for URL |
+| "Reference R uses pattern P" | For parent image FilePart, built-in `task` with `subagent_type: visual-context-extractor`; plugin interceptor materialization → exact `@.opencode/visual-attachments/<random>/image.ext` → child task → `tool.execute.after` cleanup. Direct task without plugin remains unavailable. Use `web_extract R` for URL |
 | "Database D has table T with column C" | `psql -c "\d T"` or `query the schema` |
 | "Container C is running" | `docker ps \| grep C` or `podman ps \| grep C` |
 | "Env var E is set" | `printenv E` or `grep E .env*` |

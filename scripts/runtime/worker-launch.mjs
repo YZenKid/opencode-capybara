@@ -16,7 +16,10 @@ function buildBackendCommand(spec, backend) {
   const attachArgs = maybeAttachArgs(spec);
   switch (backend) {
     case "opencode-subagent":
-      return { command: opencodeBin, args: ["run", ...attachArgs, "--agent", spec.lane, prompt] };
+      return {
+        command: opencodeBin,
+        args: ["run", ...attachArgs, ...(spec.image_path ? ["--file", spec.image_path] : []), "--agent", spec.lane, prompt],
+      };
     case "opencode-session":
       return { command: opencodeBin, args: [...attachArgs, "--agent", spec.lane] };
     case "external-cli-codex":
@@ -55,6 +58,7 @@ export function buildWorkerLaunchPlan(spec = {}) {
       worktree_branch: spec.worktree_branch ?? null,
       worktree_repo_root: spec.project_root,
       attach_url: spec.attach_url ?? process.env.OPENCODE_ATTACH_URL ?? null,
+      image_path: spec.image_path ?? null,
     },
   };
 }

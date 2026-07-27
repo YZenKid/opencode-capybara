@@ -46,6 +46,11 @@
       "type": "string",
       "description": "Free-form clarification of what is in scope and what is NOT in scope for the claim."
     },
+    "image_path": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional local image path for worker context."
+    },
     "source_basis": {
       "type": "array",
       "items": { "type": "string", "minLength": 1 },

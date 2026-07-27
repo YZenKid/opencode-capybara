@@ -1,7 +1,8 @@
 import { randomUUID } from "node:crypto";
 import { spawn } from "node:child_process";
-import { closeSync, openSync } from "node:fs";
-import { dirname } from "node:path";
+import { closeSync, copyFileSync, mkdirSync, openSync } from "node:fs";
+import { dirname, join, resolve } from "node:path";
+import { normalizeWorkerSpec, validateWorkerSpec } from "./worker-contracts.mjs";
 import { appendNdjson, ensureDir, listJson, readJson, writeJsonAtomic } from "./state-io.mjs";
 import { createWorkerWorktree } from "./worktree-plan.mjs";
 import { buildWorkerLaunchPlan } from "./worker-launch.mjs";
@@ -41,17 +42,30 @@ export function updateWorkerExecution(projectRoot, runId, executionId, updater) 
   return updated;
 }
 
-export function prepareWorkerExecution(projectRoot, runId, spec = {}) {
+export function prepareWorkerExecution(projectRoot, runId, rawSpec = {}) {
+  const spec = normalizeWorkerSpec({ ...rawSpec, run_id: rawSpec.run_id ?? runId, project_root: rawSpec.project_root ?? projectRoot });
+  const validation = validateWorkerSpec(spec);
+  if (!validation.ok) throw new Error(`invalid worker spec: ${validation.errors.join('; ')}`);
   const workspaceMode = spec.workspace_mode ?? "worktree";
   const workspace = workspaceMode === "worktree"
     ? createWorkerWorktree(projectRoot, runId, spec.worker_name)
     : { repo_root: projectRoot, worktree_path: null, worktree_branch: null, workspace_mode: "single", worktree_created: false };
 
   const executionId = spec.execution_id ?? randomUUID();
+  const effectiveImagePath = spec.image_path
+    ? workspaceMode === "worktree"
+      ? join(workspace.worktree_path, ".opencode", "state", "worker-images", executionId, `${executionId}${resolve(spec.image_path).slice(resolve(spec.image_path).lastIndexOf("."))}`)
+      : resolve(spec.image_path)
+    : null;
+  if (spec.image_path && workspaceMode === "worktree") {
+    mkdirSync(dirname(effectiveImagePath), { recursive: true });
+    copyFileSync(spec.image_path, effectiveImagePath);
+  }
   const launchPlan = buildWorkerLaunchPlan({
     ...spec,
     run_id: runId,
     project_root: projectRoot,
+    image_path: effectiveImagePath,
     worktree_path: workspace.worktree_path ?? undefined,
     worktree_branch: workspace.worktree_branch ?? undefined,
     workspace_mode: workspace.workspace_mode,
@@ -70,6 +84,7 @@ export function prepareWorkerExecution(projectRoot, runId, spec = {}) {
     prompt: spec.prompt,
     status: "planned",
     backend: launchPlan.backend,
+    image: spec.image_path ? { original_path: spec.image_path, effective_path: effectiveImagePath } : null,
     launch_plan: launchPlan,
     workspace,
     logs: {

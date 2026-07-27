@@ -22,7 +22,7 @@ Use this skill when a caller agent needs structured observable context from a vi
 - See `.opencode/docs/EXECUTION_CONDUCT.md`. Extract every safely observable fact before routing out-of-lane requests. Do not ask follow-up questions for details recoverable from the visual; return exact uncertainty and grouped residual needs.
 
 ## Role
-Read-only helper lane. Receives an image attachment or local path plus an intent, returns a structured JSON summary describing only what is observable in the image.
+Read-only helper lane. Receives image input through built-in `task` intercepted by plugin, plus intent, and returns structured JSON summary describing only what is observable in image. Interceptor materializes safe FilePart under worktree `.opencode/visual-attachments/<random>/image.ext`, appends exact `@.opencode/visual-attachments/<random>/image.ext`, and cleans after child task resolves. Direct task without plugin cannot transport parent image FileParts; custom `visual_extract` is not extraction route.
 
 ## Boundary table
 
@@ -44,7 +44,8 @@ Read-only helper lane. Receives an image attachment or local path plus an intent
 - Never edit application source. Implementation belongs to `@fixer`.
 
 ## When to use
-- Caller supplies an image attachment or local path and asks for layout, visible text, components, color palette, UI state, error messages, or flow cues.
+- Caller invokes built-in `task` with `subagent_type: visual-context-extractor` and extraction prompt. Plugin interceptor supplies inherited parent image cache through secure local materialization.
+- Direct task without plugin does not transport attachments. Custom `visual_extract` is not extraction route.
 - A non-vision agent needs shared evidence from a visual input.
 - `@orchestrator`, `@designer`, `@frontend`, `@backend`, `@mobile`, `@fullstack`, `@fixer`, `@oracle`, `@quality-gate`, `@system-analyst`, `@project-manager`, `@architect`, `@visual-asset-generator`, `@skill-improver`, `@council`, `@artifact-planner`, or `@explorer` needs structured visual context (always route via `@orchestrator` unless the caller's `task` permission allows direct delegation).
 
@@ -56,7 +57,13 @@ Read-only helper lane. Receives an image attachment or local path plus an intent
 - Caller wants source code changes in response to the visual.
 
 ## Input contract
-- `image_path` or image attachment (screenshot, mockup, diagram, photo, wireframe).
+- Built-in `task` prompt; plugin supplies inherited image attachment through secure local materialization.
+- Accepted image size: maximum 10 MiB.
+- Child output buffer: maximum 4 MiB.
+- Child timeout: 120 seconds.
+- Stale temp directories older than 1 hour are removed at plugin startup.
+- Missing or unsafe cached image fails closed with no safe cached image.
+- Temp image copy is cleaned in `finally` after child exit, error, or timeout. Original image is never deleted.
 - `intent`: what to extract (`"layout and components"`, `"error message and state"`, `"flow cues"`, etc.).
 - `focus` (optional): section, region, or component to emphasize.
 - `locale` (optional): expected language for visible text.

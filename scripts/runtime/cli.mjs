@@ -69,6 +69,7 @@ async function resultFor(command, projectRoot, flags) {
           lane: flags.lane,
           backend: flags.backend,
           workspace_mode: flags.workspace_mode ?? "worktree",
+          image_path: flags.image_path,
         }),
       };
     case "execute": {
@@ -78,6 +79,7 @@ async function resultFor(command, projectRoot, flags) {
           command,
           execution: executeDispatchedTask(projectRoot, requireFlag(flags, "run_id"), flags.execution_id, {
             spawn_process: flags.spawn === true,
+            image_path: flags.image_path,
           }),
         };
       }
@@ -91,6 +93,7 @@ async function resultFor(command, projectRoot, flags) {
           prompt: requireFlag(flags, "prompt"),
           backend: flags.backend,
           workspace_mode: flags.workspace_mode ?? "worktree",
+          image_path: flags.image_path,
         }),
       };
     }

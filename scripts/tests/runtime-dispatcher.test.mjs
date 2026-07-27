@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import assert from "node:assert/strict";
-import { mkdtempSync, writeFileSync } from "node:fs";
+import { existsSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { execFileSync } from "node:child_process";
@@ -14,6 +14,9 @@ execFileSync("git", ["init"], { cwd: repoRoot, stdio: "pipe" });
 execFileSync("git", ["config", "user.email", "runtime@example.com"], { cwd: repoRoot, stdio: "pipe" });
 execFileSync("git", ["config", "user.name", "Runtime Test"], { cwd: repoRoot, stdio: "pipe" });
 writeFileSync(join(repoRoot, "README.md"), "dispatch\n");
+const imageRoot = mkdtempSync(join(tmpdir(), "opencode-runtime-image-source-"));
+const imagePath = join(imageRoot, "shot.png");
+writeFileSync(imagePath, "image\n");
 execFileSync("git", ["add", "README.md"], { cwd: repoRoot, stdio: "pipe" });
 execFileSync("git", ["commit", "-m", "init"], { cwd: repoRoot, stdio: "pipe" });
 
@@ -27,11 +30,20 @@ const dispatched = dispatchWorkerTask(repoRoot, "run-dispatch", {
   task_id: "task-1",
   worker_name: "backend-1",
   prompt: "Implement backend change",
+  image_path: imagePath,
 });
 assert.equal(dispatched.task.status, "claimed");
 assert.equal(dispatched.execution.status, "planned");
 assert.equal(dispatched.execution.launch_plan.backend, "opencode-subagent");
 assert.equal(dispatched.execution.launch_plan.metadata.workspace_mode, "worktree");
+assert.equal(dispatched.execution.image.original_path, imagePath);
+assert.notEqual(dispatched.execution.image.effective_path, imagePath);
+assert.equal(existsSync(dispatched.execution.image.effective_path), true);
+assert.equal(dispatched.execution.image.effective_path.startsWith(dispatched.execution.workspace.worktree_path), true);
+assert.equal(dispatched.execution.launch_plan.metadata.image_path, dispatched.execution.image.effective_path);
+assert.equal(dispatched.message.payload.image_path, imagePath);
+assert.equal(dispatched.execution.launch_plan.args.includes(dispatched.execution.image.effective_path), true);
+assert.throws(() => dispatchWorkerTask(repoRoot, "run-dispatch", { task_id: "task-1", worker_name: "backend-2", prompt: "bad", image_path: "../missing-traversal-like.png" }), /existing image file/);
 assert.equal(getTask(repoRoot, "run-dispatch", "task-1").claimed_by, "backend-1");
 assert.equal(listMessages(repoRoot, "run-dispatch", "backend-1").length, 1);
 const execution = getWorkerExecution(repoRoot, "run-dispatch", dispatched.execution.execution_id);
