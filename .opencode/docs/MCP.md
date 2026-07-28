@@ -22,6 +22,7 @@ Configured MCP surfaces include:
 - `shadcn`
 - `semgrep`
 - `github`
+- `21st`
 - `scripts`
 - Legacy `image-asset-generator` removed; image asset tools live under `9router`.
 
@@ -75,6 +76,14 @@ Operational image rules:
 **No duplicate invocation:** When both MCPs are reachable, the lane picks BrowserOS first. Automatic same-task duplicate actions against both MCPs are forbidden.
 
 **Selection guidance:** See [TOOL_USAGE.md](./TOOL_USAGE.md) for when to use `playwright` tools.
+
+## 21st MCP
+
+`21st` is enabled as local stdio proxy via `bash {env:HOME}/.config/opencode/bin/21st-mcp-proxy`. Wrapper sources `$HOME/.config/opencode/.env` unless `OPENCODE_ENV_FILE` overrides it, requires a nonempty `API_KEY_21ST` without printing it, then starts `mcp-remote` with HTTP-only transport and silent output. Upstream endpoint uses HTTP JSON-RPC; native OpenCode 1.18.5 remote transport emitted SSE `GET` and received HTTP `405`. Config has no API-key interpolation, environment mapping, or inline header arguments; timeout is 60000 ms. No credential literal belongs in config, logs, evidence, or terminal output.
+
+Restart doctrine: config loads once. After changing `opencode.json`, quit and restart OpenCode; validate in a new `opencode mcp list` subprocess before claiming `connected`. Then use only safe JSON-RPC `tools/list` through stdio proxy and record tool names/count, never request headers. `configured` or CLI discovery does not mean `authenticated`, `connected`, or `usable`.
+
+Use only after design authority and React/shadcn compatibility basis are checked. No automatic `21st add`, `21st generate`, login, publish, delete, or other mutation. If key, quota, or service is unavailable, use repo-local/Open Design/shadcn sources and record exact blocker.
 
 ## Scripts MCP
 

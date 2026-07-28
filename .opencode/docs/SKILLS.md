@@ -73,6 +73,10 @@ Exemptions: tiny/reversible UI tweaks, non-visual changes, and projects with the
 
 Meta-skill: `ui-ux-pro-max` is auto-loaded for substantial UI work and contains the cross-lane UI/UX playbook + catalog index pointer.
 
+Controlled external overlays: canonical authority, activation/skip/reject, adoption, and evidence rules live in `skills/ui-ux-pro-max/SKILL.md` §"Canonical Taste / 21st bridge".
+- `taste-overlay` — local MIT adaptation of Taste `gpt-taste`; bounded craft dials and anti-slop preflight only after catalog/design authority selection. Never token/layout authority. Source/revision/adaptation record: `skills/taste-overlay/SOURCE.md`.
+- `21st-discovery-overlay` — local Apache-2.0 adaptation of 21st `21st-cli-use`; candidate metadata only after explicit design direction, stack, and component gap. It does not authorize auth, retrieval, install, generation, publish, team access, source adoption, or target-app mutation. Per-item license remains required. Source/revision/adaptation record: `skills/21st-discovery-overlay/SOURCE.md`.
+
 ## Contract expectations
 Every skill should provide:
 - frontmatter `name` and `description`,

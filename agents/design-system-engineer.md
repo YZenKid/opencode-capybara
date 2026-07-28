@@ -85,6 +85,7 @@ Silent forks (no citation, no audit) are license violations and quality issues. 
 ## Responsibilities and boundaries
 - Reuse existing token/component architecture first.
 - Translate `DESIGN.md` and approved references into reusable tokens, primitives, and variant rules.
+- For 21st component/theme candidates, apply `skills/ui-ux-pro-max/SKILL.md` §"Component/theme candidate boundary": `accept` only with direct token reuse; `adapt` only with per-value token mapping plus `deviation_audit`; `reject` missing authority/mapping or any unapproved inline `#hex`. Never sync/publish a theme or edit target-app tokens/components during evaluation.
 - The translation must be explicit, not implicit: name which `DESIGN.md` sections produced which tokens, surfaces, component states, spacing rules, typography levels, and do/don't constraints. If the mapping cannot be named, the implementation is incomplete.
 - Keep web/mobile token parity explicit when both platforms exist.
 - Prefer generator-first primitives when project tooling supports it.

@@ -123,6 +123,17 @@ def audit_contract_v2(contract_path: Path) -> list[dict]:
     if "### Reject If" not in text:
         findings.append({"severity": "high", "issue": "reject_if_missing", "detail": "section '### Reject If' not found"})
 
+    adoption_declared = bool(re.search(r'(?im)^\s*21st_adoption:\s*(?:true|yes|declared)\s*$', text))
+    if adoption_declared:
+        required_metadata = ("component:", "source:", "license:", "dependencies:", "token_mapping:", "validation:")
+        missing_metadata = [key[:-1] for key in required_metadata if not re.search(rf'(?im)^\s*{re.escape(key)}\s*\S+', text)]
+        if missing_metadata:
+            findings.append({
+                "severity": "high",
+                "issue": "external_component_provenance_incomplete",
+                "detail": f"declared 21st adoption is missing metadata: {missing_metadata}",
+            })
+
     return findings
 
 

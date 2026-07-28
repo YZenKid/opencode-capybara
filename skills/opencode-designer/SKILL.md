@@ -243,7 +243,7 @@ Adapt useful Open Design patterns locally; do not paste upstream wholesale or cl
 | Open Design source | Local rule |
 |---|---|
 | `frontend-design` | Establish point of view, real states, responsive/a11y, production-grade UI, no generic gradients/cards/blobs, self-review before final. |
-| `taste-skill` | Write `Design Read`; set `DESIGN_VARIANCE`, `MOTION_INTENSITY`, `VISUAL_DENSITY`; run mechanical anti-slop checks. |
+| `taste-skill` | Follow `ui-ux-pro-max` §"Canonical Taste / 21st bridge": after catalog/design authority selection, write `Design Read`; set `DESIGN_VARIANCE`, `MOTION_INTENSITY`, `VISUAL_DENSITY`; run bounded anti-slop checks. Never accept forced randomness, page formula, fonts, assets, or motion from Taste. |
 | `design-brief` | Convert vague ask into palette, accent, typography, display, layout, mood, density, assets, platform, constraints, and defaults. |
 | `reference-design-contract` | Split references into `Keep`, `Change`, `Do not copy`; preserve intent by default, but under Source-approved 1:1 Porting / Literal Porting Contract exact layout/component/class anatomy, tokens, and code structure may be preferred when the user explicitly approved/licensed the source. Protected assets, fake testimonials/claims, restricted logos/trademarks, privacy/security hazards, and unsafe copied behavior still remain blocked. |
 | `design-md` | Treat project `DESIGN.md` as design source of truth and create/update it through `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) when substantial guidance is missing. |

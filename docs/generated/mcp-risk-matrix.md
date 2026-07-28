@@ -2,10 +2,11 @@
 
 Generated from `.opencode/capabilities/registry.json`. Advisory only; configured does not mean usable/authenticated.
 
-- MCP entries: 16
+- MCP entries: 17
 
 | MCP | Transport | Owner | Auth | Data egress | Write | Allowed lanes | Denied lanes | Fallback | Evidence required | Secret surfaces |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 21st | local | @designer | API_KEY_21ST | component/theme candidate queries and metadata | yes | @designer, @frontend, @design-system-engineer | @council | use repo-local primitives, cited Open Design catalog, or configured shadcn source | design authority and candidate provenance/license/dependency/token/a11y review, configured does not mean usable/authenticated | API_KEY_21ST |
 | 9router | local | @librarian | NINEROUTER_KEY | queries, fetched URLs, prompts, generated image prompts | yes | @librarian, @visual-asset-generator, @orchestrator | @quality-gate, @council | skip external fetch/search/image and use local evidence | source URL/model or asset manifest, no secrets in prompt | NINEROUTER_URL, NINEROUTER_KEY |
 | browseros | remote | @orchestrator | none | page URLs, forms, screenshots, network data, 40+ external app integrations | yes | @orchestrator, @fixer, @designer, @frontend, @explorer, @librarian | @quality-gate, @council | static review or screenshots supplied by user | URL, action summary, screenshot/console/network result when used | browser cookies, local session |
 | context7 | local | @librarian | CONTEXT7_API_KEY | library name and docs query | no | @librarian, @fixer | @quality-gate, @council | use local docs or package source | library id and query recorded | CONTEXT7_API_KEY |

@@ -63,6 +63,46 @@ Adopted from Open Design: source-pack discipline, `DESIGN.md` authority, screens
 - Keep client components small; keep server-only logic out of browser bundles.
 - Add/update tests when behavior changes; capture browser evidence for interaction/regression work.
 
+## Controlled 21st candidate adoption
+
+Use this path only for substantial UI after `@designer` handoff records design authority, a component gap, `taste_21st_bridge`, and an explicit `adoption_decision: candidate-review-approved`. 21st discovery does not override local components, shadcn, `DESIGN.md`, catalog tokens, or normal generator-first rules.
+
+1. **Local-first exit.** Inspect existing primitives, cited catalog anatomy, and configured shadcn registry. If one fits, reuse it; record `decision: local-reuse` and do not search 21st.
+2. **Stable search intake.** Record normalized need: pattern, required states, React/shadcn/Tailwind compatibility, package manager, token constraints, a11y/responsive/reduced-motion requirements, and prohibited dependencies. Search only this need. Save query/tool/version/time, returned IDs/URLs in returned order, and candidate metadata. Do not use `add`, `get`, `generate`, login/auth, publish, sync, or write actions.
+3. **Metadata review.** For each candidate in saved order, create a record containing source URL/ID, author, item license/terms evidence or `unverified`, files/source availability, dependency list/diff status, token mapping/deviation result, a11y state/keyboard/semantic evidence, responsive evidence, reduced-motion evidence, and local-duplication result. Missing any field means `reject`, never assumed pass.
+4. **Explicit approval gate.** Present only reviewed candidates with `accept`, `adapt`, or `reject` plus risks. Future source retrieval or install requires user-scoped approval naming candidate ID/URL, allowed action (`retrieve-source` or `install`), target project, package manager, and accepted dependency/token deviations. Candidate review, handoff approval, or available credentials is not approval to retrieve/install.
+5. **Future retrieval/install or fallback.** After scoped approval, inspect source and dry output (`--print` or equivalent) before mutation when tool supports it; re-check per-item license, files, dependency diff, tokens, a11y, responsive behavior, and reduced motion. Use project package manager and existing shadcn/generator route. If tool/auth/quota/source/license/approval/fit fails, record exact status (`auth-blocked`, `quota-blocked`, `source-unavailable`, `license-unverified`, `approval-missing`, or `rejected`) and reuse local/shadcn/catalog path or minimal local implementation from handoff. Never substitute a remote `add`/`generate` action.
+
+Candidate record schema:
+
+```yaml
+21st_candidate_review:
+  search:
+    need: "named component gap"
+    compatibility: "React + shadcn + Tailwind; package manager"
+    query: "exact query"
+    tool: "21st CLI or MCP name/version"
+    timestamp: "ISO-8601"
+    returned_order: ["candidate-id"]
+  candidate:
+    id: "candidate-id"
+    url: "https://..."
+    author: "name or unverified"
+    source_evidence: "URL, commit/archive/hash, or unavailable"
+    license_terms_evidence: "URL/text or unverified"
+    dependencies: "list + diff status"
+    token_mapping: "mapped | deviation-required | reject"
+    accessibility: "semantic/keyboard/state evidence or unverified"
+    responsive: "breakpoint evidence or unverified"
+    reduced_motion: "evidence or unverified"
+    local_duplicate: false
+  review: "accept | adapt | reject"
+  approval: "not-requested | approved scoped action"
+  outcome: "candidate-only | local-reuse | fallback | retrieved | installed"
+```
+
+`retrieved` and `installed` are future execution outcomes, never claims from discovery evidence. Preserve source/approval records with UI validation evidence after any target-app change.
+
 ## Senior heuristics / checklist
 - Basis check: for each material UI decision, know whether it comes from `DESIGN.md`, blueprint, reference screen, or existing pattern. If you cannot name the basis, the decision is under-specified.
 - Style grammar check: for explicit aesthetics, name the user phrase, tokens, surfaces, layout rules, and reject_if before coding; visible mismatch is not acceptable as “taste”.

@@ -290,6 +290,15 @@
       "enabled": true,
       "timeout": 30000
     },
+    "21st": {
+      "type": "local",
+      "command": [
+        "bash",
+        "{env:HOME}/.config/opencode/bin/21st-mcp-proxy"
+      ],
+      "enabled": true,
+      "timeout": 60000
+    },
     "postgres_local": {
       "type": "local",
       "command": [

@@ -1130,6 +1130,41 @@
       ]
     },
     {
+      "name": "21st",
+      "status": "configured",
+      "owner_lane": "@designer",
+      "risk": [
+        "remote-egress",
+        "api-key",
+        "external-component-candidate"
+      ],
+      "fallback": "use repo-local primitives, cited Open Design catalog, or configured shadcn source",
+      "evidence": [
+        "opencode.json:mcp.21st",
+        ".opencode/docs/MCP.md"
+      ],
+      "source": "opencode.json:mcp.21st local mcp-remote@latest proxy; 21st official JSON-RPC HTTP endpoint",
+      "transport": "local",
+      "auth": "API_KEY_21ST",
+      "data_egress": "component/theme candidate queries and metadata",
+      "write_capability": true,
+      "allowed_lanes": [
+        "@designer",
+        "@frontend",
+        "@design-system-engineer"
+      ],
+      "denied_lanes": [
+        "@council"
+      ],
+      "evidence_required": [
+        "design authority and candidate provenance/license/dependency/token/a11y review",
+        "configured does not mean usable/authenticated"
+      ],
+      "secret_surfaces": [
+        "API_KEY_21ST"
+      ]
+    },
+    {
       "name": "postgres_local",
       "status": "disabled",
       "owner_lane": "@backend",

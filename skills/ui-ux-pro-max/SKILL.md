@@ -61,6 +61,60 @@ Before any substantial UI claim reaches `@quality-gate`, verify:
 
 **If any of 1-20 fails, return `needs-polish` or `blocked`. Do not claim `ready` or `reference-ready`.**
 
+## Canonical Taste / 21st bridge
+
+This bridge governs `taste-overlay` and `21st-discovery-overlay`. It is additive; it never replaces a project design system, lane boundary, legal gate, or implementation validation.
+
+### Authority order
+
+1. User-approved project brand and current root `DESIGN.md`.
+2. Cited Open Design system + template, generated tokens, and documented deviation audit.
+3. Existing repo policies: content authenticity, domain texture, accessibility, reduced motion, legal/source, stack, and lane rules.
+4. This approved bridge and its task evidence.
+5. `taste-overlay` for bounded craft dials and anti-slop review.
+6. `21st-discovery-overlay` for candidate metadata only.
+7. Generic principles. Never agent memory for visual direction.
+
+Higher source wins on conflict. Taste cannot set token/layout authority. 21st cannot set visual authority, retrieve source, install dependencies, or mutate a target app.
+
+### Activation gate
+
+Use Taste only after authority selection is recorded. For substantial UI, catalog selection and `DESIGN.md` source check must happen first. Then use Taste to set `DESIGN_VARIANCE`, `MOTION_INTENSITY`, and `VISUAL_DENSITY`, generate bounded alternatives when required by local policy, and run anti-slop preflight against selected grammar.
+
+Use 21st only after design direction, target stack, and component gap are explicit. It may supply discovery candidates for a missing component pattern. Candidate evidence must record item name/URL, provenance, license status, dependency and token impact, accessibility/state fit, and whether adoption would require a documented deviation. Per-item license remains `unverified` until checked.
+
+### Skip gate
+
+Skip both overlays for non-visual work and tiny reversible UI changes already settled by current project guidance. Skip Taste when no substantial design decision remains. Skip 21st when existing project primitives, official generator path, or cited catalog template solves the need. Skip 21st when remote/auth, retrieval, install, generation, publish, team access, or source adoption would be required; those are outside this bridge.
+
+### Reject gate
+
+Return `blocked` or `needs-polish`; do not advance adoption when any condition holds:
+
+- Authority selection, catalog citation, `DESIGN.md`, token contract, or deviation audit is missing for substantial UI.
+- Taste path forces randomness, AIDA/page formulas, GSAP/ScrollTrigger, `picsum`, font bans, or motion outside project/system evidence.
+- 21st candidate lacks item-level source/license evidence, conflicts with stack/tokens/a11y/state/reduced-motion requirements, duplicates an existing primitive, or requires an unapproved dependency/source import.
+- Candidate adoption degrades content authenticity, domain texture, legal posture, token parity, accessibility, or reduced-motion behavior.
+- Any existing mechanical anti-slop, asset, or visual-contract gate fails.
+
+### Component/theme candidate boundary
+
+21st component/theme items are external candidates, never design authority. Evaluate only after current project `DESIGN.md`, cited Open Design tokens, and existing primitive inventory are recorded.
+
+| Decision | Required conditions | Result |
+|---|---|---|
+| `accept` | Candidate reuses existing token names/variables without semantic drift; provenance/license, dependencies, states, a11y, responsive and reduced-motion fit pass; no duplicate local primitive; no inline `#hex` in candidate component/theme code. | Candidate may enter an approved handoff. Target-app adoption stays separate executor work. |
+| `adapt` | Candidate anatomy/behavior is useful but token values, naming, CSS variables, or one-off values differ. Map every candidate token/value to `DESIGN.md`/Open Design token. Record each unmatched value, reason, consumer, and risk in `deviation_audit`; declare forbidden source hex values in `must_avoid_token` so `visual-audit-check.py --token-parity` can enforce them. | Use mapped local tokens only. No candidate theme becomes project source-of-truth. |
+| `reject` | `DESIGN.md`/catalog authority missing; mapping/deviation audit incomplete; candidate adds unapproved inline `#hex`; provenance/license/dependencies/state/a11y/motion fail; candidate duplicates local primitive; or candidate requires theme sync/publish. | No retrieval, install, app edit, theme sync, or publication. Record rejection reason. |
+
+Never run theme/design sync or publish from this evaluation path. Never replace project app tokens, generated token files, or component primitives during candidate evaluation. Labeled one-off values remain deviations, not acceptance exceptions.
+
+### Handoff and evidence
+
+Designer handoff adds `taste_21st_bridge` with: `authority_source`, `taste_status` (`used` | `skipped` + reason), `21st_status` (`not-considered` | `candidate-only` | `rejected` + reason), and `adoption_decision`. Candidate-only never means adopted. For a 21st component/theme candidate, evidence also records `candidate_decision` (`accept` | `adapt` | `reject`), token mapping/deviation outcome, and confirmation that theme sync/publish was not run. Evidence names A1 source manifests, catalog/design authority, and any candidate-level legal/dependency review. `@frontend`, `@mobile`, and `@design-system-engineer` implement only approved handoff decisions; `@quality-gate` rejects undocumented overlay-led changes.
+
+For a 21st candidate review, follow `skills/opencode-frontend/SKILL.md` §"Controlled 21st candidate adoption": deterministic local/shadcn-first exit, saved search order and metadata intake, mandatory source/license/dependency/token/a11y/responsive/reduced-motion review, then explicit user-scoped approval before future source retrieval or install. `auth-blocked`, unavailable source, unverified license, dependency/token conflict, or missing approval means fallback, not automatic `get`/`add`/`generate`/publish/auth.
+
 ## Anti-slop playbook (catalog-driven)
 
 When you spot a known slop pattern, route to the catalog replacement:
