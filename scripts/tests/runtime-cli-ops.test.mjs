@@ -19,13 +19,13 @@ execFileSync("git", ["add", "README.md"], { cwd: repoRoot, stdio: "pipe" });
 execFileSync("git", ["commit", "-m", "init"], { cwd: repoRoot, stdio: "pipe" });
 
 createRun(repoRoot, { run_id: "run-cli-ops", goal: "CLI ops", status: "executing" });
-createTask(repoRoot, "run-cli-ops", { task_id: "task-1", title: "Retry from cli", owner_lane: "@backend" });
+createTask(repoRoot, "run-cli-ops", { task_id: "task-1", title: "Retry from cli", owner_lane: "@fixer" });
 failTask(repoRoot, "run-cli-ops", "task-1", { reason: "boom" });
 prepareWorkerExecution(repoRoot, "run-cli-ops", {
   execution_id: "exec-1",
   task_id: "task-1",
   worker_name: "backend-1",
-  lane: "@backend",
+  lane: "@fixer",
   prompt: "Retry from CLI",
   workspace_mode: "single",
 });

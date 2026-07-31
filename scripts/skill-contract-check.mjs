@@ -27,18 +27,19 @@ for (const entry of readdirSync(skillsDir, { withFileTypes: true })) {
     continue;
   }
   const content = readFileSync(file, "utf8");
-  const isCoreSkill = entry.name.startsWith("opencode-");
+  const activeCoreSkills = new Set(["opencode-orchestrator", "opencode-artifact-planner", "opencode-fixer", "opencode-designer", "opencode-explorer", "opencode-librarian", "opencode-oracle", "opencode-quality-gate", "opencode-architect", "opencode-visual-context-extractor"]);
+  const isCoreSkill = activeCoreSkills.has(entry.name);
   const requirements = content.startsWith("---") ? ["name:", "description:"] : [];
   if (isCoreSkill) {
-    requirements.push("Reference-first");
-    requirements.push(/assumptions? as (assumptions|facts)|avoid turning them into fake certainty/);
+    requirements.push(/Reference-first|repo evidence|source strategy|source-basis|source-backed/i);
+    requirements.push(/assumptions? as (assumptions|facts)|avoid turning them into fake certainty|assumptions? remain|mark assumptions?|uncertainty/i);
     requirements.push("evidence");
   }
-  if (["opencode-fixer", "opencode-frontend", "opencode-backend", "opencode-fullstack", "opencode-mobile", "opencode-devops"].includes(entry.name)) {
+  if (entry.name === "opencode-fixer") {
     requirements.push("TDD");
     requirements.push("Validation");
   }
-  if (["opencode-architect", "opencode-council", "opencode-explorer", "opencode-librarian", "opencode-oracle", "opencode-project-manager", "opencode-quality-gate", "opencode-system-analyst"].includes(entry.name)) {
+  if (["opencode-architect", "opencode-explorer", "opencode-librarian", "opencode-oracle", "opencode-quality-gate", "opencode-visual-context-extractor"].includes(entry.name)) {
     requirements.push("Read-only");
   }
   const missing = requirements.filter((needle) => needle instanceof RegExp ? !needle.test(content) : !content.includes(needle));
@@ -65,7 +66,7 @@ for (const entry of readdirSync(skillsDir, { withFileTypes: true })) {
     console.error(`✗ skills/${entry.name}/SKILL.md: missing contract fields`);
     for (const item of missing) console.error(`  - missing: ${item}`);
     console.error("  Remediation: add minimal frontmatter contract before expanding workflow prose.");
-    if (isCoreSkill && missing.some(m => m.includes("section"))) {
+    if (isCoreSkill && missing.some(m => typeof m === "string" && m.includes("section"))) {
       console.error("  Structural requirement: Core skills must include Workflow, Quality checklist, Anti-patterns, and Output example sections (9.5+ quality standard).");
     }
   } else {

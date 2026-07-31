@@ -46,7 +46,7 @@ VALID_PAYLOAD = textwrap.dedent(
     task_id: landing-2026-06-30
     plan_id: landing-2026-06-30
     caller: orchestrator
-    callee: frontend
+    callee: fixer
     scope: Implement landing hero + 3 feature sections + CTA
     claim_level: scoped
     claim_scope: hero+features+CTA only, no testimonials/pricing
@@ -71,7 +71,7 @@ BAD_CLAIM_LEVEL = textwrap.dedent(
     task_id: x
     plan_id: x
     caller: orchestrator
-    callee: frontend
+    callee: fixer
     scope: Implement x
     claim_level: finished-finished
     claim_scope: x only
@@ -129,7 +129,7 @@ PLAN_WITH_VALID_HANDOFF = textwrap.dedent(
       task_id: landing-2026-06-30
       plan_id: landing-2026-06-30
       caller: orchestrator
-      callee: frontend
+      callee: fixer
       scope: Implement landing hero + 3 feature sections + CTA
       claim_level: scoped
       claim_scope: hero+features+CTA only, no testimonials/pricing

@@ -52,7 +52,7 @@ Commonly used categories:
 - Browser/runtime UI evidence (`playwright`)
 - Security scans/findings (`semgrep`)
 - Image-generation surfaces (`9router` → `generate_image`, `generate_image_asset`)
-- Time/locality helpers (`time`)
+- Local system time from environment when date/time is needed; no time MCP configured
 
 ## Graphify query-first discovery
 
@@ -101,7 +101,7 @@ These fixed mappings do not expose arbitrary scripts, flags, commands, or write 
    - If tool is available but outside role boundary, delegate to the permitted agent.
 
 4. **Use automation evidence for UI/runtime claims.**
-   - Preferred: `playwright` with stable capture workflow
+    - Preferred: BrowserOS with stable capture workflow; use disabled `playwright` only after concrete BrowserOS failure
    - Anti-pattern: one-shot screenshot claims for animated/lazy pages
 
 5. **Choose least-risk write path.**

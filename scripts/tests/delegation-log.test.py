@@ -36,7 +36,7 @@ class DelegationLogTests(unittest.TestCase):
             "--task", "landing-1",
             "--record",
             "--caller", "orchestrator",
-            "--callee", "frontend",
+            "--callee", "fixer",
             "--scope", "Implement landing hero",
             "--claim-level", "scoped",
             "--kind", "delegate",
@@ -53,7 +53,7 @@ class DelegationLogTests(unittest.TestCase):
         self.assertEqual(code, 0, msg=err or out)
         data = json.loads(out)
         self.assertEqual(data["records"], 1)
-        self.assertEqual(data["by_lane"].get("frontend"), 1)
+        self.assertEqual(data["by_lane"].get("fixer"), 1)
 
     def test_invalid_lane_rejected(self) -> None:
         root = _tmpdir("deleg-log-bad-")

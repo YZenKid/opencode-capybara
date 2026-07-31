@@ -130,7 +130,7 @@ def build_awesome_design_md_index(root: Path, local_path: Path) -> tuple[Path, d
         '## Usage',
         '- `@artifact-planner`: cite this pack only when the task needs real-world DESIGN.md examples beyond the current Open Design catalog pick.',
         '- `@designer`: use as a fallback comparison pack after project-local DESIGN.md and catalog-first selection.',
-        '- `@frontend`: never invent from this pack directly; require a cited handoff that names the chosen sample and deviations.',
+        '- `@fixer with frontend skill`: never invent from this pack directly; require a cited handoff that names the chosen sample and deviations.',
         '',
         '## Entries',
     ]
@@ -222,7 +222,7 @@ def main() -> int:
             lines += [f'### `{raw}`'] + bullets + ['']
     else:
         lines += ['- _none_','']
-    lines += ['## Next actions', '- Extract stable design grammar into `DESIGN.md`.', '- Promote shared tokens/primitives into `.opencode/design-system/registry.md` and `catalog.json`.', '- Use this source pack as artifact-mode input for `@designer` and `@design-system-engineer`.']
+    lines += ['## Next actions', '- Extract stable design grammar into `DESIGN.md`.', '- Promote shared tokens/primitives into `.opencode/design-system/registry.md` and `catalog.json`.', '- Use this source pack as artifact-mode input for `@designer` and `@designer with design-system skill`.']
     output.write_text('\n'.join(lines) + '\n', encoding='utf-8')
 
     catalog_path = root / args.catalog

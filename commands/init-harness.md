@@ -63,7 +63,7 @@ Workflow:
 36. State that agents should follow project framework playbook/commands before manual framework artifact edits.
 37. State that `@designer` may implement only when directly routed/requested.
 38. State that `@artifact-planner` may use designer only as read-only advisory input.
-39. State that `@visual-asset-generator` is invoked by `@orchestrator`/`@designer` from an asset manifest/image-heavy plan, not by planner.
+39. State that `@designer with visual-asset skill` is invoked by `@orchestrator`/`@designer` from an asset manifest/image-heavy plan, not by planner.
 40. State that substantial UI requires evidence/screenshots/reduced-motion/accessibility checks and `@quality-gate` before completion claim.
 41. Use the user's hints from `$ARGUMENTS` only to specialize the files; do not discard the harness baseline or invent a broad new visual direction without evidence.
 42. Explicitly state which agent should be used first for default execution (`@orchestrator`).
@@ -131,7 +131,7 @@ User intent → `@orchestrator` → specialist agents → validation → `@quali
 - `@orchestrator` routes, decomposes, and integrates; do not let all implementation collapse into direct orchestrator execution.
 - Specialists and subagents should own bounded work according to their documented capabilities in `.opencode/docs/AGENT_ROUTING.md` and `.opencode/docs/SKILLS.md`.
 - 6 core agents: `@orchestrator` routes/integrates, `@explorer` discovers, `@fixer` implements bounded changes/tests, `@designer` owns UI/UX direction and review, `@oracle` handles architecture/review, and `@quality-gate` does final signoff.
-- Triggered helper/domain lanes: `@artifact-planner`, `@architect`, `@librarian`, `@skill-improver`, `@frontend`, `@backend`, `@mobile`, `@devops`, `@fullstack`, `@system-analyst`, `@project-manager`, `@council`, and `@visual-asset-generator`.
+- Triggered helper/domain lanes: `@artifact-planner`, `@architect`, `@librarian`, `@artifact-planner with skill-improvement skill`, `@fixer with frontend skill`, `@fixer with backend skill`, `@fixer with mobile skill`, `@fixer with devops skill`, `@fixer with fullstack skill`, `@artifact-planner with system-analysis skill`, `@artifact-planner with project-management skill`, `@artifact-planner with consensus skill`, and `@designer with visual-asset skill`.
 - Active skills: 19 `opencode-*` skills listed in `.opencode/docs/SKILLS.md`; legacy merged-away reviewer variants are not active routing lanes.
 
 ## Multi-source Rules Compatibility
@@ -154,18 +154,18 @@ User intent → `@orchestrator` → specialist agents → validation → `@quali
 
 ## Risk Triggers
 - Product/SaaS/platform/runtime/mobile/AI/UI-system architecture ambiguity → `@architect`
-- Requirements, user flows, API contracts, data flows, NFRs, or acceptance criteria unclear → `@system-analyst`
+- Requirements, user flows, API contracts, data flows, NFRs, or acceptance criteria unclear → `@artifact-planner with system-analysis skill`
 - Docs/API research or document extraction/summary needed → `@librarian`
-- Release/deploy/ops, CI/CD, Docker, env, monitoring, or rollback work → `@devops` with approval gates
+- Release/deploy/ops, CI/CD, Docker, env, monitoring, or rollback work → `@fixer with devops skill` with approval gates
 - PII/auth/payments/uploads/biometric/privacy, prompt/config/security-sensitive changes, or material completion claims → `@quality-gate`
 - User-facing UI/reference/animation/accessibility/design-system work → `@designer`
-- Repeated failure or post-task prompt/routing improvement → `@skill-improver`
+- Repeated failure or post-task prompt/routing improvement → `@artifact-planner with skill-improvement skill`
 
 ## Notes
 - For substantial UI work, inspect the target project's `DESIGN.md` first, then `design-system/DESIGN.md` or a documented equivalent.
 - For framework-managed artifacts in existing apps or greenfield work, inspect `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` first when present; follow project framework playbook/commands before manual edits.
 - `@designer` owns UI direction/review and may implement only when directly routed/requested; `@artifact-planner` may use designer only as read-only advisory input.
-- For image-heavy or reference UI work, require evidence, asset decisions, and direct reuse / style-equivalent fallback handling; `@visual-asset-generator` is invoked by `@orchestrator`/`@designer` from an asset manifest/image-heavy plan, not by planner.
+- For image-heavy or reference UI work, require evidence, asset decisions, and direct reuse / style-equivalent fallback handling; `@designer with visual-asset skill` is invoked by `@orchestrator`/`@designer` from an asset manifest/image-heavy plan, not by planner.
 - Substantial UI requires screenshots/evidence/reduced-motion/accessibility checks and `@quality-gate` before completion claim.
 - If the project has many agents/subagents, document the role and primary skill ownership clearly enough that future work does not default back to `@orchestrator` for planning, implementation, review, or research.
 - If many agents are available, future operators should read `.opencode/docs/AGENT_ROUTING.md` and `.opencode/docs/SKILLS.md` first to understand who owns discovery, implementation, review, design, and domain-specific risk.
@@ -219,7 +219,7 @@ Define mobile-first rules, navigation changes, CTA placement, data display adapt
 ## Agent Prompt Guide
 Give direct instructions for future coding/design agents: which files/tokens/components to read first, how to apply this design system, when to reuse/extend/create, when to ask questions, when to run visual validation, and how to report deviations.
 
-The `Agent Prompt Guide` should also state the downstream ownership chain for substantial UI work: `@orchestrator` routes/integrates; `@designer` owns direction, motion/reduced-motion review, and implementation guidance first; `@designer` may implement only when directly routed/requested; bounded implementation/tests go to `@fixer` or domain lanes; `@artifact-planner` handles evidence-heavy/spec-heavy planning and may use designer only as read-only advisory input; `@visual-asset-generator` is invoked by `@orchestrator`/`@designer` from an asset manifest/image-heavy plan; `@quality-gate` remains final signoff for non-trivial UI/prompt/config/docs/security-sensitive changes.
+The `Agent Prompt Guide` should also state the downstream ownership chain for substantial UI work: `@orchestrator` routes/integrates; `@designer` owns direction, motion/reduced-motion review, and implementation guidance first; `@designer` may implement only when directly routed/requested; bounded implementation/tests go to `@fixer` or domain lanes; `@artifact-planner` handles evidence-heavy/spec-heavy planning and may use designer only as read-only advisory input; `@designer with visual-asset skill` is invoked by `@orchestrator`/`@designer` from an asset manifest/image-heavy plan; `@quality-gate` remains final signoff for non-trivial UI/prompt/config/docs/security-sensitive changes.
 ```
 
 After writing the files, summarize:

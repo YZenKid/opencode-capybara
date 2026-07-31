@@ -12,13 +12,8 @@ Use this skill for small, evidence-based improvements to agents, skills, routing
 - Trigger: repeated failures, routing friction, policy gaps, stale prompts, unclear instructions, eval drift, or explicit user request to improve skill/agent behavior.
 - Skip: trivial one-off tasks, speculative improvements with no evidence, or broad rewrites that should become a proposal first.
 
-## Reference-first creativity contract
-- Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
-- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
-- If a reasonable source exists, use it or state why it was skipped.
-- For greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with explicit rationale.
-- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
-- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+
+See `.opencode/docs/SHARED_POLICIES.md` for reference-first creativity contract.
 
 ## Internet-reference default
 - Use current external references when improving version-sensitive tool/MCP/agent behavior; repo evidence remains primary for local prompt regressions. Do not import external practices blindly.

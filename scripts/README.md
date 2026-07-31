@@ -245,19 +245,19 @@ python3 ~/.config/opencode/scripts/<script>.py --project-root . [script-specific
 
 | Script | Referenced by |
 |---|---|
-| `task-progress.py` | `@orchestrator`, `@plan-reviewer`, plus matching skills |
+| `task-progress.py` | `@orchestrator`, `@artifact-planner with plan-review skill`, plus matching skills |
 | `pre-gate-smoke-check.py` | `@quality-gate`, `@orchestrator` |
 | `runtime-verify.py` | `@quality-gate`, `@orchestrator` |
-| `validate-plan-depth.py` | `@plan-reviewer` |
+| `validate-plan-depth.py` | `@artifact-planner with plan-review skill` |
 | `ui-polish-audit.py` | `@designer`, `@quality-gate` |
 | `design-screenshot-compare.py` | `@designer`, `@quality-gate` |
-| `design-system-docs.py` | `@design-system-engineer` |
-| `design-token-generator.py` | `@design-system-engineer` |
-| `component-spec-generator.py` | `@design-system-engineer` |
+| `design-system-docs.py` | `@designer with design-system skill` |
+| `design-token-generator.py` | `@designer with design-system skill` |
+| `component-spec-generator.py` | `@designer with design-system skill` |
 | `design-audit.py` | `@designer`, `@quality-gate` |
 | `init-design-system.py` | `@designer`, `@orchestrator` |
-| `template-source-discovery.py` | `@orchestrator`, `@designer`, `@artifact-planner`, `@frontend`, `@quality-gate` (Template/Source Discovery Hard Gate) |
-| `subagent-handoff-check.py` | `@orchestrator`, `@artifact-planner`, every worker lane (`@fixer`, `@frontend`, `@backend`, `@mobile`, `@devops`, `@designer`, `@explorer`, `@librarian`, `@quality-gate`, etc.) for the Subagent Handoff Contract |
+| `template-source-discovery.py` | `@orchestrator`, `@designer`, `@artifact-planner`, `@fixer with frontend skill`, `@quality-gate` (Template/Source Discovery Hard Gate) |
+| `subagent-handoff-check.py` | `@orchestrator`, `@artifact-planner`, every worker lane (`@fixer`, `@fixer with frontend skill`, `@fixer with backend skill`, `@fixer with mobile skill`, `@fixer with devops skill`, `@designer`, `@explorer`, `@librarian`, `@quality-gate`, etc.) for the Subagent Handoff Contract |
 | `delegation-log.py` | `@orchestrator`, `@artifact-planner`, every worker lane; append-only NDJSON record of planner→worker→return flows at `.opencode/state/<task>/delegation.jsonl` |
 | `plan-compliance-check.py` | `@orchestrator`, `@quality-gate`; pre-completion checkpoint that cross-checks plan worklist markers, handoff payloads, progress tracker, and delegation log |
 | `backup-cleanup.py` | Local infrastructure hygiene: scans the repo `backups/` (and the `opencode-capybara/backups/` mirror) and trashes entries older than 3 days, then purges trash older than 14 days. Manual via `npm run cleanup:backups:scan|trash|purge|apply`. Dry-run by default; pass `--apply` flags for actual moves. |
@@ -299,11 +299,11 @@ This mode verifies:
 - No hard-fail content patterns (fabricated testimonials like `Maya R.` / `Andre F.` / `Nisa A.`, brochure slogans, `foto menyusul`, `kontak akan diperbarui`, `coming soon`, etc.).
 - If the project contains `templates/<dir>/`, `.opencode/evidence/<task-id>/template-extraction-trace.md` exists and is non-empty.
 
-Exit code `1` on any high-severity mechanical failure; `0` when only low/medium. Combine with `--token-parity` for full v2 + v3 coverage. Consumed by `@designer`, `@frontend`, `@artifact-planner`, and `@quality-gate`.
+Exit code `1` on any high-severity mechanical failure; `0` when only low/medium. Combine with `--token-parity` for full v2 + v3 coverage. Consumed by `@designer`, `@fixer with frontend skill`, `@artifact-planner`, and `@quality-gate`.
 
 ### template-source-discovery.py
 
-Hard-gate helper for the `## Template/Source Discovery Hard Gate` clause in `@orchestrator`, `@designer`, `@artifact-planner`, `@frontend`, and `@quality-gate`. Fires whenever a user prompt mentions a template/source/port intent keyword (`pakai templates`, `ikutin`, `mirip`, `clone`, `port`, `copy from`, `1:1`, `porting`, `seperti web ini`) **or** the project has a `templates/` directory.
+Hard-gate helper for the `## Template/Source Discovery Hard Gate` clause in `@orchestrator`, `@designer`, `@artifact-planner`, `@fixer with frontend skill`, and `@quality-gate`. Fires whenever a user prompt mentions a template/source/port intent keyword (`pakai templates`, `ikutin`, `mirip`, `clone`, `port`, `copy from`, `1:1`, `porting`, `seperti web ini`) **or** the project has a `templates/` directory.
 
 **Summary mode** (default; exit `0` even when no templates exist, `1` when a constraint blocks a discovered template folder):
 

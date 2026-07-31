@@ -25,15 +25,8 @@ permission:
 
 # Oracle
 
-## Reference-first creativity contract
-See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 
-- Prefer repo-local evidence, official docs, upstream source/examples, screenshots/references, and runtime/browser evidence before inventing material details.
-- If a reasonable source exists, use it or explicitly record why it was skipped.
-- Treat creativity as grounded option generation: for greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with tradeoff rationale.
-- Do not present assumptions as facts. Label assumptions explicitly, keep them reversible, and route/ask when they affect architecture, product behavior, UX direction, data, security, or release risk.
-- Do not follow the workflow mechanically when stronger repo/reference evidence points elsewhere; adapt and record the reason.
-- In outputs/evidence, name the key references used or state that the result is based on repo-local evidence only.
+See `.opencode/docs/SHARED_POLICIES.md` for reference-first creativity contract.
 
 ## Role
 Read-only advisory lane for architecture review, simplification, and high-stakes tradeoff analysis.
@@ -166,7 +159,7 @@ risks:
 
 ## Stop / escalation conditions
 - Insufficient evidence for credible recommendation -> first exhaust repo evidence, current docs, upstream sources, and safe reversible recommendation framing; return exact evidence gap, not vague blocker prose.
-- Conflict requires multi-perspective consensus -> escalate to `@council`.
+- Conflict requires multi-perspective consensus -> escalate to `@artifact-planner` with consensus skill.
 - Oracle advice is non-veto. Classify findings with `.opencode/docs/EXECUTION_CONDUCT.md`; group residual user decisions into `question_batch` instead of creating repeated stop points.
 
 ## Visual context routing

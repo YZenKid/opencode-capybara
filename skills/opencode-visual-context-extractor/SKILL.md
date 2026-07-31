@@ -7,13 +7,8 @@ description: Standalone read-only workflow for the visual context extractor help
 
 Use this skill when a caller agent needs structured observable context from a visual input. This skill describes *only the visual extraction contract*; it never generates images, never critiques design, and never edits source.
 
-## Reference-first creativity contract
-- Prefer repo-local evidence, official docs, upstream source/examples, screenshots/references, and runtime/browser evidence before inventing material details.
-- If a reasonable source exists, use it or explicitly record why it was skipped.
-- Treat creativity as grounded option generation: for greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with tradeoff rationale.
-- Do not present assumptions as facts. Label assumptions explicitly, keep them reversible, and route/ask when they affect architecture, product behavior, UX direction, data, security, or release risk.
-- Do not follow the workflow mechanically when stronger repo/reference evidence points elsewhere; adapt and record the reason.
-- In outputs/evidence, name the key references used or state that the result is based on repo-local evidence only.
+
+See `.opencode/docs/SHARED_POLICIES.md` for reference-first creativity contract.
 
 ## Internet-reference default
 - Visual extraction stays evidence-first. Use URL/browser/web evidence only when caller provides an external visual reference or runtime page; do not add unrelated web research to observable extraction.
@@ -29,7 +24,7 @@ Read-only helper lane. Receives image input through built-in `task` intercepted 
 | Need | Route |
 | --- | --- |
 | Extract observable context from an image | `@visual-context-extractor` (this skill) |
-| Generate or plan image assets | `@visual-asset-generator` |
+| Generate or plan image assets | `@designer with visual-asset skill` |
 | Design direction, visual critique, UX grade | `@designer` |
 | Visual parity or "matches the design" signoff | `@designer` + `@quality-gate` |
 | Source code edits triggered by the visual | `@fixer` |
@@ -40,14 +35,14 @@ Read-only helper lane. Receives image input through built-in `task` intercepted 
 - This skill returns *description only*, never recommendation.
 - Never include phrases such as "should be", "improve", "redesign", "grade", "score", "matches the design". Those belong to `@designer` / `@quality-gate`.
 - Never claim to read text in blurry, cropped, or off-frame regions. Add an `uncertainty[]` entry instead.
-- Never emit image files. Generation belongs to `@visual-asset-generator`.
+- Never emit image files. Generation belongs to `@designer with visual-asset skill`.
 - Never edit application source. Implementation belongs to `@fixer`.
 
 ## When to use
 - Caller invokes built-in `task` with `subagent_type: visual-context-extractor` and extraction prompt. Plugin interceptor supplies inherited parent image cache through secure local materialization.
 - Direct task without plugin does not transport attachments. Custom `visual_extract` is not extraction route.
 - A non-vision agent needs shared evidence from a visual input.
-- `@orchestrator`, `@designer`, `@frontend`, `@backend`, `@mobile`, `@fullstack`, `@fixer`, `@oracle`, `@quality-gate`, `@system-analyst`, `@project-manager`, `@architect`, `@visual-asset-generator`, `@skill-improver`, `@council`, `@artifact-planner`, or `@explorer` needs structured visual context (always route via `@orchestrator` unless the caller's `task` permission allows direct delegation).
+- `@orchestrator`, `@designer`, `@frontend`, `@backend`, `@mobile`, `@fullstack`, `@fixer`, `@oracle`, `@quality-gate`, `@system-analyst`, `@project-manager`, `@architect`, `@designer with visual-asset skill`, `@skill-improver`, `@council`, `@artifact-planner`, or `@explorer` needs structured visual context (always route via `@orchestrator` unless the caller's `task` permission allows direct delegation).
 
 ## When not to use
 - No image attachment and no local path provided.
@@ -260,7 +255,7 @@ ponytail: This is a behavioral contract. Use `scripts/session-trace-audit.py` as
 ## Escalation
 
 - Escalate to `@designer` when the caller wants critique, design direction, or parity judgment.
-- Escalate to `@visual-asset-generator` when the caller wants new image assets or transformation planning.
+- Escalate to `@designer with visual-asset skill` when the caller wants new image assets or transformation planning.
 - Escalate to `@fixer` only after visual facts are extracted and implementation action is clear.
 
 ## Source strategy

@@ -1,7 +1,7 @@
 # Harness Eval Report
 
-- Timestamp: 2026-07-31T07:38:48.244Z
-- Harness version: ab7bcf2ca238c3e81503f1403e8108a03c9ac8ca
+- Timestamp: 2026-07-31T16:20:55.845Z
+- Harness version: d79a5c3063d47c898a24500b21ff44fdc4a99c9a
 - Task summary: Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.
 - Verdict: PASS
 - Fixture count: 52
@@ -46,24 +46,13 @@
   - DESIGN.md
   - agents/architect.md
   - agents/artifact-planner.md
-  - agents/backend.md
-  - agents/council.md
   - agents/designer.md
-  - agents/devops.md
   - agents/explorer.md
   - agents/fixer.md
-  - agents/frontend.md
-  - agents/fullstack.md
   - agents/librarian.md
-  - agents/mobile.md
   - agents/oracle.md
   - agents/orchestrator.md
-  - agents/plan-reviewer.md
-  - agents/project-manager.md
   - agents/quality-gate.md
-  - agents/skill-improver.md
-  - agents/system-analyst.md
-  - agents/visual-asset-generator.md
   - agents/visual-context-extractor.md
   - opencode.json
   - package.json
@@ -94,28 +83,8 @@
   - scripts/evals/transcript-fixtures/routing-share-export-keyword-noise-boundary.json
   - scripts/evals/transcript-fixtures/routing-share-export-malformed-partial.json
   - scripts/evals/transcript-fixtures/routing-share-export-noisy-negative.json
-  - skills/opencode-architect/SKILL.md
-  - skills/opencode-artifact-planner/SKILL.md
-  - skills/opencode-backend/SKILL.md
-  - skills/opencode-council/SKILL.md
-  - skills/opencode-designer/SKILL.md
-  - skills/opencode-devops/SKILL.md
-  - skills/opencode-explorer/SKILL.md
-  - skills/opencode-fixer/SKILL.md
-  - skills/opencode-frontend/SKILL.md
-  - skills/opencode-fullstack/SKILL.md
-  - skills/opencode-librarian/SKILL.md
-  - skills/opencode-mobile/SKILL.md
-  - skills/opencode-oracle/SKILL.md
-  - skills/opencode-orchestrator/SKILL.md
   - skills/opencode-orchestrator/references/routing-and-modes.md
-  - skills/opencode-plan-reviewer/SKILL.md
-  - skills/opencode-project-manager/SKILL.md
   - skills/opencode-quality-gate/SKILL.md
-  - skills/opencode-skill-improver/SKILL.md
-  - skills/opencode-system-analyst/SKILL.md
-  - skills/opencode-visual-asset-generator/SKILL.md
-  - skills/opencode-visual-context-extractor/SKILL.md
 - Validation outputs:
   - npm run eval:harness → PASS
 - Fixture IDs:
@@ -249,46 +218,14 @@
 - Description: All active agents and skills must include Workflow, Quality checklist, Anti-patterns, and Output example sections (9.5+ quality standard).
 - agents/architect.md: PASS
 - agents/artifact-planner.md: PASS
-- agents/backend.md: PASS
-- agents/council.md: PASS
 - agents/designer.md: PASS
-- agents/devops.md: PASS
 - agents/explorer.md: PASS
 - agents/fixer.md: PASS
-- agents/frontend.md: PASS
-- agents/fullstack.md: PASS
 - agents/librarian.md: PASS
-- agents/mobile.md: PASS
 - agents/oracle.md: PASS
 - agents/orchestrator.md: PASS
-- agents/plan-reviewer.md: PASS
-- agents/project-manager.md: PASS
 - agents/quality-gate.md: PASS
-- agents/skill-improver.md: PASS
-- agents/system-analyst.md: PASS
-- agents/visual-asset-generator.md: PASS
 - agents/visual-context-extractor.md: PASS
-- skills/opencode-architect/SKILL.md: PASS
-- skills/opencode-artifact-planner/SKILL.md: PASS
-- skills/opencode-backend/SKILL.md: PASS
-- skills/opencode-council/SKILL.md: PASS
-- skills/opencode-designer/SKILL.md: PASS
-- skills/opencode-devops/SKILL.md: PASS
-- skills/opencode-explorer/SKILL.md: PASS
-- skills/opencode-fixer/SKILL.md: PASS
-- skills/opencode-frontend/SKILL.md: PASS
-- skills/opencode-fullstack/SKILL.md: PASS
-- skills/opencode-librarian/SKILL.md: PASS
-- skills/opencode-mobile/SKILL.md: PASS
-- skills/opencode-oracle/SKILL.md: PASS
-- skills/opencode-orchestrator/SKILL.md: PASS
-- skills/opencode-plan-reviewer/SKILL.md: PASS
-- skills/opencode-project-manager/SKILL.md: PASS
-- skills/opencode-quality-gate/SKILL.md: PASS
-- skills/opencode-skill-improver/SKILL.md: PASS
-- skills/opencode-system-analyst/SKILL.md: PASS
-- skills/opencode-visual-asset-generator/SKILL.md: PASS
-- skills/opencode-visual-context-extractor/SKILL.md: PASS
 ## design-audit-detects-a11y-gaps
 - Status: PASS
 - Description: Verify design-audit.py flags missing prefers-reduced-motion, aria-labels/alt text, and hardcoded colors in a seed component.
@@ -645,25 +582,25 @@
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/design-audit.md, src/Landing.tsx
-- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-kplEbZ/.opencode/evidence/design-audit.md"
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-MSf7zG/.opencode/evidence/design-audit.md"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for design-revamp-contract-generates-artifact-requirements
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/sample-task/revamp-contract.json, src/Landing.tsx
-- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-zEnOd2/.opencode/evidence/sample-task/revamp-contract.json"
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-2XSurv/.opencode/evidence/sample-task/revamp-contract.json"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for design-review-bundle-seeds-preview-contract
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/sample-task/design-handoff.md, .opencode/evidence/sample-task/design-review.md, .opencode/evidence/sample-task/parity-report.md, .opencode/evidence/sample-task/preview-contract.json, .opencode/evidence/sample-task/preview.json, src/Landing.tsx
-- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-DqrMRK/.opencode/evidence/sample-task/design-handoff.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-DqrMRK/.opencode/evidence/sample-task/design-review.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-DqrMRK/.opencode/evidence/sample-task/parity-report.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-DqrMRK/.opencode/evidence/sample-task/preview.json\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-DqrMRK/.opencode/evidence/sample-task/preview-contract.json"
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-O3KHW6/.opencode/evidence/sample-task/design-handoff.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-O3KHW6/.opencode/evidence/sample-task/design-review.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-O3KHW6/.opencode/evidence/sample-task/parity-report.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-O3KHW6/.opencode/evidence/sample-task/preview.json\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-O3KHW6/.opencode/evidence/sample-task/preview-contract.json"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for design-source-importer-builds-source-pack
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/design-system/catalog.json, .opencode/evidence/design-source-pack.md, .opencode/evidence/url-structure-example.com.md, src/Landing.tsx
-- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-7DPGxT/.opencode/evidence/design-source-pack.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-7DPGxT/.opencode/design-system/catalog.json"
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-CECJCI/.opencode/evidence/design-source-pack.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-CECJCI/.opencode/design-system/catalog.json"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for init-harness-minimal-foreign-repo-scaffold
 - Mode: init-harness-scaffold
@@ -684,5 +621,5 @@
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/polish-audit.md, src/Landing.tsx
-- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-ykqdOH/.opencode/evidence/polish-audit.md"
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-TOb2P0/.opencode/evidence/polish-audit.md"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.

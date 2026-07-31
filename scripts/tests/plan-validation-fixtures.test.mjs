@@ -10,7 +10,7 @@ const fixtures = [
   {
     name: "bad-shallow-plan.md",
     shouldPass: false,
-    expectedFailures: ["total_lines", "goal_words", "requirements_count", "acceptance_count", "implementation_steps", "validation_commands", "grounding_contract"],
+    expectedFailures: ["requirements_count", "acceptance_count", "implementation_worklist", "handoff_contract", "evidence_requirements", "done_criteria", "implementation_steps", "validation_commands", "grounding_contract"],
   },
   {
     name: "bad-generic-ui-plan.md",

@@ -43,7 +43,7 @@ export function validateWorkerSpec(spec = {}) {
 
 export function pickDefaultBackend(lane = "@fixer") {
   if (["@designer", "@oracle", "@architect", "@quality-gate"].includes(lane)) return "external-cli-claude";
-  if (["@frontend", "@backend", "@mobile", "@devops", "@fullstack", "@fixer"].includes(lane)) return "opencode-subagent";
+  if (["@fixer"].includes(lane)) return "opencode-subagent";
   return "opencode-session";
 }
 

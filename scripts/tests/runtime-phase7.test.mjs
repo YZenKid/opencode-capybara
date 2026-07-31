@@ -23,7 +23,7 @@ execFileSync("git", ["add", "README.md"], { cwd: repoRoot, stdio: "pipe" });
 execFileSync("git", ["commit", "-m", "init"], { cwd: repoRoot, stdio: "pipe" });
 
 createRun(repoRoot, { run_id: "run-phase7", goal: "Phase 7", status: "executing" });
-createTask(repoRoot, "run-phase7", { task_id: "task-lock", title: "Lock me", owner_lane: "@backend" });
+createTask(repoRoot, "run-phase7", { task_id: "task-lock", title: "Lock me", owner_lane: "@fixer" });
 sendMessage(repoRoot, "run-phase7", { from: "orchestrator", to: "backend-1", type: "task", payload: { task_id: "task-lock" } });
 
 const lockPath = workerLeaseLockFile(repoRoot, "run-phase7", "backend-1");
@@ -33,13 +33,13 @@ const leasedBlocked = consumeWorkerMailboxWithLease(repoRoot, "run-phase7", "bac
 assert.equal(leasedBlocked.consumed, false);
 assert.equal(leasedBlocked.reason, "lease-held");
 
-createTask(repoRoot, "run-phase7", { task_id: "task-backoff", title: "Backoff me", owner_lane: "@backend" });
+createTask(repoRoot, "run-phase7", { task_id: "task-backoff", title: "Backoff me", owner_lane: "@fixer" });
 failTask(repoRoot, "run-phase7", "task-backoff", { reason: "boom" });
 prepareWorkerExecution(repoRoot, "run-phase7", {
   execution_id: "exec-backoff",
   task_id: "task-backoff",
   worker_name: "backend-2",
-  lane: "@backend",
+  lane: "@fixer",
   prompt: "Backoff retry",
   workspace_mode: "single"
 });
@@ -58,7 +58,7 @@ prepareWorkerExecution(repoRoot, "run-phase7", {
   execution_id: "exec-logtail",
   task_id: "task-lock",
   worker_name: "backend-3",
-  lane: "@backend",
+  lane: "@fixer",
   prompt: "Tail log",
   workspace_mode: "single"
 });

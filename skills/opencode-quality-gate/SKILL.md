@@ -5,7 +5,7 @@ description: Standalone final review skill for OpenCode. Use for evidence-based 
 
 # OpenCode Quality Gate
 
-This skill is a read-only final reviewer. Focus on conformance, risk, and evidence rather than fixing issues.
+This skill is a read-only final reviewer. Focus on conformance, risk, and evidence rather than fixing issues. Mark assumptions as assumptions and keep uncertainty explicit.
 It serves as the final reviewer read-only lane for OpenCode signoff.
 
 Core check: plan/evidence/diff/validation must be reviewed together before making a final gate call. When durable runtime state is used, include `.opencode/state/` run/task/mailbox/worktree/verification summaries in the final review basis.
@@ -17,13 +17,8 @@ Mode-aware check: for Greenfield App Accelerator, verify Plan Quality Gate statu
 - Trigger: non-trivial implementation, prompt/config/routing change, security-sensitive change, substantial UI/release claim, or any task where a `done` / `ready` / `PASS` claim needs independent evidence-based review.
 - Skip: trivial low-risk edits with no completion claim, or tasks with no concrete diff/evidence to inspect yet.
 
-## Reference-first creativity contract
-- Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
-- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
-- If a reasonable source exists, use it or state why it was skipped.
-- For greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with explicit rationale.
-- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
-- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+
+See `.opencode/docs/SHARED_POLICIES.md` for reference-first creativity contract.
 
 ## Internet-reference default
 - For non-trivial or version-sensitive reviews, current official docs / context7 / upstream sources are default evidence when repo-local evidence alone cannot settle best practice, generator behavior, API semantics, or compatibility.
@@ -224,7 +219,7 @@ Each remediation item must include:
 
 - `finding`: concise issue tied to evidence.
 - `blocker_or_risk_class`: `hard_stop`, `soft_blocker`, `required_before_PASS`, or `non_blocking_follow_up`.
-- `owner_lane`: target lane such as `@orchestrator`, `@fixer`, `@designer`, `@backend`, `@devops`, `@librarian`, or `user`.
+- `owner_lane`: target lane such as `@orchestrator`, `@fixer`, `@designer`, `@fixer` with backend or devops skill, `@librarian`, or `user`.
 - `action`: concrete remediation step.
 - `validation`: command, review, evidence, or check needed after action.
 - `exit_criteria`: condition that closes item.

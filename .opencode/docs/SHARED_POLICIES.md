@@ -187,7 +187,7 @@ Each remediation item must include:
 
 - `finding`: concise issue tied to evidence.
 - `blocker_or_risk_class`: `hard_stop`, `soft_blocker`, `required_before_PASS`, or `non_blocking_follow_up`.
-- `owner_lane`: target lane such as `@orchestrator`, `@fixer`, `@designer`, `@backend`, `@devops`, `@librarian`, or `user`.
+- `owner_lane`: target lane such as `@orchestrator`, `@fixer`, `@designer`, `@fixer with backend skill`, `@fixer with devops skill`, `@librarian`, or `user`.
 - `action`: concrete remediation step.
 - `validation`: command, review, evidence, or check needed after action.
 - `exit_criteria`: condition that closes item.
@@ -199,7 +199,7 @@ For `PASS_WITH_RISKS`, distinguish required-before-`PASS` work from non-blocking
 
 When the user explicitly asks for `1:1`, `clone`, `port`, `copy`, `copy from`, `make exactly like`, or provides a source URL/repo/file plus explicit approval to reuse it, default to literal copy/adapt/prune/direct reuse rather than redesign or style-equivalent recreation.
 
-Route `@explorer` for source inventory, `@artifact-planner` for copy/adapt/prune/create mapping, `@designer` for exact UI anatomy when visual, `@frontend`/`@fixer` for literal implementation, and `@quality-gate` for parity/reuse evidence.
+Route `@explorer` for source inventory, `@artifact-planner` for copy/adapt/prune/create mapping, `@designer` for exact UI anatomy when visual, `@fixer with frontend skill`/`@fixer` for literal implementation, and `@quality-gate` for parity/reuse evidence.
 
 Keep legal/security/scope safeguards: restricted assets, secrets, unsafe code, incompatible licenses, privacy hazards, fake testimonials/claims, logos/trademarks, and out-of-scope behavior still require blocking, pruning, or substitution with documented rationale.
 

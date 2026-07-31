@@ -11,19 +11,23 @@ For operational usage guidance (when/why/how), use:
 - [../../guide/TROUBLESHOOTING.md](../../guide/TROUBLESHOOTING.md)
 
 Configured MCP surfaces include:
-- `time`
+
+Core enabled:
 - `9router`
 - `context7`
-- `stitch`
 - `browseros`
-- `playwright`
-- `shadcn`
-- `semgrep`
-- `github`
-- `21st`
 - `scripts`
 - `graphify`
-- Legacy `image-asset-generator` removed; image asset tools live under `9router`.
+
+Optional disabled:
+- `github`
+- `semgrep`
+- `shadcn`
+- `21st`
+- `stitch`
+- `playwright` (failure-only fallback; BrowserOS primary)
+
+Legacy `image-asset-generator` removed; image asset tools live under `9router`.
 
 ## 9Router MCP
 

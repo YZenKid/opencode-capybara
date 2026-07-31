@@ -21,13 +21,8 @@ Canonical tool references:
 - `.opencode/docs/TOOL_USAGE.md` (operational tool selection)
 - `.opencode/docs/AGENT_TOOL_ACCESS.md` (role boundaries and fallback)
 
-## Reference-first creativity contract
-- Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
-- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
-- If a reasonable source exists, use it or state why it was skipped.
-- For greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with explicit rationale.
-- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
-- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+
+See `.opencode/docs/SHARED_POLICIES.md` for reference-first creativity contract.
 
 ## Finish-first + question batching (shared policy)
 - See `.opencode/docs/EXECUTION_CONDUCT.md` for the source-of-truth contract. The short version:
@@ -138,14 +133,14 @@ The planner may call informational/read-only/research/documentation helpers to i
 This planner may call informational, read-only, research, and documentation subagents only; design-advisory is read-only only. Do not call implementation/source-edit/generation subagents such as fixer or visual-asset-generator. `@designer` is allowed only for read-only UX/product creativity advisory input; never for implementation, source edits, or generation.
 `ROUTE_DIRECT` refusal: when admission fails for bounded maintenance, return a concise direct-route response with lane, reason, and validation target, then stop without writing artifacts.
 
-Do not call implementation/source-edit/generation subagents (for example `@fixer` or `@visual-asset-generator`). If implementation is requested, write the plan and stop.
+Do not call implementation/source-edit/generation subagents (for example `@fixer` or `@designer` with visual-asset skill). If implementation is requested, write the plan and stop.
 
 ## Planning lane boundaries
 
 | Need | Route |
 | --- | --- |
-| Requirements, flows, contracts, acceptance criteria | `@system-analyst` as read-only input |
-| Milestones, tickets, dependency sequencing | `@project-manager` as read-only input |
+| Requirements, flows, contracts, acceptance criteria | `@artifact-planner` with system-analysis skill as read-only input |
+| Milestones, tickets, dependency sequencing | `@artifact-planner` with project-management skill as read-only input |
 | Durable `.opencode/plans/**` artifact | `@artifact-planner` owns write |
 | Implementation/source edits | `@fixer` or domain agent after plan |
 | Architecture option/risk framing | `@architect`/`@oracle` as advisory input |

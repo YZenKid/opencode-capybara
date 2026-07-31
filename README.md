@@ -61,7 +61,7 @@ User intent
 ```
 
 - `@orchestrator` + `@artifact-planner` are the brain: routing, planning, coordination.
-- Worker agents (`@fixer`, `@frontend`, `@backend`, `@designer`, `@explorer`, etc.) execute scoped tasks and report back.
+- Worker agents (`@fixer`, `@fixer` with frontend skill, `@fixer` with backend skill, `@designer`, `@explorer`, etc.) execute scoped tasks and report back.
 - `@quality-gate` is the final signoff for non-trivial / risky / UI / security work.
 - Plans live in `.opencode/plans/`, evidence in `.opencode/evidence/`, runtime state in `.opencode/state/`.
 
@@ -161,16 +161,16 @@ Use `npm run compare:openchamber-models` to print the current OpenCode vs OpenCh
 | `OPENCODE_MODEL_ORCHESTRATOR` | `9router/medium` | `@orchestrator` primary routing/integration | Use a balanced lane for delegation, coordination, and synthesis. |
 | `OPENCODE_MODEL_PLANNER` | `9router/high` | `@artifact-planner`, `modes/plan.md`, `agents-disabled/plan.md` | Keep planning on the strongest lane for higher-accuracy specs and execution handoffs. |
 | `OPENCODE_MODEL_DESIGN` | `9router/high` | `@designer` | Keep substantial UI/design reasoning, motion, accessibility, and design blueprint work on the high lane. |
-| `OPENCODE_MODEL_DESIGN_SYSTEM` | `9router/medium` | `@design-system-engineer` | Keep shared token, primitive, theming, and component-API work on medium for better system judgment without paying high-lane cost everywhere. |
-| `OPENCODE_MODEL_VISUAL_ASSET` | `9router/medium` | `@visual-asset-generator` | Keep visual asset manifest prep and style-equivalent fallback generation routing on medium without forcing screen-implementation lanes upward. |
-| `OPENCODE_MODEL_REVIEW` | `9router/medium` | `@oracle`, `@council` | Keep advisory/review reasoning on a balanced lane without degrading high-confidence review paths. |
-| `OPENCODE_MODEL_QUALITY_GATE` | `9router/low` | `@quality-gate` | Final conformance gate stays cheap and explicit without forcing `@oracle`/`@council` down. |
+| `OPENCODE_MODEL_DESIGN_SYSTEM` | `9router/medium` | `@designer` with design-system skill | Keep shared token, primitive, theming, and component-API work on medium for better system judgment without paying high-lane cost everywhere. |
+| `OPENCODE_MODEL_VISUAL_ASSET` | `9router/medium` | `@designer` with visual-asset skill | Keep visual asset manifest prep and style-equivalent fallback generation routing on medium without forcing screen-implementation lanes upward. |
+| `OPENCODE_MODEL_REVIEW` | `9router/medium` | `@oracle`, `@artifact-planner` with consensus skill | Keep advisory/review reasoning on a balanced lane without degrading high-confidence review paths. |
+| `OPENCODE_MODEL_QUALITY_GATE` | `9router/low` | `@quality-gate` | Final conformance gate stays cheap and explicit without forcing `@oracle`/`@artifact-planner` with consensus skill down. |
 | `OPENCODE_MODEL_ADVISORY` | `9router/medium` | `@architect` | Use a balanced lane for advisory and architecture guidance. |
 | `OPENCODE_MODEL_EXECUTION` | `9router/low` | `@fixer` | Keep bounded implementation and testing on lower-cost lane. |
 | `OPENCODE_MODEL_DISCOVERY` | `9router/low` | `@explorer` | Local discovery and read-only pattern analysis stay on the cheaper lane. |
 | `OPENCODE_MODEL_DOCUMENTS` | `9router/low` | Reserved compatibility lane (document-centric work now routes via `@librarian`) | Keep for env compatibility on the cheaper lane. |
 | `OPENCODE_MODEL_IMPROVEMENT` | `9router/fast` | Compatibility alias (agent mapping now uses `OPENCODE_MODEL_FAST`) | Kept for env compatibility; recommended default aligned to fast. |
-| `OPENCODE_MODEL_FAST` | `9router/fast` | `@librarian`, `@skill-improver` | Docs/API lookup, summarization, and bounded prompt refinements are latency-sensitive and low-risk; use the fast lane. |
+| `OPENCODE_MODEL_FAST` | `9router/fast` | `@librarian`, `@artifact-planner` with skill-improvement skill | Docs/API lookup, summarization, and bounded prompt refinements are latency-sensitive and low-risk; use the fast lane. |
 
 ## Domain specialist and workflow summary
 
@@ -183,19 +183,19 @@ Current operating model:
 - `@orchestrator` executes only from a plan (`PASS` / `PASS_FOR_SLICE`) and tracks progress per task.
 - Worker agents execute only bounded tasks and report back; they do not reroute or delegate on their own.
 - `@quality-gate` returns statuses such as `PASS`, `PASS_WITH_RISKS`, `NEEDS_FIX`, and `BLOCKED`, and its remediation items are executed finish-first before final claim.
-- `@skill-improver` is used for non-trivial follow-up, repeated failures, policy gaps, or explicit requests.
+- `@artifact-planner` with skill-improvement skill is used for non-trivial follow-up, repeated failures, policy gaps, or explicit requests.
 - no blind external updates.
 - Redundant `build` and `general` local agents have been removed.
 
 UI / design policy:
 
 - `@designer` owns UI/UX direction, visual grammar, reference parity, motion strategy, accessibility requirements, and design-ready handoff.
-- `@design-system-engineer` owns shared tokens, primitives, theme variables, component APIs, and reusable UI foundations.
-- `@frontend` implements web screens/pages from a clear design handoff.
-- `@mobile` implements native/hybrid mobile screens from a clear design handoff.
+- `@designer` with design-system skill owns shared tokens, primitives, theme variables, component APIs, and reusable UI foundations.
+- `@fixer` with frontend skill implements web screens/pages from a clear design handoff.
+- `@fixer` with mobile skill implements native/hybrid mobile screens from a clear design handoff.
 - shadcn/ui follows generator-first rules: use `npx shadcn@latest add <component>` when the component exists in the registry.
 - Generic AI-slop UI patterns (fake metrics, card spam, gradient-hero defaults, placeholder imagery, debug copy) are blocked by planner/designer/quality-gate rules.
-- Design handoff is required before `@frontend` or `@mobile` implement substantial UI.
+- Design handoff is required before `@fixer` with frontend skill or `@fixer` with mobile skill implement substantial UI.
 
 ## Important scripts
 
@@ -265,7 +265,7 @@ Rules:
 - `@orchestrator` loads the plan, tracks execution, enforces worker contract, and runs quality-gate remediation finish-first.
 - Worker agents receive scoped tasks and report back to `@orchestrator`.
 - `@quality-gate` is the final signoff for non-trivial/risky/UI/security work.
-- `@skill-improver` handles non-trivial follow-up, repeated failures, policy gaps, or explicit requests.
+- `@artifact-planner` with skill-improvement skill handles non-trivial follow-up, repeated failures, policy gaps, or explicit requests.
 - Redundant `build` and `general` local agents have been removed.
 
 Full details remain in `.opencode/docs/`, the related agent/skill files, and the latest release notes at https://github.com/YZenKid/opencode-capybara/releases/tag/2026.06.23-1.

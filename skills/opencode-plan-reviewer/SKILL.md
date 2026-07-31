@@ -7,12 +7,8 @@ description: Dedicated plan depth validation workflow for execution-ready plans.
 
 Use this skill to validate that a plan is deep enough before implementation.
 
-## Reference-first creativity contract
-- Use this lane creatively, but never fictionally: sharper validation and clearer failure reporting are good; invented evidence or fake compliance are not.
-- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
-- If a reasonable source exists, use it or state why it was skipped.
-- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
-- In output/evidence, include key references or repo artifacts that materially shaped the verdict.
+
+See `.opencode/docs/SHARED_POLICIES.md` for reference-first creativity contract.
 
 ## Internet-reference default
 - Verify that non-trivial/version-sensitive plans cite current official docs/upstream sources where implementation could materially change. Missing live verification is an actionable plan gap when repo docs are insufficient.

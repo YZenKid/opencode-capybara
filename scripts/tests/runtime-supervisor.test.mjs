@@ -20,25 +20,25 @@ execFileSync("git", ["add", "README.md"], { cwd: repoRoot, stdio: "pipe" });
 execFileSync("git", ["commit", "-m", "init"], { cwd: repoRoot, stdio: "pipe" });
 
 createRun(repoRoot, { run_id: "run-supervisor", goal: "Supervisor loop", status: "executing" });
-createTask(repoRoot, "run-supervisor", { task_id: "task-retry", title: "Retry me", owner_lane: "@backend" });
+createTask(repoRoot, "run-supervisor", { task_id: "task-retry", title: "Retry me", owner_lane: "@fixer" });
 failTask(repoRoot, "run-supervisor", "task-retry", { reason: "boom" });
 prepareWorkerExecution(repoRoot, "run-supervisor", {
   execution_id: "exec-retry",
   task_id: "task-retry",
   worker_name: "backend-1",
-  lane: "@backend",
+  lane: "@fixer",
   prompt: "Retry task",
   workspace_mode: "single"
 });
 updateWorkerExecution(repoRoot, "run-supervisor", "exec-retry", (record) => ({ ...record, status: "failed", retry_count: 0 }));
 sendMessage(repoRoot, "run-supervisor", { from: "orchestrator", to: "backend-1", type: "task", payload: { task_id: "task-retry" } });
 
-createTask(repoRoot, "run-supervisor", { task_id: "task-log", title: "Log me", owner_lane: "@backend" });
+createTask(repoRoot, "run-supervisor", { task_id: "task-log", title: "Log me", owner_lane: "@fixer" });
 prepareWorkerExecution(repoRoot, "run-supervisor", {
   execution_id: "exec-log",
   task_id: "task-log",
   worker_name: "backend-2",
-  lane: "@backend",
+  lane: "@fixer",
   prompt: "Log task",
   workspace_mode: "single"
 });

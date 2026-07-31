@@ -10,9 +10,9 @@ const skillsDoc = readFileSync(resolve(root, ".opencode/docs/SKILLS.md"), "utf8"
 const expectationMap = {
   "@architect": ["@architect", "architecture boundaries"],
   "@oracle": ["@oracle", "deep review", "simplification"],
-  "@system-analyst": ["@system-analyst", "requirements", "acceptance criteria"],
-  "@project-manager": ["@project-manager", "milestones", "release checklist"],
-  "@fullstack": ["@fullstack", "small vertical slice"],
+  "@artifact-planner": ["@artifact-planner", "requirements", "acceptance criteria"],
+  "@artifact-planner": ["@artifact-planner", "milestones", "release checklist"],
+  "@fixer": ["@fixer", "small vertical slice"],
   "@artifact-planner": ["@artifact-planner", "multi-phase", "ambiguous"],
 };
 
@@ -28,9 +28,9 @@ for (const f of fixture.fixtures) {
     console.log(`✓ ${f.id}: expected routing signals for ${f.expected_lane} present`);
   }
   if (f.id === "fullstack-forbidden-catchall") {
-    const guard = haystack.includes("@fullstack` is never catch-all/default") || haystack.includes("@fullstack must not become catch-all");
+    const guard = haystack.includes("@fixer` is never catch-all/default") || haystack.includes("@fixer must not become catch-all");
     if (!guard) {
-      console.error(`✗ ${f.id}: missing explicit catch-all guard for @fullstack`);
+      console.error(`✗ ${f.id}: missing explicit catch-all guard for @fixer`);
       failures += 1;
     } else {
       console.log(`✓ ${f.id}: explicit catch-all guard present`);

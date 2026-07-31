@@ -132,18 +132,13 @@ function main() {
     ["agents/orchestrator.md", env.OPENCODE_MODEL_ORCHESTRATOR],
     ["agents/artifact-planner.md", env.OPENCODE_MODEL_PLANNER],
     ["agents/designer.md", env.OPENCODE_MODEL_DESIGN],
-    ["agents/design-system-engineer.md", env.OPENCODE_MODEL_DESIGN_SYSTEM],
-    ["agents/frontend.md", env.OPENCODE_MODEL_EXECUTION],
-    ["agents/mobile.md", env.OPENCODE_MODEL_EXECUTION],
-    ["agents/visual-asset-generator.md", env.OPENCODE_MODEL_VISUAL_ASSET],
+    ["agents/visual-context-extractor.md", env.OPENCODE_MODEL_VISUAL_ASSET],
     ["agents/oracle.md", env.OPENCODE_MODEL_REVIEW],
     ["agents/quality-gate.md", env.OPENCODE_MODEL_QUALITY_GATE],
-    ["agents/council.md", env.OPENCODE_MODEL_REVIEW],
     ["agents/architect.md", env.OPENCODE_MODEL_ADVISORY],
     ["agents/fixer.md", env.OPENCODE_MODEL_EXECUTION],
     ["agents/explorer.md", env.OPENCODE_MODEL_DISCOVERY],
     ["agents/librarian.md", env.OPENCODE_MODEL_FAST],
-    ["agents/skill-improver.md", env.OPENCODE_MODEL_FAST],
   ];
 
   const changes = [];

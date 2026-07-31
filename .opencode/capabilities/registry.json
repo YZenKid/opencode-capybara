@@ -29,47 +29,12 @@
         "plan-artifact-write",
         "scope-bloat"
       ],
-      "fallback": "@orchestrator direct routing for tiny reversible work",
+      "fallback": "@orchestrator routing or retained specialist lane",
       "evidence": [
         "agents/artifact-planner.md",
         "skills/opencode-artifact-planner/SKILL.md"
       ],
       "source": "agents/artifact-planner.md"
-    },
-    {
-      "name": "backend",
-      "status": "active",
-      "mode": "subagent",
-      "skill": "opencode-backend",
-      "owner_lane": "@backend",
-      "risk": [
-        "api-change",
-        "data-change",
-        "auth-integration"
-      ],
-      "fallback": "@system-analyst for unclear contracts or @architect for data/security boundaries",
-      "evidence": [
-        "agents/backend.md",
-        "skills/opencode-backend/SKILL.md"
-      ],
-      "source": "agents/backend.md"
-    },
-    {
-      "name": "council",
-      "status": "active",
-      "mode": "subagent",
-      "skill": "opencode-council",
-      "owner_lane": "@council",
-      "risk": [
-        "expensive-consensus",
-        "read-only-boundary"
-      ],
-      "fallback": "@oracle single-review lane",
-      "evidence": [
-        "agents/council.md",
-        "skills/opencode-council/SKILL.md"
-      ],
-      "source": "agents/council.md"
     },
     {
       "name": "designer",
@@ -82,49 +47,12 @@
         "accessibility",
         "visual-parity"
       ],
-      "fallback": "@frontend or @mobile for screen implementation; @design-system-engineer for shared primitives",
+      "fallback": "@orchestrator routing or retained specialist lane",
       "evidence": [
         "agents/designer.md",
         "skills/opencode-designer/SKILL.md"
       ],
       "source": "agents/designer.md"
-    },
-    {
-      "name": "design-system-engineer",
-      "status": "active",
-      "mode": "subagent",
-      "skill": "opencode-design-system-engineer",
-      "owner_lane": "@design-system-engineer",
-      "risk": [
-        "shared-ui-foundation",
-        "token-primitive-api-change",
-        "theme-grammar"
-      ],
-      "fallback": "@designer for missing design grammar; @frontend/@mobile for screen consumption",
-      "evidence": [
-        "agents/design-system-engineer.md",
-        "skills/opencode-design-system-engineer/SKILL.md"
-      ],
-      "source": "agents/design-system-engineer.md"
-    },
-    {
-      "name": "devops",
-      "status": "active",
-      "mode": "subagent",
-      "skill": "opencode-devops",
-      "owner_lane": "@devops",
-      "risk": [
-        "deploy",
-        "destructive-infra",
-        "secrets",
-        "ci-cd"
-      ],
-      "fallback": "@architect for platform decisions or @quality-gate for final release/security signoff",
-      "evidence": [
-        "agents/devops.md",
-        "skills/opencode-devops/SKILL.md"
-      ],
-      "source": "agents/devops.md"
     },
     {
       "name": "explorer",
@@ -153,48 +81,12 @@
         "code-edit",
         "test-impact"
       ],
-      "fallback": "@artifact-planner if scope becomes ambiguous",
+      "fallback": "@orchestrator routing or retained specialist lane",
       "evidence": [
         "agents/fixer.md",
         "skills/opencode-fixer/SKILL.md"
       ],
       "source": "agents/fixer.md"
-    },
-    {
-      "name": "frontend",
-      "status": "active",
-      "mode": "subagent",
-      "skill": "opencode-frontend",
-      "owner_lane": "@frontend",
-      "risk": [
-        "web-ui-change",
-        "accessibility",
-        "api-integration"
-      ],
-      "fallback": "@designer for missing visual direction or @backend for unclear contracts",
-      "evidence": [
-        "agents/frontend.md",
-        "skills/opencode-frontend/SKILL.md"
-      ],
-      "source": "agents/frontend.md"
-    },
-    {
-      "name": "fullstack",
-      "status": "active",
-      "mode": "subagent",
-      "skill": "opencode-fullstack",
-      "owner_lane": "@fullstack",
-      "risk": [
-        "cross-layer-change",
-        "scope-creep",
-        "contract-drift"
-      ],
-      "fallback": "split to @frontend and @backend or route @artifact-planner when scope grows",
-      "evidence": [
-        "agents/fullstack.md",
-        "skills/opencode-fullstack/SKILL.md"
-      ],
-      "source": "agents/fullstack.md"
     },
     {
       "name": "librarian",
@@ -212,25 +104,6 @@
         "skills/opencode-librarian/SKILL.md"
       ],
       "source": "agents/librarian.md"
-    },
-    {
-      "name": "mobile",
-      "status": "active",
-      "mode": "subagent",
-      "skill": "opencode-mobile",
-      "owner_lane": "@mobile",
-      "risk": [
-        "native-permissions",
-        "privacy",
-        "store-constraints",
-        "mobile-runtime"
-      ],
-      "fallback": "@architect for mobile architecture or @quality-gate for privacy/store signoff",
-      "evidence": [
-        "agents/mobile.md",
-        "skills/opencode-mobile/SKILL.md"
-      ],
-      "source": "agents/mobile.md"
     },
     {
       "name": "oracle",
@@ -268,60 +141,6 @@
       "source": "agents/orchestrator.md"
     },
     {
-      "name": "plan-reviewer",
-      "status": "active",
-      "mode": "subagent",
-      "skill": "opencode-plan-reviewer",
-      "owner_lane": "@system-analyst",
-      "risk": [
-        "read-only-boundary",
-        "requirements-ambiguity",
-        "contract-drift"
-      ],
-      "fallback": "@project-manager for delivery breakdown or implementation lane after handoff",
-      "evidence": [
-        "agents/system-analyst.md",
-        "skills/opencode-system-analyst/SKILL.md"
-      ],
-      "source": "agents/system-analyst.md",
-      "description": "Plan review and quality contract validation for plan-reviewer agent."
-    },
-    {
-      "name": "plan-validator",
-      "status": "active",
-      "mode": "subagent",
-      "skill": "opencode-plan-validator",
-      "owner_lane": "@plan-validator",
-      "risk": [
-        "plan-artifact-write",
-        "contract-drift"
-      ],
-      "fallback": "@artifact-planner for domain-level plan changes",
-      "evidence": [
-        "agents/plan-validator.md",
-        "skills/opencode-plan-validator/SKILL.md"
-      ],
-      "source": "agents/plan-validator.md"
-    },
-    {
-      "name": "project-manager",
-      "status": "active",
-      "mode": "subagent",
-      "skill": "opencode-project-manager",
-      "owner_lane": "@project-manager",
-      "risk": [
-        "read-only-boundary",
-        "delivery-plan",
-        "tracker-write-risk"
-      ],
-      "fallback": "@system-analyst for unclear requirements or local artifact draft when tracker unavailable",
-      "evidence": [
-        "agents/project-manager.md",
-        "skills/opencode-project-manager/SKILL.md"
-      ],
-      "source": "agents/project-manager.md"
-    },
-    {
       "name": "quality-gate",
       "status": "active",
       "mode": "subagent",
@@ -337,59 +156,6 @@
         "skills/opencode-quality-gate/SKILL.md"
       ],
       "source": "agents/quality-gate.md"
-    },
-    {
-      "name": "skill-improver",
-      "status": "active",
-      "mode": "subagent",
-      "skill": "opencode-skill-improver",
-      "owner_lane": "@skill-improver",
-      "risk": [
-        "prompt-change",
-        "routing-drift"
-      ],
-      "fallback": "document finding without prompt edits",
-      "evidence": [
-        "agents/skill-improver.md",
-        "skills/opencode-skill-improver/SKILL.md"
-      ],
-      "source": "agents/skill-improver.md"
-    },
-    {
-      "name": "system-analyst",
-      "status": "active",
-      "mode": "subagent",
-      "skill": "opencode-system-analyst",
-      "owner_lane": "@system-analyst",
-      "risk": [
-        "read-only-boundary",
-        "requirements-ambiguity",
-        "contract-drift"
-      ],
-      "fallback": "@project-manager for delivery breakdown or implementation lane after handoff",
-      "evidence": [
-        "agents/system-analyst.md",
-        "skills/opencode-system-analyst/SKILL.md"
-      ],
-      "source": "agents/system-analyst.md"
-    },
-    {
-      "name": "visual-asset-generator",
-      "status": "active",
-      "mode": "subagent",
-      "skill": "opencode-visual-asset-generator",
-      "owner_lane": "@visual-asset-generator",
-      "risk": [
-        "image-generation",
-        "legal-style-equivalent",
-        "asset-write"
-      ],
-      "fallback": "asset manifest only; orchestrator executes image endpoint",
-      "evidence": [
-        "agents/visual-asset-generator.md",
-        "skills/opencode-visual-asset-generator/SKILL.md"
-      ],
-      "source": "agents/visual-asset-generator.md"
     },
     {
       "name": "visual-context-extractor",
@@ -440,13 +206,13 @@
     {
       "name": "opencode-backend",
       "status": "active",
-      "owner_lane": "@backend",
+      "owner_lane": "@fixer",
       "risk": [
         "api-change",
         "data-change",
         "auth-integration"
       ],
-      "fallback": "@system-analyst or @architect",
+      "fallback": "@artifact-planner on-demand owner",
       "evidence": [
         "skills/opencode-backend/SKILL.md"
       ],
@@ -455,11 +221,11 @@
     {
       "name": "opencode-council",
       "status": "active",
-      "owner_lane": "@council",
+      "owner_lane": "@artifact-planner",
       "risk": [
         "expensive-consensus"
       ],
-      "fallback": "@oracle review",
+      "fallback": "@artifact-planner on-demand owner",
       "evidence": [
         "skills/opencode-council/SKILL.md"
       ],
@@ -482,12 +248,12 @@
     {
       "name": "opencode-design-system-engineer",
       "status": "active",
-      "owner_lane": "@design-system-engineer",
+      "owner_lane": "@designer",
       "risk": [
         "shared-ui-foundation",
         "token-primitive-api-change"
       ],
-      "fallback": "@designer for missing grammar; @frontend/@mobile for consumers",
+      "fallback": "@artifact-planner on-demand owner",
       "evidence": [
         "skills/opencode-design-system-engineer/SKILL.md"
       ],
@@ -496,13 +262,13 @@
     {
       "name": "opencode-devops",
       "status": "active",
-      "owner_lane": "@devops",
+      "owner_lane": "@fixer",
       "risk": [
         "deploy",
         "destructive-infra",
         "secrets"
       ],
-      "fallback": "@architect or @quality-gate",
+      "fallback": "@artifact-planner on-demand owner",
       "evidence": [
         "skills/opencode-devops/SKILL.md"
       ],
@@ -538,13 +304,13 @@
     {
       "name": "opencode-frontend",
       "status": "active",
-      "owner_lane": "@frontend",
+      "owner_lane": "@fixer",
       "risk": [
         "web-ui-change",
         "accessibility",
         "api-integration"
       ],
-      "fallback": "@designer or @backend",
+      "fallback": "@artifact-planner on-demand owner",
       "evidence": [
         "skills/opencode-frontend/SKILL.md"
       ],
@@ -553,12 +319,12 @@
     {
       "name": "opencode-fullstack",
       "status": "active",
-      "owner_lane": "@fullstack",
+      "owner_lane": "@fixer",
       "risk": [
         "cross-layer-change",
         "scope-creep"
       ],
-      "fallback": "split @frontend/@backend or @artifact-planner",
+      "fallback": "@artifact-planner on-demand owner",
       "evidence": [
         "skills/opencode-fullstack/SKILL.md"
       ],
@@ -580,13 +346,13 @@
     {
       "name": "opencode-mobile",
       "status": "active",
-      "owner_lane": "@mobile",
+      "owner_lane": "@fixer",
       "risk": [
         "native-permissions",
         "privacy",
         "mobile-runtime"
       ],
-      "fallback": "@architect or @quality-gate",
+      "fallback": "@artifact-planner on-demand owner",
       "evidence": [
         "skills/opencode-mobile/SKILL.md"
       ],
@@ -622,12 +388,12 @@
     {
       "name": "opencode-plan-reviewer",
       "status": "active",
-      "owner_lane": "@system-analyst",
+      "owner_lane": "@artifact-planner",
       "risk": [
         "requirements-ambiguity",
         "read-only-boundary"
       ],
-      "fallback": "implementation handoff only",
+      "fallback": "@artifact-planner on-demand owner",
       "evidence": [
         "skills/opencode-system-analyst/SKILL.md"
       ],
@@ -637,12 +403,12 @@
     {
       "name": "opencode-plan-validator",
       "status": "active",
-      "owner_lane": "@plan-validator",
+      "owner_lane": "@artifact-planner",
       "risk": [
         "plan-artifact-write",
         "contract-drift"
       ],
-      "fallback": "@artifact-planner for non-mechanical plan changes",
+      "fallback": "@artifact-planner on-demand owner",
       "evidence": [
         "skills/opencode-plan-validator/SKILL.md"
       ],
@@ -651,12 +417,12 @@
     {
       "name": "opencode-project-manager",
       "status": "active",
-      "owner_lane": "@project-manager",
+      "owner_lane": "@artifact-planner",
       "risk": [
         "delivery-plan",
         "read-only-boundary"
       ],
-      "fallback": "local plan artifact draft",
+      "fallback": "@artifact-planner on-demand owner",
       "evidence": [
         "skills/opencode-project-manager/SKILL.md"
       ],
@@ -678,12 +444,12 @@
     {
       "name": "opencode-skill-improver",
       "status": "active",
-      "owner_lane": "@skill-improver",
+      "owner_lane": "@artifact-planner",
       "risk": [
         "prompt-change",
         "routing-drift"
       ],
-      "fallback": "record improvement note only",
+      "fallback": "@artifact-planner on-demand owner",
       "evidence": [
         "skills/opencode-skill-improver/SKILL.md"
       ],
@@ -692,12 +458,12 @@
     {
       "name": "opencode-system-analyst",
       "status": "active",
-      "owner_lane": "@system-analyst",
+      "owner_lane": "@artifact-planner",
       "risk": [
         "requirements-ambiguity",
         "read-only-boundary"
       ],
-      "fallback": "implementation handoff only",
+      "fallback": "@artifact-planner on-demand owner",
       "evidence": [
         "skills/opencode-system-analyst/SKILL.md"
       ],
@@ -706,12 +472,12 @@
     {
       "name": "opencode-visual-asset-generator",
       "status": "active",
-      "owner_lane": "@visual-asset-generator",
+      "owner_lane": "@designer",
       "risk": [
         "image-generation",
         "legal-style-equivalent"
       ],
-      "fallback": "asset manifest only",
+      "fallback": "@artifact-planner on-demand owner",
       "evidence": [
         "skills/opencode-visual-asset-generator/SKILL.md"
       ],
@@ -734,36 +500,6 @@
     }
   ],
   "mcp": [
-    {
-      "name": "time",
-      "status": "configured",
-      "owner_lane": "@orchestrator",
-      "risk": [
-        "local-process",
-        "low-egress"
-      ],
-      "fallback": "use local system date from environment",
-      "evidence": [
-        "opencode.json:mcp.time"
-      ],
-      "source": "opencode.json",
-      "transport": "local",
-      "auth": "none",
-      "data_egress": "none expected beyond local process",
-      "write_capability": false,
-      "allowed_lanes": [
-        "@orchestrator",
-        "@librarian",
-        "@quality-gate"
-      ],
-      "denied_lanes": [
-        "@council"
-      ],
-      "evidence_required": [
-        "record when date/time affects decision"
-      ],
-      "secret_surfaces": []
-    },
     {
       "name": "9router",
       "status": "configured",
@@ -874,7 +610,7 @@
     },
     {
       "name": "stitch",
-      "status": "configured",
+      "status": "disabled",
       "owner_lane": "@designer",
       "risk": [
         "remote-egress",
@@ -912,7 +648,7 @@
     },
     {
       "name": "playwright",
-      "status": "configured",
+      "status": "disabled",
       "owner_lane": "@designer",
       "risk": [
         "browser-session",
@@ -947,7 +683,7 @@
     },
     {
       "name": "shadcn",
-      "status": "configured",
+      "status": "disabled",
       "owner_lane": "@designer",
       "risk": [
         "local-process",
@@ -980,7 +716,7 @@
     },
     {
       "name": "semgrep",
-      "status": "configured",
+      "status": "disabled",
       "owner_lane": "@quality-gate",
       "risk": [
         "local-scan",
@@ -1013,7 +749,7 @@
     },
     {
       "name": "github",
-      "status": "configured",
+      "status": "disabled",
       "owner_lane": "@orchestrator",
       "risk": [
         "remote-egress",
@@ -1049,7 +785,7 @@
     },
     {
       "name": "21st",
-      "status": "configured",
+      "status": "disabled",
       "owner_lane": "@designer",
       "risk": [
         "remote-egress",

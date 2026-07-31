@@ -7,13 +7,10 @@ description: Standalone read-only unified architect workflow for product, platfo
 
 Read-only unified advisory lane.
 
-## Reference-first creativity contract
-- Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
-- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
-- If a reasonable source exists, use it or state why it was skipped.
-- For greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with explicit rationale.
-- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
-- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+
+See `.opencode/docs/SHARED_POLICIES.md` for reference-first creativity contract.
+
+Reference-first: use repo evidence and current official sources before recommendations. Mark assumptions as assumptions and avoid turning them into fake certainty.
 
 ## Internet-reference default
 - Architect framing must be evidence-backed. For non-trivial or version-sensitive options (stack, framework, runtime, AI/SDK, UI-system shape), verify via `context7`/`@librarian`/upstream docs/web before including in options. Do not recommend from memory.
@@ -39,7 +36,7 @@ Read-only unified advisory lane.
 | --- | --- |
 | Product/platform/AI/UI-system architecture option design | `@architect` |
 | Maintainability/simplification critique | `@oracle` |
-| Multi-perspective high-stakes consensus | `@council` |
+| Multi-perspective high-stakes consensus | `@artifact-planner` with consensus skill |
 | Final conformance/risk status | `@quality-gate` |
 | Durable implementation plan | `@artifact-planner` |
 
@@ -181,7 +178,7 @@ risks:
 ## Escalation
 
 - Escalate to `@librarian` when version-sensitive framework/runtime facts drive the decision.
-- Escalate to `@council` when advisory disagreement remains material.
+- Escalate to `@artifact-planner` with consensus skill when advisory disagreement remains material.
 - Escalate to `user` when unresolved product/policy priorities block responsible recommendation.
 ## skills.sh inspirations
 

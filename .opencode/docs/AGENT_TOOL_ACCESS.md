@@ -71,47 +71,47 @@ Note: `@librarian` is a supporting research helper, not one of the 6 core agents
 - **permitted**: bounded implementation (including tests/fixtures) within task scope.
 - **fallback**: if requirements/spec are ambiguous, stop and route back for clarification/design.
 
-### `@frontend`
+### `@fixer with frontend skill`
 - **available**: web implementation and validation toolchain.
 - **preferred**: project-local design guidance, existing component patterns, focused tests, browser checks when relevant.
 - **permitted**: bounded web UI edits after design direction exists.
-- **fallback**: route missing UX/visual direction to `@designer`; route unclear API contracts to `@backend`/`@system-analyst`.
+- **fallback**: route missing UX/visual direction to `@designer`; route unclear API contracts to `@fixer with backend skill`/`@artifact-planner with system-analysis skill`.
 
-### `@mobile`
+### `@fixer with mobile skill`
 - **available**: mobile implementation and safe validation toolchain.
 - **preferred**: existing navigation/platform patterns and safe build/test/simulator checks.
 - **permitted**: bounded React Native/Expo/Flutter/mobile app edits.
 - **fallback**: route native architecture/privacy/store boundaries to `@architect`/`@quality-gate`.
 
-### `@backend`
+### `@fixer with backend skill`
 - **available**: API/server/data implementation and validation toolchain.
 - **preferred**: existing service/validation/auth/migration/test patterns with TDD for production logic.
 - **permitted**: bounded backend edits and safe local validation.
-- **fallback**: route unclear requirements/contracts to `@system-analyst`; route major data/security decisions to `@architect`/`@quality-gate`.
+- **fallback**: route unclear requirements/contracts to `@artifact-planner with system-analysis skill`; route major data/security decisions to `@architect`/`@quality-gate`.
 
-### `@devops`
+### `@fixer with devops skill`
 - **available**: CI/CD, Docker, env, release, monitoring, and safe local validation tools.
 - **preferred**: dry-run/read-only/local checks before mutation.
 - **permitted**: bounded config/script/doc edits; deploy/destructive/credential/production commands require explicit ask/approval.
 - **fallback**: route platform/release architecture to `@architect`; final release/security signoff to `@quality-gate`.
 
-### `@system-analyst` (read-only)
+### `@artifact-planner with system-analysis skill` (read-only)
 - **available**: read-only discovery/research and artifact drafting.
 - **preferred**: requirements, user-flow, API contract, data-flow, edge-case, NFR, and acceptance-criteria analysis.
 - **permitted**: read-only analysis and handoff output; no source edits.
-- **fallback**: route delivery breakdown to `@project-manager`; implementation to domain/fixer lanes.
+- **fallback**: route delivery breakdown to `@artifact-planner with project-management skill`; implementation to domain/fixer lanes.
 
-### `@project-manager` (read-only)
+### `@artifact-planner with project-management skill` (read-only)
 - **available**: read-only planning/research and artifact drafting.
 - **preferred**: milestones, backlog, issue breakdown, dependency/risk register, release checklist, and handoff sequencing.
 - **permitted**: read-only planning output; no source edits or external tracker writes unless explicitly approved/configured.
-- **fallback**: route unclear requirements to `@system-analyst`; implementation to domain/fixer lanes.
+- **fallback**: route unclear requirements to `@artifact-planner with system-analysis skill`; implementation to domain/fixer lanes.
 
-### `@fullstack`
+### `@fixer with fullstack skill`
 - **available**: frontend + backend implementation and validation toolchain for small vertical slices.
 - **preferred**: clear UI/API/data contract with focused tests and integration validation.
 - **permitted**: bounded tightly-coupled FE/BE edits only.
-- **fallback**: split to `@frontend` + `@backend` or plan first when scope grows.
+- **fallback**: split to `@fixer with frontend skill` + `@fixer with backend skill` or plan first when scope grows.
 
 ### `@oracle`
 - **available**: read-heavy analysis/review pathways.
@@ -133,8 +133,8 @@ CLI diagnostics first policy for edit-owning lanes (`@orchestrator` tiny direct 
 `mcp.scripts` is a configured local stdio server with fixed tool allowlist, strict schemas, and no arbitrary script/flag passthrough. First slice exposes read/check/query tools only. `caller_lane` is policy attestation, not authorization.
 
 - **all lanes**: may use configured `mcp.scripts` only within role permissions and first-slice read/check/query boundary when connected/usable/permitted.
-- **read-only lanes** (`@system-analyst`, `@project-manager`, `@artifact-planner`, `@explorer`, `@librarian`, `@oracle`, `@visual-context-extractor`, `@visual-asset-generator`): use scripts MCP for evidence/query only. No write operations (deferred).
-- **implementation lanes** (`@fixer`, `@frontend`, `@backend`, `@mobile`, `@fullstack`, `@devops`): use scripts MCP for validation/readiness checks within task scope. Cannot invoke deferred write operations because they do not exist in this slice.
+- **read-only lanes** (`@artifact-planner with system-analysis skill`, `@artifact-planner with project-management skill`, `@artifact-planner`, `@explorer`, `@librarian`, `@oracle`, `@visual-context-extractor`, `@designer with visual-asset skill`): use scripts MCP for evidence/query only. No write operations (deferred).
+- **implementation lanes** (`@fixer`, `@fixer with frontend skill`, `@fixer with backend skill`, `@fixer with mobile skill`, `@fixer with fullstack skill`, `@fixer with devops skill`): use scripts MCP for validation/readiness checks within task scope. Cannot invoke deferred write operations because they do not exist in this slice.
 - **core routing agents** (`@orchestrator`, `@quality-gate`): use scripts MCP per lane contract.
 
 Fallback to canonical CLI when MCP is disconnected, unavailable after config change, `tool_pending`, not permitted, or lacks exact mapping. MCP availability never overrides existing role policy. See [TOOL_USAGE.md](./TOOL_USAGE.md) for executable fallback commands and [MCP.md](./MCP.md) for tool inventory.
@@ -150,7 +150,7 @@ Fallback to canonical CLI when MCP is disconnected, unavailable after config cha
 1. Availability does not override permission boundaries.
 2. Preferred path can be skipped only with a concrete reason (not habit).
 3. Fallback must preserve safety and evidence posture.
-4. Read-only reviewers and read-only artifact lanes (`@system-analyst`, `@project-manager`) must not modify source files.
+4. Read-only reviewers and read-only artifact lanes (`@artifact-planner with system-analysis skill`, `@artifact-planner with project-management skill`) must not modify source files.
 
 ## Conflict resolution examples
 

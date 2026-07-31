@@ -7,13 +7,8 @@ description: Standalone consensus workflow for council. Use for high-stakes arch
 
 Use this for consensus on costly, ambiguous, or high-blast-radius decisions where one advisor is not enough. Council is Read-only and expensive; do not use for normal implementation, routine review, or final release signoff.
 
-## Reference-first creativity contract
-- Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
-- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
-- If a reasonable source exists, use it or state why it was skipped.
-- For greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with explicit rationale.
-- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
-- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+
+See `.opencode/docs/SHARED_POLICIES.md` for reference-first creativity contract.
 
 ## Internet-reference default
 - Consensus must use current official docs/upstream evidence for version-sensitive or externally dependent facts. Multiple opinions do not substitute for source verification.
@@ -66,7 +61,7 @@ ponytail: This is a behavioral contract. Use `scripts/session-trace-audit.py` as
 | --- | --- |
 | `@architect` | single-lane architecture advisory and option design |
 | `@oracle` | senior review, simplification, risk critique |
-| `@council` | multi-perspective consensus for expensive/high-stakes decisions |
+| `@artifact-planner with consensus skill` | multi-perspective consensus for expensive/high-stakes decisions |
 | `@quality-gate` | final conformance/risk status after changes/evidence |
 | `@fixer`/domain agents | implementation after decision is clear |
 

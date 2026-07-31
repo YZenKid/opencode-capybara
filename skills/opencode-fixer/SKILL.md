@@ -18,13 +18,8 @@ For canonical tool policy and boundaries, refer to:
 - `.opencode/docs/TOOL_USAGE.md`
 - `.opencode/docs/AGENT_TOOL_ACCESS.md`
 
-## Reference-first creativity contract
-- Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
-- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
-- If a reasonable source exists, use it or state why it was skipped.
-- For greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with explicit rationale.
-- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
-- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+
+See `.opencode/docs/SHARED_POLICIES.md` for reference-first creativity contract.
 
 ## Principles
 
@@ -48,10 +43,10 @@ For canonical tool policy and boundaries, refer to:
 | Work | Route |
 | --- | --- |
 | Bounded edits, tests, fixtures, small refactors | `@fixer` |
-| Web UI implementation with design already clear | `@frontend` or `@fixer` for tiny changes |
-| Backend/API/data implementation | `@backend` |
-| Native/hybrid mobile implementation | `@mobile` |
-| Cross-stack vertical slice, small and clear | `@fullstack` |
+| Web UI implementation with design already clear | `@fixer` with frontend skill |
+| Backend/API/data implementation | `@fixer` with backend skill |
+| Native/hybrid mobile implementation | `@fixer` with mobile skill |
+| Cross-stack vertical slice, small and clear | `@fixer` with fullstack skill |
 | Missing UX/visual/motion direction | `@designer` first |
 | Architecture/product/security tradeoff | `@architect`/`@oracle` |
 | Final conformance/risk decision | `@quality-gate` |

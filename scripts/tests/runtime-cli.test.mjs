@@ -50,7 +50,7 @@ createTask(projectRoot, "run-continue", {
 createTask(projectRoot, "run-continue", {
   task_id: "task-b",
   title: "Blocked until a completes",
-  owner_lane: "@backend",
+  owner_lane: "@fixer",
   depends_on: ["task-a"],
 });
 const continued = await runRuntimeCli(projectRoot, ["continue", "--run-id", "run-continue", "--json"]);

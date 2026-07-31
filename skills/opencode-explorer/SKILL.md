@@ -7,13 +7,8 @@ description: Standalone Read-only codebase discovery workflow for explorer. Use 
 
 Use this for read-only discovery after intent classification in `.opencode/docs/AGENT_ROUTING.md`. `tiny-readonly-compare` stays narrow and stops at answer; `read-only-deep-review` may gather broader evidence with an explicit scope checkpoint. Explorer maps facts; it does not decide architecture, write plans, edit files, promote scope, or sign off risk.
 
-## Reference-first creativity contract
-- Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
-- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
-- If a reasonable source exists, use it or state why it was skipped.
-- For greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with explicit rationale.
-- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
-- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+
+See `.opencode/docs/SHARED_POLICIES.md` for reference-first creativity contract.
 
 ## Internet-reference default
 - Explorer is read-only and primarily repo-local. If the discovery question depends on external/version-sensitive source beyond what local evidence shows, escalate to `@librarian` with the exact unresolved question rather than guessing.
@@ -30,7 +25,7 @@ Use this for read-only discovery after intent classification in `.opencode/docs/
 | --- | --- |
 | Find files, symbols, tests, fixtures, patterns, reuse candidates | `@explorer` |
 | Current library/API behavior outside repo | `@librarian` |
-| Requirements/flows/contracts missing | `@system-analyst` |
+| Requirements/flows/contracts missing | `@artifact-planner` with system-analysis skill |
 | Implementation after scope clear | `@fixer` or domain implementation agent |
 | Architecture tradeoff or final risk decision | `@architect`/`@oracle`/`@quality-gate` |
 
@@ -104,7 +99,7 @@ Use concise fields: `summary`, `findings`, `files`, `patterns`, `tests`, `reuse_
 ## Escalation
 
 - Escalate to `@librarian` when the missing answer is not in repo-local code and needs current docs/API/source facts.
-- Escalate to `@system-analyst` when the repo cannot answer product requirements, flows, or acceptance criteria.
+- Escalate to `@artifact-planner` with system-analysis skill when the repo cannot answer product requirements, flows, or acceptance criteria.
 - Escalate to `@architect` or `@oracle` when the task shifts from discovery into architecture/risk judgment.
 - Escalate to implementation lanes only after the discovery question is sufficiently grounded in evidence.
 

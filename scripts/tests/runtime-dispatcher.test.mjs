@@ -24,7 +24,7 @@ createRun(repoRoot, { run_id: "run-dispatch", goal: "Dispatch work", status: "ex
 createTask(repoRoot, "run-dispatch", {
   task_id: "task-1",
   title: "Implement backend change",
-  owner_lane: "@backend",
+  owner_lane: "@fixer",
 });
 const dispatched = dispatchWorkerTask(repoRoot, "run-dispatch", {
   task_id: "task-1",

@@ -97,7 +97,7 @@ Use size only after intent classification. Size does not override intent, risk t
 | `tiny` | Single-step, easily reversible, <=1 edited file, <=3 files read, no unknown-scope discovery, no risk trigger | `@orchestrator` may do direct work | Local claim only; no material completion claim |
 | `small` | Bounded known-area edit, usually 1-3 files, clear acceptance criteria, no material ambiguity | `@fixer` or domain lane; `@explorer` only if local facts are missing | Claim scoped behavior and validation |
 | `material` | Multi-file/cross-area change, public behavior shift, security/privacy/accessibility/release impact, or non-trivial completion claim | `@artifact-planner` when planning depth needed, specialist implementation, then `@quality-gate` | Requires evidence and final gate before completion claim |
-| `greenfield` | New app, blank repo, MVP, SaaS/product build, or major product revamp | `@artifact-planner` first, then `@fullstack`/domain lanes from `PASS` or `PASS_FOR_SLICE` plan | Claim `MVP slice complete` unless whole product is truly complete |
+| `greenfield` | New app, blank repo, MVP, SaaS/product build, or major product revamp | `@artifact-planner` first, then `@fixer with fullstack skill`/domain lanes from `PASS` or `PASS_FOR_SLICE` plan | Claim `MVP slice complete` unless whole product is truly complete |
 
 ## Fast path
 
@@ -115,7 +115,7 @@ Allowed fast path sequence:
 4. Run targeted validation when feasible.
 5. Report scoped result and limits.
 
-If scope grows beyond `tiny`, stop fast path and route to `@fixer`, domain lane, `@explorer`, or `@artifact-planner` as the new size/risk requires.
+If scope grows beyond `tiny`, stop fast path and route to `@fixer`, domain lane, `@explorer`, or `@artifact-planner` as the new size/risk requires. `@fixer` is never catch-all/default: use `@fixer` only for bounded implementation, and add the matching domain skill when work is frontend, backend, mobile, DevOps, or fullstack.
 
 ## Creativity Fast Path
 
@@ -192,7 +192,7 @@ Use for new apps, blank repos, MVPs, SaaS/product builds, or major product revam
 - Optimize for the first usable vertical slice, not whole-app perfection.
 - Explore 2-3 credible product/UX/architecture options, compare tradeoffs, then converge.
 - Allow `PASS_FOR_SLICE` execution when whole-product decisions remain open but the selected slice avoids locking those decisions.
-- Allow `@fullstack` to own one bounded greenfield vertical slice when FE/BE coupling is high and contracts are clear enough.
+- Allow `@fixer with fullstack skill` to own one bounded greenfield vertical slice when FE/BE coupling is high and contracts are clear enough.
 - Allow `@fixer` to scaffold or implement only from a ready slice plan, not from a vague product idea.
 - Require enough design direction for MVP usefulness; require the full visual/reference gate only when the work is substantial UI, image-heavy, or parity-driven.
 - Final claim should be `MVP slice complete` unless the whole app is actually finished and validated.
@@ -291,7 +291,7 @@ Creativity is required for greenfield, ambiguous, or taste-sensitive work, but i
 `@orchestrator` must delegate by default when one of these is true:
 - discovery is unknown-scope, cross-area, or read-heavy (>3 files) → `@explorer`,
 - implementation is bounded but touches 2+ files (including code+test/docs pair) → `@fixer`,
-- work creates generator-backed framework artifacts → matching domain lane (`@backend`, `@frontend`, `@mobile`, `@devops`, or `@fullstack`) unless it only customizes existing files or generator is irrelevant,
+- work creates generator-backed framework artifacts → matching domain lane (`@fixer with backend skill`, `@fixer with frontend skill`, `@fixer with mobile skill`, `@fixer with devops skill`, or `@fixer with fullstack skill`) unless it only customizes existing files or generator is irrelevant,
 - work is multi-phase, spec-heavy, materially ambiguous, or evidence-heavy → `@artifact-planner`,
 - bounded existing-code bugfixes with one known subsystem and one worker, no unresolved architecture/security/data/deploy/product decision, and an existing validation path → direct Maintenance Direct Fix,
 - change is material and needs completion claim → final pass through `@quality-gate`.
@@ -335,7 +335,7 @@ Cross-lane contract baseline (non-trivial work):
 - `@explorer` — codebase discovery and reuse mapping
 - `@fixer` — bounded implementation, tests, Red/Green/Refactor
 - `@designer` — UI/UX direction, blueprint, reference parity, motion strategy, accessibility expectations, and design handoff
-- `@design-system-engineer` — tokens, primitives, theming, component APIs, and reusable UI foundations
+- `@designer with design-system skill` — tokens, primitives, theming, component APIs, and reusable UI foundations
 - `@oracle` — architecture, maintainability, simplification, deep review
 - `@quality-gate` — final conformance and risk review
 
@@ -347,7 +347,7 @@ Cross-lane contract baseline (non-trivial work):
 - `@architect` — unified read-only advisory lane for product/SaaS, platform/runtime/release/mobile, AI/LLM/RAG/evals, and UI-system architecture boundaries.
 - `@artifact-planner` — planning artifacts and evidence paths under `.opencode/`.
 - `@librarian` — supporting docs/API research helper and document-centric read-only extraction/research/transformation support.
-- `@skill-improver` — prompt/skill/routing improvements after repeated failure or evidence.
+- `@artifact-planner with skill-improvement skill` — prompt/skill/routing improvements after repeated failure or evidence.
 
 ## Visual context extraction
 - `@visual-context-extractor` is mandatory first lane for visual understanding from screenshots, images, mockups, diagrams, and other visual files.
@@ -355,13 +355,13 @@ Cross-lane contract baseline (non-trivial work):
 - Callable by all agents via `@orchestrator`. Direct call allowed only when caller `task` permission allows delegation to `visual-context-extractor`.
 - Returns structured JSON (`visual_context_extractor.v1`) only. No design critique, no parity claim, no image generation, no source edits.
 - If no vision input is available, helper must return `status: "unavailable"` with `fallback_suggestion`; it must not fabricate understanding.
-- Downstream interpretation and decisions still belong to the receiving lane such as `@designer`, `@fixer`, `@frontend`, `@quality-gate`, or other relevant specialist.
+- Downstream interpretation and decisions still belong to the receiving lane such as `@designer`, `@fixer`, `@fixer with frontend skill`, `@quality-gate`, or other relevant specialist.
 
 | Caller | Callable? | Notes |
 |---|---|---|
 | All agents | via `@orchestrator` | Default supported path |
 | `@orchestrator` | direct | Primary router/integrator |
-| `@artifact-planner`, `@fixer`, `@designer`, `@frontend`, `@backend`, `@mobile`, `@fullstack`, `@oracle`, `@quality-gate`, `@system-analyst`, `@project-manager`, `@librarian`, `@skill-improver`, `@architect`, `@visual-asset-generator`, `@council`, `@explorer` | direct only if caller task permission allows | Otherwise route via `@orchestrator` |
+| `@artifact-planner`, `@fixer`, `@designer`, `@fixer with frontend skill`, `@fixer with backend skill`, `@fixer with mobile skill`, `@fixer with fullstack skill`, `@oracle`, `@quality-gate`, `@artifact-planner with system-analysis skill`, `@artifact-planner with project-management skill`, `@librarian`, `@artifact-planner with skill-improvement skill`, `@architect`, `@designer with visual-asset skill`, `@artifact-planner with consensus skill`, `@explorer` | direct only if caller task permission allows | Otherwise route via `@orchestrator` |
 
 ## Domain subagents (triggered only)
 
@@ -369,21 +369,21 @@ These agents are `mode: subagent`. `@orchestrator` remains default. `@artifact-p
 
 | Agent | Owns | Route when | Do not route when |
 |---|---|---|---|
-| `@design-system-engineer` | Shared UI foundation | tokens, primitives, theme variables, reusable component APIs, icon grammar, `DESIGN.md`-aligned design-system implementation | Missing design grammar or visual direction -> `@designer`; app-screen implementation belongs downstream in `@frontend`/`@mobile` |
-| `@frontend` | Web UI implementation | React/Next/Vue/Svelte components, pages, forms, state, routing, API integration, component tests, accessibility implementation | Read project stack/command/playbook docs first for framework-managed artifacts; visual direction is missing -> `@designer`; shared primitives/theme work -> `@design-system-engineer`; backend contract unclear -> `@backend`/`@system-analyst` |
-| `@mobile` | Mobile implementation | React Native, Expo, Flutter, navigation, native permissions, offline, push, camera, deep links, mobile performance | Read project stack/command/playbook docs first for framework-managed artifacts; visual direction is missing -> `@designer`; shared primitives/theme work -> `@design-system-engineer`; mobile architecture/privacy/store boundary needs decision -> `@architect`/`@quality-gate` |
-| `@backend` | API/server/data implementation | Endpoints, services, validation, auth integration, DB queries, migrations, jobs, queues, backend tests | Read project stack/command/playbook docs first for framework-managed artifacts; requirements/API contract unclear -> `@system-analyst`; major data/security architecture -> `@architect`/`@quality-gate` |
-| `@devops` | CI/CD, Docker, env, deploy, monitoring | GitHub Actions, Dockerfile, compose, release scripts, observability config, rollback plans | Read project stack/command/playbook docs first for framework-managed artifacts; deploy/destructive/credential action lacks explicit approval; architecture/release boundary -> `@architect`/`@quality-gate` |
-| `@system-analyst` | Read-only requirements/contracts | PRD, user flows, API contracts, data flows, edge cases, NFRs, acceptance criteria | Source edits or tests are requested -> implementation lane |
-| `@project-manager` | Read-only delivery planning | Milestones, backlog, issue breakdown, dependency/risk register, release checklist, handoff | Requirements unclear -> `@system-analyst`; source edits requested -> implementation lane |
-| `@fullstack` | Small vertical slice | Tight, clear FE/BE change with small scope and known contract | Broad scope, unknown contracts, or multi-subsystem work -> split `@frontend` + `@backend` or plan first |
+| `@designer with design-system skill` | Shared UI foundation | tokens, primitives, theme variables, reusable component APIs, icon grammar, `DESIGN.md`-aligned design-system implementation | Missing design grammar or visual direction -> `@designer`; app-screen implementation belongs downstream in `@fixer with frontend skill`/`@fixer with mobile skill` |
+| `@fixer with frontend skill` | Web UI implementation | React/Next/Vue/Svelte components, pages, forms, state, routing, API integration, component tests, accessibility implementation | Read project stack/command/playbook docs first for framework-managed artifacts; visual direction is missing -> `@designer`; shared primitives/theme work -> `@designer with design-system skill`; backend contract unclear -> `@fixer with backend skill`/`@artifact-planner with system-analysis skill` |
+| `@fixer with mobile skill` | Mobile implementation | React Native, Expo, Flutter, navigation, native permissions, offline, push, camera, deep links, mobile performance | Read project stack/command/playbook docs first for framework-managed artifacts; visual direction is missing -> `@designer`; shared primitives/theme work -> `@designer with design-system skill`; mobile architecture/privacy/store boundary needs decision -> `@architect`/`@quality-gate` |
+| `@fixer with backend skill` | API/server/data implementation | Endpoints, services, validation, auth integration, DB queries, migrations, jobs, queues, backend tests | Read project stack/command/playbook docs first for framework-managed artifacts; requirements/API contract unclear -> `@artifact-planner with system-analysis skill`; major data/security architecture -> `@architect`/`@quality-gate` |
+| `@fixer with devops skill` | CI/CD, Docker, env, deploy, monitoring | GitHub Actions, Dockerfile, compose, release scripts, observability config, rollback plans | Read project stack/command/playbook docs first for framework-managed artifacts; deploy/destructive/credential action lacks explicit approval; architecture/release boundary -> `@architect`/`@quality-gate` |
+| `@artifact-planner with system-analysis skill` | Read-only requirements/contracts | PRD, user flows, API contracts, data flows, edge cases, NFRs, acceptance criteria | Source edits or tests are requested -> implementation lane |
+| `@artifact-planner with project-management skill` | Read-only delivery planning | Milestones, backlog, issue breakdown, dependency/risk register, release checklist, handoff | Requirements unclear -> `@artifact-planner with system-analysis skill`; source edits requested -> implementation lane |
+| `@fixer with fullstack skill` | Small vertical slice | Tight, clear FE/BE change with small scope and known contract | Broad scope, unknown contracts, or multi-subsystem work -> split `@fixer with frontend skill` + `@fixer with backend skill` or plan first |
 
 Domain anti-overlap rules:
-- UI/UX direction stays with `@designer`; `@frontend` and `@mobile` implement from direction.
-- Shared tokens/primitives/themes/component APIs stay with `@design-system-engineer` before screen-level implementation.
-- `@fullstack` is never catch-all/default. Split once scope grows or contracts are unclear.
-- Read-only agents (`@system-analyst`, `@project-manager`) must not edit source.
-- `@devops` must ask before deploy, destructive infra, credential, or production mutation commands.
+- UI/UX direction stays with `@designer`; `@fixer with frontend skill` and `@fixer with mobile skill` implement from direction.
+- Shared tokens/primitives/themes/component APIs stay with `@designer with design-system skill` before screen-level implementation.
+- `@fixer with fullstack skill` is never catch-all/default. Split once scope grows or contracts are unclear.
+- Read-only agents (`@artifact-planner with system-analysis skill`, `@artifact-planner with project-management skill`) must not edit source.
+- `@fixer with devops skill` must ask before deploy, destructive infra, credential, or production mutation commands.
 
 Document fallback rule:
 - If a user asks to read, summarize, compare, or transform PDF/DOCX/XLSX/PPT/Office input and the active model reports no direct attachment support (for example `input.pdf:false`), do not stop at the model capability check. Treat it as a direct-attachment limitation, check whether the file is available in the workspace, then route to `@librarian` for document-centric extraction. Ask the user to convert the file only after the `@librarian` lane or local extraction tools are unavailable or fail.
@@ -393,15 +393,15 @@ Helper lanes are conditional. Tiny UI polish still routes to `@designer`; isolat
 Global conditional specialist framing:
 - PRD/product blueprint work, SaaS architecture, AI system design, Security/privacy review, Release/ops readiness, and Mobile/hybrid architecture can trigger `@architect`.
 - Tiny UI polish still goes to `@designer`; broader design ambiguity still goes to `@designer`.
-- Shared design-system/token/primitive/theme work goes to `@design-system-engineer`.
+- Shared design-system/token/primitive/theme work goes to `@designer with design-system skill`.
 - Isolated bugfixes still go to `@fixer`.
-- Web implementation with existing design direction can route to `@frontend`.
-- Backend/API/data implementation can route to `@backend`.
-- Mobile app implementation with existing design direction can route to `@mobile`.
-- CI/CD/Docker/env/deploy work can route to `@devops` with approval gates.
-- Requirements/contract clarification can route to `@system-analyst`.
-- Milestone/backlog/release planning can route to `@project-manager`.
-- Small FE/BE vertical slices can route to `@fullstack`; split when scope grows.
+- Web implementation with existing design direction can route to `@fixer with frontend skill`.
+- Backend/API/data implementation can route to `@fixer with backend skill`.
+- Mobile app implementation with existing design direction can route to `@fixer with mobile skill`.
+- CI/CD/Docker/env/deploy work can route to `@fixer with devops skill` with approval gates.
+- Requirements/contract clarification can route to `@artifact-planner with system-analysis skill`.
+- Milestone/backlog/release planning can route to `@artifact-planner with project-management skill`.
+- Small FE/BE vertical slices can route to `@fixer with fullstack skill`; split when scope grows.
 
 ## UI and reference policy
 - First inspect the target project's `DESIGN.md`.
@@ -411,7 +411,7 @@ Global conditional specialist framing:
 - Require visual density, production-like screenshots, designer signoff, and reference/current/final evidence for substantial UI/reference work.
 - Generic hover-only motion is not enough for substantial reference work.
 - Treat image-heavy work explicitly with an image generation decision, direct reuse inventory, and style-equivalent generation fallback when needed.
-- `@visual-asset-generator` is invoked by `@orchestrator`/`@designer` from an asset manifest or image-heavy UI plan; `@artifact-planner` does not invoke generation lanes.
+- `@designer with visual-asset skill` is invoked by `@orchestrator`/`@designer` from an asset manifest or image-heavy UI plan; `@artifact-planner` does not invoke generation lanes.
 - Do not leave final sections as CSS placeholders when imagery materially affects quality.
 
 ## General Design Readiness Gate
@@ -433,5 +433,5 @@ If the blueprint is incomplete, status must be `blocked`, `needs-polish`, or `dr
 ## Risk triggers
 - auth, PII, tenant isolation, payment, upload, secrets, token/session handling, biometric data, permission/RBAC → final security/privacy assessment in `@quality-gate`; use `@architect` for upstream architecture decisions
 - architecture boundary, new abstraction, large refactor, dependency direction, data model change → oracle
-- visual layout change, animation/motion direction, design token, screenshot/reference parity, responsive behavior → `@designer` for design direction; shared tokens/primitives/component APIs → `@design-system-engineer`; final accessibility/visual-parity signoff when material → `@quality-gate`
+- visual layout change, animation/motion direction, design token, screenshot/reference parity, responsive behavior → `@designer` for design direction; shared tokens/primitives/component APIs → `@designer with design-system skill`; final accessibility/visual-parity signoff when material → `@quality-gate`
 - CI/CD, deployment, env var, migration, monitoring, rollback, mobile/offline/push/deep-links/platform runtime constraints → `@architect`

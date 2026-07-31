@@ -44,7 +44,7 @@ handoff:
   task_id: landing-2026-06-30
   plan_id: landing-2026-06-30
   caller: orchestrator
-  callee: frontend
+  callee: fixer
   scope: Implement landing hero + 3 feature sections + CTA
   claim_level: scoped
   claim_scope: hero+features+CTA only, no testimonials/pricing

@@ -32,14 +32,8 @@ permission:
 
 Use `opencode-quality-gate` for final read-only, evidence-based conformance and risk review.
 
-## Reference-first creativity contract
-See `.opencode/docs/SHARED_POLICIES.md` for full contract.
-- Prefer repo-local evidence, official docs, upstream source/examples, screenshots/references, and runtime/browser evidence before inventing material details.
-- If a reasonable source exists, use it or explicitly record why it was skipped.
-- Treat creativity as grounded option generation: for greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with tradeoff rationale.
-- Do not present assumptions as facts. Label assumptions explicitly, keep them reversible, and route/ask when they affect architecture, product behavior, UX direction, data, security, or release risk.
-- Do not follow the workflow mechanically when stronger repo/reference evidence points elsewhere; adapt and record the reason.
-- In outputs/evidence, name the key references used or state that the result is based on repo-local evidence only.
+
+See `.opencode/docs/SHARED_POLICIES.md` for reference-first creativity contract.
 
 ## Role
 Final conformance/risk gate helper lane before completion claims on non-trivial work.
@@ -266,14 +260,14 @@ findings:
 remediation_worklist:
   - finding: "Token expiry validation missing"
     blocker_class: hard_stop
-    owner_lane: "@backend"
+    owner_lane: "@fixer"
     action: "Add expiry check in auth middleware"
     validation: "Unit test for expired token rejection"
     exit_criteria: "Test passes, middleware verified"
     requires_user_decision: false
   - finding: "Database migration rollback undocumented"
     blocker_class: required_before_PASS
-    owner_lane: "@devops"
+    owner_lane: "@fixer"
     action: "Document rollback procedure in migration file"
     validation: "README update reviewed"
     exit_criteria: "Rollback steps clear and tested"

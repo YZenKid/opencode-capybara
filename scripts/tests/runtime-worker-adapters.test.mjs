@@ -9,7 +9,7 @@ writeFileSync(imagePath, "image");
 
 const spec = {
   worker_name: "backend-1",
-  lane: "@backend",
+  lane: "@fixer",
   backend: "opencode-subagent",
   prompt: "Implement endpoint",
   run_id: "run-workers",

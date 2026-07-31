@@ -38,7 +38,7 @@
 - Do not modify files from read-only reviewer agents.
 - Keep `AGENTS.md` short; detailed policy belongs in `.opencode/docs/` and mechanical checks.
 - Visual understanding from screenshots/images/mockups/diagrams must route to `@visual-context-extractor` first. No agent except the extractor may self-infer from visual input. Downstream decisions remain with designer/fixer/etc.
-- **UI/UX catalog source of truth**: substantial UI work anchors to the **Open Design catalog** at `open-design.ai` (150 design systems, 290 templates) — see `.opencode/plans/ui-ux-open-design-upgrade.md` and `.opencode/catalog/INDEX.md`. Project `DESIGN.md` must use the v2 schema with `catalog_citation` block. `@designer` selects, `@frontend`/`@mobile` implement from the cited catalog, `@quality-gate` enforces.
+- **UI/UX catalog source of truth**: substantial UI work anchors to the **Open Design catalog** at `open-design.ai` (150 design systems, 290 templates) — see `.opencode/plans/ui-ux-open-design-upgrade.md` and `.opencode/catalog/INDEX.md`. Project `DESIGN.md` must use the v2 schema with `catalog_citation` block. `@designer` selects; `@fixer` implements with relevant frontend/mobile skill from the cited catalog, `@quality-gate` enforces.
 
 ## Default Flow
 User intent → `@orchestrator` → specialist agents → validation → `@quality-gate` → final summary.
@@ -48,7 +48,7 @@ Bounded Maintenance Direct Fix may skip planner when work is bounded, existing-c
 
 Default operating model:
 - **6 core agents**: `@orchestrator`, `@explorer`, `@fixer`, `@designer`, `@oracle`, `@quality-gate`
-- **Helper lanes (triggered as needed)**: `@architect`, `@artifact-planner`, `@librarian`, `@skill-improver`
+- **Helper lanes (triggered as needed)**: `@architect`, `@artifact-planner`, `@librarian`
 
 `AGENT_ROUTING.md` is the source of truth for routing and ownership.
 
@@ -71,7 +71,7 @@ Default operating model:
 - Security/privacy/accessibility/visual-parity final signoff → `@quality-gate`
 - PII/auth/payments/uploads/biometric/privacy final signoff → `@quality-gate`
 - Document/file-centric read-only extraction/research/transformation support (PDF/sheets/Office) → supporting `@librarian` lane
-- Prompt/skill/routing improvement after repeated failure/evidence → `@skill-improver`
+- Prompt/skill/routing improvement after repeated failure/evidence → `@artifact-planner` with skill-improvement skill
 - Current library/API docs lookup when local context is insufficient → supporting `@librarian` research lane
 - User-facing UI/reference/animation/accessibility/design-system work → `@designer`
 

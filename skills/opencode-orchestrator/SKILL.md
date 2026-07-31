@@ -137,13 +137,13 @@ Read `references/validation-memory-and-commit.md` when verifying facts, claiming
 4. If `implementation`, read `references/routing-and-modes.md` before routing or editing.
 5. If work is tiny, reversible, one-file, and clear, orchestrator may act directly.
 6. If discovery is broad, cross-area, or read-heavy, route to `@explorer` or `@librarian`.
-7. If UI or visual direction is unresolved, route to `@designer`; if implementation is bounded UI, route to `@frontend` or `@fixer`.
+7. If UI or visual direction is unresolved, route to `@designer`; if implementation is bounded UI, route to `@fixer with frontend skill` or `@fixer`.
 8. If bounded implementation touches 2+ files, route to `@fixer` or the domain lane.
 9. If work is multi-phase, spec-heavy, materially ambiguous, or evidence-heavy, read `references/planning-and-handoffs.md` and route `@artifact-planner`.
 10. If architecture, security, data, product, or platform boundary is open, route to `@architect` or `@oracle`.
-11. If requirements or contracts are unclear, route to `@system-analyst`; if milestones or sequencing matter, route to `@project-manager`.
+11. If requirements or contracts are unclear, route to `@artifact-planner with system-analysis skill`; if milestones or sequencing matter, route to `@artifact-planner with project-management skill`.
 12. If final material or risky completion claim is needed, route to `@quality-gate`.
-13. If repeated failure, prompt gap, or routing bug appears after work, route to `@skill-improver`.
+13. If repeated failure, prompt gap, or routing bug appears after work, route to `@artifact-planner with skill-improvement skill`.
 14. Findings, risk, or failed checks never authorize mutation by themselves.
 
 ## Workflow

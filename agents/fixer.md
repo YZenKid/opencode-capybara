@@ -5,6 +5,11 @@ description: Bounded implementation and testing specialist for Red/Green/Refacto
 model: 9router/low
 skills:
   - opencode-fixer
+  - opencode-backend
+  - opencode-frontend
+  - opencode-mobile
+  - opencode-fullstack
+  - opencode-devops
 permission:
   "*": allow
   apply_patch: allow
@@ -21,6 +26,11 @@ permission:
     write: ask
     update: ask
     delete: ask
+    opencode-backend: allow
+    opencode-frontend: allow
+    opencode-mobile: allow
+    opencode-fullstack: allow
+    opencode-devops: allow
 ---
 
 # Fixer
@@ -98,11 +108,11 @@ ponytail: This is a soft discipline first. The upgrade path is a session-trace/d
 ## Boundary notes
 
 - General bounded edits/tests → `@fixer`.
-- Web UI after design clear → `@frontend` (or `@fixer` for tiny changes).
-- API/data/auth/jobs → `@backend`.
-- Native/hybrid mobile → `@mobile`.
-- CI/deploy/env → `@devops`.
-- Small FE+BE vertical slice → `@fullstack`.
+- Web UI after design clear → `@fixer` with frontend skill.
+- API/data/auth/jobs → `@fixer` with backend skill.
+- Native/hybrid mobile → `@fixer` with mobile skill.
+- CI/deploy/env → `@fixer` with devops skill.
+- Small FE+BE vertical slice → `@fixer` with fullstack skill.
 - Missing UX/visual/motion → `@designer` first.
 - Architecture/security tradeoffs → `@architect` / `@oracle`.
 - Final conformance → `@quality-gate`.

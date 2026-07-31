@@ -2,7 +2,7 @@
 
 Generated from `.opencode/capabilities/registry.json`. Advisory only; configured does not mean usable/authenticated.
 
-- MCP entries: 15
+- MCP entries: 14
 
 | MCP | Transport | Owner | Auth | Data egress | Write | Allowed lanes | Denied lanes | Fallback | Evidence required | Secret surfaces |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -20,4 +20,3 @@ Generated from `.opencode/capabilities/registry.json`. Advisory only; configured
 | shadcn | local | @designer | none | registry component names | yes | @designer, @frontend, @fixer | @quality-gate, @council | manual component implementation only when shadcn MCP/CLI is unavailable, fails with evidence, or repo pattern requires custom existing components | component names, shadcn MCP/CLI command or fallback result, audit checklist | none |
 | sqlite_local | local | @backend | LOCAL_SQLITE_PATH | local SQLite schema/query content when enabled | yes | @backend, @quality-gate | @council | inspect schema/files and run local tests without MCP | explicit enablement and local DB path, query intent and read/write classification | LOCAL_SQLITE_PATH |
 | stitch | remote | @designer | STITCH_API_KEY | design prompts, project and screen metadata, generated UI designs | yes | @designer, @frontend, @fixer, @orchestrator | @quality-gate, @council | local design-system artifacts and source edits without Stitch | project/screen IDs and prompt summary, no secrets in prompt, record generated design or explicit fallback | STITCH_API_KEY |
-| time | local | @orchestrator | none | none expected beyond local process | no | @orchestrator, @librarian, @quality-gate | @council | use local system date from environment | record when date/time affects decision | none |

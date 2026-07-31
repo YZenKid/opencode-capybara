@@ -102,10 +102,10 @@ The 9 sections correspond to the 9-section mental model that executor lanes use 
 ## Integration with lanes
 
 - `@designer`: reads `DESIGN.md` first, produces blueprint aligned with all 9 sections.
-- `@design-system-engineer`: translates the 9 sections into tokens/primitives; mapping must be explicit.
-- `@frontend` / `@mobile`: implements screens using the 9 sections as the source of truth.
+- `@designer with design-system skill`: translates the 9 sections into tokens/primitives; mapping must be explicit.
+- `@fixer with frontend skill` / `@fixer with mobile skill`: implements screens using the 9 sections as the source of truth.
 - `@fixer`: bounded UI fixes must preserve the rules in the 9 sections.
-- `@visual-asset-generator`: asset prompts must map back to the 9 sections.
+- `@designer with visual-asset skill`: asset prompts must map back to the 9 sections.
 - `@quality-gate`: validates the 9 sections are present, non-empty, and reflected in implementation.
 
 ## Minimal valid example
@@ -154,5 +154,5 @@ Calm, data-dense, never decorative. Optimized for analysts and admins.
 
 ## Agent Prompt Guide
 - Read `DESIGN.md` first; then `.opencode/design-system/registry.md` if present.
-- `@frontend` implements, `@designer` reviews, `@quality-gate` final signoff.
+- `@fixer with frontend skill` implements, `@designer` reviews, `@quality-gate` final signoff.
 ```

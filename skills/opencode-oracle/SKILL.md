@@ -7,13 +7,8 @@ description: Standalone senior engineering review workflow for oracle. Use for a
 
 Use this for strategic analysis, senior engineering review, simplification pressure, and persistent debugging strategy. Oracle is advisory/Read-only; it does not implement, write plans, or provide final release gate status.
 
-## Reference-first creativity contract
-- Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
-- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
-- If a reasonable source exists, use it or state why it was skipped.
-- For greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with explicit rationale.
-- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
-- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+
+See `.opencode/docs/SHARED_POLICIES.md` for reference-first creativity contract. Mark assumptions as assumptions and keep uncertainty explicit.
 
 ## Internet-reference default
 - For version-sensitive or best-practice-sensitive review, use current official docs/upstream sources when repo evidence cannot settle the claim. Do not advise from memory when one live lookup would materially improve confidence.
@@ -27,14 +22,14 @@ Use this for strategic analysis, senior engineering review, simplification press
 | --- | --- |
 | Product/platform/AI/UI-system architecture option design | `@architect` |
 | Maintainability, YAGNI, review, simplification, risk critique | `@oracle` |
-| Multi-perspective high-stakes consensus | `@council` |
+| Multi-perspective high-stakes consensus | `@artifact-planner` with consensus skill |
 | Final conformance/risk status after changes | `@quality-gate` |
 | Bounded code edits/tests | `@fixer` or domain agent |
 
 ## Trigger / skip
 
 - Trigger: simplification review, diff critique, hidden risk analysis, persistent debugging strategy, test strategy review, or senior challenge to an existing approach.
-- Skip: initial architecture framing -> `@architect`; routine implementation -> implementation lane; final signoff -> `@quality-gate`; expensive consensus -> `@council`.
+- Skip: initial architecture framing -> `@architect`; routine implementation -> implementation lane; final signoff -> `@quality-gate`; expensive consensus -> `@artifact-planner` with consensus skill.
 
 ## Use cases
 
@@ -138,7 +133,7 @@ recommendations:
 
 ## Escalation
 
-- Escalate to `@council` when the recommendation remains high-stakes and genuinely contested.
+- Escalate to `@artifact-planner` with consensus skill when the recommendation remains high-stakes and genuinely contested.
 - Escalate to `@architect` when the task turns into architecture option design instead of critique.
 - Escalate to implementation lanes only after the review question is settled.
 ## skills.sh inspirations

@@ -2,11 +2,8 @@
 """Subagent Handoff Contract validator.
 
 When @orchestrator or @artifact-planner delegates work to a subagent
-(@fixer, @frontend, @backend, @mobile, @devops, @designer, @fullstack,
-@design-system-engineer, @explorer, @librarian, @oracle, @quality-gate,
-@system-analyst, @project-manager, @architect, @plan-reviewer,
-@visual-context-extractor, @visual-asset-generator, @skill-improver,
-@council), the delegation MUST carry a structured handoff payload so
+(@fixer, @designer, @explorer, @librarian, @oracle, @quality-gate,
+@architect, @artifact-planner, @visual-context-extractor), the delegation MUST carry a structured handoff payload so
 the subagent can execute without re-deriving context.
 
 This script validates a handoff payload (YAML or JSON) against the
@@ -42,25 +39,13 @@ ALLOWED_LANES = {
     "orchestrator",
     "artifact-planner",
     "fixer",
-    "frontend",
-    "backend",
-    "mobile",
-    "devops",
     "designer",
-    "design-system-engineer",
-    "fullstack",
     "explorer",
     "librarian",
     "oracle",
     "quality-gate",
-    "system-analyst",
-    "project-manager",
     "architect",
-    "plan-reviewer",
     "visual-context-extractor",
-    "visual-asset-generator",
-    "skill-improver",
-    "council",
 }
 ALLOWED_CLAIM_LEVELS = {"draft", "scoped", "partial", "done"}
 SCHEMA_PATH = Path(__file__).with_name("data") / "handoff.schema.json"

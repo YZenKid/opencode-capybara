@@ -47,7 +47,7 @@
 - Contract baseline now requires validation ladder sequence plus LSP-first policy with explicit fallback evidence when LSP is unavailable.
 
 ## 2026-05-29 — Finish-first hardening and Indonesian-first finalization
-- Advisory lanes (`@architect`, `@oracle`, `@council`, others) are non-veto by default; orchestrator must reclassify advisory statuses using blocker taxonomy before deciding to stop.
+- Advisory lanes (`@architect`, `@oracle`, others) are non-veto by default; orchestrator must reclassify advisory statuses using blocker taxonomy before deciding to stop.
 - Blocker taxonomy is explicit: `hard_stop`, `soft_blocker`, `deferred_question`, `follow_up`.
 - User-facing orchestrator communication is Indonesian-first by default, with explicit technical-literal exceptions (code, identifiers, commands, paths, APIs, exact errors, quoted source).
 - Typed subagent schema remains internal for coordination and must be normalized before user-facing output; raw internal labels must not leak directly to users.

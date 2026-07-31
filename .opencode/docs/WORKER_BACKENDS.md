@@ -18,7 +18,7 @@ Routing decides **who should own work**. Worker backend selection decides **how 
 
 ## Suggested defaults
 - `@designer`, `@oracle` → stronger reasoning backend acceptable.
-- `@fixer`, `@backend`, `@frontend` → lower-cost execution backend acceptable.
+- `@fixer` with backend/frontend skills → lower-cost execution backend acceptable.
 - `@quality-gate` → deterministic/read-only backend preferred.
 
 ## Execution contract

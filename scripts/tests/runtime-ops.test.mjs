@@ -20,14 +20,14 @@ execFileSync("git", ["add", "README.md"], { cwd: repoRoot, stdio: "pipe" });
 execFileSync("git", ["commit", "-m", "init"], { cwd: repoRoot, stdio: "pipe" });
 
 createRun(repoRoot, { run_id: "run-ops", goal: "Ops loop", status: "executing" });
-createTask(repoRoot, "run-ops", { task_id: "task-failed", title: "Retry me", owner_lane: "@backend" });
+createTask(repoRoot, "run-ops", { task_id: "task-failed", title: "Retry me", owner_lane: "@fixer" });
 failTask(repoRoot, "run-ops", "task-failed", { reason: "boom" });
 sendMessage(repoRoot, "run-ops", { from: "orchestrator", to: "backend-1", type: "task", payload: { task_id: "task-failed" } });
 const prepared = prepareWorkerExecution(repoRoot, "run-ops", {
   execution_id: "exec-failed",
   task_id: "task-failed",
   worker_name: "backend-1",
-  lane: "@backend",
+  lane: "@fixer",
   prompt: "Retry backend task",
 });
 updateWorkerExecution(repoRoot, "run-ops", "exec-failed", (record) => ({ ...record, status: "failed", retry_count: 0 }));
@@ -47,7 +47,7 @@ const live = prepareWorkerExecution(repoRoot, "run-ops", {
   execution_id: "exec-live",
   task_id: "task-failed",
   worker_name: "backend-2",
-  lane: "@backend",
+  lane: "@fixer",
   prompt: "Long running task",
   workspace_mode: "single",
 });

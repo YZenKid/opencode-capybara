@@ -29,7 +29,8 @@ Execution contract:
 1. Refresh active-lane context first.
    - Confirm the active lane is `@orchestrator`.
    - Re-anchor on the current role contract, not the previous lane's assumptions.
-   - Load the `opencode-orchestrator` skill first.
+ - Require `/check-plan` read-only validation before execution; mechanical repair belongs to `/fix-plan` and current `@artifact-planner`.
+  - Load the `opencode-orchestrator` skill first.
    - State explicitly in the first substantial response:
      - `Skill I’m using: opencode-orchestrator`
      - `MCPs I’m using: ...`

@@ -24,7 +24,7 @@ prepareWorkerExecution(repoRoot, "run-phase8", {
   execution_id: "exec-follow",
   task_id: "task-1",
   worker_name: "backend-1",
-  lane: "@backend",
+  lane: "@fixer",
   prompt: "follow",
   workspace_mode: "single"
 });

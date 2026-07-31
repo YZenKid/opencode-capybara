@@ -37,18 +37,6 @@ const checks = [
     mustInclude: ["apply_patch: deny", "task: deny"],
   },
   {
-    file: "agents/council.md",
-    mustInclude: ["apply_patch: deny", "task: deny"],
-  },
-  {
-    file: "agents/system-analyst.md",
-    mustInclude: ["apply_patch: deny", "task: deny", "Read-only", "do not patch source files"],
-  },
-  {
-    file: "agents/project-manager.md",
-    mustInclude: ["apply_patch: deny", "task: deny", "Read-only", "do not patch source files"],
-  },
-  {
     file: "agents/artifact-planner.md",
     mustInclude: [".opencode/plans/**", ".opencode/draft/**", ".opencode/evidence/**", "artifact", "app source files"],
   },

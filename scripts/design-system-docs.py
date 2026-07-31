@@ -106,7 +106,7 @@ def main() -> int:
         '', '## Next actions',
         '- Confirm true shared tokens and prune false positives.',
         '- Promote real shared primitives into `.opencode/design-system/registry.md`.',
-        '- Route shared-system gaps to `@design-system-engineer`.',
+        '- Route shared-system gaps to `@designer with design-system skill`.',
     ]
     output.write_text('\n'.join(lines) + '\n', encoding='utf-8')
     print(output)

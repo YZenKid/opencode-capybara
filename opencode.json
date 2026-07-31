@@ -178,15 +178,6 @@
   ],
   "default_agent": "orchestrator",
   "mcp": {
-    "time": {
-      "type": "local",
-      "command": [
-        "uvx",
-        "--with",
-        "mcp<2",
-        "mcp-server-time"
-      ]
-    },
     "9router": {
       "type": "local",
       "command": [
@@ -223,7 +214,7 @@
       "headers": {
         "X-Goog-Api-Key": "{env:STITCH_API_KEY}"
       },
-      "enabled": true,
+      "enabled": false,
       "timeout": 30000
     },
     "browseros": {
@@ -239,7 +230,7 @@
         "-y",
         "@playwright/mcp@latest"
       ],
-      "enabled": true,
+      "enabled": false,
       "timeout": 120000
     },
     "shadcn": {
@@ -250,7 +241,7 @@
         "shadcn@latest",
         "mcp"
       ],
-      "enabled": true,
+      "enabled": false,
       "timeout": 120000
     },
     "semgrep": {
@@ -262,7 +253,7 @@
         "-t",
         "stdio"
       ],
-      "enabled": true,
+      "enabled": false,
       "timeout": 120000
     },
     "github": {
@@ -273,7 +264,7 @@
         "X-MCP-Toolsets": "{env:GITHUB_TOOLSETS}"
       },
       "oauth": false,
-      "enabled": true,
+      "enabled": false,
       "timeout": 30000
     },
     "21st": {
@@ -282,7 +273,7 @@
         "bash",
         "{env:HOME}/.config/opencode/bin/21st-mcp-proxy"
       ],
-      "enabled": true,
+      "enabled": false,
       "timeout": 60000
     },
     "postgres_local": {
@@ -338,9 +329,6 @@
     }
   },
   "agent": {
-    "council": {
-      "mode": "subagent"
-    },
     "build": {
       "disable": true
     },

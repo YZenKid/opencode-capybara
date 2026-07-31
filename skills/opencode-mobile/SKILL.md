@@ -14,13 +14,8 @@ Lane contract:
 
 Adopted from Open Design: source-pack discipline, `DESIGN.md` authority, screenshot/device evidence, and reuse-first implementation. Not adopted: upstream plugin/export assumptions.
 
-## Reference-first creativity contract
-- Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
-- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
-- If a reasonable source exists, use it or state why it was skipped.
-- For greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with explicit rationale.
-- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
-- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+
+See `.opencode/docs/SHARED_POLICIES.md` for reference-first creativity contract.
 
 ## Internet-reference default
 - Treat internet-backed lookup (`context7_*`, `websearch_*`, `webfetch`, upstream source, GitHub examples) as the default for any version-sensitive or best-practice-sensitive mobile decision (Expo/React Native/Flutter/native API behavior, platform lifecycle, permission flow).

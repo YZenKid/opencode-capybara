@@ -62,7 +62,7 @@ def main() -> int:
     else:
         lines.append('No reuse violations.')
 
-    lines += ['', '## Next actions', '- Promote new shared components to catalog via `@design-system-engineer`.', '- Refactor heavy ad-hoc utility usage into shared primitives.', '- Document bypass rationale for intentional one-off components.']
+    lines += ['', '## Next actions', '- Promote new shared components to catalog via `@designer with design-system skill`.', '- Refactor heavy ad-hoc utility usage into shared primitives.', '- Document bypass rationale for intentional one-off components.']
     report.write_text('\n'.join(lines) + '\n', encoding='utf-8')
     print(report)
     return 1 if any(f.get('severity') == 'error' for f in findings) else 0

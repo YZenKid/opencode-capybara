@@ -2,9 +2,8 @@ export const portabilityChecks = [
   "AGENTS.md",
   "agents/orchestrator.md",
   "agents/artifact-planner.md",
-  "agents/visual-asset-generator.md",
   "skills/opencode-orchestrator/SKILL.md",
-  "skills/opencode-visual-asset-generator/SKILL.md",
+  "skills/opencode-visual-context-extractor/SKILL.md",
   "skills/opencode-fixer/SKILL.md",
   "skills/opencode-artifact-planner/SKILL.md",
   "opencode.json",
@@ -36,7 +35,6 @@ export function runPortabilityChecks({ read, state }) {
   }
 
   for (const file of [
-    "agents/visual-asset-generator.md",
     "skills/opencode-visual-asset-generator/SKILL.md",
   ]) {
     const content = read(file);

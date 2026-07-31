@@ -5,15 +5,15 @@ description: Standalone UI/UX, motion direction, and visual parity workflow for 
 
 # OpenCode Designer Skill
 
-Use this as the designer’s self-contained UI/UX manual.
+Use this as the designer’s self-contained UI/UX manual. Mark assumptions as assumptions and keep uncertain visual decisions explicit.
 
 ## Lane position
 This lane owns UI/UX direction, blueprinting, reference parity, motion strategy, and design-quality review. It is **not** the primary production screen-code lane.
 
 After design handoff:
-- shared tokens/primitives/component APIs -> `@design-system-engineer`
-- web screen/page implementation -> `@frontend`
-- mobile screen/native implementation -> `@mobile`
+- shared tokens/primitives/component APIs -> `@designer with design-system skill`
+- web screen/page implementation -> `@fixer with frontend skill`
+- mobile screen/native implementation -> `@fixer with mobile skill`
 - simple bounded UI fix -> `@fixer`
 
 Adopted from Open Design: strong `DESIGN.md` authority, artifact/source-pack discipline, screenshot-based evidence, and reusable design grammar. Not adopted: upstream-specific plugin/export/runtime assumptions unless explicitly installed here.
@@ -30,13 +30,8 @@ For canonical tool policy and boundaries, refer to:
 - `.opencode/docs/TOOL_USAGE.md`
 - `.opencode/docs/AGENT_TOOL_ACCESS.md`
 
-## Reference-first creativity contract
-- Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
-- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
-- If a reasonable source exists, use it or state why it was skipped.
-- For greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with explicit rationale.
-- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
-- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+
+See `.opencode/docs/SHARED_POLICIES.md` for reference-first creativity contract.
 
 ## Internet-reference default
 - Treat internet-backed lookup (`context7_*`, `websearch_*`, upstream source, GitHub examples, browser/reference capture) as the default for substantial visual, design-system, motion, and version-sensitive implementation guidance when repo-local evidence is not enough.
@@ -575,7 +570,7 @@ For reviews, provide concise findings with locations/sections. For implementatio
 
 - Escalate to `@librarian` when current library/component/API facts matter for design feasibility.
 - Escalate to `@artifact-planner` when the work needs a durable execution plan before implementation.
-- Escalate to `@visual-asset-generator` when the asset/image strategy requires generation jobs.
+- Escalate to `@designer with visual-asset skill` when the asset/image strategy requires generation jobs.
 - Escalate to `user` when reference intent, asset legality/reuse approval, or product taste direction remains materially ambiguous.
 ## Quality checklist
 - [ ] Design Read and craft dials are explicit for substantial work.

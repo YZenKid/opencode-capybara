@@ -228,18 +228,6 @@ const checks = [
     ],
   },
   {
-    file: "agents/council.md",
-    name: "local council subagent gate",
-    mustInclude: [
-      'mode: subagent',
-      'hidden: false',
-      'description: Multi-LLM consensus engine for high-confidence answers',
-      'model:',
-      'opencode-council',
-      'council_session: allow',
-    ],
-  },
-  {
     file: "opencode.json",
     name: "agent architecture selection gate",
     mustInclude: [
@@ -639,17 +627,6 @@ const checks = [
     ],
   },
   {
-    file: "agents/frontend.md",
-    name: "frontend implementation-basis gate",
-    mustInclude: [
-      "Frontend is translator/executor for substantial UI",
-      "Implement from `DESIGN.md`, blueprint, reference pack, and current UI evidence",
-      "Confirm implementation basis for each major UI decision",
-      "without inventing a new visual language",
-      "Include the implementation basis for material UI decisions",
-    ],
-  },
-  {
     file: "agents/quality-gate.md",
     name: "quality gate source-trace gate",
     mustInclude: [
@@ -772,7 +749,7 @@ const checks = [
       "internal execution checkpoints rather than approval checkpoints",
       "Defer non-blocking questions to the final summary",
       "do not issue a final completion claim",
-      "@skill-improver",
+      "@artifact-planner with skill-improvement skill",
       "@quality-gate",
     ],
   },
@@ -837,14 +814,6 @@ const checks = [
       "direct-attachment limit only",
       "route extraction/Q&A/summarization to `@librarian`",
       "only ask the user to convert to text/markdown after `@librarian` or local extraction tools are unavailable or fail",
-    ],
-  },
-  {
-    file: "agents/council.md",
-    name: "council language split gate",
-    mustInclude: [
-      "Use English for chat, explanations, assumptions, and analysis output.",
-      "Use Indonesian only when explicitly asked by the active orchestrator for a final user-facing summary.",
     ],
   },
   {
@@ -971,20 +940,6 @@ const checks = [
     file: "agents/general.md",
     name: "redundant general agent removed gate",
     mustBeMissing: true,
-  },
-  {
-    file: "agents/skill-improver.md",
-    name: "skill improver subagent gate",
-    mustInclude: [
-      "mode: subagent",
-      "hidden: true",
-      "opencode-skill-improver",
-      "9router/fast",
-      "bounded post-task skill improvement subagent",
-      "secret",
-      "prompt bloat",
-      "blind external updates",
-    ],
   },
   {
     file: "skills/opencode-skill-improver/SKILL.md",
@@ -1140,7 +1095,7 @@ const checks = [
       "inspired by",
       "style-equivalent",
       "close parity",
-      "@skill-improver",
+      "@artifact-planner with skill-improvement skill",
       "@quality-gate",
     ],
   },
@@ -1461,37 +1416,6 @@ const checks = [
     ],
   },
   {
-    file: "agents/visual-asset-generator.md",
-    name: "visual asset generator manifest and icon rules",
-    mustInclude: [
-      "icon strategy",
-      "image generation decision",
-      "section-aware palette notes",
-      "legal notes",
-      "reject manifests",
-      "executable jobs",
-      "CSS placeholders",
-      "proper icon library",
-      "generic generated symbols",
-      "art direction",
-      "style board",
-      "reference traits",
-      "composition notes",
-      "quality_bar",
-      "reject_if",
-      "differentiator",
-      "professional art director",
-      "generic tech dashboard",
-      "futuristic",
-      "cyberpunk",
-      "abstract UI",
-      "Permissive/Public Source Reuse",
-      "User-directed Direct Reuse",
-      "Asset/Source Inventory",
-      "style-equivalent generation fallback",
-    ],
-  },
-  {
     file: "skills/opencode-visual-asset-generator/SKILL.md",
     name: "visual asset generator standalone manifest rules",
     mustInclude: [
@@ -1533,7 +1457,7 @@ const checks = [
     file: "README.md",
     name: "skill improver documentation gate",
     mustInclude: [
-      "@skill-improver",
+      "skill-improvement skill",
       "non-trivial",
       "repeated failures",
       "policy gaps",
@@ -1863,20 +1787,6 @@ const checks = [
       "debug-copy-user-facing",
       "fake-metric",
       "abstract-hero-filler",
-    ],
-  },
-  {
-    file: "agents/plan-reviewer.md",
-    name: "plan reviewer phase 3 gate",
-    mustInclude: [
-      "Check anti-generic patterns",
-      "Check reference pack",
-      "Check design depth",
-      "Anti-generic patterns (mechanical failures)",
-      "Reference pack requirement",
-      "Design depth keywords",
-      "reference screenshots/URLs",
-      "first-principles rationale",
     ],
   },
   {

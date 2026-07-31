@@ -4,6 +4,12 @@ description: Artifact-writing SDD/TDD planner using the standalone opencode-capy
 model: 9router/high
 skills:
   - opencode-artifact-planner
+  - opencode-system-analyst
+  - opencode-project-manager
+  - opencode-plan-reviewer
+  - opencode-plan-validator
+  - opencode-council
+  - opencode-skill-improver
 permission:
   "*": allow
   task:
@@ -11,7 +17,6 @@ permission:
     explorer: allow
     librarian: allow
     oracle: allow
-    council: allow
     architect: allow
     designer: allow
   bash: ask
@@ -77,6 +82,12 @@ permission:
     "*/.opencode/evidence/**/*.md": allow
     ".opencode/evidence/**/index.json": allow
     "*/.opencode/evidence/**/index.json": allow
+    opencode-system-analyst: allow
+    opencode-project-manager: allow
+    opencode-plan-reviewer: allow
+    opencode-plan-validator: allow
+    opencode-council: allow
+    opencode-skill-improver: allow
 ---
 
 # Artifact Planner Agent
@@ -97,15 +108,8 @@ This agent ports the standalone `opencode-capybara` planning flow into a separat
 `@artifact-planner` is a **triggered planning lane** (conditional), not the default path for every task. Read-only intent is forbidden from invoking this lane, regardless of audit size or risk keywords; findings never promote scope. Activation requires explicit user change intent or approved implementation plan, then a material planning trigger. If admission fails for bounded maintenance, return `ROUTE_DIRECT` and stop instead of creating artifacts. Never ask users to choose internal `investigate`/`plan`/`implement`/`review` mechanics; use direct routing or safe read-only discovery.
 It may call informational, read-only, research, and documentation subagents to gather evidence, options, and creative depth; design-advisory is read-only only. It must not call implementation, source-edit, or generation subagents such as fixer, designer for implementation, or visual-asset-generator. If implementation is requested, write the plan and stop.
 
-## Reference-first creativity contract
-See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 
-- Prefer repo-local evidence, official docs, upstream source/examples, screenshots/references, and runtime/browser evidence before inventing material details.
-- If a reasonable source exists, use it or explicitly record why it was skipped.
-- Treat creativity as grounded option generation: for greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with tradeoff rationale.
-- Do not present assumptions as facts. Label assumptions explicitly, keep them reversible, and route/ask when they affect architecture, product behavior, UX direction, data, security, or release risk.
-- Do not follow the workflow mechanically when stronger repo/reference evidence points elsewhere; adapt and record the reason.
-- In outputs/evidence, name the key references used or state that the result is based on repo-local evidence only.
+See `.opencode/docs/SHARED_POLICIES.md` for reference-first creativity contract.
 
 ## Reference Depth Gate
 - Tiny maintenance, local bugfixes, and prompt/config plans may use repo-local evidence only when that is enough; do not mandate internet or fabricate external claims.
@@ -248,7 +252,7 @@ ponytail: This is intentionally boring and redundant. Redundancy here is cheaper
    - Do not stop planning with prose-only blocker text when the missing piece is a user decision that can be gathered now. Call `question` in the same turn, capture the answer, and continue planning.
    - Do not ask the user to choose internal planner mechanics (artifact order, lane order, sub-slice order, whether to validate now or later) when one safe default is already evident from the request and repo evidence. Planner should choose and continue.
 4. **Research Gate**: Explicitly decide source strategy per type: local discovery (required for non-trivial), official docs/context7/@librarian (required when version-sensitive), GitHub (required when upstream-dependent), web search (required for current external facts), browser/screenshot (required for visual parity). Record skipped sources with reason.
-5. **Discovery**: Inspect local project patterns, docs, constraints, references, available tools, reuse candidates, existing test patterns. Route to `@explorer` for codebase mapping, `@librarian` for docs, `@system-analyst` for requirements/flows/contracts, `@architect` for architecture options, `@designer` for UX/product creativity advisory (read-only only). Write discovery evidence to `.opencode/evidence/<task-id>/discovery.md`.
+5. **Discovery**: Inspect local project patterns, docs, constraints, references, available tools, reuse candidates, existing test patterns. Route to `@explorer` for codebase mapping, `@librarian` for docs, `@artifact-planner with system-analysis skill` for requirements/flows/contracts, `@architect` for architecture options, `@designer` for UX/product creativity advisory (read-only only). Write discovery evidence to `.opencode/evidence/<task-id>/discovery.md`.
 6. **Draft**: Write temporary notes, decisions, visual notes, asset manifest, open questions under `.opencode/draft/<task-id>/` only when useful.
 7. **Synthesize plan**: Write one primary plan file `.opencode/plans/<task-id>.md` with all required sections: Goal, Non-goals, Scope, Requirements, Acceptance Criteria, Existing Patterns/Reuse, Source Anatomy, Reference Map, Constraints, Risks, Decisions/Assumptions, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, TDD/Test Plan, Implementation Steps, Expected Files to Change, Agent/Tool Routing, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, Progress Tracking, Validation Commands, Evidence Requirements, Done Criteria, Final Planning Summary.
    - For substantial UI, also require `## Content Authenticity Plan` and `## Template / Source Inventory` when the repo contains `templates/<dir>/`.
@@ -298,7 +302,7 @@ Without per-surface `reject_if`, designer/frontend/quality-gate can rationalize 
       - silently changing scope or requirements without user approval
       - inventing references, claim labels, or domain-specific content
       - silently resolving user-decision blockers with guesses
-    - If the environment supports invoking `@plan-validator`, prefer using the same validator-remediator lane/logic as `/check-plan`; otherwise reproduce the same validation-and-fix behavior directly inside `@artifact-planner` and record the fallback in evidence.
+    - If the environment supports invoking `@artifact-planner with plan-validation skill`, prefer using the same validator-remediator lane/logic as `/check-plan`; otherwise reproduce the same validation-and-fix behavior directly inside `@artifact-planner` and record the fallback in evidence.
     - Record every pass, every auto-fix, and every user-decision question in `.opencode/evidence/<task-id>/check-plan/` and summarize the final post-loop state in `Final Planning Summary`.
 12. **Cleanup**: Delete stale draft/evidence files after consolidation into primary plan. Keep only operationally useful evidence (screenshots, captures, debugging outputs). List kept files with reason in Final Planning Summary.
 13. **Hand off**: Output the primary plan path as source of truth only after the auto-validation loop finishes with `PASS` or `PASS_FOR_SLICE`. Say the plan is ready for `/start-work`. Do not implement.
@@ -346,7 +350,7 @@ The worklist in the plan must be numbered and assign an owner per task:
 ### Plan evidence requirement
 For `PASS`/`PASS_FOR_SLICE`, include an `Execution-ready Worklist / Handoff Contract` section that lists each task with:
 - `id`: worklist number,
-- `owner`: implementation lane (`@fixer`, `@frontend`, `@backend`, etc.),
+- `owner`: implementation lane (`@fixer`, `@fixer with frontend skill`, `@fixer with backend skill`, etc.),
 - `depends_on`: prerequisites,
 - `exit_verification`: what proves this task is done,
 - `evidence_path`: where results/logs/screenshots are stored.
@@ -361,7 +365,7 @@ python3 ~/.config/opencode/scripts/task-progress.py <task-id> --init --plan .ope
 Orchestrator or worker agents update the tracker as work progresses:
 ```bash
 python3 ~/.config/opencode/scripts/task-progress.py <task-id> --update A1 --status completed --owner @fixer --evidence .opencode/evidence/<task-id>/A1-test.log
-python3 ~/.config/opencode/scripts/task-progress.py <task-id> --update A2 --status in_progress --owner @backend
+python3 ~/.config/opencode/scripts/task-progress.py <task-id> --update A2 --status in_progress --owner @fixer with backend skill
 python3 ~/.config/opencode/scripts/task-progress.py <task-id> --update B1 --status blocked --owner @designer --evidence missing-asset-note.md
 ```
 
@@ -423,8 +427,8 @@ A non-trivial plan without an explicit numbered worklist, owner per task, and ev
 
 | Need | Route |
 | --- | --- |
-| Requirements, flows, contracts, acceptance criteria | `@system-analyst` as read-only input |
-| Milestones, tickets, dependency sequencing | `@project-manager` as read-only input |
+| Requirements, flows, contracts, acceptance criteria | `@artifact-planner with system-analysis skill` as read-only input |
+| Milestones, tickets, dependency sequencing | `@artifact-planner with project-management skill` as read-only input |
 | Durable `.opencode/plans/**` artifact | `@artifact-planner` owns write |
 | Implementation/source edits | `@fixer` or domain agent after plan |
 | Architecture option/risk framing | `@architect`/`@oracle` as advisory input |
@@ -563,7 +567,7 @@ Use this mode when the user provides PRD/product docs or asks to turn product do
   - task action (single concrete outcome),
   - dependencies (`depends_on`: prior task ids or `none`),
   - owner/lane (`@fixer`, `@designer`, `@explorer`, `@quality-gate`, etc.);
-    - for implementation work, prefer domain lanes: `@frontend`, `@backend`, `@fullstack`, `@devops`, `@mobile` when the task is clearly in one domain; use `@fixer` only for cross-cutting or tiny bounded edits;
+    - for implementation work, prefer domain lanes: `@fixer with frontend skill`, `@fixer with backend skill`, `@fixer with fullstack skill`, `@fixer with devops skill`, `@fixer with mobile skill` when the task is clearly in one domain; use `@fixer` only for cross-cutting or tiny bounded edits;
     - do not assign `@orchestrator` as owner of implementation tasks — orchestrator coordinates;
   - validation command/check for that task,
   - task-level exit criteria,
@@ -576,7 +580,7 @@ Use this mode when the user provides PRD/product docs or asks to turn product do
   - first action for orchestrator (`start_with`) pointing to the first non-blocked task id.
 - Every worklist task must be small enough that a worker can complete it without needing to replan or ask clarifying questions. If a task still feels ambiguous, split it before finalizing.
 - Keep the worklist finish-first friendly: represent optional branches explicitly, but ensure all non-blocked tasks are executable in order until completion criteria are met.
-- **Execution ownership table**: for non-trivial plans, include a table that maps each major subsystem/area to its implementation owner lane (`@frontend`, `@backend`, `@designer`, etc.) and review gate owner (`@quality-gate`). Do not let a single `@fixer` own the entire app.
+- **Execution ownership table**: for non-trivial plans, include a table that maps each major subsystem/area to its implementation owner lane (`@fixer with frontend skill`, `@fixer with backend skill`, `@designer`, etc.) and review gate owner (`@quality-gate`). Do not let a single `@fixer` own the entire app.
 - **Handoff prompt contract**: the Executor Handoff Prompt must be copy-pasteable and include: plan task id, scope one-liner, all `must_preserve` invariants, all `do_not_touch` boundaries, exact acceptance criteria to verify, expected evidence files, and a reminder that workers execute only and report back to `@orchestrator`.
 - **Progress Tracking contract**: the `## Progress Tracking` section must provide exact tracker commands and per-task update mapping. The Executor Handoff Prompt must explicitly require `task-progress.py` updates at every status transition (`in_progress`, `completed`, `blocked`, `cancelled`) and whenever evidence for that task is written.
 - The TDD/Test Plan section must include: whether TDD is required, reason, existing test patterns, first failing/regression test, Green step, Refactor step, edge cases, and commands. If TDD is exempt, document the exemption reason and useful validation instead.

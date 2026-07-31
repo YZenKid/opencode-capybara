@@ -127,15 +127,12 @@ function buildOpencodeAgentModelMap(env) {
     orchestrator: env.OPENCODE_MODEL_ORCHESTRATOR,
     "artifact-planner": env.OPENCODE_MODEL_PLANNER,
     designer: env.OPENCODE_MODEL_DESIGN,
-    "visual-asset-generator": env.OPENCODE_MODEL_VISUAL_ASSET,
     oracle: env.OPENCODE_MODEL_REVIEW,
     "quality-gate": env.OPENCODE_MODEL_QUALITY_GATE,
-    council: env.OPENCODE_MODEL_REVIEW,
     architect: env.OPENCODE_MODEL_ADVISORY,
     fixer: env.OPENCODE_MODEL_EXECUTION,
     explorer: env.OPENCODE_MODEL_DISCOVERY,
     librarian: env.OPENCODE_MODEL_FAST,
-    "skill-improver": env.OPENCODE_MODEL_FAST,
   };
 }
 
