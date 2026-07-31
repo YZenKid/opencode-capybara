@@ -29,7 +29,8 @@ Prompt gates convert important repository invariants into deterministic checks.
 - `npm run test:backup-cleanup` → `scripts/tests/backup-cleanup.test.py` (fixture-driven regression for `scripts/backup-cleanup.py`; covers scan, trash, purge, apply, and `--keep-prefix`; does not run against the live repo)
 - `npm run cleanup:backups:scan|trash|purge|apply` → `scripts/backup-cleanup.py` (local infrastructure hygiene; manual by default, optional systemd timer documented in `scripts/backup-cleanup.systemd.README.md`)
 - `npm run docs:generate:check` → generated docs freshness validation
-- `npm run check:harness` → aggregate harness check
+- `npm run test:graphify-wrapper-path` → `scripts/tests/graphify-wrapper-path.test.mjs` (wrapper uses canonical Graphify extract output path)
+- `npm run check:harness` → aggregate harness check, including Graphify wrapper path regression
 
 ## Invariant categories
 - Routing and skill posture

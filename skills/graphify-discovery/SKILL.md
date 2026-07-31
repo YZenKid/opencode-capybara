@@ -1,11 +1,11 @@
 ---
 name: graphify-discovery
-description: Optional Graphify code-only graph discovery workflow for broad architecture and dependency mapping before direct source verification.
+description: Mandatory query-first Graphify code-only discovery for code investigation, debugging, dependency/call-chain tracing, impact analysis, and non-trivial code fixes when graph is fresh, before direct source verification.
 ---
 
 # Graphify Discovery Skill
 
-Use Graphify only as optional, local, code-only, read-only discovery context. It helps narrow broad architecture or dependency searches; it never proves behavior or replaces source verification.
+Use Graphify as mandatory query-first, local, code-only, read-only context for code investigation, debugging, dependency/call-chain tracing, impact analysis, and non-trivial code fixes when graph is available and fresh. It narrows searches; it never proves behavior or replaces direct source reading.
 
 ## Workflow
 
@@ -14,7 +14,7 @@ Use Graphify only as optional, local, code-only, read-only discovery context. It
 3. Treat `INFERRED` and `AMBIGUOUS` edges as leads, not facts.
 4. Read relevant source files directly before making claims or edits.
 5. Run applicable tests and runtime checks; graph output cannot replace them.
-6. If graph is missing or stale, refresh it only through an approved local code-only path, or use normal repo discovery.
+6. If graph is missing, stale, or unsupported, refresh it only through an approved local code-only path, or use normal repo discovery and record fallback. Tiny known-file edits and non-code tasks may skip with explicit reason.
 
 ## Boundaries
 
@@ -26,3 +26,6 @@ Use Graphify only as optional, local, code-only, read-only discovery context. It
 ## Output
 
 Report graph status, narrow request used, leads discovered, direct source paths verified, tests/runtime checks run, and unresolved assumptions.
+## Graphify query-first contract
+
+For code investigation, debugging, dependency/call-chain tracing, impact analysis, and non-trivial code fixes, query fresh available Graphify first. Use narrow query/path/explain. Direct source reading + tests/runtime still required. Missing/stale/unsupported fallback must be recorded. Tiny known-file and non-code skip only with explicit reason.

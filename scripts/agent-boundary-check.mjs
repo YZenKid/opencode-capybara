@@ -13,7 +13,7 @@ const graphifyPolicyFiles = [
   ".opencode/docs/SKILLS.md",
   "skills/graphify-discovery/SKILL.md",
 ];
-const graphifyMarkers = ["Graphify", "optional", "read-only", "source", "tests", "runtime"];
+const graphifyMarkers = ["## Graphify query-first contract", "query fresh available Graphify first", "narrow query/path/explain", "direct source reading + tests/runtime still required", "missing/stale/unsupported fallback must be recorded", "tiny known-file and non-code skip only with explicit reason"];
 
 const checks = [
   {
@@ -84,6 +84,12 @@ for (const file of readdirSync(resolve(root, "agents"))) {
   if (!file.endsWith(".md")) continue;
   const content = readFileSync(resolve(root, "agents", file), "utf8");
   const missingSections = coreStructuralSections.filter((section) => !content.includes(section));
+  const missingGraphify = graphifyMarkers.filter((marker) => !content.toLowerCase().includes(marker.toLowerCase()));
+  if (missingGraphify.length > 0) {
+    failures += 1;
+    console.error(`✗ agents/${file}: missing per-file Graphify query-first contract`);
+    for (const marker of missingGraphify) console.error(`  - missing: ${marker}`);
+  }
   if (missingSections.length > 0) {
     failures += 1;
     console.error(`✗ agents/${file}: missing structural sections`);
@@ -106,8 +112,11 @@ const agentFiles = readdirSync(resolve(root, "agents")).filter((file) => file.en
 if (agentFiles.length === 0) {
   failures += 1;
   console.error("✗ agents coverage: no local agent files found");
+} else if (!graphifyMarkers.every((marker) => readFileSync(resolve(root, "AGENTS.md"), "utf8").toLowerCase().includes(marker.toLowerCase()))) {
+  failures += 1;
+  console.error("✗ agents coverage: AGENTS.md lacks mandatory Graphify inheritance markers");
 } else {
-  console.log(`✓ agents coverage: ${agentFiles.length} local agent files inherit centralized Graphify policy via AGENTS.md`);
+  console.log(`✓ agents coverage: ${agentFiles.length} active agent files inherit mandatory Graphify policy via AGENTS.md`);
 }
 
 if (failures > 0) {

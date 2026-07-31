@@ -29,7 +29,7 @@ Use MCP state terms from [MCP.md](./MCP.md) when discussing tool readiness.
 
 ## Graphify discovery boundary
 
-All lanes may consume Graphify as optional, local, code-only, read-only discovery context when available and permitted. Use it first only for broad architecture or dependency discovery, with narrow `query`, `path`, or `explain` requests. `INFERRED` and `AMBIGUOUS` edges are leads, not facts. Direct source reading, tests, and runtime verification remain mandatory for material claims. If graph is missing or stale, use normal repo discovery or an approved refresh. Graphify does not grant write access or change lane ownership.
+All lanes must query Graphify first for code investigation, debugging, dependency/call-chain tracing, impact analysis, and non-trivial code fixes when fresh graph is available and permitted. Use narrow `query`, `path`, or `explain` requests. `INFERRED` and `AMBIGUOUS` edges are leads, not facts. Direct source reading, tests, and runtime verification remain mandatory before edits or material claims. If graph is missing, stale, or unsupported, use normal repo discovery or an approved refresh and record fallback. Tiny known-file edits and non-code tasks may skip with explicit reason. Graphify does not grant write access or change lane ownership.
 
 ## Matrix (documented lanes and helpers)
 
@@ -167,3 +167,6 @@ Update this matrix when any of the following changes:
 - role permissions/contracts,
 - tool inventory that materially changes preferred paths,
 - routing policy that changes which role should execute which class of tool work.
+## Graphify query-first contract
+
+For code investigation, debugging, dependency/call-chain tracing, impact analysis, and non-trivial code fixes, query fresh available Graphify first. Use narrow query/path/explain. Direct source reading + tests/runtime still required. Missing/stale/unsupported fallback must be recorded. Tiny known-file and non-code skip only with explicit reason.

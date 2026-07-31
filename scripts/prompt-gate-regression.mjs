@@ -1894,7 +1894,7 @@ const checks = [
     name: "plan validation package script wiring gate",
     mustInclude: [
       '"test:plan-validation": "node scripts/tests/plan-validation-fixtures.test.mjs"',
-      '"check:harness": "node scripts/run-all.mjs test:prompt-gates test:plan-validation test:advisory-boundaries test:deterministic-edit-helper',
+      '"check:harness": "node scripts/run-all.mjs test:prompt-gates test:graphify-wrapper-path test:plan-validation test:advisory-boundaries test:deterministic-edit-helper',
     ],
   },
   {

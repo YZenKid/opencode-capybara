@@ -5,7 +5,7 @@ Capability registry: `.opencode/capabilities/registry.json`. Generated advisory 
 Senior external reference map: `SENIOR_SKILLS_REFERENCES.md`. Marketplace skills from `skills.sh` are reference material, not default runtime installs; no mass installing external skills without explicit user approval and stack-fit review.
 
 ## Graphify discovery skill
-- `graphify-discovery` — optional local code-only graph discovery for broad architecture/dependency mapping; direct source verification remains mandatory
+- `graphify-discovery` — mandatory query-first local code-only graph context for code investigation, debugging, dependency/call-chain tracing, impact analysis, and non-trivial code fixes when fresh; direct source reading, tests, and runtime checks remain mandatory. If missing, stale, or unsupported, record fallback and use normal discovery.
 
 ## Active skills (1:1 with active agents)
 - `opencode-orchestrator` — owned by `@orchestrator`; routes work, coordinates lanes, and integrates results
@@ -92,3 +92,6 @@ Active-lane schema baseline (non-trivial work):
 - `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence`.
 - Validation ladder and LSP-first posture must be explicit where lane owns implementation, routing, review, or quality gate.
 - Mode, readiness status, and claim level must be explicit for greenfield/product work and material maintenance work.
+## Graphify query-first contract
+
+For code investigation, debugging, dependency/call-chain tracing, impact analysis, and non-trivial code fixes, query fresh available Graphify first. Use narrow query/path/explain. Direct source reading + tests/runtime still required. Missing/stale/unsupported fallback must be recorded. Tiny known-file and non-code skip only with explicit reason.

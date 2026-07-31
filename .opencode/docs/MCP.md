@@ -23,6 +23,7 @@ Configured MCP surfaces include:
 - `github`
 - `21st`
 - `scripts`
+- `graphify`
 - Legacy `image-asset-generator` removed; image asset tools live under `9router`.
 
 ## 9Router MCP
@@ -106,7 +107,7 @@ When `scripts` is connected, permitted, and exactly maps a first-slice read/chec
 
 ## Graphify discovery context
 
-Graphify is optional, local, code-only, and read-only. When `graphify-out/graph.json` exists and is fresh, use narrow `query`, `path`, or `explain` requests before broad architecture or dependency discovery. Treat `INFERRED` and `AMBIGUOUS` edges as leads, never verified facts. Graphify output never replaces direct source reading, tests, or runtime checks. If graph is missing or stale, refresh it when permitted or use normal repo discovery. Repository-local `graphify hook install` installs detached, background post-commit and post-checkout code-only refresh hooks; commits do not wait for rebuild. Hooks log to `$HOME/.cache/graphify-rebuild.log`, honor `GRAPHIFY_SKIP_HOOK=1`, and remain opt-out/recoverable with `graphify extract <repo> --code-only --no-cluster --out <repo>` or `graphify update <repo> --no-cluster`. No semantic LLM extraction, HTTP server, telemetry, credentials, strict source-read blocking, or other scheduler belongs in this integration.
+Graphify is local, code-only, and read-only. When `graphify-out/graph.json` exists and is fresh, query it first for code investigation, debugging, dependency/call-chain tracing, impact analysis, and non-trivial code fixes. Use narrow `query`, `path`, or `explain` requests. Treat `INFERRED` and `AMBIGUOUS` edges as leads, never verified facts. Graphify output never replaces direct source reading, tests, or runtime checks. If graph is missing, stale, or unsupported, refresh it when permitted or use normal repo discovery and record fallback. Tiny known-file edits and non-code tasks may skip with explicit reason. Repository-local `graphify hook install` installs detached, background post-commit and post-checkout code-only refresh hooks; commits do not wait for rebuild. Hooks log to `$HOME/.cache/graphify-rebuild.log`, honor `GRAPHIFY_SKIP_HOOK=1`, and remain opt-out/recoverable with `graphify extract <repo> --code-only --no-cluster --out <repo>/.opencode`. Fresh means `.opencode/graphify-out/graph.json` mtime is >= latest tracked code/config file mtime; stale fallback must be recorded. No semantic LLM extraction, HTTP server, telemetry, credentials, strict source-read blocking, or other scheduler belongs in this integration.
 
 ## MCP state terminology
 
@@ -129,3 +130,6 @@ Rule: `configured` does **not** mean `usable`.
 - For `background=transparent` PNG flows, `9router` may apply bounded edge-connected near-white background repair when provider returns an opaque PNG. Treat `transparency_verified`, `transparency_warning`, and `png_info` as authoritative result metadata.
 - Operator tuning: `NINEROUTER_REPAIR_WHITE_THRESHOLD` controls white cutoff (default `245`), and `NINEROUTER_REPAIR_VARIANCE_THRESHOLD` controls allowed RGB spread for removable background candidates (default `8`).
 - OpenCode auth store file (`~/.local/share/opencode/mcp-auth.json`) is sensitive and must never be committed.
+## Graphify query-first contract
+
+For code investigation, debugging, dependency/call-chain tracing, impact analysis, and non-trivial code fixes, query fresh available Graphify first. Use narrow query/path/explain. Direct source reading + tests/runtime still required. Missing/stale/unsupported fallback must be recorded. Tiny known-file and non-code skip only with explicit reason.

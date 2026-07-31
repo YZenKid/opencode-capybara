@@ -12,8 +12,8 @@ graph="$out/graph.json"
 export GRAPHIFY_OUT="$out"
 
 if [[ ! -s "$graph" ]]; then
-  graphify extract "$root" --code-only --no-cluster --out "$root" >&2
+  graphify extract "$root" --code-only --no-cluster --out "$root/.opencode" >&2
 fi
 
-# ponytail: startup reuses graph; refresh manually after source changes via graphify update.
+# ponytail: startup reuses graph; refresh manually with graphify extract "$root" --code-only --no-cluster --out "$root/.opencode".
 exec graphify-mcp "$graph"

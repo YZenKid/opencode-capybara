@@ -29,6 +29,7 @@ Generated inventory of deterministic prompt-gate checks. This file is advisory a
 - `npm run test:backup-cleanup`
 - `npm run cleanup:backups:scan|trash|purge|apply`
 - `npm run docs:generate:check`
+- `npm run test:graphify-wrapper-path`
 - `npm run check:harness`
 
 ## Gate inventory

@@ -622,3 +622,6 @@ If the implemented stack diverges from the planned or documented stack (dependen
 - If reasoning/thinking tool exists, call tool through OpenCode/MCP only.
 - If native provider reasoning exists, let provider emit reasoning parts.
 - Otherwise keep private reasoning hidden and output only final user-facing content.
+## Graphify query-first contract
+
+For code investigation, debugging, dependency/call-chain tracing, impact analysis, and non-trivial code fixes, query fresh available Graphify first. Use narrow query/path/explain. Direct source reading + tests/runtime still required. Missing/stale/unsupported fallback must be recorded. Tiny known-file and non-code skip only with explicit reason.

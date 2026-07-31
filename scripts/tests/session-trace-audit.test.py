@@ -93,6 +93,23 @@ class SessionTraceAuditTests(unittest.TestCase):
                 else:
                     self.assertEqual(code, 0, msg=f"{name}: {err or out}")
 
+    def test_graphify_enforcement_fixture_matrix(self) -> None:
+        fixture_root = REPO_ROOT / "scripts" / "tests" / "fixtures" / "session-trace"
+        cases = [
+            ("graphify_query_first", 0, None),
+            ("graphify_query_missing", 1, "graphify_query_missing"),
+            ("graphify_fallback", 0, None),
+            ("graphify_tiny_skip", 0, None),
+        ]
+        for name, expected_code, finding_code in cases:
+            with self.subTest(name=name):
+                code, out, err = _run("--json", str(fixture_root / f"{name}.md"))
+                data = json.loads(out)
+                codes = {finding["code"] for finding in data["findings"]}
+                self.assertEqual(code, expected_code, msg=f"{name}: {err or out}")
+                if finding_code:
+                    self.assertIn(finding_code, codes)
+
     def test_strict_mode_only_fails_concrete_scope_violations(self) -> None:
         fixture_root = REPO_ROOT / "scripts" / "tests" / "fixtures" / "session-trace"
         unknown = _run("--strict", str(fixture_root / "unknown_schema.md"))

@@ -103,3 +103,7 @@ Mention explicitly:
 - whether work relied on BrowserOS runtime or on project-side Playwright references.
 
 ponytail: This skill is a runtime playbook, not a full BrowserOS product manual. Upgrade path: split BrowserOS browser-automation vs Strata-integration subskills if the guidance grows materially larger.
+
+## Graphify query-first contract
+
+For code investigation, debugging, dependency/call-chain tracing, impact analysis, and non-trivial code fixes, query fresh available Graphify first. Use narrow query/path/explain. Direct source reading + tests/runtime still required. Missing/stale/unsupported fallback must be recorded. Tiny known-file and non-code skip only with explicit reason.

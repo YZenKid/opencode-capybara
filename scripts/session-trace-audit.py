@@ -114,6 +114,11 @@ def task_signals(text: str) -> dict:
             r"\bbrowser\b|\bui\b|\bdom\b|\bplaywright\b|\bpage\b|\bclick\b|\brender\b|\blayout\b|\bscreen\b",
             text,
         ),
+        "graphify_qualifying": (
+            has(r"debug|debugging|call[- ]chain|call[- ]site|dependency trace|root cause|impact analysis", text)
+            and has(r"\b(code|source|file|function|repository|repo|test|implementation|patch|edit|fix|change|modify)\b", text)
+            and not has(r"\b(read[- ]only|no edits?|without changing|non[- ]code)\b", text)
+        ),
     }
 
 
@@ -152,6 +157,7 @@ def used_mcps(text: str) -> set[str]:
         "playwright": r"\bplaywright\b",
         "shadcn": r"\bshadcn\b",
         "9router.web_search": r"9router|web_search",
+        "graphify": r"graphify_query_graph|graphify query|Graphify.*(?:query|BFS|DFS|path|explain)",
     }
     used = set()
     for name, pat in patterns.items():
@@ -249,6 +255,26 @@ def audit(text: str, source: str) -> Report:
                 message=f"Skill declared but no concrete activation evidence found: {skill}",
                 evidence=[skill],
             ))
+
+    graphify_used = "graphify" in mcps_used
+    graphify_fallback = has(r"graphify\s+(?:missing|stale|unsupported)|fallback\s+(?:to|before)\s+(?:grep|read|source)|recorded\s+fallback", text)
+    graphify_skip = has(r"(?:skip|skipped|not applicable).*graphify|graphify.*(?:tiny|non[- ]code|known[- ]file).*skip", text)
+    if signals["graphify_qualifying"] and not graphify_used and not graphify_fallback:
+        report.findings.append(Finding(
+            level="WARN",
+            code="graphify_query_missing",
+            message="Qualifying code debugging/call-chain work had no fresh Graphify query or recorded fallback before source inspection/edit.",
+            evidence=["graphify_qualifying=true", "expected=graphify query or explicit fallback"],
+        ))
+    if signals["graphify_qualifying"] and graphify_fallback and not has(r"fallback.*(?:before|prior).*source|(?:grep|read).*after.*fallback", text):
+        report.findings.append(Finding(
+            level="WARN",
+            code="graphify_fallback_unordered",
+            message="Graphify fallback was not explicitly recorded before normal source discovery.",
+            evidence=["graphify_fallback=true"],
+        ))
+    if not signals["graphify_qualifying"] and (graphify_skip or graphify_used):
+        report.signals["graphify_skip_or_use"] = True
 
     if signals["version_sensitive"] and "context7" not in mcps_used and not explicit_skip_reason("context7", text):
         report.findings.append(Finding(

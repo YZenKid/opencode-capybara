@@ -56,7 +56,7 @@ Commonly used categories:
 
 ## Graphify query-first discovery
 
-For broad architecture or dependency discovery, check for a fresh `.opencode/graphify-out/graph.json` before wide repository scans. Use narrow Graphify `query`, `path`, or `explain` requests. Treat `INFERRED` and `AMBIGUOUS` edges as non-factual leads. Verify every material finding against source files, tests, and runtime checks. Missing or stale graph means normal repo discovery or an approved graph refresh; Graphify is optional and never blocks source verification. Installed repository hooks refresh code graph asynchronously after commit and branch checkout. They log to `$HOME/.cache/graphify-rebuild.log`; set `GRAPHIFY_SKIP_HOOK=1` to opt out. Recover with `graphify extract <repo> --code-only --no-cluster --out <repo>` when rebuild needs a full reset, or `graphify update <repo> --no-cluster` for normal refresh.
+For code investigation, debugging, dependency/call-chain tracing, impact analysis, and non-trivial code fixes, query fresh `.opencode/graphify-out/graph.json` first with narrow `query`, `path`, or `explain` requests. Treat `INFERRED` and `AMBIGUOUS` edges as non-factual leads. Verify every material finding against direct source reading of source files, tests, and runtime checks before edits or claims. Missing, stale, or unsupported Graphify means normal repo discovery or an approved graph refresh; record fallback. Tiny known-file edits and non-code tasks may skip with explicit reason. Installed repository hooks refresh code graph asynchronously after commit and branch checkout. They log to `$HOME/.cache/graphify-rebuild.log`; set `GRAPHIFY_SKIP_HOOK=1` to opt out. Recover with `graphify extract <repo> --code-only --no-cluster --out <repo>/.opencode` for canonical full refresh.
 
 ## Selection heuristics
 Policy note: prefer local canonical capybara lanes for execution. Built-in OpenCode `build`/`plan`/`explore`/`general` are non-default comparator paths unless explicitly enabled.
@@ -179,3 +179,6 @@ When tools/MCP inventory changes:
 2. Update this handbook only where behavior/selection guidance changes.
 3. Update [AGENT_TOOL_ACCESS.md](./AGENT_TOOL_ACCESS.md) when role boundary or preferred paths change.
 4. Run docs checks and keep index links current.
+## Graphify query-first contract
+
+For code investigation, debugging, dependency/call-chain tracing, impact analysis, and non-trivial code fixes, query fresh available Graphify first. Use narrow query/path/explain. Direct source reading + tests/runtime still required. Missing/stale/unsupported fallback must be recorded. Tiny known-file and non-code skip only with explicit reason.

@@ -29,8 +29,8 @@
 - For framework-managed artifacts, follow project-local `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` before manual edits when those docs are present.
 - If harness guidance is missing/stale, run `/init-harness` first, or ask the user to run `/init-harness` when command execution is unavailable. Skip only for tiny, read-only, or emergency tasks and record the skip reason in the final summary.
 - Prefer evidence over assertion.
-- For broad architecture/dependency discovery, query Graphify first when `.opencode/graphify-out/graph.json` exists and is fresh. Use narrow `query`, `path`, or `explain` requests; treat `INFERRED` and `AMBIGUOUS` edges as leads only.
-- Graphify is optional, local, code-only, read-only discovery context. It never replaces direct source reading, tests, or runtime checks. If graph is missing or stale, use normal repo discovery or refresh graph when permitted.
+- For code investigation, debugging, dependency/call-chain tracing, impact analysis, and non-trivial code fixes, query Graphify first when `.opencode/graphify-out/graph.json` exists and is fresh. Use narrow `query`, `path`, or `explain` requests; treat `INFERRED` and `AMBIGUOUS` edges as leads only.
+- Graphify is local, code-only, read-only context. It never replaces direct source reading, tests, or runtime checks. If graph is missing, stale, or unsupported, use normal repo discovery or refresh graph when permitted and record fallback. Tiny known-file edits and non-code tasks may skip with explicit reason.
 - Prefer references over assumptions. If repo files, official docs, upstream source, screenshots/reference URLs, or runtime evidence are reasonably available, use them before inventing details.
 - Creativity must stay grounded. For greenfield/product/UI work, generate 2-3 bounded options from evidence or explicit first principles when that materially improves quality, then choose and explain.
 - Do not let checklist compliance override stronger evidence, better references, or clear runtime feedback.
@@ -83,3 +83,6 @@ Default operating model:
 - If the project has many agents/subagents, document the role and primary skill ownership clearly enough that future work does not default back to `@orchestrator` for planning, implementation, review, or research.
 - If many agents are available, read `.opencode/docs/AGENT_ROUTING.md` and `.opencode/docs/SKILLS.md` first to understand who owns discovery, implementation, review, design, and domain-specific risk.
 - For full operational details, follow the linked docs rather than expanding this file.
+## Graphify query-first contract
+
+For code investigation, debugging, dependency/call-chain tracing, impact analysis, and non-trivial code fixes, query fresh available Graphify first. Use narrow query/path/explain. Direct source reading + tests/runtime still required. Missing/stale/unsupported fallback must be recorded. Tiny known-file and non-code skip only with explicit reason.
