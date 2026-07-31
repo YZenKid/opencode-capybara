@@ -1777,13 +1777,12 @@ const checks = [
     file: "skills/opencode-orchestrator/SKILL.md",
     name: "orchestrator mode selection gate",
     mustInclude: [
-      "Classify mode: Greenfield App Accelerator",
-      "Maintenance Stability Mode",
-      "Creativity Fast Path",
-      "Promotion Gate",
-      "Plan Quality Gate values: `PASS`, `PASS_FOR_SLICE`, `NEEDS_DEPTH`, `BLOCKED`",
-      "do not force product thesis or 2-3 creative alternatives",
-      "draft`, `prototype`, or `exploration`",
+      "## Trigger map",
+      "references/routing-and-modes.md",
+      "references/planning-and-handoffs.md",
+      "references/ui-reference-and-assets.md",
+      "references/tool-and-source-policy.md",
+      "references/validation-memory-and-commit.md",
     ],
   },
   {
@@ -1945,6 +1944,137 @@ runPortabilityChecks({ read, state });
 
 const orchestratorSkill = read("skills/opencode-orchestrator/SKILL.md") ?? "";
 const routingDoc = read(".opencode/docs/AGENT_ROUTING.md") ?? "";
+const rootRoutingPointer = read("docs/AGENT_ROUTING.md") ?? "";
+const routingModesRef = read("skills/opencode-orchestrator/references/routing-and-modes.md") ?? "";
+const planningRef = read("skills/opencode-orchestrator/references/planning-and-handoffs.md") ?? "";
+const uiRef = read("skills/opencode-orchestrator/references/ui-reference-and-assets.md") ?? "";
+const validationRef = read("skills/opencode-orchestrator/references/validation-memory-and-commit.md") ?? "";
+const toolRef = read("skills/opencode-orchestrator/references/tool-and-source-policy.md") ?? "";
+
+const orchestratorSkillLineCount = orchestratorSkill.split("\n").length;
+if (orchestratorSkillLineCount > 250) {
+  state.failures += 1;
+  console.error(`✗ skills/opencode-orchestrator/SKILL.md: line count ${orchestratorSkillLineCount} exceeds 250`);
+} else {
+  console.log(`✓ skills/opencode-orchestrator/SKILL.md line count (${orchestratorSkillLineCount}/250)`);
+}
+
+const requiredTriggerMap = [
+  "references/routing-and-modes.md",
+  "references/planning-and-handoffs.md",
+  "references/ui-reference-and-assets.md",
+  "references/tool-and-source-policy.md",
+  "references/validation-memory-and-commit.md",
+];
+for (const ref of requiredTriggerMap) {
+  if (!orchestratorSkill.includes(ref)) {
+    state.failures += 1;
+    console.error(`✗ skills/opencode-orchestrator/SKILL.md: missing trigger map entry ${ref}`);
+  }
+}
+
+const referenceChecks = [
+  {
+    file: "skills/opencode-orchestrator/references/routing-and-modes.md",
+    content: routingModesRef,
+    mustInclude: [
+      "Greenfield App Accelerator",
+      "Maintenance Stability Mode",
+      "Creativity Fast Path",
+      "Best Practice Readiness Contract",
+      "Creative Depth Contract",
+      "Plan Quality Gate",
+      "PASS_FOR_SLICE",
+      "user journey → data model → API/contracts → UI screens → tests",
+      "Maintenance work should not be forced through greenfield product thesis",
+      "natural-language",
+      "Promotion Gate",
+      "Maintenance Direct Fix",
+      "Planner admission test",
+      "ROUTE_DIRECT",
+      "bounded maintenance may go direct when planner admission fails",
+    ],
+  },
+  {
+    file: "skills/opencode-orchestrator/references/planning-and-handoffs.md",
+    content: planningRef,
+    mustInclude: [
+      "Quality Gate Remediation / Risk Worklist",
+      "non-`PASS` quality gate output as an execution input",
+      "blocker_or_risk_class",
+      "owner_lane",
+      "exit_criteria",
+      "requires_user_decision",
+      "required_before_PASS",
+      "non_blocking_follow_up",
+      "Rerun targeted validation and reroute to `@quality-gate`",
+    ],
+  },
+  {
+    file: "skills/opencode-orchestrator/references/ui-reference-and-assets.md",
+    content: uiRef,
+    mustInclude: [
+      "See `DESIGN.md`",
+      "Reference Pack Requirement",
+      "Anti-Generic Landing Page Hard Fail Rules",
+      "Animation System Gate",
+      "Playwright/browser capture",
+      "visual-asset-generator",
+      "visual parity evidence",
+      "first-principles rationale",
+    ],
+  },
+  {
+    file: "skills/opencode-orchestrator/references/validation-memory-and-commit.md",
+    content: validationRef,
+    mustInclude: [
+      "verify-before-claim",
+      "Functional evidence rule",
+      "Project Memory Finalization Gate",
+      "auto-commit",
+      "never push automatically",
+      "stack-drift",
+    ],
+  },
+  {
+    file: "skills/opencode-orchestrator/references/tool-and-source-policy.md",
+    content: toolRef,
+    mustInclude: [
+      "MCP Discovery Matrix",
+      "sequential-thinking",
+      "Template/Source Discovery Hard Gate",
+      "Source-approved 1:1 Porting / Literal Porting Contract",
+      "reference-first by default, not repo-only",
+      "context7",
+      "browser/screenshots/reference URLs",
+    ],
+  },
+];
+
+for (const check of referenceChecks) {
+  const missing = check.mustInclude.filter((needle) => !check.content.includes(needle));
+  if (missing.length > 0) {
+    state.failures += 1;
+    console.error(`✗ ${check.file}: missing moved contract text:`);
+    for (const item of missing) console.error(`  - missing: ${item}`);
+  } else {
+    console.log(`✓ ${check.file} moved-contract check`);
+  }
+}
+
+if (!rootRoutingPointer.includes("Canonical policy lives in `.opencode/docs/AGENT_ROUTING.md`.")) {
+  state.failures += 1;
+  console.error("✗ docs/AGENT_ROUTING.md: missing canonical pointer");
+}
+if (!rootRoutingPointer.includes("No policy duplicated here.")) {
+  state.failures += 1;
+  console.error("✗ docs/AGENT_ROUTING.md: missing no-duplication pointer");
+}
+if (rootRoutingPointer.includes("Planner invocation expectation") || rootRoutingPointer.includes("Maintenance Stability Mode") || rootRoutingPointer.includes("Creativity Fast Path") || rootRoutingPointer.includes("ROUTE_DIRECT")) {
+  state.failures += 1;
+  console.error("✗ docs/AGENT_ROUTING.md: contains duplicated policy");
+}
+
 const modeFixture = read("scripts/evals/fixtures/greenfield-maintenance-mode-routing.json") ?? "";
 const directMaintenanceFixtureRaw = read("scripts/evals/fixtures/direct-maintenance-routing.json") ?? "{}";
 const directMaintenanceFixture = JSON.parse(directMaintenanceFixtureRaw);
@@ -1952,30 +2082,32 @@ const modeBehaviorChecks = [
   {
     name: "greenfield routes to planner before implementation",
     pass:
-      orchestratorSkill.includes("Route through `@artifact-planner` only when planning complexity") &&
+      routingModesRef.includes("Greenfield App Accelerator") &&
+      routingModesRef.includes("Route to `@artifact-planner` before implementation") &&
       routingDoc.includes("route new app/MVP/SaaS/product builds to `@artifact-planner` before implementation") &&
       modeFixture.includes("greenfield app must plan before implementation"),
   },
   {
     name: "maintenance avoids greenfield-heavy gates",
     pass:
-      orchestratorSkill.includes("bounded maintenance may go direct when planner admission fails") &&
+      routingModesRef.includes("bounded maintenance may go direct when planner admission fails") &&
+      routingModesRef.includes("Maintenance work should not be forced through greenfield product thesis") &&
       routingDoc.includes("Maintenance work should not be forced through greenfield product thesis") &&
       modeFixture.includes("maintenance bugfix must stay lightweight"),
   },
   {
     name: "bounded maintenance can route direct",
     pass:
-      routingDoc.includes("Maintenance Direct Fix") &&
-      routingDoc.includes("Planner admission test") &&
-      routingDoc.includes("ROUTE_DIRECT") &&
+      routingModesRef.includes("Maintenance Direct Fix") &&
+      routingModesRef.includes("Planner admission test") &&
+      routingModesRef.includes("ROUTE_DIRECT") &&
       modeFixture.includes("bounded maintenance may route direct when planner admission fails"),
   },
   {
     name: "creativity fast path stays exploratory with promotion gate",
     pass:
-      orchestratorSkill.includes("Creativity Fast Path") &&
-      orchestratorSkill.includes("Promotion Gate") &&
+      routingModesRef.includes("Creativity Fast Path") &&
+      routingModesRef.includes("Promotion Gate") &&
       routingDoc.includes("Creativity Fast Path") &&
       routingDoc.includes("Promotion Gate") &&
       modeFixture.includes("creative brainstorm may stay in fast path") &&

@@ -32,13 +32,14 @@
       "reasonCode": "creativity-fast-path-security-gap"
     },
     {
-      "file": "skills/opencode-orchestrator/SKILL.md",
+      "file": "skills/opencode-orchestrator/references/routing-and-modes.md",
       "mustInclude": [
         "Creativity Fast Path",
         "Promotion Gate",
-        "draft`, `prototype`, or `exploration`"
+        "draft`, `prototype`, or `exploration`",
+        "natural-language"
       ],
-      "reasonCode": "creativity-fast-path-orchestrator-gap"
+      "reasonCode": "creativity-fast-path-routing-reference-gap"
     },
     {
       "file": "skills/opencode-quality-gate/SKILL.md",

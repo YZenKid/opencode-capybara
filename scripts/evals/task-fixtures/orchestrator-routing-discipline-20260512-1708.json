@@ -71,15 +71,14 @@
     },
     {
       "type": "orchestrator-skill",
-      "file": "skills/opencode-orchestrator/SKILL.md",
+      "file": "skills/opencode-orchestrator/references/routing-and-modes.md",
       "mustInclude": [
-        "Direct-work threshold (hard default)",
-        "Route through `@artifact-planner` only when planning complexity",
-        "bounded maintenance may go direct when planner admission fails",
-        "route bounded implementation to `@fixer`",
-        "final review pass to `@quality-gate`"
+        "Maintenance Direct Fix",
+        "Planner admission test",
+        "ROUTE_DIRECT",
+        "bounded maintenance may go direct when planner admission fails"
       ],
-      "reasonCode": "orchestrator-routing-skill-alignment-gap"
+      "reasonCode": "orchestrator-routing-reference-alignment-gap"
     }
   ]
 }

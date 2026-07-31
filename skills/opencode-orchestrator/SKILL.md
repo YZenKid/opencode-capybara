@@ -5,744 +5,206 @@ description: Standalone orchestration workflow for OpenCode. Use for any coding,
 
 # OpenCode Orchestrator Skill
 
-Use this as the orchestrator’s single operating manual.
+Use this as router and integrator only.
 
 ## Trigger / skip
 
-- Trigger: any non-trivial coding, planning, UI, testing, review, documentation, routing, delegation, artifact, or validation request that needs lane selection, evidence strategy, and finish-first coordination.
-- Trigger: when multiple specialists, validation steps, or decision gates must be sequenced into one coherent execution flow.
-- Skip: tiny reversible one-file work with obvious validation, where direct execution is cheaper than orchestration overhead.
-- Skip: specialized work that already has a clear owner and no routing ambiguity; in that case route immediately and stay thin.
+- Trigger: non-trivial coding, planning, UI, testing, review, documentation, routing, delegation, artifact, or validation work.
+- Trigger: any task that needs lane selection, evidence strategy, or finish-first coordination.
+- Skip: tiny reversible one-file work with obvious validation.
+- Skip: work with clear owner and no routing ambiguity.
 
-Canonical tool references:
-- `.opencode/docs/TOOL_USAGE.md` for when/why/how tool selection
-- `.opencode/docs/AGENT_TOOL_ACCESS.md` for available/preferred/permitted/fallback boundaries
-- `.opencode/docs/STATE_RUNTIME.md`, `.opencode/docs/DURABLE_EXECUTION.md`, `.opencode/docs/WORKTREE_RUNTIME.md`, `.opencode/docs/VERIFY_FIX_LOOP.md`, `.opencode/docs/WORKER_BACKENDS.md`, and `.opencode/docs/DETERMINISTIC_EDIT_RUNTIME.md` for runtime control-plane posture
+## Source-of-truth map
 
-## Reference-first creativity contract
-- Use this lane creatively, but never fictionally: better options, sharper synthesis, and stronger tradeoffs are good; invented facts, APIs, assets, or requirements are not.
-- Prefer local repo evidence first, then official docs, upstream source/examples, screenshots/references, and current web evidence when materially relevant.
-- If a reasonable source exists, use it or state why it was skipped.
-- For greenfield, ambiguous, or taste-sensitive work, generate 2-3 bounded options when that improves quality, then choose with explicit rationale.
-- Mark assumptions as assumptions, keep them reversible, and avoid turning them into fake certainty.
-- In output/evidence, include the key references or repo artifacts that materially shaped the result.
+- `.opencode/docs/AGENT_ROUTING.md` — canonical routing source.
+- `.opencode/docs/TOOL_USAGE.md` and `.opencode/docs/AGENT_TOOL_ACCESS.md` — tools and lane boundaries.
+- `.opencode/docs/QUALITY.md`, `.opencode/docs/EVALS.md`, `.opencode/docs/MCP.md`, `.opencode/docs/SHARED_POLICIES.md` — quality, replayability, MCP, and shared policy.
+- `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, `.opencode/docs/PROJECT_DETECTED_TOOLS.md` — framework-managed work.
+- Project `DESIGN.md` and `design-system/DESIGN.md` or equivalent — visual direction.
 
-## Verify-Before-Claim (operational contract)
-This section turns the reference-first contract above into enforceable rules. The orchestrator's job is to be a verified-answer machine, not a fluent generator.
+## Compatibility anchors
 
-**Default mode: no assertion without verification.** Every claim about the user's code, runtime, environment, dependency state, configuration, or external service behavior MUST be backed by a tool call (or subagent report) that produced that fact in the same response or in a response the user can see. A bare prose answer about code or runtime state is a defect.
+- Reference-first.
+- Keep assumptions as assumptions and avoid turning them into fake certainty.
+- Active-lane context refresh: confirm which agent is currently active in this session.
+- Do not inherit read-only/planner assumptions from a prior lane.
+- Route through `@artifact-planner` only when planning complexity, unresolved architecture/security/data/product decisions, multi-phase scope, or evidence-heavy work require durable planning artifacts.
+- bounded maintenance may go direct when planner admission fails.
+- Direct-work threshold (hard default).
+- `@orchestrator` may execute directly only for tiny, reversible tasks.
+- read-heavy (>3 files).
+- implementation touches 2+ files, route bounded implementation to `@fixer`.
+- do not keep discovery in orchestrator; route to `@explorer`.
+- Do not do multi-file bounded implementation directly in orchestrator.
+- Routing proportionality check passed.
+- Trivial, single-step, and easily reversible tasks may skip planner.
+- Execution-ready Worklist / Handoff Contract.
+- Start with the declared `start_with` first non-blocked task.
+- Execute all ordered non-blocked tasks finish-first.
+- requires_user_decision: yes.
+- plan done criteria are met.
+- PDF/DOCX/XLSX/PPT/Office inputs.
+- input.pdf:false.
+- direct-attachment limit only.
+- route extraction/Q&A/summarization to `@librarian`.
+- only ask the user to convert to text/markdown after `@librarian` or local extraction tools are unavailable or fail.
+- User-facing Language Contract.
+- All user-facing communication must default to Bahasa Indonesia.
+- Do not paste raw internal fields such as `task_result`, `summary`, `findings`, `changed_files`, `next_actions`, `risks`, `evidence`.
+- Reference Depth Gate.
+- Tiny maintenance, local bugfixes, and prompt/config edits may rely on repo-local evidence when enough.
+- official/library docs via `@librarian`/context when available.
+- browser/reference screenshots for visual work.
+- Missing current docs/API/source facts route to `@librarian`.
+- .opencode/docs/GREENFIELD_STARTER.md.
+- Anti-AI-slop quality bar.
+- reference pack or explicit first-principles rationale.
+- page/component/state/motion/accessibility.
+- Requested Aesthetic Fidelity Gate.
+- user phrase -> tokens -> surfaces -> layout rules -> reject_if.
+- do not issue a final completion claim.
+- Keep tiny UI light.
+- Plan Intake Protocol.
+- Plan Execution Precedence Order.
+- Plan Compliance Checkpoint.
+- Diff Boundary check.
+- one ready task at a time.
+- Verify each task exit criteria before moving to the next task.
+- Orchestrator direct implementation remains tiny-only.
+- PASS_FOR_SLICE` means slice completion only.
+- Quality Gate Remediation / Risk Worklist.
+- non-`PASS` quality gate output as an execution input.
+- blocker_or_risk_class.
+- owner_lane.
+- exit_criteria.
+- requires_user_decision.
+- required_before_PASS.
+- non_blocking_follow_up.
+- Rerun targeted validation and reroute to `@quality-gate`.
+- Project Memory Finalization Gate.
+- Auto-commit default is ON for local commits only.
+- never push automatically.
+- plan-bound non-trivial task completes.
+- @quality-gate returns `PASS` or `PASS_WITH_RISKS`.
+- validation has passed.
+- concise subject plus bullet-point body.
+- Never stage `.env`, secrets, tokens, credentials.
+- Never use `--no-verify`, `--no-gpg-sign`, `amend`.
+- stop and ask.
+- Skip domain specialists for tiny UI polish and isolated bugfixes unless risk triggers apply.
+- Domain specialists do not replace `@designer`, `@fixer`, `@oracle`, or `@quality-gate`.
+- target project's `DESIGN.md`.
+- suggest `/init-harness` so the consolidated harness/design initialization can create or update project guidance before inventing a direction.
+- motion storyboard.
+- icon strategy.
+- visual density checks.
+- image generation decision.
+- visual-asset-generator.
+- assume image-heavy.
+- designer signoff.
+- draft.
+- inspired by.
+- style-equivalent.
+- close parity.
+- The target project's own `DESIGN.md` is the first design authority.
+- high-level visual direction is insufficient.
+- general end-to-end UI/UX Design Blueprint.
+- experience direction.
+- page-by-page UX blueprint.
+- section-level visual specification.
+- component system plan.
+- visual system.
+- asset and image decision.
+- motion system.
+- interaction/state design.
+- responsive plan.
+- accessibility gate.
+- validation evidence.
+- final status must be `blocked`, `needs-polish`, or `draft`, not `done`.
 
-**Mandatory verification tool calls by claim class:**
+## Trigger map
 
-| Claim pattern | Required verification |
-|---|---|
-| "File X contains Y" / "config C is set to V" | `read_file X` or `cat X \| head` or `search_files` for the literal pattern |
-| "Function Z is defined in module M" | `grep -n "def Z\|function Z\|Z =" M` or `search_files` |
-| "Service S runs on port P" | `ss -tlnp \| grep P` or `curl -sS localhost:P/health` |
-| "Package P version is V" | `pip show P` / `npm ls P` / `cat package.json` / `cat requirements.txt` |
-| "Doc/source D says X" | `@librarian`, `web_extract D`, or `web_search "D"` |
-| "Previous session/conversation did X" | `session_search` |
-| "Reference R uses pattern P" | For parent image FilePart, built-in `task` with `subagent_type: visual-context-extractor`; plugin interceptor materialization → exact `@.opencode/visual-attachments/<random>/image.ext` → child task → `tool.execute.after` cleanup. Direct task without plugin remains unavailable. Use `web_extract R` for URL |
-| "Database D has table T with column C" | `psql -c "\d T"` or `query the schema` |
-| "Container C is running" | `docker ps \| grep C` or `podman ps \| grep C` |
-| "Env var E is set" | `printenv E` or `grep E .env*` |
-
-**Claim-level vocabulary (mandatory in evidence and in any forwarded user-facing prose where the distinction matters):**
-
-- `confirmed_repo` — backed by a `read_file`/`grep`/`cat` result this response.
-- `confirmed_runtime` — backed by a `terminal` command output this response.
-- `confirmed_docs` — backed by `@librarian`, `web_extract`, `context7`, or `web_search` this response.
-- `user_confirmed` — explicitly stated by the user in the current or recent session.
-- `assumption` — orchestrator's inference, not yet verified.
-- `unverified` — orchestrator could not verify but is forwarding the claim (e.g. subagent prose).
-
-**When the user asks for a fact, do not write a long answer before verifying.** If the first instinct is to write a sentence about the user's code, that is the signal to make a tool call first. The shape is `verify → confirm or correct → then answer`, not `answer → maybe verify if it occurs to me`.
-
-**Subagent report handling:** treat any subagent's prose as `assumption` until the orchestrator independently verifies at least one material claim. Spot-check pattern: if `@explorer` reports the project uses Tailwind 3.4, run `cat package.json \| grep tailwind` in this session; if `@fixer` reports "added 3 files", run `git diff --stat`; if `@designer` reports "applied token palette", read one of the modified files. A 5-second `cat` is cheap; a user acting on a wrong assumption is expensive.
-
-**No "minor detail" loophole:** never invent file paths, function names, library APIs, package names, config keys, env var names, or stack defaults by intuition even when the gap "feels small". The cost of a wrong path placed in a code edit is the user's wasted edit cycle plus the time to re-derive the correct path — much higher than the cost of a clarification question.
-
-**Ask the user for material ambiguity, do not guess.** Ask about: file paths when multiple plausible matches exist, target deployment environment, version constraints, brand/identity choices, legal/compliance posture, irreversible actions, and ambiguous aesthetics. Prefer the `clarify` tool with multiple-choice when the user has named ≥2 plausible options. For active implementation, prefer deferred questions over mid-task interruptions only when the default is named explicitly, recorded in the evidence file, AND surfaced in the final summary.
-
-**No fake certainty in user-facing prose:** internal evidence can use `assumption` or `unverified`; user-facing prose must translate that to "I'm inferring X — would you like me to verify?" or "I haven't checked this yet — checking now..." or similar honest framing. Never write "the file contains..." / "the service is running..." / "the package is installed..." without a tool call having produced that fact in the same response.
-
-**Mechanical sanity-check script:** `python3 ~/.config/opencode/scripts/verify-before-claim-check.py <path-to-recent-response-or-evidence>` (when present) flags forward claims that lack a matching tool call. This is a soft helper, not a hard gate, but the orchestrator should be able to defend any flagged claim.
-
-## Reference Depth Gate
-- Tiny maintenance, local bugfixes, and prompt/config edits may rely on repo-local evidence when enough; do not force internet research or make external claims for low-risk local work.
-- For greenfield, substantial UI/UX, unfamiliar or version-sensitive library/API behavior, current external facts, reference UI, product/market-sensitive, or upstream-dependent work, define source strategy before decisions: repo evidence, official/library docs via `@librarian`/context when available, upstream source/examples or GitHub/web search when needed, and browser/reference screenshots for visual work.
-- Missing current docs/API/source facts route to `@librarian`; do not invent library/API behavior, package capabilities, pricing, market facts, or upstream behavior from memory.
-- If a relevant source path is skipped, record why and lower the claim level (`draft`, `assumption`, `repo-local only`, or `first-principles`).
-- Greenfield work must use `.opencode/docs/GREENFIELD_STARTER.md` or a repo-local equivalent as starter input unless explicitly prototype-only; if skipped, record why.
-
-## Anti-AI-slop quality bar
-- No generic UI/product plans. Require reference pack or explicit first-principles rationale plus distinctive direction and concrete page/component/state/motion/accessibility details for substantial UI.
-- Substantial UI needs page-by-page flows, section composition, component inventory, responsive behavior, empty/loading/error/success states, motion intent with reduced-motion handling, accessibility checks, and visual evidence plan.
-- Avoid bland defaults: centered gradient hero, fake metrics, vague dashboards, emoji/icon placeholders, unexplained cards, generic SaaS copy, and “modern clean” without source-backed or first-principles specifics.
-
-## Requested Aesthetic Fidelity Gate
-- Explicit requested aesthetics are requirements, not optional taste. Substantial UI must translate user phrase -> tokens -> surfaces -> layout rules -> reject_if before implementation.
-- Route missing style grammar to `@designer` or `@artifact-planner`; route visible style mismatch to `@designer`/remediation and do not issue a final completion claim.
-- Reject generic fallback styles such as card grids, vague glass/neon, centered gradient hero, or fake dashboards when the user requested a different aesthetic.
-- Keep tiny UI light: small reversible polish may rely on existing design guidance when no material style decision changes.
-
-## Template/Source Discovery Hard Gate
-
-When a user references "templates", "pakai templates", "ikutin website X", "porting", "1:1 clone", "copy this design", or when the project has a `templates/` directory referenced by `AGENTS.md` or `.opencode/AGENTS.md` non-negotiables, this lane MUST run a hard discovery step before any implementation.
-
-### When this gate fires
-- The user prompt contains any of: `template`, `pakai templates`, `ikutin`, `mirip`, `clone`, `port`, `copy`, `replicate`, `porting`, `1:1`, `style seperti`, `seperti web`, `adapt dari`.
-- The project has a `templates/` directory at the project root or under a documented source location.
-- The project's `.opencode/AGENTS.md` lists any non-negotiable (N#) that names a template, a template directory, or a license/attribution constraint tied to a third-party template.
-
-### Mandatory discovery steps
-1. Run `python3 ~/.config/opencode/scripts/template-source-discovery.py --project-root . --json` and read the discovery report. The script inventories every folder under `templates/`, parses entry HTML/CSS/JS/Pug/SCSS and `package.json`, and scans `.opencode/AGENTS.md` for matching constraints.
-2. If the script reports a conflict between user intent ("pakai templates") and any N# constraint (e.g. N19 blocking `templates/landingpage/`), stop and ask the user to clarify. Do not invent a resolution.
-3. Write `.opencode/evidence/<task-id>/template-source-discovery.json` and reference it from the plan/evidence/handoff. No silent skipping.
-4. Only after the discovery report exists AND user intent is unambiguous may this lane proceed. Skip reason must be recorded explicitly when an MCP or script is unavailable.
-
-### Why this gate is mechanical, not taste
-Without this gate the historical failure pattern is:
-- Agent acknowledges `templates/` exists but never reads the entry files.
-- Agent defaults to a generic SaaS-style implementation (centered gradient hero, fake testimonials `Maya R./Andre F./Nisa A.`, fake pricing `$4/$12/mo`, generic FAQ, `Join thousands who reflect daily`).
-- Constraint `N17` (token visual identity with template) and `N19` (block Trafalgar Pug/Gulp/Bootstrap) are silently overridden.
-- No `template_extraction_trace` is produced, so quality-gate cannot detect the drift.
-
-This gate exists so the failure becomes **impossible to ship silently**.
-
-### Quick clarification template (use when needed)
-Ask the user (or surface in evidence if user is offline):
-1. Which template directory is the source of truth? (list the candidates the script reported)
-2. Level of fidelity: `1:1 port`, `visual+layout adapt`, `token source only`, `anatomy reference only`.
-3. What is allowed to be reused verbatim? `structure`, `style tokens`, `copy`, `assets`, `code`.
-4. What MUST be replaced? `brand identity`, `logo`, `photography`, `copy`, `testimonials`, `pricing`, `feature names`.
-5. Is there an explicit license/permission that allows reuse, or is reuse adapted-only?
-
-ponytail: This gate pairs a behavioral rule with a mechanical helper (`scripts/template-source-discovery.py`). A prompt-only rule without a script is a wish; this slice ships the script and wires `npm run check:template-source` so the gate is auditable.
-
-
-## Core routing
-
-Canonical intent classifier, read-only routes, budgets, and Scope Promotion Gate live in `.opencode/docs/AGENT_ROUTING.md`. Classify intent before size, planner, delegation, or finish-first.
-
-- `read_only`: use `tiny-readonly-compare` or `read-only-deep-review`; zero mutation, no planner, no tracker, no remediation.
-- `implementation`: use normal size/risk routing and existing material gates.
-- Findings, risk, gaps, and failed checks never authorize implementation. Explicit user change intent or approved implementation plan is required.
-
-Direct-work threshold (hard default):
-- `@orchestrator` may execute directly only for tiny, reversible tasks (typically 1 edited file and <=3 file reads for verification).
-- `read_only` work never routes through `@artifact-planner`.
-- `@artifact-planner` is triggered after `implementation` promotion when planning depth/evidence is required.
-- If discovery becomes unknown-scope, cross-area, or read-heavy (>3 files), route to `@explorer` instead of continuing direct reads.
-- If implementation touches 2+ files, route bounded implementation to `@fixer` by default.
-- route bounded implementation to `@fixer` by default.
-- `@artifact-planner` is a triggered/conditional planning lane, not default-first. Trigger it for multi-phase/spec-heavy/materially ambiguous/evidence-heavy work.
-- final review pass to `@quality-gate` is required before material completion claims.
-
-- Unknown codebase, broad search, symbol discovery, test/helper discovery → `@explorer`.
-- Current library/API/docs behavior → `@librarian` (supporting helper); prefer official docs/context first, then GitHub/web when needed.
-- Generator/scaffold-backed framework artifact creation → read project stack/command/playbook docs first when present, then route to detected domain lane and require official CLI/generator/MCP first when usable. Direct tiny edits are allowed for existing generated-file customization or when generator is irrelevant; manual new artifacts require fallback evidence.
-- User-facing UI, visual polish, responsive layout, reference matching → `@designer`.
-- Substantial UI/UX, web, mobile, app design, design-system generation, or revamp work → `@designer`.
-- Before any UI/design direction is finalized, inspect the target project's `DESIGN.md` at the project root, then `design-system/DESIGN.md` or any documented project-specific equivalent. Project-local design guidance wins over generic taste; suggest `/init-harness` so the consolidated harness/design initialization can create or update project guidance before inventing a direction when substantial UI guidance is missing.
-- Product/platform/AI/UI-system architecture boundaries → `@architect` (unified advisory lane).
-- Non-trivial website/mobile motion direction or animation library/API choice routes to `@designer`; bounded implementation after the spec is clear → `@fixer`.
-- Bounded implementation, tests, fixtures, mocks, small refactors → `@fixer`.
-- Post-task prompt/agent/skill improvement after non-trivial work, repeated failures, recurring patterns, policy gaps, or explicit user request → `@skill-improver`; skip trivial tasks and keep the checkpoint bounded.
-- Architecture, senior review, simplification, security/scalability/data tradeoffs → `@oracle`.
-- Final conformance/risk review after non-trivial implementation, prompt/config changes, security-sensitive changes, or before commit/PR → `@quality-gate`.
-- Auto-commit default is ON for local commits only; never push automatically.
-- Image-heavy legal replacements → designer asset manifest and image generation decision, then `@visual-asset-generator` or available image tool. Style-equivalent generation is fallback only when direct reuse is not requested, not allowed, unavailable, or unsafe.
-- **Source-approved 1:1 Porting / Literal Porting Contract**: if the user says `1:1`, `clone`, `port`, `copy`, `copy from`, `make exactly like`, or provides a source URL/repo/file plus explicit approval to reuse, default to literal copy/adapt/prune/direct reuse instead of redesign. Route `@explorer` for source inventory, `@artifact-planner` for copy/adapt/prune/create mapping, `@designer` for exact UI anatomy when visual, `@frontend`/`@fixer` for literal implementation, and `@quality-gate` for parity/reuse evidence. Keep legal/security/scope safeguards active: restricted assets, secrets, unsafe code, incompatible licenses, privacy hazards, fake testimonials/claims, logos/trademarks, and out-of-scope behavior still require block, prune, or substitution with rationale.
-- High-stakes ambiguous decisions → `@council` only when consensus is worth cost/time; keep this as the local council subagent, while plugin-generated council duplicates are disabled separately.
-- Artifact-writing plans → `@artifact-planner`; never use built-in read-only Plan Mode for artifact writing.
-- AI/LLM/RAG/embedding/tool-calling/evals/face-matching production behavior and product/platform architecture ambiguity → `@architect`; use `@librarian` for version-sensitive SDK docs.
-- Security/privacy-sensitive boundaries (PII/auth/payments/uploads/biometric/privacy/AI data) are escalated for final signoff in `@quality-gate`; architecture decisions for those boundaries can be advised by `@architect`.
-- Document/file-centric read-only extraction/research/transformation support → `@librarian` cluster.
-- PDF/DOCX/XLSX/PPT/Office inputs with model attachment capability gaps (`input.pdf:false` or equivalent) are not a hard stop. Treat the model limit as a direct-attachment limit only: first check whether the file exists in workspace, then route extraction/Q&A/summarization to `@librarian`; only ask the user to convert to text/markdown after `@librarian` or local extraction tools are unavailable or fail.
-- Post-task prompt/skill/routing refinement after evidence → `@skill-improver` cluster.
-- Keep `@architect` as a triggered/conditional advisory lane for material boundaries only. Skip domain specialists for tiny UI polish and isolated bugfixes unless risk triggers apply. Domain specialists do not replace `@designer`, `@fixer`, `@oracle`, or `@quality-gate`.
+Read `references/routing-and-modes.md` when intent, mode, planner threshold, direct-maintenance, or route selection is unclear.
+Read `references/planning-and-handoffs.md` when task is plan-bound, multi-step, delegated, or needs durable handoff or remediation.
+Read `references/ui-reference-and-assets.md` when UI, visual, image, motion, design-system, or reference-parity work appears.
+Read `references/tool-and-source-policy.md` when current docs, template/source discovery, current web facts, or MCP/tool choice matters.
+Read `references/validation-memory-and-commit.md` when verifying facts, claiming done, writing memory, or committing matters.
 
 ## Routing decision tree
 
-1. Is request tiny, reversible, and <=1 file with clear validation? Orchestrator may handle directly.
-2. Classify mode: Greenfield App Accelerator for new app/MVP/SaaS/product builds; Maintenance Stability Mode for bugfix/regression/refactor/dependency/small existing-app work; Creativity Fast Path for explicit ideation/generate/prototype/draft requests that stay reversible.
-3. If Creativity Fast Path applies, keep the claim level at `draft`/`prototype`/`exploration`, avoid heavy plan tax while the scope stays reversible, and check hard rails immediately. If the user asks for permanent implementation or a strong completion claim, run the Promotion Gate and return to normal routing.
-4. Detect Source-approved 1:1 Porting / Literal Porting Contract early: `1:1`, `clone`, `port`, `copy`, `copy from`, `make exactly like`, or a source URL/repo/file plus explicit reuse approval means literal direct reuse is the default expectation, not redesign. Route `@explorer` for upstream/source inventory and `@artifact-planner` for copy/adapt/prune/create mapping unless the task is truly tiny.
-5. Is scope unclear or repo facts missing? Route `@explorer` for code facts; route `@librarian` for docs/API/source facts; route `@system-analyst` for requirements/flows/contracts. Also decide the source strategy early: repo, official docs, upstream source/examples, browser/screenshots, and current web evidence as needed.
-6. Before framework-managed edits in existing or greenfield apps, read `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present. If they are missing or stale for non-trivial work, run or suggest `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) before broad implementation.
-7. Does work create new framework artifacts where stack generator/CLI/MCP is available? Route to domain lane and require generator-first path; allow manual only with evidence for unavailable/failed tool, repo convention, existing-file customization, or explicit user request.
-8. If generator behavior is version-sensitive and project-local docs do not already settle it, route to `@librarian` for official docs/context7 before implementation.
-9. Does work need a durable plan, milestones, or evidence-heavy handoff? Route `@artifact-planner`; use `@project-manager` input for tickets/milestones. For source-approved 1:1 tasks, require source maps, forbidden deviations, and parity debt in the plan.
-10. Is UX/visual direction, reference parity, motion direction, or design system unresolved? Route `@designer` before implementation. For source-approved 1:1 visual work, route with exact layout/component/token anatomy expectation rather than inspiration-only restyling. For greenfield or taste-sensitive work, expect 2-3 bounded options or an explicit reason to converge immediately.
-11. Is implementation clear and bounded?
-   - general edits/tests/fixtures/refactor → `@fixer`
-   - web UI/page/component work → `@frontend` when design exists; `@fixer` only for tiny UI fixes
-   - API/service/auth/data/job/migration work → `@backend`
-   - native/hybrid app, permissions, offline, push, camera, deep links → `@mobile`
-   - CI/CD/Docker/env/deploy/monitoring/rollback config → `@devops`
-   - small tightly-coupled UI+API vertical slice → `@fullstack`; split when scope grows
-10. Does decision change product/platform/AI/UI-system architecture or risk posture? Route `@architect` for option framing.
-11. Need senior critique, simplification, persistent debugging strategy, or YAGNI review? Route `@oracle`.
-12. Need multi-perspective consensus for expensive/high-stakes ambiguity? Route `@council` only after cheaper lanes cannot resolve it.
-13. After non-trivial/risky/prompt/config/security/UI claim changes, route `@quality-gate` before completion claim.
-
-## Mode-aware execution
-
-- Greenfield App Accelerator: for new app/MVP/SaaS/product builds. Route to `@artifact-planner` before implementation except explicitly tiny prototype-only work that is labeled `draft`/`prototype`. Require Creative Depth Contract, Plan Quality Gate, and first usable vertical slice. Execute only `PASS` or `PASS_FOR_SLICE`; claim `MVP slice complete` unless whole app is truly done.
-- Maintenance Stability Mode: for bugfix/regression/refactor/dependency/small existing-app work. Keep regression-first and minimal; do not force product thesis or 2-3 creative alternatives unless the bug requires product/UX decisions.
-- Creativity Fast Path: for explicit natural-language requests to brainstorm, explore options, generate ideas, sketch first, prototype quickly, or draft without claiming production readiness. Treat it as opt-in, reversible, and exploratory only: label outputs `draft`, `prototype`, or `exploration`; use repo-local evidence when cheap/relevant; record assumptions/confidence; skip heavy planning only while the work remains reversible.
-- Creativity Fast Path must not bypass hard rails for secrets, `.env`, credentials, PII, auth/session/token, RBAC/permission boundaries, payments, uploads, destructive ops, deploy/release, or permission widening. It also does not remove `@quality-gate` from material/risky/prompt/config/security/UI completion claims.
-- Promotion Gate: when the user asks to implement permanently, ship, commit, deploy, claim `done`/`ready`/`production-ready`/`close parity`, or otherwise keep the result as production behavior, exit Creativity Fast Path and return to normal routing. Invoke `@artifact-planner` if scope is now multi-phase/material/ambiguous, then validate and route to `@quality-gate` wherever normal rules require it.
-- Rerun targeted validation and reroute to `@quality-gate` after remediation work is complete when a non-`PASS` quality gate result created a remediation worklist.
-- Plan Quality Gate values: `PASS`, `PASS_FOR_SLICE`, `NEEDS_DEPTH`, `BLOCKED`. Return `NEEDS_DEPTH` to planner/advisory lanes and stop on true `BLOCKED`.
-
-## Boundary quick table
-
-| Boundary | Owner | Not owner |
-| --- | --- | --- |
-| Clear bounded code edits/tests | `@fixer` or domain implementation agent | architecture/final signoff |
-| Web/backend/mobile/devops vertical expertise | `@frontend`/`@backend`/`@mobile`/`@devops` | broad planning or final gate |
-| Requirements/contracts | `@system-analyst` | implementation |
-| Milestones/tickets/sequencing | `@project-manager` | source edits |
-| Durable `.opencode` plan artifacts | `@artifact-planner` | implementation/source edits |
-| Architecture option framing | `@architect` | code review/final gate |
-| Senior critique/simplification | `@oracle` | final gate |
-| Final conformance/risk status | `@quality-gate` | self-fix/edit |
-
-## Portability rules
-
-- Never hardcode device-specific absolute paths in prompts, configs, scripts, or artifacts.
-- Derive absolute paths from the active workspace/project root when targeting an app.
-- Distinguish the OpenCode config root from the target application root.
-- For image asset jobs, pass the target app `project_root` explicitly and keep `target_path` relative to that root.
-
-## Harness Preflight Gate
-- Before non-trivial work, `@orchestrator` must verify the target project has a current root `AGENTS.md`, canonical `.opencode/docs/`, and root `DESIGN.md` when UI/design work is involved.
-- For framework-managed artifacts in existing or greenfield apps, also verify `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
-- If harness guidance is missing or stale, run `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`) before broad implementation. If command execution is unavailable, ask the user to run `/init-harness`.
-- `/init-harness` (single entrypoint, per `commands/init-harness.md`) default behavior should detect stack/tooling and conservatively create or update `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md`. Single canonical command; do not redirect to any separate design-init command.
-- Do not start broad implementation until harness guidance is available, except for tiny, read-only, or emergency tasks.
-- If the gate is skipped, record the reason in the final summary/evidence.
-
-## Functional evidence rule
-
-Mechanical checks alone (build/lint/grep/test counts) are never enough for a strong completion claim. Before reporting `done`, `ready`, `MVP complete`, or `PASS`, require functional evidence per core subsystem in scope. For app/release/API/PWA work, default to running `python3 ~/.config/opencode/scripts/runtime-verify.py` with task-specific `--route`, `--asset`, and `--env` flags when that script exists in the target project, then save output under `.opencode/evidence/<task-id>/runtime-verify.json` or equivalent.
-
-## MVP surface rule
-
-Do not report MVP completion when the homepage or primary surface is empty, tagline-only, placeholder, or lacks a meaningful first-slice interaction.
-
-## Stack-drift rule
-
-If implemented stack/API/asset format diverges materially from the plan or project docs, resolve or escalate before completion. A documentation note about drift is not enough.
-
-## Project memory retrieval
-
-Before starting any non-trivial task in a project:
-- check if `.opencode/memory/knowledge.json` exists,
-- if it exists, run `python3 ~/.config/opencode/scripts/project-memory.py --load --context "<brief task context>" --importance high --limit 5`,
-- include any relevant memories in worker handoffs,
-- save high-signal new memories or propose borderline ones before claiming completion,
-- run cleanup with archive-old and review proposals before final claim on non-trivial work:
-  ```bash
-  python3 ~/.config/opencode/scripts/project-memory.py --cleanup --archive-old
-  python3 ~/.config/opencode/scripts/project-memory.py --list-proposals
-  ```
-
-## Pre-flight Skill & MCP Discovery
-Before the first substantial answer, diagnosis, route, or implementation step on non-trivial work:
-- Name the skill explicitly (`Skill I'm using: ...`).
-- Decide MCP applicability explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
-- If an MCP is obviously applicable, use it or record a concrete skip reason. Silent skip is a defect.
-- For non-trivial work, treat `context7`, `web search`, `webfetch`, GitHub search, and upstream source lookup as first-class MCP/reference paths, not rare fallbacks. If current best practice or version-sensitive behavior matters, prefer a live reference over memory.
-- At final summary time, name one concrete thing this skill changed about execution. Loaded-but-unused skill is a process defect.
-
-ponytail: This is a behavioral contract. Use `scripts/session-trace-audit.py` as the advisory checker until transcript hooks become first-class.
-
-## Subagent Handoff Contract (mandatory before delegation)
-
-Every non-trivial delegation to a worker lane must carry a structured payload, not only a prose summary. If you delegate with text-only context, the worker will re-derive intent and may silently drift.
-
-### Required worker payload
-Before calling a worker, assemble a handoff payload with these minimum fields:
-- `task_id`
-- `plan_id`
-- `caller`
-- `callee`
-- `scope`
-- `claim_level`
-- `claim_scope`
-- `source_basis`
-- `must_preserve`
-- `do_not_touch`
-- `validation`
-- `exit_criteria`
-- `evidence_required`
-- `depends_on`
-- `context_bundle`
-
-The payload format is defined by `scripts/subagent-handoff-check.py`. The worker should be able to execute without guessing what the source of truth is.
-
-### Delegation log
-For non-trivial work, write an append-only delegation log under `.opencode/state/<task-id>/delegation.jsonl` with at least:
-- timestamp,
-- caller lane,
-- callee lane,
-- scope one-liner,
-- claim level,
-- evidence paths expected.
-
-This makes planner -> orchestrator -> worker drift auditable after the fact.
-
-### Worker context rules
-- Include 3-10 highest-signal verified facts only; do not flood workers with whole-file dumps.
-- Preserve open assumptions explicitly. Workers must not convert planner/orchestrator guesses into facts.
-- Include `must_preserve` and `do_not_touch` exactly as written in the plan when they are safety- or parity-critical.
-- If a worker reports completion without satisfying `validation`, `exit_criteria`, or `evidence_required`, treat the report as `partial` and remediate before forwarding.
-
-### Mechanical validation
-- Validate any serialized handoff payload with `python3 ~/.config/opencode/scripts/subagent-handoff-check.py --payload -` (stdin) or `--plan <plan.md>` before claiming the delegation contract is complete.
-- A non-trivial delegation without a valid payload is a process defect.
-
-ponytail: The goal is not bureaucracy. The goal is to make subagents boringly reliable by removing ambiguity from what they inherit.
+1. Confirm active lane and task scope.
+2. Classify intent first: `read_only` or `implementation`.
+3. If `read_only`, stay read-only; use `tiny-readonly-compare` or `read-only-deep-review`; no mutation, planner, tracker, or remediation.
+4. If `implementation`, read `references/routing-and-modes.md` before routing or editing.
+5. If work is tiny, reversible, one-file, and clear, orchestrator may act directly.
+6. If discovery is broad, cross-area, or read-heavy, route to `@explorer` or `@librarian`.
+7. If UI or visual direction is unresolved, route to `@designer`; if implementation is bounded UI, route to `@frontend` or `@fixer`.
+8. If bounded implementation touches 2+ files, route to `@fixer` or the domain lane.
+9. If work is multi-phase, spec-heavy, materially ambiguous, or evidence-heavy, read `references/planning-and-handoffs.md` and route `@artifact-planner`.
+10. If architecture, security, data, product, or platform boundary is open, route to `@architect` or `@oracle`.
+11. If requirements or contracts are unclear, route to `@system-analyst`; if milestones or sequencing matter, route to `@project-manager`.
+12. If final material or risky completion claim is needed, route to `@quality-gate`.
+13. If repeated failure, prompt gap, or routing bug appears after work, route to `@skill-improver`.
+14. Findings, risk, or failed checks never authorize mutation by themselves.
 
 ## Workflow
 
-1. **Active-lane context refresh**: Before acting, confirm which agent is currently active in this session. Re-read the current role contract and `.opencode/docs/TOOL_USAGE.md` / `.opencode/docs/AGENT_TOOL_ACCESS.md` if the previous turn was in a different lane. Do not inherit read-only/planner assumptions from a prior lane.
-2. Classify intent using `.opencode/docs/AGENT_ROUTING.md` before size, planner, delegation, or finish-first. Keep `read_only` read-only.
-3. Understand explicit and implicit requirements.
-4. **Implementation planning rule**:
-   - Tiny, reversible, <=1 file, clear validation? Orchestrator may handle directly.
-    - `read_only` intent: use `tiny-readonly-compare` or `read-only-deep-review`; never invoke planner or remediation.
-    - `implementation` intent: if multi-phase, materially ambiguous, or evidence-heavy, invoke `@artifact-planner`; existing `PASS` or `PASS_FOR_SLICE` plan may proceed.
-    - If intent is uncertain, remain `read_only` deep review and request explicit promotion before edits.
-4. Run the Harness Preflight Gate for non-trivial work.
-5. Use local discovery before external docs when codebase patterns matter.
-   - For multi-file/read-heavy discovery, do not keep discovery in orchestrator; route to `@explorer` and consume its output.
-6. Ask targeted questions for material ambiguity, but during active implementation prefer finish-first execution: resolve ambiguity via repo evidence, official docs, internet references, web search, browser evidence, and specialist subagents before interrupting the user. For non-trivial autonomous execution, prefer durable runtime state under `.opencode/state/` so task queue, mailbox, worktree, and verification status are inspectable and replayable.
-7. **Execute via the plan as source of truth**:
-   - Load the primary plan `.opencode/plans/<task-id>.md` and extract Plan Quality Gate value, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, validation commands, evidence path, and Done Criteria. Proceed only with `PASS` or `PASS_FOR_SLICE`.
-   - Create execution tracking from the worklist. Track each task with status (`pending`, `in_progress`, `completed`, `blocked`, `cancelled`), owner/lane, depends_on, validation, and evidence_update.
-   - Start with `start_with`, then execute one ready task at a time respecting `depends_on`, `must_preserve`, `do_not_touch`, and `exit_verification`.
-   - Delegate every worker task with full worker contract context: exact scope, expected outcome, relevant file paths, plan invariants, do_not_touch boundaries, validation command/check, evidence expected, and explicit note that worker must execute only — not reroute or delegate.
-   - Parallelize only truly independent tasks. Reconcile results before dependent tasks begin.
-   - Update execution tracking after each task: status, validation result, evidence updates, changed files, residual risks, blocker class.
-   - Apply finish-first blocker taxonomy: `hard_stop`, `soft_blocker`, `deferred_question`, `follow_up`. Do not surface non-blocking ambiguity early.
-   - Run task exit verification before moving to next task. If validation fails, remediate within scope or mark blocked with evidence.
-   - Enforce Diff Boundary: revert or justify out-of-boundary changes in verification evidence.
-   - Run Plan Compliance Checkpoint before any completion claim: verify all non-blocked tasks, Done Criteria, Non-negotiable Implementation Invariants, Do Not / Reject If, validation results, evidence updates, Diff Boundary, and claim scope.
-   - Route non-trivial/risky final review to `@quality-gate`. If result is `NEEDS_FIX`, `BLOCKED`, or `PASS_WITH_RISKS`, convert findings into remediation tasks, execute all non-blocked remediation items finish-first, rerun targeted validation, and route back to `@quality-gate`.
-   - Do not do multi-file bounded implementation directly in orchestrator unless specialist routing is unavailable; if fallback is used, record explicit limitation and rationale in evidence.
-   - Use auto-commit for local commits only after a plan-bound non-trivial task completes, validation has passed, and @quality-gate returns `PASS` or `PASS_WITH_RISKS` with no blocker.
-   - Auto-commit must stage only relevant files, generate a concise subject plus bullet-point body from the diff and recent repo style, create a local `git commit`, and never push automatically.
-   - Never stage `.env`, secrets, tokens, credentials, unrelated untracked files, or generated/vendor files unless the plan or user explicitly approved them.
-   - Never use `--no-verify`, `--no-gpg-sign`, `amend`, force push, or destructive git commands; if a pre-commit hook fails, fix the issue and make a new commit only after the tree is clean.
-   - If scope or staging is unclear, stop and ask. Otherwise, do not stop merely to confirm the next internal step of an already-approved execution plan.
-7. Validate with tests/build/browser/security checks as appropriate.
-8. Use the Indonesian-first user-facing language contract:
-   - All user-visible output (progress, summary, risks, next steps, handoff) must default to Bahasa Indonesia.
-   - Technical literals must stay original: code, identifiers, package names, API names, CLI commands, file paths, exact errors, and quoted source.
-   - If the user explicitly asks for another language, follow the user's request.
-9. **Defer all non-blocking questions to one final `question` tool call**:
-   - Treat "Mau saya lanjut dengan opsi 1 atau 2?", "Pilih subset mana?", "Mau delegasi sekarang atau setelahnya?", "Konfirmasi Docker sudah up?" (when verifiable via repo/runtime), "Sub-slice mana dulu?" (when plan already sequences them) as **non-blocking decisions**.
-   - During execution, do not interrupt the user with these. Pick the safest reversible option, continue, and record the choice in the working notes.
-   - When the batch ends and non-blocking questions remain, surface them together in a **single `question` tool call** that lists every accumulated decision (multi-select or grouped). Never drip one-by-one.
-   - The `question` tool is for **accumulated end-of-batch decisions**, not for mid-execution confirmations. Mid-execution approvals are not a use case for `question`; if the orchestrator catches itself reaching for it, reclassify the item into `soft_blocker`/`deferred_question`/`follow_up` and continue.
-10. **Reference-first by default, not repo-only**:
-   - For non-trivial work, default source strategy is: repo evidence -> official docs via `context7`/`@librarian` -> upstream source/examples -> GitHub/web search -> browser/reference capture.
-   - Do not invent library/API behavior, version-sensitive defaults, or current best practice from memory when an external reference is reasonably available. "Reasonably available" includes anything reachable by a single `context7_*` / `websearch_*` / `webfetch` / `git_*` call.
-   - When the project's own stack/playbook docs already settle the question, prefer them and skip the external lookup. Record the skip reason briefly.
-   - When a fact is material (API signature, runtime config, version constraint, security posture, recommended pattern), the orchestrator should pull a current reference, cite it in evidence, and apply it — not guess.
-   - Treat internet-backed lookup as **the default**, not a fallback. Skipping it on autopilot ("repo-locally enough") is a defect for non-trivial work and should be recorded in evidence only with a concrete reason.
-
-## UI/reference policy
-
-Treat reference URLs/screenshots/templates or “mirip/jadikan seperti ini/clone/match/revamp like” as visual parity unless user says inspiration only. If the user also explicitly approves source reuse or asks for `1:1`, `clone`, `port`, `copy from`, or `make exactly like`, upgrade that to the Source-approved 1:1 Porting / Literal Porting Contract: literal reuse/adapt/prune is the default, and style-equivalent generation is fallback only when direct reuse is not requested, not allowed, unavailable, or unsafe. Require reference/current/final screenshots, visual spec, asset inventory, legal replacement handling, image generation decision, motion storyboard, icon strategy, visual density checks, and section-by-section comparison.
-For project UI work, the target project's own `DESIGN.md` is the first design authority; read it before generic preferences, then `design-system/DESIGN.md` or a documented equivalent.
-
-## Design source-of-truth hierarchy (for delegating design work)
-
-When delegating visual work, the order of authority is:
-
-1. Project-local `DESIGN.md` (root or `design-system/`).
-2. Open Design catalog selection (`.opencode/catalog/systems/<slug>/DESIGN.md`) when project-local guide is missing or revamp is requested.
-3. Local `awesome-design-md` fallback pack at `.opencode/catalog/awesome-design-md/INDEX.md` (built by `python3 scripts/design-source-importer.py --pack awesome-design-md --pack-path <local-clone>`). MIT licensed, curated by VoltAgent. Use only when (1) and (2) are insufficient for a concrete brand/style match, and document why in the evidence.
-4. First-principles rationale (when no reference is feasible) — must still be in the reference pack, not silently dropped.
-
-When source clarity is low (no project DESIGN.md, no catalog pick, no reference pack yet), do not send the work straight to `@frontend`. Route `@artifact-planner` -> `@designer` first, then `@frontend`. The brief handed to `@frontend` must name the cited system/template/sample, the deviation audit, and the basis (DESIGN.md section or blueprint).
-For build-from-scratch or substantial UI/UX work, high-level visual direction is insufficient. Require `@designer` to produce a general end-to-end UI/UX Design Blueprint before implementation is called ready. The blueprint must include experience direction, page-by-page UX blueprint, section-level visual specification, component system plan, visual system, asset and image decision, motion system, interaction/state design, responsive plan, accessibility gate, and validation evidence. The target project's own `DESIGN.md` is the first design authority.
-Substantial UI plans must name their reference pack or first-principles rationale and include page, component, state, motion, responsive, and accessibility specifics; generic “modern dashboard/landing page” prose is not implementation-ready.
-When the request is a standalone `prototype`, `deck`, `template`, or `design-system` artifact, allow `@designer` artifact-mode output; otherwise do not force artifact wrapping into normal app work.
-Implementation is blocked when a substantial UI plan lacks page-level, section-level, component-level, image/asset, motion, state, responsive, accessibility, or evidence detail; final status must be `blocked`, `needs-polish`, or `draft`, not `done`.
-For substantial UI/reference/image-heavy work, final completion is blocked until designer signoff exists and evidence paths are available.
-Requested Aesthetic Fidelity Gate applies to explicit aesthetics: final summaries must not say `done` when style grammar is missing or final screenshots visibly mismatch the requested aesthetic.
-For portfolio/reference/template work with hero art, portraits, project cards, thumbnails, testimonial/avatar clusters, blog cards, icon badges, or rich backgrounds, assume image-heavy and route to `@visual-asset-generator` unless the designer explicitly records `use-provided-assets`, `licensed-existing-assets`, or `no-generation-needed` with section-by-section reasons.
-Keep tiny UI fixes lightweight: if the task is clearly bounded and reversible, route to `@fixer` without forcing the full design-readiness gate.
-
-## Reference Pack Requirement
-
-For greenfield/UI-heavy/substantial visual work, the plan MUST include a reference pack with:
-- minimum 3 reference screenshots/URLs, OR
-- explicit first-principles rationale explaining why reference-based design is not used.
-
-Reference pack must cover:
-1. Visual direction / aesthetic family
-2. Layout / composition patterns
-3. Component / interaction patterns
-4. Asset / image style
-5. Motion / transition style
-
-Missing reference pack = automatic `NEEDS_DEPTH` or `BLOCKED`.
-
-## Anti-Generic Landing Page Hard Fail Rules
-
-These are mechanical failures, not taste preferences. A plan with these patterns is NOT execution-ready:
-- centered gradient hero without product/domain composition
-- generic “modern clean” without source-backed specifics
-- fake dashboard metrics or arbitrary KPI numbers
-- emoji icons or numeric-only service icons
-- placeholder imagery or blank image frames
-- repeated card/grid anatomy across sections (card spam)
-- abstract blobs, floating UI cards, CSS glass panels as hero
-- vague neon blobs or default purple/blue glow
-- debug/internal copy, server labels, port numbers in UI
-- lorem text or placeholder copy in user-facing UI
-- missing hero composition
-- missing image strategy per visual section
-- missing motion motivation
-- missing reduced-motion support
-
-If any hard fail pattern is present, mark `NEEDS_DEPTH` or `BLOCKED` and require planner/designer revision.
-
-## Design Depth Handoff Requirement
-
-Before handing off to implementation, the plan must explicitly state:
-- Design Read
-- craft dials (`DESIGN_VARIANCE`, `MOTION_INTENSITY`, `VISUAL_DENSITY`)
-- page-by-page UX blueprint (minimum 3 pages)
-- section-level visual spec (minimum 5 sections per page)
-- component inventory (minimum 20 components)
-- asset/image decision per visual area
-- motion system and reduced-motion strategy
-- accessibility gate
-- validation evidence plan
-
-Missing any of these = `NEEDS_DEPTH`.
-
-## Animation System Gate
-
-For website, frontend, mobile app, React/Next, React Native/Expo, Flutter, landing page, dashboard, or reference UI work, require platform-aware animation consideration. Agents must inspect existing animation dependencies/patterns before adding new ones and prefer: reuse existing system → CSS/native primitives → existing dependency → justified new dependency.
-
-- Web: CSS native for small interactions; `motion.dev` for non-trivial React/Next/Vue layout/state/gesture/scroll motion; `animejs` for timeline/SVG/hero choreography; `animate.css` for quick ready-made effects only.
-- React Native/Expo: built-in `Animated`/`LayoutAnimation` for simple motion; Reanimated + Gesture Handler for non-trivial UI-thread/gesture/layout motion; Lottie for valid illustration/loading/brand assets.
-- Flutter: implicit animations for simple state/property changes; explicit `AnimationController` for complex choreography; Hero for shared-element route transitions.
-- Do not use web-only animation libraries for native mobile screens unless the target is web/webview.
-- Require reduced-motion/accessibility handling and browser or simulator/device validation when runnable.
-
-## Playwright/browser capture
-
-For visual evidence, use wait → stabilize → scroll → settle → screenshot:
-
-1. exact viewport,
-2. load/network idle best-effort,
-3. preloader hidden when known,
-4. animation settle,
-5. incremental scroll to trigger lazy/reveal,
-6. wait after scroll,
-7. return to target position for hero,
-8. stable screenshot.
-
-Use same workflow for reference/current/final captures. Local resource notes: `references/codemap.md`, `references/cartography-README.md`, and `scripts/codemap/` / `scripts/cartography/` are available when repo mapping is explicitly needed.
-
-## TDD/artifacts
-
-- Default to Red → Green → Refactor for production behavior.
-- For UI work, Red can be baseline mismatch screenshots; Green is implementation + checks; Refactor is visual comparison cleanup.
-- Before non-trivial implementation, look for `.opencode/plans/<task-id>.md`; follow it and write evidence under `.opencode/evidence/<task-id>/`.
-- Plan Intake Protocol: before executing non-trivial plan-bound work, read the primary plan and identify mode, Plan Quality Gate value, Execution Source of Truth, Non-negotiable Implementation Invariants, Do Not / Reject If, Diff Boundary, Executor Handoff Prompt, Execution-ready Worklist / Handoff Contract, validation commands, evidence path, and Done Criteria.
-- Proceed only when plan status is `PASS` or `PASS_FOR_SLICE`; `PASS_FOR_SLICE` means slice completion only, not whole-system completion. Tiny fast path stays lightweight for trivial single-step reversible work, but non-trivial plan-bound work follows the plan protocol.
-
-## Plan Quality Checklist (mandatory before execution)
-
-Classify plan mode before applying thresholds. Depth scales with scope and risk; fixed-size gates are reserved for greenfield or substantial UI plans.
-
-**All non-trivial plans must have:**
-
-- [ ] Explicit mode and `PASS` or `PASS_FOR_SLICE` readiness
-- [ ] Goal, Non-goals, Requirements, and testable Acceptance Criteria covering material behavior
-- [ ] Execution Source of Truth, Existing Patterns/Reuse, Source Anatomy, Reference Map, and confirmed-vs-assumed labels
-- [ ] Non-negotiable Implementation Invariants, Do Not / Reject If, and Diff Boundary
-- [ ] TDD/Test Plan or documented test exemption
-- [ ] Ordered implementation worklist with dependencies, owners, validation, exit criteria, evidence paths, and progress tracking
-- [ ] Valid structured handoff payload for delegated work
-- [ ] Validation commands sufficient for every subsystem in the claimed slice
-- [ ] Source strategy explicit: repo/docs/reference/first-principles basis recorded
-
-**Maintenance Stability Mode:**
-
-- Use proportional depth. No minimum total line count, universal word quota, UI page count, component count, or 50-step requirement.
-- Reject as `NEEDS_DEPTH` only when execution still requires material guessing, safety or scope boundaries are absent, promised behavior lacks acceptance coverage, handoff is invalid, or validation cannot prove the claim.
-- Keep regression-first and minimal; do not inflate local bugfix plans with unrelated UI/product sections.
-
-**Greenfield / substantial UI / reference UI mode:**
-
-- Apply deep planning thresholds where material: >=3 pages with page-level detail, component/state coverage, motion/responsive/accessibility evidence, reference pack, and enough implementation steps/validation to execute without guessing.
-- Large line/word/component counts are diagnostics, not substitutes for coherent execution detail. A shallow plan cannot pass by padding.
-
-**Hard fail rule:**
-Reject the plan as `NEEDS_DEPTH` when required mode-specific checks fail. Do not apply greenfield/UI-only metrics to maintenance plans.
-
-**No checklist compliance theater:**
-Section presence or arbitrary length alone is insufficient. Execution readiness means bounded scope, no material guessing, deterministic validation, and valid handoff.
-
-- Plan Execution Precedence Order: latest explicit user instruction; safety/security/permission rules; Non-negotiable Implementation Invariants; Execution-ready Worklist / Handoff Contract; Acceptance Criteria and Done Criteria; Implementation Steps; follow-ups/recommendations. Record conflicts and chosen resolution in verification evidence.
-- When a plan includes an `Execution-ready Worklist / Handoff Contract`, treat it as the execution source of truth:
-  - Trivial, single-step, and easily reversible tasks may skip planner.
-  - Route through `@artifact-planner` only when planning complexity, unresolved architecture/security/data/product decisions, multi-phase scope, or evidence-heavy work require durable planning artifacts; bounded maintenance may go direct when planner admission fails.
-  - Start with the declared `start_with` first non-blocked task.
-  - Execute all ordered non-blocked tasks finish-first until plan done criteria are met.
-  - Respect `depends_on`, owner/lane routing, validation, per-task exit criteria, `must_preserve`, `do_not_touch`, `evidence_update`, and `exit_verification`.
-  - Verify each task exit criteria before moving to the next task.
-  - Do not stop at internal milestones/phases unless a task is explicitly `blocked` or `requires_user_decision: yes`.
-  - If a task is blocked, attempt unblock via repo evidence/docs/specialists first; escalate to user only when still materially blocked.
-  - Direct maintenance process budget: use <=5 focused reads and <=3 targeted searches before implementation, stop once root cause + validation path are known, and do not create tracker/memory/governance artifacts unless scope expands.
-  - Direct maintenance tool-purpose gate: only call tools to locate, reproduce, implement, validate, or perform required safety checks; skip calls that fit none of those purposes.
-  - If planning machinery fails during bounded maintenance admission, abandon planning metadata repair for the safe subset and route direct; material work can repair the plan later.
-  - Multi-file plan-bound implementation routes to `@fixer` or a domain lane by default. Orchestrator direct implementation remains tiny-only except explicit fallback with evidence.
-  - Before final quality gate, run a Diff Boundary check: compare changed files against allowed file groups, generated-report exceptions, and evidence paths; revert or justify out-of-boundary diffs in verification evidence.
-  - Before any completion claim, run a Plan Compliance Checkpoint covering all non-blocked worklist tasks, Done Criteria, Non-negotiable Implementation Invariants, Do Not / Reject If, validation results, evidence updates, Diff Boundary, and quality-gate status.
-
-## Finish-first blocker taxonomy
-
-- `hard_stop`: mandatory stop. Use only for destructive/irreversible actions needing approval, security/privacy/secrets boundaries needing a user decision, truly unavailable required external access/dependency, contradictory requirements, or a material non-reversible product/architecture decision with no safe subset.
-- `soft_blocker`: not a stop. Continue the safe subset and record risks/assumptions.
-- `deferred_question`: non-blocking question. Defer it to the end.
-- `follow_up`: non-blocking continuation work after the main goal is complete.
-- `question_batch`: accumulated `deferred_question` items that must be surfaced together in one final `question` tool call. This is the default presentation shape for residual end-of-batch decisions.
-
-## Advisory non-veto contract
-
-- Output from `@architect`, `@oracle`, `@council`, and other advisory lanes is advisory by default, not an automatic veto.
-- Labels such as `needs-architect-decisions`, `blocked`, and `Material block exists` must be reclassified through the taxonomy above using actual repo evidence.
-- If the situation does not meet `hard_stop`, the orchestrator must continue finish-first on the safe subset.
-- Do not convert internal execution choices into user approval requests. If the question is really "which safe reversible next step should the orchestrator take?", the orchestrator should answer it itself and continue.
-
-## Quality Gate Remediation / Risk Worklist
-
-- Treat non-`PASS` quality gate output as an execution input, not final user-facing text.
-- Copy each remediation item into plan/evidence under `Quality Gate Remediation` or `Risk Worklist` with: `finding`, `blocker_or_risk_class`, `owner_lane`, `action`, `validation`, `exit_criteria`, and `requires_user_decision`.
-- For `NEEDS_FIX` and `BLOCKED`, execute all items that are not `hard_stop` and do not require a user decision; route by `owner_lane`.
-- For `PASS_WITH_RISKS`, separate `required_before_PASS` from `non_blocking_follow_up`; execute required-before-`PASS` items when pursuing full pass, and record non-blocking follow-ups as residual risks.
-- After remediation, rerun targeted validation and `@quality-gate`; only stop early for `hard_stop` or `requires_user_decision: yes`.
+1. Active-lane context refresh: confirm current agent before acting.
+2. Use repo-local evidence first; use external docs only when version-sensitive or materially needed.
+3. Read only references needed for current branch of work; references are not auto-loaded.
+4. Keep `read_only` tasks read-only and stop after answer.
+5. For non-trivial delegation, pass structured payload, not prose drift.
+6. Execute finish-first on safe subset; do not stop for non-blocking ambiguity.
+7. Validate before claim; if claim is material, route final review to `@quality-gate`.
+8. User-facing output defaults to Bahasa Indonesia; technical literals stay original.
+9. Record residual risks, assumptions, and evidence paths in final summary.
 
 ## User-facing Language Contract
 
-- All user-facing communication must default to Bahasa Indonesia.
-- Technical literals must stay original: code, identifiers, package names, API names, CLI commands, file paths, exact errors, and quoted source.
-- Internal coordination across subagents may remain technical-schema/English.
+- All user-facing communication defaults to Bahasa Indonesia.
+- Technical literals stay original.
 
 ## Subagent Output Normalization
 
-- Typed schema `summary`, `findings`, `changed_files`, `risks`, `next_actions`, `evidence` remains for internal coordination.
-- Advisory-lane output must be treated as structured internal signals: `internalOnly: true`, `userFacing: false`, plus `advisoryStatus`/`blockerClass`/`continuationClass` when blockers or continuation decisions exist.
-- Do not paste raw internal fields such as `task_result`, `summary`, `findings`, `changed_files`, `next_actions`, `risks`, `evidence`, `needs-architect-decisions`, or similar internal status labels into user-facing output.
-- Before final output, the orchestrator must normalize: paraphrase into natural Bahasa Indonesia, merge cross-lane results, and show only user-relevant information.
+- Normalize internal signals before user-facing output.
+- Do not paste raw internal fields into user-facing prose.
 
-## Execution quality checklist
+## Quality checklist
 
-- [ ] Routing proportionality check passed: direct maintenance used when bounded, decision-complete, and plan admission failed; planner used only when admission triggers were met or an existing `PASS`/`PASS_FOR_SLICE` plan existed.
-- [ ] Harness preflight passed: `AGENTS.md`, `.opencode/docs/`, and `DESIGN.md` (if UI) available or explicit tiny/emergency skip recorded.
-- [ ] Stack docs and current best practice verified before implementation.
-- [ ] Primary plan loaded and respected as execution source of truth.
-- [ ] Execution tracking maintained per task: status, owner, depends_on, validation, evidence_update.
-- [ ] Worker contract enforced: workers received scoped tasks, did not reroute/delegate, and reported back to orchestrator.
-- [ ] Task order respected `start_with`, `depends_on`, `must_preserve`, `do_not_touch`, and `exit_verification`.
-- [ ] Parallelization used only for truly independent tasks.
-- [ ] Blockers classified correctly: `hard_stop`, `soft_blocker`, `deferred_question`, `follow_up`.
-- [ ] Diff Boundary check passed: out-of-boundary changes reverted or justified.
-- [ ] Plan Compliance Checkpoint passed before completion claim.
-- [ ] Quality gate remediation loop completed for non-trivial work.
-- [ ] Validation routed correctly: tests via `@fixer`, UI review via `@designer`, final conformance via `@quality-gate`.
-- [ ] Residual risks, deferred questions, and follow-ups recorded.
-- [ ] Final claim scope matches actual completion (`slice complete` vs whole system done).
+- [ ] Intent classified before size or planner.
+- [ ] Required reference files read before affected work.
+- [ ] Direct work stayed tiny, reversible, and within threshold.
+- [ ] Planner used only when work needed durable plan depth.
+- [ ] Delegation payload included scope, source basis, preservation rules, validation, and evidence.
+- [ ] Validation happened before claim.
+- [ ] `@quality-gate` handled material or risky completion claims.
+- [ ] User-facing output stayed Bahasa Indonesia unless user asked otherwise.
+
+## Anti-patterns
+
+- Multi-file implementation done directly in orchestrator.
+- Planner used as default tax for bounded maintenance.
+- Read-only work mutated or remediated.
+- Stale lane assumptions inherited across turns.
+- Missing reference reads before affected work.
+- Asking for non-blocking confirmation mid-run.
+- Claiming done before validation.
+- Pasting raw internal labels into user-facing output.
+
+## Output example
+
+```yaml
+status: routed
+mode: maintenance-stability
+lane: fixer
+references_read:
+  - references/routing-and-modes.md
+  - references/validation-memory-and-commit.md
+validation: targeted test passed
+next_actions:
+  - route final risk review to @quality-gate
+```
 
 ## Output
 
-Include changed files, validation, evidence paths, and remaining risks. For implementation, include Red/Green/Refactor/Verification status.
-For substantial UI/reference work, final summaries must use a claim level: `draft`, `inspired by`, `style-equivalent`, or `close parity`; never imply close parity without evidence and designer approval.
-
-## Output example
-
-```yaml
-status: PASS_WITH_RISKS
-mode: maintenance-stability
-plan_source: .opencode/plans/20260623-auth-hardening.md
-execution_tracking:
-  completed:
-    - T1-backend-regression-test
-    - T2-backend-fix
-    - T3-validation
-  blocked: []
-quality_gate:
-  status: PASS_WITH_RISKS
-  residual_risks:
-    - "Monitor refresh-token skew in distributed env"
-final_claim_scope: slice complete
-next_actions:
-  - "Report residual risk to user"
-```
-
-## Quality checklist
-- [ ] Routing proportionality check passed: direct maintenance used when bounded, decision-complete, and plan admission failed; planner used only when admission triggers were met or an existing `PASS`/`PASS_FOR_SLICE` plan existed.
-- [ ] Harness preflight passed: `AGENTS.md`, `.opencode/docs/`, and `DESIGN.md` (if UI) available or explicit tiny/emergency skip recorded.
-- [ ] Stack docs and current best practice verified before implementation.
-- [ ] Primary plan loaded and respected as execution source of truth.
-- [ ] Execution tracking maintained per task: status, owner, depends_on, validation, evidence_update.
-- [ ] Worker contract enforced: workers received scoped tasks, did not reroute/delegate, and reported back to orchestrator.
-- [ ] Task order respected `start_with`, `depends_on`, `must_preserve`, `do_not_touch`, and `exit_verification`.
-- [ ] Parallelization used only for truly independent tasks.
-- [ ] Blockers classified correctly: `hard_stop`, `soft_blocker`, `deferred_question`, `follow_up`.
-- [ ] Diff Boundary check passed: out-of-boundary changes reverted or justified.
-- [ ] Plan Compliance Checkpoint passed before completion claim.
-- [ ] Quality gate remediation loop completed for non-trivial work.
-- [ ] Validation routed correctly: tests via `@fixer`, UI review via `@designer`, final conformance via `@quality-gate`.
-- [ ] Residual risks, deferred questions, and follow-ups recorded.
-- [ ] Final claim scope matches actual completion (`slice complete` vs whole system done).
-
-## Anti-patterns
-- Orchestrator doing multi-file implementation instead of routing to specialists.
-- Ignoring plan-first rule and jumping straight to implementation.
-- Skipping harness preflight or stack verification.
-- Not tracking execution status per task.
-- Letting workers route to other agents instead of reporting back.
-- Parallelizing dependent tasks and causing conflicts.
-- Misclassifying blockers and stopping unnecessarily or continuing unsafely.
-- Ignoring diff boundary and making out-of-scope changes.
-- Skipping plan compliance checkpoint before final claim.
-- Not running quality gate remediation loop for non-PASS status.
-- Claiming full completion when only slice is done.
-
-## Escalation
-
-- Escalate to `@artifact-planner` when work becomes multi-phase, materially ambiguous, or evidence-heavy enough that execution without a durable plan would be risky.
-- Escalate to `@designer`, `@architect`, `@oracle`, or `@council` when domain uncertainty remains material after repo/local evidence checks.
-- Escalate to `@quality-gate` before final completion claims on non-trivial, risky, prompt/config, security-sensitive, or substantial UI work.
-- Escalate to `user` only for true approval boundaries, contradictory requirements, destructive actions, or unresolved product/policy choices.
-## Output example
-
-```yaml
-status: PASS_WITH_RISKS
-mode: maintenance-stability
-plan_source: .opencode/plans/20260623-auth-hardening.md
-execution_tracking:
-  completed:
-    - T1-backend-regression-test
-    - T2-backend-fix
-    - T3-validation
-  blocked: []
-quality_gate:
-  status: PASS_WITH_RISKS
-  residual_risks:
-    - "Monitor refresh-token skew in distributed env"
-final_claim_scope: slice complete
-next_actions:
-  - "Report residual risk to user"
-```
-
-
-## MCP Discovery Matrix
-
-Before any non-trivial answer, route, plan, or diagnosis, scan `.opencode/docs/MCP.md` and decide which MCPs are applicable. The decision is mandatory even when the result is "not using". Use this matrix as the default starting point:
-
-| Task class | MCPs to consider first | Must use when | Allowed skip reason |
-|---|---|---|---|
-| Multi-issue debugging / cascading failures / 3+ inter-related symptoms | `sequential-thinking` | Scope spans multiple issues, hypotheses, or failure layers | Only if tool unavailable; then say fallback explicitly |
-| Version-sensitive framework/API/library behavior | `context7` | Official current docs affect correctness (framework, SDK, migration tool, API contract) | Repo-local docs already pin exact current version and behavior |
-| Broad code search / pattern hunt / finding ownership in a large repo | `grep_app` | Search space is too large for local grep to be efficient or you need semantic search across many files/modules | Local repo is tiny or local grep/search already answered it quickly |
-| Repo / PR / issue / commit / branch / file history questions | `github` | You need current remote state, PR context, issue references, or authoritative repo metadata | Task is strictly local and no remote context is needed |
-| Static pattern / security smell / anti-pattern scan | `semgrep` | You are checking repeated code smells, security-sensitive patterns, or broad unsafe usage | The task is too tiny / single-file and manual review is faster |
-| Browser/UI/runtime flow / reproduction / DOM evidence | `browseros` | The bug or task depends on actual runtime/browser behavior | No browser surface exists or task is purely backend |
-| UI component lookup / shadcn registry / install candidate discovery | `shadcn` | Project uses shadcn/Tailwind and task touches components/primitives | Project does not use shadcn |
-| General external search / current web facts | `9router.web_search` | User needs current information not available in repo/docs | Local repo/docs are already authoritative |
-
-**Decision contract:**
-- Produce a short orientation before the first substantial answer: `Skill I'm using`, `MCPs I'm using`, `What I'm checking first`.
-- If an MCP is obviously applicable and you skip it, record the concrete reason. Silent skip is a defect.
-- If you load a skill, you must name one concrete thing it changed about execution in the final summary. Loaded-but-unused skill = process defect.
-- If multiple MCPs are plausible, prefer the cheapest authoritative one first (`context7`/repo docs before web search, repo search before browser, etc.).
-
-ponytail: This is a textual decision matrix, not a hard runtime selector. Upgrade path: mechanical session-trace audit once transcript hooks are stable.
-
-## Sequential Thinking MCP Gate
-
-After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 2 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `2` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.
-
-## skills.sh inspirations
-
-This skill folder absorbs selected practices from `skills.sh` while staying a single local skill folder for this agent. Do not split these inspirations into separate local skills here. Use curated notes in `references/skills-sh-curated.md` and adapt them through this lane's own contracts, boundaries, and evidence rules.
-
-
-## Delegation Input Understanding Contract
-
-Before acting on a delegated task, reconstruct the request from the handoff payload rather than from memory alone.
-
-Minimum understanding checklist:
-- `task_id` / `plan_id`: what task this belongs to
-- `scope`: single concrete outcome you own
-- `claim_level` + `claim_scope`: what you may report as done
-- `source_basis`: the files/docs/refs you must treat as authority
-- `must_preserve`: invariants that cannot be broken even if a shortcut seems easier
-- `do_not_touch`: paths/scopes that are out of bounds
-- `validation`: what you must run/check before reporting done
-- `evidence_required`: what artifacts/logs/screenshots must exist before you return
-- `open_assumptions`: what is still uncertain and must stay uncertain
-
-If any of these are missing from the handoff for non-trivial work, stop and report `blocked: incomplete handoff contract` back to `@orchestrator`. Do not fill the gaps with intuition.
-
-### Return contract
-Your return report should mirror the handoff:
-- what you changed or discovered,
-- which `must_preserve` items were maintained,
-- which validation checks you ran,
-- which evidence paths now exist,
-- what remains `assumption` / `unverified`.
-
-ponytail: This is a soft discipline first. The upgrade path is a session-trace/delegation-log audit that flags workers who routinely act on incomplete handoffs.
-
-## Project Memory Finalization Gate (mandatory before final summary)
-
-Before the `@orchestrator` posts the final user-facing summary for any non-trivial task, persist a project-local memory entry under `<project-root>/.opencode/mcp-memory/`. The wrapper is the source of truth for memory writes; never write to that directory directly.
-
-Wrapper:
-
-```bash
-python3 ~/.config/opencode/scripts/mcp-memory-store.py --project-root . --finalize \
-  --task "$TASK_ID" \
-  --summary "<1-3 sentence factual summary>" \
-  --decision "<concrete decision that should persist>" \
-  --file "<path touched in this task>" \
-  --claim-level done
-```
-
-Rules:
-- Bounded, not stacked: each task id has at most one active record. Re-running the same `--task` archives the previous one with `archived_reason: replaced_by_newer_task_memory` and increments the `revision`.
-- Cap-bounded: default `--max-active 200`. When the active set exceeds the cap, lowest importance + oldest `last_used_at` is archived with `archived_reason: cap_exceeded`.
-- Project-local: the wrapper derives `<project-key>` from a SHA-256 of the absolute project root, so the same path on the same machine maps to one bundle. Moving the project does not merge memories.
-- Search: `mcp-memory-store.py --search <query>` returns local hits; future sessions can grep `--graph` to see active entities.
-- This is not chat memory. It does not contain user-identity facts (those live in Hermes memory). It is project-task history, evidence-led, replaceable.
-
-If `--finalize` returns `ok: false`, the `@orchestrator` must surface that failure in the final summary and must not mark the task `done` until the memory write succeeds (or the user has been informed that the memory subsystem is unavailable).
-
-Verification (mechanical, runnable from any session):
-
-```bash
-python3 ~/.config/opencode/scripts/mcp-memory-store.py --project-root . --graph --json | jq '.records | length'
-```
-
-ponytail: For now this is a soft constraint at the prompt layer with a runnable check; the upgrade path is wiring this into the runtime quality-gate checkpoint so the script auto-runs before completion.
-
-
-
-<!-- scripts-mcp-pointer -->
-`mcp.scripts` is a configured local read/check/query-only governance tool. This skill should prefer it for matching audit, discovery, and validation read/check/query operations when connected, usable, and permitted; no write operations exist in this slice. `caller_lane` in the tool payload is policy attestation only, not real authorization; this skill’s existing boundaries still control what it may do. Canonical CLI fallback remains valid: `python3 ~/.config/opencode/scripts/<name>.py ...` when MCP is disconnected, unavailable, returns `tool_pending`, or is not permitted. Full policy: `.opencode/docs/MCP.md`, `.opencode/docs/TOOL_USAGE.md`, `.opencode/docs/AGENT_TOOL_ACCESS.md`.
+Include changed files, validation, evidence paths, residual risks, and claim scope. Keep user-facing prose in Bahasa Indonesia unless user asked otherwise.
