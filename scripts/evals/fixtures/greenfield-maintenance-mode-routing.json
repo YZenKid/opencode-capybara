@@ -4,10 +4,13 @@
   "rules": [],
   "notes": [
     "greenfield app must plan before implementation",
+    "bounded maintenance may route direct when planner admission fails",
     "maintenance bugfix must stay lightweight",
     "creative brainstorm may stay in fast path",
     "ship prototype must require promotion",
     "risky prototype touching auth must not stay in fast path",
+    "auth migration remains planner routed",
+    "multi-tenant billing remains planner routed",
     "forbidden_behavior"
   ]
 }

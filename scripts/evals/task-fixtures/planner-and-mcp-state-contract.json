@@ -7,7 +7,7 @@
       "type": "routing-map",
       "file": "AGENTS.md",
       "mustInclude": [
-        "Non-trivial work should route through `@artifact-planner` first",
+        "Bounded Maintenance Direct Fix may skip planner",
         "trivial single-step and easily reversible tasks may skip planner"
       ],
       "reasonCode": "planner-invocation-map-gap"
@@ -17,7 +17,8 @@
       "file": ".opencode/docs/AGENT_ROUTING.md",
       "mustInclude": [
         "Planner invocation expectation",
-        "Non-trivial tasks should route through `@artifact-planner` first",
+        "Routing proportionality applies",
+        "Maintenance Direct Fix",
         "Trivial, single-step, and easily reversible tasks may execute directly without planner"
       ],
       "reasonCode": "planner-invocation-canonical-gap"

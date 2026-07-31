@@ -193,6 +193,7 @@ const checks = [
       "must not be carried forward as sticky assumptions",
       "execution lanes must refresh their own active permissions/context before acting",
       "Active-lane reset note",
+      "ROUTE_DIRECT",
     ],
   },
   {
@@ -211,6 +212,7 @@ const checks = [
       "Active-lane reset note",
       "Planner read-only restrictions are scoped to `@artifact-planner` only",
       "do not persist into subsequent lanes",
+      "ROUTE_DIRECT",
     ],
   },
   {
@@ -303,7 +305,8 @@ const checks = [
     file: "AGENTS.md",
     name: "agents planner invocation expectation gate",
     mustInclude: [
-      "Non-trivial work should route through `@artifact-planner` first",
+      "Bounded Maintenance Direct Fix may skip planner",
+      "Use it only when planning complexity",
       "trivial single-step and easily reversible tasks may skip planner",
     ],
   },
@@ -802,7 +805,9 @@ const checks = [
     file: "skills/opencode-orchestrator/SKILL.md",
     name: "orchestrator planner invocation gate",
     mustInclude: [
-      "Non-trivial work should route through `@artifact-planner` first",
+      "Route through `@artifact-planner` only when planning complexity",
+      "bounded maintenance may go direct when planner admission fails",
+      "Routing proportionality check passed",
       "Trivial, single-step, and easily reversible tasks may skip planner",
       "Execution-ready Worklist / Handoff Contract",
       "Start with the declared `start_with` first non-blocked task",
@@ -858,7 +863,9 @@ const checks = [
     name: "canonical planner invocation gate",
     mustInclude: [
       "Planner invocation expectation",
-      "Non-trivial tasks should route through `@artifact-planner` first",
+      "Routing proportionality applies",
+      "Maintenance Direct Fix",
+      "Planner admission test",
       "Trivial, single-step, and easily reversible tasks may execute directly without planner",
       "Execution-ready Worklist / Handoff Contract",
       "start_with",
@@ -1939,20 +1946,30 @@ runPortabilityChecks({ read, state });
 const orchestratorSkill = read("skills/opencode-orchestrator/SKILL.md") ?? "";
 const routingDoc = read(".opencode/docs/AGENT_ROUTING.md") ?? "";
 const modeFixture = read("scripts/evals/fixtures/greenfield-maintenance-mode-routing.json") ?? "";
+const directMaintenanceFixtureRaw = read("scripts/evals/fixtures/direct-maintenance-routing.json") ?? "{}";
+const directMaintenanceFixture = JSON.parse(directMaintenanceFixtureRaw);
 const modeBehaviorChecks = [
   {
     name: "greenfield routes to planner before implementation",
     pass:
-      orchestratorSkill.includes("Route to `@artifact-planner` before implementation") &&
+      orchestratorSkill.includes("Route through `@artifact-planner` only when planning complexity") &&
       routingDoc.includes("route new app/MVP/SaaS/product builds to `@artifact-planner` before implementation") &&
       modeFixture.includes("greenfield app must plan before implementation"),
   },
   {
     name: "maintenance avoids greenfield-heavy gates",
     pass:
-      orchestratorSkill.includes("do not force product thesis or 2-3 creative alternatives") &&
+      orchestratorSkill.includes("bounded maintenance may go direct when planner admission fails") &&
       routingDoc.includes("Maintenance work should not be forced through greenfield product thesis") &&
       modeFixture.includes("maintenance bugfix must stay lightweight"),
+  },
+  {
+    name: "bounded maintenance can route direct",
+    pass:
+      routingDoc.includes("Maintenance Direct Fix") &&
+      routingDoc.includes("Planner admission test") &&
+      routingDoc.includes("ROUTE_DIRECT") &&
+      modeFixture.includes("bounded maintenance may route direct when planner admission fails"),
   },
   {
     name: "creativity fast path stays exploratory with promotion gate",
@@ -1971,6 +1988,14 @@ const modeBehaviorChecks = [
       modeFixture.includes("risky prototype touching auth must not stay in fast path") &&
       modeFixture.includes("forbidden_behavior"),
   },
+  {
+    name: "auth migration and multi-tenant billing stay planner routed",
+    pass:
+      modeFixture.includes("auth migration remains planner routed") &&
+      modeFixture.includes("multi-tenant billing remains planner routed") &&
+      routingDoc.includes("unresolved architecture/security/data/product decisions") &&
+      routingDoc.includes("multi-phase scope"),
+  },
 ];
 
 for (const check of modeBehaviorChecks) {
@@ -1979,6 +2004,31 @@ for (const check of modeBehaviorChecks) {
     console.error(`✗ mode behavior (${check.name})`);
   } else {
     console.log(`✓ mode behavior (${check.name})`);
+  }
+}
+
+const directMaintenanceCases = Array.isArray(directMaintenanceFixture.cases) ? directMaintenanceFixture.cases : [];
+for (const [index, testCase] of directMaintenanceCases.entries()) {
+  const prompt = String(testCase.prompt ?? "");
+  const planner = Boolean(testCase.planner);
+  const admitPlanner = Boolean(testCase.admitPlanner);
+  const expectedRoute = String(testCase.expectedRoute ?? "");
+  const expectedLane = String(testCase.expectedLane ?? "");
+  const directRoute = expectedRoute === "direct";
+  const directLane = expectedLane === "backend" || expectedLane === "fixer" || expectedLane === "tiny";
+  const actualMatch =
+    (prompt === "Saat import migrasi, employee archived harus tetap diproses jika form PMGM sudah launch." && directRoute && !planner && !admitPlanner && expectedLane === "backend") ||
+    (prompt === "API returns 500 when optional phone is null. Fix and add test." && directRoute && !planner && !admitPlanner && expectedLane === "backend") ||
+    (prompt === "Fix typo label di settings page." && directRoute && !planner && !admitPlanner && expectedLane === "tiny") ||
+    (prompt === "Migrate authentication from sessions to OAuth across web, mobile, and API." && !directRoute && planner && admitPlanner && expectedLane === "artifact-planner") ||
+    (prompt === "Build new multi-tenant billing system with RBAC and Stripe webhooks." && !directRoute && planner && admitPlanner && expectedLane === "artifact-planner") ||
+    (prompt === "Clone reference website into 8 responsive pages with asset and motion parity." && !directRoute && planner && admitPlanner && expectedLane === "artifact-planner");
+
+  if (!actualMatch || (directRoute && !directLane)) {
+    state.failures += 1;
+    console.error(`✗ direct maintenance routing case ${index + 1}`);
+  } else {
+    console.log(`✓ direct maintenance routing case ${index + 1}`);
   }
 }
 

@@ -43,8 +43,8 @@
 ## Default Flow
 User intent → `@orchestrator` → specialist agents → validation → `@quality-gate` → final summary.
 
-`@artifact-planner` is a **triggered planning lane** (not default tax). Use it for multi-phase, spec-heavy, materially ambiguous, or evidence-heavy work.
-Non-trivial work should route through `@artifact-planner` first when planning depth/evidence is required; trivial single-step and easily reversible tasks may skip planner.
+`@artifact-planner` is a **triggered planning lane** (not default tax). Use it only when planning complexity, unresolved architecture/security/data/product decisions, multi-phase scope, or evidence-heavy work require durable planning artifacts.
+Bounded Maintenance Direct Fix may skip planner when work is bounded, existing-code, and decision-complete; trivial single-step and easily reversible tasks may skip planner.
 
 Default operating model:
 - **6 core agents**: `@orchestrator`, `@explorer`, `@fixer`, `@designer`, `@oracle`, `@quality-gate`

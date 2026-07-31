@@ -1,0 +1,48 @@
+{
+  "id": "direct-maintenance-routing",
+  "description": "Deterministic prompt-to-route cases for direct maintenance versus planner admission.",
+  "cases": [
+    {
+      "prompt": "Saat import migrasi, employee archived harus tetap diproses jika form PMGM sudah launch.",
+      "expectedRoute": "direct",
+      "expectedLane": "backend",
+      "planner": false,
+      "admitPlanner": false
+    },
+    {
+      "prompt": "API returns 500 when optional phone is null. Fix and add test.",
+      "expectedRoute": "direct",
+      "expectedLane": "backend",
+      "planner": false,
+      "admitPlanner": false
+    },
+    {
+      "prompt": "Fix typo label di settings page.",
+      "expectedRoute": "direct",
+      "expectedLane": "tiny",
+      "planner": false,
+      "admitPlanner": false
+    },
+    {
+      "prompt": "Migrate authentication from sessions to OAuth across web, mobile, and API.",
+      "expectedRoute": "planner",
+      "expectedLane": "artifact-planner",
+      "planner": true,
+      "admitPlanner": true
+    },
+    {
+      "prompt": "Build new multi-tenant billing system with RBAC and Stripe webhooks.",
+      "expectedRoute": "planner",
+      "expectedLane": "artifact-planner",
+      "planner": true,
+      "admitPlanner": true
+    },
+    {
+      "prompt": "Clone reference website into 8 responsive pages with asset and motion parity.",
+      "expectedRoute": "planner",
+      "expectedLane": "artifact-planner",
+      "planner": true,
+      "admitPlanner": true
+    }
+  ]
+}

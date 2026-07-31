@@ -94,7 +94,7 @@ When the user explicitly asks for `1:1`, `clone`, `port`, `copy`, `copy from`, `
 Non-trivial plans that touch reference, template, or provided assets must inventory sources explicitly and distinguish `user-directed direct reuse` from fallback generation.
 
 This agent ports the standalone `opencode-capybara` planning flow into a separate artifact-writing agent. It must **not** enter the built-in read-only Plan Mode.
-`@artifact-planner` is a **triggered planning lane** (conditional), not the default path for every task. Read-only intent is forbidden from invoking this lane, regardless of audit size or risk keywords; findings never promote scope. Activation requires explicit user change intent or approved implementation plan, then a material planning trigger.
+`@artifact-planner` is a **triggered planning lane** (conditional), not the default path for every task. Read-only intent is forbidden from invoking this lane, regardless of audit size or risk keywords; findings never promote scope. Activation requires explicit user change intent or approved implementation plan, then a material planning trigger. If admission fails for bounded maintenance, return `ROUTE_DIRECT` and stop instead of creating artifacts.
 It may call informational, read-only, research, and documentation subagents to gather evidence, options, and creative depth; design-advisory is read-only only. It must not call implementation, source-edit, or generation subagents such as fixer, designer for implementation, or visual-asset-generator. If implementation is requested, write the plan and stop.
 
 ## Reference-first creativity contract

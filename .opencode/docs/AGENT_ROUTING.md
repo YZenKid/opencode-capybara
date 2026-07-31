@@ -40,16 +40,22 @@ Security, privacy, auth, payment, deploy, or destructive keywords affect review 
 
 Planner invocation expectation:
 - `@artifact-planner` is a **triggered lane**, not default-first.
-- Invoke it for multi-phase, spec-heavy, materially ambiguous, or evidence-heavy work.
-- Non-trivial tasks should route through `@artifact-planner` first when planning depth is needed.
+- Routing proportionality applies.
+- Invoke it only when planning complexity, unresolved architecture/security/data/product decisions, multi-phase scope, or evidence-heavy work require durable planning artifacts.
+- Maintenance Direct Fix: bounded existing-code bugfixes with one known subsystem and one worker, no unresolved architecture/security/data/deploy/product decision, and no need for durable plan artifacts may go direct to implementation lanes.
+- If planner admission fails for bounded maintenance, reply `ROUTE_DIRECT` and stop instead of writing artifacts.
 - Trivial, single-step, and easily reversible tasks may execute directly without planner.
 - `read_only` tasks never invoke planner; analysis depth does not grant mutation authority.
 - `@artifact-planner` is triggered only after `implementation` promotion and when planning depth is needed.
+- Planner admission test: if the request can be safely executed with one worker, one known subsystem, and existing acceptance/regression evidence, prefer direct maintenance routing; if not, or if a hard decision remains open, planner may admit it.
+- Process budget for direct maintenance: use <=5 focused reads and <=3 targeted searches before implementation, stop once root cause + validation path are known, and do not create tracker/memory/governance artifacts unless scope expands.
+- Direct maintenance tool-purpose gate: only call tools to locate, reproduce, implement, validate, or perform required safety checks; skip calls that fit none of those purposes.
+- Circuit breaker: if planning machinery fails during bounded maintenance admission, abandon planning metadata repair for the safe subset and route direct; material work can repair the plan later.
 - Planner handoff quality bar: non-trivial plans must include an explicit `Execution-ready Worklist / Handoff Contract` with ordered atomic tasks, dependencies, owner/lane, validation, exit criteria, blocking status, and a `start_with` first action for orchestrator.
 - Handoff confidence bar: worklist tasks must be worker-sized, lane-owned, and executable without replanning; plans must include an execution ownership table, a copy-pasteable Executor Handoff Prompt, Source Anatomy Breakdown per major subsystem, and Reference Map per Feature.
 
 ## Compact routing quality checklist
-- Non-trivial implementation tasks route through `@artifact-planner` only when planning depth is needed.
+- Routing proportionality check passed: direct maintenance used when bounded, decision-complete, and plan admission failed; planner used only when admission triggers were met or an existing `PASS`/`PASS_FOR_SLICE` plan existed.
 - `read_only` tasks route through canonical lite/deep read-only paths and never through planner.
 - Bounded multi-file implementation should route to `@fixer` or a domain lane.
 - Final review pass to `@quality-gate` is required before material completion claims.
@@ -286,6 +292,7 @@ Creativity is required for greenfield, ambiguous, or taste-sensitive work, but i
 - implementation is bounded but touches 2+ files (including code+test/docs pair) → `@fixer`,
 - work creates generator-backed framework artifacts → matching domain lane (`@backend`, `@frontend`, `@mobile`, `@devops`, or `@fullstack`) unless it only customizes existing files or generator is irrelevant,
 - work is multi-phase, spec-heavy, materially ambiguous, or evidence-heavy → `@artifact-planner`,
+- bounded existing-code bugfixes with one known subsystem and one worker, no unresolved architecture/security/data/deploy/product decision, and an existing validation path → direct Maintenance Direct Fix,
 - change is material and needs completion claim → final pass through `@quality-gate`.
 
 Permitted fallback: if a specialist is unavailable, use the next safest lane and record the limitation explicitly in final evidence.

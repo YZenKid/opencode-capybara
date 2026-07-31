@@ -50,7 +50,9 @@
       "type": "routing-policy",
       "file": ".opencode/docs/AGENT_ROUTING.md",
       "mustInclude": [
-        "Non-trivial tasks should route through `@artifact-planner` first",
+        "Routing proportionality applies",
+        "Maintenance Direct Fix",
+        "Planner admission test",
         "@quality-gate",
         "Compact routing quality checklist"
       ],
@@ -72,7 +74,8 @@
       "file": "skills/opencode-orchestrator/SKILL.md",
       "mustInclude": [
         "Direct-work threshold (hard default)",
-        "route through `@artifact-planner` first",
+        "Route through `@artifact-planner` only when planning complexity",
+        "bounded maintenance may go direct when planner admission fails",
         "route bounded implementation to `@fixer`",
         "final review pass to `@quality-gate`"
       ],

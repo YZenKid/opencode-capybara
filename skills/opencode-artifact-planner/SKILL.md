@@ -11,8 +11,9 @@ Inside `.opencode/evidence/<task-id>/`, include `index.json` when repo evidence 
 
 ## Trigger / skip
 
-- Trigger: multi-phase work, spec-heavy implementation, materially ambiguous scope, evidence-heavy execution, greenfield builds, revamps, migration plans, or any task that needs a durable `.opencode/plans/<task-id>.md` artifact.
+- Trigger: multi-phase work, spec-heavy implementation, materially ambiguous scope, evidence-heavy execution, greenfield builds, revamps, or schema/data migration programs with sequencing, rollback, or material data risk; not migration bugs/import fixes by name alone.
 - Trigger: when implementation should not begin until requirements, depth, worklist order, validation, and handoff contract are explicit.
+- Trigger test: admit only when planning complexity is high enough that direct maintenance would still require guessing; bounded existing-code fixes with one known subsystem and one worker should skip planner.
 - Skip: tiny reversible maintenance, isolated one-file fixes, narrow prompt/config tweaks, or requests that are clearly draft-only and do not need durable planning artifacts.
 - Skip: implementation itself. This lane writes plan artifacts and stops.
 
@@ -144,6 +145,7 @@ Before convergence, explicitly choose source strategy for the task: local repo e
 The planner may call informational/read-only/research/documentation helpers to improve plan confidence. `@librarian` remains a supporting research helper. Domain advisory is conditional and should be used only when material.
 
 This planner may call informational, read-only, research, and documentation subagents only; design-advisory is read-only only. Do not call implementation/source-edit/generation subagents such as fixer or visual-asset-generator. `@designer` is allowed only for read-only UX/product creativity advisory input; never for implementation, source edits, or generation.
+`ROUTE_DIRECT` refusal: when admission fails for bounded maintenance, return a concise direct-route response with lane, reason, and validation target, then stop without writing artifacts.
 
 Do not call implementation/source-edit/generation subagents (for example `@fixer` or `@visual-asset-generator`). If implementation is requested, write the plan and stop.
 

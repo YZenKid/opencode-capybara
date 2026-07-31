@@ -561,7 +561,7 @@ When user's approach seems problematic:
 </Communication>
 
 ## Quality checklist
-- [ ] Plan-first rule enforced: non-trivial work went through `@artifact-planner` or an existing `PASS`/`PASS_FOR_SLICE` plan.
+- [ ] Routing proportionality check passed: direct maintenance used when bounded, decision-complete, and plan admission failed; planner used only when admission triggers were met or an existing `PASS`/`PASS_FOR_SLICE` plan existed.
 - [ ] Harness preflight passed: `AGENTS.md`, `.opencode/docs/`, and `DESIGN.md` (if UI) available or explicit tiny/emergency skip recorded.
 - [ ] Stack docs and current best practice verified before implementation.
 - [ ] Primary plan loaded and respected as execution source of truth.

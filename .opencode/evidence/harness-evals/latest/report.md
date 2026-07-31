@@ -1,10 +1,10 @@
 # Harness Eval Report
 
-- Timestamp: 2026-07-22T11:23:07.939Z
-- Harness version: 3486b93c4c5f8bf2f99781c7c469c9ce623c40a4
+- Timestamp: 2026-07-31T03:40:42.754Z
+- Harness version: b75fef0d2a370ac95e9fc36cccbb67ea4fc97381
 - Task summary: Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.
 - Verdict: PASS
-- Fixture count: 51
+- Fixture count: 52
 - Failed: 0
 - Transcript fixture count: 27
 - Transcript average routing score: 3.89/5
@@ -122,6 +122,7 @@
   - agents-policy-bloat-negative
   - capability-governance-negative
   - creativity-fast-path-routing
+  - direct-maintenance-routing
   - docs-system-of-record
   - evidence-verification-negative
   - greenfield-maintenance-mode-routing
@@ -171,6 +172,7 @@
   - routing-share-export-noisy-negative
 - Reason codes:
   - unsupported-fixture-shape
+  - unsupported-fixture-shape
   - routing-overreach-missing-planner-first
   - routing-overreach-missing-quality-gate
   - routing-overreach-missing-quality-gate
@@ -215,6 +217,10 @@
 - .opencode/docs/SECURITY.md: PASS
 - skills/opencode-orchestrator/SKILL.md: PASS
 - skills/opencode-quality-gate/SKILL.md: PASS
+## direct-maintenance-routing
+- Status: SKIP
+- Description: Deterministic prompt-to-route cases for direct maintenance versus planner admission.
+- scripts/evals/fixtures/direct-maintenance-routing.json: SKIP (unsupported-fixture-shape)
 ## docs-system-of-record
 - Status: PASS
 - Description: Validates that AGENTS.md maps to canonical docs and the canonical docs index exposes the system-of-record entrypoints.
@@ -638,25 +644,25 @@
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/design-audit.md, src/Landing.tsx
-- Stdout captured: "/tmp/opencode-script-run-LBdMc2/.opencode/evidence/design-audit.md"
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-v8XNhr/.opencode/evidence/design-audit.md"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for design-revamp-contract-generates-artifact-requirements
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/sample-task/revamp-contract.json, src/Landing.tsx
-- Stdout captured: "/tmp/opencode-script-run-i5NK36/.opencode/evidence/sample-task/revamp-contract.json"
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-2Gv8HD/.opencode/evidence/sample-task/revamp-contract.json"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for design-review-bundle-seeds-preview-contract
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/sample-task/design-debt.md, .opencode/evidence/sample-task/design-handoff.md, .opencode/evidence/sample-task/design-review.md, .opencode/evidence/sample-task/parity-report.md, .opencode/evidence/sample-task/preview-contract.json, .opencode/evidence/sample-task/preview.json, src/Landing.tsx
-- Stdout captured: "/tmp/opencode-script-run-AtOoYU/.opencode/evidence/sample-task/design-handoff.md\n/tmp/opencode-script-run-AtOoYU/.opencode/evidence/sample-task/design-review.md\n/tmp/opencode-script-run-AtOoYU/.opencode/evidence/sample-task/parity-report.md\n/tmp/opencode-script-run-AtOoYU/.opencode/evidence/sample-task/design-debt.md\n/tmp/opencode-script-run-AtOoYU/.opencode/evidence/sample-task/preview.json\n/tmp/opencode-script-run-AtOoYU/.opencode/evidence/sample-task/preview-contract.json"
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-4dJx2D/.opencode/evidence/sample-task/design-handoff.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-4dJx2D/.opencode/evidence/sample-task/design-review.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-4dJx2D/.opencode/evidence/sample-task/parity-report.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-4dJx2D/.opencode/evidence/sample-task/design-debt.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-4dJx2D/.opencode/evidence/sample-task/preview.json\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-4dJx2D/.opencode/evidence/sample-task/preview-contract.json"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for design-source-importer-builds-source-pack
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
-- Generated files: .opencode/design-system/catalog.json, .opencode/evidence/design-source-pack.md, src/Landing.tsx
-- Stdout captured: "/tmp/opencode-script-run-Iy2NpX/.opencode/evidence/design-source-pack.md\n/tmp/opencode-script-run-Iy2NpX/.opencode/design-system/catalog.json"
+- Generated files: .opencode/design-system/catalog.json, .opencode/evidence/design-source-pack.md, .opencode/evidence/url-structure-example.com.md, src/Landing.tsx
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-S0Oo3T/.opencode/evidence/design-source-pack.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-S0Oo3T/.opencode/design-system/catalog.json"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for init-harness-minimal-foreign-repo-scaffold
 - Mode: init-harness-scaffold
@@ -677,5 +683,5 @@
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/polish-audit.md, src/Landing.tsx
-- Stdout captured: "/tmp/opencode-script-run-0fZIoK/.opencode/evidence/polish-audit.md"
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-QOeUcJ/.opencode/evidence/polish-audit.md"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.

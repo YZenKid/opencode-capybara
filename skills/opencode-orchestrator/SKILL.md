@@ -499,13 +499,16 @@ Section presence or arbitrary length alone is insufficient. Execution readiness 
 - Plan Execution Precedence Order: latest explicit user instruction; safety/security/permission rules; Non-negotiable Implementation Invariants; Execution-ready Worklist / Handoff Contract; Acceptance Criteria and Done Criteria; Implementation Steps; follow-ups/recommendations. Record conflicts and chosen resolution in verification evidence.
 - When a plan includes an `Execution-ready Worklist / Handoff Contract`, treat it as the execution source of truth:
   - Trivial, single-step, and easily reversible tasks may skip planner.
-  - Non-trivial work should route through `@artifact-planner` first.
+  - Route through `@artifact-planner` only when planning complexity, unresolved architecture/security/data/product decisions, multi-phase scope, or evidence-heavy work require durable planning artifacts; bounded maintenance may go direct when planner admission fails.
   - Start with the declared `start_with` first non-blocked task.
   - Execute all ordered non-blocked tasks finish-first until plan done criteria are met.
   - Respect `depends_on`, owner/lane routing, validation, per-task exit criteria, `must_preserve`, `do_not_touch`, `evidence_update`, and `exit_verification`.
   - Verify each task exit criteria before moving to the next task.
   - Do not stop at internal milestones/phases unless a task is explicitly `blocked` or `requires_user_decision: yes`.
   - If a task is blocked, attempt unblock via repo evidence/docs/specialists first; escalate to user only when still materially blocked.
+  - Direct maintenance process budget: use <=5 focused reads and <=3 targeted searches before implementation, stop once root cause + validation path are known, and do not create tracker/memory/governance artifacts unless scope expands.
+  - Direct maintenance tool-purpose gate: only call tools to locate, reproduce, implement, validate, or perform required safety checks; skip calls that fit none of those purposes.
+  - If planning machinery fails during bounded maintenance admission, abandon planning metadata repair for the safe subset and route direct; material work can repair the plan later.
   - Multi-file plan-bound implementation routes to `@fixer` or a domain lane by default. Orchestrator direct implementation remains tiny-only except explicit fallback with evidence.
   - Before final quality gate, run a Diff Boundary check: compare changed files against allowed file groups, generated-report exceptions, and evidence paths; revert or justify out-of-boundary diffs in verification evidence.
   - Before any completion claim, run a Plan Compliance Checkpoint covering all non-blocked worklist tasks, Done Criteria, Non-negotiable Implementation Invariants, Do Not / Reject If, validation results, evidence updates, Diff Boundary, and quality-gate status.
@@ -548,7 +551,7 @@ Section presence or arbitrary length alone is insufficient. Execution readiness 
 
 ## Execution quality checklist
 
-- [ ] Plan-first rule enforced: non-trivial work went through `@artifact-planner` or an existing `PASS`/`PASS_FOR_SLICE` plan.
+- [ ] Routing proportionality check passed: direct maintenance used when bounded, decision-complete, and plan admission failed; planner used only when admission triggers were met or an existing `PASS`/`PASS_FOR_SLICE` plan existed.
 - [ ] Harness preflight passed: `AGENTS.md`, `.opencode/docs/`, and `DESIGN.md` (if UI) available or explicit tiny/emergency skip recorded.
 - [ ] Stack docs and current best practice verified before implementation.
 - [ ] Primary plan loaded and respected as execution source of truth.
@@ -591,7 +594,7 @@ next_actions:
 ```
 
 ## Quality checklist
-- [ ] Plan-first rule enforced: non-trivial work went through `@artifact-planner` or an existing `PASS`/`PASS_FOR_SLICE` plan.
+- [ ] Routing proportionality check passed: direct maintenance used when bounded, decision-complete, and plan admission failed; planner used only when admission triggers were met or an existing `PASS`/`PASS_FOR_SLICE` plan existed.
 - [ ] Harness preflight passed: `AGENTS.md`, `.opencode/docs/`, and `DESIGN.md` (if UI) available or explicit tiny/emergency skip recorded.
 - [ ] Stack docs and current best practice verified before implementation.
 - [ ] Primary plan loaded and respected as execution source of truth.
