@@ -173,7 +173,9 @@
     }
   },
   "model": "{env:OPENCODE_MODEL_DEFAULT}",
-  "plugin": ["./plugins/visual-context-filepart-bridge.js"],
+  "plugin": [
+    "./plugins/visual-context-filepart-bridge.js"
+  ],
   "default_agent": "orchestrator",
   "mcp": {
     "time": {
@@ -213,11 +215,6 @@
         "{env:CONTEXT7_API_KEY}"
       ],
       "timeout": 180000,
-      "enabled": true
-    },
-    "grep_app": {
-      "type": "remote",
-      "url": "https://mcp.grep.app",
       "enabled": true
     },
     "stitch": {

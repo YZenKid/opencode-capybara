@@ -62,7 +62,7 @@ Bounded backend implementation lane for APIs, services, validation, auth integra
 Before the first substantial answer, diagnosis, plan, or implementation step on non-trivial work:
 - Load the lane's primary skill first and name it explicitly (`Skill I'm using: ...`).
 - Scan `.opencode/docs/MCP.md`, task shape, and stack docs to decide which MCPs are applicable; state that explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
-- If an MCP is obviously applicable (version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), use it or record a concrete skip reason.
+- If an MCP is obviously applicable (version-sensitive docs/API/framework -> `context7`; broad local code search -> built-in `grep`, `glob`, and `read`; public/upstream code search -> `github_search_code`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), use it or record a concrete skip reason.
 - If you loaded a skill, it must change execution in at least one concrete way (command, pattern, test, risk callout, MCP choice). Loaded-but-unused skill is a process defect.
 
 ponytail: Textual contract first; mechanical transcript audit via `scripts/session-trace-audit.py` is the upgrade path.
@@ -182,3 +182,10 @@ ponytail: This is a soft discipline first. The upgrade path is a session-trace/d
 ## Graphify query-first contract
 
 For code investigation, debugging, dependency/call-chain tracing, impact analysis, and non-trivial code fixes, query fresh available Graphify first. Use narrow query/path/explain. Direct source reading + tests/runtime still required. Missing/stale/unsupported fallback must be recorded. Tiny known-file and non-code skip only with explicit reason.
+
+## Code and source search replacement contract
+
+- Local code investigation: query fresh Graphify first when qualifying, then verify with built-in `grep`, `glob`, and `read`.
+- Public/upstream code search: use `github_search_code`.
+- Official or version-sensitive library/API docs: use `context7`.
+- General current web facts: use `9router.web_search`, then `9router.web_fetch`.

@@ -110,6 +110,16 @@ class SessionTraceAuditTests(unittest.TestCase):
                 if finding_code:
                     self.assertIn(finding_code, codes)
 
+    def test_approved_search_replacements_have_no_legacy_or_false_remote_findings(self) -> None:
+        fixture_root = REPO_ROOT / "scripts" / "tests" / "fixtures" / "session-trace"
+        code, out, err = _run("--json", str(fixture_root / "approved_search_replacements.md"))
+        self.assertEqual(code, 0, msg=err or out)
+        data = json.loads(out)
+        codes = {finding["code"] for finding in data["findings"]}
+        self.assertNotIn("missing_grep_app", codes)
+        self.assertNotIn("missing_code_search_replacement", codes)
+        self.assertNotIn("missing_github_mcp", codes)
+
     def test_strict_mode_only_fails_concrete_scope_violations(self) -> None:
         fixture_root = REPO_ROOT / "scripts" / "tests" / "fixtures" / "session-trace"
         unknown = _run("--strict", str(fixture_root / "unknown_schema.md"))

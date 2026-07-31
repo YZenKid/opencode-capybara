@@ -2,7 +2,7 @@
 
 Generated from `.opencode/capabilities/registry.json`. Advisory only; configured does not mean usable/authenticated.
 
-- MCP entries: 16
+- MCP entries: 15
 
 | MCP | Transport | Owner | Auth | Data egress | Write | Allowed lanes | Denied lanes | Fallback | Evidence required | Secret surfaces |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -13,7 +13,6 @@ Generated from `.opencode/capabilities/registry.json`. Advisory only; configured
 | git_local | local | @orchestrator | none | local repository metadata only | yes | @orchestrator, @fixer, @quality-gate | @council | use shell git status/diff/log with ask gates | operation and repository path | none |
 | github | remote | @orchestrator | GITHUB_PERSONAL_ACCESS_TOKEN | repo metadata, issues, PRs, code, workflow logs | yes | @orchestrator, @fixer, @quality-gate | @council | local git and explicit user handoff | repo, operation, target branch/PR/issue, no secret payload, configured does not mean usable/authenticated | GITHUB_PERSONAL_ACCESS_TOKEN, GITHUB_TOOLSETS |
 | graphify | local | @explorer | none | local repository code graph only; no remote egress | no | @architect, @artifact-planner, @explorer, @orchestrator, @oracle, @fixer, @quality-gate | @council | normal repo discovery with direct source reading | query/path/explain scope and direct source verification, no secrets in tool input | none |
-| grep_app | remote | @librarian | none configured | literal code search patterns | no | @librarian, @fixer | @quality-gate, @council | local grep/glob only | query pattern and repo/path filters | none |
 | playwright | local | @designer | browser profile/session state | page URLs, forms, screenshots, network data | yes | @designer, @fixer, @orchestrator | @quality-gate, @council | static review or screenshots supplied by user | URL, action summary, screenshot/console/network result when used | browser cookies, local session |
 | postgres_local | local | @backend | LOCAL_POSTGRES_URL | local database schema/query content when enabled | yes | @backend, @quality-gate | @council | use migration files and local tests without MCP | explicit enablement and local DSN choice, query intent and read/write classification | LOCAL_POSTGRES_URL |
 | scripts | local | @orchestrator | none | local project scripts/output only; no remote egress | no | @architect, @artifact-planner, @backend, @designer, @design-system-engineer, @devops, @explorer, @fixer, @frontend, @fullstack, @librarian, @mobile, @oracle, @orchestrator, @plan-reviewer, @plan-validator, @project-manager, @quality-gate, @skill-improver, @system-analyst, @visual-asset-generator, @visual-context-extractor | @council | exact CLI pattern: node {env:HOME}/.config/opencode/bin/scripts-mcp.mjs; or direct python3 scripts/<name>.py <args> | tool name, input args, exit code, stdout/stderr summary, no secrets in tool input | none |

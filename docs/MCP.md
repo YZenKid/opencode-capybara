@@ -4,7 +4,6 @@ Configured MCP surfaces include:
 - `time`
 - `9router`
 - `context7`
-- `grep_app`
 - `browseros`
 - `shadcn`
 - `semgrep`

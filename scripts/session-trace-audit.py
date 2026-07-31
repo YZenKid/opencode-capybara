@@ -100,11 +100,11 @@ def task_signals(text: str) -> dict:
             r"atlas|migration|sdk|framework|version|api contract|schema drift|docs", text
         ),
         "broad_code_search": has(
-            r"\bgrep_app\b|grep across|where is\b|call-site|which file\b|find ownership",
+            r"grep across|where is\b|call-site|which file\b|find ownership|github_search_code|built-in `grep`",
             text,
         ),
         "repo_remote_context": has(
-            r"pull request|PR\b|github|branch|commit [0-9a-f]{6,}|remote", text
+            r"pull request|PR\b|github(?!_search_code)|branch|commit [0-9a-f]{6,}|remote", text
         ),
         "security_or_pattern_scan": has(
             r"security|secret|token|unsafe|anti-pattern|smell|semgrep|credential|password|auth|permission|rbac|xss|csrf|sql injection",
@@ -151,7 +151,6 @@ def declared_mcps(text: str) -> list[str]:
 def used_mcps(text: str) -> set[str]:
     patterns = {
         "context7": r"\bcontext7\b",
-        "grep_app": r"\bgrep_app\b|grep\.app|grep_app search",
         "github": r"\bgithub\b|pull request|PR\b|issue #[0-9]+",
         "semgrep": r"\bsemgrep\b",
         "playwright": r"\bplaywright\b",
@@ -284,11 +283,11 @@ def audit(text: str, source: str) -> Report:
             evidence=["version_sensitive=true"],
         ))
 
-    if signals["broad_code_search"] and "grep_app" not in mcps_used and not explicit_skip_reason("grep_app", text):
+    if signals["broad_code_search"] and not ("github" in mcps_used or has(r"built-in.*(?:grep|glob|read)|github_search_code|repo search", text)) and not explicit_skip_reason("code search", text):
         report.findings.append(Finding(
             level="WARN",
-            code="missing_grep_app",
-            message="Broad code-search / ownership hunt had no grep_app usage or skip reason.",
+            code="missing_code_search_replacement",
+            message="Broad code-search / ownership hunt had no local built-in search, github_search_code usage, or skip reason.",
             evidence=["broad_code_search=true"],
         ))
 
@@ -318,7 +317,7 @@ def audit(text: str, source: str) -> Report:
 
     for mcp in mcps_declared:
         norm = mcp.lower()
-        if norm in {"context7", "grep_app", "github", "semgrep", "playwright", "shadcn", "9router.web_search"}:
+        if norm in {"context7", "github", "semgrep", "playwright", "shadcn", "9router.web_search"}:
             if norm not in mcps_used and not explicit_skip_reason(norm, text):
                 report.findings.append(Finding(
                     level="WARN",

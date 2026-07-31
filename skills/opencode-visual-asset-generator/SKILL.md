@@ -231,3 +231,10 @@ ponytail: This is a soft discipline first. The upgrade path is a session-trace/d
 ## Graphify query-first contract
 
 For code investigation, debugging, dependency/call-chain tracing, impact analysis, and non-trivial code fixes, query fresh available Graphify first. Use narrow query/path/explain. Direct source reading + tests/runtime still required. Missing/stale/unsupported fallback must be recorded. Tiny known-file and non-code skip only with explicit reason.
+
+## Code and source search replacement contract
+
+- Local code investigation: query fresh Graphify first when qualifying, then verify with built-in `grep`, `glob`, and `read`.
+- Public/upstream code search: use `github_search_code`.
+- Official or version-sensitive library/API docs: use `context7`.
+- General current web facts: use `9router.web_search`, then `9router.web_fetch`.

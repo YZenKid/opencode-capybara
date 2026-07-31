@@ -911,36 +911,6 @@
       ]
     },
     {
-      "name": "grep_app",
-      "status": "configured",
-      "owner_lane": "@librarian",
-      "risk": [
-        "remote-egress",
-        "public-code-search"
-      ],
-      "fallback": "local grep/glob only",
-      "evidence": [
-        "opencode.json:mcp.grep_app"
-      ],
-      "source": "opencode.json",
-      "transport": "remote",
-      "auth": "none configured",
-      "data_egress": "literal code search patterns",
-      "write_capability": false,
-      "allowed_lanes": [
-        "@librarian",
-        "@fixer"
-      ],
-      "denied_lanes": [
-        "@quality-gate",
-        "@council"
-      ],
-      "evidence_required": [
-        "query pattern and repo/path filters"
-      ],
-      "secret_surfaces": []
-    },
-    {
       "name": "playwright",
       "status": "configured",
       "owner_lane": "@designer",

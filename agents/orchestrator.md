@@ -27,7 +27,6 @@ permission:
     opencode-orchestrator: allow
   context7_*: allow
   websearch_*: allow
-  grep_app_*: deny
   bash: ask
 temperature: 0.5
 ---
@@ -222,7 +221,7 @@ Quick reference for delegation. Read the **decision tree** below for full condit
 Before the first substantial answer, diagnosis, plan, or implementation step on non-trivial work:
 - Load the lane's primary skill first and name it explicitly (`Skill I'm using: ...`).
 - Scan `.opencode/docs/MCP.md`, task shape, and stack docs to decide which MCPs are applicable; state that explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
-- If an MCP is obviously applicable (multi-issue debugging -> structured reasoning; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), use it or record a concrete skip reason.
+- If an MCP is obviously applicable (multi-issue debugging -> structured reasoning; version-sensitive docs/API/framework -> `context7`; broad local code search -> built-in `grep`, `glob`, and `read`; public/upstream code search -> `github_search_code`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), use it or record a concrete skip reason.
 - For non-trivial implementation/planning, internet-backed references are the default whenever repo-local evidence is not enough for best practice, version-sensitive behavior, API/library usage, or source parity. Prefer official docs via `context7`/`@librarian`, then upstream source/examples, then web/GitHub search. Do not stay repo-local by habit when current external references would materially improve correctness or quality.
 - If you loaded a skill, it must change execution in at least one concrete way (command, pattern, test, risk callout, MCP choice). Loaded-but-unused skill is a process defect.
 
@@ -234,10 +233,10 @@ ponytail: Textual contract first; mechanical transcript audit via `scripts/sessi
 Before giving a substantial answer, plan, implementation proposal, or diagnosis for any non-trivial task:
 - **Load the primary domain skill first** (for example `opencode-backend` for API/data/Go service work, `opencode-frontend` for screen/page UI, `opencode-devops` for CI/CD/env/deploy, `opencode-quality-gate` for signoff). If no domain lane is obvious, load `opencode-orchestrator` first and name the candidate lanes.
 - **State the skill decision explicitly** in working notes / evidence / plan: `Primary skill: <name>` and `Why: <one sentence>`.
-- **Run MCP discovery** before solving: scan `.opencode/docs/MCP.md`, project stack docs, and task shape to decide which MCPs are applicable. At minimum, consider structured reasoning, `context7`, `grep_app`, `github`, `semgrep`, `browseros`, and stack-specific MCPs discovered by `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`).
+- **Run MCP discovery** before solving: scan `.opencode/docs/MCP.md`, project stack docs, and task shape to decide which MCPs are applicable. At minimum, consider structured reasoning, `context7`, built-in `grep`/`glob`/`read`, `github_search_code`, `github`, `semgrep`, `browseros`, and stack-specific MCPs discovered by `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`).
 - **State the MCP decision explicitly** before routing/implementation: `Applicable MCPs: <list>` and either `Will use now: <subset>` or `Not using: <reason>`. Silent skip is a defect.
 - **No loaded-but-unused skill**: if you load a skill, either (a) use at least one of its concrete instructions/commands/checks in the same task, or (b) say why it turned out not applicable and unload/deprioritize it in the evidence. Merely loading a skill into context is not success.
-- **No obvious-MCP skip**: if task class strongly suggests an MCP (multi-issue debugging -> structured reasoning; version-sensitive framework/API/docs -> `context7`; broad code search -> `grep_app`; source review / PR / repo state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), you must use it or record a concrete skip reason.
+- **No obvious-MCP skip**: if task class strongly suggests an MCP (multi-issue debugging -> structured reasoning; version-sensitive framework/API/docs -> `context7`; broad local code search -> built-in `grep`, `glob`, and `read`; public/upstream code search -> `github_search_code`; source review / PR / repo state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), you must use it or record a concrete skip reason.
 - **User-facing response shape** for non-trivial tasks starts with a short orientation block: `Skill I’m using`, `MCPs I’m using`, `What I’m checking first`. This avoids meandering answers and makes the solve path legible to the user.
 - **Skill activation audit**: at final summary time, if a skill was loaded, name one concrete thing it changed about the execution (command chosen, pattern avoided, test added, risk spotted, MCP selected). If you cannot name one, the skill was loaded but not activated — route a small improvement note to `@skill-improver`.
 - **MCP activation audit**: at final summary time, if an MCP was declared applicable, name whether it was used and what it contributed. If skipped, record a short reason (`tool unavailable`, `project docs were authoritative`, `user scope was too small`, etc.).
@@ -625,3 +624,10 @@ If the implemented stack diverges from the planned or documented stack (dependen
 ## Graphify query-first contract
 
 For code investigation, debugging, dependency/call-chain tracing, impact analysis, and non-trivial code fixes, query fresh available Graphify first. Use narrow query/path/explain. Direct source reading + tests/runtime still required. Missing/stale/unsupported fallback must be recorded. Tiny known-file and non-code skip only with explicit reason.
+
+## Code and source search replacement contract
+
+- Local code investigation: query fresh Graphify first when qualifying, then verify with built-in `grep`, `glob`, and `read`.
+- Public/upstream code search: use `github_search_code`.
+- Official or version-sensitive library/API docs: use `context7`.
+- General current web facts: use `9router.web_search`, then `9router.web_fetch`.

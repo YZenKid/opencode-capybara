@@ -6,7 +6,7 @@ Read this before MCP selection, external source lookup, template/source discover
 
 - Multi-issue debugging / cascading failures / 3+ inter-related symptoms -> structured reasoning or explicit branching notes.
 - Version-sensitive framework/API/library behavior -> `context7`.
-- Broad code search / pattern hunt -> `grep_app` or repo search.
+- Broad local code search / pattern hunt -> built-in `grep`, `glob`, and `read`; public/upstream code search -> `github_search_code`.
 - Repo / PR / issue / commit / branch / file history -> `github`.
 - Static pattern / security smell / anti-pattern scan -> `semgrep`.
 - Browser/UI/runtime flow / reproduction / DOM evidence -> `browseros`.
@@ -34,4 +34,7 @@ Read this before MCP selection, external source lookup, template/source discover
 - Source-approved 1:1 Porting / Literal Porting Contract
 - reference-first by default, not repo-only
 - context7
+- built-in `grep`, `glob`, and `read`
+- `github_search_code`
+- `9router.web_search`, then `9router.web_fetch`
 - browser/screenshots/reference URLs
