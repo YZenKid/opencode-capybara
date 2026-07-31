@@ -1,10 +1,14 @@
 #!/usr/bin/env node
 
+import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { createReader, runContentChecks, runDuplicateChecks } from "./prompt-gates/content-checks.mjs";
 import { duplicateChecks, runPortabilityChecks } from "./prompt-gates/runtime-hygiene.mjs";
 
 const root = resolve(import.meta.dirname, "..");
+const opencodeConfig = JSON.parse(readFileSync(resolve(root, "opencode.json"), "utf8"));
+const mcpDocs = readFileSync(resolve(root, ".opencode/docs/TOOL_USAGE.md"), "utf8");
+const mcpInventoryDoc = readFileSync(resolve(root, ".opencode/docs/MCP.md"), "utf8");
 const upstreamPresetName = ["oh", "my", "opencode", "slim"].join("-");
 const pluginPackageName = ["@opencode-ai", "plugin"].join("/");
 const disabledAgentsKey = ["disabled", "agents"].join("_");
@@ -2168,6 +2172,24 @@ for (const check of designSystemGateChecks) {
     console.error(`✗ design system gate (${check.name})`);
   } else {
     console.log(`✓ design system gate (${check.name})`);
+  }
+}
+
+const defaultMcpNames = ["github", "semgrep", "shadcn", "21st", "stitch", "playwright"];
+const playwrightPolicyPass =
+  mcpDocs.includes("BrowserOS with stable capture workflow") &&
+  mcpDocs.includes("concrete BrowserOS endpoint failure") &&
+  mcpDocs.includes("Never invoke BrowserOS and Playwright in automatic parallel") &&
+  mcpDocs.includes("Never persist or share raw `opencode mcp list` output") &&
+  mcpInventoryDoc.includes("BrowserOS is the **primary** browser automation MCP") &&
+  !mcpDocs.includes("1. Use `playwright` for deterministic capture/evidence");
+const defaultMcpPass = defaultMcpNames.every((name) => opencodeConfig.mcp?.[name]?.enabled === true);
+for (const [name, pass] of [["six MCP defaults enabled", defaultMcpPass], ["BrowserOS-first Playwright and safe inventory policy", playwrightPolicyPass]]) {
+  if (!pass) {
+    state.failures += 1;
+    console.error(`✗ MCP policy gate (${name})`);
+  } else {
+    console.log(`✓ MCP policy gate (${name})`);
   }
 }
 

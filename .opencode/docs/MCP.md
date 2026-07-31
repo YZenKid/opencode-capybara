@@ -19,13 +19,15 @@ Core enabled:
 - `scripts`
 - `graphify`
 
-Optional disabled:
+Enabled by default:
 - `github`
 - `semgrep`
 - `shadcn`
 - `21st`
 - `stitch`
 - `playwright` (failure-only fallback; BrowserOS primary)
+
+Enabled configuration does not imply authenticated, connected, or usable. Permissions, auth, and task-specific safeguards still apply.
 
 Legacy `image-asset-generator` removed; image asset tools live under `9router`.
 

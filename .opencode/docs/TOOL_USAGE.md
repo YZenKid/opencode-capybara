@@ -42,7 +42,7 @@ Primary examples used in this repo:
 - Skill loading/routing support: `skill`
 
 ### 2) Configured MCP tools
-See [MCP.md](./MCP.md) for the active inventory.
+See [MCP.md](./MCP.md) for active inventory. `github`, `semgrep`, `shadcn`, `21st`, `stitch`, and `playwright` are enabled by default in configuration; enabled does not imply authenticated, connected, or usable.
 
 Commonly used categories:
 - Official docs lookup (`context7`)
@@ -101,8 +101,9 @@ These fixed mappings do not expose arbitrary scripts, flags, commands, or write 
    - If tool is available but outside role boundary, delegate to the permitted agent.
 
 4. **Use automation evidence for UI/runtime claims.**
-    - Preferred: BrowserOS with stable capture workflow; use disabled `playwright` only after concrete BrowserOS failure
-   - Anti-pattern: one-shot screenshot claims for animated/lazy pages
+    - Preferred: BrowserOS with stable capture workflow. Invoke enabled `playwright` only after a concrete BrowserOS endpoint failure, BrowserOS tool error, BrowserOS timeout, or browser-process failure.
+    - Never invoke BrowserOS and Playwright in automatic parallel. Never repeat a state-changing action through Playwright after BrowserOS attempted it.
+    - Anti-pattern: Playwright-first capture, fallback based on preference or speed, or one-shot screenshot claims for animated/lazy pages
 
 5. **Choose least-risk write path.**
     - Preferred: minimal file edits with `apply_patch`
@@ -136,9 +137,14 @@ These fixed mappings do not expose arbitrary scripts, flags, commands, or write 
 3. Keep safety rules (no force actions unless explicitly requested)
 
 ### D) UI/reference validation
-1. Use `playwright` for deterministic capture/evidence
-2. Use matching viewport + wait/stabilize/scroll/settle across reference/current/final
-3. Record rendering-affecting console/network issues when material
+1. Use BrowserOS first for deterministic capture/evidence
+2. If BrowserOS fails concretely by endpoint error, tool error, timeout, or browser-process failure, record that failure, then use `playwright`; operator preference or speed is not a fallback trigger
+3. Do not run both MCPs in parallel or duplicate any state-changing action; after BrowserOS changes state, do not replay that action through Playwright
+4. Use matching viewport + wait/stabilize/scroll/settle across reference/current/final
+5. Record rendering-affecting console/network issues when material
+
+### MCP inventory evidence
+Never persist or share raw `opencode mcp list` output. OpenCode CLI output may resolve secret-bearing command arguments. Record only structural config evidence and a sanitized status summary: MCP names, configured/enabled state, transport, timeout, and redacted connection state. Mask command arguments, headers, tokens, API keys, cookies, session values, and environment values. A connection check must not emit credential values.
 
 ### E) Stack scaffold/generator workflow
 1. Detect stack and generator availability from repo files, `.opencode/docs/PROJECT_STACK.md`, `.opencode/docs/PROJECT_COMMANDS.md`, `.opencode/docs/FRAMEWORK_PLAYBOOK.md`, and `.opencode/docs/PROJECT_DETECTED_TOOLS.md` when present.
@@ -168,7 +174,7 @@ When preferred tool is unavailable, not permitted, or fails:
 
 Examples:
 - `context7` unavailable → local code evidence + `github` source/docs + note limitation.
-- `playwright` unavailable for UI claim → provide bounded claim level and record missing runtime evidence.
+- BrowserOS unavailable or concretely failed before Playwright fallback → record bounded claim level and missing runtime evidence; Playwright remains forbidden unless failure trigger is recorded.
 - Write tool not permitted in current lane → first verify the active lane; if the lane truly lacks write permission, route to implementing lane (`@fixer`) instead of forcing edits. Do not refuse based on stale lane context from the previous turn.
 
 ## Maintenance rules

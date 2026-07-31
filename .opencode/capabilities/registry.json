@@ -610,7 +610,7 @@
     },
     {
       "name": "stitch",
-      "status": "disabled",
+      "status": "configured",
       "owner_lane": "@designer",
       "risk": [
         "remote-egress",
@@ -648,7 +648,7 @@
     },
     {
       "name": "playwright",
-      "status": "disabled",
+      "status": "configured",
       "owner_lane": "@designer",
       "risk": [
         "browser-session",
@@ -683,7 +683,7 @@
     },
     {
       "name": "shadcn",
-      "status": "disabled",
+      "status": "configured",
       "owner_lane": "@designer",
       "risk": [
         "local-process",
@@ -716,7 +716,7 @@
     },
     {
       "name": "semgrep",
-      "status": "disabled",
+      "status": "configured",
       "owner_lane": "@quality-gate",
       "risk": [
         "local-scan",
@@ -749,7 +749,7 @@
     },
     {
       "name": "github",
-      "status": "disabled",
+      "status": "configured",
       "owner_lane": "@orchestrator",
       "risk": [
         "remote-egress",
@@ -785,7 +785,7 @@
     },
     {
       "name": "21st",
-      "status": "disabled",
+      "status": "configured",
       "owner_lane": "@designer",
       "risk": [
         "remote-egress",
