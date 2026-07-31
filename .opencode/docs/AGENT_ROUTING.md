@@ -43,7 +43,8 @@ Planner invocation expectation:
 - Routing proportionality applies.
 - Invoke it only when planning complexity, unresolved architecture/security/data/product decisions, multi-phase scope, or evidence-heavy work require durable planning artifacts.
 - Maintenance Direct Fix: bounded existing-code bugfixes with one known subsystem and one worker, no unresolved architecture/security/data/deploy/product decision, and no need for durable plan artifacts may go direct to implementation lanes.
-- If planner admission fails for bounded maintenance, reply `ROUTE_DIRECT` and stop instead of writing artifacts.
+- If planner admission fails for bounded maintenance, reply `ROUTE_DIRECT` and stop instead of writing artifacts. Do not expose internal `investigate`/`plan`/`implement`/`review` chooser mechanics to users; use direct routing or safe read-only discovery.
+- DB-backed handoffs use central structured fields `db_target`, `verified_runtime_facts`, `db_availability`, `open_assumptions`, `evidence_refs`, and `read_only_scope`. Unknown target/runtime facts remain unverified; no credentials or SQL writes enter discovery, reproduction, or evidence.
 - Trivial, single-step, and easily reversible tasks may execute directly without planner.
 - `read_only` tasks never invoke planner; analysis depth does not grant mutation authority.
 - `@artifact-planner` is triggered only after `implementation` promotion and when planning depth is needed.

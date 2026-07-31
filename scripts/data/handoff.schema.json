@@ -90,6 +90,49 @@
       "type": "array",
       "items": { "type": "string", "minLength": 1 },
       "description": "Files the worker should inspect first to ground the task without rediscovering the repo."
+    },
+    "db_target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": { "type": "string", "enum": ["verified", "unverified", "unavailable"] },
+        "identifier": { "type": "string", "minLength": 1 },
+        "config_proof": { "type": "string", "minLength": 1 }
+      },
+      "description": "Structured DB target status; unknown targets remain unverified or unavailable."
+    },
+    "verified_runtime_facts": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "current_database": { "type": "string", "minLength": 1 },
+        "schema": { "type": "string", "minLength": 1 },
+        "model_table_mapping": { "type": "string", "minLength": 1 },
+        "verification_source": { "type": "string", "minLength": 1 },
+        "verification_time": { "type": "string", "minLength": 1 }
+      },
+      "description": "Source-backed runtime DB facts only; omitted facts remain unknown."
+    },
+    "db_availability": {
+      "type": "string",
+      "enum": ["verified", "unverified", "unavailable"]
+    },
+    "db_unavailable_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "open_assumptions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "read_only_scope": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
     }
   },
   "$defs": {

@@ -54,6 +54,8 @@ When `@fixer` is implementing a bounded UI/design-related change, it must read t
 - Reuse existing project patterns before introducing new ones.
 - Add/update tests and fixtures where behavior changes.
 - Do not claim final risk signoff; that belongs to `@quality-gate`.
+- Preserve structured DB context and evidence across handoffs. Reproduction stays read-only; no SQL writes, migrations, reset, seed, delete, or mutation commands.
+- If DB is unavailable, preserve `db_unavailable_reason` and downgrade claim; do not infer target, schema, or model mapping.
 - **Comment Policy**: zero inline comments; doc comments only on exported/public symbols. See `opencode-fixer` skill → `## Comment Policy` for full rule and good/bad examples.
 - **Bans (silent substitution / real-asset / empty-surface)**: see `opencode-fixer` skill.
 

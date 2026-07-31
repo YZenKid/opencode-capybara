@@ -58,6 +58,11 @@ VALID_PAYLOAD = textwrap.dedent(
     evidence_required: [.opencode/evidence/landing-2026-06-30/template-extraction-trace.md, .opencode/evidence/landing-2026-06-30/visual-rubric.md]
     depends_on: [catalog-decision]
     context_bundle: [DESIGN.md, .opencode/AGENTS.md, templates/dashboard/src/index.css]
+    open_assumptions: [DB target and engine unknown]
+    db_availability: unavailable
+    db_unavailable_reason: local DB unavailable in test environment
+    read_only_scope: [target discovery, representative SELECT evidence]
+    evidence_refs: [.opencode/evidence/landing-2026-06-30/db.md]
     """
 )
 
@@ -217,6 +222,19 @@ class SubagentHandoffCheckTests(unittest.TestCase):
         code, out, err = _run("--plan", str(tmp), "--project-root", str(REPO_ROOT))
         self.assertEqual(code, 0, msg=err or out)
         self.assertIn("OK (1 payload(s) valid)", out)
+
+    def test_db_unavailable_requires_reason(self) -> None:
+        payload = VALID_PAYLOAD.replace("db_unavailable_reason: local DB unavailable in test environment\n", "")
+        code, out, err = _run("--payload", "-", "--project-root", str(REPO_ROOT), stdin=payload)
+        self.assertEqual(code, 1)
+        self.assertIn("db_unavailable_reason required", out)
+
+    def test_verified_db_requires_runtime_facts(self) -> None:
+        payload = VALID_PAYLOAD.replace("db_availability: unavailable", "db_availability: verified")
+        payload = payload.replace("db_unavailable_reason: local DB unavailable in test environment\n", "")
+        code, out, err = _run("--payload", "-", "--project-root", str(REPO_ROOT), stdin=payload)
+        self.assertEqual(code, 1)
+        self.assertIn("verified_runtime_facts must include", out)
 
     def test_json_output(self) -> None:
         code, out, err = _run("--payload", "-", "--project-root", str(REPO_ROOT), "--json", stdin=VALID_PAYLOAD)

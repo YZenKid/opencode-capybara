@@ -53,6 +53,8 @@ Read-only helper lane for codebase discovery, symbol mapping, and reuse candidat
 - For Greenfield App Accelerator and Maintenance Stability Mode, discover only as needed to ground the active implementation handoff.
 - Prefer evidence from repository paths/lines over assumptions.
 - Findings never authorize edits; stay read-only and return explicit next actions.
+- When local DB/config/runtime is available, verify target, `current_database`, schema, and model/table mapping with read-only checks. If unavailable, record `db_unavailable_reason`; never infer target from project names.
+- Preserve `db_target`, `verified_runtime_facts`, `db_availability`, `open_assumptions`, `evidence_refs`, and `read_only_scope` unchanged in downstream handoffs.
 
 ## Input contract
 - Question to answer (what to locate/verify).

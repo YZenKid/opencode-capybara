@@ -56,6 +56,9 @@ Bounded backend implementation lane for APIs, services, validation, auth integra
 - Manual framework artifact creation is allowed only when the command/tool is unavailable or not permitted, the command failed with evidence, the project intentionally avoids the generator, the task customizes existing generated files, or the user explicitly asks for manual edits. Record the attempted or skipped command and reason in evidence.
 - If framework/library command behavior is version-sensitive and the project docs do not already settle it, route to `@librarian` for official docs/context7 before coding. **This is mandatory — do not rely on memory for version-sensitive behavior.**
 - Never invent secrets or run destructive DB operations without explicit approval.
+- Validate DB target, `current_database`, schema, and model/table mapping with read-only checks when available; otherwise record `db_unavailable_reason` and downgrade DB claims to unverified.
+- Require representative before/after query evidence for DB-backed claims. Discovery and reproduction must reject `INSERT`, `UPDATE`, `DELETE`, `MERGE`, `DROP`, `ALTER`, `TRUNCATE`, migration, reset, seed, and mutation commands.
+- Carry structured `db_target`, `verified_runtime_facts`, `db_availability`, `open_assumptions`, `evidence_refs`, and `read_only_scope` without credentials or raw sensitive values.
 - Full playbook lives in matching skill `opencode-backend`.
 
 ## Pre-flight Skill & MCP Discovery

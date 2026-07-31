@@ -64,6 +64,8 @@ ALLOWED_LANES = {
 }
 ALLOWED_CLAIM_LEVELS = {"draft", "scoped", "partial", "done"}
 SCHEMA_PATH = Path(__file__).with_name("data") / "handoff.schema.json"
+WORKFLOW_CHOOSER_PATTERN = re.compile(r"(?i)\b(?:investigate|plan|implement|review)\b")
+WRITE_COMMAND_PATTERN = re.compile(r"(?i)\b(?:INSERT|UPDATE|DELETE|MERGE|DROP|ALTER|TRUNCATE|migration|migrate|reset|seed)\b")
 FENCE_PATTERN = re.compile(
     r"```(?:yaml|json)?\s*\n(.*?^[\s>]*(?:handoff|subagent_handoff)\s*:\s*.*?)\n```",
     re.IGNORECASE | re.MULTILINE | re.DOTALL,
@@ -155,7 +157,12 @@ def load_plan_payloads(plan_path: Path) -> list[tuple[str, dict[str, Any]]]:
 
 def validate_with_schema(name: str, payload: dict[str, Any]) -> list[str]:
     if jsonschema is None:
-        return []
+        schema = load_schema() or {}
+        errors = []
+        for field in schema.get("required", []):
+            if field not in payload:
+                errors.append(f"[{name}] schema $: '{field}' is a required property")
+        return errors
     schema = load_schema()
     if not schema:
         return []
@@ -165,6 +172,14 @@ def validate_with_schema(name: str, payload: dict[str, Any]) -> list[str]:
         where = ".".join(str(x) for x in err.path) or "$"
         errors.append(f"[{name}] schema {where}: {err.message}")
     return sorted(errors)
+
+
+def validate_policy_text(text: str, *, user_facing: bool = False) -> list[str]:
+    if user_facing and all(re.search(rf"(?i)\b{word}\b", text) for word in ("investigate", "plan", "implement", "review")):
+        return ["user-facing internal workflow chooser is forbidden"]
+    if not user_facing and WRITE_COMMAND_PATTERN.search(text):
+        return [f"write SQL or mutation command is forbidden: {WRITE_COMMAND_PATTERN.search(text).group(0)}"]
+    return []
 
 
 def validate_one(name: str, payload: dict[str, Any], project_root: Path) -> list[str]:
@@ -190,6 +205,29 @@ def validate_one(name: str, payload: dict[str, Any], project_root: Path) -> list
     for rel in payload.get("do_not_touch", []) or []:
         if isinstance(rel, str) and ".." in rel.split("/"):
             errors.append(f"[{name}] do_not_touch uses '..' path traversal: {rel}")
+    db_target = payload.get("db_target")
+    db_status = payload.get("db_availability")
+    if isinstance(db_target, dict) and db_target.get("status") != db_status:
+        errors.append(f"[{name}] db_target.status must match db_availability")
+    if db_status == "unavailable" and not payload.get("db_unavailable_reason"):
+        errors.append(f"[{name}] db_unavailable_reason required when db_availability is unavailable")
+    if db_status == "verified":
+        facts = payload.get("verified_runtime_facts")
+        required_facts = ("current_database", "schema", "model_table_mapping", "verification_source", "verification_time")
+        if not isinstance(facts, dict) or any(not facts.get(field) for field in required_facts):
+            errors.append(f"[{name}] verified_runtime_facts must include current_database, schema, model_table_mapping, verification_source, verification_time")
+    if claim == "done" and db_status == "verified" and len(payload.get("evidence_refs", []) or []) < 2:
+        errors.append(f"[{name}] representative DB evidence required for verified done claim")
+    chooser_text = payload.get("user_facing_text")
+    if isinstance(chooser_text, str):
+        errors.extend(f"[{name}] {error}" for error in validate_policy_text(chooser_text, user_facing=True))
+    if payload.get("read_only_scope"):
+        for field in ("scope", "validation", "read_only_scope"):
+            values = payload.get(field, [])
+            values = values if isinstance(values, list) else [values]
+            for value in values:
+                if isinstance(value, str):
+                    errors.extend(f"[{name}] {error} in {field}" for error in validate_policy_text(value))
     return errors
 
 
