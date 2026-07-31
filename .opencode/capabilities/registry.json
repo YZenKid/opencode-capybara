@@ -873,58 +873,6 @@
       ]
     },
     {
-      "name": "sequential-thinking",
-      "status": "configured",
-      "owner_lane": "@orchestrator",
-      "risk": [
-        "reasoning-scaffold",
-        "latency",
-        "thought-logging-policy"
-      ],
-      "fallback": "use one brief local reasoning pass, record fallback in evidence, and continue with normal evidence-first workflow",
-      "evidence": [
-        "opencode.json:mcp.sequential-thinking",
-        ".opencode/docs/TOOL_USAGE.md",
-        ".opencode/docs/AGENT_TOOL_ACCESS.md"
-      ],
-      "source": "opencode.json",
-      "transport": "local",
-      "auth": "none",
-      "data_egress": "none expected beyond local process",
-      "write_capability": false,
-      "allowed_lanes": [
-        "@architect",
-        "@artifact-planner",
-        "@backend",
-        "@council",
-        "@designer",
-        "@devops",
-        "@explorer",
-        "@fixer",
-        "@frontend",
-        "@fullstack",
-        "@librarian",
-        "@mobile",
-        "@oracle",
-        "@orchestrator",
-        "@project-manager",
-        "@quality-gate",
-        "@skill-improver",
-        "@system-analyst",
-        "@visual-asset-generator"
-      ],
-      "denied_lanes": [],
-      "evidence_required": [
-        "summarize decisions/evidence only; do not expose raw thoughts",
-        "record fallback when the MCP is unavailable",
-        "keep tiny fast-path use to one brief thought",
-        "for non-trivial, ambiguous, or risky work, use at most 2 thought steps total",
-        "set or keep totalThoughts no higher than 2 when invoking sequential_thinking",
-        "this is a prompt-policy cap, not a claimed server-enforced cap unless separately evidenced"
-      ],
-      "secret_surfaces": []
-    },
-    {
       "name": "stitch",
       "status": "configured",
       "owner_lane": "@designer",

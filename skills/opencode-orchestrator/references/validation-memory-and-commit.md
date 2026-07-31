@@ -17,11 +17,6 @@ Read this before factual claims, done claims, memory writes, or commits.
 
 - If implemented stack, API, or asset format diverges materially from plan or project docs, resolve or escalate before completion.
 
-## Project Memory Finalization Gate
-
-- Before final summary for non-trivial work, persist a project-local memory entry through the wrapper.
-- If finalize fails, surface failure and do not mark task done until memory write succeeds or user is informed.
-
 ## Commit posture
 
 - Auto-commit default is ON for local commits only.
@@ -32,7 +27,6 @@ Read this before factual claims, done claims, memory writes, or commits.
 
 - verify-before-claim
 - Functional evidence rule
-- Project Memory Finalization Gate
 - auto-commit
 - never push automatically
 - stack-drift

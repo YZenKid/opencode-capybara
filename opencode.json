@@ -215,19 +215,6 @@
       "timeout": 180000,
       "enabled": true
     },
-    "sequential-thinking": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@modelcontextprotocol/server-sequential-thinking"
-      ],
-      "environment": {
-        "DISABLE_THOUGHT_LOGGING": "true"
-      },
-      "enabled": true,
-      "timeout": 30000
-    },
     "grep_app": {
       "type": "remote",
       "url": "https://mcp.grep.app",

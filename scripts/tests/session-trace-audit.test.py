@@ -103,43 +103,6 @@ class SessionTraceAuditTests(unittest.TestCase):
         deep = _run("--strict", str(fixture_root / "deep_checkpoint_allowed.md"))
         self.assertEqual(deep[0], 0, msg=deep[2] or deep[1])
 
-    def test_memory_reuse_signal(self) -> None:
-        root = _tmpdir("trace-mem-")
-        memory = json.dumps([
-            {
-                "id": "memory-tailwind-stack",
-                "lesson": "OpenCode projects use tailwind 4 with shadcn new-york registry; tailwindcss identity must be preserved.",
-                "tags": ["tailwind", "shadcn", "tokens"],
-                "context": "landings",
-            }
-        ])
-        _write(root / ".opencode" / "memory" / "knowledge.json", memory)
-
-        bad = textwrap.dedent("""\
-            Skill I'm using: opencode-frontend
-            MCPs I'm using: context7
-            confirmed_repo: tailwindcss 4.0.0 in package.json
-            landing hero went out, ship plan.
-        """)
-        code_b, out_b, err_b = _run(
-            "--project-root", str(root), "--json", "-", stdin=bad
-        )
-        self.assertEqual(code_b, 1, msg=f"expected WARN; got {code_b}: {err_b or out_b}")
-        data = json.loads(out_b)
-        codes = {f["code"] for f in data["findings"]}
-        self.assertIn("memory_reuse_missed", codes)
-
-        good = textwrap.dedent("""\
-            Skill I'm using: opencode-frontend
-            MCPs I'm using: context7
-            confirmed_repo: tailwindcss 4.0.0 in package.json
-            reuses memory-id: memory-tailwind-stack
-            landing hero went out, ship plan.
-        """)
-        code_g, out_g, err_g = _run(
-            "--project-root", str(root), "--json", "-", stdin=good
-        )
-        self.assertEqual(code_g, 0, msg=f"expected PASS; got {code_g}: {err_g or out_g}")
 
 
 if __name__ == "__main__":

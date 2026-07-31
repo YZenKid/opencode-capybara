@@ -64,22 +64,6 @@ export function workerLeaseLockFile(projectRoot, runId, worker) {
   return join(locksRoot(projectRoot), `${runId}--${worker}.lease.json`);
 }
 
-export function memoryRoot(projectRoot = process.cwd()) {
-  return join(runtimeRoot(projectRoot), "memory");
-}
-
-export function projectMemoryFile(projectRoot = process.cwd()) {
-  return join(memoryRoot(projectRoot), "project-memory.json");
-}
-
-export function sharedRunMemoryRoot(projectRoot, runId) {
-  return join(memoryRoot(projectRoot), "runs", runId);
-}
-
-export function sharedRunMemoryFile(projectRoot, runId, key) {
-  return join(sharedRunMemoryRoot(projectRoot, runId), `${key}.json`);
-}
-
 export function worktreeBaseRoot(projectRoot, runId) {
   const root = normalizeProjectRoot(projectRoot);
   return resolve(root, "..", `${repoSlug(root)}.opencode-worktrees`, runId);

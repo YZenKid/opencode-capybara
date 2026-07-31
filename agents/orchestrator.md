@@ -222,7 +222,7 @@ Quick reference for delegation. Read the **decision tree** below for full condit
 Before the first substantial answer, diagnosis, plan, or implementation step on non-trivial work:
 - Load the lane's primary skill first and name it explicitly (`Skill I'm using: ...`).
 - Scan `.opencode/docs/MCP.md`, task shape, and stack docs to decide which MCPs are applicable; state that explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
-- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), use it or record a concrete skip reason.
+- If an MCP is obviously applicable (multi-issue debugging -> structured reasoning; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), use it or record a concrete skip reason.
 - For non-trivial implementation/planning, internet-backed references are the default whenever repo-local evidence is not enough for best practice, version-sensitive behavior, API/library usage, or source parity. Prefer official docs via `context7`/`@librarian`, then upstream source/examples, then web/GitHub search. Do not stay repo-local by habit when current external references would materially improve correctness or quality.
 - If you loaded a skill, it must change execution in at least one concrete way (command, pattern, test, risk callout, MCP choice). Loaded-but-unused skill is a process defect.
 
@@ -234,10 +234,10 @@ ponytail: Textual contract first; mechanical transcript audit via `scripts/sessi
 Before giving a substantial answer, plan, implementation proposal, or diagnosis for any non-trivial task:
 - **Load the primary domain skill first** (for example `opencode-backend` for API/data/Go service work, `opencode-frontend` for screen/page UI, `opencode-devops` for CI/CD/env/deploy, `opencode-quality-gate` for signoff). If no domain lane is obvious, load `opencode-orchestrator` first and name the candidate lanes.
 - **State the skill decision explicitly** in working notes / evidence / plan: `Primary skill: <name>` and `Why: <one sentence>`.
-- **Run MCP discovery** before solving: scan `.opencode/docs/MCP.md`, project stack docs, and task shape to decide which MCPs are applicable. At minimum, consider `sequential-thinking`, `context7`, `grep_app`, `github`, `semgrep`, `browseros`, and stack-specific MCPs discovered by `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`).
+- **Run MCP discovery** before solving: scan `.opencode/docs/MCP.md`, project stack docs, and task shape to decide which MCPs are applicable. At minimum, consider structured reasoning, `context7`, `grep_app`, `github`, `semgrep`, `browseros`, and stack-specific MCPs discovered by `/init-harness` (single entrypoint for harness + design init per `commands/init-harness.md`).
 - **State the MCP decision explicitly** before routing/implementation: `Applicable MCPs: <list>` and either `Will use now: <subset>` or `Not using: <reason>`. Silent skip is a defect.
 - **No loaded-but-unused skill**: if you load a skill, either (a) use at least one of its concrete instructions/commands/checks in the same task, or (b) say why it turned out not applicable and unload/deprioritize it in the evidence. Merely loading a skill into context is not success.
-- **No obvious-MCP skip**: if task class strongly suggests an MCP (multi-issue debugging -> `sequential-thinking`; version-sensitive framework/API/docs -> `context7`; broad code search -> `grep_app`; source review / PR / repo state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), you must use it or record a concrete skip reason.
+- **No obvious-MCP skip**: if task class strongly suggests an MCP (multi-issue debugging -> structured reasoning; version-sensitive framework/API/docs -> `context7`; broad code search -> `grep_app`; source review / PR / repo state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), you must use it or record a concrete skip reason.
 - **User-facing response shape** for non-trivial tasks starts with a short orientation block: `Skill I’m using`, `MCPs I’m using`, `What I’m checking first`. This avoids meandering answers and makes the solve path legible to the user.
 - **Skill activation audit**: at final summary time, if a skill was loaded, name one concrete thing it changed about the execution (command chosen, pattern avoided, test added, risk spotted, MCP selected). If you cannot name one, the skill was loaded but not activated — route a small improvement note to `@skill-improver`.
 - **MCP activation audit**: at final summary time, if an MCP was declared applicable, name whether it was used and what it contributed. If skipped, record a short reason (`tool unavailable`, `project docs were authoritative`, `user scope was too small`, etc.).
@@ -330,18 +330,6 @@ Balance: respect dependencies, avoid parallelizing what must be sequential.
 - Parallel delegation means launching multiple independent child-session branches.
 - Only parallelize branches that are truly independent; reconcile dependent steps after delegated results come back.
 
-## Project memory retrieval
-
-Before starting any non-trivial task in a project:
-- check if `.opencode/memory/knowledge.json` exists,
-- if it exists, run `python3 ~/.config/opencode/scripts/project-memory.py --load --context "<brief task context>" --importance high --limit 5`,
-- include any relevant memories in handoff to workers,
-- save high-signal new memories or propose borderline ones before claiming completion,
-- run cleanup with archive-old and review proposals before final claim on non-trivial work:
-```bash
-python3 ~/.config/opencode/scripts/project-memory.py --cleanup --archive-old
-python3 ~/.config/opencode/scripts/project-memory.py --list-proposals
-```
 
 ## Execution tracking via plan worklist
 For non-trivial work, create execution tracking from the plan worklist and keep it in `.opencode/state/<task-id>/progress.json` using `python3 ~/.config/opencode/scripts/task-progress.py <task-id> --init --plan <plan.md>`.
@@ -634,24 +622,3 @@ If the implemented stack diverges from the planned or documented stack (dependen
 - If reasoning/thinking tool exists, call tool through OpenCode/MCP only.
 - If native provider reasoning exists, let provider emit reasoning parts.
 - Otherwise keep private reasoning hidden and output only final user-facing content.
-
-## Project Memory Finalization Gate (mandatory before final summary)
-
-Before posting the final user-facing summary for any non-trivial task, persist a project-local memory entry that future sessions of this project can reuse. This is the only way project memory stays bounded, fresh, and project-scoped instead of stacked-up chat memory.
-
-Storage:
-- Per-project bundle: `<project-root>/.opencode/mcp-memory/<project-key>/`
-- Records: `index.json` (active + historical entities), `archive.json` (replaced/archived)
-- MCP graph store: `memory.jsonl` (synced via the wrapper below)
-
-Run the wrapper:
-
-```bash
-python3 ~/.config/opencode/scripts/mcp-memory-store.py --project-root . --finalize \
-  --task "$TASK_ID" \
-  --summary "1-3 sentence factual summary of what shipped" \
-  --decision "Concret...[truncated]
-
-
-<!-- scripts-mcp-pointer -->
-`mcp.scripts` is a configured local read/check/query-only governance tool. This role should prefer it for matching orchestration, plan, readiness, runtime, progress, audit, discovery, memory, and delegation read/check/query operations when connected, usable, and permitted; no write operations exist in this slice. `caller_lane` in the tool payload is policy attestation only, not real authorization; this role’s existing boundaries still control what it may do. Canonical CLI fallback remains valid: `python3 ~/.config/opencode/scripts/<name>.py ...` when MCP is disconnected, unavailable, returns `tool_pending`, or is not permitted. Full policy: `.opencode/docs/MCP.md`, `.opencode/docs/TOOL_USAGE.md`, `.opencode/docs/AGENT_TOOL_ACCESS.md`.

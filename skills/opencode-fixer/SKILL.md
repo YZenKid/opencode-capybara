@@ -210,38 +210,6 @@ Do not commit 0-byte, demo, or placeholder assets when the plan requires real as
 
 Do not ship an empty homepage, tagline-only landing, or placeholder main surface when the plan requires a usable first slice. If design direction or content is missing, stop and escalate instead of padding with scaffolding.
 
-## Project memory storage
-
-After a task finishes and produced reusable knowledge, save important lessons to `.opencode/memory/knowledge.json` using `python3 ~/.config/opencode/scripts/project-memory.py`.
-
-Default rule: **save high-signal knowledge only**. Do not store routine implementation details, obvious library usage, or one-off noise.
-
-Save directly with `--save` when the lesson is unambiguous and high-signal.
-Propose with `--propose` when the lesson is valuable but the agent is unsure of its long-term importance or similarity to existing memories. Proposals go to `.opencode/memory/proposals.json` and are reviewed by `@quality-gate` before final claim.
-
-Save `high`:
-- recurring pitfall
-- project-specific invariant
-- security/deploy constraint
-- expensive workaround
-- user correction that will matter again
-- previous important assumption proven wrong
-
-Save `medium`:
-- useful pattern likely to recur, but not critical.
-
-Avoid `low`:
-- routine implementation notes,
-- obvious library/API usage,
-- one-off debugging trivia,
-- temporary noise.
-
-Before final completion on non-trivial work:
-```bash
-python3 ~/.config/opencode/scripts/project-memory.py --cleanup --archive-old
-python3 ~/.config/opencode/scripts/project-memory.py --list-proposals
-```
-
 ## Escalation
 
 - Escalate to `@explorer` when repo facts, tests, or ownership are still unclear.
@@ -249,10 +217,6 @@ python3 ~/.config/opencode/scripts/project-memory.py --list-proposals
 - Escalate to `@architect` or `@oracle` when the change stops being bounded and becomes an architecture/risk tradeoff.
 - Escalate to `@quality-gate` after non-trivial completion claims or when security/privacy/risk posture must be rechecked.
 - Escalate immediately when planned vs actual stack/API/asset/env requirements diverge materially.
-## Sequential Thinking MCP Gate
-
-After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 2 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `2` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.
-
 ## skills.sh inspirations
 
 This skill folder absorbs selected practices from `skills.sh` while staying a single local skill folder for this agent. Do not split these inspirations into separate local skills here. Use curated notes in `references/skills-sh-curated.md` and adapt them through this lane's own contracts, boundaries, and evidence rules.

@@ -16,86 +16,6 @@ When a command should operate on a specific task, pass the task id as required.
 
 ## Available scripts
 
-### project-memory.py
-Project knowledge memory. Stores reusable lessons, pitfalls, patterns, and decisions per project at `.opencode/memory/`.
-
-**Files managed**:
-- `.opencode/memory/knowledge.json` — active memories
-- `.opencode/memory/archive.json` — archived memories
-- `.opencode/memory/proposals.json` — pending proposals awaiting review
-
-**Save a memory directly**:
-```bash
-python3 ~/.config/opencode/scripts/project-memory.py \
-  --save \
-  --task <task-id> \
-  --category pitfall \
-  --importance high \
-  --lesson "Serwist route handler must wrap dynamic APIs; static export breaks /api/health" \
-  --context "PWA Lighthouse audit failed because /api/health returned 404" \
-  --tags "pwa,serwist,route"
-```
-
-**Propose a memory for review**:
-```bash
-python3 ~/.config/opencode/scripts/project-memory.py \
-  --propose \
-  --task <task-id> \
-  --category pattern \
-  --importance medium \
-  --lesson "Use Dexie bulkPut for offline sync queue" \
-  --context "Offline sync race condition" \
-  --tags "dexie,sync,offline"
-```
-
-**List pending proposals**:
-```bash
-python3 ~/.config/opencode/scripts/project-memory.py --list-proposals
-```
-
-**Apply a proposal**:
-```bash
-python3 ~/.config/opencode/scripts/project-memory.py --apply-proposal prop-0001
-```
-
-**Load relevant memories**:
-```bash
-python3 ~/.config/opencode/scripts/project-memory.py \
-  --load \
-  --context "build PWA with offline audio assets" \
-  --importance high \
-  --tags "pwa,assets" \
-  --limit 5
-```
-
-**Search memories**:
-```bash
-python3 ~/.config/opencode/scripts/project-memory.py --search "manifest"
-```
-
-**Mark memory as used**:
-```bash
-python3 ~/.config/opencode/scripts/project-memory.py --use --id mem-0003
-```
-
-**Cleanup low-value/old entries**:
-```bash
-python3 ~/.config/opencode/scripts/project-memory.py --cleanup --archive-old
-```
-
-**Export all memories to markdown**:
-```bash
-python3 ~/.config/opencode/scripts/project-memory.py --export > .opencode/memory/README.md
-```
-
-**Important policies**:
-- Save only high-signal knowledge. Avoid `low` importance unless explicitly requested.
-- Retrieval defaults should use `--importance high`.
-- Save directly when a lesson is unambiguous and reusable. Propose when unsure.
-- Run cleanup and review proposals before final completion claim.
-
----
-
 ### verify-visual-quality-evidence.py
 Deterministic checker for experiential UI-quality evidence under `.opencode/evidence/<task-id>/`.
 
@@ -313,13 +233,6 @@ Seeds `DESIGN.md` and `.opencode/design-system/registry.md` into a project from 
 python3 ~/.config/opencode/scripts/init-design-system.py --project-root .
 ```
 
-### design-debt-tracker.py
-Builds a longitudinal design debt report from `.opencode/memory/knowledge.json`.
-
-```bash
-python3 ~/.config/opencode/scripts/design-debt-tracker.py --project-root .
-```
-
 ---
 
 ## Consuming agents and skills
@@ -332,7 +245,6 @@ python3 ~/.config/opencode/scripts/<script>.py --project-root . [script-specific
 
 | Script | Referenced by |
 |---|---|
-| `project-memory.py` | `@orchestrator`, `@fixer`, `@artifact-planner`, `@quality-gate`, `@librarian`, plus matching `opencode-*` skills |
 | `task-progress.py` | `@orchestrator`, `@plan-reviewer`, plus matching skills |
 | `pre-gate-smoke-check.py` | `@quality-gate`, `@orchestrator` |
 | `runtime-verify.py` | `@quality-gate`, `@orchestrator` |
@@ -344,15 +256,10 @@ python3 ~/.config/opencode/scripts/<script>.py --project-root . [script-specific
 | `component-spec-generator.py` | `@design-system-engineer` |
 | `design-audit.py` | `@designer`, `@quality-gate` |
 | `init-design-system.py` | `@designer`, `@orchestrator` |
-| `design-debt-tracker.py` | `@designer`, `@quality-gate` |
 | `template-source-discovery.py` | `@orchestrator`, `@designer`, `@artifact-planner`, `@frontend`, `@quality-gate` (Template/Source Discovery Hard Gate) |
 | `subagent-handoff-check.py` | `@orchestrator`, `@artifact-planner`, every worker lane (`@fixer`, `@frontend`, `@backend`, `@mobile`, `@devops`, `@designer`, `@explorer`, `@librarian`, `@quality-gate`, etc.) for the Subagent Handoff Contract |
 | `delegation-log.py` | `@orchestrator`, `@artifact-planner`, every worker lane; append-only NDJSON record of planner→worker→return flows at `.opencode/state/<task>/delegation.jsonl` |
 | `plan-compliance-check.py` | `@orchestrator`, `@quality-gate`; pre-completion checkpoint that cross-checks plan worklist markers, handoff payloads, progress tracker, and delegation log |
-| `memory-reuse-check.py` | `@orchestrator`, every worker lane; cross-session validator that flags verification claims in evidence/plan that do not reference a memory entry they overlap |
-| `mcp-memory-store.py` | `@orchestrator`; per-project MCP memory wrapper. Persists bounded, replace-aware, project-local task memory under `.opencode/mcp-memory/<project-key>/` via `npx @modelcontextprotocol/server-memory` with a local JSON fallback. Run before final summary to avoid stacked-up chat memory. |
-| `runtime/memory-finalize-hook.mjs` | Runtime completion hook: auto-finalizes project-local memory when `task-store.completeTask()` transitions a task to `completed` (fail-soft, kill switch `OPENCODE_MEMORY_FINALIZE=0`). |
-| `runtime/memory-reuse-loader.mjs` | Runtime dispatch hook: prepends the top 3 relevant project-memory hits to worker prompts before launch (fail-soft, kill switch `OPENCODE_MEMORY_REUSE_LOADER=0`). |
 | `backup-cleanup.py` | Local infrastructure hygiene: scans the repo `backups/` (and the `opencode-capybara/backups/` mirror) and trashes entries older than 3 days, then purges trash older than 14 days. Manual via `npm run cleanup:backups:scan|trash|purge|apply`. Dry-run by default; pass `--apply` flags for actual moves. |
 
 When adding a new governance script, also update this README and wire the relevant agent/skill prompts with a concrete command example.

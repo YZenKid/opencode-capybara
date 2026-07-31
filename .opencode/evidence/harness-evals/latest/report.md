@@ -1,7 +1,7 @@
 # Harness Eval Report
 
-- Timestamp: 2026-07-31T05:24:35.715Z
-- Harness version: 8ed98c8777864ad384a516d75b9bfcd23bac436f
+- Timestamp: 2026-07-31T06:55:56.425Z
+- Harness version: dc04e71969b8b96ca0272a7b3b362a79a016acbb
 - Task summary: Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.
 - Verdict: PASS
 - Fixture count: 52
@@ -645,25 +645,25 @@
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/design-audit.md, src/Landing.tsx
-- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-5vKltJ/.opencode/evidence/design-audit.md"
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-zN1xxQ/.opencode/evidence/design-audit.md"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for design-revamp-contract-generates-artifact-requirements
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/sample-task/revamp-contract.json, src/Landing.tsx
-- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-xGoXQo/.opencode/evidence/sample-task/revamp-contract.json"
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-npUBBb/.opencode/evidence/sample-task/revamp-contract.json"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for design-review-bundle-seeds-preview-contract
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
-- Generated files: .opencode/evidence/sample-task/design-debt.md, .opencode/evidence/sample-task/design-handoff.md, .opencode/evidence/sample-task/design-review.md, .opencode/evidence/sample-task/parity-report.md, .opencode/evidence/sample-task/preview-contract.json, .opencode/evidence/sample-task/preview.json, src/Landing.tsx
-- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-8r3Axm/.opencode/evidence/sample-task/design-handoff.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-8r3Axm/.opencode/evidence/sample-task/design-review.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-8r3Axm/.opencode/evidence/sample-task/parity-report.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-8r3Axm/.opencode/evidence/sample-task/design-debt.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-8r3Axm/.opencode/evidence/sample-task/preview.json\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-8r3Axm/.opencode/evidence/sample-task/preview-contract.json"
+- Generated files: .opencode/evidence/sample-task/design-handoff.md, .opencode/evidence/sample-task/design-review.md, .opencode/evidence/sample-task/parity-report.md, .opencode/evidence/sample-task/preview-contract.json, .opencode/evidence/sample-task/preview.json, src/Landing.tsx
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-A5066T/.opencode/evidence/sample-task/design-handoff.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-A5066T/.opencode/evidence/sample-task/design-review.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-A5066T/.opencode/evidence/sample-task/parity-report.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-A5066T/.opencode/evidence/sample-task/preview.json\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-A5066T/.opencode/evidence/sample-task/preview-contract.json"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for design-source-importer-builds-source-pack
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/design-system/catalog.json, .opencode/evidence/design-source-pack.md, .opencode/evidence/url-structure-example.com.md, src/Landing.tsx
-- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-zUeM2C/.opencode/evidence/design-source-pack.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-zUeM2C/.opencode/design-system/catalog.json"
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-98DUNq/.opencode/evidence/design-source-pack.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-98DUNq/.opencode/design-system/catalog.json"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.
 ### Execution metadata for init-harness-minimal-foreign-repo-scaffold
 - Mode: init-harness-scaffold
@@ -684,5 +684,5 @@
 - Mode: script-run
 - Seed root: scripts/evals/fixtures/design-audit-seed
 - Generated files: .opencode/evidence/polish-audit.md, src/Landing.tsx
-- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-b33fUn/.opencode/evidence/polish-audit.md"
+- Stdout captured: "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-KHZXCz/.opencode/evidence/polish-audit.md"
 - Limitation: Eval-only temp-repo script execution; uses local scripts and seed fixture files.

@@ -144,7 +144,7 @@ ponytail: This is a soft discipline first. The upgrade path is a session-trace/d
 Before the first substantial answer, diagnosis, plan, or implementation step on non-trivial work:
 - Load the lane's primary skill first and name it explicitly (`Skill I'm using: ...`).
 - Scan `.opencode/docs/MCP.md`, task shape, and stack docs to decide which MCPs are applicable; state that explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
-- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), use it or record a concrete skip reason.
+- If an MCP is obviously applicable (multi-issue debugging -> structured reasoning; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), use it or record a concrete skip reason.
 - If you loaded a skill, it must change execution in at least one concrete way (command, pattern, test, risk callout, MCP choice). Loaded-but-unused skill is a process defect.
 
 ponytail: Textual contract first; mechanical transcript audit via `scripts/session-trace-audit.py` is the upgrade path.
@@ -279,40 +279,6 @@ remediation_worklist:
 residual_risks:
   - "Performance regression possible - monitor after deployment"
 
-```
-
-## Project memory gate
-
-During review, verify:
-- `@orchestrator`/`@fixer` searched `.opencode/memory/knowledge.json` before starting if it exists,
-- high-signal findings were saved directly (importance `high` or well-justified `medium`),
-- borderline/high-value findings were proposed instead of silently discarded,
-- memory findings that affected the task are referenced in evidence,
-- `python3 ~/.config/opencode/scripts/project-memory.py --cleanup --archive-old` was run before final completion on non-trivial work.
-
-If a task produced reusable high-value knowledge but no memory was saved or proposed, add it as a `required_before_PASS` remediation item.
-
-### Quality-gate memory proposal authority
-`@quality-gate` may also create proposals for important lessons discovered during review that the implementation lanes missed. Use:
-```bash
-python3 ~/.config/opencode/scripts/project-memory.py --propose \
-  --task <task-id> \
-  --category pitfall \
-  --importance high \
-  --lesson "..." \
-  --context "..." \
-  --tags "..."
-```
-
-### Proposal review during gate
-List pending proposals and decide per proposal:
-- **apply**: if lesson is reusable and not duplicate,
-- **archive**: if outdated or irrelevant,
-- **leave pending**: if user decision is needed.
-
-```bash
-python3 ~/.config/opencode/scripts/project-memory.py --list-proposals
-python3 ~/.config/opencode/scripts/project-memory.py --apply-proposal <proposal-id>
 ```
 
 ## Functional evidence gate

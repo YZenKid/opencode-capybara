@@ -32,15 +32,9 @@ Checks:
    activation audit sentence).
 3. Obvious MCPs should be used for obvious task classes unless a skip
    reason is recorded.
-4. Multi-issue / cascading-debug sessions should use sequential-thinking.
+4. Multi-issue / cascading-debug sessions should use explicit step labels or a clear branching note.
 5. Version-sensitive framework/API/library work should use context7 or
    an explicit skip reason.
-6. Cross-session memory reuse: a session that records a verification
-   claim (`confirmed_repo` / `confirmed_runtime` / `confirmed_docs`)
-   with a topic keyword should reference the corresponding entry in
-   `.opencode/memory/knowledge.json` if one exists, instead of
-   re-deriving the same fact. Reported as `WARN memory_reuse_missed`
-   when an obvious memory entry was not referenced.
 
 ponytail: heuristic matching only; false positives/negatives are possible.
 Upgrade path: parse structured OpenCode transcript format when available.
@@ -151,7 +145,6 @@ def declared_mcps(text: str) -> list[str]:
 
 def used_mcps(text: str) -> set[str]:
     patterns = {
-        "sequential-thinking": r"sequential[-_ ]thinking|sequential_thinking",
         "context7": r"\bcontext7\b",
         "grep_app": r"\bgrep_app\b|grep\.app|grep_app search",
         "github": r"\bgithub\b|pull request|PR\b|issue #[0-9]+",
@@ -194,74 +187,6 @@ def explicit_skip_reason(mcp: str, text: str) -> bool:
         text,
     )
 
-
-VERIFICATION_PREFIX = re.compile(
-    r"(?:confirmed_repo|confirmed_runtime|confirmed_docs|user_confirmed|assumption|unverified)\s*[:\-]\s*([^\n]+)",
-    re.IGNORECASE,
-)
-MEMORY_TOKEN_RE = re.compile(r"[A-Za-z][A-Za-z0-9_./\-]{2,}")
-KEYWORD_STOPWORDS = {
-    "the", "this", "that", "with", "from", "into", "and", "for", "but", "not",
-    "have", "has", "had", "was", "were", "are", "but", "yet", "use", "using",
-    "uses", "used", "via", "after", "before", "should", "would", "could",
-    "into", "onto", "over", "under", "then", "than", "because", "while",
-    "case", "file", "line", "lines", "code", "work", "task", "session",
-    "page", "test", "tests", "agent", "agents", "skill", "skills",
-    "context", "memory", "claim", "claims", "claim_level",
-    "tutorial", "example", "note", "notes", "doc", "docs",
-}
-
-
-def keyword_set(text: str) -> set[str]:
-    return {tok.lower() for tok in MEMORY_TOKEN_RE.findall(text) if len(tok) >= 4} - KEYWORD_STOPWORDS
-
-
-def load_memory_entries(project_root: Path) -> list[dict]:
-    memory_path = project_root / ".opencode" / "memory" / "knowledge.json"
-    if not memory_path.is_file():
-        return []
-    try:
-        data = json.loads(memory_path.read_text(encoding="utf-8", errors="replace"))
-    except json.JSONDecodeError:
-        return []
-    return data if isinstance(data, list) else []
-
-
-def memory_reuse_misses(text: str, project_root: Path) -> list[Finding]:
-    findings: list[Finding] = []
-    entries = load_memory_entries(project_root)
-    if not entries:
-        return findings
-    text_keywords = keyword_set(text)
-    if not text_keywords:
-        return findings
-    for entry in entries:
-        lesson = str(entry.get("lesson") or entry.get("text") or "")
-        tags = entry.get("tags") or []
-        ctx = str(entry.get("context") or "")
-        corpus = " ".join([lesson, ctx, " ".join(tags) if isinstance(tags, list) else str(tags)])
-        mem_keywords = keyword_set(corpus)
-        overlap = text_keywords & mem_keywords
-        if len(overlap) < 1:
-            continue
-        # Reuse signal present?
-        cid = str(entry.get("id") or entry.get("memory_id") or lesson[:40])
-        if re.search(rf"\bmemory[-_ ]?id\s*[:=]\s*{re.escape(cid)}", text, re.IGNORECASE):
-            continue
-        if re.search(rf"\b{re.escape(cid)}\b", text):
-            continue
-        if has(r"memory[-_ ]?reuse|memory[-_ ]?recall|reuse[d]? from memory|from memory", text):
-            continue
-        findings.append(Finding(
-            level="WARN",
-            code="memory_reuse_missed",
-            message=(
-                f"Memory entry '{cid}' looks relevant (overlap={sorted(overlap)[:5]}) "
-                "but the session re-derived instead of referencing it."
-            ),
-            evidence=[cid, *sorted(overlap)[:5]],
-        ))
-    return findings
 
 
 def scope_findings(text: str) -> list[Finding]:
@@ -325,14 +250,6 @@ def audit(text: str, source: str) -> Report:
                 evidence=[skill],
             ))
 
-    if signals["multi_issue"] and "sequential-thinking" not in mcps_used and not explicit_skip_reason("sequential", text):
-        report.findings.append(Finding(
-            level="WARN",
-            code="missing_sequential_thinking",
-            message="Multi-issue / cascading-debug session did not show sequential-thinking usage or skip reason.",
-            evidence=["multi_issue=true"],
-        ))
-
     if signals["version_sensitive"] and "context7" not in mcps_used and not explicit_skip_reason("context7", text):
         report.findings.append(Finding(
             level="WARN",
@@ -375,7 +292,7 @@ def audit(text: str, source: str) -> Report:
 
     for mcp in mcps_declared:
         norm = mcp.lower()
-        if norm in {"sequential-thinking", "context7", "grep_app", "github", "semgrep", "playwright", "shadcn", "9router.web_search"}:
+        if norm in {"context7", "grep_app", "github", "semgrep", "playwright", "shadcn", "9router.web_search"}:
             if norm not in mcps_used and not explicit_skip_reason(norm, text):
                 report.findings.append(Finding(
                     level="WARN",
@@ -415,13 +332,10 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("source", help="Transcript/evidence path, or '-' for stdin")
     p.add_argument("--json", action="store_true", help="Emit JSON report")
     p.add_argument("--strict", action="store_true", help="Exit non-zero on any WARN finding (CI mode)")
-    p.add_argument("--project-root", default=".", help="Project root for memory cross-check")
     args = p.parse_args(argv)
 
     text = read_text(args.source)
-    project_root = Path(args.project_root).resolve()
     report = audit(text, args.source)
-    report.findings.extend(memory_reuse_misses(text, project_root))
     if args.json:
         print(json.dumps({
             "source": report.source,

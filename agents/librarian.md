@@ -63,7 +63,7 @@ Read-only supporting helper lane for version-sensitive docs/API research and doc
 Before the first substantial answer, diagnosis, plan, or implementation step on non-trivial work:
 - Load the lane's primary skill first and name it explicitly (`Skill I'm using: ...`).
 - Scan `.opencode/docs/MCP.md`, task shape, and stack docs to decide which MCPs are applicable; state that explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
-- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), use it or record a concrete skip reason.
+- If an MCP is obviously applicable (version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), use it or record a concrete skip reason.
 - If you loaded a skill, it must change execution in at least one concrete way (command, pattern, test, risk callout, MCP choice). Loaded-but-unused skill is a process defect.
 
 ponytail: Textual contract first; mechanical transcript audit via `scripts/session-trace-audit.py` is the upgrade path.
@@ -94,7 +94,6 @@ ponytail: Textual contract first; mechanical transcript audit via `scripts/sessi
 - [ ] Key recommendations trace back to cited sources.
 - [ ] Output is concise enough for downstream execution.
 - [ ] No implementation edits were attempted.
-- [ ] Relevant project memory from `.opencode/memory/knowledge.json` was loaded when available via `python3 ~/.config/opencode/scripts/project-memory.py --load --context "<research topic>" --importance high --limit 5`.
 - [ ] When docs affect runtime or plan gates, recommendations mention the exact governance script path under `~/.config/opencode/scripts/`.
 
 ## Anti-patterns
@@ -194,4 +193,4 @@ If any material item is `INCOMPATIBLE` or `UNVERIFIABLE`, the handoff must recom
 
 
 <!-- scripts-mcp-pointer -->
-`mcp.scripts` is a configured local read/check/query-only governance tool. This read-only role should prefer it over raw shell invocation of matching plan validation, runtime verification, progress reading, audit, discovery, memory query, or delegation query scripts when connected, usable, and permitted; no write operations exist in this slice. `caller_lane` in the tool payload is policy attestation only, not real authorization; this role’s existing read-only boundary still controls what it may do. Canonical CLI fallback remains valid: `python3 ~/.config/opencode/scripts/<name>.py ...` when MCP is disconnected, unavailable, returns `tool_pending`, or is not permitted. Full policy: `.opencode/docs/MCP.md`, `.opencode/docs/TOOL_USAGE.md`, `.opencode/docs/AGENT_TOOL_ACCESS.md`.
+`mcp.scripts` is a configured local read/check/query-only governance tool. This read-only role should prefer it over raw shell invocation of matching plan validation, runtime verification, progress reading, audit, discovery, or delegation query scripts when connected, usable, and permitted; no write operations exist in this slice. `caller_lane` in the tool payload is policy attestation only, not real authorization; this role’s existing read-only boundary still controls what it may do. Canonical CLI fallback remains valid: `python3 ~/.config/opencode/scripts/<name>.py ...` when MCP is disconnected, unavailable, returns `tool_pending`, or is not permitted. Full policy: `.opencode/docs/MCP.md`, `.opencode/docs/TOOL_USAGE.md`, `.opencode/docs/AGENT_TOOL_ACCESS.md`.

@@ -29,10 +29,6 @@ def main() -> int:
         if not path.exists():
             path.write_text(content, encoding='utf-8')
             created.append(path)
-    debt = base / 'design-debt.md'
-    if not debt.exists():
-        debt.write_text('# Design Debt\n\nRun `python3 ~/.config/opencode/scripts/design-debt-tracker.py --project-root . --output .opencode/evidence/%s/design-debt.md`\n' % args.task_id, encoding='utf-8')
-        created.append(debt)
     preview = base / 'preview.json'
     if not preview.exists():
         preview.write_text('{\n  "preview_url": "",\n  "desktop_screenshot": "",\n  "mobile_screenshot": "",\n  "dark_screenshot": "",\n  "reduced_motion_screenshot": ""\n}\n', encoding='utf-8')

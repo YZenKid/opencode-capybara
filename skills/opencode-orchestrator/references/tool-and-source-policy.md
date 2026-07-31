@@ -4,7 +4,7 @@ Read this before MCP selection, external source lookup, template/source discover
 
 ## MCP Discovery Matrix
 
-- Multi-issue debugging / cascading failures / 3+ inter-related symptoms -> `sequential-thinking`.
+- Multi-issue debugging / cascading failures / 3+ inter-related symptoms -> structured reasoning or explicit branching notes.
 - Version-sensitive framework/API/library behavior -> `context7`.
 - Broad code search / pattern hunt -> `grep_app` or repo search.
 - Repo / PR / issue / commit / branch / file history -> `github`.
@@ -30,7 +30,6 @@ Read this before MCP selection, external source lookup, template/source discover
 ## Trigger phrases to preserve
 
 - MCP Discovery Matrix
-- sequential-thinking
 - Template/Source Discovery Hard Gate
 - Source-approved 1:1 Porting / Literal Porting Contract
 - reference-first by default, not repo-only

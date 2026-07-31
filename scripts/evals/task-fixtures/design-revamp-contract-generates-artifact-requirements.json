@@ -14,9 +14,8 @@
       "mustInclude": [
         "\"revamp_class\": \"full-revamp\"",
         "design-handoff.md",
-        "parity-report.md",
-        "design-debt.md",
-        "preview-evidence-check"
+         "parity-report.md",
+         "preview-evidence-check"
       ],
       "reasonCode": "revamp-contract-missing-requirements"
     }

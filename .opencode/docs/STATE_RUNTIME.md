@@ -1,7 +1,7 @@
 
 # State Runtime
 
-`scripts/runtime/` is the repo-local execution control plane for durable runs, task queues, mailbox state, runtime memory, worktree helpers, and replayable run artifacts.
+`scripts/runtime/` is the repo-local execution control plane for durable runs, task queues, mailbox state, worktree helpers, and replayable run artifacts.
 
 ## Goal
 Add first-class runtime primitives without pretending to modify OpenCode core internals. This layer stays local, deterministic, and script-auditable.
@@ -12,7 +12,6 @@ Add first-class runtime primitives without pretending to modify OpenCode core in
 - Event stream: `.opencode/state/runs/<run-id>/events.ndjson`
 - Task queue: `.opencode/state/tasks/<run-id>/*.json`
 - Mailbox: `.opencode/state/mailbox/<run-id>/<worker>/*.json`
-- Shared memory: `.opencode/state/memory/`
 - Locks: `.opencode/state/locks/*.lock.json`
 
 ## Safety rules

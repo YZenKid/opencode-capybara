@@ -14,7 +14,6 @@ Configured MCP surfaces include:
 - `time`
 - `9router`
 - `context7`
-- `sequential-thinking`
 - `grep_app`
 - `stitch`
 - `browseros`
@@ -25,14 +24,6 @@ Configured MCP surfaces include:
 - `21st`
 - `scripts`
 - Legacy `image-asset-generator` removed; image asset tools live under `9router`.
-
-## Sequential Thinking MCP
-
-`sequential-thinking` exposes `sequential_thinking`.
-
-Use it after loading a skill and before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 2 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `2` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback. Use it as a reasoning scaffold only: it does not replace repo evidence, docs, tests, browser/runtime validation, or role boundaries. Do not expose raw chain-of-thought to the user; summarize decisions and evidence only.
-
-After changing `opencode.json`, restart OpenCode before expecting this MCP to become usable.
 
 ## 9Router MCP
 
@@ -99,10 +90,8 @@ First slice exposes fixed read/check/query tools only:
 - `scripts_visual_audit`
 - `scripts_legal_source_check`
 - `scripts_design_audit`
-- `scripts_memory_query`
 - `scripts_progress_read`
 - `scripts_delegation_read`
-- `scripts_memory_reuse_check`
 - `scripts_session_trace_audit`
 - `scripts_backup_scan`
 - `scripts_rules_dry_run`

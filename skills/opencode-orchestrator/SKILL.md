@@ -81,7 +81,6 @@ Use this as router and integrator only.
 - required_before_PASS.
 - non_blocking_follow_up.
 - Rerun targeted validation and reroute to `@quality-gate`.
-- Project Memory Finalization Gate.
 - Auto-commit default is ON for local commits only.
 - never push automatically.
 - plan-bound non-trivial task completes.

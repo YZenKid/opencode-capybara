@@ -1,7 +1,7 @@
 {
   "task_id": "harness-evals-latest",
-  "timestamp": "2026-07-31T05:24:35.715Z",
-  "harness_version": "8ed98c8777864ad384a516d75b9bfcd23bac436f",
+  "timestamp": "2026-07-31T06:55:56.425Z",
+  "harness_version": "dc04e71969b8b96ca0272a7b3b362a79a016acbb",
   "prompt_or_task_summary": "Run lightweight deterministic harness eval fixtures for docs system-of-record and runtime plugin-removal regressions.",
   "tool_trace_summary": [
     "Read eval fixture JSON files from scripts/evals/fixtures/",
@@ -133,7 +133,7 @@
     "release_critical_average_score_0_to_5": 5
   },
   "drift_summary": {
-    "previous_timestamp": "2026-07-31T04:49:30.639Z",
+    "previous_timestamp": "2026-07-31T06:54:36.176Z",
     "previous_average_score_0_to_5": 3.89,
     "average_score_delta": 0,
     "failed_delta": 0,
@@ -573,7 +573,7 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/design-audit.py --project-root . --report .opencode/evidence/design-audit.md",
-        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-5vKltJ/.opencode/evidence/design-audit.md\n",
+        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-zN1xxQ/.opencode/evidence/design-audit.md\n",
         "stderr": "",
         "exit_code": 1,
         "generated_files": [
@@ -599,7 +599,7 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/design-revamp-contract.py --project-root . --task-id sample-task --class full-revamp",
-        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-xGoXQo/.opencode/evidence/sample-task/revamp-contract.json\n",
+        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-npUBBb/.opencode/evidence/sample-task/revamp-contract.json\n",
         "stderr": "",
         "exit_code": 0,
         "generated_files": [
@@ -625,11 +625,10 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/design-review-bundle.py --project-root . --task-id sample-task",
-        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-8r3Axm/.opencode/evidence/sample-task/design-handoff.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-8r3Axm/.opencode/evidence/sample-task/design-review.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-8r3Axm/.opencode/evidence/sample-task/parity-report.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-8r3Axm/.opencode/evidence/sample-task/design-debt.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-8r3Axm/.opencode/evidence/sample-task/preview.json\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-8r3Axm/.opencode/evidence/sample-task/preview-contract.json\n",
+        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-A5066T/.opencode/evidence/sample-task/design-handoff.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-A5066T/.opencode/evidence/sample-task/design-review.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-A5066T/.opencode/evidence/sample-task/parity-report.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-A5066T/.opencode/evidence/sample-task/preview.json\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-A5066T/.opencode/evidence/sample-task/preview-contract.json\n",
         "stderr": "",
         "exit_code": 0,
         "generated_files": [
-          ".opencode/evidence/sample-task/design-debt.md",
           ".opencode/evidence/sample-task/design-handoff.md",
           ".opencode/evidence/sample-task/design-review.md",
           ".opencode/evidence/sample-task/parity-report.md",
@@ -661,7 +660,7 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/design-source-importer.py --project-root . --repo-path src --screenshot-dir screenshots --url https://example.com --output .opencode/evidence/design-source-pack.md",
-        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-zUeM2C/.opencode/evidence/design-source-pack.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-zUeM2C/.opencode/design-system/catalog.json\n",
+        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-98DUNq/.opencode/evidence/design-source-pack.md\n/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-98DUNq/.opencode/design-system/catalog.json\n",
         "stderr": "",
         "exit_code": 0,
         "generated_files": [
@@ -1012,7 +1011,7 @@
         "mode": "script-run",
         "seed_root": "scripts/evals/fixtures/design-audit-seed",
         "command": "python3 ~/.config/opencode/scripts/ui-polish-audit.py --project-root . --report .opencode/evidence/polish-audit.md",
-        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-b33fUn/.opencode/evidence/polish-audit.md\n",
+        "stdout": "/private/var/folders/2r/vlp3bhfn1cl5cpdhp23rkh440000gn/T/opencode-script-run-KHZXCz/.opencode/evidence/polish-audit.md\n",
         "stderr": "",
         "exit_code": 1,
         "generated_files": [

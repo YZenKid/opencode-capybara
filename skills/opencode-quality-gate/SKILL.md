@@ -245,7 +245,6 @@ Required checks when relevant:
 - Screenshot evidence supports readiness/parity claims: before/current/final and key responsive viewports **as captured by Playwright/browser automation**. When before/after screenshot folders exist, require `python3 ~/.config/opencode/scripts/design-screenshot-compare.py --before-dir .opencode/evidence/<task-id>/before --after-dir .opencode/evidence/<task-id>/after --output .opencode/evidence/<task-id>/design-compare.md` evidence.
 - For source-approved 1:1 tasks, require source inventory plus evidence that upstream file/component/layout anatomy was reused/adapted, not merely reinterpreted.
 - Accessibility evidence covers contrast, semantics, focus, labels, keyboard/touch, alt text, and reduced-motion. For polish-mode or substantial UI claims, require `python3 ~/.config/opencode/scripts/ui-polish-audit.py --project-root .` and `python3 ~/.config/opencode/scripts/design-audit.py --project-root .` results or explicit rationale why they are inapplicable.
-- For substantial UI debt-sensitive projects, require `python3 ~/.config/opencode/scripts/design-debt-tracker.py --project-root .` report or explicit rationale why design debt tracking is not needed for this slice.
 - Motion evidence explains purpose and reduced-motion fallback; no gratuitous motion claim.
 - Asset/image evidence includes generation decision, dimensions, alt/decorative strategy, legal notes, integration notes, `quality_bar`, and `reject_if`.
 - Anti-AI-slop mechanical failures checked: hero fit, nav single-line, CTA contrast/wrap/duplicate intent, eyebrow restraint, layout repetition, image strategy, motion motivation, reduced-motion, fake dashboards/placeholders/generic neon.
@@ -306,31 +305,6 @@ Evaluate:
 - UI signoff requirements when relevant.
 
 This lane now absorbs the former standalone security-risk-reviewer, accessibility-reviewer, and visual-parity-auditor responsibilities at final gate time.
-
-## Project memory gate
-
-During review, verify:
-- `@orchestrator`/`@fixer` searched `.opencode/memory/knowledge.json` before starting if it exists,
-- high-signal findings were saved directly (importance `high` or well-justified `medium`),
-- borderline/high-value findings were proposed instead of silently discarded,
-- memory findings that affected the task are referenced in evidence,
-- `python3 ~/.config/opencode/scripts/project-memory.py --cleanup --archive-old` was run before final completion on non-trivial work.
-
-If a task produced reusable high-value knowledge but no memory was saved or proposed, add it as a `required_before_PASS` remediation item.
-
-### Quality-gate memory proposal authority
-`@quality-gate` may also create proposals for important lessons discovered during review that the implementation lanes missed.
-
-### Proposal review during gate
-List pending proposals and decide per proposal:
-- **apply**: if lesson is reusable and not duplicate,
-- **archive**: if outdated or irrelevant,
-- **leave pending**: if user decision is needed.
-
-```bash
-python3 ~/.config/opencode/scripts/project-memory.py --list-proposals
-python3 ~/.config/opencode/scripts/project-memory.py --apply-proposal <proposal-id>
-```
 
 ## Functional evidence gate
 
@@ -469,10 +443,6 @@ Remediation Worklist:
 Escalation: none
 ```
 
-
-## Sequential Thinking MCP Gate
-
-After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 2 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `2` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.
 
 ## skills.sh inspirations
 

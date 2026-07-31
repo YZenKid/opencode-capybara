@@ -11,8 +11,8 @@ from pathlib import Path
 REQUIREMENTS = {
     'polish': ['design-review.md', 'preview.json'],
     'surface-refresh': ['design-handoff.md', 'design-review.md', 'preview.json', 'parity-report.md'],
-    'flow-redesign': ['design-handoff.md', 'design-review.md', 'preview.json', 'parity-report.md', 'design-debt.md'],
-    'full-revamp': ['design-handoff.md', 'design-review.md', 'preview.json', 'parity-report.md', 'design-debt.md'],
+    'flow-redesign': ['design-handoff.md', 'design-review.md', 'preview.json', 'parity-report.md'],
+    'full-revamp': ['design-handoff.md', 'design-review.md', 'preview.json', 'parity-report.md'],
 }
 
 

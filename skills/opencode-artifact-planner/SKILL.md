@@ -62,15 +62,6 @@ Canonical tool references:
 - Use Indonesian for all user-facing communication, including chat, operational explanations, assumptions, question gates, planning summaries, and planning artifacts produced by this skill.
 - Do not mix Indonesian and English in the same prose block except for exact technical names, paths, commands, APIs, quoted text, or errors.
 
-## Planning memory awareness
-
-Before synthesizing a new plan for a project:
-1. Check if `.opencode/memory/knowledge.json` exists.
-2. If it exists, run `python3 ~/.config/opencode/scripts/project-memory.py --load --context "<goal and scope summary>" --importance high --limit 10`.
-3. Include relevant lessons in `Decisions/Assumptions`, `Risks`, or `Non-negotiable Implementation Invariants`.
-4. If a previous task already solved a similar problem, reuse the documented pattern and cite the memory entry.
-5. Prefer fewer high-signal memories over many medium/low memories.
-
 ## Pre-flight Skill & MCP Discovery
 Before the first substantial answer, diagnosis, route, or implementation step on non-trivial work:
 - Name the skill explicitly (`Skill I'm using: ...`).
@@ -553,10 +544,6 @@ next_owner: @orchestrator
 ```
 
 
-## Sequential Thinking MCP Gate
-
-After loading this skill, call `sequential_thinking` before material planning, routing, implementation, review, or final claims. For non-trivial, ambiguous, or risky work, use at most 2 thought steps total—enough to frame scope, constraints, approach, and validation—and set or keep `totalThoughts` no higher than `2` when invoking `sequential_thinking`. For tiny fast-path work, keep it to one brief thought. If the MCP tool is unavailable, record the fallback and continue with this role's normal evidence-first workflow. Do not expose raw thoughts to the user; summarize decisions/evidence only. This tool does not change permissions, role boundaries, or read-only constraints.
-
 ## skills.sh inspirations
 
 This skill folder absorbs selected practices from `skills.sh` while staying a single local skill folder for this agent. Do not split these inspirations into separate local skills here. Use curated notes in `references/skills-sh-curated.md` and adapt them through this lane's own contracts, boundaries, and evidence rules.
@@ -592,4 +579,4 @@ ponytail: This is a soft discipline first. The upgrade path is a session-trace/d
 
 
 <!-- scripts-mcp-pointer -->
-`mcp.scripts` is a configured local read/check/query-only governance tool. This read-only skill should prefer it over raw shell invocation of matching plan validation, runtime verification, progress reading, audit, discovery, memory query, or delegation query scripts when connected, usable, and permitted; no write operations exist in this slice. `caller_lane` in the tool payload is policy attestation only, not real authorization; this skill’s existing read-only boundary still controls what it may do. Canonical CLI fallback remains valid: `python3 ~/.config/opencode/scripts/<name>.py ...` when MCP is disconnected, unavailable, returns `tool_pending`, or is not permitted. Full policy: `.opencode/docs/MCP.md`, `.opencode/docs/TOOL_USAGE.md`, `.opencode/docs/AGENT_TOOL_ACCESS.md`.
+`mcp.scripts` is a configured local read/check/query-only governance tool. This read-only skill should prefer it over raw shell invocation of matching plan validation, runtime verification, progress reading, audit, discovery, or delegation query scripts when connected, usable, and permitted; no write operations exist in this slice. `caller_lane` in the tool payload is policy attestation only, not real authorization; this skill’s existing read-only boundary still controls what it may do. Canonical CLI fallback remains valid: `python3 ~/.config/opencode/scripts/<name>.py ...` when MCP is disconnected, unavailable, returns `tool_pending`, or is not permitted. Full policy: `.opencode/docs/MCP.md`, `.opencode/docs/TOOL_USAGE.md`, `.opencode/docs/AGENT_TOOL_ACCESS.md`.

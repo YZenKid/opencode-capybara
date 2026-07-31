@@ -2030,7 +2030,6 @@ const referenceChecks = [
     mustInclude: [
       "verify-before-claim",
       "Functional evidence rule",
-      "Project Memory Finalization Gate",
       "auto-commit",
       "never push automatically",
       "stack-drift",
@@ -2041,7 +2040,6 @@ const referenceChecks = [
     content: toolRef,
     mustInclude: [
       "MCP Discovery Matrix",
-      "sequential-thinking",
       "Template/Source Discovery Hard Gate",
       "Source-approved 1:1 Porting / Literal Porting Contract",
       "reference-first by default, not repo-only",

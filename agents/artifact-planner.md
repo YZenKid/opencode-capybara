@@ -149,7 +149,7 @@ See `.opencode/docs/SHARED_POLICIES.md` for full contract.
 Before the first substantial answer, diagnosis, plan, or implementation step on non-trivial work:
 - Load the lane's primary skill first and name it explicitly (`Skill I'm using: ...`).
 - Scan `.opencode/docs/MCP.md`, task shape, and stack docs to decide which MCPs are applicable; state that explicitly (`MCPs I'm using: ...`, `What I'm checking first: ...`).
-- If an MCP is obviously applicable (multi-issue debugging -> `sequential-thinking`; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), use it or record a concrete skip reason.
+- If an MCP is obviously applicable (multi-issue debugging -> structured reasoning; version-sensitive docs/API/framework -> `context7`; broad code search -> `grep_app`; repo/PR/remote state -> `github`; static pattern/security scan -> `semgrep`; browser/runtime UI flow -> `browseros`), use it or record a concrete skip reason.
 - If you loaded a skill, it must change execution in at least one concrete way (command, pattern, test, risk callout, MCP choice). Loaded-but-unused skill is a process defect.
 
 ponytail: Textual contract first; mechanical transcript audit via `scripts/session-trace-audit.py` is the upgrade path.
@@ -333,12 +333,6 @@ Plans must require real assets and real features, not placeholders:
 ## Planning memory awareness
 
 Before synthesizing a new plan for a project:
-1. Check if `.opencode/memory/knowledge.json` exists.
-2. If it exists, run `python3 ~/.config/opencode/scripts/project-memory.py --load --context "<goal and scope summary>" --importance high --limit 10`.
-3. Include relevant lessons in `Decisions/Assumptions`, `Risks`, or `Non-negotiable Implementation Invariants`.
-4. If a previous task already solved a similar problem, reuse the documented pattern and cite the memory entry.
-5. Prefer fewer high-signal memories over many medium/low memories.
-
 ## Plan Worklist Tracking
 
 For non-trivial plans, maintain a machine-readable progress tracker at `.opencode/state/<task-id>/progress.json` using `python3 ~/.config/opencode/scripts/task-progress.py <task-id> --init --plan <plan.md>`. Before `PASS` or `PASS_FOR_SLICE`, run `python3 ~/.config/opencode/scripts/plan-execution-readiness.py <plan.md> --project-root .`; nonzero output blocks readiness.
@@ -742,4 +736,4 @@ evidence:
 
 
 <!-- scripts-mcp-pointer -->
-`mcp.scripts` is a configured local read/check/query-only governance tool. This read-only role should prefer it over raw shell invocation of matching plan validation, runtime verification, progress reading, audit, discovery, memory query, or delegation query scripts when connected, usable, and permitted; no write operations exist in this slice. `caller_lane` in the tool payload is policy attestation only, not real authorization; this role’s existing read-only boundary still controls what it may do. Canonical CLI fallback remains valid: `python3 ~/.config/opencode/scripts/<name>.py ...` when MCP is disconnected, unavailable, returns `tool_pending`, or is not permitted. Full policy: `.opencode/docs/MCP.md`, `.opencode/docs/TOOL_USAGE.md`, `.opencode/docs/AGENT_TOOL_ACCESS.md`.
+`mcp.scripts` is a configured local read/check/query-only governance tool. This read-only role should prefer it over raw shell invocation of matching plan validation, runtime verification, progress reading, audit, discovery, or delegation query scripts when connected, usable, and permitted; no write operations exist in this slice. `caller_lane` in the tool payload is policy attestation only, not real authorization; this role’s existing read-only boundary still controls what it may do. Canonical CLI fallback remains valid: `python3 ~/.config/opencode/scripts/<name>.py ...` when MCP is disconnected, unavailable, returns `tool_pending`, or is not permitted. Full policy: `.opencode/docs/MCP.md`, `.opencode/docs/TOOL_USAGE.md`, `.opencode/docs/AGENT_TOOL_ACCESS.md`.
