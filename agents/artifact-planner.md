@@ -1,6 +1,6 @@
 ---
 mode: primary
-description: Artifact-writing SDD/TDD planner using the standalone opencode-capybara plan flow without entering built-in read-only Plan Mode.
+description: Semar — Artifact-writing SDD/TDD planner using the standalone opencode-capybara plan flow without entering built-in read-only Plan Mode.
 model: 9router/high
 skills:
   - opencode-artifact-planner

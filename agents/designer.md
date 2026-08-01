@@ -1,7 +1,7 @@
 ---
 mode: subagent
 hidden: false
-description: UI/UX implementation and review lane for polished visuals, motion direction/reduced-motion review, accessibility, visual parity, and visual polish
+description: Arjuna — UI/UX implementation and review lane for polished visuals, motion direction/reduced-motion review, accessibility, visual parity, and visual polish
 model: 9router/high
 skills:
   - opencode-designer

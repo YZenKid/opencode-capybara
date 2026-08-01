@@ -1191,7 +1191,7 @@ const checks = [
     name: "unified architect subagent gate",
     mustInclude: [
       "mode: subagent",
-      "description: Unified read-only architect lane",
+      "description: Wisanggeni — Unified read-only architect lane",
       "opencode-architect",
       "apply_patch: deny",
       "task: deny",

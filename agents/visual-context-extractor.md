@@ -1,7 +1,7 @@
 ---
 mode: subagent
 hidden: false
-description: Read-only extraction of observable visual context (layout, text, components, color, state, errors, flows) from images, screenshots, diagrams, and other visual files. Returns structured JSON for caller agents. Does not generate images, give design direction, or edit source.
+description: Sanjaya — Read-only extraction of observable visual context (layout, text, components, color, state, errors, flows) from images, screenshots, diagrams, and other visual files. Returns structured JSON for caller agents. Does not generate images, give design direction, or edit source.
 model: 9router/medium
 skills:
   - opencode-visual-context-extractor

@@ -1,7 +1,7 @@
 ---
 mode: subagent
 hidden: false
-description: Local codebase discovery and search specialist for unfamiliar or broad scopes
+description: Hanoman — Local codebase discovery and search specialist for unfamiliar or broad scopes
 model: 9router/low
 skills:
   - opencode-explorer

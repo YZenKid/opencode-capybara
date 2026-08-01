@@ -1,6 +1,6 @@
 ---
 mode: primary
-description: AI coding orchestrator that routes tasks to specialist agents
+description: Kresna — AI coding orchestrator that routes tasks to specialist agents
   for optimal quality, speed, and cost
 model: 9router/high
 skills:

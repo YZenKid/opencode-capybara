@@ -1,7 +1,7 @@
 ---
 mode: subagent
 hidden: false
-description: Library/docs research plus document-centric read-only extraction and transformation support
+description: Batara Guru — Library/docs research plus document-centric read-only extraction and transformation support
 model: 9router/fast
 skills:
   - opencode-librarian
