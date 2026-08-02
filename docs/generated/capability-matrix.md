@@ -3,7 +3,7 @@
 Generated from `.opencode/capabilities/registry.json`. Advisory only; canonical policy remains in `.opencode/docs/`.
 
 - Agents: 10
-- Skills: 23
+- Skills: 28
 
 | Type | Name | Owner lane | Status | Risk | Fallback |
 | --- | --- | --- | --- | --- | --- |
@@ -17,6 +17,9 @@ Generated from `.opencode/capabilities/registry.json`. Advisory only; canonical 
 | agent | orchestrator | @orchestrator | active | routing, integration, scope-control | specialist lane or user clarification |
 | agent | quality-gate | @quality-gate | active | final-signoff, read-only-boundary | block completion and return residual risks |
 | agent | visual-context-extractor | @visual-context-extractor | active | read-only-boundary, pii-handling, overclaim | return status:unavailable when no vision input; orchestrator routes critique to @designer and source edits to @fixer |
+| skill | 21st-discovery-overlay | @designer | active | external-component-candidate | use repo-local primitives or cited Open Design catalog |
+| skill | browseros-runtime | @fixer | active | browser-session, local-cdp | project-side Playwright or static evidence after BrowserOS failure |
+| skill | graphify-discovery | @explorer | active | read-only-discovery, stale-map | direct source reading with grep/glob/read |
 | skill | opencode-architect | @architect | active | architecture-advice | @oracle review |
 | skill | opencode-artifact-planner | @artifact-planner | active | plan-artifact-write | @orchestrator routing |
 | skill | opencode-backend | @fixer | active | api-change, data-change, auth-integration | @artifact-planner on-demand owner |
@@ -40,3 +43,5 @@ Generated from `.opencode/capabilities/registry.json`. Advisory only; canonical 
 | skill | opencode-system-analyst | @artifact-planner | active | requirements-ambiguity, read-only-boundary | @artifact-planner on-demand owner |
 | skill | opencode-visual-asset-generator | @designer | active | image-generation, legal-style-equivalent | @artifact-planner on-demand owner |
 | skill | opencode-visual-context-extractor | @visual-context-extractor | active | read-only-boundary, pii-handling, overclaim | orchestrator routes critique to @designer and source edits to @fixer |
+| skill | taste-overlay | @designer | active | visual-direction | local DESIGN.md and Open Design catalog |
+| skill | ui-ux-pro-max | @designer | active | ui-change, accessibility | local DESIGN.md and existing project patterns |

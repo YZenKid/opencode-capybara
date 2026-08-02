@@ -69,7 +69,9 @@ export function resolveScript(name, projectRoot = process.cwd()) {
 
 export function sanitizeError(error, projectRoot = process.cwd()) {
   let text = String(error?.message || error || '')
-  text = text.split(path.resolve(projectRoot)).join('[PROJECT_ROOT]')
+  for (const projectPath of new Set([path.resolve(projectRoot), realpathSync(projectRoot)])) text = text.split(projectPath).join('[PROJECT_ROOT]')
+  const projectName = path.basename(path.resolve(projectRoot)).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  text = text.replace(new RegExp(`/(?:private/)?tmp/${projectName}(?:/[^\\s"']*)?`, 'g'), '[PROJECT_ROOT]')
   for (const value of Object.values(process.env)) if (value && value.length > 3) text = text.split(value).join('[REDACTED]')
   return text.replace(/Bearer\s+\S+/gi, 'Bearer [REDACTED]').replace(/(token|secret|key)[=:]\s*\S+/gi, '$1=[REDACTED]')
 }

@@ -3,6 +3,7 @@ mode: subagent
 hidden: false
 description: Batara Guru — Library/docs research plus document-centric read-only extraction and transformation support
 model: 9router/fast
+model_env: OPENCODE_MODEL_FAST
 skills:
   - opencode-librarian
 permission:

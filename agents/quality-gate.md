@@ -3,6 +3,7 @@ mode: subagent
 hidden: false
 description: Yudhistira — Final conformance and risk gate for non-trivial OpenCode work
 model: 9router/medium
+model_env: OPENCODE_MODEL_QUALITY_GATE
 skills:
   - opencode-quality-gate
 permission:

@@ -31,17 +31,25 @@ function requireGovernance(kind, item) {
 }
 
 function extractFrontmatterList(content, key) {
-  const match = content.match(new RegExp(`^${key}:\\n((?:  - .+\\n)+)`, "m"));
+  const match = content.match(new RegExp(`^${key}:\\n((?:  - .+\\n?)+)`, "m"));
   if (!match) return [];
   return match[1].split("\n").map((line) => line.trim().replace(/^-\s*/, "")).filter(Boolean);
 }
+
+function extractFrontmatterScalar(content, key) {
+  const match = content.match(new RegExp(`^${key}:\\s*(.+)$`, "m"));
+  return match ? match[1].trim() : undefined;
+}
+
 
 const activeAgents = readdirSync(resolve(root, "agents"))
   .filter((file) => file.endsWith(".md"))
   .map((file) => file.replace(/\.md$/, ""))
   .filter((name) => !["build", "general"].includes(name))
   .sort();
-const activeSkills = activeAgents.map((agent) => `opencode-${agent}`);
+const activeSkills = readdirSync(resolve(root, "skills"))
+  .filter((entry) => existsSync(resolve(root, "skills", entry, "SKILL.md")))
+  .sort();
 const configuredMcp = Object.entries(config.mcp ?? {}).filter(([, value]) => value.enabled !== false).map(([name]) => name).sort();
 
 for (const agent of activeAgents) {
@@ -49,10 +57,14 @@ for (const agent of activeAgents) {
   if (!row) fail(`active agent missing from registry: ${agent}`);
   else {
     requireGovernance("agent", row);
-    const content = readFileSync(resolve(root, `agents/${agent}.md`), "utf8");
-    const skills = extractFrontmatterList(content, "skills");
-    if (row.skill && !skills.includes(row.skill)) fail(`agent ${agent}: registry skill ${row.skill} not in frontmatter`);
-    if (row.skill && row.skill !== `opencode-${agent}`) fail(`agent ${agent}: registry skill must preserve 1:1 mapping, found ${row.skill}`);
+     const content = readFileSync(resolve(root, `agents/${agent}.md`), "utf8");
+     const skills = extractFrontmatterList(content, "skills");
+     const modelEnv = extractFrontmatterScalar(content, "model_env");
+     if (!row.model_env || typeof row.model_env !== "string") fail(`agent ${agent}: missing model_env`);
+     if (!modelEnv) fail(`agent ${agent}: frontmatter missing model_env`);
+     else if (row.model_env !== modelEnv) fail(`agent ${agent}: registry model_env ${row.model_env} != frontmatter ${modelEnv}`);
+     if (row.skill && !skills.includes(row.skill)) fail(`agent ${agent}: registry skill ${row.skill} not in frontmatter`);
+     if (row.skill && row.skill !== `opencode-${agent}`) fail(`agent ${agent}: registry skill must preserve 1:1 mapping, found ${row.skill}`);
   }
 }
 pass("active agents checked against registry");

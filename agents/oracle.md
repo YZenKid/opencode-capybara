@@ -3,6 +3,7 @@ mode: subagent
 hidden: false
 description: Abiyasa — Read-only architecture and risk review advisor for complex decisions
 model: 9router/medium
+model_env: OPENCODE_MODEL_REVIEW
 skills:
   - opencode-oracle
 permission:

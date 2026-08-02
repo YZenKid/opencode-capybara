@@ -17,6 +17,7 @@
         "agents/architect.md",
         "skills/opencode-architect/SKILL.md"
       ],
+      "model_env": "OPENCODE_MODEL_ADVISORY",
       "source": "agents/architect.md"
     },
     {
@@ -34,6 +35,7 @@
         "agents/artifact-planner.md",
         "skills/opencode-artifact-planner/SKILL.md"
       ],
+      "model_env": "OPENCODE_MODEL_PLANNER",
       "source": "agents/artifact-planner.md"
     },
     {
@@ -52,6 +54,7 @@
         "agents/designer.md",
         "skills/opencode-designer/SKILL.md"
       ],
+      "model_env": "OPENCODE_MODEL_DESIGN",
       "source": "agents/designer.md"
     },
     {
@@ -69,6 +72,7 @@
         "agents/explorer.md",
         "skills/opencode-explorer/SKILL.md"
       ],
+      "model_env": "OPENCODE_MODEL_DISCOVERY",
       "source": "agents/explorer.md"
     },
     {
@@ -86,6 +90,7 @@
         "agents/fixer.md",
         "skills/opencode-fixer/SKILL.md"
       ],
+      "model_env": "OPENCODE_MODEL_EXECUTION",
       "source": "agents/fixer.md"
     },
     {
@@ -103,6 +108,7 @@
         "agents/librarian.md",
         "skills/opencode-librarian/SKILL.md"
       ],
+      "model_env": "OPENCODE_MODEL_FAST",
       "source": "agents/librarian.md"
     },
     {
@@ -120,6 +126,7 @@
         "agents/oracle.md",
         "skills/opencode-oracle/SKILL.md"
       ],
+      "model_env": "OPENCODE_MODEL_REVIEW",
       "source": "agents/oracle.md"
     },
     {
@@ -138,6 +145,7 @@
         "agents/orchestrator.md",
         "skills/opencode-orchestrator/SKILL.md"
       ],
+      "model_env": "OPENCODE_MODEL_ORCHESTRATOR",
       "source": "agents/orchestrator.md"
     },
     {
@@ -155,6 +163,7 @@
         "agents/quality-gate.md",
         "skills/opencode-quality-gate/SKILL.md"
       ],
+      "model_env": "OPENCODE_MODEL_QUALITY_GATE",
       "source": "agents/quality-gate.md"
     },
     {
@@ -173,6 +182,7 @@
         "agents/visual-context-extractor.md",
         "skills/opencode-visual-context-extractor/SKILL.md"
       ],
+      "model_env": "OPENCODE_MODEL_VISUAL_ASSET",
       "source": "agents/visual-context-extractor.md"
     }
   ],
@@ -497,6 +507,56 @@
         "skills/opencode-visual-context-extractor/SKILL.md"
       ],
       "source": "skills/opencode-visual-context-extractor/SKILL.md"
+    },
+    {
+      "name": "21st-discovery-overlay",
+      "status": "active",
+      "owner_lane": "@designer",
+      "risk": ["external-component-candidate"],
+      "fallback": "use repo-local primitives or cited Open Design catalog",
+      "evidence": ["skills/21st-discovery-overlay/SKILL.md"],
+      "source": "skills/21st-discovery-overlay/SKILL.md",
+      "category": "overlay"
+    },
+    {
+      "name": "browseros-runtime",
+      "status": "active",
+      "owner_lane": "@fixer",
+      "risk": ["browser-session", "local-cdp"],
+      "fallback": "project-side Playwright or static evidence after BrowserOS failure",
+      "evidence": ["skills/browseros-runtime/SKILL.md"],
+      "source": "skills/browseros-runtime/SKILL.md",
+      "category": "support"
+    },
+    {
+      "name": "graphify-discovery",
+      "status": "active",
+      "owner_lane": "@explorer",
+      "risk": ["read-only-discovery", "stale-map"],
+      "fallback": "direct source reading with grep/glob/read",
+      "evidence": ["skills/graphify-discovery/SKILL.md"],
+      "source": "skills/graphify-discovery/SKILL.md",
+      "category": "support"
+    },
+    {
+      "name": "taste-overlay",
+      "status": "active",
+      "owner_lane": "@designer",
+      "risk": ["visual-direction"],
+      "fallback": "local DESIGN.md and Open Design catalog",
+      "evidence": ["skills/taste-overlay/SKILL.md"],
+      "source": "skills/taste-overlay/SKILL.md",
+      "category": "overlay"
+    },
+    {
+      "name": "ui-ux-pro-max",
+      "status": "active",
+      "owner_lane": "@designer",
+      "risk": ["ui-change", "accessibility"],
+      "fallback": "local DESIGN.md and existing project patterns",
+      "evidence": ["skills/ui-ux-pro-max/SKILL.md"],
+      "source": "skills/ui-ux-pro-max/SKILL.md",
+      "category": "overlay"
     }
   ],
   "mcp": [

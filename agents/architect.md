@@ -3,6 +3,7 @@ mode: subagent
 hidden: false
 description: Wisanggeni — Unified read-only architect lane for product/SaaS, platform/runtime/release, AI, and UI-system boundaries
 model: 9router/medium
+model_env: OPENCODE_MODEL_ADVISORY
 skills:
   - opencode-architect
 permission:

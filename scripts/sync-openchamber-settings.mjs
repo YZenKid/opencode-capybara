@@ -122,18 +122,17 @@ function resolveEnvTemplate(value, env) {
   return env[match[1]] || value;
 }
 
-function buildOpencodeAgentModelMap(env) {
-  return {
-    orchestrator: env.OPENCODE_MODEL_ORCHESTRATOR,
-    "artifact-planner": env.OPENCODE_MODEL_PLANNER,
-    designer: env.OPENCODE_MODEL_DESIGN,
-    oracle: env.OPENCODE_MODEL_REVIEW,
-    "quality-gate": env.OPENCODE_MODEL_QUALITY_GATE,
-    architect: env.OPENCODE_MODEL_ADVISORY,
-    fixer: env.OPENCODE_MODEL_EXECUTION,
-    explorer: env.OPENCODE_MODEL_DISCOVERY,
-    librarian: env.OPENCODE_MODEL_FAST,
-  };
+function buildOpencodeAgentModelMap(env, registry) {
+  return Object.fromEntries(
+    registry.agents
+      .filter((agent) => agent.status === "active" && agent.model_env)
+      .map((agent) => [agent.name, env[agent.model_env]])
+      .filter(([, model]) => model),
+  );
+}
+
+function mergeOpencodeAgentModelMap(currentMap, managedMap) {
+  return { ...(currentMap && typeof currentMap === "object" ? currentMap : {}), ...managedMap };
 }
 
 function stableStringify(value) {
@@ -176,6 +175,7 @@ function main() {
   const openchamberSettingsPath = flags.openchamberSettings;
 
   const opencodeConfig = readJson(opencodeJsonPath, "OpenCode config");
+  const registry = readJson(resolve(repoRoot, ".opencode/capabilities/registry.json"), "capability registry");
   const opencodeEnv = parseDotEnv(opencodeEnvPath);
   const openchamberSettings = readJson(openchamberSettingsPath, "OpenChamber settings");
 
@@ -190,7 +190,10 @@ function main() {
     opencodeEnv.OPENCODE_MODEL_DEFAULT ||
     resolveEnvTemplate(opencodeConfig.model, opencodeEnv);
 
-  const opencodeAgentModelMap = buildOpencodeAgentModelMap(opencodeEnv);
+  const opencodeAgentModelMap = mergeOpencodeAgentModelMap(
+    openchamberSettings.opencodeAgentModelMap,
+    buildOpencodeAgentModelMap(opencodeEnv, registry),
+  );
 
   const desired = {
     defaultModel,

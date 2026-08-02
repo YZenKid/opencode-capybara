@@ -21,8 +21,9 @@ function makeSpawnDelayed(code = 0, delay = 200) { return (_cmd, args, opts) => 
 
 // T1: registry is single source of truth
 {
-  assert.equal(ALLOWED_TOOLS.length, 15)
-  assert.equal(TOOL_REGISTRY.length, 15)
+  const expectedTools = ['scripts_catalog', 'scripts_plan_validate', 'scripts_runtime_verify', 'scripts_pre_gate_smoke', 'scripts_template_discover', 'scripts_visual_audit', 'scripts_legal_source_check', 'scripts_design_audit', 'scripts_progress_read', 'scripts_delegation_read', 'scripts_session_trace_audit', 'scripts_backup_scan', 'scripts_rules_dry_run']
+  assert.deepEqual(ALLOWED_TOOLS, expectedTools)
+  assert.deepEqual(TOOL_REGISTRY.map((tool) => tool.name), expectedTools)
   for (const tool of TOOL_REGISTRY) {
     assert.ok(tool.name, 'name')
     assert.ok(tool.classification, 'classification')
@@ -33,7 +34,7 @@ function makeSpawnDelayed(code = 0, delay = 200) { return (_cmd, args, opts) => 
     assert.ok(Array.isArray(tool.inputSchema.required), 'required array')
     assert.ok(tool.inputSchema.required.includes('project_root'), 'project_root required in every entry')
   }
-  console.log('PASS registry single source of truth (15 entries)')
+  console.log('PASS registry single source of truth (13 entries)')
 }
 
 // T2: tools/list parity with registry
@@ -85,8 +86,8 @@ function makeSpawnDelayed(code = 0, delay = 200) { return (_cmd, args, opts) => 
   const res = await handlers[1]({ params: { name: 'scripts_catalog', arguments: { project_root: fixture } } })
   const parsed = JSON.parse(res.content[0].text)
   assert.equal(parsed.status, 'success')
-  assert.equal(parsed.count, 15)
-  assert.equal(parsed.tools.length, 15)
+   assert.equal(parsed.count, 13)
+   assert.equal(parsed.tools.length, 13)
   for (const tool of parsed.tools) {
     assert.ok(['name', 'source_script', 'classification', 'lane_recommendation', 'required_input', 'cli_fallback'].every((k) => k in tool), 'catalog shape')
   }

@@ -132,7 +132,7 @@ User intent → `@orchestrator` → specialist agents → validation → `@quali
 - Specialists and subagents should own bounded work according to their documented capabilities in `.opencode/docs/AGENT_ROUTING.md` and `.opencode/docs/SKILLS.md`.
 - 6 core agents: `@orchestrator` routes/integrates, `@explorer` discovers, `@fixer` implements bounded changes/tests, `@designer` owns UI/UX direction and review, `@oracle` handles architecture/review, and `@quality-gate` does final signoff.
 - Triggered helper/domain lanes: `@artifact-planner`, `@architect`, `@librarian`, `@artifact-planner with skill-improvement skill`, `@fixer with frontend skill`, `@fixer with backend skill`, `@fixer with mobile skill`, `@fixer with devops skill`, `@fixer with fullstack skill`, `@artifact-planner with system-analysis skill`, `@artifact-planner with project-management skill`, `@artifact-planner with consensus skill`, and `@designer with visual-asset skill`.
-- Active skills: 19 `opencode-*` skills listed in `.opencode/docs/SKILLS.md`; legacy merged-away reviewer variants are not active routing lanes.
+- Active skills: all installed skill directories with `SKILL.md`, listed in `.opencode/docs/SKILLS.md`; support and overlay skills are governance capabilities, not new agent lanes.
 
 ## Multi-source Rules Compatibility
 - If the target project contains rules files from other agent tools (Claude Code `CLAUDE.md`, Codex `AGENTS.md`/`.codex/`, Cursor `.cursorrules`/`.cursor/rules/`, Windsurf `.windsurfrules`, Continue, Cline, Cody, Roo, Aider, GitHub Copilot, GitLab Duo), detect and harmonize them via:

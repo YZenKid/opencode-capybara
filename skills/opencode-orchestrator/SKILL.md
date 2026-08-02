@@ -5,6 +5,8 @@ description: Standalone orchestration workflow for OpenCode. Use for any coding,
 
 # OpenCode Orchestrator Skill
 
+<!-- scripts-mcp-pointer -->
+
 Use this as router and integrator only.
 
 ## Trigger / skip

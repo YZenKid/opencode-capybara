@@ -33,7 +33,12 @@ writeFileSync(
 );
 writeFileSync(
   settingsPath,
-  JSON.stringify({ homeDirectory: "/Users/tester", defaultModel: "old/model", defaultAgent: "build" }),
+  JSON.stringify({
+    homeDirectory: "/Users/tester",
+    defaultModel: "old/model",
+    defaultAgent: "build",
+    opencodeAgentModelMap: { retired: "legacy/model", unknown: { keep: true } },
+  }),
 );
 
 const args = [
@@ -52,6 +57,23 @@ assert.equal(settings.homeDirectory, "/Users/tester");
 assert.equal(settings.defaultModel, "9router/high");
 assert.equal(settings.defaultAgent, "orchestrator");
 assert.equal(settings.zenModel, "9router/low");
+assert.deepEqual(settings.opencodeAgentModelMap.retired, "legacy/model");
+assert.deepEqual(settings.opencodeAgentModelMap.unknown, { keep: true });
+assert.deepEqual(
+  Object.fromEntries(Object.entries(settings.opencodeAgentModelMap).filter(([name]) => !["retired", "unknown"].includes(name))),
+  {
+    architect: "9router/high",
+    "artifact-planner": "9router/high",
+    designer: "9router/high",
+    explorer: "9router/low",
+    fixer: "9router/high",
+    librarian: "9router/low",
+    oracle: "9router/high",
+    orchestrator: "9router/high",
+    "quality-gate": "9router/high",
+    "visual-context-extractor": "9router/high",
+  },
+);
 assert.deepEqual(settings.approvedDirectories, [opencodeRoot]);
 
 result = spawnSync("node", [...args, "--check"], { cwd: root, encoding: "utf8" });

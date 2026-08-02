@@ -3,6 +3,7 @@ mode: primary
 description: Kresna — AI coding orchestrator that routes tasks to specialist agents
   for optimal quality, speed, and cost
 model: 9router/high
+model_env: OPENCODE_MODEL_ORCHESTRATOR
 skills:
   - opencode-orchestrator
 permission:
@@ -211,6 +212,7 @@ Quick reference for delegation. Read the **decision tree** below for full condit
 
 <Workflow>
 
+<!-- scripts-mcp-pointer -->
 ## Pre-flight Skill & MCP Discovery
 Before the first substantial answer, diagnosis, plan, or implementation step on non-trivial work:
 - Load the lane's primary skill first and name it explicitly (`Skill I'm using: ...`).

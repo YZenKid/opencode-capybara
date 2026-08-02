@@ -3,6 +3,7 @@ mode: subagent
 hidden: false
 description: Bima — Bounded implementation and testing specialist for Red/Green/Refactor work
 model: 9router/low
+model_env: OPENCODE_MODEL_EXECUTION
 skills:
   - opencode-fixer
   - opencode-backend
